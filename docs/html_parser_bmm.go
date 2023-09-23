@@ -17,8 +17,18 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	data := parse(text)
+	data := parseBMM(text)
 	fmt.Println(data)
+
+	// fileName = "bmm_persistence.html"
+	// text, err = readHtmlFromFile(fileName)
+
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// data = parsePBMM(text)
+	// fmt.Println(data)
+
 }
 
 func readHtmlFromFile(fileName string) (string, error) {
@@ -29,10 +39,14 @@ func readHtmlFromFile(fileName string) (string, error) {
 	return string(bs), nil
 }
 
-func parse(text string) (data string) {
+func parseBMM(text string) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
-	var h4 bool
+	h2 := 0
+	h3 := 0
+	h4 := 0
+	packageString := ""
+	classString := ""
 
 	for {
 
@@ -46,28 +60,138 @@ func parse(text string) (data string) {
 		case tt == html.StartTagToken:
 
 			t := tkn.Token()
-			h4 = t.Data == "h4"
-			if h4 {
-				fmt.Println("->" + t.Data)
-				tt = tkn.Next()
-				t := tkn.Token()
-				a := t.Data == "a"
-				if a {
-					fmt.Println("---->" + t.Data)
-					tt = tkn.Next()
-					tt = tkn.Next()
-					t3 := tkn.Token()
-					span := t3.Data == "span"
-					if span {
-						fmt.Println("---------->" + t3.Data)
+			//Package
+			if t.Data == "h2" {
+				tkn.Next()
+				t1 := tkn.Token()
+				if t1.Data == "a" {
+					tkn.Next()
+					tkn.Next()
+					t2 := tkn.Token()
+					if t2.Data == "span" {
 						tt = tkn.Next()
-						t4 := tkn.Token()
+						t3 := tkn.Token()
 						if tt == html.TextToken {
-							fmt.Println("---------->" + t4.Data)
+							packageString = "org.openehr.lang.bmm"
+							switch {
+							case strings.HasPrefix(t3.Data, "3."):
+								packageString = "org.openehr.lang.bmm"
+							case strings.HasPrefix(t3.Data, "4."):
+								packageString = "org.openehr.lang.bmm.model_access"
+							case strings.HasPrefix(t3.Data, "5."):
+								packageString = "base.bmm.model_access"
+							case strings.HasPrefix(t3.Data, "6."):
+								packageString = "base.bmm.core.entity"
+							case strings.HasPrefix(t3.Data, "7."):
+								packageString = "base.bmm.core"
+							case strings.HasPrefix(t3.Data, "8."):
+								packageString = "base.bmm.core.feature"
+							case strings.HasPrefix(t3.Data, "9."):
+								packageString = "base.bmm.core.literal_value"
+							case strings.HasPrefix(t3.Data, "10."):
+								packageString = "base.bmm.core.expression"
+							case strings.HasPrefix(t3.Data, "11."):
+								packageString = ""
+							case strings.HasPrefix(t3.Data, "12."):
+								packageString = "base.bmm.core.statement"
+							case strings.HasPrefix(t3.Data, "13."):
+								packageString = ""
+							case strings.HasPrefix(t3.Data, "14."):
+								packageString = ""
+							}
+							fmt.Println(packageString)
 						}
 					}
 				}
-				h4 = false
+				h2++
+			}
+			if t.Data == "h3" {
+				h3++
+			}
+			//Class
+			if t.Data == "h4" {
+				tkn.Next()
+				t1 := tkn.Token()
+				if t1.Data == "a" {
+					tkn.Next()
+					tkn.Next()
+					t2 := tkn.Token()
+					if t2.Data == "span" {
+						tt = tkn.Next()
+						t3 := tkn.Token()
+						if tt == html.TextToken {
+							classString = t3.Data
+							fmt.Println("\t" + classString)
+						}
+					}
+				}
+				h4++
+			}
+		}
+	}
+}
+
+func parsePBMM(text string) (data string) {
+	tkn := html.NewTokenizer(strings.NewReader(text))
+
+	h2 := 0
+	h3 := 0
+	h4 := 0
+	packageString := ""
+	classString := ""
+
+	for {
+
+		tt := tkn.Next()
+
+		switch {
+
+		case tt == html.ErrorToken:
+			return ""
+
+		case tt == html.StartTagToken:
+
+			t := tkn.Token()
+			//Package
+			if t.Data == "h2" {
+				tkn.Next()
+				t1 := tkn.Token()
+				if t1.Data == "a" {
+					tkn.Next()
+					tkn.Next()
+					t2 := tkn.Token()
+					if t2.Data == "span" {
+						tt = tkn.Next()
+						t3 := tkn.Token()
+						if tt == html.TextToken {
+							packageString = t3.Data
+							fmt.Println(packageString)
+						}
+					}
+				}
+				h2++
+			}
+			if t.Data == "h3" {
+				h3++
+			}
+			//Class
+			if t.Data == "h4" {
+				tkn.Next()
+				t1 := tkn.Token()
+				if t1.Data == "a" {
+					tkn.Next()
+					tkn.Next()
+					t2 := tkn.Token()
+					if t2.Data == "span" {
+						tt = tkn.Next()
+						t3 := tkn.Token()
+						if tt == html.TextToken {
+							classString = t3.Data
+							fmt.Println("\t" + classString)
+						}
+					}
+				}
+				h4++
 			}
 		}
 	}
