@@ -47,6 +47,10 @@ func parseBMM(text string) (data string) {
 	h4 := 0
 	packageString := ""
 	classString := ""
+	isTD1 := false
+	isTD2 := false
+	isTD3 := false
+	isTR := false
 
 	for {
 
@@ -57,9 +61,57 @@ func parseBMM(text string) (data string) {
 		case tt == html.ErrorToken:
 			return ""
 
-		case tt == html.StartTagToken:
-
+		case tt == html.EndTagToken:
 			t := tkn.Token()
+			//TR
+			if t.Data == "tr" && isTR {
+				isTD1 = false
+				isTD2 = false
+				isTD3 = false
+				isTR = false
+			}
+
+		case tt == html.StartTagToken:
+			t := tkn.Token()
+			// table
+			if t.Data == "table" {
+				fmt.Println("\t\t" + "table")
+			}
+			//TR
+			if t.Data == "tr" && !isTR {
+				tTR := tkn.Token()
+				fmt.Println("\t\t\t" + tTR.Data)
+				isTR = true
+				isTD1 = true
+			}
+			//TD
+			if t.Data == "td" {
+				//TD1
+				if isTR && isTD1 {
+					tTD := tkn.Token()
+					fmt.Println("\t\t\t\t td1" + tTD.Data)
+					isTD2 = true
+				}
+				//TD2
+				if isTR && isTD2 {
+					tTD := tkn.Token()
+					fmt.Println("\t\t\t\t td2" + tTD.Data)
+					isTD3 = true
+				}
+				//TD3
+				if isTR && isTD3 {
+					tTD := tkn.Token()
+					fmt.Println("\t\t\t\t td3" + tTD.Data)
+				}
+			}
+			if isTR {
+				//GET Text
+				for tt != html.TextToken {
+					tt = tkn.Next()
+				}
+				tTD := tkn.Token()
+				fmt.Println("\t\t\t\t\t" + tTD.Data)
+			}
 			//Package
 			if t.Data == "h2" {
 				tkn.Next()
@@ -123,76 +175,76 @@ func parseBMM(text string) (data string) {
 							classString = t3.Data
 							fmt.Println("\t" + classString)
 						}
+						h4++
 					}
 				}
-				h4++
 			}
 		}
 	}
 }
 
-func parsePBMM(text string) (data string) {
-	tkn := html.NewTokenizer(strings.NewReader(text))
+// func parsePBMM(text string) (data string) {
+// 	tkn := html.NewTokenizer(strings.NewReader(text))
 
-	h2 := 0
-	h3 := 0
-	h4 := 0
-	packageString := ""
-	classString := ""
+// 	h2 := 0
+// 	h3 := 0
+// 	h4 := 0
+// 	packageString := ""
+// 	classString := ""
 
-	for {
+// 	for {
 
-		tt := tkn.Next()
+// 		tt := tkn.Next()
 
-		switch {
+// 		switch {
 
-		case tt == html.ErrorToken:
-			return ""
+// 		case tt == html.ErrorToken:
+// 			return ""
 
-		case tt == html.StartTagToken:
+// 		case tt == html.StartTagToken:
 
-			t := tkn.Token()
-			//Package
-			if t.Data == "h2" {
-				tkn.Next()
-				t1 := tkn.Token()
-				if t1.Data == "a" {
-					tkn.Next()
-					tkn.Next()
-					t2 := tkn.Token()
-					if t2.Data == "span" {
-						tt = tkn.Next()
-						t3 := tkn.Token()
-						if tt == html.TextToken {
-							packageString = t3.Data
-							fmt.Println(packageString)
-						}
-					}
-				}
-				h2++
-			}
-			if t.Data == "h3" {
-				h3++
-			}
-			//Class
-			if t.Data == "h4" {
-				tkn.Next()
-				t1 := tkn.Token()
-				if t1.Data == "a" {
-					tkn.Next()
-					tkn.Next()
-					t2 := tkn.Token()
-					if t2.Data == "span" {
-						tt = tkn.Next()
-						t3 := tkn.Token()
-						if tt == html.TextToken {
-							classString = t3.Data
-							fmt.Println("\t" + classString)
-						}
-					}
-				}
-				h4++
-			}
-		}
-	}
-}
+// 			t := tkn.Token()
+// 			//Package
+// 			if t.Data == "h2" {
+// 				tkn.Next()
+// 				t1 := tkn.Token()
+// 				if t1.Data == "a" {
+// 					tkn.Next()
+// 					tkn.Next()
+// 					t2 := tkn.Token()
+// 					if t2.Data == "span" {
+// 						tt = tkn.Next()
+// 						t3 := tkn.Token()
+// 						if tt == html.TextToken {
+// 							packageString = t3.Data
+// 							fmt.Println(packageString)
+// 						}
+// 					}
+// 				}
+// 				h2++
+// 			}
+// 			if t.Data == "h3" {
+// 				h3++
+// 			}
+// 			//Class
+// 			if t.Data == "h4" {
+// 				tkn.Next()
+// 				t1 := tkn.Token()
+// 				if t1.Data == "a" {
+// 					tkn.Next()
+// 					tkn.Next()
+// 					t2 := tkn.Token()
+// 					if t2.Data == "span" {
+// 						tt = tkn.Next()
+// 						t3 := tkn.Token()
+// 						if tt == html.TextToken {
+// 							classString = t3.Data
+// 							fmt.Println("\t" + classString)
+// 						}
+// 					}
+// 				}
+// 				h4++
+// 			}
+// 		}
+// 	}
+// }
