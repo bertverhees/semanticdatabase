@@ -20,15 +20,6 @@ func main() {
 	data := parseBMM(text)
 	fmt.Println(data)
 
-	// fileName = "bmm_persistence.html"
-	// text, err = readHtmlFromFile(fileName)
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// data = parsePBMM(text)
-	// fmt.Println(data)
-
 }
 
 func readHtmlFromFile(fileName string) (string, error) {
@@ -51,6 +42,7 @@ func parseBMM(text string) (data string) {
 	isTD2 := false
 	isTD3 := false
 	isTR := false
+	firstClassPassed := false
 
 	for {
 
@@ -64,46 +56,14 @@ func parseBMM(text string) (data string) {
 		case tt == html.EndTagToken:
 			t := tkn.Token()
 			//TR
-			if t.Data == "tr" && isTR {
+			if t.Data == "tr" && isTR && firstClassPassed {
 				isTD1 = false
 				isTD2 = false
 				isTD3 = false
 				isTR = false
 			}
 
-		case tt == html.StartTagToken:
-			t := tkn.Token()
-			// table
-			if t.Data == "table" {
-				fmt.Println("\t\t" + "table")
-			}
-			//TR
-			if t.Data == "tr" && !isTR {
-				tTR := tkn.Token()
-				fmt.Println("\t\t\t" + tTR.Data)
-				isTR = true
-				isTD1 = true
-			}
-			//TD
-			if t.Data == "td" {
-				//TD1
-				if isTR && isTD1 {
-					tTD := tkn.Token()
-					fmt.Println("\t\t\t\t td1" + tTD.Data)
-					isTD2 = true
-				}
-				//TD2
-				if isTR && isTD2 {
-					tTD := tkn.Token()
-					fmt.Println("\t\t\t\t td2" + tTD.Data)
-					isTD3 = true
-				}
-				//TD3
-				if isTR && isTD3 {
-					tTD := tkn.Token()
-					fmt.Println("\t\t\t\t td3" + tTD.Data)
-				}
-			}
+		case tt == html.TextToken:
 			if isTR {
 				//GET Text
 				for tt != html.TextToken {
@@ -111,6 +71,42 @@ func parseBMM(text string) (data string) {
 				}
 				tTD := tkn.Token()
 				fmt.Println("\t\t\t\t\t" + tTD.Data)
+			}
+		case tt == html.StartTagToken:
+			t := tkn.Token()
+			// table
+			if t.Data == "table" && firstClassPassed {
+			}
+			//TR
+			if t.Data == "tr" && !isTR && firstClassPassed {
+				tTR := tkn.Token()
+				fmt.Println("\t\t\t" + tTR.Data)
+				isTR = true
+				isTD1 = true
+				isTD2 = false
+				isTD3 = false
+			}
+			//TD
+			if t.Data == "td" && firstClassPassed {
+				switch {
+				//TD1
+				case isTR && isTD1 && !isTD2 && !isTD3:
+					tTD := tkn.Token()
+					fmt.Println("\t\t\t\t td1 " + tTD.Data)
+					isTD2 = true
+					isTD1 = false
+					//TD2
+				case isTR && !isTD1 && isTD2 && !isTD3:
+					tTD := tkn.Token()
+					fmt.Println("\t\t\t\t td2" + tTD.Data)
+					isTD3 = true
+					isTD2 = false
+					//TD3
+				case isTR && !isTD1 && !isTD2 && isTD3:
+					tTD := tkn.Token()
+					fmt.Println("\t\t\t\t td3" + tTD.Data)
+					isTD3 = false
+				}
 			}
 			//Package
 			if t.Data == "h2" {
@@ -162,89 +158,40 @@ func parseBMM(text string) (data string) {
 			}
 			//Class
 			if t.Data == "h4" {
-				tkn.Next()
-				t1 := tkn.Token()
-				if t1.Data == "a" {
+				if h4 > 2 {
 					tkn.Next()
-					tkn.Next()
-					t2 := tkn.Token()
-					if t2.Data == "span" {
-						tt = tkn.Next()
-						t3 := tkn.Token()
-						if tt == html.TextToken {
-							classString = t3.Data
-							fmt.Println("\t" + classString)
+					t1 := tkn.Token()
+					for t1.Data != "a" {
+						tkn.Next()
+						t1 = tkn.Token()
+					}
+					if t1.Data == "a" {
+						tkn.Next()
+						t2 := tkn.Token()
+						for t2.Data != "span" {
+							tkn.Next()
+							t2 = tkn.Token()
 						}
-						h4++
+						if t2.Data == "span" {
+							tt = tkn.Next()
+							for tt != html.TextToken {
+								tt = tkn.Next()
+							}
+							t3 := tkn.Token()
+							if tt == html.TextToken {
+								classString = t3.Data
+								if strings.Contains(classString, "BMM_DEFINITIONS Class") {
+									firstClassPassed = true
+								}
+								if firstClassPassed {
+									fmt.Println("\t" + classString)
+								}
+							}
+						}
 					}
 				}
+				h4++
 			}
 		}
 	}
 }
-
-// func parsePBMM(text string) (data string) {
-// 	tkn := html.NewTokenizer(strings.NewReader(text))
-
-// 	h2 := 0
-// 	h3 := 0
-// 	h4 := 0
-// 	packageString := ""
-// 	classString := ""
-
-// 	for {
-
-// 		tt := tkn.Next()
-
-// 		switch {
-
-// 		case tt == html.ErrorToken:
-// 			return ""
-
-// 		case tt == html.StartTagToken:
-
-// 			t := tkn.Token()
-// 			//Package
-// 			if t.Data == "h2" {
-// 				tkn.Next()
-// 				t1 := tkn.Token()
-// 				if t1.Data == "a" {
-// 					tkn.Next()
-// 					tkn.Next()
-// 					t2 := tkn.Token()
-// 					if t2.Data == "span" {
-// 						tt = tkn.Next()
-// 						t3 := tkn.Token()
-// 						if tt == html.TextToken {
-// 							packageString = t3.Data
-// 							fmt.Println(packageString)
-// 						}
-// 					}
-// 				}
-// 				h2++
-// 			}
-// 			if t.Data == "h3" {
-// 				h3++
-// 			}
-// 			//Class
-// 			if t.Data == "h4" {
-// 				tkn.Next()
-// 				t1 := tkn.Token()
-// 				if t1.Data == "a" {
-// 					tkn.Next()
-// 					tkn.Next()
-// 					t2 := tkn.Token()
-// 					if t2.Data == "span" {
-// 						tt = tkn.Next()
-// 						t3 := tkn.Token()
-// 						if tt == html.TextToken {
-// 							classString = t3.Data
-// 							fmt.Println("\t" + classString)
-// 						}
-// 					}
-// 				}
-// 				h4++
-// 			}
-// 		}
-// 	}
-// }
