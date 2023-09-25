@@ -114,10 +114,16 @@ func parseBMM(text string) (data string) {
 				t1 := tkn.Token()
 				if t1.Data == "a" {
 					tkn.Next()
-					tkn.Next()
 					t2 := tkn.Token()
+					for t2.Data != "span" {
+						tkn.Next()
+						t2 = tkn.Token()
+					}
 					if t2.Data == "span" {
 						tt = tkn.Next()
+						for tt != html.TextToken {
+							tt = tkn.Next()
+						}
 						t3 := tkn.Token()
 						if tt == html.TextToken {
 							packageString = "org.openehr.lang.bmm"
