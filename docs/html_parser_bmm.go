@@ -30,6 +30,15 @@ func readHtmlFromFile(fileName string) (string, error) {
 	return string(bs), nil
 }
 
+func formatString(in string) string {
+	r := strings.ReplaceAll(in, "\n", " ")
+	r = strings.ReplaceAll(r, "\t", "")
+	r = strings.ReplaceAll(r, "Â", "")
+	r = strings.ReplaceAll(r, "  ", " ")
+	r = strings.TrimSpace(r)
+	return r
+}
+
 func parseBMM(text string) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
@@ -70,7 +79,16 @@ func parseBMM(text string) (data string) {
 					tt = tkn.Next()
 				}
 				tTD := tkn.Token()
-				fmt.Println("\t\t\t\t\t" + tTD.Data)
+				t := formatString(tTD.Data)
+				fmt.Println(t)
+				// fmt.Println("\n")
+				// for i := 0; i < len(t); i++ {
+				// 	fmt.Printf("%x ", t[i])
+				// }
+				// fmt.Println("\n")
+				// for i := 0; i < len(t); i++ {
+				// 	fmt.Printf("%q", t[i])
+				// }
 			}
 		case tt == html.StartTagToken:
 			t := tkn.Token()
@@ -79,8 +97,8 @@ func parseBMM(text string) (data string) {
 			}
 			//TR
 			if t.Data == "tr" && !isTR && firstClassPassed {
-				tTR := tkn.Token()
-				fmt.Println("\t\t\t" + tTR.Data)
+				// tTR := tkn.Token()
+				// fmt.Println("\t\t\t" + tTR.Data)
 				isTR = true
 				isTD1 = true
 				isTD2 = false
@@ -92,19 +110,19 @@ func parseBMM(text string) (data string) {
 				//TD1
 				case isTR && isTD1 && !isTD2 && !isTD3:
 					tTD := tkn.Token()
-					fmt.Println("\t\t\t\t td1 " + tTD.Data)
+					fmt.Print("td1: " + tTD.Data)
 					isTD2 = true
 					isTD1 = false
 					//TD2
 				case isTR && !isTD1 && isTD2 && !isTD3:
 					tTD := tkn.Token()
-					fmt.Println("\t\t\t\t td2" + tTD.Data)
+					fmt.Print("td2: " + tTD.Data)
 					isTD3 = true
 					isTD2 = false
 					//TD3
 				case isTR && !isTD1 && !isTD2 && isTD3:
 					tTD := tkn.Token()
-					fmt.Println("\t\t\t\t td3" + tTD.Data)
+					fmt.Print("td3: " + tTD.Data)
 					isTD3 = false
 				}
 			}
