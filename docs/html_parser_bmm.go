@@ -52,6 +52,14 @@ func parseBMM(text string) (data string) {
 	isTD3 := false
 	isTR := false
 	firstClassPassed := false
+	td1 := ""
+	td2 := ""
+	// td3 := ""
+	classDescription := false
+	// classInherit := false
+	// constants := false
+	// attributes := false
+	// functions := false
 
 	for {
 
@@ -71,6 +79,18 @@ func parseBMM(text string) (data string) {
 				isTD3 = false
 				isTR = false
 			}
+			if t.Data == "td" && isTR && firstClassPassed {
+				switch {
+				case isTD1:
+					isTD2 = true
+					isTD1 = false
+				case isTD2:
+					isTD3 = true
+					isTD2 = false
+				case isTD3:
+					isTD3 = false
+				}
+			}
 
 		case tt == html.TextToken:
 			if isTR {
@@ -80,7 +100,24 @@ func parseBMM(text string) (data string) {
 				}
 				tTD := tkn.Token()
 				t := formatString(tTD.Data)
-				fmt.Println(t)
+				switch {
+				case isTD1:
+					td1 = t
+				case isTD2:
+					td2 = t
+				case isTD3:
+					// td3 = t
+				}
+				if classDescription && isTD2 && strings.Compare(td1, "Description") == 0 {
+					fmt.Println("ClassDescription: " + td2)
+				}
+				if classDescription && isTD2 && td1 == "Inherit" {
+					fmt.Println("Inherit: " + td2)
+				}
+				if t != "" {
+					fmt.Println("*" + t + "*")
+					fmt.Println(td2, strings.Compare(td1, "Description"))
+				}
 				// fmt.Println("\n")
 				// for i := 0; i < len(t); i++ {
 				// 	fmt.Printf("%x ", t[i])
@@ -109,21 +146,16 @@ func parseBMM(text string) (data string) {
 				switch {
 				//TD1
 				case isTR && isTD1 && !isTD2 && !isTD3:
-					tTD := tkn.Token()
-					fmt.Print("td1: " + tTD.Data)
-					isTD2 = true
-					isTD1 = false
+					tkn.Token()
+					fmt.Print("td1: ")
 					//TD2
 				case isTR && !isTD1 && isTD2 && !isTD3:
-					tTD := tkn.Token()
-					fmt.Print("td2: " + tTD.Data)
-					isTD3 = true
-					isTD2 = false
+					tkn.Token()
+					fmt.Print("td2: ")
 					//TD3
 				case isTR && !isTD1 && !isTD2 && isTD3:
-					tTD := tkn.Token()
-					fmt.Print("td3: " + tTD.Data)
-					isTD3 = false
+					tkn.Token()
+					fmt.Print("td3: ")
 				}
 			}
 			//Package
@@ -209,6 +241,7 @@ func parseBMM(text string) (data string) {
 								}
 								if firstClassPassed {
 									fmt.Println("\t" + classString)
+									classDescription = true
 								}
 							}
 						}
