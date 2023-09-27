@@ -56,7 +56,7 @@ func parseBMM(text string) (data string) {
 	td2 := ""
 	// td3 := ""
 	classDescription := false
-	// classInherit := false
+	classInherit := false
 	// constants := false
 	// attributes := false
 	// functions := false
@@ -80,6 +80,7 @@ func parseBMM(text string) (data string) {
 				isTR = false
 			}
 			if t.Data == "td" && isTR && firstClassPassed {
+				fmt.Println(isTD1, isTD2, isTD3)
 				switch {
 				case isTD1:
 					isTD2 = true
@@ -90,6 +91,7 @@ func parseBMM(text string) (data string) {
 				case isTD3:
 					isTD3 = false
 				}
+				fmt.Println(isTD1, isTD2, isTD3)
 			}
 
 		case tt == html.TextToken:
@@ -100,23 +102,31 @@ func parseBMM(text string) (data string) {
 				}
 				tTD := tkn.Token()
 				t := formatString(tTD.Data)
-				switch {
-				case isTD1:
-					td1 = t
-				case isTD2:
-					td2 = t
-				case isTD3:
-					// td3 = t
-				}
-				if classDescription && isTD2 && strings.Compare(td1, "Description") == 0 {
-					fmt.Println("ClassDescription: " + td2)
-				}
-				if classDescription && isTD2 && td1 == "Inherit" {
-					fmt.Println("Inherit: " + td2)
-				}
 				if t != "" {
+					switch {
+					case isTD1:
+						td1 = t
+					case isTD2:
+						td2 = t
+					case isTD3:
+						// td3 = t
+					}
+					if isTD1 && strings.Compare(td1, "Description") == 0 {
+						classDescription = true
+					}
+					if isTD2 && classDescription {
+						fmt.Println("ClassDescription: " + td2)
+						classDescription = false
+					}
+					if isTD1 && td1 == "Inherit" {
+						classInherit = true
+					}
+					if isTD2 && classInherit {
+						fmt.Println("classInherit: " + td2)
+						classInherit = false
+					}
+
 					fmt.Println("*" + t + "*")
-					fmt.Println(td2, strings.Compare(td1, "Description"))
 				}
 				// fmt.Println("\n")
 				// for i := 0; i < len(t); i++ {
