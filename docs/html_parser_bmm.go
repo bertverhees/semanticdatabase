@@ -54,12 +54,19 @@ func parseBMM(text string) (data string) {
 	firstClassPassed := false
 	td1 := ""
 	td2 := ""
-	// td3 := ""
+	td3 := ""
+	constantName := ""
+	constantDescription := ""
+	attributeName := ""
+	attributeDescription := ""
+	functionName := ""
+	functionDescription := ""
 	classDescription := false
 	classInherit := false
-	// constants := false
-	// attributes := false
-	// functions := false
+	className := false
+	constants := false
+	attributes := false
+	functions := false
 
 	for {
 
@@ -72,15 +79,32 @@ func parseBMM(text string) (data string) {
 
 		case tt == html.EndTagToken:
 			t := tkn.Token()
+			//TABLE
+			if t.Data == "table" && firstClassPassed {
+				constants = false
+				attributes = false
+				functions = false
+			}
 			//TR
 			if t.Data == "tr" && isTR && firstClassPassed {
+				switch {
+				case constants:
+					fmt.Println("constants name: " + constantName)
+					fmt.Println("constants description: " + constantDescription)
+				case attributes:
+					fmt.Println("attribute name: " + attributeName)
+					fmt.Println("attribute description: " + attributeDescription)
+				case functions:
+					fmt.Println("function name: " + functionName)
+					fmt.Println("function description: " + functionDescription)
+				}
 				isTD1 = false
 				isTD2 = false
 				isTD3 = false
 				isTR = false
 			}
 			if t.Data == "td" && isTR && firstClassPassed {
-				fmt.Println(isTD1, isTD2, isTD3)
+				// fmt.Println(isTD1, isTD2, isTD3)
 				switch {
 				case isTD1:
 					isTD2 = true
@@ -91,7 +115,7 @@ func parseBMM(text string) (data string) {
 				case isTD3:
 					isTD3 = false
 				}
-				fmt.Println(isTD1, isTD2, isTD3)
+				// fmt.Println(isTD1, isTD2, isTD3)
 			}
 
 		case tt == html.TextToken:
@@ -109,24 +133,59 @@ func parseBMM(text string) (data string) {
 					case isTD2:
 						td2 = t
 					case isTD3:
-						// td3 = t
+						td3 = t
 					}
-					if isTD1 && strings.Compare(td1, "Description") == 0 {
+					switch {
+					case isTD1 && strings.Compare(td1, "Class") == 0:
+						className = true
+					case isTD1 && strings.Compare(td1, "Description") == 0:
 						classDescription = true
-					}
-					if isTD2 && classDescription {
+					case isTD1 && strings.Compare(td1, "Inherit") == 0:
+						classInherit = true
+					case isTD1 && strings.Compare(td1, "Constants") == 0:
+						constants = true
+					case isTD1 && strings.Compare(td1, "Attributes") == 0:
+						attributes = true
+					case isTD1 && strings.Compare(td1, "Functions") == 0:
+						functions = true
+					case isTD2 && className:
+						fmt.Println("Class: " + td2)
+						className = false
+					case isTD2 && classDescription:
 						fmt.Println("ClassDescription: " + td2)
 						classDescription = false
-					}
-					if isTD1 && td1 == "Inherit" {
-						classInherit = true
-					}
-					if isTD2 && classInherit {
+					case isTD2 && classInherit:
 						fmt.Println("classInherit: " + td2)
 						classInherit = false
+					case isTD1 && constants:
+						fmt.Println("constants occurence: " + td1)
+					case isTD2 && constants:
+						constantName = constantName + td2
+					case isTD3 && constants:
+						constantDescription = constantDescription + td3
+					case isTD1 && attributes:
+						fmt.Println("attribute occurence: " + td1)
+					case isTD2 && attributes:
+						attributeName = attributeName + td2
+					case isTD3 && attributes:
+						attributeDescription = attributeDescription + td3
+					case isTD1 && functions:
+						fmt.Println("functions occurence: " + td1)
+					case isTD2 && functions:
+						functionName = functionName + td2
+					case isTD3 && functions:
+						functionDescription = functionDescription + td3
 					}
+					switch {
+					case isTD1 && (strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
+						constants = false
+					case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
+						attributes = false
+					case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Class") == 0):
+						functions = false
 
-					fmt.Println("*" + t + "*")
+					}
+					// fmt.Println("*" + t + "*")
 				}
 				// fmt.Println("\n")
 				// for i := 0; i < len(t); i++ {
@@ -150,22 +209,36 @@ func parseBMM(text string) (data string) {
 				isTD1 = true
 				isTD2 = false
 				isTD3 = false
+				constantName = ""
+				constantDescription = ""
+				attributeName = ""
+				attributeDescription = ""
+				functionName = ""
+				functionDescription = ""
+				switch {
+				case constants:
+					fmt.Println("\t\t\t" + "CONSTANT")
+				case attributes:
+					fmt.Println("\t\t\t" + "ATTRIBUTE")
+				case functions:
+					fmt.Println("\t\t\t" + "FUNCTION")
+				}
 			}
 			//TD
 			if t.Data == "td" && firstClassPassed {
 				switch {
 				//TD1
 				case isTR && isTD1 && !isTD2 && !isTD3:
-					tkn.Token()
-					fmt.Print("td1: ")
+					// tkn.Token()
+					// fmt.Print("td1: ")
 					//TD2
 				case isTR && !isTD1 && isTD2 && !isTD3:
-					tkn.Token()
-					fmt.Print("td2: ")
+					// tkn.Token()
+					// fmt.Print("td2: ")
 					//TD3
 				case isTR && !isTD1 && !isTD2 && isTD3:
-					tkn.Token()
-					fmt.Print("td3: ")
+					// tkn.Token()
+					// fmt.Print("td3: ")
 				}
 			}
 			//Package
@@ -249,10 +322,10 @@ func parseBMM(text string) (data string) {
 								if strings.Contains(classString, "BMM_DEFINITIONS Class") {
 									firstClassPassed = true
 								}
-								if firstClassPassed {
-									fmt.Println("\t" + classString)
-									classDescription = true
-								}
+								// if firstClassPassed {
+								// 	fmt.Println("\t" + classString)
+								// 	classDescription = true
+								// }
 							}
 						}
 					}
