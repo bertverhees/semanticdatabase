@@ -104,7 +104,6 @@ func parseBMM(text string) (data string) {
 				isTR = false
 			}
 			if t.Data == "td" && isTR && firstClassPassed {
-				// fmt.Println(isTD1, isTD2, isTD3)
 				switch {
 				case isTD1:
 					isTD2 = true
@@ -115,7 +114,6 @@ func parseBMM(text string) (data string) {
 				case isTD3:
 					isTD3 = false
 				}
-				// fmt.Println(isTD1, isTD2, isTD3)
 			}
 
 		case tt == html.TextToken:
