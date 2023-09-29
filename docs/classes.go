@@ -1,12 +1,16 @@
 package main
 
-import "strings"
+import (
+	"errors"
+	"strings"
+)
 
 type Class struct {
 	Comment    string
 	Inherits   []string
 	Attributes []Attribute
 	Functions  []Function
+	Constants []Constant
 }
 
 func NewClass(comment, inherits string) (*Class, error) {
@@ -21,8 +25,25 @@ func NewClass(comment, inherits string) (*Class, error) {
 	}
 	class.Attributes = make([]Attribute, 0)
 	class.Functions = make([]Function, 0)
+	class.Constants = make([]Constant, 0)
 	return class, nil
 }
+
+func (c *Class)AddAttribute(attribute Attribute)(error){
+	c.Attributes = append(c.Attributes, attribute)
+	return nil
+}
+
+func (c *Class)AddFunction(function Function)(error){
+	c.Functions = append(c.Functions, function)
+	return nil
+}
+
+func (c *Class)AddConstant(constant Constant)(error){
+	c.Constants = append(c.Constants, constant)
+	return nil
+}
+
 
 type Constant struct {
 	Name    string
@@ -70,17 +91,30 @@ func NewFunction(name, comment string) (*Function, error) {
 	return function, nil
 }
 
+func (f *Function)AddParameter(parameter Parameter)(error){
+	switch {
+	case strings.ToLower(parameter.InOut) == "out":
+		f.Out = append(f.Out, parameter)
+	case strings.ToLower(parameter.InOut) == "in":
+		f.In = append(f.In, parameter)
+	default:
+		return errors.New("Inout of Parameter must be \"in\" or \"out\"")
+	}
+	return nil
+}
+
+
 type Parameter struct {
 	Name     string
-	In_out   string
+	InOut    string
 	Type     string
 	Required bool
 }
 
-func NewParameter(name, in_out, _type string, required bool) (*Parameter, error) {
+func NewParameter(name, inOut, _type string, required bool) (*Parameter, error) {
 	var parameter *Parameter
 	parameter.Name = name
-	parameter.In_out = name
+	parameter.InOut = inOut
 	parameter.Type = _type
 	parameter.Required = required
 	return parameter, nil
