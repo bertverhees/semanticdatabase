@@ -2,6 +2,8 @@ package main
 
 import (
 	"errors"
+	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -10,7 +12,7 @@ type Class struct {
 	Inherits   []string
 	Attributes []Attribute
 	Functions  []Function
-	Constants []Constant
+	Constants  []Constant
 }
 
 func NewClass(comment, inherits string) (*Class, error) {
@@ -29,21 +31,20 @@ func NewClass(comment, inherits string) (*Class, error) {
 	return class, nil
 }
 
-func (c *Class)AddAttribute(attribute Attribute)(error){
+func (c *Class) AddAttribute(attribute Attribute) error {
 	c.Attributes = append(c.Attributes, attribute)
 	return nil
 }
 
-func (c *Class)AddFunction(function Function)(error){
+func (c *Class) AddFunction(function Function) error {
 	c.Functions = append(c.Functions, function)
 	return nil
 }
 
-func (c *Class)AddConstant(constant Constant)(error){
+func (c *Class) AddConstant(constant Constant) error {
 	c.Constants = append(c.Constants, constant)
 	return nil
 }
-
 
 type Constant struct {
 	Name    string
@@ -91,18 +92,17 @@ func NewFunction(name, comment string) (*Function, error) {
 	return function, nil
 }
 
-func (f *Function)AddParameter(parameter Parameter)(error){
+func (f *Function) AddParameter(parameter Parameter) error {
 	switch {
 	case strings.ToLower(parameter.InOut) == "out":
 		f.Out = append(f.Out, parameter)
 	case strings.ToLower(parameter.InOut) == "in":
 		f.In = append(f.In, parameter)
 	default:
-		return errors.New("Inout of Parameter must be \"in\" or \"out\"")
+		return errors.New("Inout of Parameter must be \"in\" or \"out\" (without quotes, case insentive)")
 	}
 	return nil
 }
-
 
 type Parameter struct {
 	Name     string
@@ -112,10 +112,46 @@ type Parameter struct {
 }
 
 func NewParameter(name, inOut, _type string, required bool) (*Parameter, error) {
-	var parameter *Parameter
-	parameter.Name = name
-	parameter.InOut = inOut
-	parameter.Type = _type
-	parameter.Required = required
-	return parameter, nil
+	return &Parameter{name,inOut,_type,required}, nil
+}
+
+func AnalyzeParameters(functionName string) []Parameter {
+	parameters := make([]Parameter, 0)
+	if strings.Contains(functionName, "(") && strings.Contains(functionName, ")") {
+		functionParameters := functionName[strings.Index(functionName, "(")+1 : strings.Index(functionName, ")")]
+		fmt.Println("function parameters = " + functionParameters)
+		if functionParameters != "" {
+			typeSeparator := " "
+			if strings.Contains(functionParameters, ":") {
+				typeSeparator = ":"
+			}
+			ps := strings.Split(functionParameters, ",")
+			if len(ps) > 0 {
+				for i,psl := range ps {
+					fmt.Println(strconv.Itoa(i) + ": " + psl)
+					parameterName := ""
+					parameterType := ""
+					nameType := strings.Split(strings.TrimSpace(psl), typeSeparator)
+					parameterName = strings.TrimSpace(nameType[0])
+					if len(nameType) == 1 {
+						if i<len(ps) {
+							for j := i+1; j < len(ps); j++ {
+								nameType = strings.Split(strings.TrimSpace(ps[j]), typeSeparator)
+								parameterType = strings.TrimSpace(nameType[1])
+							}
+						}
+					} else {
+						parameterType = strings.TrimSpace(nameType[1])
+					}
+					parameter, _ := NewParameter(parameterName, "in", parameterType, false)
+					parameters = append(parameters, *parameter)
+				}
+			}
+		}
+	}
+	if strings.Contains(functionName, ":") {
+		functionReturn := functionName[strings.Index(functionName, ":")+1:]
+		fmt.Println("function return = " + functionReturn)
+	}
+	return parameters
 }

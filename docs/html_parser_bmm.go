@@ -3,11 +3,10 @@ package main
 //https://zetcode.com/golang/net-html/
 import (
 	"fmt"
+	"golang.org/x/net/html"
 	"io/ioutil"
 	"log"
 	"strings"
-
-	"golang.org/x/net/html"
 )
 
 func main() {
@@ -89,14 +88,18 @@ func parseBMM(text string) (data string) {
 			if t.Data == "tr" && isTR && firstClassPassed {
 				switch {
 				case constants:
-					fmt.Println("constants name: " + constantName)
-					fmt.Println("constants description: " + constantDescription)
+					//fmt.Println("constants name: " + constantName)
+					//fmt.Println("constants description: " + constantDescription)
 				case attributes:
-					fmt.Println("attribute name: " + attributeName)
-					fmt.Println("attribute description: " + attributeDescription)
+					//fmt.Println("attribute name: " + attributeName)
+					//fmt.Println("attribute description: " + attributeDescription)
 				case functions:
 					fmt.Println("function name: " + functionName)
 					fmt.Println("function description: " + functionDescription)
+					parameters := AnalyzeParameters(functionName)
+					if len(parameters)>0{
+						fmt.Println(parameters)
+					}
 				}
 				isTD1 = false
 				isTD2 = false
@@ -150,19 +153,19 @@ func parseBMM(text string) (data string) {
 						fmt.Println("Class: " + td2)
 						className = false
 					case isTD2 && classDescription:
-						fmt.Println("ClassDescription: " + td2)
+						//fmt.Println("ClassDescription: " + td2)
 						classDescription = false
 					case isTD2 && classInherit:
-						fmt.Println("classInherit: " + td2)
+						//fmt.Println("classInherit: " + td2)
 						classInherit = false
 					case isTD1 && constants:
-						fmt.Println("constants occurence: " + td1)
+						//fmt.Println("constants occurence: " + td1)
 					case isTD2 && constants:
 						constantName = constantName + td2
 					case isTD3 && constants:
 						constantDescription = constantDescription + td3
 					case isTD1 && attributes:
-						fmt.Println("attribute occurence: " + td1)
+						//fmt.Println("attribute occurence: " + td1)
 					case isTD2 && attributes:
 						attributeName = attributeName + td2
 					case isTD3 && attributes:
@@ -215,9 +218,9 @@ func parseBMM(text string) (data string) {
 				functionDescription = ""
 				switch {
 				case constants:
-					fmt.Println("\t\t\t" + "CONSTANT")
+					//fmt.Println("\t\t\t" + "CONSTANT")
 				case attributes:
-					fmt.Println("\t\t\t" + "ATTRIBUTE")
+					//fmt.Println("\t\t\t" + "ATTRIBUTE")
 				case functions:
 					fmt.Println("\t\t\t" + "FUNCTION")
 				}
