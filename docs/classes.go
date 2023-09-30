@@ -5,6 +5,21 @@ import (
 	"strings"
 )
 
+type Model struct {
+	Classes []Class
+}
+
+func NewModel() *Model {
+	model := new(Model)
+	model.Classes = make([]Class, 0)
+	return model
+}
+
+func (m *Model) AddClass(class Class) error {
+	m.Classes = append(m.Classes, class)
+	return nil
+}
+
 type Class struct {
 	Comment    string
 	Inherits   []string
@@ -14,8 +29,7 @@ type Class struct {
 }
 
 func NewClass(comment, inherits string) (*Class, error) {
-	var class *Class
-	class = new(Class)
+	class := new(Class)
 	class.Comment = comment
 	//inherits-slice always exists
 	if inherits != "" {
@@ -51,7 +65,7 @@ type Constant struct {
 }
 
 func NewConstant(name, _type, comment string) (*Constant, error) {
-	var constant *Constant
+	constant := new(Constant)
 	constant.Name = name
 	constant.Type = _type
 	constant.Comment = comment
@@ -66,7 +80,7 @@ type Attribute struct {
 }
 
 func NewAttribute(name, _type, comment string, required bool) (*Attribute, error) {
-	var attribute *Attribute
+	attribute := new(Attribute)
 	attribute.Name = name
 	attribute.Type = _type
 	attribute.Comment = comment
@@ -82,7 +96,7 @@ type Function struct {
 }
 
 func NewFunction(name, comment string) (*Function, error) {
-	var function *Function
+	function := new(Function)
 	function.Name = name
 	function.Comment = comment
 	function.Out = make([]Parameter, 0)
@@ -110,7 +124,7 @@ type Parameter struct {
 }
 
 func NewParameter(name, inOut, _type string, required bool) (*Parameter, error) {
-	return &Parameter{name,inOut,_type,required}, nil
+	return &Parameter{name, inOut, _type, required}, nil
 }
 
 func AnalyzeParameters(functionName string) []Parameter {
@@ -131,16 +145,16 @@ func AnalyzeParameters(functionName string) []Parameter {
 			}
 			ps := strings.Split(functionParameters, ",")
 			if len(ps) > 0 {
-				for i,psl := range ps {
+				for i, psl := range ps {
 					parameterName := ""
 					parameterType := ""
 					nameType := strings.Split(strings.TrimSpace(psl), typeSeparator)
 					parameterName = strings.TrimSpace(nameType[0])
 					if len(nameType) == 1 {
-						if i<len(ps) {
-							for j := i+1; j < len(ps); j++ {
+						if i < len(ps) {
+							for j := i + 1; j < len(ps); j++ {
 								nameType = strings.Split(strings.TrimSpace(ps[j]), typeSeparator)
-								if len(nameType)>1 {
+								if len(nameType) > 1 {
 									parameterType = strings.TrimSpace(nameType[1])
 									break
 								}
