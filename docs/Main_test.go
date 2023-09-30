@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestParameters(t *testing.T) {
+func TestAnalyzeParameters(t *testing.T) {
 	f := "fun(instring1,instring2 string):out"
 	p1 := Parameter{"","out","out",false}
 	p2 := Parameter{"instring1","in","string",false}
