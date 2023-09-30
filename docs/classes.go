@@ -2,8 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -117,9 +115,15 @@ func NewParameter(name, inOut, _type string, required bool) (*Parameter, error) 
 
 func AnalyzeParameters(functionName string) []Parameter {
 	parameters := make([]Parameter, 0)
+	outType := functionName
+	if strings.Contains(outType, "(") && strings.Contains(outType, ")") {
+		outType = outType[strings.Index(outType, ")"):]
+	}
+	outType = strings.TrimSpace(outType[strings.Index(outType, ":")+1:])
+	parameter, _ := NewParameter("", "out", outType, false)
+	parameters = append(parameters, *parameter)
 	if strings.Contains(functionName, "(") && strings.Contains(functionName, ")") {
 		functionParameters := functionName[strings.Index(functionName, "(")+1 : strings.Index(functionName, ")")]
-		fmt.Println("function parameters = " + functionParameters)
 		if functionParameters != "" {
 			typeSeparator := " "
 			if strings.Contains(functionParameters, ":") {
@@ -128,7 +132,6 @@ func AnalyzeParameters(functionName string) []Parameter {
 			ps := strings.Split(functionParameters, ",")
 			if len(ps) > 0 {
 				for i,psl := range ps {
-					fmt.Println(strconv.Itoa(i) + ": " + psl)
 					parameterName := ""
 					parameterType := ""
 					nameType := strings.Split(strings.TrimSpace(psl), typeSeparator)
@@ -137,21 +140,20 @@ func AnalyzeParameters(functionName string) []Parameter {
 						if i<len(ps) {
 							for j := i+1; j < len(ps); j++ {
 								nameType = strings.Split(strings.TrimSpace(ps[j]), typeSeparator)
-								parameterType = strings.TrimSpace(nameType[1])
+								if len(nameType)>1 {
+									parameterType = strings.TrimSpace(nameType[1])
+									break
+								}
 							}
 						}
 					} else {
 						parameterType = strings.TrimSpace(nameType[1])
 					}
-					parameter, _ := NewParameter(parameterName, "in", parameterType, false)
+					parameter, _ = NewParameter(parameterName, "in", parameterType, false)
 					parameters = append(parameters, *parameter)
 				}
 			}
 		}
-	}
-	if strings.Contains(functionName, ":") {
-		functionReturn := functionName[strings.Index(functionName, ":")+1:]
-		fmt.Println("function return = " + functionReturn)
 	}
 	return parameters
 }
