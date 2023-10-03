@@ -1,8 +1,25 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"testing"
 )
+
+func TestMain(m *testing.M) {
+	fileName := "bmm.html"
+	text, err := readHtmlFromFile(fileName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	model := NewModel()
+	parseBMM(text, model)
+	fmt.Println(len(model.Classes))
+	for i,c := range model.Classes {
+		fmt.Println(i,c)
+	}
+}
 
 func TestAnalyzeParameters(t *testing.T) {
 	f := "fun(instring1,instring2 string):out"

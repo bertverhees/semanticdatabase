@@ -6,21 +6,22 @@ import (
 )
 
 type Model struct {
-	Classes []Class
+	Classes []*Class
 }
 
 func NewModel() *Model {
 	model := new(Model)
-	model.Classes = make([]Class, 0)
+	model.Classes = make([]*Class, 0)
 	return model
 }
 
-func (m *Model) AddClass(class Class) error {
+func (m *Model) AddClass(class *Class) error {
 	m.Classes = append(m.Classes, class)
 	return nil
 }
 
 type Class struct {
+	Name string
 	Comment    string
 	Inherits   []string
 	Attributes []Attribute
@@ -28,14 +29,18 @@ type Class struct {
 	Constants  []Constant
 }
 
-func NewClass(comment, inherits string) (*Class, error) {
+func NewClass(comment, inherits string, name string) (*Class, error) {
 	class := new(Class)
 	class.Comment = comment
+	class.Name = name
 	//inherits-slice always exists
 	if inherits != "" {
 		class.Inherits = strings.Split(inherits, ",")
 	} else {
 		class.Inherits = make([]string, 0)
+	}
+	for i,_ := range class.Inherits {
+		class.Inherits[i] = strings.TrimSpace(class.Inherits[i])
 	}
 	class.Attributes = make([]Attribute, 0)
 	class.Functions = make([]Function, 0)

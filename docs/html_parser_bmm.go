@@ -16,8 +16,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	data := parseBMM(text)
-	fmt.Println(data)
+	model := NewModel()
+	parseBMM(text, model)
+	fmt.Println(len(model.Classes))
 
 }
 
@@ -38,7 +39,7 @@ func formatString(in string) string {
 	return r
 }
 
-func parseBMM(text string) (data string) {
+func parseBMM(text string, model *Model) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
 	h2 := 0
@@ -60,13 +61,19 @@ func parseBMM(text string) (data string) {
 	attributeDescription := ""
 	functionName := ""
 	functionDescription := ""
-	classDescription := false
-	classInherit := false
-	className := false
+	classDescriptionInTD1 := false
+	classInheritInTD1 := false
+	classNameInTD1 := false
 	constants := false
 	attributes := false
 	functions := false
-
+	szClassName := ""
+	szClassDescription := ""
+	szClassInherits := ""
+	classNamePassed := false
+	classInheritPassed := false
+	classDescriptionPassed := false
+	var class *Class
 	for {
 
 		tt := tkn.Next()
@@ -97,7 +104,7 @@ func parseBMM(text string) (data string) {
 					fmt.Println("function name: " + functionName)
 					fmt.Println("function description: " + functionDescription)
 					parameters := AnalyzeParameters(functionName)
-					if len(parameters)>0{
+					if len(parameters) > 0 {
 						fmt.Println(parameters)
 					}
 				}
@@ -138,26 +145,35 @@ func parseBMM(text string) (data string) {
 					}
 					switch {
 					case isTD1 && strings.Compare(td1, "Class") == 0:
-						className = true
+						classNameInTD1 = true
+						classNamePassed = false
 					case isTD1 && strings.Compare(td1, "Description") == 0:
-						classDescription = true
+						classDescriptionInTD1 = true
+						classDescriptionPassed = false
 					case isTD1 && strings.Compare(td1, "Inherit") == 0:
-						classInherit = true
+						classInheritInTD1 = true
+						classInheritPassed = false
 					case isTD1 && strings.Compare(td1, "Constants") == 0:
 						constants = true
 					case isTD1 && strings.Compare(td1, "Attributes") == 0:
 						attributes = true
 					case isTD1 && strings.Compare(td1, "Functions") == 0:
 						functions = true
-					case isTD2 && className:
-						fmt.Println("Class: " + td2)
-						className = false
-					case isTD2 && classDescription:
+					case isTD2 && classNameInTD1:
+						//fmt.Println("Class: " + td2)
+						szClassName = td2
+						classNameInTD1 = false
+						classNamePassed = true
+					case isTD2 && classDescriptionInTD1:
 						//fmt.Println("ClassDescription: " + td2)
-						classDescription = false
-					case isTD2 && classInherit:
-						//fmt.Println("classInherit: " + td2)
-						classInherit = false
+						szClassDescription = td2
+						classDescriptionInTD1 = false
+						classDescriptionPassed = true
+					case isTD2 && classInheritInTD1:
+						//fmt.Println("classInheritInTD1: " + td2)
+						szClassInherits = td2
+						classInheritInTD1 = false
+						classInheritPassed = true
 					case isTD1 && constants:
 						//fmt.Println("constants occurence: " + td1)
 					case isTD2 && constants:
@@ -176,6 +192,13 @@ func parseBMM(text string) (data string) {
 						functionName = functionName + td2
 					case isTD3 && functions:
 						functionDescription = functionDescription + td3
+					}
+					if classNamePassed && classInheritPassed && classDescriptionPassed {
+						class,_ = NewClass(szClassDescription, szClassInherits, szClassName)
+						model.AddClass(class)
+						classNamePassed = false
+						classInheritPassed = false
+						classDescriptionPassed = false
 					}
 					switch {
 					case isTD1 && (strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
@@ -325,7 +348,7 @@ func parseBMM(text string) (data string) {
 								}
 								// if firstClassPassed {
 								// 	fmt.Println("\t" + classString)
-								// 	classDescription = true
+								// 	classDescriptionInTD1 = true
 								// }
 							}
 						}
