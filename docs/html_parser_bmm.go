@@ -207,16 +207,7 @@ func parseBMM(text string, model *Model) (data string) {
 						functions = false
 
 					}
-					// fmt.Println("*" + t + "*")
 				}
-				// fmt.Println("\n")
-				// for i := 0; i < len(t); i++ {
-				// 	fmt.Printf("%x ", t[i])
-				// }
-				// fmt.Println("\n")
-				// for i := 0; i < len(t); i++ {
-				// 	fmt.Printf("%q", t[i])
-				// }
 			}
 		case tt == html.StartTagToken:
 			t := tkn.Token()
@@ -225,8 +216,6 @@ func parseBMM(text string, model *Model) (data string) {
 			}
 			//TR
 			if t.Data == "tr" && !isTR && firstClassPassed {
-				// tTR := tkn.Token()
-				// fmt.Println("\t\t\t" + tTR.Data)
 				isTR = true
 				isTD1 = true
 				isTD2 = false
@@ -237,31 +226,6 @@ func parseBMM(text string, model *Model) (data string) {
 				attributeDescription = ""
 				functionName = ""
 				functionDescription = ""
-				switch {
-				case constants:
-					//fmt.Println("\t\t\t" + "CONSTANT")
-				case attributes:
-					//fmt.Println("\t\t\t" + "ATTRIBUTE")
-				case functions:
-					fmt.Println("\t\t\t" + "FUNCTION")
-				}
-			}
-			//TD
-			if t.Data == "td" && firstClassPassed {
-				switch {
-				//TD1
-				case isTR && isTD1 && !isTD2 && !isTD3:
-					// tkn.Token()
-					// fmt.Print("td1: ")
-					//TD2
-				case isTR && !isTD1 && isTD2 && !isTD3:
-					// tkn.Token()
-					// fmt.Print("td2: ")
-					//TD3
-				case isTR && !isTD1 && !isTD2 && isTD3:
-					// tkn.Token()
-					// fmt.Print("td3: ")
-				}
 			}
 			//Package
 			if t.Data == "h2" {
