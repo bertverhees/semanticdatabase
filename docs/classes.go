@@ -78,7 +78,7 @@ func NewConstant(name, _type, value, comment string) (*Constant, error) {
 	constant.Comment = comment
 	return constant, nil
 }
-
+	//#TODO process
 func NewConstantToProcess(name_type_value, comment string) (*Constant, error) {
 	constant := new(Constant)
 	//constant.Name = name
@@ -103,7 +103,7 @@ func NewAttribute(name, _type, comment string, required bool) (*Attribute, error
 	attribute.Required = required
 	return attribute, nil
 }
-
+	//#TODO process
 func NewAttributeToProcess(name_type, comment string, required bool) (*Attribute, error) {
 	attribute := new(Attribute)
 	//attribute.Name = name

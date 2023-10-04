@@ -98,7 +98,7 @@ func parseBMM(text string, model *Model) (data string) {
 					constant,_ := NewConstantToProcess(constantName, constantDescription)
 					class.AddConstant(constant)
 				case attributes:
-					//TODO Process required
+					//#TODO Process required
 					attribute,_ := NewAttributeToProcess(attributeName, attributeDescription,false)
 					class.AddAttribute(attribute)
 				case functions:
