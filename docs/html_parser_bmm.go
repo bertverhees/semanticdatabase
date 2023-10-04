@@ -95,18 +95,16 @@ func parseBMM(text string, model *Model) (data string) {
 			if t.Data == "tr" && isTR && firstClassPassed {
 				switch {
 				case constants:
-					//fmt.Println("constants name: " + constantName)
-					//fmt.Println("constants description: " + constantDescription)
+					constant,_ := NewConstantToProcess(constantName, constantDescription)
+					class.AddConstant(constant)
 				case attributes:
-					//fmt.Println("attribute name: " + attributeName)
-					//fmt.Println("attribute description: " + attributeDescription)
+					//TODO Process required
+					attribute,_ := NewAttributeToProcess(attributeName, attributeDescription,false)
+					class.AddAttribute(attribute)
 				case functions:
-					fmt.Println("function name: " + functionName)
-					fmt.Println("function description: " + functionDescription)
 					parameters := AnalyzeParameters(functionName)
-					if len(parameters) > 0 {
-						fmt.Println(parameters)
-					}
+					function,_ := NewFunction(functionName,functionDescription)
+					function.AddParameters(parameters)
 				}
 				isTD1 = false
 				isTD2 = false
