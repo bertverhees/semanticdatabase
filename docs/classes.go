@@ -81,11 +81,24 @@ func NewConstant(name, _type, value, comment string) (*Constant, error) {
 	//#TODO process
 func NewConstantToProcess(name_type_value, comment string) (*Constant, error) {
 	constant := new(Constant)
-	//constant.Name = name
-	//constant.Type = _type
-	//constant.Value = value
+	var e error
+	constant.Name, constant.Type, constant.Value, e = splitConstantNameType(name_type_value)
 	constant.Comment = comment
-	return constant, nil
+	return constant, e
+}
+func splitConstantNameType(name_type_value string)(string, string, string, error){
+	nameTypeValue := strings.Split(strings.TrimSpace(name_type_value), ":")
+	if len(nameTypeValue)!=2{
+		return "","","", errors.New("Not a valid Constant, it should look like: \"name: type=value\"")
+	}
+	typeValue := strings.Split(strings.TrimSpace(name_type_value), "=")
+	if len(typeValue)>1 {
+		return nameTypeValue[0], typeValue[0], typeValue[1], nil
+	}
+	if len(typeValue)==1 {
+		return nameTypeValue[0], typeValue[0], "", nil
+	}
+	return "", "", "", errors.New("Not a valid Constant, it should look like: \"name: type=value\"")
 }
 
 type Attribute struct {
@@ -103,14 +116,22 @@ func NewAttribute(name, _type, comment string, required bool) (*Attribute, error
 	attribute.Required = required
 	return attribute, nil
 }
-	//#TODO process
+
 func NewAttributeToProcess(name_type, comment string, required bool) (*Attribute, error) {
 	attribute := new(Attribute)
-	//attribute.Name = name
-	//attribute.Type = _type
+	var e error
+	attribute.Name, attribute.Type, e = splitAttributeNameType(name_type)
 	attribute.Comment = comment
 	attribute.Required = required
-	return attribute, nil
+	return attribute, e
+}
+
+func splitAttributeNameType(name_type string)(string, string, error){
+	nameType := strings.Split(strings.TrimSpace(name_type), ":")
+	if len(nameType)!=2{
+		return "","", errors.New("Not a valid attribute, it should look like: \"name: type\"")
+	}
+	return nameType[0],nameType[1],nil
 }
 
 type Function struct {
