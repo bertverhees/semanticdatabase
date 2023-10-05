@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -27,6 +28,14 @@ type Class struct {
 	Attributes []*Attribute
 	Functions  []*Function
 	Constants  []*Constant
+}
+
+func (c *Class)Print(){
+	fmt.Println(c.Name)
+	fmt.Println(c.Comment)
+	for _,co := range c.Constants {
+		co.Print()
+	}
 }
 
 func NewClass(comment, inherits string, name string) (*Class, error) {
@@ -68,6 +77,13 @@ type Constant struct {
 	Type    string
 	Value	string
 	Comment string
+}
+
+func (c *Constant)Print(){
+	fmt.Println("\tConstant:",c.Name)
+	fmt.Println("\t\t",c.Type)
+	fmt.Println("\t\t",c.Value)
+	fmt.Println("\t\t",c.Comment)
 }
 
 func NewConstant(name, _type, value, comment string) (*Constant, error) {

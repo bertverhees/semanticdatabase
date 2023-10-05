@@ -19,6 +19,9 @@ func main() {
 	model := NewModel()
 	parseBMM(text, model)
 	fmt.Println(len(model.Classes))
+	for _,c := range model.Classes {
+		c.Print()
+	}
 
 }
 
