@@ -134,25 +134,39 @@ type Attribute struct {
 	Name     string
 	Type     string
 	Comment  string
+	defaultValue string
 	Required bool
 }
 
-func NewAttribute(name, _type, comment string, required bool) (*Attribute, error) {
+func (a *Attribute)Print(){
+	fmt.Println("\tAttribute:",a.Name)
+	fmt.Println("\t\t",a.Type)
+	fmt.Println("\t\t",a.Required)
+	fmt.Println("\t\t",a.Comment)
+}
+
+func NewAttribute(name, _type, comment string, defaultValue string, required string) (*Attribute, error) {
 	attribute := new(Attribute)
 	attribute.Name = name
 	attribute.Type = _type
 	attribute.Comment = comment
-	attribute.Required = required
+	attribute.defaultValue = defaultValue
+	if strings.TrimSpace(required) == "1..1" {
+		attribute.Required = true
+	}else {
+		attribute.Required = false;
+	}
 	return attribute, nil
 }
 
-func NewAttributeToProcess(name_type, comment string, required bool) (*Attribute, error) {
-	attribute := new(Attribute)
+func NewAttributeToProcess(name_type, comment string, defaultValue string, required string) (*Attribute, error) {
 	var e error
-	attribute.Name, attribute.Type, e = splitAttributeNameType(name_type)
-	attribute.Comment = comment
-	attribute.Required = required
-	return attribute, e
+	var name, _type string
+	name, _type, e = splitAttributeNameType(name_type)
+	if e != nil {
+		return nil, e
+	}
+	return NewAttribute(name, _type, comment, defaultValue, required)
 }
 
 func splitAttributeNameType(name_type string)(string, string, error){
@@ -160,7 +174,7 @@ func splitAttributeNameType(name_type string)(string, string, error){
 	if len(nameType)!=2{
 		return "","", errors.New("Not a valid attribute, it should look like: \"name: type\"")
 	}
-	return nameType[0],nameType[1],nil
+	return strings.TrimSpace(nameType[0]),strings.TrimSpace(nameType[1]),nil
 }
 
 type Function struct {
