@@ -98,8 +98,10 @@ func parseBMM(text string, model *Model) (data string) {
 			if t.Data == "tr" && isTR && firstClassPassed {
 				switch {
 				case constants:
-					constant,_ := NewConstantToProcess(constantName, constantDescription)
-					class.AddConstant(constant)
+					constant,e := NewConstantToProcess(constantName, constantDescription)
+					if e==nil {
+						class.AddConstant(constant)
+					}
 				case attributes:
 					//#TODO Process required
 					attribute,_ := NewAttributeToProcess(attributeName, attributeDescription,false)
@@ -175,7 +177,7 @@ func parseBMM(text string, model *Model) (data string) {
 						szClassInherits = td2
 						classInheritInTD1 = false
 						classInheritPassed = true
-					case isTD1 && constants:
+					//case isTD1 && constants:
 						//fmt.Println("constants occurence: " + td1)
 					case isTD2 && constants:
 						constantName = constantName + td2
@@ -188,7 +190,7 @@ func parseBMM(text string, model *Model) (data string) {
 					case isTD3 && attributes:
 						attributeDescription = attributeDescription + td3
 					case isTD1 && functions:
-						fmt.Println("functions occurence: " + td1)
+						//fmt.Println("functions occurence: " + td1)
 					case isTD2 && functions:
 						functionName = functionName + td2
 					case isTD3 && functions:

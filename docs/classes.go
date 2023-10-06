@@ -96,23 +96,36 @@ func NewConstant(name, _type, value, comment string) (*Constant, error) {
 }
 	//#TODO process
 func NewConstantToProcess(name_type_value, comment string) (*Constant, error) {
-	constant := new(Constant)
 	var e error
-	constant.Name, constant.Type, constant.Value, e = splitConstantNameType(name_type_value)
-	constant.Comment = comment
-	return constant, e
+	name, _type, value, e := splitConstantNameType(name_type_value)
+	if e != nil {
+		return nil, e
+	}
+	comment = comment
+	return NewConstant(name, _type, value, comment)
 }
+
+func trimQuotes(s string) string {
+	if len(s) >= 2 {
+		if c := s[len(s)-1]; s[0] == c && (c == '"' || c == '\'') {
+			return s[1 : len(s)-1]
+		}
+	}
+	return s
+}
+
 func splitConstantNameType(name_type_value string)(string, string, string, error){
 	nameTypeValue := strings.Split(strings.TrimSpace(name_type_value), ":")
 	if len(nameTypeValue)!=2{
 		return "","","", errors.New("Not a valid Constant, it should look like: \"name: type=value\"")
 	}
-	typeValue := strings.Split(strings.TrimSpace(name_type_value), "=")
+	typeValue := strings.Split(strings.TrimSpace(nameTypeValue[1]), "=")
 	if len(typeValue)>1 {
-		return nameTypeValue[0], typeValue[0], typeValue[1], nil
+		value := trimQuotes(strings.TrimSpace(typeValue[1]))
+		return strings.TrimSpace(nameTypeValue[0]), strings.TrimSpace(typeValue[0]), value, nil
 	}
 	if len(typeValue)==1 {
-		return nameTypeValue[0], typeValue[0], "", nil
+		return strings.TrimSpace(nameTypeValue[0]), strings.TrimSpace(typeValue[0]), "", nil
 	}
 	return "", "", "", errors.New("Not a valid Constant, it should look like: \"name: type=value\"")
 }
