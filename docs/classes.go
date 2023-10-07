@@ -170,6 +170,13 @@ func NewAttributeToProcess(name_type, comment string, defaultValue string, requi
 }
 
 func splitAttributeNameType(name_type string)(string, string, error){
+	//Attributename: is_ordered:Boolean{default = true}
+	//Attributename: is_unique:Boolean{default = false}
+	//Attributename: flattened_type_list():List<String>
+	//Attributename: container_class:BMM_GENERIC_CLASSAttributename: name:String
+	//Attributename: type_name():String
+	//Attributename: flattened_type_list():List<String>
+	//Attributename: name:String
 	nameType := strings.Split(strings.TrimSpace(name_type), ":")
 	if len(nameType)!=2{
 		return "","", errors.New("Not a valid attribute, it should look like: \"name: type\"")
