@@ -103,11 +103,10 @@ func parseBMM(text string, model *Model) (data string) {
 						class.AddConstant(constant)
 					}
 				case attributes:
-					fmt.Println("Attributename:",attributeName)
-					//attribute,e := NewAttributeToProcess(attributeName, attributeDescription,"","")
-					//if e==nil {
-					//	class.AddAttribute(attribute)
-					//}
+					attribute,e := NewAttributeToProcess(attributeName, attributeDescription,"","")
+					if e==nil {
+						class.AddAttribute(attribute)
+					}
 				case functions:
 					parameters := AnalyzeParameters(functionName)
 					function,_ := NewFunction(functionName,functionDescription)

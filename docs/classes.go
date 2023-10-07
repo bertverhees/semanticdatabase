@@ -36,6 +36,9 @@ func (c *Class)Print(){
 	for _,co := range c.Constants {
 		co.Print()
 	}
+	for _,a := range c.Attributes{
+		a.Print()
+	}
 }
 
 func NewClass(comment, inherits string, name string) (*Class, error) {
@@ -141,6 +144,7 @@ type Attribute struct {
 func (a *Attribute)Print(){
 	fmt.Println("\tAttribute:",a.Name)
 	fmt.Println("\t\t",a.Type)
+	fmt.Println("\t\t",a.defaultValue)
 	fmt.Println("\t\t",a.Required)
 	fmt.Println("\t\t",a.Comment)
 }
@@ -162,26 +166,32 @@ func NewAttribute(name, _type, comment string, defaultValue string, required str
 func NewAttributeToProcess(name_type, comment string, defaultValue string, required string) (*Attribute, error) {
 	var e error
 	var name, _type string
-	name, _type, e = splitAttributeNameType(name_type)
+	name, _type, defaultValue, e = splitAttributeNameType(name_type)
 	if e != nil {
 		return nil, e
 	}
 	return NewAttribute(name, _type, comment, defaultValue, required)
 }
 
-func splitAttributeNameType(name_type string)(string, string, error){
-	//Attributename: is_ordered:Boolean{default = true}
-	//Attributename: is_unique:Boolean{default = false}
-	//Attributename: flattened_type_list():List<String>
-	//Attributename: container_class:BMM_GENERIC_CLASSAttributename: name:String
-	//Attributename: type_name():String
-	//Attributename: flattened_type_list():List<String>
-	//Attributename: name:String
+func splitAttributeNameType(name_type string)(name string, _type string, defaultValue string, e error){
 	nameType := strings.Split(strings.TrimSpace(name_type), ":")
 	if len(nameType)!=2{
-		return "","", errors.New("Not a valid attribute, it should look like: \"name: type\"")
+		return "","", "", errors.New("Not a valid attribute, it should look like: \"name: type\"")
 	}
-	return strings.TrimSpace(nameType[0]),strings.TrimSpace(nameType[1]),nil
+	name = strings.TrimSpace(strings.ReplaceAll(nameType[0],"()",""))
+	typeDefault := strings.Split(strings.TrimSpace(nameType[1]),"{")
+	_type = strings.TrimSpace(typeDefault[0])
+	if len(typeDefault)>1 {
+		defaultValues := strings.Split(typeDefault[1],"=")
+		if len(defaultValues)>1 {
+			defaultValue = trimQuotes(strings.TrimSpace(strings.Trim(strings.TrimSpace(defaultValues[1]),"}")))
+			return name, _type, defaultValue, nil
+		}else{
+			return "","", "", errors.New("Not a valid attribute, error in defaultValue")
+		}
+	}else {
+		return name,_type,"",nil
+	}
 }
 
 type Function struct {
