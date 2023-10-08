@@ -23,6 +23,18 @@ func main() {
 		c.Print(model)
 	}
 
+	for _,c := range model.Classes {
+		fmt.Println(c.Name)
+		for _,inf := range c.Inherits {
+			fmt.Println("Inheriting from:",inf)
+		}
+		for i,cm := range model.Classes {
+			if contains(cm.Inherits,c.Name){
+				fmt.Println("Inheriting to:", model.Classes[i].Name)
+			}
+		}
+	}
+
 }
 
 func readHtmlFromFile(fileName string) (string, error) {
@@ -65,7 +77,6 @@ func parseBMM(text string, model *Model) (data string) {
 	functionName := ""
 	functionDescription := ""
 	classDescriptionInTD1 := false
-	classInheritInTD1 := false
 	classNameInTD1 := false
 	constants := false
 	attributes := false
@@ -73,9 +84,9 @@ func parseBMM(text string, model *Model) (data string) {
 	szClassName := ""
 	szClassDescription := ""
 	szClassInherits := ""
-	classNamePassed := false
-	//classInheritPassed := false
-	classDescriptionPassed := false
+	constantList := make([]*Constant,0)
+	attributeList := make([]*Attribute,0)
+	functionList := make([]*Function,0)
 	var class *Class
 	for {
 
@@ -90,6 +101,21 @@ func parseBMM(text string, model *Model) (data string) {
 			t := tkn.Token()
 			//TABLE
 			if t.Data == "table" && firstClassPassed {
+				class,_ = NewClass(szClassDescription, szClassInherits, szClassName)
+				for _,c := range constantList{
+					class.AddConstant(c)
+				}
+				for _,a := range attributeList {
+					class.AddAttribute(a)
+				}
+				for _,f := range functionList {
+					class.AddFunction(f)
+				}
+				constantList = nil
+				attributeList = nil
+				functionList = nil
+				model.AddClass(class)
+
 				constants = false
 				attributes = false
 				functions = false
@@ -100,17 +126,22 @@ func parseBMM(text string, model *Model) (data string) {
 				case constants:
 					constant,e := NewConstantToProcess(constantName, constantDescription)
 					if e==nil {
-						class.AddConstant(constant)
+						constantList = append(constantList,constant)
+						//class.AddConstant(constant)
 					}
 				case attributes:
 					attribute,e := NewAttributeToProcess(attributeName, attributeDescription,"","")
 					if e==nil {
-						class.AddAttribute(attribute)
+						attributeList = append(attributeList,attribute)
+						//class.AddAttribute(attribute)
 					}
 				case functions:
 					parameters := AnalyzeParameters(functionName)
-					function,_ := NewFunction(functionName,functionDescription)
-					function.AddParameters(parameters)
+					function,e := NewFunction(functionName,functionDescription)
+					if e==nil {
+						function.AddParameters(parameters)
+						functionList = append(functionList,function)
+					}
 				}
 				isTD1 = false
 				isTD2 = false
@@ -150,12 +181,10 @@ func parseBMM(text string, model *Model) (data string) {
 					switch {
 					case isTD1 && strings.Compare(td1, "Class") == 0:
 						classNameInTD1 = true
-						classNamePassed = false
 					case isTD1 && strings.Compare(td1, "Description") == 0:
 						classDescriptionInTD1 = true
-						classDescriptionPassed = false
 					case isTD1 && strings.Compare(td1, "Inherit") == 0:
-						classInheritInTD1 = true
+						//classInheritInTD1 = true
 						//classInheritPassed = false
 					case isTD1 && strings.Compare(td1, "Constants") == 0:
 						constants = true
@@ -167,19 +196,12 @@ func parseBMM(text string, model *Model) (data string) {
 						//fmt.Println("Class: " + td2)
 						szClassName = td2
 						classNameInTD1 = false
-						classNamePassed = true
 					case isTD2 && classDescriptionInTD1:
-						//fmt.Println("ClassDescription: " + td2)
 						szClassDescription = td2
 						classDescriptionInTD1 = false
-						classDescriptionPassed = true
-					case isTD2 && classInheritInTD1:
-						//fmt.Println("classInheritInTD1: " + td2)
+					case isTD2 && strings.TrimSpace(td1)=="Inherit":
 						szClassInherits = td2
-						classInheritInTD1 = false
-						//classInheritPassed = true
-					//case isTD1 && constants:
-						//fmt.Println("constants occurence: " + td1)
+						td1=""
 					case isTD2 && constants:
 						constantName = constantName + td2
 					case isTD3 && constants:
@@ -196,13 +218,6 @@ func parseBMM(text string, model *Model) (data string) {
 						functionName = functionName + td2
 					case isTD3 && functions:
 						functionDescription = functionDescription + td3
-					}
-					if classNamePassed && classDescriptionPassed {
-						class,_ = NewClass(szClassDescription, szClassInherits, szClassName)
-						model.AddClass(class)
-						classNamePassed = false
-						//classInheritPassed = false
-						classDescriptionPassed = false
 					}
 					switch {
 					case isTD1 && (strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
