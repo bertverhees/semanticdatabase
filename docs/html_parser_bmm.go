@@ -20,7 +20,7 @@ func main() {
 	parseBMM(text, model)
 	fmt.Println(len(model.Classes))
 	for _,c := range model.Classes {
-		c.Print()
+		c.Print(model)
 	}
 
 }
@@ -74,7 +74,7 @@ func parseBMM(text string, model *Model) (data string) {
 	szClassDescription := ""
 	szClassInherits := ""
 	classNamePassed := false
-	classInheritPassed := false
+	//classInheritPassed := false
 	classDescriptionPassed := false
 	var class *Class
 	for {
@@ -156,7 +156,7 @@ func parseBMM(text string, model *Model) (data string) {
 						classDescriptionPassed = false
 					case isTD1 && strings.Compare(td1, "Inherit") == 0:
 						classInheritInTD1 = true
-						classInheritPassed = false
+						//classInheritPassed = false
 					case isTD1 && strings.Compare(td1, "Constants") == 0:
 						constants = true
 					case isTD1 && strings.Compare(td1, "Attributes") == 0:
@@ -177,7 +177,7 @@ func parseBMM(text string, model *Model) (data string) {
 						//fmt.Println("classInheritInTD1: " + td2)
 						szClassInherits = td2
 						classInheritInTD1 = false
-						classInheritPassed = true
+						//classInheritPassed = true
 					//case isTD1 && constants:
 						//fmt.Println("constants occurence: " + td1)
 					case isTD2 && constants:
@@ -197,11 +197,11 @@ func parseBMM(text string, model *Model) (data string) {
 					case isTD3 && functions:
 						functionDescription = functionDescription + td3
 					}
-					if classNamePassed && classInheritPassed && classDescriptionPassed {
+					if classNamePassed && classDescriptionPassed {
 						class,_ = NewClass(szClassDescription, szClassInherits, szClassName)
 						model.AddClass(class)
 						classNamePassed = false
-						classInheritPassed = false
+						//classInheritPassed = false
 						classDescriptionPassed = false
 					}
 					switch {

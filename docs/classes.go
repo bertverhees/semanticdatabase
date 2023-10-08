@@ -8,16 +8,19 @@ import (
 
 type Model struct {
 	Classes []*Class
+	ClassNames []string
 }
 
 func NewModel() *Model {
 	model := new(Model)
 	model.Classes = make([]*Class, 0)
+	model.ClassNames = make([]string,0)
 	return model
 }
 
 func (m *Model) AddClass(class *Class) error {
 	m.Classes = append(m.Classes, class)
+	m.ClassNames = append(m.ClassNames,class.Name)
 	return nil
 }
 
@@ -30,9 +33,18 @@ type Class struct {
 	Constants  []*Constant
 }
 
-func (c *Class)Print(){
+func (c *Class)Print(m *Model){
+	//#TODO INHERITANCE
 	fmt.Println(c.Name)
 	fmt.Println(c.Comment)
+	for _,inf := range c.Inherits {
+		fmt.Println("Inheriting from:",inf)
+	}
+	for i,cm := range m.Classes {
+		if contains(cm.Inherits,c.Name){
+			fmt.Println("Inheriting to:", m.Classes[i].Name)
+		}
+	}
 	for _,co := range c.Constants {
 		co.Print()
 	}
@@ -41,10 +53,19 @@ func (c *Class)Print(){
 	}
 }
 
+func contains(a []string, x string) bool {
+	for _, n := range a {
+		if x == n {
+			return true
+		}
+	}
+	return false
+}
+
 func NewClass(comment, inherits string, name string) (*Class, error) {
 	class := new(Class)
 	class.Comment = comment
-	class.Name = name
+	class.Name = strings.TrimSpace(name)
 	//inherits-slice always exists
 	if inherits != "" {
 		class.Inherits = strings.Split(inherits, ",")
