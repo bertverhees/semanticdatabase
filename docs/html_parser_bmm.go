@@ -76,8 +76,6 @@ func parseBMM(text string, model *Model) (data string) {
 	attributeDescription := ""
 	functionName := ""
 	functionDescription := ""
-	classDescriptionInTD1 := false
-	classNameInTD1 := false
 	constants := false
 	attributes := false
 	functions := false
@@ -114,6 +112,7 @@ func parseBMM(text string, model *Model) (data string) {
 				constantList = nil
 				attributeList = nil
 				functionList = nil
+				szClassInherits = ""
 				model.AddClass(class)
 
 				constants = false
@@ -124,20 +123,20 @@ func parseBMM(text string, model *Model) (data string) {
 			if t.Data == "tr" && isTR && firstClassPassed {
 				switch {
 				case constants:
-					constant,e := NewConstantToProcess(constantName, constantDescription)
+					constant,e := NewConstantToProcess(td2, td3)
 					if e==nil {
 						constantList = append(constantList,constant)
 						//class.AddConstant(constant)
 					}
 				case attributes:
-					attribute,e := NewAttributeToProcess(attributeName, attributeDescription,"","")
+					attribute,e := NewAttributeToProcess(td2, td3,"",td1)
 					if e==nil {
 						attributeList = append(attributeList,attribute)
 						//class.AddAttribute(attribute)
 					}
 				case functions:
-					parameters := AnalyzeParameters(functionName)
-					function,e := NewFunction(functionName,functionDescription)
+					parameters := AnalyzeParameters(td2)
+					function,e := NewFunction(td2,td3)
 					if e==nil {
 						function.AddParameters(parameters)
 						functionList = append(functionList,function)
@@ -179,55 +178,54 @@ func parseBMM(text string, model *Model) (data string) {
 						td3 = t
 					}
 					switch {
-					case isTD1 && strings.Compare(td1, "Class") == 0:
-						classNameInTD1 = true
-					case isTD1 && strings.Compare(td1, "Description") == 0:
-						classDescriptionInTD1 = true
-					case isTD1 && strings.Compare(td1, "Inherit") == 0:
-						//classInheritInTD1 = true
-						//classInheritPassed = false
 					case isTD1 && strings.Compare(td1, "Constants") == 0:
 						constants = true
+						attributes = false
+						functions = false
 					case isTD1 && strings.Compare(td1, "Attributes") == 0:
 						attributes = true
+						constants = false
+						functions = false
 					case isTD1 && strings.Compare(td1, "Functions") == 0:
 						functions = true
-					case isTD2 && classNameInTD1:
-						//fmt.Println("Class: " + td2)
+						constants = false
+						attributes = false
+					case isTD2 && strings.TrimSpace(td1)=="Class":
 						szClassName = td2
-						classNameInTD1 = false
-					case isTD2 && classDescriptionInTD1:
+					case isTD2 && strings.TrimSpace(td1)=="Description":
 						szClassDescription = td2
-						classDescriptionInTD1 = false
 					case isTD2 && strings.TrimSpace(td1)=="Inherit":
 						szClassInherits = td2
-						td1=""
+						// This section passes more times because of not having plain text in scanned html
+						//Like this
+						//matching_bmm_models:
+						//matching_bmm_models:Hash
+						//matching_bmm_models:Hash<String,
+						//	matching_bmm_models:Hash<String,BMM_MODEL
+						//matching_bmm_models:Hash<String,BMM_MODEL>
 					case isTD2 && constants:
 						constantName = constantName + td2
 					case isTD3 && constants:
 						constantDescription = constantDescription + td3
-					case isTD1 && attributes:
-						//fmt.Println("attribute occurence: " + td1)
 					case isTD2 && attributes:
 						attributeName = attributeName + td2
 					case isTD3 && attributes:
 						attributeDescription = attributeDescription + td3
-					case isTD1 && functions:
-						//fmt.Println("functions occurence: " + td1)
 					case isTD2 && functions:
 						functionName = functionName + td2
 					case isTD3 && functions:
 						functionDescription = functionDescription + td3
+						//Here we have the complete strings in our variables, finish of this weird section
 					}
-					switch {
-					case isTD1 && (strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
-						constants = false
-					case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
-						attributes = false
-					case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Class") == 0):
-						functions = false
-
-					}
+					//switch {
+					//case isTD1 && (strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
+					//	constants = false
+					//case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
+					//	attributes = false
+					//case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Class") == 0):
+					//	functions = false
+					//
+					//}
 				}
 			}
 		case tt == html.StartTagToken:
