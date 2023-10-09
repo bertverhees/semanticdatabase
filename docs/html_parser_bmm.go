@@ -22,7 +22,7 @@ func main() {
 	for _,c := range model.Classes {
 		c.Print(model)
 	}
-
+	fmt.Println("----------------------------------------------------")
 	for _,c := range model.Classes {
 		fmt.Println(c.Name)
 		for _,inf := range c.Inherits {
@@ -123,16 +123,14 @@ func parseBMM(text string, model *Model) (data string) {
 			if t.Data == "tr" && isTR && firstClassPassed {
 				switch {
 				case constants:
-					constant,e := NewConstantToProcess(td2, td3)
+					constant,e := NewConstantToProcess(constantName, constantDescription)
 					if e==nil {
 						constantList = append(constantList,constant)
-						//class.AddConstant(constant)
 					}
 				case attributes:
 					attribute,e := NewAttributeToProcess(td2, td3,"",td1)
 					if e==nil {
 						attributeList = append(attributeList,attribute)
-						//class.AddAttribute(attribute)
 					}
 				case functions:
 					parameters := AnalyzeParameters(td2)
