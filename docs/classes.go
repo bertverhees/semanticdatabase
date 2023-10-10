@@ -51,6 +51,9 @@ func (c *Class)Print(m *Model){
 	for _,a := range c.Attributes{
 		a.Print()
 	}
+	for _,f := range c.Functions{
+		f.Print()
+	}
 }
 
 func contains(a []string, x string) bool {
@@ -220,6 +223,19 @@ type Function struct {
 	Out     []*Parameter
 	In      []*Parameter
 	Comment string
+}
+
+func (f *Function)Print(){
+	fmt.Println("\tFunction:",f.Name)
+	fmt.Println("\tIn:")
+	for _,p := range f.In{
+		fmt.Println("\t\t",p.Name,p.Type, p.InOut)
+	}
+	fmt.Println("\tOut:")
+	for _,p := range f.Out{
+		fmt.Println("\t\t",p.Name,p.Type, p.InOut)
+	}
+	fmt.Println("\t\t",f.Comment)
 }
 
 func NewFunction(name, comment string) (*Function, error) {

@@ -128,13 +128,13 @@ func parseBMM(text string, model *Model) (data string) {
 						constantList = append(constantList,constant)
 					}
 				case attributes:
-					attribute,e := NewAttributeToProcess(td2, td3,"",td1)
+					attribute,e := NewAttributeToProcess(attributeName, attributeDescription,"",td1)
 					if e==nil {
 						attributeList = append(attributeList,attribute)
 					}
 				case functions:
-					parameters := AnalyzeParameters(td2)
-					function,e := NewFunction(td2,td3)
+					parameters := AnalyzeParameters(functionName)
+					function,e := NewFunction(functionName,functionDescription)
 					if e==nil {
 						function.AddParameters(parameters)
 						functionList = append(functionList,function)
