@@ -23,6 +23,12 @@ func main() {
 		c.Print(model)
 	}
 	fmt.Println("----------------------------------------------------")
+	//#TODO Check number of
+	//#TODO classes
+	//#TODO inheritence
+	//#TODO constants
+	//#TODO attributes
+	//#TODO functions
 	for _,c := range model.Classes {
 		fmt.Println(c.Name)
 		for _,inf := range c.Inherits {
