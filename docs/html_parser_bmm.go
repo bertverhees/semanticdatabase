@@ -23,6 +23,7 @@ func main() {
 		c.Print(model)
 	}
 	fmt.Println("----------------------------------------------------")
+	//////TODO Double added classes Checked
 	//#TODO Check number of
 	//#TODO classes
 	//#TODO inheritence
@@ -39,6 +40,10 @@ func main() {
 				fmt.Println("Inheriting to:", model.Classes[i].Name)
 			}
 		}
+	}
+	fmt.Println("----------------------------------------------------")
+	for _,c := range model.Classes {
+		fmt.Println(c.Name)
 	}
 
 }
@@ -106,6 +111,7 @@ func parseBMM(text string, model *Model) (data string) {
 			//TABLE
 			if t.Data == "table" && firstClassPassed {
 				class,_ = NewClass(szClassDescription, szClassInherits, szClassName)
+				fmt.Println("***********",szClassName)
 				for _,c := range constantList{
 					class.AddConstant(c)
 				}

@@ -19,6 +19,11 @@ func NewModel() *Model {
 }
 
 func (m *Model) AddClass(class *Class) error {
+	for _,c := range m.ClassNames {
+		if class.Name == c {
+			return errors.New("class:"+c+" already added")
+		}
+	}
 	m.Classes = append(m.Classes, class)
 	m.ClassNames = append(m.ClassNames,class.Name)
 	return nil
