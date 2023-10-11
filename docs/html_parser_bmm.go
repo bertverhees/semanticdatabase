@@ -24,6 +24,12 @@ func main() {
 	}
 	fmt.Println("----------------------------------------------------")
 	//////TODO Double added classes Checked
+	//#TODO Enumeration BMM_SCHEMA_STATE and BMM_OPERATOR_POSITION, BMM_PARAMETER_DIRECTION
+	//#TODO Missing inheritance BMM_PACKAGE_CONTAINER at BMM_MODEL
+	//#TODO Missing inheritance BMM_MODULE at BMM_CLASS
+	//#TODO Missing inheritance EL_PREDICATE at EL_DEFINED
+	//#TODO Missing inheritance EL_AGENT_CALL at BMM_PROCEDURE_CALL
+	//#TODO Missing inheritance EL_FEATURE_REF at EL_FUNCTION_CALL
 	//#TODO Check number of
 	//#TODO classes
 	//#TODO inheritence
@@ -41,11 +47,6 @@ func main() {
 			}
 		}
 	}
-	fmt.Println("----------------------------------------------------")
-	for _,c := range model.Classes {
-		fmt.Println(c.Name)
-	}
-
 }
 
 func readHtmlFromFile(fileName string) (string, error) {
