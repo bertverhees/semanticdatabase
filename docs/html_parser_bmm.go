@@ -22,8 +22,10 @@ func main() {
 	for _,c := range model.Classes {
 		c.Print(model)
 	}
+	for _,e := range model.Enumerations {
+		e.Print()
+	}
 	fmt.Println("----------------------------------------------------")
-	//////TODO Double added classes Checked
 	//#TODO Enumeration BMM_SCHEMA_STATE and BMM_OPERATOR_POSITION, BMM_PARAMETER_DIRECTION
 	//#TODO Missing inheritance BMM_PACKAGE_CONTAINER at BMM_MODEL
 	//#TODO Missing inheritance BMM_MODULE at BMM_CLASS
@@ -92,12 +94,14 @@ func parseBMM(text string, model *Model) (data string) {
 	attributes := false
 	functions := false
 	szClassName := ""
-	szClassDescription := ""
+	szDescription := ""
 	szClassInherits := ""
+	szEnumerationName := ""
 	constantList := make([]*Constant,0)
 	attributeList := make([]*Attribute,0)
 	functionList := make([]*Function,0)
 	var class *Class
+	var enumeration *Enumeration
 	for {
 
 		tt := tkn.Next()
@@ -111,22 +115,34 @@ func parseBMM(text string, model *Model) (data string) {
 			t := tkn.Token()
 			//TABLE
 			if t.Data == "table" && firstClassPassed {
-				class,_ = NewClass(szClassDescription, szClassInherits, szClassName)
-				fmt.Println("***********",szClassName)
-				for _,c := range constantList{
-					class.AddConstant(c)
+				if szClassName != "" {
+					class, _ = NewClass(szDescription, szClassInherits, szClassName)
+					for _, c := range constantList {
+						class.AddConstant(c)
+					}
+					for _, a := range attributeList {
+						class.AddAttribute(a)
+					}
+					for _, f := range functionList {
+						class.AddFunction(f)
+					}
+					constantList = nil
+					attributeList = nil
+					functionList = nil
+					szClassInherits = ""
+					szClassName = ""
+					szDescription = ""
+					model.AddClass(class)
+				}else if szEnumerationName != "" {
+					enumeration, _ = NewEnumeration(szDescription, szEnumerationName)
+					for _, a := range attributeList {
+						enumeration.AddAttribute(a)
+					}
+					attributeList = nil
+					szEnumerationName = ""
+					szDescription = ""
+					model.AddEnumeration(enumeration)
 				}
-				for _,a := range attributeList {
-					class.AddAttribute(a)
-				}
-				for _,f := range functionList {
-					class.AddFunction(f)
-				}
-				constantList = nil
-				attributeList = nil
-				functionList = nil
-				szClassInherits = ""
-				model.AddClass(class)
 
 				constants = false
 				attributes = false
@@ -141,7 +157,13 @@ func parseBMM(text string, model *Model) (data string) {
 						constantList = append(constantList,constant)
 					}
 				case attributes:
-					attribute,e := NewAttributeToProcess(attributeName, attributeDescription,"",td1)
+					var e error
+					var attribute *Attribute
+					if szEnumerationName != "" {
+						attribute, e = NewAttribute(attributeName,"",attributeDescription,"","")
+					}else {
+						attribute, e = NewAttributeToProcess(attributeName, attributeDescription, "", td1)
+					}
 					if e==nil {
 						attributeList = append(attributeList,attribute)
 					}
@@ -203,8 +225,10 @@ func parseBMM(text string, model *Model) (data string) {
 						attributes = false
 					case isTD2 && strings.TrimSpace(td1)=="Class":
 						szClassName = td2
+					case isTD2 && strings.TrimSpace(td1)=="Enumeration":
+						szEnumerationName = td2
 					case isTD2 && strings.TrimSpace(td1)=="Description":
-						szClassDescription = td2
+						szDescription = szDescription + " " + td2
 					case isTD2 && strings.TrimSpace(td1)=="Inherit":
 						szClassInherits = td2
 						// This section passes more times because of not having plain text in scanned html
@@ -218,25 +242,20 @@ func parseBMM(text string, model *Model) (data string) {
 						constantName = constantName + td2
 					case isTD3 && constants:
 						constantDescription = constantDescription + td3
-					case isTD2 && attributes:
+					case isTD2 && attributes && szClassName != "":
 						attributeName = attributeName + td2
-					case isTD3 && attributes:
+					case isTD2 && attributes && szEnumerationName != "":
+						attributeName = attributeName + td1
+					case isTD3 && attributes && szClassName != "":
 						attributeDescription = attributeDescription + td3
+					case isTD3 && attributes && szEnumerationName != "":
+						attributeDescription = attributeDescription + td2
 					case isTD2 && functions:
 						functionName = functionName + td2
 					case isTD3 && functions:
 						functionDescription = functionDescription + td3
 						//Here we have the complete strings in our variables, finish of this weird section
 					}
-					//switch {
-					//case isTD1 && (strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
-					//	constants = false
-					//case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Functions") == 0 || strings.Compare(td1, "Class") == 0):
-					//	attributes = false
-					//case isTD1 && (strings.Compare(td1, "Constants") == 0 || strings.Compare(td1, "Attributes") == 0 || strings.Compare(td1, "Class") == 0):
-					//	functions = false
-					//
-					//}
 				}
 			}
 		case tt == html.StartTagToken:

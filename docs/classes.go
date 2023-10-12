@@ -9,14 +9,26 @@ import (
 type Model struct {
 	Classes []*Class
 	ClassNames []string
+	Enumerations []*Enumeration
 }
 
 func NewModel() *Model {
 	model := new(Model)
 	model.Classes = make([]*Class, 0)
 	model.ClassNames = make([]string,0)
+	model.Enumerations = make([]*Enumeration,0)
 	return model
 }
+func (m *Model) AddEnumeration(enumeration *Enumeration) error {
+	for _,c := range m.Enumerations {
+		if enumeration.Name == c.Name {
+			return errors.New("enumeration:"+c.Name+" already added")
+		}
+	}
+	m.Enumerations = append(m.Enumerations, enumeration)
+	return nil
+}
+
 
 func (m *Model) AddClass(class *Class) error {
 	for _,c := range m.ClassNames {
@@ -26,6 +38,26 @@ func (m *Model) AddClass(class *Class) error {
 	}
 	m.Classes = append(m.Classes, class)
 	m.ClassNames = append(m.ClassNames,class.Name)
+	return nil
+}
+
+type Enumeration struct {
+	Name string
+	Comment    string
+	Attributes []*Attribute
+}
+
+func NewEnumeration(comment, name string) (*Enumeration, error) {
+	enumeration := new(Enumeration)
+	enumeration.Comment = comment
+	enumeration.Name = strings.TrimSpace(name)
+	enumeration.Attributes = make([]*Attribute, 0)
+	return enumeration, nil
+}
+
+func (e *Enumeration) AddAttribute(attribute *Attribute) error {
+	fmt.Println("================================",attribute.Name)
+	e.Attributes = append(e.Attributes, attribute)
 	return nil
 }
 
@@ -60,6 +92,14 @@ func (c *Class)Print(m *Model){
 		f.Print()
 	}
 }
+func (e *Enumeration)Print(){
+	fmt.Println(e.Name)
+	fmt.Println(e.Comment)
+	for _,a := range e.Attributes{
+		a.Print()
+	}
+}
+
 
 func contains(a []string, x string) bool {
 	for _, n := range a {
