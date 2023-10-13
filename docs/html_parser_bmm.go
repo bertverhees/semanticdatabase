@@ -67,8 +67,6 @@ func formatString(in string) string {
 	r = strings.ReplaceAll(r, "\t", "")
 	r = strings.ReplaceAll(r, "Â", "")
 	r = strings.ReplaceAll(r, "  ", " ")
-	r = strings.ReplaceAll(r, "<", "&lt;")
-	r = strings.ReplaceAll(r, ">", "&gt;")
 	r = strings.TrimSpace(r)
 	return r
 }
@@ -104,8 +102,7 @@ func preProcess(text, firstClass string)string{
 			if depth>2{
 				tTD := tkn.Token()
 				t := formatString(tTD.Data)
-
-				w.WriteString(" " + strings.TrimSpace(t))
+				w.WriteString(" " + html.EscapeString(strings.TrimSpace(t)))
 			}
 		case tt == html.EndTagToken:
 			t := tkn.Token()
