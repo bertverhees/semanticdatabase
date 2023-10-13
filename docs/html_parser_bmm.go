@@ -189,14 +189,11 @@ func parseBMM(text string, model *Model) (data string) {
 
 	h2 := 0
 	h3 := 0
-	h4 := 0
 	packageString := ""
-	classString := ""
 	isTD1 := false
 	isTD2 := false
 	isTD3 := false
 	isTR := false
-	firstClassPassed := false
 	td1 := ""
 	td2 := ""
 	td3 := ""
@@ -230,7 +227,7 @@ func parseBMM(text string, model *Model) (data string) {
 		case tt == html.EndTagToken:
 			t := tkn.Token()
 			//TABLE
-			if t.Data == "table" && firstClassPassed {
+			if t.Data == "table" {
 				if szClassName != "" {
 					class, _ = NewClass(szDescription, szClassInherits, szClassName)
 					for _, c := range constantList {
@@ -265,7 +262,7 @@ func parseBMM(text string, model *Model) (data string) {
 				functions = false
 			}
 			//TR
-			if t.Data == "tr" && isTR && firstClassPassed {
+			if t.Data == "tr" && isTR {
 				switch {
 				case constants:
 					constant,e := NewConstantToProcess(constantName, constantDescription)
@@ -296,7 +293,7 @@ func parseBMM(text string, model *Model) (data string) {
 				isTD3 = false
 				isTR = false
 			}
-			if t.Data == "td" && isTR && firstClassPassed {
+			if t.Data == "td" && isTR {
 				switch {
 				case isTD1:
 					isTD2 = true
@@ -340,49 +337,41 @@ func parseBMM(text string, model *Model) (data string) {
 						constants = false
 						attributes = false
 					case isTD2 && strings.TrimSpace(td1)=="Class":
-						szClassName = szClassName + td2
+						szClassName = td2
 					case isTD2 && strings.TrimSpace(td1)=="Enumeration":
 						szEnumerationName = td2
-						// This section passes more times because of not having plain text in scanned html
-						//Like this
-						//matching_bmm_models:
-						//matching_bmm_models:Hash
-						//matching_bmm_models:Hash<String,
-						//	matching_bmm_models:Hash<String,BMM_MODEL
-						//matching_bmm_models:Hash<String,BMM_MODEL>
 					case isTD2 && strings.TrimSpace(td1)=="Description":
-						szDescription = szDescription + " " + td2
+						szDescription = td2
 						fmt.Println(">>>>>>>>>>>>>>>>>>>",szDescription)
 					case isTD2 && strings.TrimSpace(td1)=="Inherit":
-						szClassInherits = szClassInherits + td2
+						szClassInherits = td2
 					case isTD2 && constants:
-						constantName = constantName + td2
+						constantName = td2
 					case isTD3 && constants:
-						constantDescription = constantDescription + td3
+						constantDescription = td3
 					case isTD2 && attributes && szClassName != "":
-						attributeName = attributeName + td2
+						attributeName = td2
 					case isTD3 && attributes && szClassName != "":
-						attributeDescription = attributeDescription + td3
+						attributeDescription = td3
 						//because of empty td1 field in Enumeration (not required), Enumeration shifts to left
 					case isTD1 && attributes && szEnumerationName != "":
-						attributeName = attributeName + td1
+						attributeName = td1
 					case isTD2 && attributes && szEnumerationName != "":
-						attributeDescription = attributeDescription + td2
+						attributeDescription = td2
 					case isTD2 && functions:
-						functionName = functionName + td2
+						functionName = td2
 					case isTD3 && functions:
-						functionDescription = functionDescription + td3
-						//Here we have the complete strings in our variables, finish of this weird section
+						functionDescription = td3
 					}
 				}
 			}
 		case tt == html.StartTagToken:
 			t := tkn.Token()
 			// table
-			if t.Data == "table" && firstClassPassed {
+			if t.Data == "table" {
 			}
 			//TR
-			if t.Data == "tr" && !isTR && firstClassPassed {
+			if t.Data == "tr" && !isTR {
 				isTR = true
 				isTD1 = true
 				isTD2 = false
@@ -447,43 +436,6 @@ func parseBMM(text string, model *Model) (data string) {
 			}
 			if t.Data == "h3" {
 				h3++
-			}
-			//Class
-			if t.Data == "h4" {
-				if h4 > 2 {
-					tkn.Next()
-					t1 := tkn.Token()
-					for t1.Data != "a" {
-						tkn.Next()
-						t1 = tkn.Token()
-					}
-					if t1.Data == "a" {
-						tkn.Next()
-						t2 := tkn.Token()
-						for t2.Data != "span" {
-							tkn.Next()
-							t2 = tkn.Token()
-						}
-						if t2.Data == "span" {
-							tt = tkn.Next()
-							for tt != html.TextToken {
-								tt = tkn.Next()
-							}
-							t3 := tkn.Token()
-							if tt == html.TextToken {
-								classString = t3.Data
-								if strings.Contains(classString, "BMM_DEFINITIONS Class") {
-									firstClassPassed = true
-								}
-								// if firstClassPassed {
-								// 	fmt.Println("\t" + classString)
-								// 	classDescriptionInTD1 = true
-								// }
-							}
-						}
-					}
-				}
-				h4++
 			}
 		}
 	}
