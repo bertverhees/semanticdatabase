@@ -2,6 +2,7 @@ package main
 
 //https://zetcode.com/golang/net-html/
 import (
+	"bufio"
 	"fmt"
 	"golang.org/x/net/html"
 	"log"
@@ -18,6 +19,8 @@ func main() {
 		log.Fatal(err)
 	}
 	model := NewModel()
+	preProcess(text,"BMM_DEFINITIONS Class")
+	text, err = readHtmlFromFile("tmp.html")
 	parseBMM(text, model)
 	fmt.Println(len(model.Classes))
 	for _,c := range model.Classes {
@@ -64,6 +67,8 @@ func formatString(in string) string {
 	r = strings.ReplaceAll(r, "\t", "")
 	r = strings.ReplaceAll(r, "Â", "")
 	r = strings.ReplaceAll(r, "  ", " ")
+	r = strings.ReplaceAll(r, "<", "&lt;")
+	r = strings.ReplaceAll(r, ">", "&gt;")
 	r = strings.TrimSpace(r)
 	return r
 }
@@ -80,6 +85,102 @@ func returnTextContentsOfTableCell(in string)string{
 	return ""
 }
 
+func preProcess(text, firstClass string)string{
+	f, _ := os.Create("tmp.html")
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	w.WriteString("<html><body>")
+	tkn := html.NewTokenizer(strings.NewReader(text))
+	h4 := 0
+	depth := 0
+	//classString := ""
+	firstClassPassed := false
+	for {
+		tt := tkn.Next()
+		switch {
+		case tt == html.ErrorToken:
+			return ""
+		case tt == html.TextToken:
+			if depth>2{
+				tTD := tkn.Token()
+				t := formatString(tTD.Data)
+
+				w.WriteString(" " + strings.TrimSpace(t))
+			}
+		case tt == html.EndTagToken:
+			t := tkn.Token()
+			if t.Data == "table" && firstClassPassed {
+				depth--
+				w.WriteString("</table>")
+			}
+			if t.Data == "tr"  && firstClassPassed {
+				depth--
+				if depth<2 {
+					w.WriteString("</tr>")
+				}
+			}
+			if t.Data == "td"  && firstClassPassed {
+				depth--
+				if depth<3 {
+					w.WriteString("</td>")
+				}
+			}
+		case tt == html.StartTagToken:
+			t := tkn.Token()
+			if t.Data == "table" && firstClassPassed {
+				depth++
+				w.WriteString("<table>")
+				}
+			if t.Data == "tr"  && firstClassPassed {
+				depth++
+				if depth == 2 {
+					w.WriteString("<tr>")
+				}
+			}
+			if t.Data == "td"  && firstClassPassed {
+				depth++
+				if depth==3 {
+					w.WriteString("<td>")
+				}
+			}
+			//FirstClass
+			if t.Data == "h4" {
+				if h4 > 2 {
+					tkn.Next()
+					t1 := tkn.Token()
+					for t1.Data != "a" {
+						tkn.Next()
+						t1 = tkn.Token()
+					}
+					if t1.Data == "a" {
+						tkn.Next()
+						t2 := tkn.Token()
+						for t2.Data != "span" {
+							tkn.Next()
+							t2 = tkn.Token()
+						}
+						if t2.Data == "span" {
+							tt = tkn.Next()
+							for tt != html.TextToken {
+								tt = tkn.Next()
+							}
+							t3 := tkn.Token()
+							if tt == html.TextToken {
+								if strings.Contains(t3.Data, firstClass) {
+									firstClassPassed = true
+								}
+							}
+						}
+					}
+				}
+				h4++
+			}
+		}
+	}
+	w.WriteString("</body></html>")
+	w.Flush()
+	return ""
+}
 
 
 
