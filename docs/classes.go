@@ -56,7 +56,6 @@ func NewEnumeration(comment, name string) (*Enumeration, error) {
 }
 
 func (e *Enumeration) AddAttribute(attribute *Attribute) error {
-	fmt.Println("================================",attribute.Name)
 	e.Attributes = append(e.Attributes, attribute)
 	return nil
 }
@@ -111,6 +110,7 @@ func contains(a []string, x string) bool {
 }
 
 func NewClass(comment, inherits string, name string) (*Class, error) {
+	fmt.Println(">>>>>>>",name,inherits)
 	class := new(Class)
 	class.Comment = comment
 	class.Name = strings.TrimSpace(name)
@@ -219,6 +219,9 @@ func (a *Attribute)Print(){
 }
 
 func NewAttribute(name, _type, comment string, defaultValue string, required string) (*Attribute, error) {
+	if name == "" {
+		return nil,errors.New("Attribute with empty name is not allowed")
+	}
 	attribute := new(Attribute)
 	attribute.Name = name
 	attribute.Type = _type

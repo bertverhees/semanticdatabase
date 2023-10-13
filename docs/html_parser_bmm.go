@@ -4,8 +4,9 @@ package main
 import (
 	"fmt"
 	"golang.org/x/net/html"
-	"io/ioutil"
 	"log"
+	"os"
+	"regexp"
 	"strings"
 )
 
@@ -26,8 +27,7 @@ func main() {
 		e.Print()
 	}
 	fmt.Println("----------------------------------------------------")
-	//#TODO Enumeration BMM_SCHEMA_STATE and BMM_OPERATOR_POSITION, BMM_PARAMETER_DIRECTION
-	//#TODO Missing inheritance BMM_PACKAGE_CONTAINER at BMM_MODEL
+	//#TODO rewrite table
 	//#TODO Missing inheritance BMM_MODULE at BMM_CLASS
 	//#TODO Missing inheritance EL_PREDICATE at EL_DEFINED
 	//#TODO Missing inheritance EL_AGENT_CALL at BMM_PROCEDURE_CALL
@@ -52,7 +52,7 @@ func main() {
 }
 
 func readHtmlFromFile(fileName string) (string, error) {
-	bs, err := ioutil.ReadFile(fileName)
+	bs, err := os.ReadFile(fileName)
 	if err != nil {
 		return "", err
 	}
@@ -67,6 +67,21 @@ func formatString(in string) string {
 	r = strings.TrimSpace(r)
 	return r
 }
+
+const regex = `<.*?>`
+
+// This method uses a regular expresion to remove HTML tags.
+func stripHtmlRegex(s string) string {
+	r := regexp.MustCompile(regex)
+	return r.ReplaceAllString(s, "")
+}
+
+func returnTextContentsOfTableCell(in string)string{
+	return ""
+}
+
+
+
 
 func parseBMM(text string, model *Model) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
@@ -224,13 +239,9 @@ func parseBMM(text string, model *Model) (data string) {
 						constants = false
 						attributes = false
 					case isTD2 && strings.TrimSpace(td1)=="Class":
-						szClassName = td2
+						szClassName = szClassName + td2
 					case isTD2 && strings.TrimSpace(td1)=="Enumeration":
 						szEnumerationName = td2
-					case isTD2 && strings.TrimSpace(td1)=="Description":
-						szDescription = szDescription + " " + td2
-					case isTD2 && strings.TrimSpace(td1)=="Inherit":
-						szClassInherits = td2
 						// This section passes more times because of not having plain text in scanned html
 						//Like this
 						//matching_bmm_models:
@@ -238,17 +249,23 @@ func parseBMM(text string, model *Model) (data string) {
 						//matching_bmm_models:Hash<String,
 						//	matching_bmm_models:Hash<String,BMM_MODEL
 						//matching_bmm_models:Hash<String,BMM_MODEL>
+					case isTD2 && strings.TrimSpace(td1)=="Description":
+						szDescription = szDescription + " " + td2
+						fmt.Println(">>>>>>>>>>>>>>>>>>>",szDescription)
+					case isTD2 && strings.TrimSpace(td1)=="Inherit":
+						szClassInherits = szClassInherits + td2
 					case isTD2 && constants:
 						constantName = constantName + td2
 					case isTD3 && constants:
 						constantDescription = constantDescription + td3
 					case isTD2 && attributes && szClassName != "":
 						attributeName = attributeName + td2
-					case isTD2 && attributes && szEnumerationName != "":
-						attributeName = attributeName + td1
 					case isTD3 && attributes && szClassName != "":
 						attributeDescription = attributeDescription + td3
-					case isTD3 && attributes && szEnumerationName != "":
+						//because of empty td1 field in Enumeration (not required), Enumeration shifts to left
+					case isTD1 && attributes && szEnumerationName != "":
+						attributeName = attributeName + td1
+					case isTD2 && attributes && szEnumerationName != "":
 						attributeDescription = attributeDescription + td2
 					case isTD2 && functions:
 						functionName = functionName + td2
