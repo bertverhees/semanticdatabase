@@ -2,12 +2,11 @@ package main
 
 //https://zetcode.com/golang/net-html/
 import (
-	"bufio"
+	//"bufio"
 	"fmt"
 	"golang.org/x/net/html"
 	"log"
 	"os"
-	"regexp"
 	"strings"
 )
 
@@ -66,23 +65,18 @@ func formatString(in string) string {
 	return r
 }
 
-const regex = `<.*?>`
-
-// This method uses a regular expresion to remove HTML tags.
-func stripHtmlRegex(s string) string {
-	r := regexp.MustCompile(regex)
-	return r.ReplaceAllString(s, "")
-}
-
-func returnTextContentsOfTableCell(in string)string{
-	return ""
-}
-
 func preProcess(text, firstClass string)string{
-	f, _ := os.Create("tmp.html")
-	defer f.Close()
-	w := bufio.NewWriter(f)
-	w = bufio.NewWriterSize(w,20000)
+	w, err := os.Create("tmp.html")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer w.Close()
+
+	//f, _ := os.Create("tmp.html")
+	//defer f.Close()
+	//w := bufio.NewWriter(f)
+	//w = bufio.NewWriterSize(w,10000)
 	w.WriteString("<html><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
 	h4 := 0
@@ -175,7 +169,7 @@ func preProcess(text, firstClass string)string{
 		}
 	}
 	w.WriteString("</body></html>")
-	w.Flush()
+	//w.Flush()
 	return ""
 }
 
