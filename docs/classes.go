@@ -63,6 +63,7 @@ func (e *Enumeration) AddAttribute(attribute *Attribute) error {
 type Class struct {
 	Name string
 	Comment    string
+	Abstract bool
 	Inherits   []string
 	Attributes []*Attribute
 	Functions  []*Function
@@ -70,26 +71,26 @@ type Class struct {
 }
 
 func (c *Class)Print(m *Model){
-	//#TODO INHERITANCE
-	fmt.Println(c.Name)
-	fmt.Println(c.Comment)
-	for _,inf := range c.Inherits {
-		fmt.Println("Inheriting from:",inf)
-	}
-	for i,cm := range m.Classes {
-		if contains(cm.Inherits,c.Name){
-			fmt.Println("Inheriting to:", m.Classes[i].Name)
+		fmt.Println(c.Name)
+		fmt.Println("Abstract:", c.Abstract)
+		fmt.Println(c.Comment)
+		for _, inf := range c.Inherits {
+			fmt.Println("Inheriting from:", inf)
 		}
-	}
-	for _,co := range c.Constants {
-		co.Print()
-	}
-	for _,a := range c.Attributes{
-		a.Print()
-	}
-	for _,f := range c.Functions{
-		f.Print()
-	}
+		for i, cm := range m.Classes {
+			if contains(cm.Inherits, c.Name) {
+				fmt.Println("Inheriting to:", m.Classes[i].Name)
+			}
+		}
+		for _, co := range c.Constants {
+			co.Print()
+		}
+		for _, a := range c.Attributes {
+			a.Print()
+		}
+		for _, f := range c.Functions {
+			f.Print()
+		}
 }
 func (e *Enumeration)Print(){
 	fmt.Println(e.Name)
@@ -109,8 +110,7 @@ func contains(a []string, x string) bool {
 	return false
 }
 
-func NewClass(comment, inherits string, name string) (*Class, error) {
-	fmt.Println(">>>>>>>",name,inherits)
+func NewClass(comment, inherits string, name string, abstract bool) (*Class, error) {
 	class := new(Class)
 	class.Comment = comment
 	class.Name = strings.TrimSpace(name)
@@ -126,6 +126,7 @@ func NewClass(comment, inherits string, name string) (*Class, error) {
 	class.Attributes = make([]*Attribute, 0)
 	class.Functions = make([]*Function, 0)
 	class.Constants = make([]*Constant, 0)
+	class.Abstract = abstract
 	return class, nil
 }
 

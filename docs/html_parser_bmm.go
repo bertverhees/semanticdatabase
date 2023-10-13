@@ -30,11 +30,6 @@ func main() {
 		e.Print()
 	}
 	fmt.Println("----------------------------------------------------")
-	//#TODO rewrite table
-	//#TODO Missing inheritance BMM_MODULE at BMM_CLASS
-	//#TODO Missing inheritance EL_PREDICATE at EL_DEFINED
-	//#TODO Missing inheritance EL_AGENT_CALL at BMM_PROCEDURE_CALL
-	//#TODO Missing inheritance EL_FEATURE_REF at EL_FUNCTION_CALL
 	//#TODO Check number of
 	//#TODO classes
 	//#TODO inheritence
@@ -87,6 +82,7 @@ func preProcess(text, firstClass string)string{
 	f, _ := os.Create("tmp.html")
 	defer f.Close()
 	w := bufio.NewWriter(f)
+	w = bufio.NewWriterSize(w,20000)
 	w.WriteString("<html><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
 	h4 := 0
@@ -102,13 +98,15 @@ func preProcess(text, firstClass string)string{
 			if depth>2{
 				tTD := tkn.Token()
 				t := formatString(tTD.Data)
-				w.WriteString(" " + html.EscapeString(strings.TrimSpace(t)))
+				w.WriteString(" " + html.EscapeString(t))
 			}
 		case tt == html.EndTagToken:
 			t := tkn.Token()
 			if t.Data == "table" && firstClassPassed {
 				depth--
-				w.WriteString("</table>")
+				if depth<1 {
+					w.WriteString("</table>")
+				}
 			}
 			if t.Data == "tr"  && firstClassPassed {
 				depth--
@@ -126,8 +124,10 @@ func preProcess(text, firstClass string)string{
 			t := tkn.Token()
 			if t.Data == "table" && firstClassPassed {
 				depth++
-				w.WriteString("<table>")
+				if depth == 1 {
+					w.WriteString("<table>")
 				}
+			}
 			if t.Data == "tr"  && firstClassPassed {
 				depth++
 				if depth == 2 {
@@ -205,6 +205,7 @@ func parseBMM(text string, model *Model) (data string) {
 	functions := false
 	szClassName := ""
 	szDescription := ""
+	abstract := false
 	szClassInherits := ""
 	szEnumerationName := ""
 	constantList := make([]*Constant,0)
@@ -226,7 +227,7 @@ func parseBMM(text string, model *Model) (data string) {
 			//TABLE
 			if t.Data == "table" {
 				if szClassName != "" {
-					class, _ = NewClass(szDescription, szClassInherits, szClassName)
+					class, _ = NewClass(szDescription, szClassInherits, szClassName, abstract)
 					for _, c := range constantList {
 						class.AddConstant(c)
 					}
@@ -242,6 +243,7 @@ func parseBMM(text string, model *Model) (data string) {
 					szClassInherits = ""
 					szClassName = ""
 					szDescription = ""
+					abstract = false
 					model.AddClass(class)
 				}else if szEnumerationName != "" {
 					enumeration, _ = NewEnumeration(szDescription, szEnumerationName)
@@ -295,9 +297,11 @@ func parseBMM(text string, model *Model) (data string) {
 				case isTD1:
 					isTD2 = true
 					isTD1 = false
+					isTD3 = false
 				case isTD2:
 					isTD3 = true
 					isTD2 = false
+					isTD1 = false
 				case isTD3:
 					isTD3 = false
 				}
@@ -334,14 +338,17 @@ func parseBMM(text string, model *Model) (data string) {
 						constants = false
 						attributes = false
 					case isTD2 && strings.TrimSpace(td1)=="Class":
-						szClassName = td2
+						if strings.Contains(td2,"(abstract)"){
+							td2 = strings.ReplaceAll(td2,"(abstract)","")
+							abstract = true
+						}
+						szClassName = strings.TrimSpace(td2)
+					case isTD2 && strings.TrimSpace(td1)=="Inherit":
+						szClassInherits = strings.TrimSpace(szClassInherits) + strings.TrimSpace(td2)
 					case isTD2 && strings.TrimSpace(td1)=="Enumeration":
 						szEnumerationName = td2
 					case isTD2 && strings.TrimSpace(td1)=="Description":
-						szDescription = td2
-						fmt.Println(">>>>>>>>>>>>>>>>>>>",szDescription)
-					case isTD2 && strings.TrimSpace(td1)=="Inherit":
-						szClassInherits = td2
+						szDescription = szDescription + td2
 					case isTD2 && constants:
 						constantName = td2
 					case isTD3 && constants:
