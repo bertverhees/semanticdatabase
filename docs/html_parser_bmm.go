@@ -80,7 +80,9 @@ func preProcess(text, firstClass string)string{
 	w.WriteString("<html><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
 	h4 := 0
+	h2 := 0
 	depth := 0
+	packageString := ""
 	//classString := ""
 	firstClassPassed := false
 	for {
@@ -134,6 +136,58 @@ func preProcess(text, firstClass string)string{
 					w.WriteString("<td>")
 				}
 			}
+			if t.Data == "h2" {
+				tkn.Next()
+				t1 := tkn.Token()
+				if t1.Data == "a" {
+					tkn.Next()
+					t2 := tkn.Token()
+					for t2.Data != "span" {
+						tkn.Next()
+						t2 = tkn.Token()
+					}
+					if t2.Data == "span" {
+						tt = tkn.Next()
+						for tt != html.TextToken {
+							tt = tkn.Next()
+						}
+						t3 := tkn.Token()
+						if tt == html.TextToken {
+							packageString = "org.openehr.lang.bmm"
+							switch {
+							case strings.HasPrefix(t3.Data, "3."):
+								packageString = "org.openehr.lang.bmm"
+							case strings.HasPrefix(t3.Data, "4."):
+								packageString = "org.openehr.lang.bmm.model_access"
+							case strings.HasPrefix(t3.Data, "5."):
+								packageString = "base.bmm.model_access"
+							case strings.HasPrefix(t3.Data, "6."):
+								packageString = "base.bmm.core.entity"
+							case strings.HasPrefix(t3.Data, "7."):
+								packageString = "base.bmm.core"
+							case strings.HasPrefix(t3.Data, "8."):
+								packageString = "base.bmm.core.feature"
+							case strings.HasPrefix(t3.Data, "9."):
+								packageString = "base.bmm.core.literal_value"
+							case strings.HasPrefix(t3.Data, "10."):
+								packageString = "base.bmm.core.expression"
+							case strings.HasPrefix(t3.Data, "11."):
+								packageString = ""
+							case strings.HasPrefix(t3.Data, "12."):
+								packageString = "base.bmm.core.statement"
+							case strings.HasPrefix(t3.Data, "13."):
+								packageString = ""
+							case strings.HasPrefix(t3.Data, "14."):
+								packageString = ""
+							}
+							w.WriteString("<h4>")
+							w.WriteString(packageString)
+							w.WriteString("</h4>")
+						}
+					}
+				}
+				h2++
+			}
 			//FirstClass
 			if t.Data == "h4" {
 				if h4 > 2 {
@@ -178,9 +232,6 @@ func preProcess(text, firstClass string)string{
 func parseBMM(text string, model *Model) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
-	h2 := 0
-	h3 := 0
-	packageString := ""
 	isTD1 := false
 	isTD2 := false
 	isTD3 := false
@@ -365,9 +416,6 @@ func parseBMM(text string, model *Model) (data string) {
 			}
 		case tt == html.StartTagToken:
 			t := tkn.Token()
-			// table
-			if t.Data == "table" {
-			}
 			//TR
 			if t.Data == "tr" && !isTR {
 				isTR = true
@@ -380,60 +428,6 @@ func parseBMM(text string, model *Model) (data string) {
 				attributeDescription = ""
 				functionName = ""
 				functionDescription = ""
-			}
-			//Package
-			if t.Data == "h2" {
-				tkn.Next()
-				t1 := tkn.Token()
-				if t1.Data == "a" {
-					tkn.Next()
-					t2 := tkn.Token()
-					for t2.Data != "span" {
-						tkn.Next()
-						t2 = tkn.Token()
-					}
-					if t2.Data == "span" {
-						tt = tkn.Next()
-						for tt != html.TextToken {
-							tt = tkn.Next()
-						}
-						t3 := tkn.Token()
-						if tt == html.TextToken {
-							packageString = "org.openehr.lang.bmm"
-							switch {
-							case strings.HasPrefix(t3.Data, "3."):
-								packageString = "org.openehr.lang.bmm"
-							case strings.HasPrefix(t3.Data, "4."):
-								packageString = "org.openehr.lang.bmm.model_access"
-							case strings.HasPrefix(t3.Data, "5."):
-								packageString = "base.bmm.model_access"
-							case strings.HasPrefix(t3.Data, "6."):
-								packageString = "base.bmm.core.entity"
-							case strings.HasPrefix(t3.Data, "7."):
-								packageString = "base.bmm.core"
-							case strings.HasPrefix(t3.Data, "8."):
-								packageString = "base.bmm.core.feature"
-							case strings.HasPrefix(t3.Data, "9."):
-								packageString = "base.bmm.core.literal_value"
-							case strings.HasPrefix(t3.Data, "10."):
-								packageString = "base.bmm.core.expression"
-							case strings.HasPrefix(t3.Data, "11."):
-								packageString = ""
-							case strings.HasPrefix(t3.Data, "12."):
-								packageString = "base.bmm.core.statement"
-							case strings.HasPrefix(t3.Data, "13."):
-								packageString = ""
-							case strings.HasPrefix(t3.Data, "14."):
-								packageString = ""
-							}
-							fmt.Println(packageString)
-						}
-					}
-				}
-				h2++
-			}
-			if t.Data == "h3" {
-				h3++
 			}
 		}
 	}
