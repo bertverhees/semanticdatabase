@@ -1,8 +1,7 @@
-package main
+package p_bmm
 
-//https://zetcode.com/golang/net-html/
 import (
-	//"bufio"
+	"doc-parser/classes"
 	"fmt"
 	"golang.org/x/net/html"
 	"log"
@@ -10,15 +9,15 @@ import (
 	"strings"
 )
 
-func main() {
-	fileName := "bmm.html"
+func ParseP_BMM_HTML() {
+	fileName := "p_bmm/bmm_persistence.html"
 	text, err := readHtmlFromFile(fileName)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	model := NewModel()
-	preProcess(text,"BMM_DEFINITIONS Class")
+	model := classes.NewModel()
+	preProcess(text,"P_BMM_MODEL_ELEMENT Class")
 	text, err = readHtmlFromFile("tmp.html")
 	parseBMM(text, model)
 	fmt.Println(len(model.Classes))
@@ -41,7 +40,7 @@ func main() {
 			fmt.Println("Inheriting from:",inf)
 		}
 		for i,cm := range model.Classes {
-			if contains(cm.Inherits,c.Name){
+			if classes.Contains(cm.Inherits,c.Name){
 				fmt.Println("Inheriting to:", model.Classes[i].Name)
 			}
 		}
@@ -229,7 +228,7 @@ func preProcess(text, firstClass string)string{
 
 
 
-func parseBMM(text string, model *Model) (data string) {
+func parseBMM(text string, model *classes.Model) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
 	isTD1 := false
@@ -253,11 +252,11 @@ func parseBMM(text string, model *Model) (data string) {
 	abstract := false
 	szClassInherits := ""
 	szEnumerationName := ""
-	constantList := make([]*Constant,0)
-	attributeList := make([]*Attribute,0)
-	functionList := make([]*Function,0)
-	var class *Class
-	var enumeration *Enumeration
+	constantList := make([]*classes.Constant,0)
+	attributeList := make([]*classes.Attribute,0)
+	functionList := make([]*classes.Function,0)
+	var class *classes.Class
+	var enumeration *classes.Enumeration
 	for {
 
 		tt := tkn.Next()
@@ -272,7 +271,7 @@ func parseBMM(text string, model *Model) (data string) {
 			//TABLE
 			if t.Data == "table" {
 				if szClassName != "" {
-					class, _ = NewClass(szDescription, szClassInherits, szClassName, abstract)
+					class, _ = classes.NewClass(szDescription, szClassInherits, szClassName, abstract)
 					for _, c := range constantList {
 						class.AddConstant(c)
 					}
@@ -291,7 +290,7 @@ func parseBMM(text string, model *Model) (data string) {
 					abstract = false
 					model.AddClass(class)
 				}else if szEnumerationName != "" {
-					enumeration, _ = NewEnumeration(szDescription, szEnumerationName)
+					enumeration, _ = classes.NewEnumeration(szDescription, szEnumerationName)
 					for _, a := range attributeList {
 						enumeration.AddAttribute(a)
 					}
@@ -309,24 +308,24 @@ func parseBMM(text string, model *Model) (data string) {
 			if t.Data == "tr" && isTR {
 				switch {
 				case constants:
-					constant,e := NewConstantToProcess(constantName, constantDescription)
+					constant,e := classes.NewConstantToProcess(constantName, constantDescription)
 					if e==nil {
 						constantList = append(constantList,constant)
 					}
 				case attributes:
 					var e error
-					var attribute *Attribute
+					var attribute *classes.Attribute
 					if szEnumerationName != "" {
-						attribute, e = NewAttribute(attributeName,"",attributeDescription,"","")
+						attribute, e = classes.NewAttribute(attributeName,"",attributeDescription,"","")
 					}else {
-						attribute, e = NewAttributeToProcess(attributeName, attributeDescription, "", td1)
+						attribute, e = classes.NewAttributeToProcess(attributeName, attributeDescription, "", td1)
 					}
 					if e==nil {
 						attributeList = append(attributeList,attribute)
 					}
 				case functions:
-					parameters := AnalyzeParameters(functionName)
-					function,e := NewFunction(functionName,functionDescription)
+					parameters := classes.AnalyzeParameters(functionName)
+					function,e := classes.NewFunction(functionName,functionDescription)
 					if e==nil {
 						function.AddParameters(parameters)
 						functionList = append(functionList,function)

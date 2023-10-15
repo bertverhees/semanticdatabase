@@ -1,6 +1,8 @@
 package main
 
+import "doc-parser/classes"
+
 type File struct {
-	Class     Class
-	Constants []Constant
+	Class     classes.Class
+	Constants []classes.Constant
 }

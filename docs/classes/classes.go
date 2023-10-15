@@ -1,4 +1,4 @@
-package main
+package classes
 
 import (
 	"errors"
@@ -78,7 +78,7 @@ func (c *Class)Print(m *Model){
 			fmt.Println("Inheriting from:", inf)
 		}
 		for i, cm := range m.Classes {
-			if contains(cm.Inherits, c.Name) {
+			if Contains(cm.Inherits, c.Name) {
 				fmt.Println("Inheriting to:", m.Classes[i].Name)
 			}
 		}
@@ -101,7 +101,7 @@ func (e *Enumeration)Print(){
 }
 
 
-func contains(a []string, x string) bool {
+func Contains(a []string, x string) bool {
 	for _, n := range a {
 		if x == n {
 			return true
