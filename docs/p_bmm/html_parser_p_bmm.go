@@ -17,9 +17,9 @@ func ParseP_BMM_HTML() {
 		log.Fatal(err)
 	}
 	model := classes.NewModel()
-	preProcess(text,"P_BMM_MODEL_ELEMENT Class")
+	preProcess(text,"P_BMM_MODEL_ELEMENT")
 	text, err = readHtmlFromFile("tmp.html")
-	parseBMM(text, model)
+	parsePBMM(text, model)
 	fmt.Println(len(model.Classes))
 	for _,c := range model.Classes {
 		c.Print(model)
@@ -72,26 +72,26 @@ func preProcess(text, firstClass string)string{
 	}
 	defer w.Close()
 
-	//f, _ := os.Create("tmp.html")
-	//defer f.Close()
-	//w := bufio.NewWriter(f)
-	//w = bufio.NewWriterSize(w,10000)
 	w.WriteString("<html><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
-	h4 := 0
-	h2 := 0
 	depth := 0
-	packageString := ""
-	//classString := ""
 	firstClassPassed := false
 	for {
 		tt := tkn.Next()
 		switch {
 		case tt == html.ErrorToken:
+			log.Fatalf("error tokenizing HTML: %v", tkn.Err())
 			return ""
 		case tt == html.TextToken:
-			if depth>2{
-				tTD := tkn.Token()
+			tTD := tkn.Token()
+			if depth>3 {
+				fmt.Println(depth,tTD.Data,firstClassPassed)
+			}
+			if strings.Contains(tTD.Data, firstClass) {
+				firstClassPassed = true
+				fmt.Println(depth,tTD.Data,firstClassPassed)
+			}
+			if depth>3{
 				t := formatString(tTD.Data)
 				w.WriteString(" " + html.EscapeString(t))
 			}
@@ -100,18 +100,35 @@ func preProcess(text, firstClass string)string{
 			if t.Data == "table" && firstClassPassed {
 				depth--
 				if depth<1 {
+					fmt.Println("</"+t.Data+">")
 					w.WriteString("</table>")
+				}
+			}
+			if t.Data == "tbody" && firstClassPassed {
+				depth--
+				if depth<2 {
+					fmt.Println("</"+t.Data+">")
+					w.WriteString("</tbody>")
 				}
 			}
 			if t.Data == "tr"  && firstClassPassed {
 				depth--
-				if depth<2 {
+				if depth<3 {
+					fmt.Println("</"+t.Data+">")
 					w.WriteString("</tr>")
 				}
 			}
-			if t.Data == "td"  && firstClassPassed {
+			if t.Data == "td" && firstClassPassed {
 				depth--
-				if depth<3 {
+				if depth<4 {
+					fmt.Println("</"+t.Data+">")
+					w.WriteString("</td>")
+				}
+			}
+			if t.Data == "th" && firstClassPassed {
+				depth--
+				if depth<4 {
+					fmt.Println("</"+t.Data+">")
 					w.WriteString("</td>")
 				}
 			}
@@ -120,18 +137,35 @@ func preProcess(text, firstClass string)string{
 			if t.Data == "table" && firstClassPassed {
 				depth++
 				if depth == 1 {
+					fmt.Println("<"+t.Data+">")
 					w.WriteString("<table>")
+				}
+			}
+			if t.Data == "tbody" && firstClassPassed {
+				depth++
+				if depth == 2 {
+					fmt.Println("<"+t.Data+">")
+					w.WriteString("<tbody>")
 				}
 			}
 			if t.Data == "tr"  && firstClassPassed {
 				depth++
-				if depth == 2 {
+				if depth == 3 {
+					fmt.Println("<"+t.Data+">")
 					w.WriteString("<tr>")
+				}
+			}
+			if t.Data == "th"  && firstClassPassed {
+				depth++
+				if depth==4 {
+					fmt.Println("<"+t.Data+">")
+					w.WriteString("<td>")
 				}
 			}
 			if t.Data == "td"  && firstClassPassed {
 				depth++
-				if depth==3 {
+				if depth==4 {
+					fmt.Println("<"+t.Data+">")
 					w.WriteString("<td>")
 				}
 			}
@@ -150,85 +184,23 @@ func preProcess(text, firstClass string)string{
 						for tt != html.TextToken {
 							tt = tkn.Next()
 						}
-						t3 := tkn.Token()
 						if tt == html.TextToken {
-							packageString = "org.openehr.lang.bmm"
-							switch {
-							case strings.HasPrefix(t3.Data, "3."):
-								packageString = "org.openehr.lang.bmm"
-							case strings.HasPrefix(t3.Data, "4."):
-								packageString = "org.openehr.lang.bmm.model_access"
-							case strings.HasPrefix(t3.Data, "5."):
-								packageString = "base.bmm.model_access"
-							case strings.HasPrefix(t3.Data, "6."):
-								packageString = "base.bmm.core.entity"
-							case strings.HasPrefix(t3.Data, "7."):
-								packageString = "base.bmm.core"
-							case strings.HasPrefix(t3.Data, "8."):
-								packageString = "base.bmm.core.feature"
-							case strings.HasPrefix(t3.Data, "9."):
-								packageString = "base.bmm.core.literal_value"
-							case strings.HasPrefix(t3.Data, "10."):
-								packageString = "base.bmm.core.expression"
-							case strings.HasPrefix(t3.Data, "11."):
-								packageString = ""
-							case strings.HasPrefix(t3.Data, "12."):
-								packageString = "base.bmm.core.statement"
-							case strings.HasPrefix(t3.Data, "13."):
-								packageString = ""
-							case strings.HasPrefix(t3.Data, "14."):
-								packageString = ""
-							}
 							w.WriteString("<h4>")
-							w.WriteString(packageString)
+							w.WriteString("org.openehr.lang.bmm_persistence")
 							w.WriteString("</h4>")
 						}
 					}
 				}
-				h2++
-			}
-			//FirstClass
-			if t.Data == "h4" {
-				if h4 > 2 {
-					tkn.Next()
-					t1 := tkn.Token()
-					for t1.Data != "a" {
-						tkn.Next()
-						t1 = tkn.Token()
-					}
-					if t1.Data == "a" {
-						tkn.Next()
-						t2 := tkn.Token()
-						for t2.Data != "span" {
-							tkn.Next()
-							t2 = tkn.Token()
-						}
-						if t2.Data == "span" {
-							tt = tkn.Next()
-							for tt != html.TextToken {
-								tt = tkn.Next()
-							}
-							t3 := tkn.Token()
-							if tt == html.TextToken {
-								if strings.Contains(t3.Data, firstClass) {
-									firstClassPassed = true
-								}
-							}
-						}
-					}
-				}
-				h4++
 			}
 		}
 	}
 	w.WriteString("</body></html>")
-	//w.Flush()
 	return ""
 }
 
 
 
-func parseBMM(text string, model *classes.Model) (data string) {
+func parsePBMM(text string, model *classes.Model) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
 	isTD1 := false

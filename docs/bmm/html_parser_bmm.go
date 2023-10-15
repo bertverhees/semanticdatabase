@@ -17,7 +17,7 @@ func ParseBMM_HTML() {
 		log.Fatal(err)
 	}
 	model := classes.NewModel()
-	preProcess(text,"BMM_DEFINITIONS Class")
+	preProcess(text,"BMM_DEFINITIONS")
 	text, err = readHtmlFromFile("tmp.html")
 	parseBMM(text, model)
 	fmt.Println(len(model.Classes))
@@ -78,7 +78,6 @@ func preProcess(text, firstClass string)string{
 	//w = bufio.NewWriterSize(w,10000)
 	w.WriteString("<html><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
-	h4 := 0
 	h2 := 0
 	depth := 0
 	packageString := ""
@@ -90,8 +89,11 @@ func preProcess(text, firstClass string)string{
 		case tt == html.ErrorToken:
 			return ""
 		case tt == html.TextToken:
+			tTD := tkn.Token()
+			if strings.Contains(tTD.Data, firstClass) {
+				firstClassPassed = true
+			}
 			if depth>2{
-				tTD := tkn.Token()
 				t := formatString(tTD.Data)
 				w.WriteString(" " + html.EscapeString(t))
 			}
@@ -186,38 +188,6 @@ func preProcess(text, firstClass string)string{
 					}
 				}
 				h2++
-			}
-			//FirstClass
-			if t.Data == "h4" {
-				if h4 > 2 {
-					tkn.Next()
-					t1 := tkn.Token()
-					for t1.Data != "a" {
-						tkn.Next()
-						t1 = tkn.Token()
-					}
-					if t1.Data == "a" {
-						tkn.Next()
-						t2 := tkn.Token()
-						for t2.Data != "span" {
-							tkn.Next()
-							t2 = tkn.Token()
-						}
-						if t2.Data == "span" {
-							tt = tkn.Next()
-							for tt != html.TextToken {
-								tt = tkn.Next()
-							}
-							t3 := tkn.Token()
-							if tt == html.TextToken {
-								if strings.Contains(t3.Data, firstClass) {
-									firstClassPassed = true
-								}
-							}
-						}
-					}
-				}
-				h4++
 			}
 		}
 	}
