@@ -9,4 +9,4 @@ The HTML-files come from the original openehr-website, but because of strange co
 I did restructure them with help of Libre Office and Visual Studio in a way that they
 only contain tables and class-information.
 
-This should be done to process new versions from these files when taken from the Openehr-website
+This should be done to process new versions of these files when taken from the Openehr-website
