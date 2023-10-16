@@ -10,7 +10,7 @@ import (
 )
 
 func ParseP_BMM_HTML() {
-	fileName := "p_bmm/bmm_persistence.html"
+	fileName := "p_bmm/bmm_persistence_lo.html"
 	text, err := readHtmlFromFile(fileName)
 
 	if err != nil {
@@ -72,7 +72,7 @@ func preProcess(text, firstClass string)string{
 	}
 	defer w.Close()
 
-	w.WriteString("<html><body>")
+	w.WriteString("<html><head></head><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
 	depth := 0
 	firstClassPassed := false
@@ -84,14 +84,11 @@ func preProcess(text, firstClass string)string{
 			return ""
 		case tt == html.TextToken:
 			tTD := tkn.Token()
-			if depth>3 {
-				fmt.Println(depth,tTD.Data,firstClassPassed)
-			}
-			if strings.Contains(tTD.Data, firstClass) {
+			if strings.Contains(tTD.Data, firstClass) && !firstClassPassed {
 				firstClassPassed = true
-				fmt.Println(depth,tTD.Data,firstClassPassed)
 			}
-			if depth>3{
+			fmt.Println(depth,firstClassPassed,tTD.Data)
+			if depth>2 {
 				t := formatString(tTD.Data)
 				w.WriteString(" " + html.EscapeString(t))
 			}
@@ -100,35 +97,18 @@ func preProcess(text, firstClass string)string{
 			if t.Data == "table" && firstClassPassed {
 				depth--
 				if depth<1 {
-					fmt.Println("</"+t.Data+">")
 					w.WriteString("</table>")
-				}
-			}
-			if t.Data == "tbody" && firstClassPassed {
-				depth--
-				if depth<2 {
-					fmt.Println("</"+t.Data+">")
-					w.WriteString("</tbody>")
 				}
 			}
 			if t.Data == "tr"  && firstClassPassed {
 				depth--
-				if depth<3 {
-					fmt.Println("</"+t.Data+">")
+				if depth<2 {
 					w.WriteString("</tr>")
 				}
 			}
 			if t.Data == "td" && firstClassPassed {
 				depth--
-				if depth<4 {
-					fmt.Println("</"+t.Data+">")
-					w.WriteString("</td>")
-				}
-			}
-			if t.Data == "th" && firstClassPassed {
-				depth--
-				if depth<4 {
-					fmt.Println("</"+t.Data+">")
+				if depth<3 {
 					w.WriteString("</td>")
 				}
 			}
@@ -137,35 +117,18 @@ func preProcess(text, firstClass string)string{
 			if t.Data == "table" && firstClassPassed {
 				depth++
 				if depth == 1 {
-					fmt.Println("<"+t.Data+">")
 					w.WriteString("<table>")
-				}
-			}
-			if t.Data == "tbody" && firstClassPassed {
-				depth++
-				if depth == 2 {
-					fmt.Println("<"+t.Data+">")
-					w.WriteString("<tbody>")
 				}
 			}
 			if t.Data == "tr"  && firstClassPassed {
 				depth++
-				if depth == 3 {
-					fmt.Println("<"+t.Data+">")
+				if depth == 2 {
 					w.WriteString("<tr>")
-				}
-			}
-			if t.Data == "th"  && firstClassPassed {
-				depth++
-				if depth==4 {
-					fmt.Println("<"+t.Data+">")
-					w.WriteString("<td>")
 				}
 			}
 			if t.Data == "td"  && firstClassPassed {
 				depth++
-				if depth==4 {
-					fmt.Println("<"+t.Data+">")
+				if depth==3 {
 					w.WriteString("<td>")
 				}
 			}

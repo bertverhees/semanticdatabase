@@ -72,16 +72,11 @@ func preProcess(text, firstClass string)string{
 	}
 	defer w.Close()
 
-	//f, _ := os.Create("tmp.html")
-	//defer f.Close()
-	//w := bufio.NewWriter(f)
-	//w = bufio.NewWriterSize(w,10000)
-	w.WriteString("<html><body>")
+	w.WriteString("<html><head></head><body>")
 	tkn := html.NewTokenizer(strings.NewReader(text))
 	h2 := 0
 	depth := 0
 	packageString := ""
-	//classString := ""
 	firstClassPassed := false
 	for {
 		tt := tkn.Next()
@@ -92,6 +87,7 @@ func preProcess(text, firstClass string)string{
 			tTD := tkn.Token()
 			if strings.Contains(tTD.Data, firstClass) {
 				firstClassPassed = true
+				fmt.Println(tTD.Data, firstClassPassed)
 			}
 			if depth>2{
 				t := formatString(tTD.Data)
