@@ -34,8 +34,8 @@ func (m *Model)FindClassByName(name string)*Class{
 		if c.Name == name {
 			return c
 		}
-		return nil
 	}
+	return nil
 }
 
 
