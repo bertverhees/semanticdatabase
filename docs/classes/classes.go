@@ -29,6 +29,15 @@ func (m *Model) AddEnumeration(enumeration *Enumeration) error {
 	return nil
 }
 
+func (m *Model)FindClassByName(name string)*Class{
+	for _,c := range m.Classes{
+		if c.Name == name {
+			return c
+		}
+		return nil
+	}
+}
+
 
 func (m *Model) AddClass(class *Class) error {
 	for _,c := range m.ClassNames {
@@ -65,6 +74,9 @@ type Class struct {
 	Comment    string
 	Abstract bool
 	Inherits   []string
+	InheritsToClass	[]*Class
+	InheritsFromClass []*Class
+	AttributeFunctions []*Function
 	Attributes []*Attribute
 	Functions  []*Function
 	Constants  []*Constant
@@ -123,8 +135,11 @@ func NewClass(comment, inherits string, name string, abstract bool) (*Class, err
 	for i,_ := range class.Inherits {
 		class.Inherits[i] = strings.TrimSpace(class.Inherits[i])
 	}
+	class.InheritsFromClass = make([]*Class,0)
+	class.InheritsToClass = make([]*Class,0)
 	class.Attributes = make([]*Attribute, 0)
 	class.Functions = make([]*Function, 0)
+	class.AttributeFunctions = make([]*Function, 0)
 	class.Constants = make([]*Constant, 0)
 	class.Abstract = abstract
 	return class, nil
