@@ -280,9 +280,22 @@ func (f *Function)Print(){
 	for _,p := range f.In{
 		fmt.Println("\t\t",p.Name,p.Type, p.InOut)
 	}
-	fmt.Println("\tOut:")
-	for _,p := range f.Out{
-		fmt.Println("\t\t",p.Name,p.Type, p.InOut)
+	switch {
+	case len(f.Out) == 1:
+			fmt.Println("\tOut:")
+			if f.Out[0].Type != "" {
+				fmt.Println("\t\t", f.Out[0].Type, f.Out[0].InOut)
+			}
+	case len(f.Out) > 1:
+			fmt.Println("\tOut:")
+			for i, p := range f.Out {
+				if i == 0 {
+					fmt.Println("\tOut:")
+				}
+				if p.Type != "" {
+					fmt.Println("\t\t", p.Type, p.InOut)
+				}
+			}
 	}
 	fmt.Println("\t\t",f.Comment)
 }
@@ -333,11 +346,14 @@ func AnalyzeParameters(functionName string) []*Parameter {
 	parameters := make([]*Parameter, 0)
 	outType := functionName
 	if strings.Contains(outType, "(") && strings.Contains(outType, ")") {
-		outType = outType[strings.Index(outType, ")"):]
+		outType = outType[strings.Index(outType, ")")+1:]
 	}
 	outType = strings.TrimSpace(outType[strings.Index(outType, ":")+1:])
-	parameter, _ := NewParameter("", "out", outType, false)
-	parameters = append(parameters, parameter)
+	var parameter *Parameter
+	if outType != "" {
+		parameter, _ = NewParameter("", "out", outType, false)
+		parameters = append(parameters, parameter)
+	}
 	if strings.Contains(functionName, "(") && strings.Contains(functionName, ")") {
 		functionParameters := functionName[strings.Index(functionName, "(")+1 : strings.Index(functionName, ")")]
 		if functionParameters != "" {

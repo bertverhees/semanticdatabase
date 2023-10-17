@@ -10,7 +10,7 @@ import (
 )
 
 func ParseBMM_HTML() {
-	fileName := "bmm/bmm.html"
+	fileName := "bmm/bmm_lo.html"
 	text, err := readHtmlFromFile(fileName)
 
 	if err != nil {
@@ -87,7 +87,6 @@ func preProcess(text, firstClass string)string{
 			tTD := tkn.Token()
 			if strings.Contains(tTD.Data, firstClass) {
 				firstClassPassed = true
-				fmt.Println(tTD.Data, firstClassPassed)
 			}
 			if depth>2{
 				t := formatString(tTD.Data)

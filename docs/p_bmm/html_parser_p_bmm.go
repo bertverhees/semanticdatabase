@@ -80,14 +80,13 @@ func preProcess(text, firstClass string)string{
 		tt := tkn.Next()
 		switch {
 		case tt == html.ErrorToken:
-			log.Fatalf("error tokenizing HTML: %v", tkn.Err())
+			w.WriteString("</body></html>")
 			return ""
 		case tt == html.TextToken:
 			tTD := tkn.Token()
-			if strings.Contains(tTD.Data, firstClass) && !firstClassPassed {
+			if strings.Contains(tTD.Data, firstClass) {
 				firstClassPassed = true
 			}
-			fmt.Println(depth,firstClassPassed,tTD.Data)
 			if depth>2 {
 				t := formatString(tTD.Data)
 				w.WriteString(" " + html.EscapeString(t))
