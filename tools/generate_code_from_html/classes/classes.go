@@ -29,7 +29,7 @@ func (m *Model) AddEnumeration(enumeration *Enumeration) error {
 	return nil
 }
 
-func (m *Model)FindClassByName(name string)*Class{
+func (m *Model)FindClassByName(name string)*Class {
 	for _,c := range m.Classes{
 		if c.Name == name {
 			return c
@@ -104,6 +104,7 @@ func (c *Class)Print(m *Model){
 			f.Print()
 		}
 }
+
 func (e *Enumeration)Print(){
 	fmt.Println(e.Name)
 	fmt.Println(e.Comment)
@@ -203,7 +204,7 @@ func trimQuotes(s string) string {
 }
 
 func splitConstantNameType(name_type_value string)(string, string, string, error){
-	nameTypeValue := strings.Split(strings.TrimSpace(name_type_value), ":")
+	nameTypeValue := strings.Split(strings.TrimSpace(name_type_value), " : ")
 	if len(nameTypeValue)!=2{
 		return "","","", errors.New("Not a valid Constant, it should look like: \"name: type=value\"")
 	}
