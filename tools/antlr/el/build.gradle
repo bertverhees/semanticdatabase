@@ -1,0 +1,17 @@
+description = "grammars for parsing EL"
+
+generateGrammarSource { //antlr4
+    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/openehr/elparser".toString())
+    arguments = [
+            '-package', 'org.openehr.elparser'
+    ] + arguments
+}
+
+classes {
+    dependsOn generateGrammarSource
+}
+
+dependencies {
+    implementation project(':cadl')
+    implementation project(':base')
+}
