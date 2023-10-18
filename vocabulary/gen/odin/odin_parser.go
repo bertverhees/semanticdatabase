@@ -4,9 +4,10 @@ package parser // OdinParser
 
 import (
 	"fmt"
-	"github.com/antlr4-go/antlr/v4"
 	"strconv"
 	"sync"
+
+	"github.com/antlr4-go/antlr/v4"
 )
 
 // Suppress unused import errors
