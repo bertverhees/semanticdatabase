@@ -1,8 +1,8 @@
-// Generated from OdinParser.g4 by ANTLR 4.7.
+// Code generated from OdinParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
 package parser // OdinParser
 
-import "github.com/antlr/antlr4/runtime/Go/antlr"
+import "github.com/antlr4-go/antlr/v4"
 
 // OdinParserListener is a complete listener for a parse tree produced by OdinParser.
 type OdinParserListener interface {
