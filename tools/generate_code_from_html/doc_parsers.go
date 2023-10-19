@@ -7,9 +7,10 @@ import (
 )
 
 func main() {
+	WriteBasicDefinitions("vocabulary", "../../vocabulary")
 	model := bmm.ParseBMM_HTML()
-	CreateFiles("../../vocabulary", model)
+	CreateFiles("vocabulary", "../../vocabulary", model)
 	model = p_bmm.ParseP_BMM_HTML()
-	CreateFiles("../../vocabulary/v2", model)
+	CreateFiles("v2", "../../vocabulary/v2", model)
 	os.Remove("tmp.html")
 }

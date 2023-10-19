@@ -2,36 +2,84 @@ package main
 
 import (
 	"doc-parser/classes"
+	"fmt"
 	"log"
 	"os"
 	"strings"
 )
 
-func CreateFiles(directory string, model *classes.Model) {
+func WriteBasicDefinitions(packageName, directory string) {
+	w, err := os.Create(directory + "/BasicDefinitions.go")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer w.Close()
+	WriteLine("package "+packageName, w)
+	WriteLine("", w)
+	WriteLine(CommentLines("Defines globally used constant values.", 80), w)
+	WriteLine("", w)
+	WriteLine("type BasicDefinition struct {", w)
+	WriteLine(CommentLines("\tCarriage return character.", 80), w)
+	WriteLine("\tCR\trune\t`yaml:\"cr\" json:\"cr\" xml:\"cr\"`", w)
+	WriteLine(CommentLines("\tLine feed character.", 80), w)
+	WriteLine("\tLF\trune\t`yaml:\"lf\" json:\"lf\" xml:\"lf\"`", w)
+	WriteLine("\tAnyTypeName\tstring\t`yaml:\"anynametype\" json:\"anynametype\" xml:\"anynametype\"`", w)
+	WriteLine("\tRegexAnyPattern\tstring\t`yaml:\"regexanypattern\" json:\"regexanypattern\" xml:\"regexanypattern\"`", w)
+	WriteLine("\tDefaultEncoding\tstring\t`yaml:\"defaultencoding\" json:\"defaultencoding\" xml:\"defaultencoding\"`", w)
+	WriteLine("\tNoneTypeName\tstring\t`yaml:\"nonetypename\" json:\"nonetypename\" xml:\"nonetypename\"`", w)
+	WriteLine("}", w)
+}
+
+func WriteLine(line string, f *os.File) {
+	f.WriteString(line + "\n")
+}
+
+func CreateFiles(packageName, directory string, model *classes.Model) {
 	for _, c := range model.Classes {
-		createFile(directory, c, nil)
+		createFile(packageName, directory, c, nil)
 	}
 	for _, e := range model.Enumerations {
-		createFile(directory, nil, e)
+		createFile(packageName, directory, nil, e)
 	}
 }
 
-func createFile(directory string, c *classes.Class, e *classes.Enumeration) {
+/*
+*
+This is a rather long line that needs
+word wrapping to an arbirtary line
+lenght so it's easier to read it.
+*/
+func createFile(packageName, directory string, c *classes.Class, e *classes.Enumeration) {
+	name := ""
+	topComment := ""
 	if c != nil {
-		w, err := os.Create(directory + "/" + UpperCamelCase(c.Name) + ".go")
-
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer w.Close()
+		name = UpperCamelCase(c.Name)
+		topComment = c.Comment
 	}
 	if e != nil {
-		w, err := os.Create(directory + "/" + UpperCamelCase(e.Name) + ".go")
+		name = UpperCamelCase(e.Name)
+		topComment = e.Comment
+	}
+	w, err := os.Create(directory + "/" + name + ".go")
 
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer w.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer w.Close()
+	WriteLine("package "+packageName, w)
+	WriteLine("", w)
+	WriteLine(CommentLines(topComment, 80), w)
+	WriteLine("", w)
+	WriteLine("type "+name+"er interface {", w)
+	WriteLine("}", w)
+	WriteLine("", w)
+	WriteLine("type "+name+" struct {", w)
+	WriteLine("}", w)
+
+	if c != nil {
+	}
+	if e != nil {
 	}
 }
 
@@ -129,4 +177,36 @@ func stringIter(s string, callback iterFunc) {
 	if len(s) > 0 {
 		callback(prev, curr, 0)
 	}
+}
+
+func CommentLines(line string, lineWidth int) string {
+	if len(line) < 80 {
+		if strings.HasPrefix(line, "\t\t") {
+			return "\t\t// " + line[2:]
+		}
+		if strings.HasPrefix(line, "\t") {
+			return "\t// " + line[1:]
+		}
+		return "// " + line
+	}
+	return fmt.Sprintf("/**\n%s\n*/", wordWrap(line, lineWidth))
+}
+
+func wordWrap(text string, lineWidth int) (wrapped string) {
+	words := strings.Fields(strings.TrimSpace(text))
+	if len(words) == 0 {
+		return text
+	}
+	wrapped = words[0]
+	spaceLeft := lineWidth - len(wrapped)
+	for _, word := range words[1:] {
+		if len(word)+1 > spaceLeft {
+			wrapped += "\n" + word
+			spaceLeft = lineWidth - len(word)
+		} else {
+			wrapped += " " + word
+			spaceLeft -= 1 + len(word)
+		}
+	}
+	return
 }
