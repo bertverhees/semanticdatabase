@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ParseBMM_HTML() {
+func ParseBMM_HTML() *classes.Model {
 	fileName := "bmm/bmm_lo.html"
 	text, err := readHtmlFromFile(fileName)
 
@@ -17,14 +17,14 @@ func ParseBMM_HTML() {
 		log.Fatal(err)
 	}
 	model := classes.NewModel()
-	preProcess(text,"BMM_DEFINITIONS")
+	preProcess(text, "BMM_DEFINITIONS")
 	text, err = readHtmlFromFile("tmp.html")
 	parseBMM(text, model)
 	fmt.Println(len(model.Classes))
-	for _,c := range model.Classes {
+	for _, c := range model.Classes {
 		c.Print(model)
 	}
-	for _,e := range model.Enumerations {
+	for _, e := range model.Enumerations {
 		e.Print()
 	}
 	fmt.Println("----------------------------------------------------")
@@ -34,17 +34,18 @@ func ParseBMM_HTML() {
 	//#TODO constants
 	//#TODO attributes
 	//#TODO functions
-	for _,c := range model.Classes {
+	for _, c := range model.Classes {
 		fmt.Println(c.Name)
-		for _,inf := range c.Inherits {
-			fmt.Println("Inheriting from:",inf)
+		for _, inf := range c.Inherits {
+			fmt.Println("Inheriting from:", inf)
 		}
-		for i,cm := range model.Classes {
-			if classes.Contains(cm.Inherits,c.Name){
+		for i, cm := range model.Classes {
+			if classes.Contains(cm.Inherits, c.Name) {
 				fmt.Println("Inheriting to:", model.Classes[i].Name)
 			}
 		}
 	}
+	return model
 }
 
 func readHtmlFromFile(fileName string) (string, error) {
@@ -64,7 +65,7 @@ func formatString(in string) string {
 	return r
 }
 
-func preProcess(text, firstClass string)string{
+func preProcess(text, firstClass string) string {
 	w, err := os.Create("tmp.html")
 
 	if err != nil {
@@ -88,7 +89,7 @@ func preProcess(text, firstClass string)string{
 			if strings.Contains(tTD.Data, firstClass) {
 				firstClassPassed = true
 			}
-			if depth>2{
+			if depth > 2 {
 				t := formatString(tTD.Data)
 				w.WriteString(" " + html.EscapeString(t))
 			}
@@ -96,19 +97,19 @@ func preProcess(text, firstClass string)string{
 			t := tkn.Token()
 			if t.Data == "table" && firstClassPassed {
 				depth--
-				if depth<1 {
+				if depth < 1 {
 					w.WriteString("</table>")
 				}
 			}
-			if t.Data == "tr"  && firstClassPassed {
+			if t.Data == "tr" && firstClassPassed {
 				depth--
-				if depth<2 {
+				if depth < 2 {
 					w.WriteString("</tr>")
 				}
 			}
-			if t.Data == "td"  && firstClassPassed {
+			if t.Data == "td" && firstClassPassed {
 				depth--
-				if depth<3 {
+				if depth < 3 {
 					w.WriteString("</td>")
 				}
 			}
@@ -120,15 +121,15 @@ func preProcess(text, firstClass string)string{
 					w.WriteString("<table>")
 				}
 			}
-			if t.Data == "tr"  && firstClassPassed {
+			if t.Data == "tr" && firstClassPassed {
 				depth++
 				if depth == 2 {
 					w.WriteString("<tr>")
 				}
 			}
-			if t.Data == "td"  && firstClassPassed {
+			if t.Data == "td" && firstClassPassed {
 				depth++
-				if depth==3 {
+				if depth == 3 {
 					w.WriteString("<td>")
 				}
 			}
@@ -191,8 +192,6 @@ func preProcess(text, firstClass string)string{
 	return ""
 }
 
-
-
 func parseBMM(text string, model *classes.Model) (data string) {
 	tkn := html.NewTokenizer(strings.NewReader(text))
 
@@ -217,9 +216,9 @@ func parseBMM(text string, model *classes.Model) (data string) {
 	abstract := false
 	szClassInherits := ""
 	szEnumerationName := ""
-	constantList := make([]*classes.Constant,0)
-	attributeList := make([]*classes.Attribute,0)
-	functionList := make([]*classes.Function,0)
+	constantList := make([]*classes.Constant, 0)
+	attributeList := make([]*classes.Attribute, 0)
+	functionList := make([]*classes.Function, 0)
 	var class *classes.Class
 	var enumeration *classes.Enumeration
 	for {
@@ -254,7 +253,7 @@ func parseBMM(text string, model *classes.Model) (data string) {
 					szDescription = ""
 					abstract = false
 					model.AddClass(class)
-				}else if szEnumerationName != "" {
+				} else if szEnumerationName != "" {
 					enumeration, _ = classes.NewEnumeration(szDescription, szEnumerationName)
 					for _, a := range attributeList {
 						enumeration.AddAttribute(a)
@@ -273,23 +272,23 @@ func parseBMM(text string, model *classes.Model) (data string) {
 			if t.Data == "tr" && isTR {
 				switch {
 				case constants:
-					constant,e := classes.NewConstantToProcess(constantName, constantDescription)
-					if e==nil {
-						constantList = append(constantList,constant)
+					constant, e := classes.NewConstantToProcess(constantName, constantDescription)
+					if e == nil {
+						constantList = append(constantList, constant)
 					}
 				case attributes:
 					var e error
 					var attribute *classes.Attribute
 					if szEnumerationName != "" {
-						attribute, e = classes.NewAttribute(attributeName,"",attributeDescription,"","")
-					}else {
+						attribute, e = classes.NewAttribute(attributeName, "", attributeDescription, "", "")
+					} else {
 						attribute, e = classes.NewAttributeToProcess(attributeName, attributeDescription, "", td1)
 					}
-					if e==nil {
-						attributeList = append(attributeList,attribute)
+					if e == nil {
+						attributeList = append(attributeList, attribute)
 					}
 				case functions:
-					if strings.Contains(td1,"0..1") || strings.Contains(td1,"1..1"){
+					if strings.Contains(td1, "0..1") || strings.Contains(td1, "1..1") {
 						parameters := classes.AnalyzeParameters(functionName)
 						function, e := classes.NewFunction(functionName, functionDescription)
 						if e == nil {
@@ -348,17 +347,17 @@ func parseBMM(text string, model *classes.Model) (data string) {
 						functions = true
 						constants = false
 						attributes = false
-					case isTD2 && strings.TrimSpace(td1)=="Class":
-						if strings.Contains(td2,"(abstract)"){
-							td2 = strings.ReplaceAll(td2,"(abstract)","")
+					case isTD2 && strings.TrimSpace(td1) == "Class":
+						if strings.Contains(td2, "(abstract)") {
+							td2 = strings.ReplaceAll(td2, "(abstract)", "")
 							abstract = true
 						}
 						szClassName = strings.TrimSpace(td2)
-					case isTD2 && strings.TrimSpace(td1)=="Inherit":
+					case isTD2 && strings.TrimSpace(td1) == "Inherit":
 						szClassInherits = strings.TrimSpace(szClassInherits) + strings.TrimSpace(td2)
-					case isTD2 && strings.TrimSpace(td1)=="Enumeration":
+					case isTD2 && strings.TrimSpace(td1) == "Enumeration":
 						szEnumerationName = td2
-					case isTD2 && strings.TrimSpace(td1)=="Description":
+					case isTD2 && strings.TrimSpace(td1) == "Description":
 						szDescription = szDescription + td2
 					case isTD2 && constants:
 						constantName = td2
