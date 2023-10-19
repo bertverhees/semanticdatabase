@@ -20,7 +20,17 @@ func ParseBMM_HTML() *classes.Model {
 	preProcess(text, "BMM_DEFINITIONS")
 	text, err = readHtmlFromFile("tmp.html")
 	parseBMM(text, model)
-	fmt.Println(len(model.Classes))
+	for _, c := range model.Classes {
+		inheritingChain := make([]*classes.Class, 0)
+		inheritingChain = classes.CreateInheritanceChain(c, model, inheritingChain)
+		c.InheritingFromChain = inheritingChain
+	}
+	for _, c := range model.Classes {
+		fmt.Println("Class:", c.Name)
+		for _, i := range c.InheritingFromChain {
+			fmt.Println("\t", i.Name)
+		}
+	}
 	for _, c := range model.Classes {
 		c.Print(model)
 	}

@@ -9,14 +9,13 @@ import (
 	"strings"
 )
 
-func ParseP_BMM_HTML() *classes.Model {
+func ParseP_BMM_HTML(model *classes.Model) *classes.Model {
 	fileName := "p_bmm/bmm_persistence_lo.html"
 	text, err := readHtmlFromFile(fileName)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	model := classes.NewModel()
 	preProcess(text, "P_BMM_MODEL_ELEMENT")
 	text, err = readHtmlFromFile("tmp.html")
 	parsePBMM(text, model)

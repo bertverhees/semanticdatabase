@@ -37,10 +37,22 @@ func WriteLine(line string, f *os.File) {
 
 func CreateFiles(packageName, directory string, model *classes.Model) {
 	for _, c := range model.Classes {
-		createFile(packageName, directory, c, nil)
+		if packageName == "v2" {
+			if strings.HasPrefix(c.Name, "P_") {
+				createFile(packageName, directory, c, nil)
+			}
+		} else {
+			createFile(packageName, directory, c, nil)
+		}
 	}
 	for _, e := range model.Enumerations {
-		createFile(packageName, directory, nil, e)
+		if packageName == "v2" {
+			if strings.HasPrefix(e.Name, "P_") {
+				createFile(packageName, directory, nil, e)
+			}
+		} else {
+			createFile(packageName, directory, nil, e)
+		}
 	}
 }
 
