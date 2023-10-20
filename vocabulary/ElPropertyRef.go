@@ -2,7 +2,7 @@ package vocabulary
 
 // Reference to a writable property.
 
-type ElPropertyRefer interface {
+type IElPropertyRef interface {
 }
 
 type ElPropertyRef struct {

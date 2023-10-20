@@ -8,7 +8,7 @@ parameters are allowed, as with any generic type, but open generic parameters
 are only valid within the scope of a generic class.
 */
 
-type BmmTupleTypeer interface {
+type IBmmTupleType interface {
 }
 
 type BmmTupleType struct {

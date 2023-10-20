@@ -6,7 +6,7 @@ evaluating its condition , which is a Boolean-returning expression, and if this
 returns True, the result is the evaluation result of expression .
 */
 
-type ElConditionalExpression<t>er interface {
+type IElConditionalExpression<t> interface {
 }
 
 type ElConditionalExpression<t> struct {

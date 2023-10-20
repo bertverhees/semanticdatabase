@@ -2,7 +2,7 @@ package v2
 
 // Persistent form of BMM_PROPER_TYPE .
 
-type PBmmBaseTypeer interface {
+type IPBmmBaseType interface {
 }
 
 type PBmmBaseType struct {

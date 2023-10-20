@@ -6,7 +6,7 @@ corresponding to the type of contained item, and whose container type is a
 generic type such as List<T> , Set<T> etc.
 */
 
-type BmmContainerTypeer interface {
+type IBmmContainerType interface {
 }
 
 type BmmContainerType struct {

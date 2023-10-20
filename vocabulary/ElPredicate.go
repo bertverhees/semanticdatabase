@@ -2,7 +2,7 @@ package vocabulary
 
 // Parent type of predicate of any object reference.
 
-type ElPredicateer interface {
+type IElPredicate interface {
 }
 
 type ElPredicate struct {

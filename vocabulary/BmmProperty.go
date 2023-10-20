@@ -6,7 +6,7 @@ object model. The is_composition attribute indicates whether the property has
 sub-part or an association semantics with respect to the owning class.
 */
 
-type BmmPropertyer interface {
+type IBmmProperty interface {
 }
 
 type BmmProperty struct {

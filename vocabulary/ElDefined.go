@@ -6,7 +6,7 @@ if the reference is resolvable, i.e. the external value is obtainable. Note
 probably to be removed.
 */
 
-type ElDefineder interface {
+type IElDefined interface {
 }
 
 type ElDefined struct {

@@ -2,7 +2,7 @@ package vocabulary
 
 // A routine-scoped formal element.
 
-type BmmVariableer interface {
+type IBmmVariable interface {
 }
 
 type BmmVariable struct {

@@ -2,7 +2,7 @@ package vocabulary
 
 // Meta-type for locally declared routine body.
 
-type BmmLocalRoutineer interface {
+type IBmmLocalRoutine interface {
 }
 
 type BmmLocalRoutine struct {

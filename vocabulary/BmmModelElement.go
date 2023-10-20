@@ -7,7 +7,7 @@ class definition and its property and routine definitions are model elements,
 but Types are not, since they are derived from model elements.
 */
 
-type BmmModelElementer interface {
+type IBmmModelElement interface {
 }
 
 type BmmModelElement struct {

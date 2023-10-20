@@ -2,7 +2,7 @@ package vocabulary
 
 // Schema inclusion structure.
 
-type BmmIncludeSpecer interface {
+type IBmmIncludeSpec interface {
 }
 
 type BmmIncludeSpec struct {

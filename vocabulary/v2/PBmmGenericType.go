@@ -2,7 +2,7 @@ package v2
 
 // Persistent form of BMM_GENERIC_TYPE .
 
-type PBmmGenericTypeer interface {
+type IPBmmGenericType interface {
 }
 
 type PBmmGenericType struct {

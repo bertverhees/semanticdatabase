@@ -6,7 +6,7 @@ writable entity, i.e. a variable reference or property. At the meta-model level,
 may be understood as an initialisation of an existing meta-model instance.
 */
 
-type BmmAssignmenter interface {
+type IBmmAssignment interface {
 }
 
 type BmmAssignment struct {

@@ -2,7 +2,7 @@ package v2
 
 // Persistent form of BMM_ENUMERATION_STRING .
 
-type PBmmEnumerationStringer interface {
+type IPBmmEnumerationString interface {
 }
 
 type PBmmEnumerationString struct {

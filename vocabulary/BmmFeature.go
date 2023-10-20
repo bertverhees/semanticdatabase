@@ -2,7 +2,7 @@ package vocabulary
 
 // A module-scoped formal element.
 
-type BmmFeatureer interface {
+type IBmmFeature interface {
 }
 
 type BmmFeature struct {

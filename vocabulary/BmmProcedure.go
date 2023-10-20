@@ -7,7 +7,7 @@ TStatus is the built-in type BMM_STATUS_TYPE .. A procedure is a computed
 usually called in the form name ({arg:TArg}*) .
 */
 
-type BmmProcedureer interface {
+type IBmmProcedure interface {
 }
 
 type BmmProcedure struct {

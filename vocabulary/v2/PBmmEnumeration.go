@@ -2,7 +2,7 @@ package v2
 
 // Persistent form of BMM_ENUMERATION attributes.
 
-type PBmmEnumerationer interface {
+type IPBmmEnumeration interface {
 }
 
 type PBmmEnumeration struct {

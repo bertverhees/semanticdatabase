@@ -6,7 +6,7 @@ of the branches, to allow specialised forms of if/else and case structures to be
 created.
 */
 
-type ElDecisionTable<t>er interface {
+type IElDecisionTable<t> interface {
 }
 
 type ElDecisionTable<t> struct {

@@ -5,7 +5,7 @@ Meta-type of linear container type that indexes the contained items in the
 manner of a standard Hash table, map or dictionary.
 */
 
-type BmmIndexedContainerTypeer interface {
+type IBmmIndexedContainerType interface {
 }
 
 type BmmIndexedContainerType struct {

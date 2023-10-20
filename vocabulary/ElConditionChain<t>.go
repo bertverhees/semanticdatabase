@@ -9,7 +9,7 @@ result evaluation result. If no member of items has a True-returning condition ,
 the evaluation result is the result of evaluating the else expression.
 */
 
-type ElConditionChain<t>er interface {
+type IElConditionChain<t> interface {
 }
 
 type ElConditionChain<t> struct {

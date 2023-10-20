@@ -2,7 +2,7 @@ package vocabulary
 
 // Multi-branch conditional statement structure
 
-type BmmActionTableer interface {
+type IBmmActionTable interface {
 }
 
 type BmmActionTable struct {

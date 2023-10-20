@@ -10,7 +10,7 @@ where struct is an open argument. Evaluation type (i.e. type of runtime
 evaluated form) is BMM_SIGNATURE .
 */
 
-type ElAgenter interface {
+type IElAgent interface {
 }
 
 type ElAgent struct {

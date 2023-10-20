@@ -5,7 +5,7 @@ Meta-type of writable variables, including routine locals and the special
 variable 'Result'.
 */
 
-type ElWritableVariableer interface {
+type IElWritableVariable interface {
 }
 
 type ElWritableVariable struct {

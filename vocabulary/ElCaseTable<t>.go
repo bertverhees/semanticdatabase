@@ -10,7 +10,7 @@ True-returning condition , the evaluation result is the result of evaluating the
 else expression.
 */
 
-type ElCaseTable<t>er interface {
+type IElCaseTable<t> interface {
 }
 
 type ElCaseTable<t> struct {

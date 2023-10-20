@@ -7,7 +7,7 @@ kind, that defines the type of an attribute, or function result or argument. It
 may include generic parameters that might or might not be bound. See subtypes.
 */
 
-type BmmTypeer interface {
+type IBmmType interface {
 }
 
 type BmmType struct {

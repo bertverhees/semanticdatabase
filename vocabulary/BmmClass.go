@@ -9,7 +9,7 @@ UML, the name is just the root name, even if the class is generic. Use
 type_name() to obtain the qualified type name.
 */
 
-type BmmClasser interface {
+type IBmmClass interface {
 }
 
 type BmmClass struct {

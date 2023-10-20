@@ -83,7 +83,7 @@ func createFile(packageName, directory string, c *classes.Class, e *classes.Enum
 	WriteLine("", w)
 	WriteLine(CommentLines(topComment, 80), w)
 	WriteLine("", w)
-	WriteLine("type "+name+"er interface {", w)
+	WriteLine("type I"+name+" interface {", w)
 	WriteLine("}", w)
 	WriteLine("", w)
 	WriteLine("type "+name+" struct {", w)

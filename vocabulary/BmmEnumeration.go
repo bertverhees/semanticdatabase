@@ -9,7 +9,7 @@ literals with no explicit defined values is represented as the degenerate
 subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 */
 
-type BmmEnumerationer interface {
+type IBmmEnumeration interface {
 }
 
 type BmmEnumeration struct {

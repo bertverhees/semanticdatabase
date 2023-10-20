@@ -6,7 +6,7 @@ be inline values of primitive types in the usual fashion or complex objects in
 syntax form, e.g. JSON.
 */
 
-type BmmLiteralValue<t>er interface {
+type IBmmLiteralValue<t> interface {
 }
 
 type BmmLiteralValue<t> struct {

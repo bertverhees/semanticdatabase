@@ -6,7 +6,7 @@ function is a computed (rather than data) element, generally assumed to be
 non-state-changing.
 */
 
-type BmmFunctioner interface {
+type IBmmFunction interface {
 }
 
 type BmmFunction struct {

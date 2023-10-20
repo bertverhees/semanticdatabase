@@ -5,7 +5,7 @@ Automatically declared variable representing result of a Function call
 (writable).
 */
 
-type BmmResulter interface {
+type IBmmResult interface {
 }
 
 type BmmResult struct {

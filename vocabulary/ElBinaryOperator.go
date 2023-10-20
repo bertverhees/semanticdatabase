@@ -2,7 +2,7 @@ package vocabulary
 
 // Binary operator expression node.
 
-type ElBinaryOperatorer interface {
+type IElBinaryOperator interface {
 }
 
 type ElBinaryOperator struct {

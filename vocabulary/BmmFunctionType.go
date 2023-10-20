@@ -2,7 +2,7 @@ package vocabulary
 
 // Meta-type for function object signatures.
 
-type BmmFunctionTypeer interface {
+type IBmmFunctionType interface {
 }
 
 type BmmFunctionType struct {

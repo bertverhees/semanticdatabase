@@ -2,7 +2,7 @@ package v2
 
 // Persistent form of BMM_CONTAINER_TYPE .
 
-type PBmmContainerTypeer interface {
+type IPBmmContainerType interface {
 }
 
 type PBmmContainerType struct {

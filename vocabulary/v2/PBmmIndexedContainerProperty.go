@@ -2,7 +2,7 @@ package v2
 
 // 
 
-type PBmmIndexedContainerPropertyer interface {
+type IPBmmIndexedContainerProperty interface {
 }
 
 type PBmmIndexedContainerProperty struct {

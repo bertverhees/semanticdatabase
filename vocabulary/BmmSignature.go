@@ -6,7 +6,7 @@ element of a model. Consists of potential arguments and result , with
 constraints in descendants determining the exact form.
 */
 
-type BmmSignatureer interface {
+type IBmmSignature interface {
 }
 
 type BmmSignature struct {

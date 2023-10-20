@@ -6,7 +6,7 @@ result of the evaluation of the generator , which may be as simple as a literal
 value, or may be any expression, including a function call.
 */
 
-type BmmConstanter interface {
+type IBmmConstant interface {
 }
 
 type BmmConstant struct {

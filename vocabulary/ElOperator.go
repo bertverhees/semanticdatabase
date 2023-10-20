@@ -2,7 +2,7 @@ package vocabulary
 
 // Abstract parent of operator types.
 
-type ElOperatorer interface {
+type IElOperator interface {
 }
 
 type ElOperator struct {

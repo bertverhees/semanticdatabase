@@ -2,7 +2,7 @@ package v2
 
 // Persistent form of an instance of BMM_ENUMERATION_INTEGER .
 
-type PBmmEnumerationIntegerer interface {
+type IPBmmEnumerationInteger interface {
 }
 
 type PBmmEnumerationInteger struct {

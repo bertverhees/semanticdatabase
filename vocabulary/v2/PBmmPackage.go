@@ -5,7 +5,7 @@ Persisted form of a package as a tree structure whose nodes can contain more
 packages and/or classes.
 */
 
-type PBmmPackageer interface {
+type IPBmmPackage interface {
 }
 
 type PBmmPackage struct {

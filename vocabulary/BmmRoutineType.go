@@ -2,7 +2,7 @@ package vocabulary
 
 // Meta-type for routine objects.
 
-type BmmRoutineTypeer interface {
+type IBmmRoutineType interface {
 }
 
 type BmmRoutineType struct {

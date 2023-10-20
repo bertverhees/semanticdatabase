@@ -5,7 +5,7 @@ Meta-type representing instantiable features, i.e. features that are created as
 value objects.
 */
 
-type BmmInstantiableFeatureer interface {
+type IBmmInstantiableFeature interface {
 }
 
 type BmmInstantiableFeature struct {

@@ -6,7 +6,7 @@ reference to a 'value set' within an external resource, e.g. a reference data
 service.
 */
 
-type BmmValueSetSpecer interface {
+type IBmmValueSetSpec interface {
 }
 
 type BmmValueSetSpec struct {

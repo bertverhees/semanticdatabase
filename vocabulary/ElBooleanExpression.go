@@ -2,7 +2,7 @@ package vocabulary
 
 // Boolean-returning expression.
 
-type ElBooleanExpressioner interface {
+type IElBooleanExpression interface {
 }
 
 type ElBooleanExpression struct {

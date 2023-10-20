@@ -2,7 +2,7 @@ package vocabulary
 
 // A routine local variable (writable).
 
-type BmmLocaler interface {
+type IBmmLocal interface {
 }
 
 type BmmLocal struct {

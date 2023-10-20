@@ -2,7 +2,7 @@ package vocabulary
 
 // A routine parameter variable (read-only).
 
-type BmmParameterer interface {
+type IBmmParameter interface {
 }
 
 type BmmParameter struct {

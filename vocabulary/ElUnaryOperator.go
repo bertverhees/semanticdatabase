@@ -2,7 +2,7 @@ package vocabulary
 
 // Unary operator expression node.
 
-type ElUnaryOperatorer interface {
+type IElUnaryOperator interface {
 }
 
 type ElUnaryOperator struct {

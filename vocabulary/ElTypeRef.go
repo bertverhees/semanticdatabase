@@ -7,7 +7,7 @@ accessible at run-time. Typically represented syntactically as TypeName or
 constant access.
 */
 
-type ElTypeRefer interface {
+type IElTypeRef interface {
 }
 
 type ElTypeRef struct {

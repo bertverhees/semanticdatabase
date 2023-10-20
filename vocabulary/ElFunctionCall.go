@@ -5,7 +5,7 @@ A call made on a closed function agent, returning a result. Equivalent to an
 'application' of a function in Lambda calculus.
 */
 
-type ElFunctionCaller interface {
+type IElFunctionCall interface {
 }
 
 type ElFunctionCall struct {

@@ -5,7 +5,7 @@ Abstract parent of 'statement' types that may be defined to implement BMM
 Routines.
 */
 
-type BmmStatementer interface {
+type IBmmStatement interface {
 }
 
 type BmmStatement struct {

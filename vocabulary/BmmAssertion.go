@@ -6,7 +6,7 @@ evaluates to False the execution generates an exception (depending on run-time
 settings). May be rendered in syntax as assert condition or similar.
 */
 
-type BmmAssertioner interface {
+type IBmmAssertion interface {
 }
 
 type BmmAssertion struct {
