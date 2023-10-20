@@ -293,14 +293,16 @@ func splitAttributeNameType(name_type string) (name string, _type string, defaul
 }
 
 type Function struct {
-	Name    string
-	Out     []*Parameter
-	In      []*Parameter
-	Comment string
+	Name      string
+	Out       []*Parameter
+	In        []*Parameter
+	Comment   string
+	Redefined bool
 }
 
 func (f *Function) Print() {
 	fmt.Println("\tFunction:", f.Name)
+	fmt.Println("\tRedefined: ", f.Redefined)
 	fmt.Println("\tIn:")
 	for _, p := range f.In {
 		fmt.Println("\t\t", p.Name, p.Type, p.InOut)
