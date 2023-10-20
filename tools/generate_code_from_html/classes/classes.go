@@ -73,8 +73,7 @@ type Class struct {
 	Comment             string
 	Abstract            bool
 	IsGeneric           bool
-	GenericPartID       string
-	GenericPartType     string
+	GenericPartTypes    []string
 	Inherits            []string
 	InheritingFromChain []*Class
 	AttributeFunctions  []*Function
@@ -87,8 +86,9 @@ func (c *Class) Print(m *Model) {
 	fmt.Println(c.Name)
 	fmt.Println("IsGeneric:", c.IsGeneric)
 	if c.IsGeneric {
-		fmt.Println("\tGenericPartID:", c.GenericPartID)
-		fmt.Println("\tGenericPartType:", c.GenericPartType)
+		for i, p := range c.GenericPartTypes {
+			fmt.Println("\t\tGenericPartTypes:", p[i])
+		}
 	}
 	fmt.Println("Abstract:", c.Abstract)
 	fmt.Println(c.Comment)
@@ -109,6 +109,21 @@ func (c *Class) Print(m *Model) {
 	for _, f := range c.Functions {
 		f.Print()
 	}
+}
+
+func AnalyzeGenerics(name string) (IsGeneric bool, GenericPartTypes []string) {
+	//get generic part
+	if strings.Contains(name, "<") {
+		IsGeneric = true
+		genericParts := strings.Split(name, "<")
+		genericPart := strings.TrimSpace(genericParts[1])
+		GenericPartType := strings.Split(genericPart, ">")[0]
+		GenericPartTypes = strings.Split(GenericPartType, ",")
+		if GenericPartType == "" {
+			GenericPartType = "any"
+		}
+	}
+	return IsGeneric, GenericPartTypes
 }
 
 func CreateInheritanceChain(i1 *Class, m *Model, inheritingChain []*Class) []*Class {
@@ -145,18 +160,7 @@ func NewClass(comment, inherits string, name string, abstract bool) (*Class, err
 	class := new(Class)
 	class.Comment = comment
 	class.Name = strings.TrimSpace(name)
-	if strings.Contains(name, "<") {
-		class.IsGeneric = true
-		//get generic part
-		genericParts := strings.Split(name, "<")
-		genericPart := strings.TrimSpace(genericParts[1])
-		genericPart = strings.Split(genericPart, ">")[0]
-		genericIDType := strings.Split(genericPart, " ")
-		class.GenericPartID = strings.TrimSpace(genericIDType[0])
-		if len(genericIDType) > 1 {
-			class.GenericPartType = strings.TrimSpace(genericIDType[1])
-		}
-	}
+	class.IsGeneric, class.GenericPartTypes = AnalyzeGenerics(class.Name)
 	//inherits-slice always exists
 	if inherits != "" {
 		class.Inherits = strings.Split(inherits, ",")
@@ -249,15 +253,23 @@ func splitConstantNameType(name_type_value string) (string, string, string, erro
 }
 
 type Attribute struct {
-	Name         string
-	Type         string
-	Comment      string
-	defaultValue string
-	Required     bool
+	Name             string
+	Type             string
+	Comment          string
+	IsGeneric        bool
+	GenericPartTypes []string
+	defaultValue     string
+	Required         bool
 }
 
 func (a *Attribute) Print() {
 	fmt.Println("\tAttribute:", a.Name)
+	fmt.Println("\t\tIsGeneric:", a.IsGeneric)
+	if a.IsGeneric {
+		for i, p := range a.GenericPartTypes {
+			fmt.Println("\t\tGenericPartTypes:", p[i])
+		}
+	}
 	fmt.Println("\t\t", a.Type)
 	fmt.Println("\t\t", a.defaultValue)
 	fmt.Println("\t\t", a.Required)
@@ -273,6 +285,7 @@ func NewAttribute(name, _type, comment string, defaultValue string, required str
 	attribute.Type = _type
 	attribute.Comment = comment
 	attribute.defaultValue = defaultValue
+	attribute.IsGeneric, attribute.GenericPartTypes = AnalyzeGenerics(_type)
 	if strings.TrimSpace(required) == "1..1" {
 		attribute.Required = true
 	} else {
@@ -326,21 +339,46 @@ func (f *Function) Print() {
 	fmt.Println("\tIn:")
 	for _, p := range f.In {
 		fmt.Println("\t\t", p.Name, p.Type, p.InOut)
+		fmt.Println("\t\tIsGeneric:", p.IsGeneric)
+		if p.IsGeneric {
+			for i, q := range p.GenericPartTypes {
+				fmt.Println("\t\tGenericPartTypes:", q[i])
+			}
+		}
 	}
 	switch {
 	case len(f.Out) == 1:
 		fmt.Println("\tOut:")
 		if f.Out[0].Type != "" {
 			fmt.Println("\t\t", f.Out[0].Type, f.Out[0].InOut)
+			fmt.Println("IsGeneric:", f.Out[0].IsGeneric)
+			if f.Out[0].IsGeneric {
+				for i, q := range f.Out[0].GenericPartTypes {
+					fmt.Println("\t\tGenericPartTypes:", q[i])
+				}
+			}
 		}
 	case len(f.Out) > 1:
 		fmt.Println("\tOut:")
 		for i, p := range f.Out {
 			if i == 0 {
 				fmt.Println("\tOut:")
+				fmt.Println("\tIsGeneric:", p.IsGeneric)
+				if p.IsGeneric {
+					for i, q := range p.GenericPartTypes {
+						fmt.Println("\t\tGenericPartTypes:", q[i])
+					}
+				}
+
 			}
 			if p.Type != "" {
 				fmt.Println("\t\t", p.Type, p.InOut)
+				fmt.Println("\t\tIsGeneric:", p.IsGeneric)
+				if p.IsGeneric {
+					for i, q := range p.GenericPartTypes {
+						fmt.Println("\t\tGenericPartTypes:", q[i])
+					}
+				}
 			}
 		}
 	}
@@ -379,14 +417,17 @@ func (f *Function) AddParameters(parameters []*Parameter) error {
 }
 
 type Parameter struct {
-	Name     string
-	InOut    string
-	Type     string
-	Required bool
+	Name             string
+	InOut            string
+	Type             string
+	Required         bool
+	IsGeneric        bool
+	GenericPartTypes []string
 }
 
 func NewParameter(name, inOut, _type string, required bool) (*Parameter, error) {
-	return &Parameter{name, inOut, _type, required}, nil
+	IsGeneric, GenericPartType := AnalyzeGenerics(name)
+	return &Parameter{name, inOut, _type, required, IsGeneric, GenericPartType}, nil
 }
 
 func AnalyzeParameters(functionName string) []*Parameter {
