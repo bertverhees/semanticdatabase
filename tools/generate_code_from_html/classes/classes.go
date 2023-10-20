@@ -72,6 +72,9 @@ type Class struct {
 	Name                string
 	Comment             string
 	Abstract            bool
+	IsGeneric           bool
+	GenericPartID       string
+	GenericPartType     string
 	Inherits            []string
 	InheritingFromChain []*Class
 	AttributeFunctions  []*Function
@@ -82,6 +85,11 @@ type Class struct {
 
 func (c *Class) Print(m *Model) {
 	fmt.Println(c.Name)
+	fmt.Println("IsGeneric:", c.IsGeneric)
+	if c.IsGeneric {
+		fmt.Println("GenericPartID:", c.GenericPartID)
+		fmt.Println("GenericPartType:", c.GenericPartType)
+	}
 	fmt.Println("Abstract:", c.Abstract)
 	fmt.Println(c.Comment)
 	for _, inf := range c.Inherits {
@@ -137,6 +145,18 @@ func NewClass(comment, inherits string, name string, abstract bool) (*Class, err
 	class := new(Class)
 	class.Comment = comment
 	class.Name = strings.TrimSpace(name)
+	if strings.Contains(name, "<") {
+		class.IsGeneric = true
+		//get generic part
+		genericParts := strings.Split(name, "<")
+		genericPart := strings.TrimSpace(genericParts[1])
+		genericPart = strings.Split(genericPart, ">")[0]
+		genericIDType := strings.Split(genericPart, " ")
+		class.GenericPartID = strings.TrimSpace(genericIDType[0])
+		if len(genericIDType) > 1 {
+			class.GenericPartType = strings.TrimSpace(genericIDType[1])
+		}
+	}
 	//inherits-slice always exists
 	if inherits != "" {
 		class.Inherits = strings.Split(inherits, ",")
