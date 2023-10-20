@@ -87,8 +87,8 @@ func (c *Class) Print(m *Model) {
 	fmt.Println(c.Name)
 	fmt.Println("IsGeneric:", c.IsGeneric)
 	if c.IsGeneric {
-		fmt.Println("GenericPartID:", c.GenericPartID)
-		fmt.Println("GenericPartType:", c.GenericPartType)
+		fmt.Println("\tGenericPartID:", c.GenericPartID)
+		fmt.Println("\tGenericPartType:", c.GenericPartType)
 	}
 	fmt.Println("Abstract:", c.Abstract)
 	fmt.Println(c.Comment)
