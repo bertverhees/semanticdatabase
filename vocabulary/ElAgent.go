@@ -10,16 +10,11 @@ package vocabulary
 	evaluated form) is BMM_SIGNATURE .
 */
 
+
 type IElAgent interface {
-	/**
-		Eval type is the signature corresponding to the (remaining) open arguments and
-		return type, if any.
-	*/
-	eval_type (): BMM_ROUTINE_TYPE  Post_result : Result = definition.signature (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
-// True if there are no open arguments.
-	is_callable (): Boolean  Post_result_validity : Result = open_arguments = Void (  )  Boolean  Post_result_validity : Result = open_arguments = Void
-// Generated full reference name, including scoping elements.
-	reference (): String (  )  String
+	EvalType():BmmRoutineTypePostResult:Result=Definition.signature (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
+	IsCallable():BooleanPostResultValidity:Result=OpenArguments=Void (  )  Boolean  Post_result_validity : Result = open_arguments = Void
+	Reference():String (  )  string
 }
 
 type ElAgent struct {

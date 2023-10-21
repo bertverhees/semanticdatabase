@@ -7,9 +7,9 @@ package vocabulary
 	constant access.
 */
 
+
 type IElTypeRef interface {
-// Return type .
-	eval_type (): BMM_TYPE (  )  BMM_TYPE
+	EvalType():BmmType (  )  BMM_TYPE
 }
 
 type ElTypeRef struct {

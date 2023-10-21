@@ -5,11 +5,10 @@ package vocabulary
 	type in a generic type declaration.
 */
 
+
 type IBmmEffectiveType interface {
-// Result = self.
-	effective_type (): BMM_EFFECTIVE_TYPE (  )  BMM_EFFECTIVE_TYPE
-// Name of base generator type, i.e. excluding any generic parts if present.
-	type_base_name (): String (  )  String
+	EffectiveType():BmmEffectiveType (  )  BMM_EFFECTIVE_TYPE
+	TypeBaseName():String (  )  string
 }
 
 type BmmEffectiveType struct {

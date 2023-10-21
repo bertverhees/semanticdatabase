@@ -5,6 +5,7 @@ package vocabulary
 	representing Boolean and value is of type Boolean .
 */
 
+
 type IBmmBooleanValue interface {
 }
 

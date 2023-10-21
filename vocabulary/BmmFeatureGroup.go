@@ -5,6 +5,7 @@ package vocabulary
 	the group.
 */
 
+
 type IBmmFeatureGroup interface {
 }
 

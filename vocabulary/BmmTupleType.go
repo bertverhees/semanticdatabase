@@ -8,13 +8,12 @@ package vocabulary
 	are only valid within the scope of a generic class.
 */
 
+
 type IBmmTupleType interface {
-	/**
-		Return the logical set (i.e. unique types) from the merge of flattened_type_list
-		() called on each member of item_types .
-	*/
-	flattened_type_list (): List <String> (  )  List <String>
+	FlattenedTypeList():List<string> (  )  List <String>
 }
 
 type BmmTupleType struct {
+	// Base name (built-in).
+	BaseName	string	`yaml:"base_name" json:"base_name" xml:"base_name"`
 }

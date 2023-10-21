@@ -6,13 +6,12 @@ package vocabulary
 	constraints in descendants determining the exact form.
 */
 
+
 type IBmmSignature interface {
-	/**
-		Return the logical set (i.e. unique items) consisting of
-		argument_types.flattened_type_list () and result_type.flattened_type_list () .
-	*/
-	flattened_type_list (): List <String> (  )  List <String>
+	FlattenedTypeList():List<string> (  )  List <String>
 }
 
 type BmmSignature struct {
+	// Base name (built-in).
+	BaseName	string	`yaml:"base_name" json:"base_name" xml:"base_name"`
 }

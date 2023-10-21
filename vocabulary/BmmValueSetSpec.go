@@ -6,6 +6,7 @@ package vocabulary
 	service.
 */
 
+
 type IBmmValueSetSpec interface {
 }
 

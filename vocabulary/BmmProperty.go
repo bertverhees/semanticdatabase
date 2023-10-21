@@ -6,11 +6,10 @@ package vocabulary
 	sub-part or an association semantics with respect to the owning class.
 */
 
+
 type IBmmProperty interface {
-// Interval form of 0..1 , 1..1 etc, derived from is_nullable .
-	existence (): Multiplicity_interval (  )  Multiplicity_interval
-// Name of this property to display in UI.
-	display_name (): String (  )  String
+	Existence():MultiplicityInterval (  )  Multiplicity_interval
+	DisplayName():String (  )  string
 }
 
 type BmmProperty struct {

@@ -5,6 +5,7 @@ package vocabulary
 	representing String and value is of type String .
 */
 
+
 type IBmmStringValue interface {
 }
 

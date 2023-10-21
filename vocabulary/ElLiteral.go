@@ -5,9 +5,9 @@ package vocabulary
 	via a BMM_LITERAL_VALUE .
 */
 
+
 type IElLiteral interface {
-// Return value.type .
-	eval_type (): BMM_TYPE (  )  BMM_TYPE
+	EvalType():BmmType (  )  BMM_TYPE
 }
 
 type ElLiteral struct {

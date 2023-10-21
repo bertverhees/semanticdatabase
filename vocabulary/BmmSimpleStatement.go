@@ -5,6 +5,7 @@ package vocabulary
 	procedure call etc.
 */
 
+
 type IBmmSimpleStatement interface {
 }
 

@@ -6,6 +6,7 @@ package vocabulary
 	may be understood as an initialisation of an existing meta-model instance.
 */
 
+
 type IBmmAssignment interface {
 }
 

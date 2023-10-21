@@ -5,6 +5,7 @@ package vocabulary
 	or tuples.
 */
 
+
 type IElTerminal interface {
 }
 

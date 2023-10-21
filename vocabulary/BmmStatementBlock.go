@@ -5,6 +5,7 @@ package vocabulary
 	same name. May be used to establish scope in specific languages.
 */
 
+
 type IBmmStatementBlock interface {
 }
 

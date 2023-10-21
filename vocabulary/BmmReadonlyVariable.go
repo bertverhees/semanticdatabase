@@ -5,6 +5,7 @@ package vocabulary
 	variable Self .
 */
 
+
 type IBmmReadonlyVariable interface {
 }
 

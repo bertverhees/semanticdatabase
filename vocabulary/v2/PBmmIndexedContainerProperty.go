@@ -1,6 +1,5 @@
 package v2
 
-// 
 
 type IPBmmIndexedContainerProperty interface {
 }

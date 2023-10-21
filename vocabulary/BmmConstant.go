@@ -6,6 +6,7 @@ package vocabulary
 	value, or may be any expression, including a function call.
 */
 
+
 type IBmmConstant interface {
 }
 

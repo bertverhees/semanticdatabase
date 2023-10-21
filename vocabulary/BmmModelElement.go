@@ -7,9 +7,9 @@ package vocabulary
 	but Types are not, since they are derived from model elements.
 */
 
+
 type IBmmModelElement interface {
-// True if this model element is the root of a model structure hierarchy.
-	is_root_scope (): Boolean  Post_result : Result = (scope = self) (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope():BooleanPostResult:Result=(scope=Self) (  )  Boolean  Post_result : Result = (scope = self)
 }
 
 type BmmModelElement struct {

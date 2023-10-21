@@ -5,9 +5,9 @@ package vocabulary
 	manner of a standard Hash table, map or dictionary.
 */
 
+
 type IBmmIndexedContainerType interface {
-// Return full type name, e.g. HashMap<String, ELEMENT> .
-	type_name (): String (  )  String
+	TypeName():String (  )  string
 }
 
 type BmmIndexedContainerType struct {

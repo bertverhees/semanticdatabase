@@ -7,12 +7,9 @@ package vocabulary
 	usually called in the form name ({arg:TArg}*) .
 */
 
+
 type IBmmProcedure interface {
-	/**
-		Formal signature of this element, in the form: name [arg1_name: T_arg1,
-		…​][:T_value] Specific implementations in descendants.
-	*/
-	signature (): BMM_PROCEDURE_TYPE (  )  BMM_PROCEDURE_TYPE
+	Signature():BmmProcedureType (  )  BMM_PROCEDURE_TYPE
 }
 
 type BmmProcedure struct {

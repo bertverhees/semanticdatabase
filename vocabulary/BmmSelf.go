@@ -5,6 +5,7 @@ package vocabulary
 	instance. Typically called 'self' or 'this' in programming languages. Read-only.
 */
 
+
 type IBmmSelf interface {
 }
 

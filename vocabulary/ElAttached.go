@@ -5,6 +5,7 @@ package vocabulary
 	if the reference is attached, i.e. non-Void.
 */
 
+
 type IElAttached interface {
 }
 

@@ -5,9 +5,9 @@ package vocabulary
 	T> etc.
 */
 
+
 type IBmmIndexedContainerProperty interface {
-// Name of this property in form name: ContainerTypeName<IndexTypeName, …​> .
-	display_name (): String (  )  String
+	DisplayName():String (  )  string
 }
 
 type BmmIndexedContainerProperty struct {

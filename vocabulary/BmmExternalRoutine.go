@@ -5,6 +5,7 @@ package vocabulary
 	in an external library to be called.
 */
 
+
 type IBmmExternalRoutine interface {
 }
 

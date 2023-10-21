@@ -9,9 +9,9 @@ package vocabulary
 	subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 */
 
+
 type IBmmEnumeration interface {
-// Map of item_names to item_values (stringified).
-	name_map (): Hash < String , String > (  )  Hash < String , String >
+	NameMap():Hash<String,String> (  )  Hash < String , String >
 }
 
 type BmmEnumeration struct {

@@ -5,6 +5,7 @@ package vocabulary
 	actions are achieved from within a program.
 */
 
+
 type IBmmProcedureCall interface {
 }
 

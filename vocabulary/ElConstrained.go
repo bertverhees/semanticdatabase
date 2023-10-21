@@ -5,6 +5,7 @@ package vocabulary
 	meta-types.
 */
 
+
 type IElConstrained interface {
 }
 

@@ -6,6 +6,7 @@ package vocabulary
 	non-state-changing.
 */
 
+
 type IBmmFunction interface {
 }
 

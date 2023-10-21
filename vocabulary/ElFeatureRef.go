@@ -5,12 +5,9 @@ package vocabulary
 	qualifier if it is not the currently scoping entity.
 */
 
+
 type IElFeatureRef interface {
-	/**
-		Generated full reference name, consisting of scoping elements and name
-		concatenated using dot notation.
-	*/
-	reference (): String (  )  String
+	Reference():String (  )  string
 }
 
 type ElFeatureRef struct {
