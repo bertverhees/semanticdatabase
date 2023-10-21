@@ -111,19 +111,20 @@ func (c *Class) Print(m *Model) {
 	}
 }
 
-func AnalyzeGenerics(name string) (IsGeneric bool, GenericPartTypes []string) {
+func AnalyzeGenerics(name string) (IsGeneric bool, GenericPartTypes []string, newName string) {
 	//get generic part
 	if strings.Contains(name, "<") {
 		IsGeneric = true
 		genericParts := strings.Split(name, "<")
+		newName = strings.TrimSpace(genericParts[0])
 		genericPart := strings.TrimSpace(genericParts[1])
 		GenericPartType := strings.Split(genericPart, ">")[0]
-		GenericPartTypes = strings.Split(GenericPartType, ",")
 		if GenericPartType == "" {
 			GenericPartType = "any"
 		}
+		GenericPartTypes = strings.Split(GenericPartType, ",")
 	}
-	return IsGeneric, GenericPartTypes
+	return IsGeneric, GenericPartTypes, newName
 }
 
 func CreateInheritanceChain(i1 *Class, m *Model, inheritingChain []*Class) []*Class {
@@ -160,7 +161,12 @@ func NewClass(comment, inherits string, name string, abstract bool) (*Class, err
 	class := new(Class)
 	class.Comment = comment
 	class.Name = strings.TrimSpace(name)
-	class.IsGeneric, class.GenericPartTypes = AnalyzeGenerics(class.Name)
+	isGeneric, GenericPartTypes, newName := AnalyzeGenerics(class.Name)
+	if isGeneric {
+		class.IsGeneric = isGeneric
+		class.GenericPartTypes = GenericPartTypes
+		class.Name = newName
+	}
 	//inherits-slice always exists
 	if inherits != "" {
 		class.Inherits = strings.Split(inherits, ",")
@@ -285,7 +291,12 @@ func NewAttribute(name, _type, comment string, defaultValue string, required str
 	attribute.Type = _type
 	attribute.Comment = comment
 	attribute.defaultValue = defaultValue
-	attribute.IsGeneric, attribute.GenericPartTypes = AnalyzeGenerics(_type)
+	IsGeneric, GenericPartTypes, newName := AnalyzeGenerics(_type)
+	if IsGeneric {
+		attribute.IsGeneric = IsGeneric
+		attribute.GenericPartTypes = GenericPartTypes
+		attribute.Name = newName
+	}
 	if strings.TrimSpace(required) == "1..1" {
 		attribute.Required = true
 	} else {
@@ -426,8 +437,15 @@ type Parameter struct {
 }
 
 func NewParameter(name, inOut, _type string, required bool) (*Parameter, error) {
-	IsGeneric, GenericPartType := AnalyzeGenerics(name)
-	return &Parameter{name, inOut, _type, required, IsGeneric, GenericPartType}, nil
+	isGeneric, genericPartTypes, newName := AnalyzeGenerics(name)
+	IsGeneric := false
+	GenericPartTypes := make([]string, 0)
+	if isGeneric {
+		IsGeneric = isGeneric
+		GenericPartTypes = genericPartTypes
+		name = newName
+	}
+	return &Parameter{name, inOut, _type, required, IsGeneric, GenericPartTypes}, nil
 }
 
 func AnalyzeParameters(functionName string) []*Parameter {

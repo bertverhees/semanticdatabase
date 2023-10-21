@@ -1,8 +1,8 @@
 package vocabulary
 
 /**
-Meta-type for writable variables, including routine parameters and the special
-variable Self .
+	Meta-type for writable variables, including routine parameters and the special
+	variable Self .
 */
 
 type IBmmReadonlyVariable interface {

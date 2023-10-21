@@ -256,14 +256,16 @@ func parsePBMM(text string, model *classes.Model) (data string) {
 						attributeList = append(attributeList, attribute)
 					}
 				case functions:
-					parameters := classes.AnalyzeParameters(functionName)
-					function, e := classes.NewFunction(functionName, functionDescription)
-					if strings.Contains(strings.ToLower(td1), "redefined") {
-						function.Redefined = true
-					}
-					if e == nil {
-						function.AddParameters(parameters)
-						functionList = append(functionList, function)
+					if strings.Contains(td1, "0..1") || strings.Contains(td1, "1..1") {
+						parameters := classes.AnalyzeParameters(functionName)
+						function, e := classes.NewFunction(functionName, functionDescription)
+						if strings.Contains(strings.ToLower(td1), "redefined") {
+							function.Redefined = true
+						}
+						if e == nil {
+							function.AddParameters(parameters)
+							functionList = append(functionList, function)
+						}
 					}
 				}
 				isTD1 = false

@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	WriteBasicDefinitions("vocabulary", "../../vocabulary")
 	model := bmm.ParseBMM_HTML()
 	CreateFiles("vocabulary", "../../vocabulary", model)
 	model = p_bmm.ParseP_BMM_HTML(model)

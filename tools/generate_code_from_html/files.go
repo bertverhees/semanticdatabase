@@ -8,29 +8,6 @@ import (
 	"strings"
 )
 
-func WriteBasicDefinitions(packageName, directory string) {
-	w, err := os.Create(directory + "/BasicDefinitions.go")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer w.Close()
-	WriteLine("package "+packageName, w)
-	WriteLine("", w)
-	WriteLine(CommentLines("Defines globally used constant values.", 80), w)
-	WriteLine("", w)
-	WriteLine("type BasicDefinition struct {", w)
-	WriteLine(CommentLines("\tCarriage return character.", 80), w)
-	WriteLine("\tCR\trune\t`yaml:\"cr\" json:\"cr\" xml:\"cr\"`", w)
-	WriteLine(CommentLines("\tLine feed character.", 80), w)
-	WriteLine("\tLF\trune\t`yaml:\"lf\" json:\"lf\" xml:\"lf\"`", w)
-	WriteLine("\tAnyTypeName\tstring\t`yaml:\"anynametype\" json:\"anynametype\" xml:\"anynametype\"`", w)
-	WriteLine("\tRegexAnyPattern\tstring\t`yaml:\"regexanypattern\" json:\"regexanypattern\" xml:\"regexanypattern\"`", w)
-	WriteLine("\tDefaultEncoding\tstring\t`yaml:\"defaultencoding\" json:\"defaultencoding\" xml:\"defaultencoding\"`", w)
-	WriteLine("\tNoneTypeName\tstring\t`yaml:\"nonetypename\" json:\"nonetypename\" xml:\"nonetypename\"`", w)
-	WriteLine("}", w)
-}
-
 func WriteLine(line string, f *os.File) {
 	f.WriteString(line + "\n")
 }
@@ -79,20 +56,81 @@ func createFile(packageName, directory string, c *classes.Class, e *classes.Enum
 		log.Fatal(err)
 	}
 	defer w.Close()
-	WriteLine("package "+packageName, w)
-	WriteLine("", w)
-	WriteLine(CommentLines(topComment, 80), w)
-	WriteLine("", w)
-	WriteLine("type I"+name+" interface {", w)
-	WriteLine("}", w)
-	WriteLine("", w)
-	WriteLine("type "+name+" struct {", w)
-	WriteLine("}", w)
 
-	if c != nil {
+	if c != nil && e == nil {
+		WriteLine("package "+packageName, w)
+		WriteLine("", w)
+		WriteLine(CommentLines(topComment, 80, 0), w)
+		WriteLine("", w)
+		WriteLine("type I"+name+" interface {", w)
+		for _, f := range c.Functions {
+			pIn, pOut := ConstructFunctions(f)
+			WriteLine(CommentLines(f.Comment, 80, 1), w)
+			WriteLine("\t"+f.Name+" ( "+pIn+" ) "+pOut, w)
+		}
+		WriteLine("}", w)
+		WriteLine("", w)
+		WriteLine("type "+name+" struct {", w)
+		WriteLine("}", w)
 	}
 	if e != nil {
 	}
+}
+
+func ConstructFunctions(f *classes.Function) (in, out string) {
+	var parameterIn string
+	for j, p := range f.In {
+		var genericPart string
+		if p.IsGeneric {
+			for k, g := range p.GenericPartTypes {
+				if k == 0 {
+					genericPart = g
+				} else {
+					genericPart = genericPart + ", " + g
+				}
+			}
+		}
+		if j == 0 {
+			if p.IsGeneric {
+				parameterIn = p.Name + " < " + genericPart + " > "
+			} else {
+				parameterIn = p.Name + " " + p.Type
+			}
+		} else {
+			if p.IsGeneric {
+				parameterIn = parameterIn + ", " + p.Name + " < " + genericPart + " > "
+			} else {
+				parameterIn = parameterIn + ", " + p.Name + " " + p.Type
+			}
+		}
+	}
+	var parameterOut string
+	for j, p := range f.Out {
+		var genericPart string
+		if p.IsGeneric {
+			for k, g := range p.GenericPartTypes {
+				if k == 0 {
+					genericPart = g
+				} else {
+					genericPart = genericPart + ", " + g
+				}
+			}
+		}
+		if j == 0 {
+			if p.IsGeneric {
+				parameterOut = p.Name + " < " + genericPart + " > "
+			} else {
+				parameterOut = p.Name + " " + p.Type
+			}
+		} else {
+			if p.IsGeneric {
+				parameterOut = parameterIn + ", " + p.Name + " < " + genericPart + " > "
+			} else {
+				parameterOut = parameterIn + ", " + p.Name + " " + p.Type
+			}
+		}
+	}
+	return parameterIn, parameterOut
 }
 
 func UpperCamelCase(s string) string {
@@ -191,7 +229,7 @@ func stringIter(s string, callback iterFunc) {
 	}
 }
 
-func CommentLines(line string, lineWidth int) string {
+func CommentLines(line string, lineWidth int, tab int) string {
 	if len(line) < 80 {
 		if strings.HasPrefix(line, "\t\t") {
 			return "\t\t// " + line[2:]
@@ -201,19 +239,25 @@ func CommentLines(line string, lineWidth int) string {
 		}
 		return "// " + line
 	}
-	return fmt.Sprintf("/**\n%s\n*/", wordWrap(line, lineWidth))
+	var tabString string
+	i := 0
+	for i < tab {
+		tabString = tabString + "\t"
+		i = i + 1
+	}
+	return fmt.Sprintf(tabString+"/**\n%s\n"+tabString+"*/", tabString+"\t"+wordWrap(line, lineWidth, tabString+"\t"))
 }
 
-func wordWrap(text string, lineWidth int) (wrapped string) {
+func wordWrap(text string, lineWidth int, tabString string) (wrapped string) {
 	words := strings.Fields(strings.TrimSpace(text))
 	if len(words) == 0 {
-		return text
+		return tabString + text
 	}
 	wrapped = words[0]
 	spaceLeft := lineWidth - len(wrapped)
 	for _, word := range words[1:] {
 		if len(word)+1 > spaceLeft {
-			wrapped += "\n" + word
+			wrapped += "\n" + tabString + word
 			spaceLeft = lineWidth - len(word)
 		} else {
 			wrapped += " " + word

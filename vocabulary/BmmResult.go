@@ -1,8 +1,8 @@
 package vocabulary
 
 /**
-Automatically declared variable representing result of a Function call
-(writable).
+	Automatically declared variable representing result of a Function call
+	(writable).
 */
 
 type IBmmResult interface {

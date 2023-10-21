@@ -1,8 +1,8 @@
 package vocabulary
 
 /**
-Meta-type for literals whose concrete type is a linear container type, i.e.
-array, list or set.
+	Meta-type for literals whose concrete type is a linear container type, i.e.
+	array, list or set.
 */
 
 type IBmmContainerValue interface {

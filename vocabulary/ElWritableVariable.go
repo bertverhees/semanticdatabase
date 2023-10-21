@@ -1,8 +1,8 @@
 package vocabulary
 
 /**
-Meta-type of writable variables, including routine locals and the special
-variable 'Result'.
+	Meta-type of writable variables, including routine locals and the special
+	variable 'Result'.
 */
 
 type IElWritableVariable interface {
