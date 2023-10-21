@@ -5,7 +5,6 @@ package vocabulary
 	qualifier if it is not the currently scoping entity.
 */
 
-
 type IElFeatureRef interface {
 	Reference():String (  )  string
 }

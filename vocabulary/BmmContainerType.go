@@ -6,7 +6,6 @@ package vocabulary
 	generic type such as List<T> , Set<T> etc.
 */
 
-
 type IBmmContainerType interface {
 	TypeName():String (  )  string
 	IsAbstract():BooleanPostIsAbstract:Result=ContainerType.isAbstract (  )  Boolean  Post_is_abstract : Result = container_type.is_abstract

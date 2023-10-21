@@ -5,7 +5,6 @@ package vocabulary
 	T> etc.
 */
 
-
 type IBmmIndexedContainerProperty interface {
 	DisplayName():String (  )  string
 }

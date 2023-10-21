@@ -5,7 +5,6 @@ package vocabulary
 	array, list or set.
 */
 
-
 type IBmmContainerValue interface {
 }
 

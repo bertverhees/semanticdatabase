@@ -5,7 +5,6 @@ package vocabulary
 	(writable).
 */
 
-
 type IBmmResult interface {
 }
 

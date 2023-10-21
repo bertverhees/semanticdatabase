@@ -5,7 +5,6 @@ package vocabulary
 	BMM_SCHEMA_CORE ).
 */
 
-
 type IBmmModel interface {
 	ModelId():String (  )  string
 	ClassDefinition(AName:String[1]):BmmClass ( a_name String[1] )  BMM_CLASS

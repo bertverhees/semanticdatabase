@@ -5,7 +5,6 @@ package vocabulary
 	structure and contents.
 */
 
-
 type IBmmModule interface {
 }
 

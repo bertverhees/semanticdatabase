@@ -5,7 +5,6 @@ package vocabulary
 	sets.
 */
 
-
 type IBmmModelAccess interface {
 	InitialiseWithLoadList(ASchemaDirs:List<string>[1],ASchemaLoadList:List<string>[0..1]) ( a_schema_dirs List <String>[1], a_schema_load_list List <String>[0..1] ) 
 	InitialiseAll(ASchemaDirs:List<string>[1]) ( a_schema_dirs List <String>[1] ) 

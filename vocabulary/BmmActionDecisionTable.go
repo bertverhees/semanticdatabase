@@ -5,7 +5,6 @@ package vocabulary
 	(lambdas) as the result of branches.
 */
 
-
 type IBmmActionDecisionTable interface {
 }
 

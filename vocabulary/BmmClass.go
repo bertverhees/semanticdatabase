@@ -9,7 +9,6 @@ package vocabulary
 	type_name() to obtain the qualified type name.
 */
 
-
 type IBmmClass interface {
 	Type():BmmModelType (  )  BMM_MODEL_TYPE
 	AllAncestors():List<string> (  )  List <String>

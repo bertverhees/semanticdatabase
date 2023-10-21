@@ -7,7 +7,6 @@ package vocabulary
 	usually called in the form name ({arg:TArg}*) .
 */
 
-
 type IBmmProcedure interface {
 	Signature():BmmProcedureType (  )  BMM_PROCEDURE_TYPE
 }

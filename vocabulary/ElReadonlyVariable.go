@@ -5,7 +5,6 @@ package vocabulary
 	variable 'Self'.
 */
 
-
 type IElReadonlyVariable interface {
 }
 

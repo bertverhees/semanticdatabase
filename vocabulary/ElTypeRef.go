@@ -7,7 +7,6 @@ package vocabulary
 	constant access.
 */
 
-
 type IElTypeRef interface {
 	EvalType():BmmType (  )  BMM_TYPE
 }

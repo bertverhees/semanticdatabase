@@ -5,7 +5,6 @@ package vocabulary
 	Routines.
 */
 
-
 type IBmmStatement interface {
 }
 

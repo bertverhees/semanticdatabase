@@ -5,7 +5,6 @@ package vocabulary
 	table, Map etc.
 */
 
-
 type IBmmIndexedContainerValue interface {
 }
 

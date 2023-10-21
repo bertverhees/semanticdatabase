@@ -5,7 +5,6 @@ package vocabulary
 	such as P_BMM_SCHEMA .
 */
 
-
 type IBmmModelMetadata interface {
 }
 

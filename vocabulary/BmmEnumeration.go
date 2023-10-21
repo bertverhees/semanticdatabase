@@ -9,7 +9,6 @@ package vocabulary
 	subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 */
 
-
 type IBmmEnumeration interface {
 	NameMap():Hash<String,String> (  )  Hash < String , String >
 }

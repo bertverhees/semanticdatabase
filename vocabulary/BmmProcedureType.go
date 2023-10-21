@@ -5,7 +5,6 @@ package vocabulary
 	the special Status meta-type
 */
 
-
 type IBmmProcedureType interface {
 }
 

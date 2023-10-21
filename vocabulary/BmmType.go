@@ -7,7 +7,6 @@ package vocabulary
 	may include generic parameters that might or might not be bound. See subtypes.
 */
 
-
 type IBmmType interface {
 	TypeName():String (  )  string
 	TypeSignature():String (  )  string

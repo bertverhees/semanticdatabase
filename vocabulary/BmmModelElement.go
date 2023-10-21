@@ -7,7 +7,6 @@ package vocabulary
 	but Types are not, since they are derived from model elements.
 */
 
-
 type IBmmModelElement interface {
 	IsRootScope():BooleanPostResult:Result=(scope=Self) (  )  Boolean  Post_result : Result = (scope = self)
 }

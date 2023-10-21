@@ -6,7 +6,6 @@ package vocabulary
 	settings). May be rendered in syntax as assert condition or similar.
 */
 
-
 type IBmmAssertion interface {
 }
 

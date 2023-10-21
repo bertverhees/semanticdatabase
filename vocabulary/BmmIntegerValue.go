@@ -5,7 +5,6 @@ package vocabulary
 	representing Integer and value is of type Integer .
 */
 
-
 type IBmmIntegerValue interface {
 }
 

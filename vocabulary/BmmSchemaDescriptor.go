@@ -5,7 +5,6 @@ package vocabulary
 	from a mini-ODIN parse of the schema file.
 */
 
-
 type IBmmSchemaDescriptor interface {
 	IsTopLevel():Boolean (  )  Boolean
 	IsBmmCompatible():Boolean (  )  Boolean

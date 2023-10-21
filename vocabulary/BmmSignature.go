@@ -6,7 +6,6 @@ package vocabulary
 	constraints in descendants determining the exact form.
 */
 
-
 type IBmmSignature interface {
 	FlattenedTypeList():List<string> (  )  List <String>
 }

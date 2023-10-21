@@ -5,7 +5,6 @@ package vocabulary
 	value objects.
 */
 
-
 type IBmmInstantiableFeature interface {
 }
 

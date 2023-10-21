@@ -13,6 +13,8 @@ func formatType(t string) string {
 		return "string"
 	case strings.ToLower(t) == "char":
 		return "rune"
+	case strings.ToLower(t) == "character":
+		return "rune"
 	}
 	return t
 }
@@ -195,7 +197,7 @@ func CommentLines(line string, lineWidth int, tab int, f *os.File) {
 		WriteLine(tabString+"// "+line, f)
 		return
 	}
-	WriteLine(fmt.Sprintf(tabString+"/**\n%s\n"+tabString+"*/\n", tabString+"\t"+wordWrap(line, lineWidth, tabString+"\t")), f)
+	WriteLine(fmt.Sprintf(tabString+"/**\n%s\n"+tabString+"*/", tabString+"\t"+wordWrap(line, lineWidth, tabString+"\t")), f)
 	return
 }
 

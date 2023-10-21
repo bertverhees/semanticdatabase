@@ -5,7 +5,6 @@ package vocabulary
 	manner of a standard Hash table, map or dictionary.
 */
 
-
 type IBmmIndexedContainerType interface {
 	TypeName():String (  )  string
 }

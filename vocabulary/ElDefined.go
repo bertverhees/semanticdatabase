@@ -6,7 +6,6 @@ package vocabulary
 	probably to be removed.
 */
 
-
 type IElDefined interface {
 }
 

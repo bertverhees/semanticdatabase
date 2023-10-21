@@ -5,7 +5,6 @@ package vocabulary
 	type in a generic type declaration.
 */
 
-
 type IBmmEffectiveType interface {
 	EffectiveType():BmmEffectiveType (  )  BMM_EFFECTIVE_TYPE
 	TypeBaseName():String (  )  string

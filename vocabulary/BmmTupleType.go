@@ -8,7 +8,6 @@ package vocabulary
 	are only valid within the scope of a generic class.
 */
 
-
 type IBmmTupleType interface {
 	FlattenedTypeList():List<string> (  )  List <String>
 }

@@ -5,7 +5,6 @@ package vocabulary
 	1:1 with the type it generates.
 */
 
-
 type IBmmSimpleClass interface {
 	Type():BmmSimpleType (  )  BMM_SIMPLE_TYPE
 }

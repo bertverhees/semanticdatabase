@@ -5,7 +5,6 @@ package v2
 	packages and/or classes.
 */
 
-
 type IPBmmPackage interface {
 	Merge(Other:PBmmPackage[1]) ( other P_BMM_PACKAGE [1] ) 
 	CreateBmmPackageDefinition (  )  create_bmm_package_definition

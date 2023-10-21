@@ -5,7 +5,6 @@ package vocabulary
 	packages and classes. The name may be qualified if it is a top-level package.
 */
 
-
 type IBmmPackage interface {
 	RootClasses():List<BmmClass> (  )  List < BMM_CLASS >
 	Path():String (  )  string

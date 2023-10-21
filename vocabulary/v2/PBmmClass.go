@@ -5,7 +5,6 @@ package v2
 	etc.
 */
 
-
 type IPBmmClass interface {
 	IsGeneric():BooleanPost:Result:=GenericParameterDefs/=Void (  )  Boolean  Post : Result := generic_parameter_defs /= Void
 	CreateBmmClass (  )  create_bmm_class

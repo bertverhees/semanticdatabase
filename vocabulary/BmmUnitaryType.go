@@ -5,7 +5,6 @@ package vocabulary
 	that is not a container object.
 */
 
-
 type IBmmUnitaryType interface {
 	UnitaryType():BmmUnitaryType (  )  BMM_UNITARY_TYPE
 }

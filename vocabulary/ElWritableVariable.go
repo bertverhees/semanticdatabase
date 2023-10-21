@@ -5,7 +5,6 @@ package vocabulary
 	variable 'Result'.
 */
 
-
 type IElWritableVariable interface {
 }
 

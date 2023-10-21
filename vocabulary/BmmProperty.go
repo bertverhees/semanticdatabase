@@ -6,7 +6,6 @@ package vocabulary
 	sub-part or an association semantics with respect to the owning class.
 */
 
-
 type IBmmProperty interface {
 	Existence():MultiplicityInterval (  )  Multiplicity_interval
 	DisplayName():String (  )  string
