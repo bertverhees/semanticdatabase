@@ -11,19 +11,19 @@ func CreateFiles(packageName, directory string, model *classes.Model) {
 	for _, c := range model.Classes {
 		if packageName == "v2" {
 			if strings.HasPrefix(c.Name, "P_") {
-				createFile(packageName, directory, c, nil)
+				createFile(packageName, directory, c, nil, model)
 			}
 		} else {
-			createFile(packageName, directory, c, nil)
+			createFile(packageName, directory, c, nil, model)
 		}
 	}
 	for _, e := range model.Enumerations {
 		if packageName == "v2" {
 			if strings.HasPrefix(e.Name, "P_") {
-				createFile(packageName, directory, nil, e)
+				createFile(packageName, directory, nil, e, model)
 			}
 		} else {
-			createFile(packageName, directory, nil, e)
+			createFile(packageName, directory, nil, e, model)
 		}
 	}
 }
@@ -34,7 +34,7 @@ This is a rather long line that needs
 word wrapping to an arbirtary line
 lenght so it's easier to read it.
 */
-func createFile(packageName, directory string, c *classes.Class, e *classes.Enumeration) {
+func createFile(packageName, directory string, c *classes.Class, e *classes.Enumeration, m *classes.Model) {
 	name := ""
 	topComment := ""
 	if c != nil {
@@ -59,7 +59,7 @@ func createFile(packageName, directory string, c *classes.Class, e *classes.Enum
 		WriteLine("", w)
 		WriteLine("type I"+name+" interface {", w)
 		for _, f := range c.Functions {
-			pIn, pOut := ConstructFunctions(f)
+			pIn, pOut := ConstructFunctions(f, m)
 			//WriteLine(CommentLines(f.Comment, 80, 1), w)
 			WriteLine("\t"+UpperCamelCase(f.Name)+" ( "+pIn+" ) "+pOut, w)
 		}
@@ -68,7 +68,7 @@ func createFile(packageName, directory string, c *classes.Class, e *classes.Enum
 		WriteLine("type "+name+" struct {", w)
 		for _, co := range c.Constants {
 			CommentLines(co.Comment, 80, 1, w)
-			WriteLine("\t"+UpperCamelCase(co.Name)+"\t"+formatType(co.Type)+"\t`yaml:\""+strings.ToLower(co.Name)+"\" json:\""+strings.ToLower(co.Name)+"\" xml:\""+strings.ToLower(co.Name)+"\"`", w)
+			WriteLine("\t"+UpperCamelCase(co.Name)+"\t"+formatType(co.Type, m)+"\t`yaml:\""+strings.ToLower(UpperCamelCase(co.Name))+"\" json:\""+strings.ToLower(UpperCamelCase(co.Name))+"\" xml:\""+strings.ToLower(UpperCamelCase(co.Name))+"\"`", w)
 		}
 		WriteLine("}", w)
 	}

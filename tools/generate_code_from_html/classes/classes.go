@@ -7,16 +7,22 @@ import (
 )
 
 type Model struct {
-	Classes      []*Class
-	ClassNames   []string
-	Enumerations []*Enumeration
+	Classes             []*Class
+	ClassNames          []string
+	NewClassNames       []string
+	Enumerations        []*Enumeration
+	EnumerationNames    []string
+	NewEnumerationNames []string
 }
 
 func NewModel() *Model {
 	model := new(Model)
 	model.Classes = make([]*Class, 0)
 	model.ClassNames = make([]string, 0)
+	model.NewClassNames = make([]string, 0)
 	model.Enumerations = make([]*Enumeration, 0)
+	model.EnumerationNames = make([]string, 0)
+	model.NewEnumerationNames = make([]string, 0)
 	return model
 }
 func (m *Model) AddEnumeration(enumeration *Enumeration) error {
@@ -26,7 +32,53 @@ func (m *Model) AddEnumeration(enumeration *Enumeration) error {
 		}
 	}
 	m.Enumerations = append(m.Enumerations, enumeration)
+	m.EnumerationNames = append(m.EnumerationNames, enumeration.Name)
 	return nil
+}
+
+func (m *Model) FindEnumerationByName(name string) *Enumeration {
+	for _, c := range m.Enumerations {
+		if c.Name == name {
+			return c
+		}
+	}
+	return nil
+}
+
+func (m *Model) ExistEnumerationByName(name string) bool {
+	for _, c := range m.EnumerationNames {
+		if c == name {
+			return true
+		}
+	}
+	return false
+}
+
+func (m *Model) ExistEnumerationByNewName(name string) bool {
+	for _, c := range m.NewEnumerationNames {
+		if c == name {
+			return true
+		}
+	}
+	return false
+}
+
+func (m *Model) ExistClassByName(name string) bool {
+	for _, c := range m.ClassNames {
+		if c == name {
+			return true
+		}
+	}
+	return false
+}
+
+func (m *Model) ExistClassByNewName(name string) bool {
+	for _, c := range m.NewClassNames {
+		if c == name {
+			return true
+		}
+	}
+	return false
 }
 
 func (m *Model) FindClassByName(name string) *Class {
@@ -397,8 +449,15 @@ func (f *Function) Print() {
 }
 
 func NewFunction(name, comment string) (*Function, error) {
+	functionName := name
+	if strings.Contains(name, "(") {
+		functionName = strings.TrimSpace(strings.Split(name, "(")[0])
+	}
+	if strings.Contains(functionName, ":") {
+		functionName = strings.TrimSpace(strings.Split(name, ":")[0])
+	}
 	function := new(Function)
-	function.Name = name
+	function.Name = functionName
 	function.Comment = comment
 	function.Out = make([]*Parameter, 0)
 	function.In = make([]*Parameter, 0)

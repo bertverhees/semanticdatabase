@@ -8,7 +8,7 @@ package vocabulary
 */
 
 type IBmmModelElement interface {
-	IsRootScope():BooleanPostResult:Result=(scope=Self) (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
 type BmmModelElement struct {

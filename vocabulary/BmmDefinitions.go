@@ -3,9 +3,9 @@ package vocabulary
 // Definitions used by all BMM packages.
 
 type IBmmDefinitions interface {
-	AnyClass():BmmSimpleClass (  )  BMM_SIMPLE_CLASS
-	AnyType():BmmSimpleType (  )  BMM_SIMPLE_TYPE
-	CreateSchemaId(AModelPublisher,ASchemaName,AModelRelease:String[1]):String ( a_model_publisher String[1], a_schema_name String[1], a_model_release String[1] )  string
+	AnyClass (  )  IBmmSimpleClass
+	AnyType (  )  IBmmSimpleType
+	CreateSchemaId ( a_model_publisher string, a_schema_name string, a_model_release string )  string
 }
 
 type BmmDefinitions struct {
@@ -13,59 +13,59 @@ type BmmDefinitions struct {
 		Current internal version of BMM meta-model, used to determine if a given schema
 		can be processed by a given implementation of the model.
 	*/
-	BmmInternalVersion	string	`yaml:"bmm_internal_version" json:"bmm_internal_version" xml:"bmm_internal_version"`
+	BmmInternalVersion	string	`yaml:"bmminternalversion" json:"bmminternalversion" xml:"bmminternalversion"`
 	/**
 		Delimiter used to separate schema id from package path in a fully qualified
 		path.
 	*/
-	SchemaNameDelimiter	string	`yaml:"schema_name_delimiter" json:"schema_name_delimiter" xml:"schema_name_delimiter"`
+	SchemaNameDelimiter	string	`yaml:"schemanamedelimiter" json:"schemanamedelimiter" xml:"schemanamedelimiter"`
 	// Delimiter used to separate package names in a package path.
-	PackageNameDelimiter	string	`yaml:"package_name_delimiter" json:"package_name_delimiter" xml:"package_name_delimiter"`
+	PackageNameDelimiter	string	`yaml:"packagenamedelimiter" json:"packagenamedelimiter" xml:"packagenamedelimiter"`
 	// Extension used for BMM files.
-	BmmSchemaFileExtension	string	`yaml:"bmm_schema_file_extension" json:"bmm_schema_file_extension" xml:"bmm_schema_file_extension"`
+	BmmSchemaFileExtension	string	`yaml:"bmmschemafileextension" json:"bmmschemafileextension" xml:"bmmschemafileextension"`
 	// Appears between a name and a type in a declaration or type signature.
-	TypeDelimiter	rune	`yaml:"type_delimiter" json:"type_delimiter" xml:"type_delimiter"`
+	TypeDelimiter	rune	`yaml:"typedelimiter" json:"typedelimiter" xml:"typedelimiter"`
 	// Left delimiter for generic class and generic type names, as used in List<T> .
-	GenericLeftDelimiter	rune	`yaml:"generic_left_delimiter" json:"generic_left_delimiter" xml:"generic_left_delimiter"`
+	GenericLeftDelimiter	rune	`yaml:"genericleftdelimiter" json:"genericleftdelimiter" xml:"genericleftdelimiter"`
 	// Right delimiter for generic class and generic type names, as used in List<T> .
-	GenericRightDelimiter	rune	`yaml:"generic_right_delimiter" json:"generic_right_delimiter" xml:"generic_right_delimiter"`
+	GenericRightDelimiter	rune	`yaml:"genericrightdelimiter" json:"genericrightdelimiter" xml:"genericrightdelimiter"`
 	// Separator used in Generic types.
-	GenericSeparator	rune	`yaml:"generic_separator" json:"generic_separator" xml:"generic_separator"`
+	GenericSeparator	rune	`yaml:"genericseparator" json:"genericseparator" xml:"genericseparator"`
 	/**
 		Delimiter between formal type parameter and constraint type, as used in
 		Sortable<T: Ordered> .
 	*/
-	GenericConstraintDelimiter	rune	`yaml:"generic_constraint_delimiter" json:"generic_constraint_delimiter" xml:"generic_constraint_delimiter"`
+	GenericConstraintDelimiter	rune	`yaml:"genericconstraintdelimiter" json:"genericconstraintdelimiter" xml:"genericconstraintdelimiter"`
 	/**
 		Left delimiter of a Tuple type and also instance. Example: [Integer, String] - a
 		tuple type; [3, "Quixote"] - a tuple.
 	*/
-	TupleLeftDelim	rune	`yaml:"tuple_left_delim" json:"tuple_left_delim" xml:"tuple_left_delim"`
+	TupleLeftDelim	rune	`yaml:"tupleleftdelim" json:"tupleleftdelim" xml:"tupleleftdelim"`
 	// Right delimiter of a Tuple type and also instance.
-	TupleRightDelim	rune	`yaml:"tuple_right_delim" json:"tuple_right_delim" xml:"tuple_right_delim"`
+	TupleRightDelim	rune	`yaml:"tuplerightdelim" json:"tuplerightdelim" xml:"tuplerightdelim"`
 	// Separator used in Tuple types and instances.
-	TupleSeparator	rune	`yaml:"tuple_separator" json:"tuple_separator" xml:"tuple_separator"`
+	TupleSeparator	rune	`yaml:"tupleseparator" json:"tupleseparator" xml:"tupleseparator"`
 	// Left delimiter used in serial form of instance constrained enumeration.
-	ConstraintLeftDelim	rune	`yaml:"constraint_left_delim" json:"constraint_left_delim" xml:"constraint_left_delim"`
+	ConstraintLeftDelim	rune	`yaml:"constraintleftdelim" json:"constraintleftdelim" xml:"constraintleftdelim"`
 	// Right delimiter used in serial form of instance constrained enumeration.
-	ConstraintRightDelim	rune	`yaml:"constraint_right_delim" json:"constraint_right_delim" xml:"constraint_right_delim"`
+	ConstraintRightDelim	rune	`yaml:"constraintrightdelim" json:"constraintrightdelim" xml:"constraintrightdelim"`
 	// Attribute name of logical attribute 'bmm_version' in .bmm schema file.
-	MetadataBmmVersion	string	`yaml:"metadata_bmm_version" json:"metadata_bmm_version" xml:"metadata_bmm_version"`
+	MetadataBmmVersion	string	`yaml:"metadatabmmversion" json:"metadatabmmversion" xml:"metadatabmmversion"`
 	// Attribute name of logical attribute 'schema_name' in .bmm schema file.
-	MetadataSchemaName	string	`yaml:"metadata_schema_name" json:"metadata_schema_name" xml:"metadata_schema_name"`
+	MetadataSchemaName	string	`yaml:"metadataschemaname" json:"metadataschemaname" xml:"metadataschemaname"`
 	// Attribute name of logical attribute 'rm_publisher' in .bmm schema file.
-	MetadataRmPublisher	string	`yaml:"metadata_rm_publisher" json:"metadata_rm_publisher" xml:"metadata_rm_publisher"`
+	MetadataRmPublisher	string	`yaml:"metadatarmpublisher" json:"metadatarmpublisher" xml:"metadatarmpublisher"`
 	// Attribute name of logical attribute 'rm_release' in .bmm schema file.
-	MetadataRmRelease	string	`yaml:"metadata_rm_release" json:"metadata_rm_release" xml:"metadata_rm_release"`
+	MetadataRmRelease	string	`yaml:"metadatarmrelease" json:"metadatarmrelease" xml:"metadatarmrelease"`
 	// Attribute name of logical attribute 'schema_revision' in .bmm schema file.
-	MetadataSchemaRevision	string	`yaml:"metadata_schema_revision" json:"metadata_schema_revision" xml:"metadata_schema_revision"`
+	MetadataSchemaRevision	string	`yaml:"metadataschemarevision" json:"metadataschemarevision" xml:"metadataschemarevision"`
 	/**
 		Attribute name of logical attribute 'schema_lifecycle_state' in .bmm schema
 		file.
 	*/
-	MetadataSchemaLifecycleState	string	`yaml:"metadata_schema_lifecycle_state" json:"metadata_schema_lifecycle_state" xml:"metadata_schema_lifecycle_state"`
+	MetadataSchemaLifecycleState	string	`yaml:"metadataschemalifecyclestate" json:"metadataschemalifecyclestate" xml:"metadataschemalifecyclestate"`
 	// Attribute name of logical attribute 'schema_description' in .bmm schema file.
-	MetadataSchemaDescription	string	`yaml:"metadata_schema_description" json:"metadata_schema_description" xml:"metadata_schema_description"`
+	MetadataSchemaDescription	string	`yaml:"metadataschemadescription" json:"metadataschemadescription" xml:"metadataschemadescription"`
 	// Path of schema file.
-	MetadataSchemaPath	string	`yaml:"metadata_schema_path" json:"metadata_schema_path" xml:"metadata_schema_path"`
+	MetadataSchemaPath	string	`yaml:"metadataschemapath" json:"metadataschemapath" xml:"metadataschemapath"`
 }

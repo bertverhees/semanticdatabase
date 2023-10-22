@@ -6,25 +6,25 @@ package vocabulary
 */
 
 type IBmmModel interface {
-	ModelId():String (  )  string
-	ClassDefinition(AName:String[1]):BmmClass ( a_name String[1] )  BMM_CLASS
-	TypeDefinition():BmmClass (  )  BMM_CLASS
-	HasClassDefinition(AClassName:String[1]):Boolean ( a_class_name String[1] )  Boolean
-	HasTypeDefinition(ATypeName:String[1]):Boolean ( a_type_name String[1] )  Boolean
-	EnumerationDefinition(AName:String[1]):BmmEnumeration ( a_name String[1] )  BMM_ENUMERATION
-	PrimitiveTypes():List<string> (  )  List <String>
-	EnumerationTypes():List<string> (  )  List <String>
-	PropertyDefinition():BmmProperty (  )  BMM_PROPERTY
-	MsConformantPropertyType(ABmmTypeName:String[1],ABmmPropertyName:String[1],AMsPropertyName:String[1]):Boolean ( a_bmm_type_name String[1], a_bmm_property_name String[1], a_ms_property_name String[1] )  Boolean
-	PropertyDefinitionAtPath():BmmProperty (  )  BMM_PROPERTY
-	ClassDefinitionAtPath(ATypeName:String[1],APropPath:String[1]):BmmClass ( a_type_name String[1], a_prop_path String[1] )  BMM_CLASS
-	AllAncestorClasses(AClass:String[1]):List<string> ( a_class String[1] )  List <String>
-	IsDescendantOf(AClassName:String[1],AParentClassName:String[1]):Boolean ( a_class_name String[1], a_parent_class_name String[1] )  Boolean
-	TypeConformsTo(ADescType:String[1],AnAncType:String[1]):Boolean ( a_desc_type String[1], an_anc_type String[1] )  Boolean
-	Subtypes(AType:String[1]):List<string> ( a_type String[1] )  List <String>
-	AnyClassDefinition():BmmSimpleClass (  )  BMM_SIMPLE_CLASS
-	AnyTypeDefinition():BmmSimpleType (  )  BMM_SIMPLE_TYPE
-	BooleanTypeDefinition():BmmSimpleType (  )  BMM_SIMPLE_TYPE
+	ModelId (  )  string
+	ClassDefinition ( a_name string )  IBmmClass
+	TypeDefinition (  )  IBmmClass
+	HasClassDefinition ( a_class_name string )  Boolean
+	HasTypeDefinition ( a_type_name string )  Boolean
+	EnumerationDefinition ( a_name string )  IBmmEnumeration
+	PrimitiveTypes (  )  List <String>
+	EnumerationTypes (  )  List <String>
+	PropertyDefinition (  )  IBmmProperty
+	MsConformantPropertyType ( a_bmm_type_name string, a_bmm_property_name string, a_ms_property_name string )  Boolean
+	PropertyDefinitionAtPath (  )  IBmmProperty
+	ClassDefinitionAtPath ( a_type_name string, a_prop_path string )  IBmmClass
+	AllAncestorClasses ( a_class string )  List <String>
+	IsDescendantOf ( a_class_name string, a_parent_class_name string )  Boolean
+	TypeConformsTo ( a_desc_type string, an_anc_type string )  Boolean
+	Subtypes ( a_type string )  List <String>
+	AnyClassDefinition (  )  IBmmSimpleClass
+	AnyTypeDefinition (  )  IBmmSimpleType
+	BooleanTypeDefinition (  )  IBmmSimpleType
 }
 
 type BmmModel struct {

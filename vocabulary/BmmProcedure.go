@@ -8,7 +8,7 @@ package vocabulary
 */
 
 type IBmmProcedure interface {
-	Signature():BmmProcedureType (  )  BMM_PROCEDURE_TYPE
+	Signature (  )  IBmmProcedureType
 }
 
 type BmmProcedure struct {

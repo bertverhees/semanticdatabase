@@ -10,7 +10,7 @@ package vocabulary
 */
 
 type IBmmEnumeration interface {
-	NameMap():Hash<String,String> (  )  Hash < String , String >
+	NameMap (  )  Hash < String , String >
 }
 
 type BmmEnumeration struct {

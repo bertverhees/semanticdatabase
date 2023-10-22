@@ -6,8 +6,8 @@ package vocabulary
 */
 
 type IBmmPackage interface {
-	RootClasses():List<BmmClass> (  )  List < BMM_CLASS >
-	Path():String (  )  string
+	RootClasses (  )  List < BMM_CLASS >
+	Path (  )  string
 }
 
 type BmmPackage struct {

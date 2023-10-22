@@ -6,7 +6,7 @@ package vocabulary
 */
 
 type IBmmIndexedContainerType interface {
-	TypeName():String (  )  string
+	TypeName (  )  string
 }
 
 type BmmIndexedContainerType struct {

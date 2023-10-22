@@ -6,7 +6,7 @@ package vocabulary
 */
 
 type IBmmIndexedContainerProperty interface {
-	DisplayName():String (  )  string
+	DisplayName (  )  string
 }
 
 type BmmIndexedContainerProperty struct {

@@ -6,7 +6,7 @@ package vocabulary
 */
 
 type IBmmUnitaryType interface {
-	UnitaryType():BmmUnitaryType (  )  BMM_UNITARY_TYPE
+	UnitaryType (  )  IBmmUnitaryType
 }
 
 type BmmUnitaryType struct {

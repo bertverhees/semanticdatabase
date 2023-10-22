@@ -5,13 +5,13 @@ package vocabulary
 */
 
 type IBmmBuiltinType interface {
-	IsAbstract():Boolean (  )  Boolean
-	IsPrimitive():Boolean (  )  Boolean
-	TypeBaseName():String (  )  string
-	TypeName():String (  )  string
+	IsAbstract (  )  Boolean
+	IsPrimitive (  )  Boolean
+	TypeBaseName (  )  string
+	TypeName (  )  string
 }
 
 type BmmBuiltinType struct {
 	// Base name (built-in typename).
-	BaseName	string	`yaml:"base_name" json:"base_name" xml:"base_name"`
+	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
 }

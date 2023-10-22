@@ -3,10 +3,10 @@ package vocabulary
 // Type reference to a single type i.e. not generic or container type.
 
 type IBmmSimpleType interface {
-	TypeName():String (  )  string
-	IsAbstract():Boolean (  )  Boolean
-	FlattenedTypeList():List<string> (  )  List <String>
-	EffectiveBaseClass():BmmSimpleClass (  )  BMM_SIMPLE_CLASS
+	TypeName (  )  string
+	IsAbstract (  )  Boolean
+	FlattenedTypeList (  )  List <String>
+	EffectiveBaseClass (  )  IBmmSimpleClass
 }
 
 type BmmSimpleType struct {

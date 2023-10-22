@@ -7,9 +7,13 @@ import (
 	"strings"
 )
 
-func formatType(t string) string {
+func formatType(t string, m *classes.Model) string {
 	switch {
+	case m.ExistClassByNewName(UpperCamelCase(t)) || m.ExistEnumerationByNewName(UpperCamelCase(t)):
+		return "I" + UpperCamelCase(t)
 	case strings.ToLower(t) == "string":
+		return "string"
+	case strings.ToLower(t) == "string[1]":
 		return "string"
 	case strings.ToLower(t) == "char":
 		return "rune"
@@ -23,7 +27,7 @@ func WriteLine(line string, f *os.File) {
 	f.WriteString(line + "\n")
 }
 
-func ConstructFunctions(f *classes.Function) (in, out string) {
+func ConstructFunctions(f *classes.Function, m *classes.Model) (in, out string) {
 	var parameterIn string
 	for j, p := range f.In {
 		var genericPart string
@@ -40,13 +44,13 @@ func ConstructFunctions(f *classes.Function) (in, out string) {
 			if p.IsGeneric {
 				parameterIn = p.Name + " < " + genericPart + " > "
 			} else {
-				parameterIn = p.Name + " " + formatType(p.Type)
+				parameterIn = p.Name + " " + formatType(p.Type, m)
 			}
 		} else {
 			if p.IsGeneric {
 				parameterIn = parameterIn + ", " + p.Name + " < " + genericPart + " > "
 			} else {
-				parameterIn = parameterIn + ", " + p.Name + " " + formatType(p.Type)
+				parameterIn = parameterIn + ", " + p.Name + " " + formatType(p.Type, m)
 			}
 		}
 	}
@@ -66,13 +70,13 @@ func ConstructFunctions(f *classes.Function) (in, out string) {
 			if p.IsGeneric {
 				parameterOut = p.Name + " < " + genericPart + " > "
 			} else {
-				parameterOut = p.Name + " " + formatType(p.Type)
+				parameterOut = p.Name + " " + formatType(p.Type, m)
 			}
 		} else {
 			if p.IsGeneric {
 				parameterOut = parameterIn + ", " + p.Name + " < " + genericPart + " > "
 			} else {
-				parameterOut = parameterIn + ", " + p.Name + " " + formatType(p.Type)
+				parameterOut = parameterIn + ", " + p.Name + " " + formatType(p.Type, m)
 			}
 		}
 	}

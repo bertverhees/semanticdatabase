@@ -10,8 +10,8 @@ type BasicDefinitions struct {
 	Cr	rune	`yaml:"cr" json:"cr" xml:"cr"`
 	// Line feed character.
 	Lf	rune	`yaml:"lf" json:"lf" xml:"lf"`
-	AnyTypeName	string	`yaml:"any_type_name" json:"any_type_name" xml:"any_type_name"`
-	RegexAnyPattern	string	`yaml:"regex_any_pattern" json:"regex_any_pattern" xml:"regex_any_pattern"`
-	DefaultEncoding	string	`yaml:"default_encoding" json:"default_encoding" xml:"default_encoding"`
-	NoneTypeName	string	`yaml:"none_type_name" json:"none_type_name" xml:"none_type_name"`
+	AnyTypeName	string	`yaml:"anytypename" json:"anytypename" xml:"anytypename"`
+	RegexAnyPattern	string	`yaml:"regexanypattern" json:"regexanypattern" xml:"regexanypattern"`
+	DefaultEncoding	string	`yaml:"defaultencoding" json:"defaultencoding" xml:"defaultencoding"`
+	NoneTypeName	string	`yaml:"nonetypename" json:"nonetypename" xml:"nonetypename"`
 }

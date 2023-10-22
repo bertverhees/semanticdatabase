@@ -11,9 +11,9 @@ package vocabulary
 */
 
 type IElAgent interface {
-	EvalType():BmmRoutineTypePostResult:Result=Definition.signature (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
-	IsCallable():BooleanPostResultValidity:Result=OpenArguments=Void (  )  Boolean  Post_result_validity : Result = open_arguments = Void
-	Reference():String (  )  string
+	EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
+	IsCallable (  )  Boolean  Post_result_validity : Result = open_arguments = Void
+	Reference (  )  string
 }
 
 type ElAgent struct {

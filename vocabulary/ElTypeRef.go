@@ -8,7 +8,7 @@ package vocabulary
 */
 
 type IElTypeRef interface {
-	EvalType():BmmType (  )  BMM_TYPE
+	EvalType (  )  IBmmType
 }
 
 type ElTypeRef struct {

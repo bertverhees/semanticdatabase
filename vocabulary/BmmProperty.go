@@ -7,8 +7,8 @@ package vocabulary
 */
 
 type IBmmProperty interface {
-	Existence():MultiplicityInterval (  )  Multiplicity_interval
-	DisplayName():String (  )  string
+	Existence (  )  Multiplicity_interval
+	DisplayName (  )  string
 }
 
 type BmmProperty struct {

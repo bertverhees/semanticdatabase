@@ -6,8 +6,8 @@ package vocabulary
 */
 
 type IElFunctionCall interface {
-	EvalType():BmmType (  )  BMM_TYPE
-	Reference():String (  )  string
+	EvalType (  )  IBmmType
+	Reference (  )  string
 }
 
 type ElFunctionCall struct {

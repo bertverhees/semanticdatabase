@@ -7,12 +7,12 @@ package vocabulary
 */
 
 type IBmmContainerType interface {
-	TypeName():String (  )  string
-	IsAbstract():BooleanPostIsAbstract:Result=ContainerType.isAbstract (  )  Boolean  Post_is_abstract : Result = container_type.is_abstract
-	FlattenedTypeList():List<string>PostResult:Result=ItemType.flattenedTypeList (  )  List <String>  Post_result : Result = item_type.flattened_type_list
-	UnitaryType():BmmUnitaryType (  )  BMM_UNITARY_TYPE
-	IsPrimitive():BooleanPostResult:Result=ItemType.isPrimitive (  )  Boolean  Post_result : Result = item_type.is_primitive
-	EffectiveType():BmmEffectiveType (  )  BMM_EFFECTIVE_TYPE
+	TypeName (  )  string
+	IsAbstract (  )  Boolean  Post_is_abstract : Result = container_type.is_abstract
+	FlattenedTypeList (  )  List <String>  Post_result : Result = item_type.flattened_type_list
+	UnitaryType (  )  IBmmUnitaryType
+	IsPrimitive (  )  Boolean  Post_result : Result = item_type.is_primitive
+	EffectiveType (  )  IBmmEffectiveType
 }
 
 type BmmContainerType struct {

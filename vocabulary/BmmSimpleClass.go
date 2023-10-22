@@ -6,7 +6,7 @@ package vocabulary
 */
 
 type IBmmSimpleClass interface {
-	Type():BmmSimpleType (  )  BMM_SIMPLE_TYPE
+	Type (  )  IBmmSimpleType
 }
 
 type BmmSimpleClass struct {

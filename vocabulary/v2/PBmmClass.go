@@ -6,9 +6,9 @@ package v2
 */
 
 type IPBmmClass interface {
-	IsGeneric():BooleanPost:Result:=GenericParameterDefs/=Void (  )  Boolean  Post : Result := generic_parameter_defs /= Void
+	IsGeneric (  )  Boolean  Post : Result := generic_parameter_defs /= Void
 	CreateBmmClass (  )  create_bmm_class
-	PopulateBmmClass(ABmmSchema:BmmModel[1]) ( a_bmm_schema BMM_MODEL [1] ) 
+	PopulateBmmClass ( a_bmm_schema BMM_MODEL [1] ) 
 }
 
 type PBmmClass struct {

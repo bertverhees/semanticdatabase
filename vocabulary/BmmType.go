@@ -8,13 +8,13 @@ package vocabulary
 */
 
 type IBmmType interface {
-	TypeName():String (  )  string
-	TypeSignature():String (  )  string
-	IsAbstract():Boolean (  )  Boolean
-	IsPrimitive():Boolean (  )  Boolean
-	UnitaryType():BmmUnitaryType (  )  BMM_UNITARY_TYPE
-	EffectiveType():BmmEffectiveType (  )  BMM_EFFECTIVE_TYPE
-	FlattenedTypeList():List<string> (  )  List <String>
+	TypeName (  )  string
+	TypeSignature (  )  string
+	IsAbstract (  )  Boolean
+	IsPrimitive (  )  Boolean
+	UnitaryType (  )  IBmmUnitaryType
+	EffectiveType (  )  IBmmEffectiveType
+	FlattenedTypeList (  )  List <String>
 }
 
 type BmmType struct {

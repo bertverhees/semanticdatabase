@@ -9,10 +9,10 @@ package vocabulary
 */
 
 type IBmmTupleType interface {
-	FlattenedTypeList():List<string> (  )  List <String>
+	FlattenedTypeList (  )  List <String>
 }
 
 type BmmTupleType struct {
 	// Base name (built-in).
-	BaseName	string	`yaml:"base_name" json:"base_name" xml:"base_name"`
+	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
 }

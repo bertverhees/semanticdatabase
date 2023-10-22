@@ -10,19 +10,19 @@ package vocabulary
 */
 
 type IBmmClass interface {
-	Type():BmmModelType (  )  BMM_MODEL_TYPE
-	AllAncestors():List<string> (  )  List <String>
-	AllDescendants():List<string> (  )  List <String>
-	Suppliers():List<string> (  )  List <String>
-	SuppliersNonPrimitive():List<string> (  )  List <String>
-	SupplierClosure():List<string> (  )  List <String>
-	PackagePath():String (  )  string
-	ClassPath():String (  )  string
-	IsPrimitive():Boolean (  )  Boolean
-	IsAbstract():Boolean (  )  Boolean
-	Features() (  ) 
-	FlatFeatures() (  ) 
-	FlatProperties():List<BmmProperty> (  )  List < BMM_PROPERTY >
+	Type (  )  IBmmModelType
+	AllAncestors (  )  List <String>
+	AllDescendants (  )  List <String>
+	Suppliers (  )  List <String>
+	SuppliersNonPrimitive (  )  List <String>
+	SupplierClosure (  )  List <String>
+	PackagePath (  )  string
+	ClassPath (  )  string
+	IsPrimitive (  )  Boolean
+	IsAbstract (  )  Boolean
+	Features (  ) 
+	FlatFeatures (  ) 
+	FlatProperties (  )  List < BMM_PROPERTY >
 }
 
 type BmmClass struct {

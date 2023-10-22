@@ -6,8 +6,8 @@ package vocabulary
 */
 
 type IBmmEffectiveType interface {
-	EffectiveType():BmmEffectiveType (  )  BMM_EFFECTIVE_TYPE
-	TypeBaseName():String (  )  string
+	EffectiveType (  )  IBmmEffectiveType
+	TypeBaseName (  )  string
 }
 
 type BmmEffectiveType struct {

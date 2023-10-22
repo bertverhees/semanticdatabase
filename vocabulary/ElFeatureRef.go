@@ -6,7 +6,7 @@ package vocabulary
 */
 
 type IElFeatureRef interface {
-	Reference():String (  )  string
+	Reference (  )  string
 }
 
 type ElFeatureRef struct {

@@ -6,11 +6,11 @@ package vocabulary
 */
 
 type IBmmModelAccess interface {
-	InitialiseWithLoadList(ASchemaDirs:List<string>[1],ASchemaLoadList:List<string>[0..1]) ( a_schema_dirs List <String>[1], a_schema_load_list List <String>[0..1] ) 
-	InitialiseAll(ASchemaDirs:List<string>[1]) ( a_schema_dirs List <String>[1] ) 
+	InitialiseWithLoadList ( a_schema_dirs List <String>[1], a_schema_load_list List <String>[0..1] ) 
+	InitialiseAll ( a_schema_dirs List <String>[1] ) 
 	ReloadSchemas (  )  reload_schemas
-	BmmModel(AModelKey:String[1]):BmmModel ( a_model_key String[1] )  BMM_MODEL
-	HasBmmModel(AModelKey:String[1]):Boolean ( a_model_key String[1] )  Boolean
+	BmmModel ( a_model_key string )  IBmmModel
+	HasBmmModel ( a_model_key string )  Boolean
 }
 
 type BmmModelAccess struct {

@@ -6,7 +6,7 @@ package vocabulary
 */
 
 type IElLiteral interface {
-	EvalType():BmmType (  )  BMM_TYPE
+	EvalType (  )  IBmmType
 }
 
 type ElLiteral struct {
