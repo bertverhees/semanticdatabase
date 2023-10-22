@@ -11,6 +11,8 @@ func formatType(t string, m *classes.Model) string {
 	switch {
 	case m.ExistClassByNewName(UpperCamelCase(t)) || m.ExistEnumerationByNewName(UpperCamelCase(t)):
 		return "I" + UpperCamelCase(t)
+	case strings.ToLower(t) == "integer":
+		return "int"
 	case strings.ToLower(t) == "string":
 		return "string"
 	case strings.ToLower(t) == "string[1]":
@@ -19,6 +21,24 @@ func formatType(t string, m *classes.Model) string {
 		return "rune"
 	case strings.ToLower(t) == "character":
 		return "rune"
+	case strings.ToLower(t) == "boolean":
+		return "bool"
+	case strings.ToLower(t) == "list <string>":
+		return "[]string"
+	case strings.ToLower(t) == "p_bmm_package [1]":
+		return "vocabulary.IPBmmPackage"
+	case strings.ToLower(t) == "hash <string, p_bmm_property >":
+		return "map[string]vocabulary.IPBmmProperty"
+	case strings.ToLower(t) == "hash <string, p_bmm_generic_parameter >":
+		return "map[string]vocabulary.IPBmmGenericParameter"
+	case strings.ToLower(t) == "list < p_bmm_generic_type >":
+		return "[]vocabulary.IPBmmGenericType"
+	case strings.ToLower(t) == "bmm_model [1]":
+		return "vocabulary.IBmmModel"
+	case strings.ToLower(t) == "bmm_class":
+		return "vocabulary.IBmmClass"
+	case strings.ToLower(t) == "bmm_class [1]":
+		return "vocabulary.IBmmClass"
 	}
 	return t
 }

@@ -1,9 +1,0 @@
-package vocabulary
-
-// Meta-type for property and variable signatures.
-
-type IBmmPropertyType interface {
-}
-
-type BmmPropertyType struct {
-}

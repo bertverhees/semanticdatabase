@@ -55,12 +55,15 @@ func createFile(packageName, directory string, c *classes.Class, e *classes.Enum
 	if c != nil && e == nil {
 		WriteLine("package "+packageName, w)
 		WriteLine("", w)
+		WriteLine("import (",w)
+		WriteLine("\t\"vocabulary\"",w)
+		WriteLine(")",w)
+		WriteLine("",w)
 		CommentLines(topComment, 80, 0, w)
 		WriteLine("", w)
 		WriteLine("type I"+name+" interface {", w)
 		for _, f := range c.Functions {
 			pIn, pOut := ConstructFunctions(f, m)
-			//WriteLine(CommentLines(f.Comment, 80, 1), w)
 			WriteLine("\t"+UpperCamelCase(f.Name)+" ( "+pIn+" ) "+pOut, w)
 		}
 		WriteLine("}", w)
@@ -70,7 +73,23 @@ func createFile(packageName, directory string, c *classes.Class, e *classes.Enum
 			CommentLines(co.Comment, 80, 1, w)
 			WriteLine("\t"+UpperCamelCase(co.Name)+"\t"+formatType(co.Type, m)+"\t`yaml:\""+strings.ToLower(UpperCamelCase(co.Name))+"\" json:\""+strings.ToLower(UpperCamelCase(co.Name))+"\" xml:\""+strings.ToLower(UpperCamelCase(co.Name))+"\"`", w)
 		}
+		for _, at := range c.Attributes {
+			CommentLines(at.Comment, 80, 1, w)
+			WriteLine("\t"+UpperCamelCase(at.Name)+"\t"+formatType(at.Type, m)+"\t`yaml:\""+strings.ToLower(UpperCamelCase(at.Name))+"\" json:\""+strings.ToLower(UpperCamelCase(at.Name))+"\" xml:\""+strings.ToLower(UpperCamelCase(at.Name))+"\"`", w)
+		}
 		WriteLine("}", w)
+		WriteLine("", w)
+		for _, f := range c.Functions {
+			pIn, pOut := ConstructFunctions(f, m)
+			CommentLines(f.Comment, 80, 0, w)
+			WriteLine("func ("+strings.ToLower(name)[0:1]+" *"+UpperCamelCase(name)+") "+UpperCamelCase(f.Name)+" ( "+pIn+" ) "+pOut+" {", w)
+			if strings.TrimSpace(pOut) != "" {
+				WriteLine("\treturn nil", w)
+			} else {
+				WriteLine("\treturn", w)
+			}
+			WriteLine("}", w)
+		}
 	}
 	if e != nil {
 	}

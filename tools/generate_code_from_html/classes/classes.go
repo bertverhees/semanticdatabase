@@ -343,12 +343,14 @@ func NewAttribute(name, _type, comment string, defaultValue string, required str
 	attribute.Type = _type
 	attribute.Comment = comment
 	attribute.defaultValue = defaultValue
-	IsGeneric, GenericPartTypes, newName := AnalyzeGenerics(_type)
+	IsGeneric, GenericPartTypes, _ := AnalyzeGenerics(_type)
+	//if !strings.Contains(strings.ToLower(_type), "hash") {
 	if IsGeneric {
 		attribute.IsGeneric = IsGeneric
 		attribute.GenericPartTypes = GenericPartTypes
-		attribute.Name = newName
+		//attribute.Name = newName
 	}
+	//}
 	if strings.TrimSpace(required) == "1..1" {
 		attribute.Required = true
 	} else {
@@ -512,6 +514,8 @@ func AnalyzeParameters(functionName string) []*Parameter {
 	outType := functionName
 	if strings.Contains(outType, "(") && strings.Contains(outType, ")") {
 		outType = outType[strings.Index(outType, ")")+1:]
+	} else {
+		outType = ""
 	}
 	outType = strings.TrimSpace(outType[strings.Index(outType, ":")+1:])
 	var parameter *Parameter

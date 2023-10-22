@@ -287,21 +287,30 @@ func parseBMM(text string, model *classes.Model) (data string) {
 						constantList = append(constantList, constant)
 					}
 				case attributes:
-					var e error
-					var attribute *classes.Attribute
-					if szEnumerationName != "" {
-						attribute, e = classes.NewAttribute(attributeName, "", attributeDescription, "", "")
-					} else {
-						attribute, e = classes.NewAttributeToProcess(attributeName, attributeDescription, "", td1)
-					}
-					if e == nil {
-						attributeList = append(attributeList, attribute)
+					if strings.Contains(td1, "0..1") || strings.Contains(td1, "1..1") {
+						var e error
+						var attribute *classes.Attribute
+						if szEnumerationName != "" {
+							attribute, e = classes.NewAttribute(attributeName, "", attributeDescription, "", "")
+						} else {
+							attribute, e = classes.NewAttributeToProcess(attributeName, attributeDescription, "", td1)
+						}
+						if e == nil {
+							attributeList = append(attributeList, attribute)
+						}
 					}
 				case functions:
 					if strings.Contains(td1, "0..1") || strings.Contains(td1, "1..1") {
 						parameters := classes.AnalyzeParameters(functionName)
+						for _, p := range parameters {
+							if strings.Contains(strings.ToLower(p.Type), " post : result") {
+								oldType := p.Type
+								p.Type = strings.TrimSpace(strings.Split(oldType, " ")[0])
+								functionDescription = oldType[len(p.Type)+2:] + ". " + functionDescription
+							}
+						}
 						function, e := classes.NewFunction(functionName, functionDescription)
-						if strings.Contains(strings.ToLower(td1),"redefined"){
+						if strings.Contains(strings.ToLower(td1), "redefined") {
 							function.Redefined = true
 						}
 						if e == nil {
