@@ -14,6 +14,6 @@ type PBmmEnumerationString struct {
 		BMM_CLASS object build by create_bmm_class_definition and
 		populate_bmm_class_definition .
 	*/
-	BmmClass	BMM_ENUMERATION_STRING	`yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+	BmmClass	vocabulary.IBmmEnumerationString	`yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
 }
 
