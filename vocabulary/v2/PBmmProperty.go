@@ -34,9 +34,9 @@ type PBmmProperty struct {
 		Type definition of this property, if not a simple String type reference.
 		Persisted attribute.
 	*/
-	TypeDef	IPBmmType	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef	P_BMM_TYPE	`yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition.
-	BmmProperty	IBmmProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	BMM_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // Create bmm_property_definition from P_BMM_XX parts.

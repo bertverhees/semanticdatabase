@@ -26,7 +26,7 @@ type PBmmGenericType struct {
 	*/
 	GenericParameters	[]string	`yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
 	// Result of create_bmm_type() call.
-	BmmType	IBmmGenericType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	BMM_GENERIC_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 /**

@@ -12,7 +12,7 @@ type IPBmmSchema interface {
 	Merge ( other P_BMM_SCHEMA [1] )  state = State_includes_pending Pre_other_valid : includes_to_process.has (included_schema.schema_id)
 	Validate (  ) 
 	CreateBmmModelPreState (  ) 
-	CanonicalPackages (  )  IPBmmPackage
+	CanonicalPackages (  )  P_BMM_PACKAGE
 }
 
 type PBmmSchema struct {
@@ -46,6 +46,6 @@ func (p *PBmmSchema) CreateBmmModelPreState (  )  {
 	Package structure in which all top-level qualified package names like xx.yy.zz
 	have been expanded out to a hierarchy of BMM_PACKAGE objects.
 */
-func (p *PBmmSchema) CanonicalPackages (  )  IPBmmPackage {
+func (p *PBmmSchema) CanonicalPackages (  )  P_BMM_PACKAGE {
 	return nil
 }

@@ -14,8 +14,8 @@ type PBmmGenericProperty struct {
 		Type definition of this property, if not a simple String type reference.
 		Persistent attribute.
 	*/
-	TypeDef	IPBmmGenericType	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef	P_BMM_GENERIC_TYPE	`yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty	IBmmUnitaryProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	BMM_UNITARY_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 

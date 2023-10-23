@@ -7,7 +7,7 @@ import (
 // Persistent form of BMM_SINGLE_PROPERTY .
 
 type IPBmmSingleProperty interface {
-	TypeDef (  )  IPBmmSimpleType
+	TypeDef (  )  P_BMM_SIMPLE_TYPE
 }
 
 type PBmmSingleProperty struct {
@@ -21,12 +21,12 @@ type PBmmSingleProperty struct {
 		Type definition of this property computed from type for later use in
 		bmm_property .
 	*/
-	TypeRef	IPBmmSimpleType	`yaml:"typeref" json:"typeref" xml:"typeref"`
+	TypeRef	P_BMM_SIMPLE_TYPE	`yaml:"typeref" json:"typeref" xml:"typeref"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty	IBmmUnitaryProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	BMM_UNITARY_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // Generate type_ref from type and save.
-func (p *PBmmSingleProperty) TypeDef (  )  IPBmmSimpleType {
+func (p *PBmmSingleProperty) TypeDef (  )  P_BMM_SIMPLE_TYPE {
 	return nil
 }

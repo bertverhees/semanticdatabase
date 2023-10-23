@@ -17,9 +17,9 @@ type PBmmContainerProperty struct {
 		Type definition of this property, if not a simple String type reference.
 		Persistent attribute.
 	*/
-	TypeDef	IPBmmContainerType	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef	P_BMM_CONTAINER_TYPE	`yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property .
-	BmmProperty	IBmmContainerProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	BMM_CONTAINER_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // Create bmm_property_definition .

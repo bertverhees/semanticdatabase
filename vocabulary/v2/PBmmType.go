@@ -13,7 +13,7 @@ type IPBmmType interface {
 
 type PBmmType struct {
 	// Result of create_bmm_type() call.
-	BmmType	IBmmType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	BMM_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 // Create appropriate BMM_XXX object; effected in descendants.

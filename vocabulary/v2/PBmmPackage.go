@@ -23,7 +23,7 @@ type PBmmPackage struct {
 	// List of classes in this package. Persistent attribute.
 	Classes	[]string	`yaml:"classes" json:"classes" xml:"classes"`
 	// BMM_PACKAGE created by create_bmm_package_definition .
-	BmmPackageDefinition	IBmmPackage	`yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
+	BmmPackageDefinition	BMM_PACKAGE	`yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
 }
 
 /**

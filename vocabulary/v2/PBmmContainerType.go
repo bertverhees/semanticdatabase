@@ -7,7 +7,7 @@ import (
 // Persistent form of BMM_CONTAINER_TYPE .
 
 type IPBmmContainerType interface {
-	TypeRef (  )  IPBmmBaseType
+	TypeRef (  )  P_BMM_BASE_TYPE
 }
 
 type PBmmContainerType struct {
@@ -20,20 +20,20 @@ type PBmmContainerType struct {
 		Type definition of type , if not a simple String type reference. Persisted
 		attribute.
 	*/
-	TypeDef	IPBmmBaseType	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef	P_BMM_BASE_TYPE	`yaml:"typedef" json:"typedef" xml:"typedef"`
 	/**
 		The target type; this converts to the first parameter in generic_parameters in
 		BMM_GENERIC_TYPE . Persisted attribute.
 	*/
 	Type	string	`yaml:"type" json:"type" xml:"type"`
 	// Result of create_bmm_type() call.
-	BmmType	IBmmContainerType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	BMM_CONTAINER_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 /**
 	The target type; this converts to the first parameter in generic_parameters in
 	BMM_GENERIC_TYPE . Persisted attribute.
 */
-func (p *PBmmContainerType) TypeRef (  )  IPBmmBaseType {
+func (p *PBmmContainerType) TypeRef (  )  P_BMM_BASE_TYPE {
 	return nil
 }

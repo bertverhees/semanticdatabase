@@ -13,6 +13,6 @@ type PBmmSimpleType struct {
 	// Name of type - must be a simple class name.
 	Type	string	`yaml:"type" json:"type" xml:"type"`
 	// Result of create_bmm_type() call.
-	BmmType	IBmmSimpleType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	BMM_SIMPLE_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
