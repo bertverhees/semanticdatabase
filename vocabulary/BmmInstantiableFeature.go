@@ -13,5 +13,8 @@ type IBmmInstantiableFeature interface {
 }
 
 type BmmInstantiableFeature struct {
+	BmmFeature
+	BmmFormalElement
+	BmmModelElement
 }
 

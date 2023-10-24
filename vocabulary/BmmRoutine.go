@@ -8,9 +8,15 @@ import (
 
 type IBmmRoutine interface {
 	Arity (  )  int
+	Signature (  )  IBmmSignature
+	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
 type BmmRoutine struct {
+	BmmFeature
+	BmmFormalElement
+	BmmModelElement
 	// Formal parameters of the routine.
 	Parameters	List < BMM_PARAMETER >	`yaml:"parameters" json:"parameters" xml:"parameters"`
 	/**
@@ -31,5 +37,23 @@ type BmmRoutine struct {
 
 // Return number of arguments of this routine.
 func (b *BmmRoutine) Arity (  )  int {
+	return nil
+}
+/**
+	Formal signature of this element, in the form: name [arg1_name: T_arg1,
+	…​][:T_value] Specific implementations in descendants.
+*/
+func (b *BmmRoutine) Signature (  )  IBmmSignature {
+	return nil
+}
+/**
+	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
+	'Boolean' ).
+*/
+func (b *BmmRoutine) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmRoutine) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }

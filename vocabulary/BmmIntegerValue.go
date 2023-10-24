@@ -13,6 +13,9 @@ type IBmmIntegerValue interface {
 }
 
 type BmmIntegerValue struct {
+	BmmPrimitiveValue
+	BmmUnitaryValue
+	BmmLiteralValue
 	// Native Integer value.
 	Value	int	`yaml:"value" json:"value" xml:"value"`
 }

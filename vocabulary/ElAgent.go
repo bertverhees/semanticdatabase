@@ -16,11 +16,28 @@ import (
 
 type IElAgent interface {
 	EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
+	Reference (  )  string
+	Reference (  )  string
+	EvalType (  )  IBmmType
+	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 	IsCallable (  )  Boolean  Post_result_validity : Result = open_arguments = Void
 	Reference (  )  string
+	Reference (  )  string
+	EvalType (  )  IBmmType
+	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	Reference (  )  string
+	Reference (  )  string
+	Reference (  )  string
+	EvalType (  )  IBmmType
+	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 }
 
 type ElAgent struct {
+	ElFeatureRef
+	ElValueGenerator
+	ElSimple
+	ElTerminal
+	ElExpression
 	// Closed arguments of a routine call as a tuple of objects.
 	ClosedArgs	IElTuple	`yaml:"closedargs" json:"closedargs" xml:"closedargs"`
 	/**
@@ -43,11 +60,95 @@ type ElAgent struct {
 func (e *ElAgent) EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature {
 	return nil
 }
+/**
+	Generated full reference name, consisting of scoping elements and name
+	concatenated using dot notation.
+*/
+func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Generated full reference name, based on constituent parts of the entity. Default
+	version outputs name field.
+*/
+func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Meta-type of expression entity used in type-checking and evaluation. Effected in
+	descendants.
+*/
+func (e *ElAgent) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
+	= Boolean ).
+*/
+func (e *ElAgent) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+	return nil
+}
 // True if there are no open arguments.
 func (e *ElAgent) IsCallable (  )  Boolean  Post_result_validity : Result = open_arguments = Void {
 	return nil
 }
+/**
+	Generated full reference name, consisting of scoping elements and name
+	concatenated using dot notation.
+*/
+func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Generated full reference name, based on constituent parts of the entity. Default
+	version outputs name field.
+*/
+func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Meta-type of expression entity used in type-checking and evaluation. Effected in
+	descendants.
+*/
+func (e *ElAgent) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
+	= Boolean ).
+*/
+func (e *ElAgent) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+	return nil
+}
 // Generated full reference name, including scoping elements.
 func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Generated full reference name, consisting of scoping elements and name
+	concatenated using dot notation.
+*/
+func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Generated full reference name, based on constituent parts of the entity. Default
+	version outputs name field.
+*/
+func (e *ElAgent) Reference (  )  string {
+	return nil
+}
+/**
+	Meta-type of expression entity used in type-checking and evaluation. Effected in
+	descendants.
+*/
+func (e *ElAgent) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
+	= Boolean ).
+*/
+func (e *ElAgent) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
 	return nil
 }

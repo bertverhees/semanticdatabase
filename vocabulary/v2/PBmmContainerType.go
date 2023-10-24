@@ -8,9 +8,12 @@ import (
 
 type IPBmmContainerType interface {
 	TypeRef (  )  IPBmmBaseType
+	CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
+	AsTypeString (  )  string
 }
 
 type PBmmContainerType struct {
+	PBmmType
 	/**
 		The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 		Persisted attribute.
@@ -35,5 +38,13 @@ type PBmmContainerType struct {
 	BMM_GENERIC_TYPE . Persisted attribute.
 */
 func (p *PBmmContainerType) TypeRef (  )  IPBmmBaseType {
+	return nil
+}
+// Create appropriate BMM_XXX object; effected in descendants.
+func (p *PBmmContainerType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+	return
+}
+// Formal name of the type for display.
+func (p *PBmmContainerType) AsTypeString (  )  string {
 	return nil
 }

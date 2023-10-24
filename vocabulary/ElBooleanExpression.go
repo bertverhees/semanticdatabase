@@ -10,5 +10,7 @@ type IElBooleanExpression interface {
 }
 
 type ElBooleanExpression struct {
+	ElConstrained
+	ElExpression
 }
 

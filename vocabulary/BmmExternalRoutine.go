@@ -13,6 +13,7 @@ type IBmmExternalRoutine interface {
 }
 
 type BmmExternalRoutine struct {
+	BmmRoutineDefinition
 	/**
 		External call general meta-data, including target routine name, type mapping
 		etc.

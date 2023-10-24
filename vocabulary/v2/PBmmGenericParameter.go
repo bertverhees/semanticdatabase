@@ -11,6 +11,7 @@ type IPBmmGenericParameter interface {
 }
 
 type PBmmGenericParameter struct {
+	PBmmModelElement
 	/**
 		Name of the parameter, e.g. 'T' etc. Persisted attribute. Name is limited to 1
 		character, upper case.

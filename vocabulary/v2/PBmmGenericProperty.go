@@ -10,6 +10,8 @@ type IPBmmGenericProperty interface {
 }
 
 type PBmmGenericProperty struct {
+	PBmmProperty
+	PBmmModelElement
 	/**
 		Type definition of this property, if not a simple String type reference.
 		Persistent attribute.

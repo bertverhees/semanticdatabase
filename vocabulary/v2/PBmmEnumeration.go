@@ -10,6 +10,8 @@ type IPBmmEnumeration interface {
 }
 
 type PBmmEnumeration struct {
+	PBmmClass
+	PBmmModelElement
 	ItemNames	[]string	`yaml:"itemnames" json:"itemnames" xml:"itemnames"`
 	ItemValues	[]any	`yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 	/**

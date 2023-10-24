@@ -14,6 +14,9 @@ type IBmmAssignment interface {
 }
 
 type BmmAssignment struct {
+	BmmSimpleStatement
+	BmmStatement
+	BmmStatementItem
 	// The target variable on the notional left-hand side of this assignment.
 	Target	IElValueGenerator	`yaml:"target" json:"target" xml:"target"`
 	// Source right hand side) of the assignment.

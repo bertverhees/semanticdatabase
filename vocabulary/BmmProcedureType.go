@@ -13,6 +13,12 @@ type IBmmProcedureType interface {
 }
 
 type BmmProcedureType struct {
+	BmmRoutineType
+	BmmSignature
+	BmmBuiltinType
+	BmmEffectiveType
+	BmmUnitaryType
+	BmmType
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
 	// Result type of a procedure.

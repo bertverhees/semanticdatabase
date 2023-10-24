@@ -13,5 +13,6 @@ type IElTerminal interface {
 }
 
 type ElTerminal struct {
+	ElExpression
 }
 

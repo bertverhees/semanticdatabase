@@ -10,6 +10,8 @@ type IBmmFeature interface {
 }
 
 type BmmFeature struct {
+	BmmFormalElement
+	BmmModelElement
 	/**
 		True if this feature was synthesised due to generic substitution in an inherited
 		type, or further constraining of a formal generic parameter.

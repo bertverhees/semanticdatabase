@@ -10,6 +10,11 @@ type IBmmUnitaryProperty interface {
 }
 
 type BmmUnitaryProperty struct {
+	BmmProperty
+	BmmInstantiableFeature
+	BmmFeature
+	BmmFormalElement
+	BmmModelElement
 	// Declared or inferred static type of the entity.
 	Type	IBmmUnitaryType	`yaml:"type" json:"type" xml:"type"`
 }

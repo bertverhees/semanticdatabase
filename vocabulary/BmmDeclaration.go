@@ -10,6 +10,9 @@ type IBmmDeclaration interface {
 }
 
 type BmmDeclaration struct {
+	BmmSimpleStatement
+	BmmStatement
+	BmmStatementItem
 	Name	string	`yaml:"name" json:"name" xml:"name"`
 	Result	IElWritableVariable	`yaml:"result" json:"result" xml:"result"`
 	// The declared type of the variable.

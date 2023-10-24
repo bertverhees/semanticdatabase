@@ -10,5 +10,9 @@ type IBmmStatic interface {
 }
 
 type BmmStatic struct {
+	BmmInstantiableFeature
+	BmmFeature
+	BmmFormalElement
+	BmmModelElement
 }
 

@@ -10,6 +10,10 @@ type IBmmParameter interface {
 }
 
 type BmmParameter struct {
+	BmmReadonlyVariable
+	BmmVariable
+	BmmFormalElement
+	BmmModelElement
 	/**
 		Optional read/write direction of the parameter. If none-supplied, the parameter
 		is treated as in , i.e. readable.

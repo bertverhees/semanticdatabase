@@ -9,6 +9,9 @@ type IPBmmIndexedContainerProperty interface {
 }
 
 type PBmmIndexedContainerProperty struct {
+	PBmmContainerProperty
+	PBmmProperty
+	PBmmModelElement
 	/**
 		Type definition of this property, if not a simple String type reference.
 		Persistent attribute.

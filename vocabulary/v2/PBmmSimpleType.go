@@ -10,6 +10,8 @@ type IPBmmSimpleType interface {
 }
 
 type PBmmSimpleType struct {
+	PBmmBaseType
+	PBmmType
 	// Name of type - must be a simple class name.
 	Type	string	`yaml:"type" json:"type" xml:"type"`
 	// Result of create_bmm_type() call.

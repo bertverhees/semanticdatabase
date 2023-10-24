@@ -10,6 +10,11 @@ type IElStaticRef interface {
 }
 
 type ElStaticRef struct {
+	ElFeatureRef
+	ElValueGenerator
+	ElSimple
+	ElTerminal
+	ElExpression
 	// Constant definition (within class).
 	Definition	IBmmStatic	`yaml:"definition" json:"definition" xml:"definition"`
 	// Defined to return False.

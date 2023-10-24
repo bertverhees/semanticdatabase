@@ -13,6 +13,11 @@ type IElReadonlyVariable interface {
 }
 
 type ElReadonlyVariable struct {
+	ElVariable
+	ElValueGenerator
+	ElSimple
+	ElTerminal
+	ElExpression
 	// Variable definition to which this reference refers.
 	Definition	IBmmReadonlyVariable	`yaml:"definition" json:"definition" xml:"definition"`
 	// Defined to return False in all cases.

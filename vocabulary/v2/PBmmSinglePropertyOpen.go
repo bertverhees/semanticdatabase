@@ -8,9 +8,12 @@ import (
 
 type IPBmmSinglePropertyOpen interface {
 	TypeDef (  )  P_BMM_OPEN_TYPE
+	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
 }
 
 type PBmmSinglePropertyOpen struct {
+	PBmmProperty
+	PBmmModelElement
 	/**
 		Type definition of this property computed from type for later use in
 		bmm_property .
@@ -30,4 +33,8 @@ type PBmmSinglePropertyOpen struct {
 // Generate type_ref from type and save.
 func (p *PBmmSinglePropertyOpen) TypeDef (  )  P_BMM_OPEN_TYPE {
 	return nil
+}
+// Create bmm_property_definition from P_BMM_XX parts.
+func (p *PBmmSinglePropertyOpen) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+	return
 }

@@ -16,6 +16,7 @@ type IPBmmClass interface {
 }
 
 type PBmmClass struct {
+	PBmmModelElement
 	// Name of the class. Persisted attribute.
 	Name	string	`yaml:"name" json:"name" xml:"name"`
 	/**

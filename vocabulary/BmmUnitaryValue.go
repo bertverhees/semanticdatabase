@@ -10,5 +10,6 @@ type IBmmUnitaryValue interface {
 }
 
 type BmmUnitaryValue struct {
+	BmmLiteralValue
 }
 

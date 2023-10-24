@@ -14,5 +14,9 @@ type IElDefined interface {
 }
 
 type ElDefined struct {
+	ElPredicate
+	ElSimple
+	ElTerminal
+	ElExpression
 }
 

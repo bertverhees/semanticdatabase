@@ -10,5 +10,8 @@ type IBmmWritableVariable interface {
 }
 
 type BmmWritableVariable struct {
+	BmmVariable
+	BmmFormalElement
+	BmmModelElement
 }
 

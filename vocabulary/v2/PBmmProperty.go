@@ -11,6 +11,7 @@ type IPBmmProperty interface {
 }
 
 type PBmmProperty struct {
+	PBmmModelElement
 	// Name of this property within its class. Persisted attribute.
 	Name	string	`yaml:"name" json:"name" xml:"name"`
 	// True if this property is mandatory in its class. Persisted attribute.

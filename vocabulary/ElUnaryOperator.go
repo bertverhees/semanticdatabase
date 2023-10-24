@@ -10,6 +10,8 @@ type IElUnaryOperator interface {
 }
 
 type ElUnaryOperator struct {
+	ElOperator
+	ElExpression
 	// Operand node.
 	Operand	IElExpression	`yaml:"operand" json:"operand" xml:"operand"`
 }

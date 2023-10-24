@@ -15,6 +15,8 @@ type IPBmmPackage interface {
 }
 
 type PBmmPackage struct {
+	PBmmPackageContainer
+	PBmmModelElement
 	/**
 		Name of the package from schema; this name may be qualified if it is a top-level
 		package within the schema, or unqualified. Persistent attribute.

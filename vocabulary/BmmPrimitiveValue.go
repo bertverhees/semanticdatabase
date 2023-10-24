@@ -10,6 +10,8 @@ type IBmmPrimitiveValue interface {
 }
 
 type BmmPrimitiveValue struct {
+	BmmUnitaryValue
+	BmmLiteralValue
 	// Concrete type of this literal.
 	Type	IBmmSimpleType	`yaml:"type" json:"type" xml:"type"`
 }

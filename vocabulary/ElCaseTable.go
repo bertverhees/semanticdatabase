@@ -18,6 +18,9 @@ type IElCaseTable interface {
 }
 
 type ElCaseTable struct {
+	ElDecisionTable
+	ElTerminal
+	ElExpression
 	// Expressing generating the input value for the case table.
 	TestValue	IElValueGenerator	`yaml:"testvalue" json:"testvalue" xml:"testvalue"`
 	/**

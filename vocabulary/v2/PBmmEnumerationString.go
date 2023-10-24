@@ -10,6 +10,9 @@ type IPBmmEnumerationString interface {
 }
 
 type PBmmEnumerationString struct {
+	PBmmEnumeration
+	PBmmClass
+	PBmmModelElement
 	/**
 		BMM_CLASS object build by create_bmm_class_definition and
 		populate_bmm_class_definition .

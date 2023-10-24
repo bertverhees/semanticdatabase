@@ -10,6 +10,8 @@ type IBmmVariable interface {
 }
 
 type BmmVariable struct {
+	BmmFormalElement
+	BmmModelElement
 	// Routine within which variable is defined.
 	Scope	IBmmRoutine	`yaml:"scope" json:"scope" xml:"scope"`
 }

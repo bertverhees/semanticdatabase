@@ -8,9 +8,12 @@ import (
 
 type IElTuple interface {
 	EvalType (  )  IBmmType
+	EvalType (  )  IBmmType
+	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 }
 
 type ElTuple struct {
+	ElExpression
 	/**
 		Items in the tuple, potentially with names. Typical use is to represent an
 		argument list to routine call.
@@ -22,5 +25,19 @@ type ElTuple struct {
 
 // Return type .
 func (e *ElTuple) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	Meta-type of expression entity used in type-checking and evaluation. Effected in
+	descendants.
+*/
+func (e *ElTuple) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
+	= Boolean ).
+*/
+func (e *ElTuple) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
 	return nil
 }

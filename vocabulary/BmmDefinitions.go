@@ -13,6 +13,7 @@ type IBmmDefinitions interface {
 }
 
 type BmmDefinitions struct {
+	BasicDefinitions
 	/**
 		Current internal version of BMM meta-model, used to determine if a given schema
 		can be processed by a given implementation of the model.

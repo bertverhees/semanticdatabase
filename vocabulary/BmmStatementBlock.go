@@ -13,6 +13,7 @@ type IBmmStatementBlock interface {
 }
 
 type BmmStatementBlock struct {
+	BmmStatementItem
 	// Child blocks of the current block.
 	Items	List < BMM_STATEMENT_ITEM >	`yaml:"items" json:"items" xml:"items"`
 }

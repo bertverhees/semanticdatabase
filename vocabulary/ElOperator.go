@@ -8,10 +8,15 @@ import (
 
 type IElOperator interface {
 	OperatorDefinition (  )  IBmmOperator
+	EvalType (  )  IBmmType
+	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 	EquivalentCall (  )  IElFunctionCall
+	EvalType (  )  IBmmType
+	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 }
 
 type ElOperator struct {
+	ElExpression
 	/**
 		True if the natural precedence of operators is overridden in the expression
 		represented by this node of the expression tree. If True, parentheses should be
@@ -35,7 +40,35 @@ type ElOperator struct {
 func (e *ElOperator) OperatorDefinition (  )  IBmmOperator {
 	return nil
 }
+/**
+	Meta-type of expression entity used in type-checking and evaluation. Effected in
+	descendants.
+*/
+func (e *ElOperator) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
+	= Boolean ).
+*/
+func (e *ElOperator) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+	return nil
+}
 // Function call equivalent to this operator.
 func (e *ElOperator) EquivalentCall (  )  IElFunctionCall {
+	return nil
+}
+/**
+	Meta-type of expression entity used in type-checking and evaluation. Effected in
+	descendants.
+*/
+func (e *ElOperator) EvalType (  )  IBmmType {
+	return nil
+}
+/**
+	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
+	= Boolean ).
+*/
+func (e *ElOperator) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
 	return nil
 }

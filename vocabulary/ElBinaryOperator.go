@@ -10,6 +10,8 @@ type IElBinaryOperator interface {
 }
 
 type ElBinaryOperator struct {
+	ElOperator
+	ElExpression
 	// Left operand node.
 	LeftOperand	IElExpression	`yaml:"leftoperand" json:"leftoperand" xml:"leftoperand"`
 	// Right operand node.

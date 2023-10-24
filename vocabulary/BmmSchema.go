@@ -17,6 +17,7 @@ type IBmmSchema interface {
 }
 
 type BmmSchema struct {
+	BmmModelMetadata
 	// Version of BMM model, enabling schema evolution reasoning. Persisted attribute.
 	BmmVersion	string	`yaml:"bmmversion" json:"bmmversion" xml:"bmmversion"`
 	/**

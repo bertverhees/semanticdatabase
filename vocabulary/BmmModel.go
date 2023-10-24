@@ -11,27 +11,106 @@ import (
 
 type IBmmModel interface {
 	ModelId (  )  string
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	ClassDefinition ( a_name string )  IBmmClass
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	TypeDefinition (  )  IBmmClass
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	HasClassDefinition ( a_class_name string )  bool
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	HasTypeDefinition ( a_type_name string )  bool
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	EnumerationDefinition ( a_name string )  IBmmEnumeration
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	PrimitiveTypes (  )  []string
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	EnumerationTypes (  )  []string
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	PropertyDefinition (  )  IBmmProperty
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	MsConformantPropertyType ( a_bmm_type_name string, a_bmm_property_name string, a_ms_property_name string )  bool
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	PropertyDefinitionAtPath (  )  IBmmProperty
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	ClassDefinitionAtPath ( a_type_name string, a_prop_path string )  IBmmClass
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	AllAncestorClasses ( a_class string )  []string
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	IsDescendantOf ( a_class_name string, a_parent_class_name string )  bool
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	TypeConformsTo ( a_desc_type string, an_anc_type string )  bool
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	Subtypes ( a_type string )  []string
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	AnyClassDefinition (  )  IBmmSimpleClass
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	AnyTypeDefinition (  )  IBmmSimpleType
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	BooleanTypeDefinition (  )  IBmmSimpleType
+	PackageAtPath ( a_path string )  IBmmPackage
+	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
+	HasPackagePath ( a_path string )  bool
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
 type BmmModel struct {
+	BmmPackageContainer
+	BmmModelElement
+	BmmModelMetadata
 	// All classes in this model, keyed by type name.
 	ClassDefinitions	Hash <String, BMM_CLASS >	`yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
 	/**
@@ -51,11 +130,55 @@ type BmmModel struct {
 func (b *BmmModel) ModelId (  )  string {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 /**
 	Retrieve the class definition corresponding to a_type_name (which may contain a
 	generic part).
 */
 func (b *BmmModel) ClassDefinition ( a_name string )  IBmmClass {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -67,8 +190,52 @@ func (b *BmmModel) ClassDefinition ( a_name string )  IBmmClass {
 func (b *BmmModel) TypeDefinition (  )  IBmmClass {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 // True if a_class_name has a class definition in the model.
 func (b *BmmModel) HasClassDefinition ( a_class_name string )  bool {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -78,16 +245,104 @@ func (b *BmmModel) HasClassDefinition ( a_class_name string )  bool {
 func (b *BmmModel) HasTypeDefinition ( a_type_name string )  bool {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 // Retrieve the enumeration definition corresponding to a_type_name .
 func (b *BmmModel) EnumerationDefinition ( a_name string )  IBmmEnumeration {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 // List of keys in class_definitions of items marked as primitive types.
 func (b *BmmModel) PrimitiveTypes (  )  []string {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 // List of keys in class_definitions of items that are enumeration types.
 func (b *BmmModel) EnumerationTypes (  )  []string {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -95,6 +350,28 @@ func (b *BmmModel) EnumerationTypes (  )  []string {
 	corresponding to a_type_name .
 */
 func (b *BmmModel) PropertyDefinition (  )  IBmmProperty {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -107,6 +384,28 @@ func (b *BmmModel) PropertyDefinition (  )  IBmmProperty {
 func (b *BmmModel) MsConformantPropertyType ( a_bmm_type_name string, a_bmm_property_name string, a_ms_property_name string )  bool {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 /**
 	Retrieve the property definition for a_property_path in flattened class
 	corresponding to a_type_name .
@@ -114,11 +413,55 @@ func (b *BmmModel) MsConformantPropertyType ( a_bmm_type_name string, a_bmm_prop
 func (b *BmmModel) PropertyDefinitionAtPath (  )  IBmmProperty {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 /**
 	Retrieve the class definition for the class that owns the terminal attribute in
 	a_prop_path in flattened class corresponding to a_type_name .
 */
 func (b *BmmModel) ClassDefinitionAtPath ( a_type_name string, a_prop_path string )  IBmmClass {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -129,8 +472,52 @@ func (b *BmmModel) ClassDefinitionAtPath ( a_type_name string, a_prop_path strin
 func (b *BmmModel) AllAncestorClasses ( a_class string )  []string {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 // True if a_class_name is a descendant in the model of a_parent_class_name .
 func (b *BmmModel) IsDescendantOf ( a_class_name string, a_parent_class_name string )  bool {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -147,6 +534,28 @@ func (b *BmmModel) IsDescendantOf ( a_class_name string, a_parent_class_name str
 func (b *BmmModel) TypeConformsTo ( a_desc_type string, an_anc_type string )  bool {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 /**
 	Generate type substitutions for the supplied type, which may be simple, generic
 	(closed, open or partially open), or a container type. In the generic and
@@ -156,6 +565,28 @@ func (b *BmmModel) TypeConformsTo ( a_desc_type string, an_anc_type string )  bo
 func (b *BmmModel) Subtypes ( a_type string )  []string {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 /**
 	BMM_SIMPLE_CLASS instance for the Any class. This may be defined in the BMM
 	schema, but if not, use BMM_DEFINITIONS. any_class .
@@ -163,11 +594,77 @@ func (b *BmmModel) Subtypes ( a_type string )  []string {
 func (b *BmmModel) AnyClassDefinition (  )  IBmmSimpleClass {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 // BMM_SIMPLE_TYPE instance for the Any type.
 func (b *BmmModel) AnyTypeDefinition (  )  IBmmSimpleType {
 	return nil
 }
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}
 // BMM_SIMPLE_TYPE instance for the Boolean type.
 func (b *BmmModel) BooleanTypeDefinition (  )  IBmmSimpleType {
+	return nil
+}
+// Package at the path a_path .
+func (b *BmmModel) PackageAtPath ( a_path string )  IBmmPackage {
+	return nil
+}
+/**
+	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
+	on all members of packages.
+*/
+func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
+	return
+}
+/**
+	True if there is a package at the path a_path ; paths are delimited with
+	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
+*/
+func (b *BmmModel) HasPackagePath ( a_path string )  bool {
+	return nil
+}
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }

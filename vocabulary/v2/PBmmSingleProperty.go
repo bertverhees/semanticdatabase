@@ -8,9 +8,12 @@ import (
 
 type IPBmmSingleProperty interface {
 	TypeDef (  )  P_BMM_SIMPLE_TYPE
+	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
 }
 
 type PBmmSingleProperty struct {
+	PBmmProperty
+	PBmmModelElement
 	/**
 		If the type is a simple type, then this attribute will hold the type name. If
 		the type is a container or generic, then type_ref will hold the type definition.
@@ -29,4 +32,8 @@ type PBmmSingleProperty struct {
 // Generate type_ref from type and save.
 func (p *PBmmSingleProperty) TypeDef (  )  P_BMM_SIMPLE_TYPE {
 	return nil
+}
+// Create bmm_property_definition from P_BMM_XX parts.
+func (p *PBmmSingleProperty) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+	return
 }

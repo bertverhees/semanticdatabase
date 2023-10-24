@@ -10,6 +10,8 @@ type IPBmmOpenType interface {
 }
 
 type PBmmOpenType struct {
+	PBmmBaseType
+	PBmmType
 	// Simple type parameter as a single letter like 'T', 'G' etc.
 	Type	string	`yaml:"type" json:"type" xml:"type"`
 	// Result of create_bmm_type() call.

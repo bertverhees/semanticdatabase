@@ -10,5 +10,6 @@ type IBmmIntervalValue interface {
 }
 
 type BmmIntervalValue struct {
+	BmmLiteralValue
 }
 

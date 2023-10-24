@@ -13,5 +13,6 @@ type IBmmStatement interface {
 }
 
 type BmmStatement struct {
+	BmmStatementItem
 }
 

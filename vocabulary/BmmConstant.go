@@ -14,6 +14,11 @@ type IBmmConstant interface {
 }
 
 type BmmConstant struct {
+	BmmStatic
+	BmmInstantiableFeature
+	BmmFeature
+	BmmFormalElement
+	BmmModelElement
 	// Literal value of the constant.
 	Generator	IBmmLiteralValue	`yaml:"generator" json:"generator" xml:"generator"`
 }

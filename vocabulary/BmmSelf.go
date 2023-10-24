@@ -13,6 +13,10 @@ type IBmmSelf interface {
 }
 
 type BmmSelf struct {
+	BmmReadonlyVariable
+	BmmVariable
+	BmmFormalElement
+	BmmModelElement
 	// Name of this model element.
 	Name	string	`yaml:"name" json:"name" xml:"name"`
 }

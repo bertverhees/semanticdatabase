@@ -10,5 +10,7 @@ type IElSimple interface {
 }
 
 type ElSimple struct {
+	ElTerminal
+	ElExpression
 }
 

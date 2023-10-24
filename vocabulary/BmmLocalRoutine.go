@@ -10,6 +10,7 @@ type IBmmLocalRoutine interface {
 }
 
 type BmmLocalRoutine struct {
+	BmmRoutineDefinition
 	// Local variables of the routine, if there is a body defined.
 	Locals	List < BMM_LOCAL >	`yaml:"locals" json:"locals" xml:"locals"`
 	// Body of routine declaration.

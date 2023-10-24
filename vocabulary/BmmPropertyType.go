@@ -10,5 +10,10 @@ type IBmmPropertyType interface {
 }
 
 type BmmPropertyType struct {
+	BmmSignature
+	BmmBuiltinType
+	BmmEffectiveType
+	BmmUnitaryType
+	BmmType
 }
 

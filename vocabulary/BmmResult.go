@@ -13,6 +13,10 @@ type IBmmResult interface {
 }
 
 type BmmResult struct {
+	BmmWritableVariable
+	BmmVariable
+	BmmFormalElement
+	BmmModelElement
 	// Name of this model element.
 	Name	string	`yaml:"name" json:"name" xml:"name"`
 }

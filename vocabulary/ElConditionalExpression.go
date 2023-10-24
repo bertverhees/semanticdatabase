@@ -14,6 +14,7 @@ type IElConditionalExpression interface {
 }
 
 type ElConditionalExpression struct {
+	ElDecisionBranch
 	// Boolean expression defining the condition of this decision branch.
 	Condition	IElExpression	`yaml:"condition" json:"condition" xml:"condition"`
 }

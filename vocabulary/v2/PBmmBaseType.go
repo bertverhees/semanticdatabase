@@ -10,6 +10,7 @@ type IPBmmBaseType interface {
 }
 
 type PBmmBaseType struct {
+	PBmmType
 	ValueConstraint	string	`yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 }
 

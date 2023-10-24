@@ -13,6 +13,7 @@ type IBmmModule interface {
 }
 
 type BmmModule struct {
+	BmmModelElement
 	// List of feature groups in this class.
 	FeatureGroups	List < BMM_FEATURE_GROUP >	`yaml:"featuregroups" json:"featuregroups" xml:"featuregroups"`
 	// Features of this module.

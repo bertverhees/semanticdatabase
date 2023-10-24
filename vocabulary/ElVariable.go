@@ -10,5 +10,9 @@ type IElVariable interface {
 }
 
 type ElVariable struct {
+	ElValueGenerator
+	ElSimple
+	ElTerminal
+	ElExpression
 }
 

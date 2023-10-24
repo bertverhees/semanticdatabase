@@ -10,5 +10,9 @@ type IBmmLocal interface {
 }
 
 type BmmLocal struct {
+	BmmWritableVariable
+	BmmVariable
+	BmmFormalElement
+	BmmModelElement
 }
 

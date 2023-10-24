@@ -14,6 +14,9 @@ type IBmmAssertion interface {
 }
 
 type BmmAssertion struct {
+	BmmSimpleStatement
+	BmmStatement
+	BmmStatementItem
 	// Boolean-valued expression of the assertion.
 	Expression	IElBooleanExpression	`yaml:"expression" json:"expression" xml:"expression"`
 	/**

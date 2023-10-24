@@ -14,6 +14,8 @@ type IElDecisionTable interface {
 }
 
 type ElDecisionTable struct {
+	ElTerminal
+	ElExpression
 	/**
 		Members of the chain, equivalent to branches in an if/then/else chain and cases
 		in a case statement.

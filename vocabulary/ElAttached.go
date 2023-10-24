@@ -13,5 +13,9 @@ type IElAttached interface {
 }
 
 type ElAttached struct {
+	ElPredicate
+	ElSimple
+	ElTerminal
+	ElExpression
 }
 

@@ -8,9 +8,13 @@ import (
 
 type IPBmmGenericType interface {
 	GenericParameterRefs (  )  List < P_BMM_TYPE >
+	CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
+	AsTypeString (  )  string
 }
 
 type PBmmGenericType struct {
+	PBmmBaseType
+	PBmmType
 	// Root type of this generic type, e.g. Interval in Interval<Integer> .
 	RootType	string	`yaml:"roottype" json:"roottype" xml:"roottype"`
 	/**
@@ -34,5 +38,13 @@ type PBmmGenericType struct {
 	the order of the owning class’s formal generic parameter declarations
 */
 func (p *PBmmGenericType) GenericParameterRefs (  )  List < P_BMM_TYPE > {
+	return nil
+}
+// Create appropriate BMM_XXX object; effected in descendants.
+func (p *PBmmGenericType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+	return
+}
+// Formal name of the type for display.
+func (p *PBmmGenericType) AsTypeString (  )  string {
 	return nil
 }

@@ -10,6 +10,8 @@ type IBmmActionTable interface {
 }
 
 type BmmActionTable struct {
+	BmmStatement
+	BmmStatementItem
 	/**
 		A specialised decision table whose outputs can only be procedure agents. In
 		execution, the matched agent will be invoked.

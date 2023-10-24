@@ -13,5 +13,6 @@ type IBmmIndexedContainerValue interface {
 }
 
 type BmmIndexedContainerValue struct {
+	BmmLiteralValue
 }
 

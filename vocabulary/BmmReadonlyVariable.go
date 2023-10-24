@@ -13,5 +13,8 @@ type IBmmReadonlyVariable interface {
 }
 
 type BmmReadonlyVariable struct {
+	BmmVariable
+	BmmFormalElement
+	BmmModelElement
 }
 

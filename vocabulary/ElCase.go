@@ -13,6 +13,7 @@ type IElCase interface {
 }
 
 type ElCase struct {
+	ElDecisionBranch
 	// Constraint on
 	ValueConstraint	C_OBJECT	`yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 }

@@ -13,6 +13,7 @@ type IElConstrained interface {
 }
 
 type ElConstrained struct {
+	ElExpression
 	// The base expression of this constrained form.
 	BaseExpression	IElExpression	`yaml:"baseexpression" json:"baseexpression" xml:"baseexpression"`
 }

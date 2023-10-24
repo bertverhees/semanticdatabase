@@ -10,6 +10,11 @@ type IBmmRoutineType interface {
 }
 
 type BmmRoutineType struct {
+	BmmSignature
+	BmmBuiltinType
+	BmmEffectiveType
+	BmmUnitaryType
+	BmmType
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
 	/**
