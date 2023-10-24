@@ -35,9 +35,6 @@ type ElLiteral struct {
 func NewElLiteral() *ElLiteral {
 	elliteral := new(ElLiteral)
 	// Constants
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elliteral
 }
 //BUILDER
@@ -57,9 +54,6 @@ func (i *ElLiteralBuilder) SetValue ( v BMM_LITERAL_VALUE < BMM_TYPE > ) *ElLite
 	i.elliteral.Value = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElLiteralBuilder) Build() *ElLiteral {
 	 return i.elliteral
@@ -85,5 +79,5 @@ func (e *ElLiteral) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElLiteral) IsBoolean (  )  bool {
-	return nil
+	return false
 }

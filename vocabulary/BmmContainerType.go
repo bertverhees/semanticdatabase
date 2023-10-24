@@ -55,7 +55,6 @@ type BmmContainerType struct {
 func NewBmmContainerType() *BmmContainerType {
 	bmmcontainertype := new(BmmContainerType)
 	// Constants
-	// From: BmmType
 	return bmmcontainertype
 }
 //BUILDER
@@ -97,7 +96,6 @@ func (i *BmmContainerTypeBuilder) SetIsUnique ( v bool ) *BmmContainerTypeBuilde
 	i.bmmcontainertype.IsUnique = v
 	return i
 }
-	// //From: BmmType
 
 func (i *BmmContainerTypeBuilder) Build() *BmmContainerType {
 	 return i.bmmcontainertype
@@ -106,7 +104,7 @@ func (i *BmmContainerTypeBuilder) Build() *BmmContainerType {
 //FUNCTIONS
 // Return full type name, e.g. List<ELEMENT> .
 func (b *BmmContainerType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // True if the container class is abstract.
 func (b *BmmContainerType) IsAbstract (  )  Boolean  Post_is_abstract : Result = container_type.is_abstract {
@@ -125,7 +123,7 @@ func (b *BmmContainerType) UnitaryType (  )  IBmmUnitaryType {
 }
 // Post_result : Result = item_type.is_primitive. True if item_type is primitive.
 func (b *BmmContainerType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // Return item_type.effective_type () .
 func (b *BmmContainerType) EffectiveType (  )  IBmmEffectiveType {
@@ -134,7 +132,7 @@ func (b *BmmContainerType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmContainerType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -143,7 +141,7 @@ func (b *BmmContainerType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmContainerType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -151,12 +149,12 @@ func (b *BmmContainerType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmContainerType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmContainerType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

@@ -33,7 +33,6 @@ type BmmFormalElement struct {
 func NewBmmFormalElement() *BmmFormalElement {
 	bmmformalelement := new(BmmFormalElement)
 	// Constants
-	// From: BmmModelElement
 	return bmmformalelement
 }
 //BUILDER
@@ -61,12 +60,13 @@ func (i *BmmFormalElementBuilder) SetIsNullable ( v bool ) *BmmFormalElementBuil
 	i.bmmformalelement.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmFormalElementBuilder) SetName ( v string ) *BmmFormalElementBuilder{
 	i.bmmformalelement.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -77,11 +77,13 @@ func (i *BmmFormalElementBuilder) SetDocumentation ( v Hash < Any , String > ) *
 	i.bmmformalelement.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmFormalElementBuilder) SetScope ( v IBmmModelElement ) *BmmFormalElementBuilder{
 	i.bmmformalelement.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -109,7 +111,7 @@ func (b *BmmFormalElement) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmFormalElement) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -117,5 +119,5 @@ func (b *BmmFormalElement) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmFormalElement) IsRootScope (  )  bool {
-	return nil
+	return false
 }

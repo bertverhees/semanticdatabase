@@ -26,7 +26,6 @@ type BmmContainerValue struct {
 func NewBmmContainerValue() *BmmContainerValue {
 	bmmcontainervalue := new(BmmContainerValue)
 	// Constants
-	// From: BmmLiteralValue
 	return bmmcontainervalue
 }
 //BUILDER
@@ -41,12 +40,13 @@ func NewBmmContainerValueBuilder() *BmmContainerValueBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmLiteralValue
+// From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmContainerValueBuilder) SetValueLiteral ( v string ) *BmmContainerValueBuilder{
 	i.bmmcontainervalue.ValueLiteral = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	A native representation of the value, possibly derived by deserialising
 	value_literal .
@@ -55,6 +55,7 @@ func (i *BmmContainerValueBuilder) SetValue ( v Any ) *BmmContainerValueBuilder{
 	i.bmmcontainervalue.Value = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	Optional specification of formalism of the value_literal attribute for complex
 	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
@@ -64,6 +65,7 @@ func (i *BmmContainerValueBuilder) SetSyntax ( v string ) *BmmContainerValueBuil
 	i.bmmcontainervalue.Syntax = v
 	return i
 }
+// From: BmmLiteralValue
 // Concrete type of this literal.
 func (i *BmmContainerValueBuilder) SetType ( v T ) *BmmContainerValueBuilder{
 	i.bmmcontainervalue.Type = v

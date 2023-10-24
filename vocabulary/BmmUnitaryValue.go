@@ -23,7 +23,6 @@ type BmmUnitaryValue struct {
 func NewBmmUnitaryValue() *BmmUnitaryValue {
 	bmmunitaryvalue := new(BmmUnitaryValue)
 	// Constants
-	// From: BmmLiteralValue
 	return bmmunitaryvalue
 }
 //BUILDER
@@ -38,12 +37,13 @@ func NewBmmUnitaryValueBuilder() *BmmUnitaryValueBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmLiteralValue
+// From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmUnitaryValueBuilder) SetValueLiteral ( v string ) *BmmUnitaryValueBuilder{
 	i.bmmunitaryvalue.ValueLiteral = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	A native representation of the value, possibly derived by deserialising
 	value_literal .
@@ -52,6 +52,7 @@ func (i *BmmUnitaryValueBuilder) SetValue ( v Any ) *BmmUnitaryValueBuilder{
 	i.bmmunitaryvalue.Value = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	Optional specification of formalism of the value_literal attribute for complex
 	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
@@ -61,6 +62,7 @@ func (i *BmmUnitaryValueBuilder) SetSyntax ( v string ) *BmmUnitaryValueBuilder{
 	i.bmmunitaryvalue.Syntax = v
 	return i
 }
+// From: BmmLiteralValue
 // Concrete type of this literal.
 func (i *BmmUnitaryValueBuilder) SetType ( v T ) *BmmUnitaryValueBuilder{
 	i.bmmunitaryvalue.Type = v

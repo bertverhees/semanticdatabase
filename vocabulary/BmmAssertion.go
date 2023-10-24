@@ -38,9 +38,6 @@ type BmmAssertion struct {
 func NewBmmAssertion() *BmmAssertion {
 	bmmassertion := new(BmmAssertion)
 	// Constants
-	// From: BmmSimpleStatement
-	// From: BmmStatement
-	// From: BmmStatementItem
 	return bmmassertion
 }
 //BUILDER
@@ -68,9 +65,6 @@ func (i *BmmAssertionBuilder) SetTag ( v string ) *BmmAssertionBuilder{
 	i.bmmassertion.Tag = v
 	return i
 }
-	// //From: BmmSimpleStatement
-	// //From: BmmStatement
-	// //From: BmmStatementItem
 
 func (i *BmmAssertionBuilder) Build() *BmmAssertion {
 	 return i.bmmassertion

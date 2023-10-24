@@ -30,7 +30,6 @@ type ElConstrained struct {
 func NewElConstrained() *ElConstrained {
 	elconstrained := new(ElConstrained)
 	// Constants
-	// From: ElExpression
 	return elconstrained
 }
 //BUILDER
@@ -50,7 +49,6 @@ func (i *ElConstrainedBuilder) SetBaseExpression ( v IElExpression ) *ElConstrai
 	i.elconstrained.BaseExpression = v
 	return i
 }
-	// //From: ElExpression
 
 func (i *ElConstrainedBuilder) Build() *ElConstrained {
 	 return i.elconstrained
@@ -72,5 +70,5 @@ func (e *ElConstrained) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElConstrained) IsBoolean (  )  bool {
-	return nil
+	return false
 }

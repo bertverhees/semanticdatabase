@@ -40,11 +40,6 @@ type BmmConstant struct {
 func NewBmmConstant() *BmmConstant {
 	bmmconstant := new(BmmConstant)
 	// Constants
-	// From: BmmStatic
-	// From: BmmInstantiableFeature
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmconstant
 }
 //BUILDER
@@ -64,9 +59,7 @@ func (i *BmmConstantBuilder) SetGenerator ( v IBmmLiteralValue ) *BmmConstantBui
 	i.bmmconstant.Generator = v
 	return i
 }
-	// //From: BmmStatic
-	// //From: BmmInstantiableFeature
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -75,27 +68,31 @@ func (i *BmmConstantBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmConstantBuil
 	i.bmmconstant.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmConstantBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmConstantBuilder{
 	i.bmmconstant.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmConstantBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmConstantBuilder{
 	i.bmmconstant.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmConstantBuilder) SetScope ( v IBmmClass ) *BmmConstantBuilder{
 	i.bmmconstant.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmConstantBuilder) SetType ( v IBmmType ) *BmmConstantBuilder{
 	i.bmmconstant.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -104,12 +101,13 @@ func (i *BmmConstantBuilder) SetIsNullable ( v bool ) *BmmConstantBuilder{
 	i.bmmconstant.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmConstantBuilder) SetName ( v string ) *BmmConstantBuilder{
 	i.bmmconstant.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -120,11 +118,13 @@ func (i *BmmConstantBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmCo
 	i.bmmconstant.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmConstantBuilder) SetScope ( v IBmmModelElement ) *BmmConstantBuilder{
 	i.bmmconstant.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -154,7 +154,7 @@ func (b *BmmConstant) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmConstant) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -162,5 +162,5 @@ func (b *BmmConstant) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmConstant) IsRootScope (  )  bool {
-	return nil
+	return false
 }

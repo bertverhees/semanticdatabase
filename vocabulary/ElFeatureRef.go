@@ -38,10 +38,6 @@ type ElFeatureRef struct {
 func NewElFeatureRef() *ElFeatureRef {
 	elfeatureref := new(ElFeatureRef)
 	// Constants
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elfeatureref
 }
 //BUILDER
@@ -61,19 +57,17 @@ func (i *ElFeatureRefBuilder) SetScoper ( v IElValueGenerator ) *ElFeatureRefBui
 	i.elfeatureref.Scoper = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElFeatureRefBuilder) SetIsWritable ( v bool ) *ElFeatureRefBuilder{
 	i.elfeatureref.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElFeatureRefBuilder) SetName ( v string ) *ElFeatureRefBuilder{
 	i.elfeatureref.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElFeatureRefBuilder) Build() *ElFeatureRef {
 	 return i.elfeatureref
@@ -85,7 +79,7 @@ func (i *ElFeatureRefBuilder) Build() *ElFeatureRef {
 	concatenated using dot notation.
 */
 func (e *ElFeatureRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_VALUE_GENERATOR
 /**
@@ -93,7 +87,7 @@ func (e *ElFeatureRef) Reference (  )  string {
 	version outputs name field.
 */
 func (e *ElFeatureRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -110,5 +104,5 @@ func (e *ElFeatureRef) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElFeatureRef) IsBoolean (  )  bool {
-	return nil
+	return false
 }

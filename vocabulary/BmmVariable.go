@@ -30,8 +30,6 @@ type BmmVariable struct {
 func NewBmmVariable() *BmmVariable {
 	bmmvariable := new(BmmVariable)
 	// Constants
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmvariable
 }
 //BUILDER
@@ -51,12 +49,13 @@ func (i *BmmVariableBuilder) SetScope ( v IBmmRoutine ) *BmmVariableBuilder{
 	i.bmmvariable.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmVariableBuilder) SetType ( v IBmmType ) *BmmVariableBuilder{
 	i.bmmvariable.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -65,12 +64,13 @@ func (i *BmmVariableBuilder) SetIsNullable ( v bool ) *BmmVariableBuilder{
 	i.bmmvariable.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmVariableBuilder) SetName ( v string ) *BmmVariableBuilder{
 	i.bmmvariable.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -81,11 +81,13 @@ func (i *BmmVariableBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmVa
 	i.bmmvariable.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmVariableBuilder) SetScope ( v IBmmModelElement ) *BmmVariableBuilder{
 	i.bmmvariable.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -115,7 +117,7 @@ func (b *BmmVariable) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmVariable) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -123,5 +125,5 @@ func (b *BmmVariable) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmVariable) IsRootScope (  )  bool {
-	return nil
+	return false
 }

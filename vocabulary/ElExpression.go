@@ -56,5 +56,5 @@ func (e *ElExpression) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElExpression) IsBoolean (  )  bool {
-	return nil
+	return false
 }

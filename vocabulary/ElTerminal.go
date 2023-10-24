@@ -28,7 +28,6 @@ type ElTerminal struct {
 func NewElTerminal() *ElTerminal {
 	elterminal := new(ElTerminal)
 	// Constants
-	// From: ElExpression
 	return elterminal
 }
 //BUILDER
@@ -43,7 +42,6 @@ func NewElTerminalBuilder() *ElTerminalBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: ElExpression
 
 func (i *ElTerminalBuilder) Build() *ElTerminal {
 	 return i.elterminal
@@ -65,5 +63,5 @@ func (e *ElTerminal) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElTerminal) IsBoolean (  )  bool {
-	return nil
+	return false
 }

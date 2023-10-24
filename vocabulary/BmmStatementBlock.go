@@ -28,7 +28,6 @@ type BmmStatementBlock struct {
 func NewBmmStatementBlock() *BmmStatementBlock {
 	bmmstatementblock := new(BmmStatementBlock)
 	// Constants
-	// From: BmmStatementItem
 	return bmmstatementblock
 }
 //BUILDER
@@ -48,7 +47,6 @@ func (i *BmmStatementBlockBuilder) SetItems ( v List < BMM_STATEMENT_ITEM > ) *B
 	i.bmmstatementblock.Items = v
 	return i
 }
-	// //From: BmmStatementItem
 
 func (i *BmmStatementBlockBuilder) Build() *BmmStatementBlock {
 	 return i.bmmstatementblock

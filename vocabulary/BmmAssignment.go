@@ -35,9 +35,6 @@ type BmmAssignment struct {
 func NewBmmAssignment() *BmmAssignment {
 	bmmassignment := new(BmmAssignment)
 	// Constants
-	// From: BmmSimpleStatement
-	// From: BmmStatement
-	// From: BmmStatementItem
 	return bmmassignment
 }
 //BUILDER
@@ -62,9 +59,6 @@ func (i *BmmAssignmentBuilder) SetSource ( v IElExpression ) *BmmAssignmentBuild
 	i.bmmassignment.Source = v
 	return i
 }
-	// //From: BmmSimpleStatement
-	// //From: BmmStatement
-	// //From: BmmStatementItem
 
 func (i *BmmAssignmentBuilder) Build() *BmmAssignment {
 	 return i.bmmassignment

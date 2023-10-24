@@ -41,11 +41,6 @@ type BmmContainerProperty struct {
 func NewBmmContainerProperty() *BmmContainerProperty {
 	bmmcontainerproperty := new(BmmContainerProperty)
 	// Constants
-	// From: BmmProperty
-	// From: BmmInstantiableFeature
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmcontainerproperty
 }
 //BUILDER
@@ -70,17 +65,19 @@ func (i *BmmContainerPropertyBuilder) SetType ( v IBmmContainerType ) *BmmContai
 	i.bmmcontainerproperty.Type = v
 	return i
 }
-	// //From: BmmProperty
+// From: BmmProperty
 // True if this property is marked with info model im_runtime property.
 func (i *BmmContainerPropertyBuilder) SetIsImRuntime ( v bool ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.IsImRuntime = v
 	return i
 }
+// From: BmmProperty
 // True if this property was marked with info model im_infrastructure flag.
 func (i *BmmContainerPropertyBuilder) SetIsImInfrastructure ( v bool ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.IsImInfrastructure = v
 	return i
 }
+// From: BmmProperty
 /**
 	True if this property instance is a compositional sub-part of the owning class
 	instance. Equivalent to 'composition' in UML associations (but missing from UML
@@ -91,8 +88,7 @@ func (i *BmmContainerPropertyBuilder) SetIsComposition ( v bool ) *BmmContainerP
 	i.bmmcontainerproperty.IsComposition = v
 	return i
 }
-	// //From: BmmInstantiableFeature
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -101,27 +97,31 @@ func (i *BmmContainerPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmCon
 	i.bmmcontainerproperty.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmContainerPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmContainerPropertyBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmContainerPropertyBuilder) SetScope ( v IBmmClass ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmContainerPropertyBuilder) SetType ( v IBmmType ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -130,12 +130,13 @@ func (i *BmmContainerPropertyBuilder) SetIsNullable ( v bool ) *BmmContainerProp
 	i.bmmcontainerproperty.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmContainerPropertyBuilder) SetName ( v string ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -146,11 +147,13 @@ func (i *BmmContainerPropertyBuilder) SetDocumentation ( v Hash < Any , String >
 	i.bmmcontainerproperty.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmContainerPropertyBuilder) SetScope ( v IBmmModelElement ) *BmmContainerPropertyBuilder{
 	i.bmmcontainerproperty.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -167,7 +170,7 @@ func (i *BmmContainerPropertyBuilder) Build() *BmmContainerProperty {
 //FUNCTIONS
 // Name of this property in form name: ContainerTypeName<> .
 func (b *BmmContainerProperty) DisplayName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_PROPERTY
 // Interval form of 0..1 , 1..1 etc, derived from is_nullable .
@@ -177,7 +180,7 @@ func (b *BmmContainerProperty) Existence (  )  Multiplicity_interval {
 // From: BMM_PROPERTY
 // Name of this property to display in UI.
 func (b *BmmContainerProperty) DisplayName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_FORMAL_ELEMENT
 /**
@@ -194,7 +197,7 @@ func (b *BmmContainerProperty) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmContainerProperty) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -202,5 +205,5 @@ func (b *BmmContainerProperty) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmContainerProperty) IsRootScope (  )  bool {
-	return nil
+	return false
 }

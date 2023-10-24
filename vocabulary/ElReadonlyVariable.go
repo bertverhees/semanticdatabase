@@ -41,11 +41,6 @@ type ElReadonlyVariable struct {
 func NewElReadonlyVariable() *ElReadonlyVariable {
 	elreadonlyvariable := new(ElReadonlyVariable)
 	// Constants
-	// From: ElVariable
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elreadonlyvariable
 }
 //BUILDER
@@ -70,20 +65,17 @@ func (i *ElReadonlyVariableBuilder) SetIsWritable ( v bool ) *ElReadonlyVariable
 	i.elreadonlyvariable.IsWritable = v
 	return i
 }
-	// //From: ElVariable
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElReadonlyVariableBuilder) SetIsWritable ( v bool ) *ElReadonlyVariableBuilder{
 	i.elreadonlyvariable.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElReadonlyVariableBuilder) SetName ( v string ) *ElReadonlyVariableBuilder{
 	i.elreadonlyvariable.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElReadonlyVariableBuilder) Build() *ElReadonlyVariable {
 	 return i.elreadonlyvariable
@@ -96,7 +88,7 @@ func (i *ElReadonlyVariableBuilder) Build() *ElReadonlyVariable {
 	version outputs name field.
 */
 func (e *ElReadonlyVariable) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -113,5 +105,5 @@ func (e *ElReadonlyVariable) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElReadonlyVariable) IsBoolean (  )  bool {
-	return nil
+	return false
 }

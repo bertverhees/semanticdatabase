@@ -41,16 +41,15 @@ type PBmmProperty struct {
 		Type definition of this property, if not a simple String type reference.
 		Persisted attribute.
 	*/
-	TypeDef	P_BMM_TYPE	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef	IPBmmType	`yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition.
-	BmmProperty	BMM_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	vocabulary.IBmmProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 //CONSTRUCTOR
 func NewPBmmProperty() *PBmmProperty {
 	pbmmproperty := new(PBmmProperty)
 	// Constants
-	// From: PBmmModelElement
 	return pbmmproperty
 }
 //BUILDER
@@ -103,16 +102,16 @@ func (i *PBmmPropertyBuilder) SetIsImRuntime ( v bool ) *PBmmPropertyBuilder{
 	Type definition of this property, if not a simple String type reference.
 	Persisted attribute.
 */
-func (i *PBmmPropertyBuilder) SetTypeDef ( v P_BMM_TYPE ) *PBmmPropertyBuilder{
+func (i *PBmmPropertyBuilder) SetTypeDef ( v IPBmmType ) *PBmmPropertyBuilder{
 	i.pbmmproperty.TypeDef = v
 	return i
 }
 // BMM_PROPERTY created by create_bmm_property_definition.
-func (i *PBmmPropertyBuilder) SetBmmProperty ( v BMM_PROPERTY ) *PBmmPropertyBuilder{
+func (i *PBmmPropertyBuilder) SetBmmProperty ( v vocabulary.IBmmProperty ) *PBmmPropertyBuilder{
 	i.pbmmproperty.BmmProperty = v
 	return i
 }
-	// //From: PBmmModelElement
+// From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmPropertyBuilder) SetDocumentation ( v string ) *PBmmPropertyBuilder{
 	i.pbmmproperty.Documentation = v

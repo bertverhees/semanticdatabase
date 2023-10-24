@@ -33,7 +33,6 @@ type ElTuple struct {
 func NewElTuple() *ElTuple {
 	eltuple := new(ElTuple)
 	// Constants
-	// From: ElExpression
 	return eltuple
 }
 //BUILDER
@@ -61,7 +60,6 @@ func (i *ElTupleBuilder) SetType ( v IBmmTupleType ) *ElTupleBuilder{
 	i.eltuple.Type = v
 	return i
 }
-	// //From: ElExpression
 
 func (i *ElTupleBuilder) Build() *ElTuple {
 	 return i.eltuple
@@ -87,5 +85,5 @@ func (e *ElTuple) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElTuple) IsBoolean (  )  bool {
-	return nil
+	return false
 }

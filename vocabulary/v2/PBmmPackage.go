@@ -32,15 +32,13 @@ type PBmmPackage struct {
 	// List of classes in this package. Persistent attribute.
 	Classes	[]string	`yaml:"classes" json:"classes" xml:"classes"`
 	// BMM_PACKAGE created by create_bmm_package_definition .
-	BmmPackageDefinition	BMM_PACKAGE	`yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
+	BmmPackageDefinition	vocabulary.IBmmPackage	`yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
 }
 
 //CONSTRUCTOR
 func NewPBmmPackage() *PBmmPackage {
 	pbmmpackage := new(PBmmPackage)
 	// Constants
-	// From: PBmmPackageContainer
-	// From: PBmmModelElement
 	return pbmmpackage
 }
 //BUILDER
@@ -69,20 +67,20 @@ func (i *PBmmPackageBuilder) SetClasses ( v []string ) *PBmmPackageBuilder{
 	return i
 }
 // BMM_PACKAGE created by create_bmm_package_definition .
-func (i *PBmmPackageBuilder) SetBmmPackageDefinition ( v BMM_PACKAGE ) *PBmmPackageBuilder{
+func (i *PBmmPackageBuilder) SetBmmPackageDefinition ( v vocabulary.IBmmPackage ) *PBmmPackageBuilder{
 	i.pbmmpackage.BmmPackageDefinition = v
 	return i
 }
-	// //From: PBmmPackageContainer
+// From: PBmmPackageContainer
 /**
 	Package structure as a hierarchy of packages each potentially containing names
 	of classes in that package in the original model.
 */
-func (i *PBmmPackageBuilder) SetPackages ( v Hash< P_BMM_PACKAGE , String > ) *PBmmPackageBuilder{
+func (i *PBmmPackageBuilder) SetPackages ( v map[IPBmmPackage]string ) *PBmmPackageBuilder{
 	i.pbmmpackage.Packages = v
 	return i
 }
-	// //From: PBmmModelElement
+// From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmPackageBuilder) SetDocumentation ( v string ) *PBmmPackageBuilder{
 	i.pbmmpackage.Documentation = v

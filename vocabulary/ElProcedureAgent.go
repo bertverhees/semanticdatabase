@@ -43,12 +43,6 @@ type ElProcedureAgent struct {
 func NewElProcedureAgent() *ElProcedureAgent {
 	elprocedureagent := new(ElProcedureAgent)
 	// Constants
-	// From: ElAgent
-	// From: ElFeatureRef
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elprocedureagent
 }
 //BUILDER
@@ -68,12 +62,13 @@ func (i *ElProcedureAgentBuilder) SetDefinition ( v IBmmProcedure ) *ElProcedure
 	i.elprocedureagent.Definition = v
 	return i
 }
-	// //From: ElAgent
+// From: ElAgent
 // Closed arguments of a routine call as a tuple of objects.
 func (i *ElProcedureAgentBuilder) SetClosedArgs ( v IElTuple ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.ClosedArgs = v
 	return i
 }
+// From: ElAgent
 /**
 	Optional list of names of open arguments of the call. If not provided, and the
 	name refers to a routine with more arguments than supplied in closed_args , the
@@ -83,39 +78,40 @@ func (i *ElProcedureAgentBuilder) SetOpenArgs ( v []string ) *ElProcedureAgentBu
 	i.elprocedureagent.OpenArgs = v
 	return i
 }
+// From: ElAgent
 // Reference to definition of a routine for which this is an agent, if one exists.
 func (i *ElProcedureAgentBuilder) SetDefinition ( v IBmmRoutine ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.Definition = v
 	return i
 }
+// From: ElAgent
 // Name of the routine being called.
 func (i *ElProcedureAgentBuilder) SetName ( v string ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.Name = v
 	return i
 }
+// From: ElAgent
 func (i *ElProcedureAgentBuilder) SetIsWritable ( v bool ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.IsWritable = v
 	return i
 }
-	// //From: ElFeatureRef
+// From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElProcedureAgentBuilder) SetScoper ( v IElValueGenerator ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.Scoper = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElProcedureAgentBuilder) SetIsWritable ( v bool ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElProcedureAgentBuilder) SetName ( v string ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElProcedureAgentBuilder) Build() *ElProcedureAgent {
 	 return i.elprocedureagent
@@ -145,7 +141,7 @@ func (e *ElProcedureAgent) IsCallable (  )  Boolean  Post_result_validity : Resu
 // From: EL_AGENT
 // Generated full reference name, including scoping elements.
 func (e *ElProcedureAgent) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_FEATURE_REF
 /**
@@ -153,7 +149,7 @@ func (e *ElProcedureAgent) Reference (  )  string {
 	concatenated using dot notation.
 */
 func (e *ElProcedureAgent) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_VALUE_GENERATOR
 /**
@@ -161,7 +157,7 @@ func (e *ElProcedureAgent) Reference (  )  string {
 	version outputs name field.
 */
 func (e *ElProcedureAgent) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -178,5 +174,5 @@ func (e *ElProcedureAgent) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElProcedureAgent) IsBoolean (  )  bool {
-	return nil
+	return false
 }

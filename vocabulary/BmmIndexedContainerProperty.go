@@ -45,12 +45,6 @@ type BmmIndexedContainerProperty struct {
 func NewBmmIndexedContainerProperty() *BmmIndexedContainerProperty {
 	bmmindexedcontainerproperty := new(BmmIndexedContainerProperty)
 	// Constants
-	// From: BmmContainerProperty
-	// From: BmmProperty
-	// From: BmmInstantiableFeature
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmindexedcontainerproperty
 }
 //BUILDER
@@ -70,28 +64,31 @@ func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmIndexedContainerTyp
 	i.bmmindexedcontainerproperty.Type = v
 	return i
 }
-	// //From: BmmContainerProperty
+// From: BmmContainerProperty
 // Cardinality of this container.
 func (i *BmmIndexedContainerPropertyBuilder) SetCardinality ( v Multiplicity_interval ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Cardinality = v
 	return i
 }
+// From: BmmContainerProperty
 // Declared or inferred static type of the entity.
 func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmContainerType ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Type = v
 	return i
 }
-	// //From: BmmProperty
+// From: BmmProperty
 // True if this property is marked with info model im_runtime property.
 func (i *BmmIndexedContainerPropertyBuilder) SetIsImRuntime ( v bool ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.IsImRuntime = v
 	return i
 }
+// From: BmmProperty
 // True if this property was marked with info model im_infrastructure flag.
 func (i *BmmIndexedContainerPropertyBuilder) SetIsImInfrastructure ( v bool ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.IsImInfrastructure = v
 	return i
 }
+// From: BmmProperty
 /**
 	True if this property instance is a compositional sub-part of the owning class
 	instance. Equivalent to 'composition' in UML associations (but missing from UML
@@ -102,8 +99,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetIsComposition ( v bool ) *BmmInd
 	i.bmmindexedcontainerproperty.IsComposition = v
 	return i
 }
-	// //From: BmmInstantiableFeature
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -112,27 +108,31 @@ func (i *BmmIndexedContainerPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) 
 	i.bmmindexedcontainerproperty.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmIndexedContainerPropertyBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmIndexedContainerPropertyBuilder) SetScope ( v IBmmClass ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmType ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -141,12 +141,13 @@ func (i *BmmIndexedContainerPropertyBuilder) SetIsNullable ( v bool ) *BmmIndexe
 	i.bmmindexedcontainerproperty.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmIndexedContainerPropertyBuilder) SetName ( v string ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -157,11 +158,13 @@ func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation ( v Hash < Any , S
 	i.bmmindexedcontainerproperty.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmIndexedContainerPropertyBuilder) SetScope ( v IBmmModelElement ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -178,12 +181,12 @@ func (i *BmmIndexedContainerPropertyBuilder) Build() *BmmIndexedContainerPropert
 //FUNCTIONS
 // Name of this property in form name: ContainerTypeName<IndexTypeName, …​> .
 func (b *BmmIndexedContainerProperty) DisplayName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CONTAINER_PROPERTY
 // Name of this property in form name: ContainerTypeName<> .
 func (b *BmmIndexedContainerProperty) DisplayName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_PROPERTY
 // Interval form of 0..1 , 1..1 etc, derived from is_nullable .
@@ -193,7 +196,7 @@ func (b *BmmIndexedContainerProperty) Existence (  )  Multiplicity_interval {
 // From: BMM_PROPERTY
 // Name of this property to display in UI.
 func (b *BmmIndexedContainerProperty) DisplayName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_FORMAL_ELEMENT
 /**
@@ -210,7 +213,7 @@ func (b *BmmIndexedContainerProperty) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmIndexedContainerProperty) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -218,5 +221,5 @@ func (b *BmmIndexedContainerProperty) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmIndexedContainerProperty) IsRootScope (  )  bool {
-	return nil
+	return false
 }

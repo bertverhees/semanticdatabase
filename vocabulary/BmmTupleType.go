@@ -59,9 +59,6 @@ func NewBmmTupleType() *BmmTupleType {
 	// From: BmmBuiltinType
 	// Base name (built-in typename).
 	bmmtupletype.BaseName = ""
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmtupletype
 }
 //BUILDER
@@ -81,10 +78,6 @@ func (i *BmmTupleTypeBuilder) SetItemTypes ( v Hash <String, BMM_TYPE > ) *BmmTu
 	i.bmmtupletype.ItemTypes = v
 	return i
 }
-	// //From: BmmBuiltinType
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmTupleTypeBuilder) Build() *BmmTupleType {
 	 return i.bmmtupletype
@@ -101,22 +94,22 @@ func (b *BmmTupleType) FlattenedTypeList (  )  []string {
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmTupleType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return True.
 func (b *BmmTupleType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmTupleType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmTupleType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -126,7 +119,7 @@ func (b *BmmTupleType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmTupleType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -136,7 +129,7 @@ func (b *BmmTupleType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmTupleType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -145,7 +138,7 @@ func (b *BmmTupleType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmTupleType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -153,12 +146,12 @@ func (b *BmmTupleType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmTupleType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmTupleType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

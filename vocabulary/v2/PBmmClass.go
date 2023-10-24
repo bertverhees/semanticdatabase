@@ -165,7 +165,7 @@ func (i *PBmmClassBuilder) Build() *PBmmClass {
 	class.
 */
 func (p *PBmmClass) IsGeneric (  )  bool {
-	return nil
+	return false
 }
 // Create bmm_class_definition .
 func (p *PBmmClass) CreateBmmClass (  )  {

@@ -61,9 +61,6 @@ func NewBmmRoutineType() *BmmRoutineType {
 	// From: BmmBuiltinType
 	// Base name (built-in typename).
 	bmmroutinetype.BaseName = ""
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmroutinetype
 }
 //BUILDER
@@ -86,16 +83,12 @@ func (i *BmmRoutineTypeBuilder) SetArgumentTypes ( v IBmmTupleType ) *BmmRoutine
 	i.bmmroutinetype.ArgumentTypes = v
 	return i
 }
-	// //From: BmmSignature
+// From: BmmSignature
 // Result type of signature.
 func (i *BmmRoutineTypeBuilder) SetResultType ( v IBmmType ) *BmmRoutineTypeBuilder{
 	i.bmmroutinetype.ResultType = v
 	return i
 }
-	// //From: BmmBuiltinType
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
 	 return i.bmmroutinetype
@@ -113,22 +106,22 @@ func (b *BmmRoutineType) FlattenedTypeList (  )  []string {
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmRoutineType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return True.
 func (b *BmmRoutineType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmRoutineType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmRoutineType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -138,7 +131,7 @@ func (b *BmmRoutineType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmRoutineType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -148,7 +141,7 @@ func (b *BmmRoutineType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmRoutineType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -157,7 +150,7 @@ func (b *BmmRoutineType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmRoutineType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -165,12 +158,12 @@ func (b *BmmRoutineType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmRoutineType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmRoutineType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

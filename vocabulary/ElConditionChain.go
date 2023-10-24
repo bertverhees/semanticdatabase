@@ -41,9 +41,6 @@ type ElConditionChain struct {
 func NewElConditionChain() *ElConditionChain {
 	elconditionchain := new(ElConditionChain)
 	// Constants
-	// From: ElDecisionTable
-	// From: ElTerminal
-	// From: ElExpression
 	return elconditionchain
 }
 //BUILDER
@@ -66,7 +63,7 @@ func (i *ElConditionChainBuilder) SetItems ( v List < EL_CONDITIONAL_EXPRESSION 
 	i.elconditionchain.Items = v
 	return i
 }
-	// //From: ElDecisionTable
+// From: ElDecisionTable
 /**
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
@@ -75,13 +72,12 @@ func (i *ElConditionChainBuilder) SetItems ( v List < EL_DECISION_BRANCH > ) *El
 	i.elconditionchain.Items = v
 	return i
 }
+// From: ElDecisionTable
 // Result expression of conditional, if its condition evaluates to True.
 func (i *ElConditionChainBuilder) SetElse ( v T ) *ElConditionChainBuilder{
 	i.elconditionchain.Else = v
 	return i
 }
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElConditionChainBuilder) Build() *ElConditionChain {
 	 return i.elconditionchain
@@ -103,5 +99,5 @@ func (e *ElConditionChain) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElConditionChain) IsBoolean (  )  bool {
-	return nil
+	return false
 }

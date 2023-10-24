@@ -108,14 +108,14 @@ func (i *BmmSchemaDescriptorBuilder) Build() *BmmSchemaDescriptor {
 	if bmm_schema /= Void and then bmm_schema.model_name /= Void .
 */
 func (b *BmmSchemaDescriptor) IsTopLevel (  )  bool {
-	return nil
+	return false
 }
 /**
 	True if the BMM version found in the schema (or assumed, if none) is compatible
 	with that in this software.
 */
 func (b *BmmSchemaDescriptor) IsBmmCompatible (  )  bool {
-	return nil
+	return false
 }
 /**
 	Load schema into in-memory form, i.e. a P_BMM_SCHEMA instance, if structurally

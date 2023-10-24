@@ -34,10 +34,6 @@ type BmmProcedureCall struct {
 func NewBmmProcedureCall() *BmmProcedureCall {
 	bmmprocedurecall := new(BmmProcedureCall)
 	// Constants
-	// From: ElAgentCall
-	// From: BmmSimpleStatement
-	// From: BmmStatement
-	// From: BmmStatementItem
 	return bmmprocedurecall
 }
 //BUILDER
@@ -57,15 +53,12 @@ func (i *BmmProcedureCallBuilder) SetAgent ( v IElProcedureAgent ) *BmmProcedure
 	i.bmmprocedurecall.Agent = v
 	return i
 }
-	// //From: ElAgentCall
+// From: ElAgentCall
 // The agent being called.
 func (i *BmmProcedureCallBuilder) SetAgent ( v IElAgent ) *BmmProcedureCallBuilder{
 	i.bmmprocedurecall.Agent = v
 	return i
 }
-	// //From: BmmSimpleStatement
-	// //From: BmmStatement
-	// //From: BmmStatementItem
 
 func (i *BmmProcedureCallBuilder) Build() *BmmProcedureCall {
 	 return i.bmmprocedurecall

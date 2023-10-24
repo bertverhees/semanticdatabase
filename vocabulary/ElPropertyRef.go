@@ -40,11 +40,6 @@ type ElPropertyRef struct {
 func NewElPropertyRef() *ElPropertyRef {
 	elpropertyref := new(ElPropertyRef)
 	// Constants
-	// From: ElFeatureRef
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elpropertyref
 }
 //BUILDER
@@ -69,25 +64,23 @@ func (i *ElPropertyRefBuilder) SetIsWritable ( v bool ) *ElPropertyRefBuilder{
 	i.elpropertyref.IsWritable = v
 	return i
 }
-	// //From: ElFeatureRef
+// From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElPropertyRefBuilder) SetScoper ( v IElValueGenerator ) *ElPropertyRefBuilder{
 	i.elpropertyref.Scoper = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElPropertyRefBuilder) SetIsWritable ( v bool ) *ElPropertyRefBuilder{
 	i.elpropertyref.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElPropertyRefBuilder) SetName ( v string ) *ElPropertyRefBuilder{
 	i.elpropertyref.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElPropertyRefBuilder) Build() *ElPropertyRef {
 	 return i.elpropertyref
@@ -108,7 +101,7 @@ func (e *ElPropertyRef) EvalType (  )  IBmmType {
 	concatenated using dot notation.
 */
 func (e *ElPropertyRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_VALUE_GENERATOR
 /**
@@ -116,7 +109,7 @@ func (e *ElPropertyRef) Reference (  )  string {
 	version outputs name field.
 */
 func (e *ElPropertyRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -133,5 +126,5 @@ func (e *ElPropertyRef) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElPropertyRef) IsBoolean (  )  bool {
-	return nil
+	return false
 }

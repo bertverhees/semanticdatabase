@@ -31,7 +31,6 @@ type BmmPackageContainer struct {
 func NewBmmPackageContainer() *BmmPackageContainer {
 	bmmpackagecontainer := new(BmmPackageContainer)
 	// Constants
-	// From: BmmModelElement
 	return bmmpackagecontainer
 }
 //BUILDER
@@ -56,12 +55,13 @@ func (i *BmmPackageContainerBuilder) SetScope ( v IBmmPackageContainer ) *BmmPac
 	i.bmmpackagecontainer.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmPackageContainerBuilder) SetName ( v string ) *BmmPackageContainerBuilder{
 	i.bmmpackagecontainer.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -72,11 +72,13 @@ func (i *BmmPackageContainerBuilder) SetDocumentation ( v Hash < Any , String > 
 	i.bmmpackagecontainer.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmPackageContainerBuilder) SetScope ( v IBmmModelElement ) *BmmPackageContainerBuilder{
 	i.bmmpackagecontainer.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -107,7 +109,7 @@ func (b *BmmPackageContainer) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1
 	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
 */
 func (b *BmmPackageContainer) HasPackagePath ( a_path string )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -115,5 +117,5 @@ func (b *BmmPackageContainer) HasPackagePath ( a_path string )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmPackageContainer) IsRootScope (  )  bool {
-	return nil
+	return false
 }

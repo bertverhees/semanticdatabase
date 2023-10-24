@@ -56,10 +56,6 @@ type BmmGenericType struct {
 func NewBmmGenericType() *BmmGenericType {
 	bmmgenerictype := new(BmmGenericType)
 	// Constants
-	// From: BmmModelType
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmgenerictype
 }
 //BUILDER
@@ -88,19 +84,17 @@ func (i *BmmGenericTypeBuilder) SetBaseClass ( v IBmmGenericClass ) *BmmGenericT
 	i.bmmgenerictype.BaseClass = v
 	return i
 }
-	// //From: BmmModelType
+// From: BmmModelType
 func (i *BmmGenericTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmGenericTypeBuilder{
 	i.bmmgenerictype.ValueConstraint = v
 	return i
 }
+// From: BmmModelType
 // Base class of this type.
 func (i *BmmGenericTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmGenericTypeBuilder{
 	i.bmmgenerictype.BaseClass = v
 	return i
 }
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmGenericTypeBuilder) Build() *BmmGenericType {
 	 return i.bmmgenerictype
@@ -112,18 +106,18 @@ func (i *BmmGenericTypeBuilder) Build() *BmmGenericType {
 	DV_INTERVAL<T> , TABLE<List<THING>,String> .
 */
 func (b *BmmGenericType) TypeName (  )  string {
-	return nil
+	return ""
 }
 /**
 	Signature form of the type, which for generics includes generic parameter
 	constrainer types E.g. Interval<T:Ordered> .
 */
 func (b *BmmGenericType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // True if base_class.is_abstract or if any (non-open) parameter type is abstract.
 func (b *BmmGenericType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 /**
 	Result is base_class.name followed by names of all generic parameter type names,
@@ -134,7 +128,7 @@ func (b *BmmGenericType) FlattenedTypeList (  )  []string {
 }
 // Returns True if there is any substituted generic parameter.
 func (b *BmmGenericType) IsPartiallyClosed (  )  bool {
-	return nil
+	return false
 }
 // Effective underlying class for this type, abstracting away any container type.
 func (b *BmmGenericType) EffectiveBaseClass (  )  IBmmGenericClass {
@@ -145,17 +139,17 @@ func (b *BmmGenericType) EffectiveBaseClass (  )  IBmmGenericClass {
 	in this type.
 */
 func (b *BmmGenericType) IsOpen (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_TYPE
 // Result = base_class.name .
 func (b *BmmGenericType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_MODEL_TYPE
 // Result = base_class.is_primitive .
 func (b *BmmGenericType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -165,7 +159,7 @@ func (b *BmmGenericType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmGenericType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -175,7 +169,7 @@ func (b *BmmGenericType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmGenericType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -184,7 +178,7 @@ func (b *BmmGenericType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmGenericType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -192,12 +186,12 @@ func (b *BmmGenericType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmGenericType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmGenericType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

@@ -98,8 +98,6 @@ type BmmClass struct {
 func NewBmmClass() *BmmClass {
 	bmmclass := new(BmmClass)
 	// Constants
-	// From: BmmModule
-	// From: BmmModelElement
 	return bmmclass
 }
 //BUILDER
@@ -211,28 +209,31 @@ func (i *BmmClassBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmClassBuilde
 	i.bmmclass.Features = v
 	return i
 }
-	// //From: BmmModule
+// From: BmmModule
 // List of feature groups in this class.
 func (i *BmmClassBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmClassBuilder{
 	i.bmmclass.FeatureGroups = v
 	return i
 }
+// From: BmmModule
 // Features of this module.
 func (i *BmmClassBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmClassBuilder{
 	i.bmmclass.Features = v
 	return i
 }
+// From: BmmModule
 // Model within which module is defined.
 func (i *BmmClassBuilder) SetScope ( v IBmmModel ) *BmmClassBuilder{
 	i.bmmclass.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmClassBuilder) SetName ( v string ) *BmmClassBuilder{
 	i.bmmclass.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -243,11 +244,13 @@ func (i *BmmClassBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmClass
 	i.bmmclass.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmClassBuilder) SetScope ( v IBmmModelElement ) *BmmClassBuilder{
 	i.bmmclass.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -302,28 +305,28 @@ func (b *BmmClass) SupplierClosure (  )  []string {
 }
 // Fully qualified package name, of form: package.package .
 func (b *BmmClass) PackagePath (  )  string {
-	return nil
+	return ""
 }
 /**
 	Fully qualified class name, of form: package.package.CLASS with package path in
 	lower-case and class in original case.
 */
 func (b *BmmClass) ClassPath (  )  string {
-	return nil
+	return ""
 }
 /**
 	True if this class is designated a primitive type within the overall type system
 	of the schema. Set from schema.
 */
 func (b *BmmClass) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 /**
 	True if this class is abstract in its model. Value provided from an underlying
 	data property set at creation or construction time.
 */
 func (b *BmmClass) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // List of all feature definitions introduced in this class.
 func (b *BmmClass) Features (  )  {
@@ -349,5 +352,5 @@ func (b *BmmClass) FlatProperties (  )  []vocabulary.IBmmProperty {
 	a model structure hierarchy.
 */
 func (b *BmmClass) IsRootScope (  )  bool {
-	return nil
+	return false
 }

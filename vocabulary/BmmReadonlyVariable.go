@@ -33,9 +33,6 @@ type BmmReadonlyVariable struct {
 func NewBmmReadonlyVariable() *BmmReadonlyVariable {
 	bmmreadonlyvariable := new(BmmReadonlyVariable)
 	// Constants
-	// From: BmmVariable
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmreadonlyvariable
 }
 //BUILDER
@@ -50,18 +47,19 @@ func NewBmmReadonlyVariableBuilder() *BmmReadonlyVariableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmVariable
+// From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmReadonlyVariableBuilder) SetScope ( v IBmmRoutine ) *BmmReadonlyVariableBuilder{
 	i.bmmreadonlyvariable.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmReadonlyVariableBuilder) SetType ( v IBmmType ) *BmmReadonlyVariableBuilder{
 	i.bmmreadonlyvariable.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -70,12 +68,13 @@ func (i *BmmReadonlyVariableBuilder) SetIsNullable ( v bool ) *BmmReadonlyVariab
 	i.bmmreadonlyvariable.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmReadonlyVariableBuilder) SetName ( v string ) *BmmReadonlyVariableBuilder{
 	i.bmmreadonlyvariable.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -86,11 +85,13 @@ func (i *BmmReadonlyVariableBuilder) SetDocumentation ( v Hash < Any , String > 
 	i.bmmreadonlyvariable.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmReadonlyVariableBuilder) SetScope ( v IBmmModelElement ) *BmmReadonlyVariableBuilder{
 	i.bmmreadonlyvariable.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -120,7 +121,7 @@ func (b *BmmReadonlyVariable) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmReadonlyVariable) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -128,5 +129,5 @@ func (b *BmmReadonlyVariable) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmReadonlyVariable) IsRootScope (  )  bool {
-	return nil
+	return false
 }

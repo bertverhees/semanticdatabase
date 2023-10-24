@@ -147,11 +147,16 @@ func NewBmmDefinitions() *BmmDefinitions {
 	// From: BasicDefinitions
 	// Carriage return character.
 	bmmdefinitions.Cr = "\015"
+	// From: BasicDefinitions
 	// Line feed character.
 	bmmdefinitions.Lf = "\012"
+	// From: BasicDefinitions
 	bmmdefinitions.AnyTypeName = "Any"
+	// From: BasicDefinitions
 	bmmdefinitions.RegexAnyPattern = ".*"
+	// From: BasicDefinitions
 	bmmdefinitions.DefaultEncoding = "UTF-8"
+	// From: BasicDefinitions
 	bmmdefinitions.NoneTypeName = "None"
 	return bmmdefinitions
 }
@@ -167,7 +172,6 @@ func NewBmmDefinitionsBuilder() *BmmDefinitionsBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BasicDefinitions
 
 func (i *BmmDefinitionsBuilder) Build() *BmmDefinitions {
 	 return i.bmmdefinitions
@@ -188,5 +192,5 @@ func (b *BmmDefinitions) AnyType (  )  IBmmSimpleType {
 	iso_13606_1_2008_2.1.2 .
 */
 func (b *BmmDefinitions) CreateSchemaId ( a_model_publisher string, a_schema_name string, a_model_release string )  string {
-	return nil
+	return ""
 }

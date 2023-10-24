@@ -33,9 +33,6 @@ type BmmInstantiableFeature struct {
 func NewBmmInstantiableFeature() *BmmInstantiableFeature {
 	bmminstantiablefeature := new(BmmInstantiableFeature)
 	// Constants
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmminstantiablefeature
 }
 //BUILDER
@@ -50,7 +47,7 @@ func NewBmmInstantiableFeatureBuilder() *BmmInstantiableFeatureBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -59,27 +56,31 @@ func (i *BmmInstantiableFeatureBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmI
 	i.bmminstantiablefeature.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmInstantiableFeatureBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmInstantiableFeatureBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmInstantiableFeatureBuilder) SetScope ( v IBmmClass ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmInstantiableFeatureBuilder) SetType ( v IBmmType ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -88,12 +89,13 @@ func (i *BmmInstantiableFeatureBuilder) SetIsNullable ( v bool ) *BmmInstantiabl
 	i.bmminstantiablefeature.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmInstantiableFeatureBuilder) SetName ( v string ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -104,11 +106,13 @@ func (i *BmmInstantiableFeatureBuilder) SetDocumentation ( v Hash < Any , String
 	i.bmminstantiablefeature.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmInstantiableFeatureBuilder) SetScope ( v IBmmModelElement ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -138,7 +142,7 @@ func (b *BmmInstantiableFeature) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmInstantiableFeature) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -146,5 +150,5 @@ func (b *BmmInstantiableFeature) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmInstantiableFeature) IsRootScope (  )  bool {
-	return nil
+	return false
 }

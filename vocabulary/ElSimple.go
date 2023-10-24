@@ -27,8 +27,6 @@ type ElSimple struct {
 func NewElSimple() *ElSimple {
 	elsimple := new(ElSimple)
 	// Constants
-	// From: ElTerminal
-	// From: ElExpression
 	return elsimple
 }
 //BUILDER
@@ -43,8 +41,6 @@ func NewElSimpleBuilder() *ElSimpleBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElSimpleBuilder) Build() *ElSimple {
 	 return i.elsimple
@@ -66,5 +62,5 @@ func (e *ElSimple) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElSimple) IsBoolean (  )  bool {
-	return nil
+	return false
 }

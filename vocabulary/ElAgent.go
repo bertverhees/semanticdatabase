@@ -59,11 +59,6 @@ type ElAgent struct {
 func NewElAgent() *ElAgent {
 	elagent := new(ElAgent)
 	// Constants
-	// From: ElFeatureRef
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elagent
 }
 //BUILDER
@@ -106,25 +101,23 @@ func (i *ElAgentBuilder) SetIsWritable ( v bool ) *ElAgentBuilder{
 	i.elagent.IsWritable = v
 	return i
 }
-	// //From: ElFeatureRef
+// From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElAgentBuilder) SetScoper ( v IElValueGenerator ) *ElAgentBuilder{
 	i.elagent.Scoper = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElAgentBuilder) SetIsWritable ( v bool ) *ElAgentBuilder{
 	i.elagent.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElAgentBuilder) SetName ( v string ) *ElAgentBuilder{
 	i.elagent.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElAgentBuilder) Build() *ElAgent {
 	 return i.elagent
@@ -144,7 +137,7 @@ func (e *ElAgent) IsCallable (  )  Boolean  Post_result_validity : Result = open
 }
 // Generated full reference name, including scoping elements.
 func (e *ElAgent) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_FEATURE_REF
 /**
@@ -152,7 +145,7 @@ func (e *ElAgent) Reference (  )  string {
 	concatenated using dot notation.
 */
 func (e *ElAgent) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_VALUE_GENERATOR
 /**
@@ -160,7 +153,7 @@ func (e *ElAgent) Reference (  )  string {
 	version outputs name field.
 */
 func (e *ElAgent) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -177,5 +170,5 @@ func (e *ElAgent) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElAgent) IsBoolean (  )  bool {
-	return nil
+	return false
 }

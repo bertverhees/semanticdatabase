@@ -2,16 +2,14 @@ package v2
 
 import (
 	"vocabulary"
+	"vocabulary/base"
 )
 
 // Persistent form of BMM_CONTAINER_PROPERTY .
 
 // Interface definition
 type IPBmmContainerProperty interface {
-	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
-	// From: P_BMM_PROPERTY
-	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
-	// From: P_BMM_MODEL_ELEMENT
+	CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
 }
 
 // Struct definition
@@ -22,17 +20,17 @@ type PBmmContainerProperty struct {
 	// Constants
 	// Attributes
 	// Cardinality of this property in its class. Persistent attribute.
-	Cardinality	base.Interval[int]	`yaml:"cardinality" json:"cardinality" xml:"cardinality"`
+	Cardinality base.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
 	/**
-		Type definition of this property, if not a simple String type reference.
-		Persistent attribute.
+	Type definition of this property, if not a simple String type reference.
+	Persistent attribute.
 	*/
-	TypeDef	IPBmmContainerType	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef IPBmmContainerType `yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property .
-	BmmProperty	vocabulary.IBmmContainerProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty vocabulary.IBmmContainerProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewPBmmContainerProperty() *PBmmContainerProperty {
 	pbmmcontainerproperty := new(PBmmContainerProperty)
 	// Constants
@@ -40,102 +38,97 @@ func NewPBmmContainerProperty() *PBmmContainerProperty {
 	// From: PBmmModelElement
 	return pbmmcontainerproperty
 }
-//BUILDER
+
+// BUILDER
 type PBmmContainerPropertyBuilder struct {
 	pbmmcontainerproperty *PBmmContainerProperty
 }
 
 func NewPBmmContainerPropertyBuilder() *PBmmContainerPropertyBuilder {
-	 return &PBmmContainerPropertyBuilder {
-		pbmmcontainerproperty : NewPBmmContainerProperty(),
+	return &PBmmContainerPropertyBuilder{
+		pbmmcontainerproperty: NewPBmmContainerProperty(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Cardinality of this property in its class. Persistent attribute.
-func (i *PBmmContainerPropertyBuilder) SetCardinality ( v base.Interval[int] ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.Cardinality = v
 	return i
 }
-/**
-	Type definition of this property, if not a simple String type reference.
-	Persistent attribute.
+
+/*
+*
+Type definition of this property, if not a simple String type reference.
+Persistent attribute.
 */
-func (i *PBmmContainerPropertyBuilder) SetTypeDef ( v IPBmmContainerType ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetTypeDef(v IPBmmContainerType) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.TypeDef = v
 	return i
 }
+
 // BMM_PROPERTY created by create_bmm_property .
-func (i *PBmmContainerPropertyBuilder) SetBmmProperty ( v vocabulary.IBmmContainerProperty ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v vocabulary.IBmmContainerProperty) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.BmmProperty = v
 	return i
 }
-	// //From: PBmmProperty
+
+// //From: PBmmProperty
 // Name of this property within its class. Persisted attribute.
-func (i *PBmmContainerPropertyBuilder) SetName ( v string ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetName(v string) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.Name = v
 	return i
 }
+
 // True if this property is mandatory in its class. Persisted attribute.
-func (i *PBmmContainerPropertyBuilder) SetIsMandatory ( v bool ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetIsMandatory(v bool) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.IsMandatory = v
 	return i
 }
-/**
-	True if this property is computed rather than stored in objects of this class.
-	Persisted Attribute.
+
+/*
+*
+True if this property is computed rather than stored in objects of this class.
+Persisted Attribute.
 */
-func (i *PBmmContainerPropertyBuilder) SetIsComputed ( v bool ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetIsComputed(v bool) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.IsComputed = v
 	return i
 }
-/**
-	True if this property is info model 'infrastructure' rather than 'data'.
-	Persisted attribute.
+
+/*
+*
+True if this property is info model 'infrastructure' rather than 'data'.
+Persisted attribute.
 */
-func (i *PBmmContainerPropertyBuilder) SetIsImInfrastructure ( v bool ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.IsImInfrastructure = v
 	return i
 }
-/**
-	True if this property is info model 'runtime' settable property. Persisted
-	attribute.
+
+/*
+*
+True if this property is info model 'runtime' settable property. Persisted
+attribute.
 */
-func (i *PBmmContainerPropertyBuilder) SetIsImRuntime ( v bool ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetIsImRuntime(v bool) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.IsImRuntime = v
 	return i
 }
-/**
-	Type definition of this property, if not a simple String type reference.
-	Persisted attribute.
-*/
-func (i *PBmmContainerPropertyBuilder) SetTypeDef ( v P_BMM_TYPE ) *PBmmContainerPropertyBuilder{
-	i.pbmmcontainerproperty.TypeDef = v
-	return i
-}
-// BMM_PROPERTY created by create_bmm_property_definition.
-func (i *PBmmContainerPropertyBuilder) SetBmmProperty ( v BMM_PROPERTY ) *PBmmContainerPropertyBuilder{
-	i.pbmmcontainerproperty.BmmProperty = v
-	return i
-}
-	// //From: PBmmModelElement
+
+// //From: PBmmModelElement
 // Optional documentation of this element.
-func (i *PBmmContainerPropertyBuilder) SetDocumentation ( v string ) *PBmmContainerPropertyBuilder{
+func (i *PBmmContainerPropertyBuilder) SetDocumentation(v string) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.Documentation = v
 	return i
 }
 
 func (i *PBmmContainerPropertyBuilder) Build() *PBmmContainerProperty {
-	 return i.pbmmcontainerproperty
+	return i.pbmmcontainerproperty
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // Create bmm_property_definition .
-func (p *PBmmContainerProperty) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
-	return
-}
-// From: P_BMM_PROPERTY
-// Create bmm_property_definition from P_BMM_XX parts.
-func (p *PBmmContainerProperty) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+func (p *PBmmContainerProperty) CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
 	return
 }

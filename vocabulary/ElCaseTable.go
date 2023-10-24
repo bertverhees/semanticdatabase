@@ -44,9 +44,6 @@ type ElCaseTable struct {
 func NewElCaseTable() *ElCaseTable {
 	elcasetable := new(ElCaseTable)
 	// Constants
-	// From: ElDecisionTable
-	// From: ElTerminal
-	// From: ElExpression
 	return elcasetable
 }
 //BUILDER
@@ -74,7 +71,7 @@ func (i *ElCaseTableBuilder) SetItems ( v List < EL_CASE > ) *ElCaseTableBuilder
 	i.elcasetable.Items = v
 	return i
 }
-	// //From: ElDecisionTable
+// From: ElDecisionTable
 /**
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
@@ -83,13 +80,12 @@ func (i *ElCaseTableBuilder) SetItems ( v List < EL_DECISION_BRANCH > ) *ElCaseT
 	i.elcasetable.Items = v
 	return i
 }
+// From: ElDecisionTable
 // Result expression of conditional, if its condition evaluates to True.
 func (i *ElCaseTableBuilder) SetElse ( v T ) *ElCaseTableBuilder{
 	i.elcasetable.Else = v
 	return i
 }
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElCaseTableBuilder) Build() *ElCaseTable {
 	 return i.elcasetable
@@ -111,5 +107,5 @@ func (e *ElCaseTable) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElCaseTable) IsBoolean (  )  bool {
-	return nil
+	return false
 }

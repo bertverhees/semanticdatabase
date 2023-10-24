@@ -39,8 +39,6 @@ type BmmFeature struct {
 func NewBmmFeature() *BmmFeature {
 	bmmfeature := new(BmmFeature)
 	// Constants
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmfeature
 }
 //BUILDER
@@ -78,12 +76,13 @@ func (i *BmmFeatureBuilder) SetScope ( v IBmmClass ) *BmmFeatureBuilder{
 	i.bmmfeature.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmFeatureBuilder) SetType ( v IBmmType ) *BmmFeatureBuilder{
 	i.bmmfeature.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -92,12 +91,13 @@ func (i *BmmFeatureBuilder) SetIsNullable ( v bool ) *BmmFeatureBuilder{
 	i.bmmfeature.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmFeatureBuilder) SetName ( v string ) *BmmFeatureBuilder{
 	i.bmmfeature.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -108,11 +108,13 @@ func (i *BmmFeatureBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmFea
 	i.bmmfeature.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmFeatureBuilder) SetScope ( v IBmmModelElement ) *BmmFeatureBuilder{
 	i.bmmfeature.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -142,7 +144,7 @@ func (b *BmmFeature) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmFeature) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -150,5 +152,5 @@ func (b *BmmFeature) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmFeature) IsRootScope (  )  bool {
-	return nil
+	return false
 }

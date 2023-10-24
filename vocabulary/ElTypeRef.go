@@ -41,10 +41,6 @@ type ElTypeRef struct {
 func NewElTypeRef() *ElTypeRef {
 	eltyperef := new(ElTypeRef)
 	// Constants
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return eltyperef
 }
 //BUILDER
@@ -68,19 +64,17 @@ func (i *ElTypeRefBuilder) SetIsMutable ( v bool ) *ElTypeRefBuilder{
 	i.eltyperef.IsMutable = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElTypeRefBuilder) SetIsWritable ( v bool ) *ElTypeRefBuilder{
 	i.eltyperef.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElTypeRefBuilder) SetName ( v string ) *ElTypeRefBuilder{
 	i.eltyperef.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElTypeRefBuilder) Build() *ElTypeRef {
 	 return i.eltyperef
@@ -97,7 +91,7 @@ func (e *ElTypeRef) EvalType (  )  IBmmType {
 	version outputs name field.
 */
 func (e *ElTypeRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -114,5 +108,5 @@ func (e *ElTypeRef) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElTypeRef) IsBoolean (  )  bool {
-	return nil
+	return false
 }

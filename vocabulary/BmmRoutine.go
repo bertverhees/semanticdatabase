@@ -47,9 +47,6 @@ type BmmRoutine struct {
 func NewBmmRoutine() *BmmRoutine {
 	bmmroutine := new(BmmRoutine)
 	// Constants
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmroutine
 }
 //BUILDER
@@ -92,7 +89,7 @@ func (i *BmmRoutineBuilder) SetDefinition ( v IBmmRoutineDefinition ) *BmmRoutin
 	i.bmmroutine.Definition = v
 	return i
 }
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -101,27 +98,31 @@ func (i *BmmRoutineBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmRoutineBuilde
 	i.bmmroutine.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmRoutineBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmRoutineBuilder{
 	i.bmmroutine.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmRoutineBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmRoutineBuilder{
 	i.bmmroutine.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmRoutineBuilder) SetScope ( v IBmmClass ) *BmmRoutineBuilder{
 	i.bmmroutine.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmRoutineBuilder) SetType ( v IBmmType ) *BmmRoutineBuilder{
 	i.bmmroutine.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -130,12 +131,13 @@ func (i *BmmRoutineBuilder) SetIsNullable ( v bool ) *BmmRoutineBuilder{
 	i.bmmroutine.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmRoutineBuilder) SetName ( v string ) *BmmRoutineBuilder{
 	i.bmmroutine.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -146,11 +148,13 @@ func (i *BmmRoutineBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmRou
 	i.bmmroutine.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmRoutineBuilder) SetScope ( v IBmmModelElement ) *BmmRoutineBuilder{
 	i.bmmroutine.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -184,7 +188,7 @@ func (b *BmmRoutine) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmRoutine) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -192,5 +196,5 @@ func (b *BmmRoutine) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmRoutine) IsRootScope (  )  bool {
-	return nil
+	return false
 }

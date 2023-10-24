@@ -39,11 +39,6 @@ type ElStaticRef struct {
 func NewElStaticRef() *ElStaticRef {
 	elstaticref := new(ElStaticRef)
 	// Constants
-	// From: ElFeatureRef
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elstaticref
 }
 //BUILDER
@@ -68,25 +63,23 @@ func (i *ElStaticRefBuilder) SetIsWritable ( v bool ) *ElStaticRefBuilder{
 	i.elstaticref.IsWritable = v
 	return i
 }
-	// //From: ElFeatureRef
+// From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElStaticRefBuilder) SetScoper ( v IElValueGenerator ) *ElStaticRefBuilder{
 	i.elstaticref.Scoper = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElStaticRefBuilder) SetIsWritable ( v bool ) *ElStaticRefBuilder{
 	i.elstaticref.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElStaticRefBuilder) SetName ( v string ) *ElStaticRefBuilder{
 	i.elstaticref.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElStaticRefBuilder) Build() *ElStaticRef {
 	 return i.elstaticref
@@ -99,7 +92,7 @@ func (i *ElStaticRefBuilder) Build() *ElStaticRef {
 	concatenated using dot notation.
 */
 func (e *ElStaticRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_VALUE_GENERATOR
 /**
@@ -107,7 +100,7 @@ func (e *ElStaticRef) Reference (  )  string {
 	version outputs name field.
 */
 func (e *ElStaticRef) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -124,5 +117,5 @@ func (e *ElStaticRef) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElStaticRef) IsBoolean (  )  bool {
-	return nil
+	return false
 }

@@ -36,10 +36,6 @@ type ElDefined struct {
 func NewElDefined() *ElDefined {
 	eldefined := new(ElDefined)
 	// Constants
-	// From: ElPredicate
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return eldefined
 }
 //BUILDER
@@ -54,15 +50,12 @@ func NewElDefinedBuilder() *ElDefinedBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: ElPredicate
+// From: ElPredicate
 // The target instance of this predicate.
 func (i *ElDefinedBuilder) SetOperand ( v IElValueGenerator ) *ElDefinedBuilder{
 	i.eldefined.Operand = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElDefinedBuilder) Build() *ElDefined {
 	 return i.eldefined
@@ -89,5 +82,5 @@ func (e *ElDefined) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElDefined) IsBoolean (  )  bool {
-	return nil
+	return false
 }

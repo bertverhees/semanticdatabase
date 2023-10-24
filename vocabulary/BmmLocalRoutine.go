@@ -27,7 +27,6 @@ type BmmLocalRoutine struct {
 func NewBmmLocalRoutine() *BmmLocalRoutine {
 	bmmlocalroutine := new(BmmLocalRoutine)
 	// Constants
-	// From: BmmRoutineDefinition
 	return bmmlocalroutine
 }
 //BUILDER
@@ -52,7 +51,6 @@ func (i *BmmLocalRoutineBuilder) SetBody ( v IBmmStatementBlock ) *BmmLocalRouti
 	i.bmmlocalroutine.Body = v
 	return i
 }
-	// //From: BmmRoutineDefinition
 
 func (i *BmmLocalRoutineBuilder) Build() *BmmLocalRoutine {
 	 return i.bmmlocalroutine

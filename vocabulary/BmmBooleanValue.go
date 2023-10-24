@@ -32,9 +32,6 @@ type BmmBooleanValue struct {
 func NewBmmBooleanValue() *BmmBooleanValue {
 	bmmbooleanvalue := new(BmmBooleanValue)
 	// Constants
-	// From: BmmPrimitiveValue
-	// From: BmmUnitaryValue
-	// From: BmmLiteralValue
 	return bmmbooleanvalue
 }
 //BUILDER
@@ -54,19 +51,19 @@ func (i *BmmBooleanValueBuilder) SetValue ( v bool ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.Value = v
 	return i
 }
-	// //From: BmmPrimitiveValue
+// From: BmmPrimitiveValue
 // Concrete type of this literal.
 func (i *BmmBooleanValueBuilder) SetType ( v IBmmSimpleType ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.Type = v
 	return i
 }
-	// //From: BmmUnitaryValue
-	// //From: BmmLiteralValue
+// From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmBooleanValueBuilder) SetValueLiteral ( v string ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.ValueLiteral = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	A native representation of the value, possibly derived by deserialising
 	value_literal .
@@ -75,6 +72,7 @@ func (i *BmmBooleanValueBuilder) SetValue ( v Any ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.Value = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	Optional specification of formalism of the value_literal attribute for complex
 	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
@@ -84,6 +82,7 @@ func (i *BmmBooleanValueBuilder) SetSyntax ( v string ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.Syntax = v
 	return i
 }
+// From: BmmLiteralValue
 // Concrete type of this literal.
 func (i *BmmBooleanValueBuilder) SetType ( v T ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.Type = v

@@ -38,11 +38,6 @@ type BmmUnitaryProperty struct {
 func NewBmmUnitaryProperty() *BmmUnitaryProperty {
 	bmmunitaryproperty := new(BmmUnitaryProperty)
 	// Constants
-	// From: BmmProperty
-	// From: BmmInstantiableFeature
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmunitaryproperty
 }
 //BUILDER
@@ -62,17 +57,19 @@ func (i *BmmUnitaryPropertyBuilder) SetType ( v IBmmUnitaryType ) *BmmUnitaryPro
 	i.bmmunitaryproperty.Type = v
 	return i
 }
-	// //From: BmmProperty
+// From: BmmProperty
 // True if this property is marked with info model im_runtime property.
 func (i *BmmUnitaryPropertyBuilder) SetIsImRuntime ( v bool ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.IsImRuntime = v
 	return i
 }
+// From: BmmProperty
 // True if this property was marked with info model im_infrastructure flag.
 func (i *BmmUnitaryPropertyBuilder) SetIsImInfrastructure ( v bool ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.IsImInfrastructure = v
 	return i
 }
+// From: BmmProperty
 /**
 	True if this property instance is a compositional sub-part of the owning class
 	instance. Equivalent to 'composition' in UML associations (but missing from UML
@@ -83,8 +80,7 @@ func (i *BmmUnitaryPropertyBuilder) SetIsComposition ( v bool ) *BmmUnitaryPrope
 	i.bmmunitaryproperty.IsComposition = v
 	return i
 }
-	// //From: BmmInstantiableFeature
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -93,27 +89,31 @@ func (i *BmmUnitaryPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmUnita
 	i.bmmunitaryproperty.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmUnitaryPropertyBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmUnitaryPropertyBuilder) SetScope ( v IBmmClass ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmUnitaryPropertyBuilder) SetType ( v IBmmType ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -122,12 +122,13 @@ func (i *BmmUnitaryPropertyBuilder) SetIsNullable ( v bool ) *BmmUnitaryProperty
 	i.bmmunitaryproperty.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmUnitaryPropertyBuilder) SetName ( v string ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -138,11 +139,13 @@ func (i *BmmUnitaryPropertyBuilder) SetDocumentation ( v Hash < Any , String > )
 	i.bmmunitaryproperty.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmUnitaryPropertyBuilder) SetScope ( v IBmmModelElement ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -165,7 +168,7 @@ func (b *BmmUnitaryProperty) Existence (  )  Multiplicity_interval {
 // From: BMM_PROPERTY
 // Name of this property to display in UI.
 func (b *BmmUnitaryProperty) DisplayName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_FORMAL_ELEMENT
 /**
@@ -182,7 +185,7 @@ func (b *BmmUnitaryProperty) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmUnitaryProperty) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -190,5 +193,5 @@ func (b *BmmUnitaryProperty) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmUnitaryProperty) IsRootScope (  )  bool {
-	return nil
+	return false
 }

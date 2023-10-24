@@ -32,10 +32,6 @@ type ElVariable struct {
 func NewElVariable() *ElVariable {
 	elvariable := new(ElVariable)
 	// Constants
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elvariable
 }
 //BUILDER
@@ -50,19 +46,17 @@ func NewElVariableBuilder() *ElVariableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElVariableBuilder) SetIsWritable ( v bool ) *ElVariableBuilder{
 	i.elvariable.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElVariableBuilder) SetName ( v string ) *ElVariableBuilder{
 	i.elvariable.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElVariableBuilder) Build() *ElVariable {
 	 return i.elvariable
@@ -75,7 +69,7 @@ func (i *ElVariableBuilder) Build() *ElVariable {
 	version outputs name field.
 */
 func (e *ElVariable) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -92,5 +86,5 @@ func (e *ElVariable) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElVariable) IsBoolean (  )  bool {
-	return nil
+	return false
 }

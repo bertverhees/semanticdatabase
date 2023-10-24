@@ -44,10 +44,6 @@ type BmmFunction struct {
 func NewBmmFunction() *BmmFunction {
 	bmmfunction := new(BmmFunction)
 	// Constants
-	// From: BmmRoutine
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmfunction
 }
 //BUILDER
@@ -75,12 +71,13 @@ func (i *BmmFunctionBuilder) SetResult ( v IBmmResult ) *BmmFunctionBuilder{
 	i.bmmfunction.Result = v
 	return i
 }
-	// //From: BmmRoutine
+// From: BmmRoutine
 // Formal parameters of the routine.
 func (i *BmmFunctionBuilder) SetParameters ( v List < BMM_PARAMETER > ) *BmmFunctionBuilder{
 	i.bmmfunction.Parameters = v
 	return i
 }
+// From: BmmRoutine
 /**
 	Boolean conditions that must evaluate to True for the routine to execute
 	correctly, May be used to generate exceptions if included in run-time build. A
@@ -90,6 +87,7 @@ func (i *BmmFunctionBuilder) SetPreConditions ( v []vocabulary.IBmmAssertion ) *
 	i.bmmfunction.PreConditions = v
 	return i
 }
+// From: BmmRoutine
 /**
 	Boolean conditions that will evaluate to True if the routine executed correctly,
 	May be used to generate exceptions if included in run-time build. A False
@@ -99,12 +97,13 @@ func (i *BmmFunctionBuilder) SetPostConditions ( v []vocabulary.IBmmAssertion ) 
 	i.bmmfunction.PostConditions = v
 	return i
 }
+// From: BmmRoutine
 // Body of a routine, i.e. executable program.
 func (i *BmmFunctionBuilder) SetDefinition ( v IBmmRoutineDefinition ) *BmmFunctionBuilder{
 	i.bmmfunction.Definition = v
 	return i
 }
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -113,27 +112,31 @@ func (i *BmmFunctionBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmFunctionBuil
 	i.bmmfunction.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmFunctionBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmFunctionBuilder{
 	i.bmmfunction.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmFunctionBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmFunctionBuilder{
 	i.bmmfunction.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmFunctionBuilder) SetScope ( v IBmmClass ) *BmmFunctionBuilder{
 	i.bmmfunction.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmFunctionBuilder) SetType ( v IBmmType ) *BmmFunctionBuilder{
 	i.bmmfunction.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -142,12 +145,13 @@ func (i *BmmFunctionBuilder) SetIsNullable ( v bool ) *BmmFunctionBuilder{
 	i.bmmfunction.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmFunctionBuilder) SetName ( v string ) *BmmFunctionBuilder{
 	i.bmmfunction.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -158,11 +162,13 @@ func (i *BmmFunctionBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmFu
 	i.bmmfunction.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmFunctionBuilder) SetScope ( v IBmmModelElement ) *BmmFunctionBuilder{
 	i.bmmfunction.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -197,7 +203,7 @@ func (b *BmmFunction) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmFunction) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -205,5 +211,5 @@ func (b *BmmFunction) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmFunction) IsRootScope (  )  bool {
-	return nil
+	return false
 }

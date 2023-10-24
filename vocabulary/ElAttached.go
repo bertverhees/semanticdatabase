@@ -35,10 +35,6 @@ type ElAttached struct {
 func NewElAttached() *ElAttached {
 	elattached := new(ElAttached)
 	// Constants
-	// From: ElPredicate
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elattached
 }
 //BUILDER
@@ -53,15 +49,12 @@ func NewElAttachedBuilder() *ElAttachedBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: ElPredicate
+// From: ElPredicate
 // The target instance of this predicate.
 func (i *ElAttachedBuilder) SetOperand ( v IElValueGenerator ) *ElAttachedBuilder{
 	i.elattached.Operand = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElAttachedBuilder) Build() *ElAttached {
 	 return i.elattached
@@ -88,5 +81,5 @@ func (e *ElAttached) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElAttached) IsBoolean (  )  bool {
-	return nil
+	return false
 }

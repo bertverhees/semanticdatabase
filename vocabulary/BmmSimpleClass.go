@@ -45,9 +45,6 @@ type BmmSimpleClass struct {
 func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass := new(BmmSimpleClass)
 	// Constants
-	// From: BmmClass
-	// From: BmmModule
-	// From: BmmModelElement
 	return bmmsimpleclass
 }
 //BUILDER
@@ -62,22 +59,25 @@ func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmClass
+// From: BmmClass
 // List of immediate inheritance parents.
 func (i *BmmSimpleClassBuilder) SetAncestors ( v map[string]vocabulary.IBmmModelType ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Ancestors = v
 	return i
 }
+// From: BmmClass
 // Package this class belongs to.
 func (i *BmmSimpleClassBuilder) SetPackage ( v IBmmPackage ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Package = v
 	return i
 }
+// From: BmmClass
 // Properties defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetProperties ( v map[string]vocabulary.IBmmProperty ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Properties = v
 	return i
 }
+// From: BmmClass
 /**
 	Reference to original source schema defining this class. Useful for UI tools to
 	determine which original schema file to open for a given class for manual
@@ -87,6 +87,7 @@ func (i *BmmSimpleClassBuilder) SetSourceSchemaId ( v string ) *BmmSimpleClassBu
 	i.bmmsimpleclass.SourceSchemaId = v
 	return i
 }
+// From: BmmClass
 /**
 	List of computed references to base classes of immediate inheritance
 	descendants, derived when members of ancestors are attached at creation time.
@@ -95,6 +96,7 @@ func (i *BmmSimpleClassBuilder) SetImmediateDescendants ( v List < BMM_CLASS > )
 	i.bmmsimpleclass.ImmediateDescendants = v
 	return i
 }
+// From: BmmClass
 /**
 	True if this definition overrides a class of the same name in an included
 	schema.
@@ -103,21 +105,25 @@ func (i *BmmSimpleClassBuilder) SetIsOverride ( v bool ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.IsOverride = v
 	return i
 }
+// From: BmmClass
 // Static properties defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetStaticProperties ( v map[string]vocabulary.IBmmStatic ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.StaticProperties = v
 	return i
 }
+// From: BmmClass
 // Functions defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetFunctions ( v map[string]vocabulary.IBmmFunction ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Functions = v
 	return i
 }
+// From: BmmClass
 // Procedures defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetProcedures ( v map[string]vocabulary.IBmmProcedure ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Procedures = v
 	return i
 }
+// From: BmmClass
 /**
 	True if this class represents a type considered to be primitive in the type
 	system, i.e. any typically built-in or standard library type such as String ,
@@ -127,6 +133,7 @@ func (i *BmmSimpleClassBuilder) SetIsPrimitive ( v bool ) *BmmSimpleClassBuilder
 	i.bmmsimpleclass.IsPrimitive = v
 	return i
 }
+// From: BmmClass
 /**
 	True if this class is marked as abstract, i.e. direct instances cannot be
 	created from its direct type.
@@ -135,10 +142,12 @@ func (i *BmmSimpleClassBuilder) SetIsAbstract ( v bool ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.IsAbstract = v
 	return i
 }
+// From: BmmClass
 func (i *BmmSimpleClassBuilder) SetInvariants ( v []vocabulary.IBmmAssertion ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Invariants = v
 	return i
 }
+// From: BmmClass
 /**
 	Subset of procedures that may be used to initialise a new instance of an object,
 	and whose execution will guarantee that class invariants are satisfied.
@@ -147,6 +156,7 @@ func (i *BmmSimpleClassBuilder) SetCreators ( v map[string]vocabulary.IBmmProced
 	i.bmmsimpleclass.Creators = v
 	return i
 }
+// From: BmmClass
 /**
 	Subset of creators that create a new instance from a single argument of another
 	type.
@@ -155,33 +165,37 @@ func (i *BmmSimpleClassBuilder) SetConverters ( v map[string]vocabulary.IBmmProc
 	i.bmmsimpleclass.Converters = v
 	return i
 }
+// From: BmmClass
 // Features of this module.
 func (i *BmmSimpleClassBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Features = v
 	return i
 }
-	// //From: BmmModule
+// From: BmmModule
 // List of feature groups in this class.
 func (i *BmmSimpleClassBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.FeatureGroups = v
 	return i
 }
+// From: BmmModule
 // Features of this module.
 func (i *BmmSimpleClassBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Features = v
 	return i
 }
+// From: BmmModule
 // Model within which module is defined.
 func (i *BmmSimpleClassBuilder) SetScope ( v IBmmModel ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmSimpleClassBuilder) SetName ( v string ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -192,11 +206,13 @@ func (i *BmmSimpleClassBuilder) SetDocumentation ( v Hash < Any , String > ) *Bm
 	i.bmmsimpleclass.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmSimpleClassBuilder) SetScope ( v IBmmModelElement ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -265,7 +281,7 @@ func (b *BmmSimpleClass) SupplierClosure (  )  []string {
 // From: BMM_CLASS
 // Fully qualified package name, of form: package.package .
 func (b *BmmSimpleClass) PackagePath (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CLASS
 /**
@@ -273,7 +289,7 @@ func (b *BmmSimpleClass) PackagePath (  )  string {
 	lower-case and class in original case.
 */
 func (b *BmmSimpleClass) ClassPath (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CLASS
 /**
@@ -281,7 +297,7 @@ func (b *BmmSimpleClass) ClassPath (  )  string {
 	of the schema. Set from schema.
 */
 func (b *BmmSimpleClass) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_CLASS
 /**
@@ -289,7 +305,7 @@ func (b *BmmSimpleClass) IsPrimitive (  )  bool {
 	data property set at creation or construction time.
 */
 func (b *BmmSimpleClass) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_CLASS
 // List of all feature definitions introduced in this class.
@@ -318,5 +334,5 @@ func (b *BmmSimpleClass) FlatProperties (  )  []vocabulary.IBmmProperty {
 	a model structure hierarchy.
 */
 func (b *BmmSimpleClass) IsRootScope (  )  bool {
-	return nil
+	return false
 }

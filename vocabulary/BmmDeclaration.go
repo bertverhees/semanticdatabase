@@ -31,9 +31,6 @@ type BmmDeclaration struct {
 func NewBmmDeclaration() *BmmDeclaration {
 	bmmdeclaration := new(BmmDeclaration)
 	// Constants
-	// From: BmmSimpleStatement
-	// From: BmmStatement
-	// From: BmmStatementItem
 	return bmmdeclaration
 }
 //BUILDER
@@ -61,9 +58,6 @@ func (i *BmmDeclarationBuilder) SetType ( v IBmmType ) *BmmDeclarationBuilder{
 	i.bmmdeclaration.Type = v
 	return i
 }
-	// //From: BmmSimpleStatement
-	// //From: BmmStatement
-	// //From: BmmStatementItem
 
 func (i *BmmDeclarationBuilder) Build() *BmmDeclaration {
 	 return i.bmmdeclaration

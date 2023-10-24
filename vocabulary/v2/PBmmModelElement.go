@@ -1,9 +1,5 @@
 package v2
 
-import (
-	"vocabulary"
-)
-
 // Persistent form of BMM_MODEL_ELEMENT .
 
 // Interface definition
@@ -16,35 +12,36 @@ type PBmmModelElement struct {
 	// Constants
 	// Attributes
 	// Optional documentation of this element.
-	Documentation	string	`yaml:"documentation" json:"documentation" xml:"documentation"`
+	Documentation string `yaml:"documentation" json:"documentation" xml:"documentation"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewPBmmModelElement() *PBmmModelElement {
 	pbmmmodelelement := new(PBmmModelElement)
 	// Constants
 	return pbmmmodelelement
 }
-//BUILDER
+
+// BUILDER
 type PBmmModelElementBuilder struct {
 	pbmmmodelelement *PBmmModelElement
 }
 
 func NewPBmmModelElementBuilder() *PBmmModelElementBuilder {
-	 return &PBmmModelElementBuilder {
-		pbmmmodelelement : NewPBmmModelElement(),
+	return &PBmmModelElementBuilder{
+		pbmmmodelelement: NewPBmmModelElement(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Optional documentation of this element.
-func (i *PBmmModelElementBuilder) SetDocumentation ( v string ) *PBmmModelElementBuilder{
+func (i *PBmmModelElementBuilder) SetDocumentation(v string) *PBmmModelElementBuilder {
 	i.pbmmmodelelement.Documentation = v
 	return i
 }
 
 func (i *PBmmModelElementBuilder) Build() *PBmmModelElement {
-	 return i.pbmmmodelelement
+	return i.pbmmmodelelement
 }
 
 //FUNCTIONS

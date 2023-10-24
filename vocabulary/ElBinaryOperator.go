@@ -33,8 +33,6 @@ type ElBinaryOperator struct {
 func NewElBinaryOperator() *ElBinaryOperator {
 	elbinaryoperator := new(ElBinaryOperator)
 	// Constants
-	// From: ElOperator
-	// From: ElExpression
 	return elbinaryoperator
 }
 //BUILDER
@@ -59,7 +57,7 @@ func (i *ElBinaryOperatorBuilder) SetRightOperand ( v IElExpression ) *ElBinaryO
 	i.elbinaryoperator.RightOperand = v
 	return i
 }
-	// //From: ElOperator
+// From: ElOperator
 /**
 	True if the natural precedence of operators is overridden in the expression
 	represented by this node of the expression tree. If True, parentheses should be
@@ -70,6 +68,7 @@ func (i *ElBinaryOperatorBuilder) SetPrecedenceOverridden ( v bool ) *ElBinaryOp
 	i.elbinaryoperator.PrecedenceOverridden = v
 	return i
 }
+// From: ElOperator
 /**
 	The symbol actually used in the expression, or intended to be used for
 	serialisation. Must be a member of OPERATOR_DEF. symbols .
@@ -78,6 +77,7 @@ func (i *ElBinaryOperatorBuilder) SetSymbol ( v string ) *ElBinaryOperatorBuilde
 	i.elbinaryoperator.Symbol = v
 	return i
 }
+// From: ElOperator
 /**
 	Function call equivalent to this operator expression, inferred by matching
 	operator against functions defined in interface of principal operand.
@@ -86,7 +86,6 @@ func (i *ElBinaryOperatorBuilder) SetCall ( v IElFunctionCall ) *ElBinaryOperato
 	i.elbinaryoperator.Call = v
 	return i
 }
-	// //From: ElExpression
 
 func (i *ElBinaryOperatorBuilder) Build() *ElBinaryOperator {
 	 return i.elbinaryoperator
@@ -118,5 +117,5 @@ func (e *ElBinaryOperator) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElBinaryOperator) IsBoolean (  )  bool {
-	return nil
+	return false
 }

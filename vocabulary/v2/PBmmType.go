@@ -18,7 +18,7 @@ type PBmmType struct {
 	// Constants
 	// Attributes
 	// Result of create_bmm_type() call.
-	BmmType	BMM_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	vocabulary.IBmmType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 //CONSTRUCTOR
@@ -40,7 +40,7 @@ func NewPBmmTypeBuilder() *PBmmTypeBuilder {
 
 //BUILDER ATTRIBUTES
 // Result of create_bmm_type() call.
-func (i *PBmmTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmTypeBuilder{
+func (i *PBmmTypeBuilder) SetBmmType ( v vocabulary.IBmmType ) *PBmmTypeBuilder{
 	i.pbmmtype.BmmType = v
 	return i
 }
@@ -56,5 +56,5 @@ func (p *PBmmType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vo
 }
 // Formal name of the type for display.
 func (p *PBmmType) AsTypeString (  )  string {
-	return nil
+	return ""
 }

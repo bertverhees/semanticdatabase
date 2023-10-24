@@ -38,8 +38,6 @@ type ElDecisionTable struct {
 func NewElDecisionTable() *ElDecisionTable {
 	eldecisiontable := new(ElDecisionTable)
 	// Constants
-	// From: ElTerminal
-	// From: ElExpression
 	return eldecisiontable
 }
 //BUILDER
@@ -67,8 +65,6 @@ func (i *ElDecisionTableBuilder) SetElse ( v T ) *ElDecisionTableBuilder{
 	i.eldecisiontable.Else = v
 	return i
 }
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElDecisionTableBuilder) Build() *ElDecisionTable {
 	 return i.eldecisiontable
@@ -90,5 +86,5 @@ func (e *ElDecisionTable) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElDecisionTable) IsBoolean (  )  bool {
-	return nil
+	return false
 }

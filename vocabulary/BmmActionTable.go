@@ -30,8 +30,6 @@ type BmmActionTable struct {
 func NewBmmActionTable() *BmmActionTable {
 	bmmactiontable := new(BmmActionTable)
 	// Constants
-	// From: BmmStatement
-	// From: BmmStatementItem
 	return bmmactiontable
 }
 //BUILDER
@@ -54,8 +52,6 @@ func (i *BmmActionTableBuilder) SetDecisionTable ( v IBmmActionDecisionTable ) *
 	i.bmmactiontable.DecisionTable = v
 	return i
 }
-	// //From: BmmStatement
-	// //From: BmmStatementItem
 
 func (i *BmmActionTableBuilder) Build() *BmmActionTable {
 	 return i.bmmactiontable

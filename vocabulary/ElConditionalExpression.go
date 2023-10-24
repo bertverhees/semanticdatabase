@@ -29,7 +29,6 @@ type ElConditionalExpression struct {
 func NewElConditionalExpression() *ElConditionalExpression {
 	elconditionalexpression := new(ElConditionalExpression)
 	// Constants
-	// From: ElDecisionBranch
 	return elconditionalexpression
 }
 //BUILDER
@@ -49,7 +48,7 @@ func (i *ElConditionalExpressionBuilder) SetCondition ( v IElExpression ) *ElCon
 	i.elconditionalexpression.Condition = v
 	return i
 }
-	// //From: ElDecisionBranch
+// From: ElDecisionBranch
 // Result expression of conditional, if its condition evaluates to True.
 func (i *ElConditionalExpressionBuilder) SetResult ( v T ) *ElConditionalExpressionBuilder{
 	i.elconditionalexpression.Result = v

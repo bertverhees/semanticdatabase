@@ -49,11 +49,6 @@ type BmmEnumerationString struct {
 func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring := new(BmmEnumerationString)
 	// Constants
-	// From: BmmEnumeration
-	// From: BmmSimpleClass
-	// From: BmmClass
-	// From: BmmModule
-	// From: BmmModelElement
 	return bmmenumerationstring
 }
 //BUILDER
@@ -73,7 +68,7 @@ func (i *BmmEnumerationStringBuilder) SetItemValues ( v List < BMM_STRING_VALUE 
 	i.bmmenumerationstring.ItemValues = v
 	return i
 }
-	// //From: BmmEnumeration
+// From: BmmEnumeration
 /**
 	The list of names of the enumeration. If no values are supplied, the integer
 	values 0, 1, 2, …​ are assumed.
@@ -82,28 +77,31 @@ func (i *BmmEnumerationStringBuilder) SetItemNames ( v []string ) *BmmEnumeratio
 	i.bmmenumerationstring.ItemNames = v
 	return i
 }
+// From: BmmEnumeration
 // Optional list of specific values. Must be 1:1 with item_names list.
 func (i *BmmEnumerationStringBuilder) SetItemValues ( v []vocabulary.IBmmPrimitiveValue ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.ItemValues = v
 	return i
 }
-	// //From: BmmSimpleClass
-	// //From: BmmClass
+// From: BmmClass
 // List of immediate inheritance parents.
 func (i *BmmEnumerationStringBuilder) SetAncestors ( v map[string]vocabulary.IBmmModelType ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Ancestors = v
 	return i
 }
+// From: BmmClass
 // Package this class belongs to.
 func (i *BmmEnumerationStringBuilder) SetPackage ( v IBmmPackage ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Package = v
 	return i
 }
+// From: BmmClass
 // Properties defined in this class (subset of features ).
 func (i *BmmEnumerationStringBuilder) SetProperties ( v map[string]vocabulary.IBmmProperty ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Properties = v
 	return i
 }
+// From: BmmClass
 /**
 	Reference to original source schema defining this class. Useful for UI tools to
 	determine which original schema file to open for a given class for manual
@@ -113,6 +111,7 @@ func (i *BmmEnumerationStringBuilder) SetSourceSchemaId ( v string ) *BmmEnumera
 	i.bmmenumerationstring.SourceSchemaId = v
 	return i
 }
+// From: BmmClass
 /**
 	List of computed references to base classes of immediate inheritance
 	descendants, derived when members of ancestors are attached at creation time.
@@ -121,6 +120,7 @@ func (i *BmmEnumerationStringBuilder) SetImmediateDescendants ( v List < BMM_CLA
 	i.bmmenumerationstring.ImmediateDescendants = v
 	return i
 }
+// From: BmmClass
 /**
 	True if this definition overrides a class of the same name in an included
 	schema.
@@ -129,21 +129,25 @@ func (i *BmmEnumerationStringBuilder) SetIsOverride ( v bool ) *BmmEnumerationSt
 	i.bmmenumerationstring.IsOverride = v
 	return i
 }
+// From: BmmClass
 // Static properties defined in this class (subset of features ).
 func (i *BmmEnumerationStringBuilder) SetStaticProperties ( v map[string]vocabulary.IBmmStatic ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.StaticProperties = v
 	return i
 }
+// From: BmmClass
 // Functions defined in this class (subset of features ).
 func (i *BmmEnumerationStringBuilder) SetFunctions ( v map[string]vocabulary.IBmmFunction ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Functions = v
 	return i
 }
+// From: BmmClass
 // Procedures defined in this class (subset of features ).
 func (i *BmmEnumerationStringBuilder) SetProcedures ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Procedures = v
 	return i
 }
+// From: BmmClass
 /**
 	True if this class represents a type considered to be primitive in the type
 	system, i.e. any typically built-in or standard library type such as String ,
@@ -153,6 +157,7 @@ func (i *BmmEnumerationStringBuilder) SetIsPrimitive ( v bool ) *BmmEnumerationS
 	i.bmmenumerationstring.IsPrimitive = v
 	return i
 }
+// From: BmmClass
 /**
 	True if this class is marked as abstract, i.e. direct instances cannot be
 	created from its direct type.
@@ -161,10 +166,12 @@ func (i *BmmEnumerationStringBuilder) SetIsAbstract ( v bool ) *BmmEnumerationSt
 	i.bmmenumerationstring.IsAbstract = v
 	return i
 }
+// From: BmmClass
 func (i *BmmEnumerationStringBuilder) SetInvariants ( v []vocabulary.IBmmAssertion ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Invariants = v
 	return i
 }
+// From: BmmClass
 /**
 	Subset of procedures that may be used to initialise a new instance of an object,
 	and whose execution will guarantee that class invariants are satisfied.
@@ -173,6 +180,7 @@ func (i *BmmEnumerationStringBuilder) SetCreators ( v map[string]vocabulary.IBmm
 	i.bmmenumerationstring.Creators = v
 	return i
 }
+// From: BmmClass
 /**
 	Subset of creators that create a new instance from a single argument of another
 	type.
@@ -181,33 +189,37 @@ func (i *BmmEnumerationStringBuilder) SetConverters ( v map[string]vocabulary.IB
 	i.bmmenumerationstring.Converters = v
 	return i
 }
+// From: BmmClass
 // Features of this module.
 func (i *BmmEnumerationStringBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Features = v
 	return i
 }
-	// //From: BmmModule
+// From: BmmModule
 // List of feature groups in this class.
 func (i *BmmEnumerationStringBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.FeatureGroups = v
 	return i
 }
+// From: BmmModule
 // Features of this module.
 func (i *BmmEnumerationStringBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Features = v
 	return i
 }
+// From: BmmModule
 // Model within which module is defined.
 func (i *BmmEnumerationStringBuilder) SetScope ( v IBmmModel ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmEnumerationStringBuilder) SetName ( v string ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -218,11 +230,13 @@ func (i *BmmEnumerationStringBuilder) SetDocumentation ( v Hash < Any , String >
 	i.bmmenumerationstring.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmEnumerationStringBuilder) SetScope ( v IBmmModelElement ) *BmmEnumerationStringBuilder{
 	i.bmmenumerationstring.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -297,7 +311,7 @@ func (b *BmmEnumerationString) SupplierClosure (  )  []string {
 // From: BMM_CLASS
 // Fully qualified package name, of form: package.package .
 func (b *BmmEnumerationString) PackagePath (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CLASS
 /**
@@ -305,7 +319,7 @@ func (b *BmmEnumerationString) PackagePath (  )  string {
 	lower-case and class in original case.
 */
 func (b *BmmEnumerationString) ClassPath (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CLASS
 /**
@@ -313,7 +327,7 @@ func (b *BmmEnumerationString) ClassPath (  )  string {
 	of the schema. Set from schema.
 */
 func (b *BmmEnumerationString) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_CLASS
 /**
@@ -321,7 +335,7 @@ func (b *BmmEnumerationString) IsPrimitive (  )  bool {
 	data property set at creation or construction time.
 */
 func (b *BmmEnumerationString) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_CLASS
 // List of all feature definitions introduced in this class.
@@ -350,5 +364,5 @@ func (b *BmmEnumerationString) FlatProperties (  )  []vocabulary.IBmmProperty {
 	a model structure hierarchy.
 */
 func (b *BmmEnumerationString) IsRootScope (  )  bool {
-	return nil
+	return false
 }

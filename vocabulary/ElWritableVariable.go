@@ -41,11 +41,6 @@ type ElWritableVariable struct {
 func NewElWritableVariable() *ElWritableVariable {
 	elwritablevariable := new(ElWritableVariable)
 	// Constants
-	// From: ElVariable
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elwritablevariable
 }
 //BUILDER
@@ -70,20 +65,17 @@ func (i *ElWritableVariableBuilder) SetIsWritable ( v bool ) *ElWritableVariable
 	i.elwritablevariable.IsWritable = v
 	return i
 }
-	// //From: ElVariable
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElWritableVariableBuilder) SetIsWritable ( v bool ) *ElWritableVariableBuilder{
 	i.elwritablevariable.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElWritableVariableBuilder) SetName ( v string ) *ElWritableVariableBuilder{
 	i.elwritablevariable.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElWritableVariableBuilder) Build() *ElWritableVariable {
 	 return i.elwritablevariable
@@ -96,7 +88,7 @@ func (i *ElWritableVariableBuilder) Build() *ElWritableVariable {
 	version outputs name field.
 */
 func (e *ElWritableVariable) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -113,5 +105,5 @@ func (e *ElWritableVariable) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElWritableVariable) IsBoolean (  )  bool {
-	return nil
+	return false
 }

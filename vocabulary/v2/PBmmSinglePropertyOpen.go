@@ -8,9 +8,9 @@ import (
 
 // Interface definition
 type IPBmmSinglePropertyOpen interface {
-	TypeDef (  )  P_BMM_OPEN_TYPE
+	TypeDef() IPBmmOpenType
 	// From: P_BMM_PROPERTY
-	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
+	CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
 	// From: P_BMM_MODEL_ELEMENT
 }
 
@@ -22,130 +22,130 @@ type PBmmSinglePropertyOpen struct {
 	// Constants
 	// Attributes
 	/**
-		Type definition of this property computed from type for later use in
-		bmm_property .
+	Type definition of this property computed from type for later use in
+	bmm_property .
 	*/
-	TypeRef	P_BMM_OPEN_TYPE	`yaml:"typeref" json:"typeref" xml:"typeref"`
+	TypeRef IPBmmOpenType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	/**
-		Type definition of this property, if a simple String type reference. Really we
-		should use type_def to be regular in the schema, but that makes the schema more
-		wordy and less clear. So we use this persisted String value, and compute the
-		type_def on the fly. Persisted attribute.
+	Type definition of this property, if a simple String type reference. Really we
+	should use type_def to be regular in the schema, but that makes the schema more
+	wordy and less clear. So we use this persisted String value, and compute the
+	type_def on the fly. Persisted attribute.
 	*/
-	Type	string	`yaml:"type" json:"type" xml:"type"`
+	Type string `yaml:"type" json:"type" xml:"type"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty	vocabulary.IBmmUnitaryProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty vocabulary.IBmmUnitaryProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewPBmmSinglePropertyOpen() *PBmmSinglePropertyOpen {
 	pbmmsinglepropertyopen := new(PBmmSinglePropertyOpen)
 	// Constants
-	// From: PBmmProperty
-	// From: PBmmModelElement
 	return pbmmsinglepropertyopen
 }
-//BUILDER
+
+// BUILDER
 type PBmmSinglePropertyOpenBuilder struct {
 	pbmmsinglepropertyopen *PBmmSinglePropertyOpen
 }
 
 func NewPBmmSinglePropertyOpenBuilder() *PBmmSinglePropertyOpenBuilder {
-	 return &PBmmSinglePropertyOpenBuilder {
-		pbmmsinglepropertyopen : NewPBmmSinglePropertyOpen(),
+	return &PBmmSinglePropertyOpenBuilder{
+		pbmmsinglepropertyopen: NewPBmmSinglePropertyOpen(),
 	}
 }
 
 //BUILDER ATTRIBUTES
 /**
-	Type definition of this property computed from type for later use in
-	bmm_property .
+Type definition of this property computed from type for later use in
+bmm_property .
 */
-func (i *PBmmSinglePropertyOpenBuilder) SetTypeRef ( v P_BMM_OPEN_TYPE ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetTypeRef(v IPBmmOpenType) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.TypeRef = v
 	return i
 }
-/**
-	Type definition of this property, if a simple String type reference. Really we
-	should use type_def to be regular in the schema, but that makes the schema more
-	wordy and less clear. So we use this persisted String value, and compute the
-	type_def on the fly. Persisted attribute.
+
+/*
+*
+Type definition of this property, if a simple String type reference. Really we
+should use type_def to be regular in the schema, but that makes the schema more
+wordy and less clear. So we use this persisted String value, and compute the
+type_def on the fly. Persisted attribute.
 */
-func (i *PBmmSinglePropertyOpenBuilder) SetType ( v string ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetType(v string) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.Type = v
 	return i
 }
+
 // BMM_PROPERTY created by create_bmm_property_definition .
-func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty ( v vocabulary.IBmmUnitaryProperty ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v vocabulary.IBmmUnitaryProperty) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.BmmProperty = v
 	return i
 }
-	// //From: PBmmProperty
+
+// From: PBmmProperty
 // Name of this property within its class. Persisted attribute.
-func (i *PBmmSinglePropertyOpenBuilder) SetName ( v string ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetName(v string) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.Name = v
 	return i
 }
+
+// From: PBmmProperty
 // True if this property is mandatory in its class. Persisted attribute.
-func (i *PBmmSinglePropertyOpenBuilder) SetIsMandatory ( v bool ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetIsMandatory(v bool) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.IsMandatory = v
 	return i
 }
+
+// From: PBmmProperty
 /**
-	True if this property is computed rather than stored in objects of this class.
-	Persisted Attribute.
+True if this property is computed rather than stored in objects of this class.
+Persisted Attribute.
 */
-func (i *PBmmSinglePropertyOpenBuilder) SetIsComputed ( v bool ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetIsComputed(v bool) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.IsComputed = v
 	return i
 }
+
+// From: PBmmProperty
 /**
-	True if this property is info model 'infrastructure' rather than 'data'.
-	Persisted attribute.
+True if this property is info model 'infrastructure' rather than 'data'.
+Persisted attribute.
 */
-func (i *PBmmSinglePropertyOpenBuilder) SetIsImInfrastructure ( v bool ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetIsImInfrastructure(v bool) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.IsImInfrastructure = v
 	return i
 }
+
+// From: PBmmProperty
 /**
-	True if this property is info model 'runtime' settable property. Persisted
-	attribute.
+True if this property is info model 'runtime' settable property. Persisted
+attribute.
 */
-func (i *PBmmSinglePropertyOpenBuilder) SetIsImRuntime ( v bool ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetIsImRuntime(v bool) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.IsImRuntime = v
 	return i
 }
-/**
-	Type definition of this property, if not a simple String type reference.
-	Persisted attribute.
-*/
-func (i *PBmmSinglePropertyOpenBuilder) SetTypeDef ( v P_BMM_TYPE ) *PBmmSinglePropertyOpenBuilder{
-	i.pbmmsinglepropertyopen.TypeDef = v
-	return i
-}
-// BMM_PROPERTY created by create_bmm_property_definition.
-func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty ( v BMM_PROPERTY ) *PBmmSinglePropertyOpenBuilder{
-	i.pbmmsinglepropertyopen.BmmProperty = v
-	return i
-}
-	// //From: PBmmModelElement
+
+// From: PBmmModelElement
 // Optional documentation of this element.
-func (i *PBmmSinglePropertyOpenBuilder) SetDocumentation ( v string ) *PBmmSinglePropertyOpenBuilder{
+func (i *PBmmSinglePropertyOpenBuilder) SetDocumentation(v string) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.Documentation = v
 	return i
 }
 
 func (i *PBmmSinglePropertyOpenBuilder) Build() *PBmmSinglePropertyOpen {
-	 return i.pbmmsinglepropertyopen
+	return i.pbmmsinglepropertyopen
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // Generate type_ref from type and save.
-func (p *PBmmSinglePropertyOpen) TypeDef (  )  P_BMM_OPEN_TYPE {
+func (p *PBmmSinglePropertyOpen) TypeDef() IPBmmOpenType {
 	return nil
 }
+
 // From: P_BMM_PROPERTY
 // Create bmm_property_definition from P_BMM_XX parts.
-func (p *PBmmSinglePropertyOpen) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+func (p *PBmmSinglePropertyOpen) CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
 	return
 }

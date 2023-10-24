@@ -52,9 +52,6 @@ func NewBmmPropertyType() *BmmPropertyType {
 	// From: BmmBuiltinType
 	// Base name (built-in typename).
 	bmmpropertytype.BaseName = ""
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmpropertytype
 }
 //BUILDER
@@ -69,16 +66,12 @@ func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmSignature
+// From: BmmSignature
 // Result type of signature.
 func (i *BmmPropertyTypeBuilder) SetResultType ( v IBmmType ) *BmmPropertyTypeBuilder{
 	i.bmmpropertytype.ResultType = v
 	return i
 }
-	// //From: BmmBuiltinType
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmPropertyTypeBuilder) Build() *BmmPropertyType {
 	 return i.bmmpropertytype
@@ -96,22 +89,22 @@ func (b *BmmPropertyType) FlattenedTypeList (  )  []string {
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmPropertyType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return True.
 func (b *BmmPropertyType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmPropertyType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmPropertyType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -121,7 +114,7 @@ func (b *BmmPropertyType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmPropertyType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -131,7 +124,7 @@ func (b *BmmPropertyType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmPropertyType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -140,7 +133,7 @@ func (b *BmmPropertyType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmPropertyType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -148,12 +141,12 @@ func (b *BmmPropertyType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmPropertyType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmPropertyType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

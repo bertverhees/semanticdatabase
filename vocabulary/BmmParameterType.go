@@ -49,8 +49,6 @@ type BmmParameterType struct {
 func NewBmmParameterType() *BmmParameterType {
 	bmmparametertype := new(BmmParameterType)
 	// Constants
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmparametertype
 }
 //BUILDER
@@ -83,8 +81,6 @@ func (i *BmmParameterTypeBuilder) SetInheritancePrecursor ( v IBmmParameterType 
 	i.bmmparametertype.InheritancePrecursor = v
 	return i
 }
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmParameterTypeBuilder) Build() *BmmParameterType {
 	 return i.bmmparametertype
@@ -103,25 +99,25 @@ func (b *BmmParameterType) FlattenedConformsToType (  )  IBmmEffectiveType {
 	e.g. T:Ordered .
 */
 func (b *BmmParameterType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 /**
 	Result = False - generic parameters are understood by definition to be
 	non-primitive.
 */
 func (b *BmmParameterType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 /**
 	Result = False - generic parameters are understood by definition to be
 	non-abstract.
 */
 func (b *BmmParameterType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // Return name .
 func (b *BmmParameterType) TypeName (  )  string {
-	return nil
+	return ""
 }
 /**
 	Result is either flattened_conforms_to_type.flattened_type_list or the Any type.
@@ -144,7 +140,7 @@ func (b *BmmParameterType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmParameterType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -153,7 +149,7 @@ func (b *BmmParameterType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmParameterType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -161,12 +157,12 @@ func (b *BmmParameterType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmParameterType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmParameterType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

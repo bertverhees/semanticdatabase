@@ -10,8 +10,8 @@ import (
 type IPBmmSimpleType interface {
 	// From: P_BMM_BASE_TYPE
 	// From: P_BMM_TYPE
-	CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
-	AsTypeString (  )  string
+	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	AsTypeString() string
 }
 
 // Struct definition
@@ -22,65 +22,61 @@ type PBmmSimpleType struct {
 	// Constants
 	// Attributes
 	// Name of type - must be a simple class name.
-	Type	string	`yaml:"type" json:"type" xml:"type"`
+	Type string `yaml:"type" json:"type" xml:"type"`
 	// Result of create_bmm_type() call.
-	BmmType	BMM_SIMPLE_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType vocabulary.IBmmSimpleType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewPBmmSimpleType() *PBmmSimpleType {
 	pbmmsimpletype := new(PBmmSimpleType)
 	// Constants
-	// From: PBmmBaseType
-	// From: PBmmType
 	return pbmmsimpletype
 }
-//BUILDER
+
+// BUILDER
 type PBmmSimpleTypeBuilder struct {
 	pbmmsimpletype *PBmmSimpleType
 }
 
 func NewPBmmSimpleTypeBuilder() *PBmmSimpleTypeBuilder {
-	 return &PBmmSimpleTypeBuilder {
-		pbmmsimpletype : NewPBmmSimpleType(),
+	return &PBmmSimpleTypeBuilder{
+		pbmmsimpletype: NewPBmmSimpleType(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Name of type - must be a simple class name.
-func (i *PBmmSimpleTypeBuilder) SetType ( v string ) *PBmmSimpleTypeBuilder{
+func (i *PBmmSimpleTypeBuilder) SetType(v string) *PBmmSimpleTypeBuilder {
 	i.pbmmsimpletype.Type = v
 	return i
 }
+
 // Result of create_bmm_type() call.
-func (i *PBmmSimpleTypeBuilder) SetBmmType ( v BMM_SIMPLE_TYPE ) *PBmmSimpleTypeBuilder{
+func (i *PBmmSimpleTypeBuilder) SetBmmType(v vocabulary.IBmmSimpleType) *PBmmSimpleTypeBuilder {
 	i.pbmmsimpletype.BmmType = v
 	return i
 }
-	// //From: PBmmBaseType
-func (i *PBmmSimpleTypeBuilder) SetValueConstraint ( v string ) *PBmmSimpleTypeBuilder{
+
+// From: PBmmBaseType
+func (i *PBmmSimpleTypeBuilder) SetValueConstraint(v string) *PBmmSimpleTypeBuilder {
 	i.pbmmsimpletype.ValueConstraint = v
-	return i
-}
-	// //From: PBmmType
-// Result of create_bmm_type() call.
-func (i *PBmmSimpleTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmSimpleTypeBuilder{
-	i.pbmmsimpletype.BmmType = v
 	return i
 }
 
 func (i *PBmmSimpleTypeBuilder) Build() *PBmmSimpleType {
-	 return i.pbmmsimpletype
+	return i.pbmmsimpletype
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmSimpleType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+func (p *PBmmSimpleType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
 	return
 }
+
 // From: P_BMM_TYPE
 // Formal name of the type for display.
-func (p *PBmmSimpleType) AsTypeString (  )  string {
-	return nil
+func (p *PBmmSimpleType) AsTypeString() string {
+	return ""
 }

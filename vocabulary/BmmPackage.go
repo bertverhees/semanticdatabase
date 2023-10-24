@@ -36,8 +36,6 @@ type BmmPackage struct {
 func NewBmmPackage() *BmmPackage {
 	bmmpackage := new(BmmPackage)
 	// Constants
-	// From: BmmPackageContainer
-	// From: BmmModelElement
 	return bmmpackage
 }
 //BUILDER
@@ -57,23 +55,25 @@ func (i *BmmPackageBuilder) SetMembers ( v List < BMM_MODULE > ) *BmmPackageBuil
 	i.bmmpackage.Members = v
 	return i
 }
-	// //From: BmmPackageContainer
+// From: BmmPackageContainer
 // Child packages; keys all in upper case for guaranteed matching.
 func (i *BmmPackageBuilder) SetPackages ( v Hash <String, BMM_PACKAGE > ) *BmmPackageBuilder{
 	i.bmmpackage.Packages = v
 	return i
 }
+// From: BmmPackageContainer
 // Model element within which a referenceable element is known.
 func (i *BmmPackageBuilder) SetScope ( v IBmmPackageContainer ) *BmmPackageBuilder{
 	i.bmmpackage.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmPackageBuilder) SetName ( v string ) *BmmPackageBuilder{
 	i.bmmpackage.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -84,11 +84,13 @@ func (i *BmmPackageBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmPac
 	i.bmmpackage.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmPackageBuilder) SetScope ( v IBmmModelElement ) *BmmPackageBuilder{
 	i.bmmpackage.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -114,7 +116,7 @@ func (b *BmmPackage) RootClasses (  )  List < BMM_CLASS > {
 }
 // Full path of this package back to root package.
 func (b *BmmPackage) Path (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_PACKAGE_CONTAINER
 // Package at the path a_path .
@@ -135,7 +137,7 @@ func (b *BmmPackage) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
 	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
 */
 func (b *BmmPackage) HasPackagePath ( a_path string )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -143,5 +145,5 @@ func (b *BmmPackage) HasPackagePath ( a_path string )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmPackage) IsRootScope (  )  bool {
-	return nil
+	return false
 }

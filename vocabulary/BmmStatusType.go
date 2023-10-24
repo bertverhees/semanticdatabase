@@ -52,9 +52,6 @@ func NewBmmStatusType() *BmmStatusType {
 	// From: BmmBuiltinType
 	// Base name (built-in typename).
 	bmmstatustype.BaseName = ""
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmstatustype
 }
 //BUILDER
@@ -69,10 +66,6 @@ func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmBuiltinType
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmStatusTypeBuilder) Build() *BmmStatusType {
 	 return i.bmmstatustype
@@ -82,22 +75,22 @@ func (i *BmmStatusTypeBuilder) Build() *BmmStatusType {
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmStatusType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return True.
 func (b *BmmStatusType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmStatusType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmStatusType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -107,7 +100,7 @@ func (b *BmmStatusType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmStatusType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -117,7 +110,7 @@ func (b *BmmStatusType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmStatusType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -126,7 +119,7 @@ func (b *BmmStatusType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmStatusType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -134,12 +127,12 @@ func (b *BmmStatusType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmStatusType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmStatusType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

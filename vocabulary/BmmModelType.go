@@ -42,9 +42,6 @@ type BmmModelType struct {
 func NewBmmModelType() *BmmModelType {
 	bmmmodeltype := new(BmmModelType)
 	// Constants
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmmodeltype
 }
 //BUILDER
@@ -68,9 +65,6 @@ func (i *BmmModelTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmModelTypeBuilder{
 	i.bmmmodeltype.BaseClass = v
 	return i
 }
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmModelTypeBuilder) Build() *BmmModelType {
 	 return i.bmmmodeltype
@@ -79,11 +73,11 @@ func (i *BmmModelTypeBuilder) Build() *BmmModelType {
 //FUNCTIONS
 // Result = base_class.name .
 func (b *BmmModelType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // Result = base_class.is_primitive .
 func (b *BmmModelType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -93,7 +87,7 @@ func (b *BmmModelType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmModelType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -103,7 +97,7 @@ func (b *BmmModelType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmModelType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -112,7 +106,7 @@ func (b *BmmModelType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmModelType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -120,12 +114,12 @@ func (b *BmmModelType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmModelType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmModelType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

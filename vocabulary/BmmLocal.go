@@ -32,10 +32,6 @@ type BmmLocal struct {
 func NewBmmLocal() *BmmLocal {
 	bmmlocal := new(BmmLocal)
 	// Constants
-	// From: BmmWritableVariable
-	// From: BmmVariable
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmlocal
 }
 //BUILDER
@@ -50,19 +46,19 @@ func NewBmmLocalBuilder() *BmmLocalBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmWritableVariable
-	// //From: BmmVariable
+// From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmLocalBuilder) SetScope ( v IBmmRoutine ) *BmmLocalBuilder{
 	i.bmmlocal.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmLocalBuilder) SetType ( v IBmmType ) *BmmLocalBuilder{
 	i.bmmlocal.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -71,12 +67,13 @@ func (i *BmmLocalBuilder) SetIsNullable ( v bool ) *BmmLocalBuilder{
 	i.bmmlocal.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmLocalBuilder) SetName ( v string ) *BmmLocalBuilder{
 	i.bmmlocal.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -87,11 +84,13 @@ func (i *BmmLocalBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmLocal
 	i.bmmlocal.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmLocalBuilder) SetScope ( v IBmmModelElement ) *BmmLocalBuilder{
 	i.bmmlocal.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -121,7 +120,7 @@ func (b *BmmLocal) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmLocal) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -129,5 +128,5 @@ func (b *BmmLocal) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmLocal) IsRootScope (  )  bool {
-	return nil
+	return false
 }

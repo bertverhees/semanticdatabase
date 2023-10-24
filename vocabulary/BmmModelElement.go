@@ -96,5 +96,5 @@ func (i *BmmModelElementBuilder) Build() *BmmModelElement {
 	a model structure hierarchy.
 */
 func (b *BmmModelElement) IsRootScope (  )  bool {
-	return nil
+	return false
 }

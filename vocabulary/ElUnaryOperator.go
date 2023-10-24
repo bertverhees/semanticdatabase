@@ -31,8 +31,6 @@ type ElUnaryOperator struct {
 func NewElUnaryOperator() *ElUnaryOperator {
 	elunaryoperator := new(ElUnaryOperator)
 	// Constants
-	// From: ElOperator
-	// From: ElExpression
 	return elunaryoperator
 }
 //BUILDER
@@ -52,7 +50,7 @@ func (i *ElUnaryOperatorBuilder) SetOperand ( v IElExpression ) *ElUnaryOperator
 	i.elunaryoperator.Operand = v
 	return i
 }
-	// //From: ElOperator
+// From: ElOperator
 /**
 	True if the natural precedence of operators is overridden in the expression
 	represented by this node of the expression tree. If True, parentheses should be
@@ -63,6 +61,7 @@ func (i *ElUnaryOperatorBuilder) SetPrecedenceOverridden ( v bool ) *ElUnaryOper
 	i.elunaryoperator.PrecedenceOverridden = v
 	return i
 }
+// From: ElOperator
 /**
 	The symbol actually used in the expression, or intended to be used for
 	serialisation. Must be a member of OPERATOR_DEF. symbols .
@@ -71,6 +70,7 @@ func (i *ElUnaryOperatorBuilder) SetSymbol ( v string ) *ElUnaryOperatorBuilder{
 	i.elunaryoperator.Symbol = v
 	return i
 }
+// From: ElOperator
 /**
 	Function call equivalent to this operator expression, inferred by matching
 	operator against functions defined in interface of principal operand.
@@ -79,7 +79,6 @@ func (i *ElUnaryOperatorBuilder) SetCall ( v IElFunctionCall ) *ElUnaryOperatorB
 	i.elunaryoperator.Call = v
 	return i
 }
-	// //From: ElExpression
 
 func (i *ElUnaryOperatorBuilder) Build() *ElUnaryOperator {
 	 return i.elunaryoperator
@@ -111,5 +110,5 @@ func (e *ElUnaryOperator) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElUnaryOperator) IsBoolean (  )  bool {
-	return nil
+	return false
 }

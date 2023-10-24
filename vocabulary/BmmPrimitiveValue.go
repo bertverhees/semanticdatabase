@@ -27,8 +27,6 @@ type BmmPrimitiveValue struct {
 func NewBmmPrimitiveValue() *BmmPrimitiveValue {
 	bmmprimitivevalue := new(BmmPrimitiveValue)
 	// Constants
-	// From: BmmUnitaryValue
-	// From: BmmLiteralValue
 	return bmmprimitivevalue
 }
 //BUILDER
@@ -48,13 +46,13 @@ func (i *BmmPrimitiveValueBuilder) SetType ( v IBmmSimpleType ) *BmmPrimitiveVal
 	i.bmmprimitivevalue.Type = v
 	return i
 }
-	// //From: BmmUnitaryValue
-	// //From: BmmLiteralValue
+// From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmPrimitiveValueBuilder) SetValueLiteral ( v string ) *BmmPrimitiveValueBuilder{
 	i.bmmprimitivevalue.ValueLiteral = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	A native representation of the value, possibly derived by deserialising
 	value_literal .
@@ -63,6 +61,7 @@ func (i *BmmPrimitiveValueBuilder) SetValue ( v Any ) *BmmPrimitiveValueBuilder{
 	i.bmmprimitivevalue.Value = v
 	return i
 }
+// From: BmmLiteralValue
 /**
 	Optional specification of formalism of the value_literal attribute for complex
 	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
@@ -72,6 +71,7 @@ func (i *BmmPrimitiveValueBuilder) SetSyntax ( v string ) *BmmPrimitiveValueBuil
 	i.bmmprimitivevalue.Syntax = v
 	return i
 }
+// From: BmmLiteralValue
 // Concrete type of this literal.
 func (i *BmmPrimitiveValueBuilder) SetType ( v T ) *BmmPrimitiveValueBuilder{
 	i.bmmprimitivevalue.Type = v

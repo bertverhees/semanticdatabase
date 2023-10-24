@@ -33,7 +33,6 @@ type BmmModule struct {
 func NewBmmModule() *BmmModule {
 	bmmmodule := new(BmmModule)
 	// Constants
-	// From: BmmModelElement
 	return bmmmodule
 }
 //BUILDER
@@ -63,12 +62,13 @@ func (i *BmmModuleBuilder) SetScope ( v IBmmModel ) *BmmModuleBuilder{
 	i.bmmmodule.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmModuleBuilder) SetName ( v string ) *BmmModuleBuilder{
 	i.bmmmodule.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -79,11 +79,13 @@ func (i *BmmModuleBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmModu
 	i.bmmmodule.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmModuleBuilder) SetScope ( v IBmmModelElement ) *BmmModuleBuilder{
 	i.bmmmodule.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -104,5 +106,5 @@ func (i *BmmModuleBuilder) Build() *BmmModule {
 	a model structure hierarchy.
 */
 func (b *BmmModule) IsRootScope (  )  bool {
-	return nil
+	return false
 }

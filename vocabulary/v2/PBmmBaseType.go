@@ -47,7 +47,7 @@ func (i *PBmmBaseTypeBuilder) SetValueConstraint ( v string ) *PBmmBaseTypeBuild
 }
 	// //From: PBmmType
 // Result of create_bmm_type() call.
-func (i *PBmmBaseTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmBaseTypeBuilder{
+func (i *PBmmBaseTypeBuilder) SetBmmType ( v vocabulary.IBmmType ) *PBmmBaseTypeBuilder{
 	i.pbmmbasetype.BmmType = v
 	return i
 }
@@ -65,5 +65,5 @@ func (p *PBmmBaseType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_de
 // From: P_BMM_TYPE
 // Formal name of the type for display.
 func (p *PBmmBaseType) AsTypeString (  )  string {
-	return nil
+	return ""
 }

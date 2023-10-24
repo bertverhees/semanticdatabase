@@ -63,9 +63,6 @@ type BmmModel struct {
 func NewBmmModel() *BmmModel {
 	bmmmodel := new(BmmModel)
 	// Constants
-	// From: BmmPackageContainer
-	// From: BmmModelElement
-	// From: BmmModelMetadata
 	return bmmmodel
 }
 //BUILDER
@@ -99,23 +96,25 @@ func (i *BmmModelBuilder) SetModules ( v Hash <String, BMM_MODULE > ) *BmmModelB
 	i.bmmmodel.Modules = v
 	return i
 }
-	// //From: BmmPackageContainer
+// From: BmmPackageContainer
 // Child packages; keys all in upper case for guaranteed matching.
 func (i *BmmModelBuilder) SetPackages ( v Hash <String, BMM_PACKAGE > ) *BmmModelBuilder{
 	i.bmmmodel.Packages = v
 	return i
 }
+// From: BmmPackageContainer
 // Model element within which a referenceable element is known.
 func (i *BmmModelBuilder) SetScope ( v IBmmPackageContainer ) *BmmModelBuilder{
 	i.bmmmodel.Scope = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmModelBuilder) SetName ( v string ) *BmmModelBuilder{
 	i.bmmmodel.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -126,11 +125,13 @@ func (i *BmmModelBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmModel
 	i.bmmmodel.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmModelBuilder) SetScope ( v IBmmModelElement ) *BmmModelBuilder{
 	i.bmmmodel.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -139,12 +140,13 @@ func (i *BmmModelBuilder) SetExtensions ( v Hash < Any , String > ) *BmmModelBui
 	i.bmmmodel.Extensions = v
 	return i
 }
-	// //From: BmmModelMetadata
+// From: BmmModelMetadata
 // Publisher of model expressed in the schema.
 func (i *BmmModelBuilder) SetRmPublisher ( v string ) *BmmModelBuilder{
 	i.bmmmodel.RmPublisher = v
 	return i
 }
+// From: BmmModelMetadata
 // Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
 func (i *BmmModelBuilder) SetRmRelease ( v string ) *BmmModelBuilder{
 	i.bmmmodel.RmRelease = v
@@ -161,7 +163,7 @@ func (i *BmmModelBuilder) Build() *BmmModel {
 	<rm_publisher>_<model_name>_<rm_release> E.g. "openehr_ehr_1.0.4" .
 */
 func (b *BmmModel) ModelId (  )  string {
-	return nil
+	return ""
 }
 /**
 	Retrieve the class definition corresponding to a_type_name (which may contain a
@@ -181,14 +183,14 @@ func (b *BmmModel) TypeDefinition (  )  IBmmClass {
 }
 // True if a_class_name has a class definition in the model.
 func (b *BmmModel) HasClassDefinition ( a_class_name string )  bool {
-	return nil
+	return false
 }
 /**
 	True if a_type_name is already concretely known in the system, including if it
 	is generic, which may be open, partially open or closed.
 */
 func (b *BmmModel) HasTypeDefinition ( a_type_name string )  bool {
-	return nil
+	return false
 }
 // Retrieve the enumeration definition corresponding to a_type_name .
 func (b *BmmModel) EnumerationDefinition ( a_name string )  IBmmEnumeration {
@@ -217,7 +219,7 @@ func (b *BmmModel) PropertyDefinition (  )  IBmmProperty {
 	whether there is single or multiple containment.
 */
 func (b *BmmModel) MsConformantPropertyType ( a_bmm_type_name string, a_bmm_property_name string, a_ms_property_name string )  bool {
-	return nil
+	return false
 }
 /**
 	Retrieve the property definition for a_property_path in flattened class
@@ -243,7 +245,7 @@ func (b *BmmModel) AllAncestorClasses ( a_class string )  []string {
 }
 // True if a_class_name is a descendant in the model of a_parent_class_name .
 func (b *BmmModel) IsDescendantOf ( a_class_name string, a_parent_class_name string )  bool {
-	return nil
+	return false
 }
 /**
 	Check conformance of a_desc_type to an_anc_type ; the types may be generic, and
@@ -257,7 +259,7 @@ func (b *BmmModel) IsDescendantOf ( a_class_name string, a_parent_class_name str
 	ancestor type is not, and they pass base classes test.
 */
 func (b *BmmModel) TypeConformsTo ( a_desc_type string, an_anc_type string )  bool {
-	return nil
+	return false
 }
 /**
 	Generate type substitutions for the supplied type, which may be simple, generic
@@ -302,7 +304,7 @@ func (b *BmmModel) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
 	delimiter {BMM_DEFINITIONS} Package_name_delimiter .
 */
 func (b *BmmModel) HasPackagePath ( a_path string )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -310,5 +312,5 @@ func (b *BmmModel) HasPackagePath ( a_path string )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmModel) IsRootScope (  )  bool {
-	return nil
+	return false
 }

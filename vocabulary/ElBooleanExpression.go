@@ -27,8 +27,6 @@ type ElBooleanExpression struct {
 func NewElBooleanExpression() *ElBooleanExpression {
 	elbooleanexpression := new(ElBooleanExpression)
 	// Constants
-	// From: ElConstrained
-	// From: ElExpression
 	return elbooleanexpression
 }
 //BUILDER
@@ -43,13 +41,12 @@ func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: ElConstrained
+// From: ElConstrained
 // The base expression of this constrained form.
 func (i *ElBooleanExpressionBuilder) SetBaseExpression ( v IElExpression ) *ElBooleanExpressionBuilder{
 	i.elbooleanexpression.BaseExpression = v
 	return i
 }
-	// //From: ElExpression
 
 func (i *ElBooleanExpressionBuilder) Build() *ElBooleanExpression {
 	 return i.elbooleanexpression
@@ -71,5 +68,5 @@ func (e *ElBooleanExpression) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElBooleanExpression) IsBoolean (  )  bool {
-	return nil
+	return false
 }

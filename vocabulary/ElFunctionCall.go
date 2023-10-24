@@ -46,12 +46,6 @@ type ElFunctionCall struct {
 func NewElFunctionCall() *ElFunctionCall {
 	elfunctioncall := new(ElFunctionCall)
 	// Constants
-	// From: ElFeatureRef
-	// From: ElValueGenerator
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
-	// From: ElAgentCall
 	return elfunctioncall
 }
 //BUILDER
@@ -76,26 +70,24 @@ func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
 	i.elfunctioncall.IsWritable = v
 	return i
 }
-	// //From: ElFeatureRef
+// From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElFunctionCallBuilder) SetScoper ( v IElValueGenerator ) *ElFunctionCallBuilder{
 	i.elfunctioncall.Scoper = v
 	return i
 }
-	// //From: ElValueGenerator
+// From: ElValueGenerator
 func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
 	i.elfunctioncall.IsWritable = v
 	return i
 }
+// From: ElValueGenerator
 // Name used to represent the reference or other entity.
 func (i *ElFunctionCallBuilder) SetName ( v string ) *ElFunctionCallBuilder{
 	i.elfunctioncall.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
-	// //From: ElAgentCall
+// From: ElAgentCall
 // The agent being called.
 func (i *ElFunctionCallBuilder) SetAgent ( v IElAgent ) *ElFunctionCallBuilder{
 	i.elfunctioncall.Agent = v
@@ -116,7 +108,7 @@ func (e *ElFunctionCall) EvalType (  )  IBmmType {
 	and routine parameters enclosed in parentheses.
 */
 func (e *ElFunctionCall) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_FEATURE_REF
 /**
@@ -124,7 +116,7 @@ func (e *ElFunctionCall) Reference (  )  string {
 	concatenated using dot notation.
 */
 func (e *ElFunctionCall) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_VALUE_GENERATOR
 /**
@@ -132,7 +124,7 @@ func (e *ElFunctionCall) Reference (  )  string {
 	version outputs name field.
 */
 func (e *ElFunctionCall) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -149,5 +141,5 @@ func (e *ElFunctionCall) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElFunctionCall) IsBoolean (  )  bool {
-	return nil
+	return false
 }

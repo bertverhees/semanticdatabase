@@ -55,7 +55,7 @@ func (i *BmmTypeBuilder) Build() *BmmType {
 //FUNCTIONS
 // Formal string form of the type as per UML.
 func (b *BmmType) TypeName (  )  string {
-	return nil
+	return ""
 }
 /**
 	Signature form of the type name, which for generics includes generic parameter
@@ -63,18 +63,18 @@ func (b *BmmType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 /**
 	If true, indicates a type based on an abstract class, i.e. a type that cannot be
 	directly instantiated.
 */
 func (b *BmmType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // Type with any container abstracted away; may be a formal generic type.
 func (b *BmmType) UnitaryType (  )  IBmmUnitaryType {

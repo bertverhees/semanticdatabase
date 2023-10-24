@@ -32,9 +32,6 @@ type ElPredicate struct {
 func NewElPredicate() *ElPredicate {
 	elpredicate := new(ElPredicate)
 	// Constants
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elpredicate
 }
 //BUILDER
@@ -54,9 +51,6 @@ func (i *ElPredicateBuilder) SetOperand ( v IElValueGenerator ) *ElPredicateBuil
 	i.elpredicate.Operand = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElPredicateBuilder) Build() *ElPredicate {
 	 return i.elpredicate
@@ -82,5 +76,5 @@ func (e *ElPredicate) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElPredicate) IsBoolean (  )  bool {
-	return nil
+	return false
 }

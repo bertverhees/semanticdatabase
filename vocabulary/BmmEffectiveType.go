@@ -38,8 +38,6 @@ type BmmEffectiveType struct {
 func NewBmmEffectiveType() *BmmEffectiveType {
 	bmmeffectivetype := new(BmmEffectiveType)
 	// Constants
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmeffectivetype
 }
 //BUILDER
@@ -54,8 +52,6 @@ func NewBmmEffectiveTypeBuilder() *BmmEffectiveTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmEffectiveTypeBuilder) Build() *BmmEffectiveType {
 	 return i.bmmeffectivetype
@@ -68,7 +64,7 @@ func (b *BmmEffectiveType) EffectiveType (  )  IBmmEffectiveType {
 }
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmEffectiveType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -78,7 +74,7 @@ func (b *BmmEffectiveType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmEffectiveType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -87,7 +83,7 @@ func (b *BmmEffectiveType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmEffectiveType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -95,12 +91,12 @@ func (b *BmmEffectiveType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmEffectiveType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmEffectiveType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

@@ -33,7 +33,6 @@ type BmmExternalRoutine struct {
 func NewBmmExternalRoutine() *BmmExternalRoutine {
 	bmmexternalroutine := new(BmmExternalRoutine)
 	// Constants
-	// From: BmmRoutineDefinition
 	return bmmexternalroutine
 }
 //BUILDER
@@ -61,7 +60,6 @@ func (i *BmmExternalRoutineBuilder) SetArgumentMapping ( v map[string]string ) *
 	i.bmmexternalroutine.ArgumentMapping = v
 	return i
 }
-	// //From: BmmRoutineDefinition
 
 func (i *BmmExternalRoutineBuilder) Build() *BmmExternalRoutine {
 	 return i.bmmexternalroutine

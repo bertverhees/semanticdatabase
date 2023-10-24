@@ -44,7 +44,6 @@ type ElOperator struct {
 func NewElOperator() *ElOperator {
 	eloperator := new(ElOperator)
 	// Constants
-	// From: ElExpression
 	return eloperator
 }
 //BUILDER
@@ -85,7 +84,6 @@ func (i *ElOperatorBuilder) SetCall ( v IElFunctionCall ) *ElOperatorBuilder{
 	i.eloperator.Call = v
 	return i
 }
-	// //From: ElExpression
 
 func (i *ElOperatorBuilder) Build() *ElOperator {
 	 return i.eloperator
@@ -115,5 +113,5 @@ func (e *ElOperator) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElOperator) IsBoolean (  )  bool {
-	return nil
+	return false
 }

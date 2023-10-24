@@ -66,9 +66,6 @@ func NewBmmProcedureType() *BmmProcedureType {
 	// From: BmmBuiltinType
 	// Base name (built-in typename).
 	bmmproceduretype.BaseName = ""
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmproceduretype
 }
 //BUILDER
@@ -88,7 +85,7 @@ func (i *BmmProcedureTypeBuilder) SetResultType ( v IBmmStatusType ) *BmmProcedu
 	i.bmmproceduretype.ResultType = v
 	return i
 }
-	// //From: BmmRoutineType
+// From: BmmRoutineType
 /**
 	Type of arguments in the signature, if any; represented as a type-tuple (list of
 	arbitrary types).
@@ -97,16 +94,12 @@ func (i *BmmProcedureTypeBuilder) SetArgumentTypes ( v IBmmTupleType ) *BmmProce
 	i.bmmproceduretype.ArgumentTypes = v
 	return i
 }
-	// //From: BmmSignature
+// From: BmmSignature
 // Result type of signature.
 func (i *BmmProcedureTypeBuilder) SetResultType ( v IBmmType ) *BmmProcedureTypeBuilder{
 	i.bmmproceduretype.ResultType = v
 	return i
 }
-	// //From: BmmBuiltinType
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmProcedureTypeBuilder) Build() *BmmProcedureType {
 	 return i.bmmproceduretype
@@ -124,22 +117,22 @@ func (b *BmmProcedureType) FlattenedTypeList (  )  []string {
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmProcedureType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return True.
 func (b *BmmProcedureType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmProcedureType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmProcedureType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -149,7 +142,7 @@ func (b *BmmProcedureType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmProcedureType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -159,7 +152,7 @@ func (b *BmmProcedureType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmProcedureType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -168,7 +161,7 @@ func (b *BmmProcedureType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmProcedureType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -176,12 +169,12 @@ func (b *BmmProcedureType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmProcedureType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmProcedureType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

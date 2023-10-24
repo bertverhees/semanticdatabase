@@ -117,5 +117,5 @@ func (b *BmmModelAccess) BmmModel ( a_model_key string )  IBmmModel {
 	Result s True if a BMM_MODEL with any version exists.
 */
 func (b *BmmModelAccess) HasBmmModel ( a_model_key string )  bool {
-	return nil
+	return false
 }

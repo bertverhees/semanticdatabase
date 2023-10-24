@@ -36,11 +36,6 @@ type BmmSingleton struct {
 func NewBmmSingleton() *BmmSingleton {
 	bmmsingleton := new(BmmSingleton)
 	// Constants
-	// From: BmmStatic
-	// From: BmmInstantiableFeature
-	// From: BmmFeature
-	// From: BmmFormalElement
-	// From: BmmModelElement
 	return bmmsingleton
 }
 //BUILDER
@@ -60,9 +55,7 @@ func (i *BmmSingletonBuilder) SetGenerator ( v IBmmRoutineDefinition ) *BmmSingl
 	i.bmmsingleton.Generator = v
 	return i
 }
-	// //From: BmmStatic
-	// //From: BmmInstantiableFeature
-	// //From: BmmFeature
+// From: BmmFeature
 /**
 	True if this feature was synthesised due to generic substitution in an inherited
 	type, or further constraining of a formal generic parameter.
@@ -71,27 +64,31 @@ func (i *BmmSingletonBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmSingletonBu
 	i.bmmsingleton.IsSynthesisedGeneric = v
 	return i
 }
+// From: BmmFeature
 // Extensions to feature-level meta-types.
 func (i *BmmSingletonBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmSingletonBuilder{
 	i.bmmsingleton.FeatureExtensions = v
 	return i
 }
+// From: BmmFeature
 // Group containing this feature.
 func (i *BmmSingletonBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmSingletonBuilder{
 	i.bmmsingleton.Group = v
 	return i
 }
+// From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmSingletonBuilder) SetScope ( v IBmmClass ) *BmmSingletonBuilder{
 	i.bmmsingleton.Scope = v
 	return i
 }
-	// //From: BmmFormalElement
+// From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmSingletonBuilder) SetType ( v IBmmType ) *BmmSingletonBuilder{
 	i.bmmsingleton.Type = v
 	return i
 }
+// From: BmmFormalElement
 /**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
@@ -100,12 +97,13 @@ func (i *BmmSingletonBuilder) SetIsNullable ( v bool ) *BmmSingletonBuilder{
 	i.bmmsingleton.IsNullable = v
 	return i
 }
-	// //From: BmmModelElement
+// From: BmmModelElement
 // Name of this model element.
 func (i *BmmSingletonBuilder) SetName ( v string ) *BmmSingletonBuilder{
 	i.bmmsingleton.Name = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -116,11 +114,13 @@ func (i *BmmSingletonBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmS
 	i.bmmsingleton.Documentation = v
 	return i
 }
+// From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmSingletonBuilder) SetScope ( v IBmmModelElement ) *BmmSingletonBuilder{
 	i.bmmsingleton.Scope = v
 	return i
 }
+// From: BmmModelElement
 /**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
@@ -150,7 +150,7 @@ func (b *BmmSingleton) Signature (  )  IBmmSignature {
 	'Boolean' ).
 */
 func (b *BmmSingleton) IsBoolean (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_MODEL_ELEMENT
 /**
@@ -158,5 +158,5 @@ func (b *BmmSingleton) IsBoolean (  )  bool {
 	a model structure hierarchy.
 */
 func (b *BmmSingleton) IsRootScope (  )  bool {
-	return nil
+	return false
 }

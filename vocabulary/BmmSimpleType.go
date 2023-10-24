@@ -47,10 +47,6 @@ type BmmSimpleType struct {
 func NewBmmSimpleType() *BmmSimpleType {
 	bmmsimpletype := new(BmmSimpleType)
 	// Constants
-	// From: BmmModelType
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmsimpletype
 }
 //BUILDER
@@ -70,19 +66,17 @@ func (i *BmmSimpleTypeBuilder) SetBaseClass ( v IBmmSimpleClass ) *BmmSimpleType
 	i.bmmsimpletype.BaseClass = v
 	return i
 }
-	// //From: BmmModelType
+// From: BmmModelType
 func (i *BmmSimpleTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmSimpleTypeBuilder{
 	i.bmmsimpletype.ValueConstraint = v
 	return i
 }
+// From: BmmModelType
 // Base class of this type.
 func (i *BmmSimpleTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmSimpleTypeBuilder{
 	i.bmmsimpletype.BaseClass = v
 	return i
 }
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
 	 return i.bmmsimpletype
@@ -91,11 +85,11 @@ func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
 //FUNCTIONS
 // Result is base_class.name .
 func (b *BmmSimpleType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // Result is base_class.is_abstract .
 func (b *BmmSimpleType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // Result is base_class.name .
 func (b *BmmSimpleType) FlattenedTypeList (  )  []string {
@@ -108,12 +102,12 @@ func (b *BmmSimpleType) EffectiveBaseClass (  )  IBmmSimpleClass {
 // From: BMM_MODEL_TYPE
 // Result = base_class.name .
 func (b *BmmSimpleType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_MODEL_TYPE
 // Result = base_class.is_primitive .
 func (b *BmmSimpleType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -123,7 +117,7 @@ func (b *BmmSimpleType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmSimpleType) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -133,7 +127,7 @@ func (b *BmmSimpleType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmSimpleType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -142,7 +136,7 @@ func (b *BmmSimpleType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmSimpleType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -150,12 +144,12 @@ func (b *BmmSimpleType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmSimpleType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmSimpleType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

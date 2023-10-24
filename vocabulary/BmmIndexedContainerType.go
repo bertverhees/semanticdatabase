@@ -47,8 +47,6 @@ type BmmIndexedContainerType struct {
 func NewBmmIndexedContainerType() *BmmIndexedContainerType {
 	bmmindexedcontainertype := new(BmmIndexedContainerType)
 	// Constants
-	// From: BmmContainerType
-	// From: BmmType
 	return bmmindexedcontainertype
 }
 //BUILDER
@@ -71,17 +69,19 @@ func (i *BmmIndexedContainerTypeBuilder) SetIndexType ( v IBmmSimpleType ) *BmmI
 	i.bmmindexedcontainertype.IndexType = v
 	return i
 }
-	// //From: BmmContainerType
+// From: BmmContainerType
 // The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 func (i *BmmIndexedContainerTypeBuilder) SetContainerClass ( v IBmmGenericClass ) *BmmIndexedContainerTypeBuilder{
 	i.bmmindexedcontainertype.ContainerClass = v
 	return i
 }
+// From: BmmContainerType
 // The container item type.
 func (i *BmmIndexedContainerTypeBuilder) SetItemType ( v IBmmUnitaryType ) *BmmIndexedContainerTypeBuilder{
 	i.bmmindexedcontainertype.ItemType = v
 	return i
 }
+// From: BmmContainerType
 /**
 	True indicates that order of the items in the container attribute is considered
 	significant and must be preserved, e.g. across sessions, serialisation,
@@ -91,6 +91,7 @@ func (i *BmmIndexedContainerTypeBuilder) SetIsOrdered ( v bool ) *BmmIndexedCont
 	i.bmmindexedcontainertype.IsOrdered = v
 	return i
 }
+// From: BmmContainerType
 /**
 	True indicates that only unique instances of items in the container are allowed.
 	Otherwise known as 'set' semantics.
@@ -99,7 +100,6 @@ func (i *BmmIndexedContainerTypeBuilder) SetIsUnique ( v bool ) *BmmIndexedConta
 	i.bmmindexedcontainertype.IsUnique = v
 	return i
 }
-	// //From: BmmType
 
 func (i *BmmIndexedContainerTypeBuilder) Build() *BmmIndexedContainerType {
 	 return i.bmmindexedcontainertype
@@ -108,12 +108,12 @@ func (i *BmmIndexedContainerTypeBuilder) Build() *BmmIndexedContainerType {
 //FUNCTIONS
 // Return full type name, e.g. HashMap<String, ELEMENT> .
 func (b *BmmIndexedContainerType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CONTAINER_TYPE
 // Return full type name, e.g. List<ELEMENT> .
 func (b *BmmIndexedContainerType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_CONTAINER_TYPE
 // True if the container class is abstract.
@@ -136,7 +136,7 @@ func (b *BmmIndexedContainerType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_CONTAINER_TYPE
 // Post_result : Result = item_type.is_primitive. True if item_type is primitive.
 func (b *BmmIndexedContainerType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_CONTAINER_TYPE
 // Return item_type.effective_type () .
@@ -146,7 +146,7 @@ func (b *BmmIndexedContainerType) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmIndexedContainerType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -155,7 +155,7 @@ func (b *BmmIndexedContainerType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmIndexedContainerType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -163,12 +163,12 @@ func (b *BmmIndexedContainerType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmIndexedContainerType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmIndexedContainerType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

@@ -57,9 +57,6 @@ func NewBmmSignature() *BmmSignature {
 	// From: BmmBuiltinType
 	// Base name (built-in typename).
 	bmmsignature.BaseName = ""
-	// From: BmmEffectiveType
-	// From: BmmUnitaryType
-	// From: BmmType
 	return bmmsignature
 }
 //BUILDER
@@ -79,10 +76,6 @@ func (i *BmmSignatureBuilder) SetResultType ( v IBmmType ) *BmmSignatureBuilder{
 	i.bmmsignature.ResultType = v
 	return i
 }
-	// //From: BmmBuiltinType
-	// //From: BmmEffectiveType
-	// //From: BmmUnitaryType
-	// //From: BmmType
 
 func (i *BmmSignatureBuilder) Build() *BmmSignature {
 	 return i.bmmsignature
@@ -99,22 +92,22 @@ func (b *BmmSignature) FlattenedTypeList (  )  []string {
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmSignature) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return True.
 func (b *BmmSignature) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmSignature) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_BUILTIN_TYPE
 // Return base_name .
 func (b *BmmSignature) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_EFFECTIVE_TYPE
 // Result = self.
@@ -124,7 +117,7 @@ func (b *BmmSignature) EffectiveType (  )  IBmmEffectiveType {
 // From: BMM_EFFECTIVE_TYPE
 // Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmSignature) TypeBaseName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_UNITARY_TYPE
 // Result = self.
@@ -134,7 +127,7 @@ func (b *BmmSignature) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmSignature) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -143,7 +136,7 @@ func (b *BmmSignature) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmSignature) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -151,12 +144,12 @@ func (b *BmmSignature) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmSignature) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmSignature) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

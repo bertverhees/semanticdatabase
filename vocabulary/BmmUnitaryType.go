@@ -34,7 +34,6 @@ type BmmUnitaryType struct {
 func NewBmmUnitaryType() *BmmUnitaryType {
 	bmmunitarytype := new(BmmUnitaryType)
 	// Constants
-	// From: BmmType
 	return bmmunitarytype
 }
 //BUILDER
@@ -49,7 +48,6 @@ func NewBmmUnitaryTypeBuilder() *BmmUnitaryTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// //From: BmmType
 
 func (i *BmmUnitaryTypeBuilder) Build() *BmmUnitaryType {
 	 return i.bmmunitarytype
@@ -63,7 +61,7 @@ func (b *BmmUnitaryType) UnitaryType (  )  IBmmUnitaryType {
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
 func (b *BmmUnitaryType) TypeName (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -72,7 +70,7 @@ func (b *BmmUnitaryType) TypeName (  )  string {
 	type_name() .
 */
 func (b *BmmUnitaryType) TypeSignature (  )  string {
-	return nil
+	return ""
 }
 // From: BMM_TYPE
 /**
@@ -80,12 +78,12 @@ func (b *BmmUnitaryType) TypeSignature (  )  string {
 	directly instantiated.
 */
 func (b *BmmUnitaryType) IsAbstract (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // If True, indicates that a type based solely on primitive classes.
 func (b *BmmUnitaryType) IsPrimitive (  )  bool {
-	return nil
+	return false
 }
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.

@@ -33,9 +33,6 @@ type ElValueGenerator struct {
 func NewElValueGenerator() *ElValueGenerator {
 	elvaluegenerator := new(ElValueGenerator)
 	// Constants
-	// From: ElSimple
-	// From: ElTerminal
-	// From: ElExpression
 	return elvaluegenerator
 }
 //BUILDER
@@ -59,9 +56,6 @@ func (i *ElValueGeneratorBuilder) SetName ( v string ) *ElValueGeneratorBuilder{
 	i.elvaluegenerator.Name = v
 	return i
 }
-	// //From: ElSimple
-	// //From: ElTerminal
-	// //From: ElExpression
 
 func (i *ElValueGeneratorBuilder) Build() *ElValueGenerator {
 	 return i.elvaluegenerator
@@ -73,7 +67,7 @@ func (i *ElValueGeneratorBuilder) Build() *ElValueGenerator {
 	version outputs name field.
 */
 func (e *ElValueGenerator) Reference (  )  string {
-	return nil
+	return ""
 }
 // From: EL_EXPRESSION
 /**
@@ -90,5 +84,5 @@ func (e *ElValueGenerator) EvalType (  )  IBmmType {
 	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
 func (e *ElValueGenerator) IsBoolean (  )  bool {
-	return nil
+	return false
 }
