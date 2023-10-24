@@ -6,14 +6,19 @@ import (
 
 // Definitions used by all BMM packages.
 
+// Interface definition
 type IBmmDefinitions interface {
 	AnyClass (  )  IBmmSimpleClass
 	AnyType (  )  IBmmSimpleType
 	CreateSchemaId ( a_model_publisher string, a_schema_name string, a_model_release string )  string
+	// From: BASIC_DEFINITIONS
 }
 
+// Struct definition
 type BmmDefinitions struct {
+	// embedded for Inheritance
 	BasicDefinitions
+	// Constants
 	/**
 		Current internal version of BMM meta-model, used to determine if a given schema
 		can be processed by a given implementation of the model.
@@ -73,8 +78,101 @@ type BmmDefinitions struct {
 	MetadataSchemaDescription	string	`yaml:"metadataschemadescription" json:"metadataschemadescription" xml:"metadataschemadescription"`
 	// Path of schema file.
 	MetadataSchemaPath	string	`yaml:"metadataschemapath" json:"metadataschemapath" xml:"metadataschemapath"`
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmDefinitions() *BmmDefinitions {
+	bmmdefinitions := new(BmmDefinitions)
+	// Constants
+	/**
+		Current internal version of BMM meta-model, used to determine if a given schema
+		can be processed by a given implementation of the model.
+	*/
+	bmmdefinitions.BmmInternalVersion = ""
+	/**
+		Delimiter used to separate schema id from package path in a fully qualified
+		path.
+	*/
+	bmmdefinitions.SchemaNameDelimiter = "::"
+	// Delimiter used to separate package names in a package path.
+	bmmdefinitions.PackageNameDelimiter = "."
+	// Extension used for BMM files.
+	bmmdefinitions.BmmSchemaFileExtension = ".bmm"
+	// Appears between a name and a type in a declaration or type signature.
+	bmmdefinitions.TypeDelimiter = ":"
+	// Left delimiter for generic class and generic type names, as used in List<T> .
+	bmmdefinitions.GenericLeftDelimiter = "<"
+	// Right delimiter for generic class and generic type names, as used in List<T> .
+	bmmdefinitions.GenericRightDelimiter = ">"
+	// Separator used in Generic types.
+	bmmdefinitions.GenericSeparator = ","
+	/**
+		Delimiter between formal type parameter and constraint type, as used in
+		Sortable<T: Ordered> .
+	*/
+	bmmdefinitions.GenericConstraintDelimiter = ":"
+	/**
+		Left delimiter of a Tuple type and also instance. Example: [Integer, String] - a
+		tuple type; [3, "Quixote"] - a tuple.
+	*/
+	bmmdefinitions.TupleLeftDelim = "["
+	// Right delimiter of a Tuple type and also instance.
+	bmmdefinitions.TupleRightDelim = "]"
+	// Separator used in Tuple types and instances.
+	bmmdefinitions.TupleSeparator = ","
+	// Left delimiter used in serial form of instance constrained enumeration.
+	bmmdefinitions.ConstraintLeftDelim = "«"
+	// Right delimiter used in serial form of instance constrained enumeration.
+	bmmdefinitions.ConstraintRightDelim = "»"
+	// Attribute name of logical attribute 'bmm_version' in .bmm schema file.
+	bmmdefinitions.MetadataBmmVersion = "bmm_version"
+	// Attribute name of logical attribute 'schema_name' in .bmm schema file.
+	bmmdefinitions.MetadataSchemaName = "schema_name"
+	// Attribute name of logical attribute 'rm_publisher' in .bmm schema file.
+	bmmdefinitions.MetadataRmPublisher = "rm_publisher"
+	// Attribute name of logical attribute 'rm_release' in .bmm schema file.
+	bmmdefinitions.MetadataRmRelease = "rm_release"
+	// Attribute name of logical attribute 'schema_revision' in .bmm schema file.
+	bmmdefinitions.MetadataSchemaRevision = "schema_revision"
+	/**
+		Attribute name of logical attribute 'schema_lifecycle_state' in .bmm schema
+		file.
+	*/
+	bmmdefinitions.MetadataSchemaLifecycleState = "schema_lifecycle_state"
+	// Attribute name of logical attribute 'schema_description' in .bmm schema file.
+	bmmdefinitions.MetadataSchemaDescription = "schema_description"
+	// Path of schema file.
+	bmmdefinitions.MetadataSchemaPath = "schema_path"
+	// From: BasicDefinitions
+	// Carriage return character.
+	bmmdefinitions.Cr = "\015"
+	// Line feed character.
+	bmmdefinitions.Lf = "\012"
+	bmmdefinitions.AnyTypeName = "Any"
+	bmmdefinitions.RegexAnyPattern = ".*"
+	bmmdefinitions.DefaultEncoding = "UTF-8"
+	bmmdefinitions.NoneTypeName = "None"
+	return bmmdefinitions
+}
+//BUILDER
+type BmmDefinitionsBuilder struct {
+	bmmdefinitions *BmmDefinitions
+}
+
+func NewBmmDefinitionsBuilder() *BmmDefinitionsBuilder {
+	 return &BmmDefinitionsBuilder {
+		bmmdefinitions : NewBmmDefinitions(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmDefinitionsBuilder) Build() *BmmDefinitions {
+	 return i.bmmdefinitions
+}
+
+//FUNCTIONS
 // built-in class definition corresponding to the top `Any' class.
 func (b *BmmDefinitions) AnyClass (  )  IBmmSimpleClass {
 	return nil

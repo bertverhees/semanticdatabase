@@ -6,6 +6,7 @@ import (
 
 // Type reference to a single type i.e. not generic or container type.
 
+// Interface definition
 type IBmmSimpleType interface {
 	TypeName (  )  string
 	IsAbstract (  )  bool
@@ -13,39 +14,68 @@ type IBmmSimpleType interface {
 	EffectiveBaseClass (  )  IBmmSimpleClass
 	// From: BMM_MODEL_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_MODEL_TYPE
 	IsPrimitive (  )  bool
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmSimpleType struct {
+	// embedded for Inheritance
 	BmmModelType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
+	// Attributes
 	// Defining class of this type.
 	BaseClass	IBmmSimpleClass	`yaml:"baseclass" json:"baseclass" xml:"baseclass"`
 }
 
+//CONSTRUCTOR
+func NewBmmSimpleType() *BmmSimpleType {
+	bmmsimpletype := new(BmmSimpleType)
+	// Constants
+	// From: BmmModelType
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmsimpletype
+}
+//BUILDER
+type BmmSimpleTypeBuilder struct {
+	bmmsimpletype *BmmSimpleType
+}
+
+func NewBmmSimpleTypeBuilder() *BmmSimpleTypeBuilder {
+	 return &BmmSimpleTypeBuilder {
+		bmmsimpletype : NewBmmSimpleType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Defining class of this type.
+func (i *BmmSimpleTypeBuilder) SetBaseClass ( v IBmmSimpleClass ) *BmmSimpleTypeBuilder{
+	i.bmmsimpletype.BaseClass = v
+	return i
+}
+
+func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
+	 return i.bmmsimpletype
+}
+
+//FUNCTIONS
 // Result is base_class.name .
 func (b *BmmSimpleType) TypeName (  )  string {
 	return nil

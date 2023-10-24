@@ -6,50 +6,84 @@ import (
 
 // Meta-type for function object signatures.
 
+// Interface definition
 type IBmmFunctionType interface {
+	// From: BMM_ROUTINE_TYPE
 	// From: BMM_SIGNATURE
 	FlattenedTypeList (  )  []string
 	// From: BMM_BUILTIN_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_BUILTIN_TYPE
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmFunctionType struct {
+	// embedded for Inheritance
 	BmmRoutineType
 	BmmSignature
 	BmmBuiltinType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmFunctionType() *BmmFunctionType {
+	bmmfunctiontype := new(BmmFunctionType)
+	// Constants
+	// Base name (built-in).
+	bmmfunctiontype.BaseName = "Function"
+	// From: BmmRoutineType
+	// Base name (built-in).
+	bmmfunctiontype.BaseName = "Routine"
+	// From: BmmSignature
+	// Base name (built-in).
+	bmmfunctiontype.BaseName = "Signature"
+	// From: BmmBuiltinType
+	// Base name (built-in typename).
+	bmmfunctiontype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmfunctiontype
+}
+//BUILDER
+type BmmFunctionTypeBuilder struct {
+	bmmfunctiontype *BmmFunctionType
+}
+
+func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
+	 return &BmmFunctionTypeBuilder {
+		bmmfunctiontype : NewBmmFunctionType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmFunctionTypeBuilder) Build() *BmmFunctionType {
+	 return i.bmmfunctiontype
+}
+
+//FUNCTIONS
 // From: BMM_SIGNATURE
 /**
 	Return the logical set (i.e. unique items) consisting of

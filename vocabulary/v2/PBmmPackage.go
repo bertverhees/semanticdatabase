@@ -9,14 +9,21 @@ import (
 	packages and/or classes.
 */
 
+// Interface definition
 type IPBmmPackage interface {
 	Merge ( other IPBmmPackage ) 
 	CreateBmmPackageDefinition (  ) 
+	// From: P_BMM_PACKAGE_CONTAINER
+	// From: P_BMM_MODEL_ELEMENT
 }
 
+// Struct definition
 type PBmmPackage struct {
+	// embedded for Inheritance
 	PBmmPackageContainer
 	PBmmModelElement
+	// Constants
+	// Attributes
 	/**
 		Name of the package from schema; this name may be qualified if it is a top-level
 		package within the schema, or unqualified. Persistent attribute.
@@ -28,6 +35,50 @@ type PBmmPackage struct {
 	BmmPackageDefinition	BMM_PACKAGE	`yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
 }
 
+//CONSTRUCTOR
+func NewPBmmPackage() *PBmmPackage {
+	pbmmpackage := new(PBmmPackage)
+	// Constants
+	// From: PBmmPackageContainer
+	// From: PBmmModelElement
+	return pbmmpackage
+}
+//BUILDER
+type PBmmPackageBuilder struct {
+	pbmmpackage *PBmmPackage
+}
+
+func NewPBmmPackageBuilder() *PBmmPackageBuilder {
+	 return &PBmmPackageBuilder {
+		pbmmpackage : NewPBmmPackage(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Name of the package from schema; this name may be qualified if it is a top-level
+		package within the schema, or unqualified. Persistent attribute.
+	*/
+func (i *PBmmPackageBuilder) SetName ( v string ) *PBmmPackageBuilder{
+	i.pbmmpackage.Name = v
+	return i
+}
+	// List of classes in this package. Persistent attribute.
+func (i *PBmmPackageBuilder) SetClasses ( v []string ) *PBmmPackageBuilder{
+	i.pbmmpackage.Classes = v
+	return i
+}
+	// BMM_PACKAGE created by create_bmm_package_definition .
+func (i *PBmmPackageBuilder) SetBmmPackageDefinition ( v BMM_PACKAGE ) *PBmmPackageBuilder{
+	i.pbmmpackage.BmmPackageDefinition = v
+	return i
+}
+
+func (i *PBmmPackageBuilder) Build() *PBmmPackage {
+	 return i.pbmmpackage
+}
+
+//FUNCTIONS
 /**
 	Merge packages and classes from other (from an included P_BMM_SCHEMA ) into this
 	package.

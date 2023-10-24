@@ -6,22 +6,56 @@ import (
 
 // Abstract meta-type of any kind of symbolic variable.
 
+// Interface definition
 type IElVariable interface {
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElVariable struct {
+	// embedded for Inheritance
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewElVariable() *ElVariable {
+	elvariable := new(ElVariable)
+	// Constants
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	return elvariable
+}
+//BUILDER
+type ElVariableBuilder struct {
+	elvariable *ElVariable
+}
+
+func NewElVariableBuilder() *ElVariableBuilder {
+	 return &ElVariableBuilder {
+		elvariable : NewElVariable(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *ElVariableBuilder) Build() *ElVariable {
+	 return i.elvariable
+}
+
+//FUNCTIONS
 // From: EL_VALUE_GENERATOR
 /**
 	Generated full reference name, based on constituent parts of the entity. Default
@@ -40,9 +74,10 @@ func (e *ElVariable) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElVariable) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElVariable) IsBoolean (  )  bool {
 	return nil
 }

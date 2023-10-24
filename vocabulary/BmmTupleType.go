@@ -12,49 +12,81 @@ import (
 	are only valid within the scope of a generic class.
 */
 
+// Interface definition
 type IBmmTupleType interface {
 	FlattenedTypeList (  )  []string
 	// From: BMM_BUILTIN_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_BUILTIN_TYPE
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmTupleType struct {
+	// embedded for Inheritance
 	BmmBuiltinType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
 	// List of types of the items of the tuple, keyed by purpose in the tuple.
 	ItemTypes	Hash <String, BMM_TYPE >	`yaml:"itemtypes" json:"itemtypes" xml:"itemtypes"`
 }
 
+//CONSTRUCTOR
+func NewBmmTupleType() *BmmTupleType {
+	bmmtupletype := new(BmmTupleType)
+	// Constants
+	// Base name (built-in).
+	bmmtupletype.BaseName = "Tuple"
+	// From: BmmBuiltinType
+	// Base name (built-in typename).
+	bmmtupletype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmtupletype
+}
+//BUILDER
+type BmmTupleTypeBuilder struct {
+	bmmtupletype *BmmTupleType
+}
+
+func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
+	 return &BmmTupleTypeBuilder {
+		bmmtupletype : NewBmmTupleType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// List of types of the items of the tuple, keyed by purpose in the tuple.
+func (i *BmmTupleTypeBuilder) SetItemTypes ( v Hash <String, BMM_TYPE > ) *BmmTupleTypeBuilder{
+	i.bmmtupletype.ItemTypes = v
+	return i
+}
+
+func (i *BmmTupleTypeBuilder) Build() *BmmTupleType {
+	 return i.bmmtupletype
+}
+
+//FUNCTIONS
 /**
 	Return the logical set (i.e. unique types) from the merge of flattened_type_list
 	() called on each member of item_types .

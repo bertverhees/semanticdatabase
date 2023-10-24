@@ -14,17 +14,23 @@ import (
 	else expression.
 */
 
+// Interface definition
 type IElCaseTable interface {
+	// From: EL_DECISION_TABLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElCaseTable struct {
+	// embedded for Inheritance
 	ElDecisionTable
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	// Expressing generating the input value for the case table.
 	TestValue	IElValueGenerator	`yaml:"testvalue" json:"testvalue" xml:"testvalue"`
 	/**
@@ -34,6 +40,46 @@ type ElCaseTable struct {
 	Items	List < EL_CASE >	`yaml:"items" json:"items" xml:"items"`
 }
 
+//CONSTRUCTOR
+func NewElCaseTable() *ElCaseTable {
+	elcasetable := new(ElCaseTable)
+	// Constants
+	// From: ElDecisionTable
+	// From: ElTerminal
+	// From: ElExpression
+	return elcasetable
+}
+//BUILDER
+type ElCaseTableBuilder struct {
+	elcasetable *ElCaseTable
+}
+
+func NewElCaseTableBuilder() *ElCaseTableBuilder {
+	 return &ElCaseTableBuilder {
+		elcasetable : NewElCaseTable(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Expressing generating the input value for the case table.
+func (i *ElCaseTableBuilder) SetTestValue ( v IElValueGenerator ) *ElCaseTableBuilder{
+	i.elcasetable.TestValue = v
+	return i
+}
+	/**
+		Members of the chain, equivalent to branches in an if/then/else chain and cases
+		in a case statement.
+	*/
+func (i *ElCaseTableBuilder) SetItems ( v List < EL_CASE > ) *ElCaseTableBuilder{
+	i.elcasetable.Items = v
+	return i
+}
+
+func (i *ElCaseTableBuilder) Build() *ElCaseTable {
+	 return i.elcasetable
+}
+
+//FUNCTIONS
 // From: EL_EXPRESSION
 /**
 	Meta-type of expression entity used in type-checking and evaluation. Effected in
@@ -44,9 +90,10 @@ func (e *ElCaseTable) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElCaseTable) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElCaseTable) IsBoolean (  )  bool {
 	return nil
 }

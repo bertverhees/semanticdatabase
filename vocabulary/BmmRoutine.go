@@ -6,20 +6,25 @@ import (
 
 // A feature defining a routine, scoped to a class.
 
+// Interface definition
 type IBmmRoutine interface {
 	Arity (  )  int
+	// From: BMM_FEATURE
 	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmRoutine struct {
+	// embedded for Inheritance
 	BmmFeature
 	BmmFormalElement
 	BmmModelElement
+	// Constants
+	// Attributes
 	// Formal parameters of the routine.
 	Parameters	List < BMM_PARAMETER >	`yaml:"parameters" json:"parameters" xml:"parameters"`
 	/**
@@ -38,6 +43,61 @@ type BmmRoutine struct {
 	Definition	IBmmRoutineDefinition	`yaml:"definition" json:"definition" xml:"definition"`
 }
 
+//CONSTRUCTOR
+func NewBmmRoutine() *BmmRoutine {
+	bmmroutine := new(BmmRoutine)
+	// Constants
+	// From: BmmFeature
+	// From: BmmFormalElement
+	// From: BmmModelElement
+	return bmmroutine
+}
+//BUILDER
+type BmmRoutineBuilder struct {
+	bmmroutine *BmmRoutine
+}
+
+func NewBmmRoutineBuilder() *BmmRoutineBuilder {
+	 return &BmmRoutineBuilder {
+		bmmroutine : NewBmmRoutine(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Formal parameters of the routine.
+func (i *BmmRoutineBuilder) SetParameters ( v List < BMM_PARAMETER > ) *BmmRoutineBuilder{
+	i.bmmroutine.Parameters = v
+	return i
+}
+	/**
+		Boolean conditions that must evaluate to True for the routine to execute
+		correctly, May be used to generate exceptions if included in run-time build. A
+		False pre-condition implies an error in the passed parameters.
+	*/
+func (i *BmmRoutineBuilder) SetPreConditions ( v List < BMM_ASSERTION > ) *BmmRoutineBuilder{
+	i.bmmroutine.PreConditions = v
+	return i
+}
+	/**
+		Boolean conditions that will evaluate to True if the routine executed correctly,
+		May be used to generate exceptions if included in run-time build. A False
+		post-condition implies an error (i.e. bug) in routine code.
+	*/
+func (i *BmmRoutineBuilder) SetPostConditions ( v List < BMM_ASSERTION > ) *BmmRoutineBuilder{
+	i.bmmroutine.PostConditions = v
+	return i
+}
+	// Body of a routine, i.e. executable program.
+func (i *BmmRoutineBuilder) SetDefinition ( v IBmmRoutineDefinition ) *BmmRoutineBuilder{
+	i.bmmroutine.Definition = v
+	return i
+}
+
+func (i *BmmRoutineBuilder) Build() *BmmRoutine {
+	 return i.bmmroutine
+}
+
+//FUNCTIONS
 // Return number of arguments of this routine.
 func (b *BmmRoutine) Arity (  )  int {
 	return nil
@@ -52,14 +112,18 @@ func (b *BmmRoutine) Signature (  )  IBmmSignature {
 }
 // From: BMM_FORMAL_ELEMENT
 /**
+	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
 */
-func (b *BmmRoutine) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (b *BmmRoutine) IsBoolean (  )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmRoutine) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmRoutine) IsRootScope (  )  bool {
 	return nil
 }

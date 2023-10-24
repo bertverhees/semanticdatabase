@@ -8,6 +8,7 @@ import (
 	Parent of built-in types, which are treated as being primitive and non-abstract.
 */
 
+// Interface definition
 type IBmmBuiltinType interface {
 	IsAbstract (  )  bool
 	IsPrimitive (  )  bool
@@ -15,34 +16,60 @@ type IBmmBuiltinType interface {
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmBuiltinType struct {
+	// embedded for Inheritance
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
 	// Base name (built-in typename).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmBuiltinType() *BmmBuiltinType {
+	bmmbuiltintype := new(BmmBuiltinType)
+	// Constants
+	// Base name (built-in typename).
+	bmmbuiltintype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmbuiltintype
+}
+//BUILDER
+type BmmBuiltinTypeBuilder struct {
+	bmmbuiltintype *BmmBuiltinType
+}
+
+func NewBmmBuiltinTypeBuilder() *BmmBuiltinTypeBuilder {
+	 return &BmmBuiltinTypeBuilder {
+		bmmbuiltintype : NewBmmBuiltinType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmBuiltinTypeBuilder) Build() *BmmBuiltinType {
+	 return i.bmmbuiltintype
+}
+
+//FUNCTIONS
 // Return False.
 func (b *BmmBuiltinType) IsAbstract (  )  bool {
 	return nil

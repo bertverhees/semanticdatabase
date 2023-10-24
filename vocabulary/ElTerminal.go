@@ -9,17 +9,46 @@ import (
 	or tuples.
 */
 
+// Interface definition
 type IElTerminal interface {
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElTerminal struct {
+	// embedded for Inheritance
 	ElExpression
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewElTerminal() *ElTerminal {
+	elterminal := new(ElTerminal)
+	// Constants
+	// From: ElExpression
+	return elterminal
+}
+//BUILDER
+type ElTerminalBuilder struct {
+	elterminal *ElTerminal
+}
+
+func NewElTerminalBuilder() *ElTerminalBuilder {
+	 return &ElTerminalBuilder {
+		elterminal : NewElTerminal(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *ElTerminalBuilder) Build() *ElTerminal {
+	 return i.elterminal
+}
+
+//FUNCTIONS
 // From: EL_EXPRESSION
 /**
 	Meta-type of expression entity used in type-checking and evaluation. Effected in
@@ -30,9 +59,10 @@ func (e *ElTerminal) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElTerminal) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElTerminal) IsBoolean (  )  bool {
 	return nil
 }

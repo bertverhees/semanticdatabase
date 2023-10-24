@@ -6,54 +6,82 @@ import (
 
 // String-based enumeration meta-type.
 
+// Interface definition
 type IBmmEnumerationString interface {
 	// From: BMM_ENUMERATION
-	NameMap (  )  Hash < String , String >
+	NameMap (  )  map[string]string
 	// From: BMM_SIMPLE_CLASS
 	Type (  )  IBmmSimpleType
 	// From: BMM_CLASS
 	Type (  )  IBmmModelType
-	// From: BMM_CLASS
 	AllAncestors (  )  []string
-	// From: BMM_CLASS
 	AllDescendants (  )  []string
-	// From: BMM_CLASS
 	Suppliers (  )  []string
-	// From: BMM_CLASS
 	SuppliersNonPrimitive (  )  []string
-	// From: BMM_CLASS
 	SupplierClosure (  )  []string
-	// From: BMM_CLASS
 	PackagePath (  )  string
-	// From: BMM_CLASS
 	ClassPath (  )  string
-	// From: BMM_CLASS
 	IsPrimitive (  )  bool
-	// From: BMM_CLASS
 	IsAbstract (  )  bool
-	// From: BMM_CLASS
 	Features (  ) 
-	// From: BMM_CLASS
 	FlatFeatures (  ) 
-	// From: BMM_CLASS
-	FlatProperties (  )  List < BMM_PROPERTY >
+	FlatProperties (  )  []vocabulary.IBmmProperty
+	// From: BMM_MODULE
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmEnumerationString struct {
+	// embedded for Inheritance
 	BmmEnumeration
 	BmmSimpleClass
 	BmmClass
 	BmmModule
 	BmmModelElement
+	// Constants
+	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
 	ItemValues	List < BMM_STRING_VALUE >	`yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 }
 
+//CONSTRUCTOR
+func NewBmmEnumerationString() *BmmEnumerationString {
+	bmmenumerationstring := new(BmmEnumerationString)
+	// Constants
+	// From: BmmEnumeration
+	// From: BmmSimpleClass
+	// From: BmmClass
+	// From: BmmModule
+	// From: BmmModelElement
+	return bmmenumerationstring
+}
+//BUILDER
+type BmmEnumerationStringBuilder struct {
+	bmmenumerationstring *BmmEnumerationString
+}
+
+func NewBmmEnumerationStringBuilder() *BmmEnumerationStringBuilder {
+	 return &BmmEnumerationStringBuilder {
+		bmmenumerationstring : NewBmmEnumerationString(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Optional list of specific values. Must be 1:1 with item_names list.
+func (i *BmmEnumerationStringBuilder) SetItemValues ( v List < BMM_STRING_VALUE > ) *BmmEnumerationStringBuilder{
+	i.bmmenumerationstring.ItemValues = v
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) Build() *BmmEnumerationString {
+	 return i.bmmenumerationstring
+}
+
+//FUNCTIONS
 // From: BMM_ENUMERATION
 // Map of item_names to item_values (stringified).
-func (b *BmmEnumerationString) NameMap (  )  Hash < String , String > {
+func (b *BmmEnumerationString) NameMap (  )  map[string]string {
 	return nil
 }
 // From: BMM_SIMPLE_CLASS
@@ -155,11 +183,14 @@ func (b *BmmEnumerationString) FlatFeatures (  )  {
 	List of all properties due to current and ancestor classes, keyed by property
 	name.
 */
-func (b *BmmEnumerationString) FlatProperties (  )  List < BMM_PROPERTY > {
+func (b *BmmEnumerationString) FlatProperties (  )  []vocabulary.IBmmProperty {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmEnumerationString) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmEnumerationString) IsRootScope (  )  bool {
 	return nil
 }

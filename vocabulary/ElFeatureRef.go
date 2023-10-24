@@ -9,25 +9,64 @@ import (
 	qualifier if it is not the currently scoping entity.
 */
 
+// Interface definition
 type IElFeatureRef interface {
 	Reference (  )  string
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElFeatureRef struct {
+	// embedded for Inheritance
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	// Scoping expression, which must be a EL_VALUE_GENERATOR .
 	Scoper	IElValueGenerator	`yaml:"scoper" json:"scoper" xml:"scoper"`
 }
 
+//CONSTRUCTOR
+func NewElFeatureRef() *ElFeatureRef {
+	elfeatureref := new(ElFeatureRef)
+	// Constants
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	return elfeatureref
+}
+//BUILDER
+type ElFeatureRefBuilder struct {
+	elfeatureref *ElFeatureRef
+}
+
+func NewElFeatureRefBuilder() *ElFeatureRefBuilder {
+	 return &ElFeatureRefBuilder {
+		elfeatureref : NewElFeatureRef(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Scoping expression, which must be a EL_VALUE_GENERATOR .
+func (i *ElFeatureRefBuilder) SetScoper ( v IElValueGenerator ) *ElFeatureRefBuilder{
+	i.elfeatureref.Scoper = v
+	return i
+}
+
+func (i *ElFeatureRefBuilder) Build() *ElFeatureRef {
+	 return i.elfeatureref
+}
+
+//FUNCTIONS
 /**
 	Generated full reference name, consisting of scoping elements and name
 	concatenated using dot notation.
@@ -53,9 +92,10 @@ func (e *ElFeatureRef) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElFeatureRef) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElFeatureRef) IsBoolean (  )  bool {
 	return nil
 }

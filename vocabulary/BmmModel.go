@@ -9,6 +9,7 @@ import (
 	BMM_SCHEMA_CORE ).
 */
 
+// Interface definition
 type IBmmModel interface {
 	ModelId (  )  string
 	ClassDefinition ( a_name string )  IBmmClass
@@ -31,18 +32,21 @@ type IBmmModel interface {
 	BooleanTypeDefinition (  )  IBmmSimpleType
 	// From: BMM_PACKAGE_CONTAINER
 	PackageAtPath ( a_path string )  IBmmPackage
-	// From: BMM_PACKAGE_CONTAINER
 	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
-	// From: BMM_PACKAGE_CONTAINER
 	HasPackagePath ( a_path string )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
+	// From: BMM_MODEL_METADATA
 }
 
+// Struct definition
 type BmmModel struct {
+	// embedded for Inheritance
 	BmmPackageContainer
 	BmmModelElement
 	BmmModelMetadata
+	// Constants
+	// Attributes
 	// All classes in this model, keyed by type name.
 	ClassDefinitions	Hash <String, BMM_CLASS >	`yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
 	/**
@@ -55,6 +59,52 @@ type BmmModel struct {
 	Modules	Hash <String, BMM_MODULE >	`yaml:"modules" json:"modules" xml:"modules"`
 }
 
+//CONSTRUCTOR
+func NewBmmModel() *BmmModel {
+	bmmmodel := new(BmmModel)
+	// Constants
+	// From: BmmPackageContainer
+	// From: BmmModelElement
+	// From: BmmModelMetadata
+	return bmmmodel
+}
+//BUILDER
+type BmmModelBuilder struct {
+	bmmmodel *BmmModel
+}
+
+func NewBmmModelBuilder() *BmmModelBuilder {
+	 return &BmmModelBuilder {
+		bmmmodel : NewBmmModel(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// All classes in this model, keyed by type name.
+func (i *BmmModelBuilder) SetClassDefinitions ( v Hash <String, BMM_CLASS > ) *BmmModelBuilder{
+	i.bmmmodel.ClassDefinitions = v
+	return i
+}
+	/**
+		List of other models 'used' (i.e. 'imported' by this model). Classes in the
+		current model may refer to classes in a used model by specifying the other
+		class’s scope meta-attribute.
+	*/
+func (i *BmmModelBuilder) SetUsedModels ( v List < BMM_MODEL > ) *BmmModelBuilder{
+	i.bmmmodel.UsedModels = v
+	return i
+}
+	// All classes in this model, keyed by type name.
+func (i *BmmModelBuilder) SetModules ( v Hash <String, BMM_MODULE > ) *BmmModelBuilder{
+	i.bmmmodel.Modules = v
+	return i
+}
+
+func (i *BmmModelBuilder) Build() *BmmModel {
+	 return i.bmmmodel
+}
+
+//FUNCTIONS
 /**
 	Identifier of this model, lower-case, formed from:
 	<rm_publisher>_<model_name>_<rm_release> E.g. "openehr_ehr_1.0.4" .
@@ -204,7 +254,10 @@ func (b *BmmModel) HasPackagePath ( a_path string )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmModel) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmModel) IsRootScope (  )  bool {
 	return nil
 }

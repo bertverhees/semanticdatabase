@@ -6,24 +6,58 @@ import (
 
 // Unary operator expression node.
 
+// Interface definition
 type IElUnaryOperator interface {
 	// From: EL_OPERATOR
 	OperatorDefinition (  )  IBmmOperator
-	// From: EL_OPERATOR
 	EquivalentCall (  )  IElFunctionCall
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElUnaryOperator struct {
+	// embedded for Inheritance
 	ElOperator
 	ElExpression
+	// Constants
+	// Attributes
 	// Operand node.
 	Operand	IElExpression	`yaml:"operand" json:"operand" xml:"operand"`
 }
 
+//CONSTRUCTOR
+func NewElUnaryOperator() *ElUnaryOperator {
+	elunaryoperator := new(ElUnaryOperator)
+	// Constants
+	// From: ElOperator
+	// From: ElExpression
+	return elunaryoperator
+}
+//BUILDER
+type ElUnaryOperatorBuilder struct {
+	elunaryoperator *ElUnaryOperator
+}
+
+func NewElUnaryOperatorBuilder() *ElUnaryOperatorBuilder {
+	 return &ElUnaryOperatorBuilder {
+		elunaryoperator : NewElUnaryOperator(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Operand node.
+func (i *ElUnaryOperatorBuilder) SetOperand ( v IElExpression ) *ElUnaryOperatorBuilder{
+	i.elunaryoperator.Operand = v
+	return i
+}
+
+func (i *ElUnaryOperatorBuilder) Build() *ElUnaryOperator {
+	 return i.elunaryoperator
+}
+
+//FUNCTIONS
 // From: EL_OPERATOR
 // Operator definition derived from definition.operator_definition() .
 func (e *ElUnaryOperator) OperatorDefinition (  )  IBmmOperator {
@@ -44,9 +78,10 @@ func (e *ElUnaryOperator) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElUnaryOperator) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElUnaryOperator) IsBoolean (  )  bool {
 	return nil
 }

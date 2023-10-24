@@ -6,10 +6,15 @@ import (
 
 // Definition of a symbolic operator associated with a function.
 
+// Interface definition
 type IBmmOperator interface {
 }
 
+// Struct definition
 type BmmOperator struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
 	// Position of operator in syntactic representation.
 	Position	BMM_OPERATOR_POSITION	`yaml:"position" json:"position" xml:"position"`
 	/**
@@ -21,3 +26,45 @@ type BmmOperator struct {
 	Name	string	`yaml:"name" json:"name" xml:"name"`
 }
 
+//CONSTRUCTOR
+func NewBmmOperator() *BmmOperator {
+	bmmoperator := new(BmmOperator)
+	// Constants
+	return bmmoperator
+}
+//BUILDER
+type BmmOperatorBuilder struct {
+	bmmoperator *BmmOperator
+}
+
+func NewBmmOperatorBuilder() *BmmOperatorBuilder {
+	 return &BmmOperatorBuilder {
+		bmmoperator : NewBmmOperator(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Position of operator in syntactic representation.
+func (i *BmmOperatorBuilder) SetPosition ( v BMM_OPERATOR_POSITION ) *BmmOperatorBuilder{
+	i.bmmoperator.Position = v
+	return i
+}
+	/**
+		Set of String symbols that may be used to represent this operator in a textual
+		representation of a BMM model.
+	*/
+func (i *BmmOperatorBuilder) SetSymbols ( v []string ) *BmmOperatorBuilder{
+	i.bmmoperator.Symbols = v
+	return i
+}
+	// Formal name of the operator, e.g. 'minus' etc.
+func (i *BmmOperatorBuilder) SetName ( v string ) *BmmOperatorBuilder{
+	i.bmmoperator.Name = v
+	return i
+}
+
+func (i *BmmOperatorBuilder) Build() *BmmOperator {
+	 return i.bmmoperator
+}
+
+//FUNCTIONS

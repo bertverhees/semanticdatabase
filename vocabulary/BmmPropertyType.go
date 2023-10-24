@@ -6,47 +6,75 @@ import (
 
 // Meta-type for property and variable signatures.
 
+// Interface definition
 type IBmmPropertyType interface {
 	// From: BMM_SIGNATURE
 	FlattenedTypeList (  )  []string
 	// From: BMM_BUILTIN_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_BUILTIN_TYPE
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmPropertyType struct {
+	// embedded for Inheritance
 	BmmSignature
 	BmmBuiltinType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmPropertyType() *BmmPropertyType {
+	bmmpropertytype := new(BmmPropertyType)
+	// Constants
+	// From: BmmSignature
+	// Base name (built-in).
+	bmmpropertytype.BaseName = "Signature"
+	// From: BmmBuiltinType
+	// Base name (built-in typename).
+	bmmpropertytype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmpropertytype
+}
+//BUILDER
+type BmmPropertyTypeBuilder struct {
+	bmmpropertytype *BmmPropertyType
+}
+
+func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
+	 return &BmmPropertyTypeBuilder {
+		bmmpropertytype : NewBmmPropertyType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmPropertyTypeBuilder) Build() *BmmPropertyType {
+	 return i.bmmpropertytype
+}
+
+//FUNCTIONS
 // From: BMM_SIGNATURE
 /**
 	Return the logical set (i.e. unique items) consisting of

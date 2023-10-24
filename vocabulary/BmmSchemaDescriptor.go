@@ -9,6 +9,7 @@ import (
 	from a mini-ODIN parse of the schema file.
 */
 
+// Interface definition
 type IBmmSchemaDescriptor interface {
 	IsTopLevel (  )  bool
 	IsBmmCompatible (  )  bool
@@ -18,7 +19,11 @@ type IBmmSchemaDescriptor interface {
 	CreateModel (  ) 
 }
 
+// Struct definition
 type BmmSchemaDescriptor struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
 	// Persistent form of model.
 	BmmSchema	IBmmSchema	`yaml:"bmmschema" json:"bmmschema" xml:"bmmschema"`
 	// Computable form of model.
@@ -35,11 +40,69 @@ type BmmSchemaDescriptor struct {
 		Table of {key, value} of schema meta-data, keys are string values defined by
 		{BMM_DEFINITIONS}.Metadata_* constants.
 	*/
-	MetaData	Hash < String , String >	`yaml:"metadata" json:"metadata" xml:"metadata"`
+	MetaData	map[string]string	`yaml:"metadata" json:"metadata" xml:"metadata"`
 	// Identifiers of schemas included by this schema.
 	Includes	List < String >	`yaml:"includes" json:"includes" xml:"includes"`
 }
 
+//CONSTRUCTOR
+func NewBmmSchemaDescriptor() *BmmSchemaDescriptor {
+	bmmschemadescriptor := new(BmmSchemaDescriptor)
+	// Constants
+	return bmmschemadescriptor
+}
+//BUILDER
+type BmmSchemaDescriptorBuilder struct {
+	bmmschemadescriptor *BmmSchemaDescriptor
+}
+
+func NewBmmSchemaDescriptorBuilder() *BmmSchemaDescriptorBuilder {
+	 return &BmmSchemaDescriptorBuilder {
+		bmmschemadescriptor : NewBmmSchemaDescriptor(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Persistent form of model.
+func (i *BmmSchemaDescriptorBuilder) SetBmmSchema ( v IBmmSchema ) *BmmSchemaDescriptorBuilder{
+	i.bmmschemadescriptor.BmmSchema = v
+	return i
+}
+	// Computable form of model.
+func (i *BmmSchemaDescriptorBuilder) SetBmmModel ( v IBmmModel ) *BmmSchemaDescriptorBuilder{
+	i.bmmschemadescriptor.BmmModel = v
+	return i
+}
+	/**
+		Schema id, formed by {BMM_DEFINITIONS}.create_schema_id(
+		meta_data.item({BMM_DEFINITIONS}.Metadata_model_publisher),
+		meta_data.item({BMM_DEFINITIONS}.Metadata_schema_name),
+		meta_data.item({BMM_DEFINITIONS}.Metadata_model_release) e.g. openehr_rm_1.0.3 ,
+		openehr_test_1.0.1 , iso_13606_1_2008_2.1.2 .
+	*/
+func (i *BmmSchemaDescriptorBuilder) SetSchemaId ( v string ) *BmmSchemaDescriptorBuilder{
+	i.bmmschemadescriptor.SchemaId = v
+	return i
+}
+	/**
+		Table of {key, value} of schema meta-data, keys are string values defined by
+		{BMM_DEFINITIONS}.Metadata_* constants.
+	*/
+func (i *BmmSchemaDescriptorBuilder) SetMetaData ( v map[string]string ) *BmmSchemaDescriptorBuilder{
+	i.bmmschemadescriptor.MetaData = v
+	return i
+}
+	// Identifiers of schemas included by this schema.
+func (i *BmmSchemaDescriptorBuilder) SetIncludes ( v List < String > ) *BmmSchemaDescriptorBuilder{
+	i.bmmschemadescriptor.Includes = v
+	return i
+}
+
+func (i *BmmSchemaDescriptorBuilder) Build() *BmmSchemaDescriptor {
+	 return i.bmmschemadescriptor
+}
+
+//FUNCTIONS
 /**
 	True if this is a top-level schema, i.e. is the root schema of a 'model'. True
 	if bmm_schema /= Void and then bmm_schema.model_name /= Void .

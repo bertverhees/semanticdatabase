@@ -9,28 +9,52 @@ import (
 	that is not a container object.
 */
 
+// Interface definition
 type IBmmUnitaryType interface {
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmUnitaryType struct {
+	// embedded for Inheritance
 	BmmType
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmUnitaryType() *BmmUnitaryType {
+	bmmunitarytype := new(BmmUnitaryType)
+	// Constants
+	// From: BmmType
+	return bmmunitarytype
+}
+//BUILDER
+type BmmUnitaryTypeBuilder struct {
+	bmmunitarytype *BmmUnitaryType
+}
+
+func NewBmmUnitaryTypeBuilder() *BmmUnitaryTypeBuilder {
+	 return &BmmUnitaryTypeBuilder {
+		bmmunitarytype : NewBmmUnitaryType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmUnitaryTypeBuilder) Build() *BmmUnitaryType {
+	 return i.bmmunitarytype
+}
+
+//FUNCTIONS
 // Result = self.
 func (b *BmmUnitaryType) UnitaryType (  )  IBmmUnitaryType {
 	return nil

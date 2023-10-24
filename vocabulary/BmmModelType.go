@@ -6,40 +6,74 @@ import (
 
 // A type that is defined by a class (or classes) in the model.
 
+// Interface definition
 type IBmmModelType interface {
 	TypeBaseName (  )  string
 	IsPrimitive (  )  bool
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmModelType struct {
+	// embedded for Inheritance
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
+	// Attributes
 	ValueConstraint	IBmmValueSetSpec	`yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 	// Base class of this type.
 	BaseClass	IBmmClass	`yaml:"baseclass" json:"baseclass" xml:"baseclass"`
 }
 
+//CONSTRUCTOR
+func NewBmmModelType() *BmmModelType {
+	bmmmodeltype := new(BmmModelType)
+	// Constants
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmmodeltype
+}
+//BUILDER
+type BmmModelTypeBuilder struct {
+	bmmmodeltype *BmmModelType
+}
+
+func NewBmmModelTypeBuilder() *BmmModelTypeBuilder {
+	 return &BmmModelTypeBuilder {
+		bmmmodeltype : NewBmmModelType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+func (i *BmmModelTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmModelTypeBuilder{
+	i.bmmmodeltype.ValueConstraint = v
+	return i
+}
+	// Base class of this type.
+func (i *BmmModelTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmModelTypeBuilder{
+	i.bmmmodeltype.BaseClass = v
+	return i
+}
+
+func (i *BmmModelTypeBuilder) Build() *BmmModelType {
+	 return i.bmmmodeltype
+}
+
+//FUNCTIONS
 // Result = base_class.name .
 func (b *BmmModelType) TypeBaseName (  )  string {
 	return nil

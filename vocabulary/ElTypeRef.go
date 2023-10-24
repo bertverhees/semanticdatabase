@@ -11,26 +11,69 @@ import (
 	constant access.
 */
 
+// Interface definition
 type IElTypeRef interface {
 	EvalType (  )  IBmmType
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElTypeRef struct {
+	// embedded for Inheritance
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
 	Type	IBmmType	`yaml:"type" json:"type" xml:"type"`
 	IsMutable	bool	`yaml:"ismutable" json:"ismutable" xml:"ismutable"`
 }
 
+//CONSTRUCTOR
+func NewElTypeRef() *ElTypeRef {
+	eltyperef := new(ElTypeRef)
+	// Constants
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	return eltyperef
+}
+//BUILDER
+type ElTypeRefBuilder struct {
+	eltyperef *ElTypeRef
+}
+
+func NewElTypeRefBuilder() *ElTypeRefBuilder {
+	 return &ElTypeRefBuilder {
+		eltyperef : NewElTypeRef(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
+func (i *ElTypeRefBuilder) SetType ( v IBmmType ) *ElTypeRefBuilder{
+	i.eltyperef.Type = v
+	return i
+}
+func (i *ElTypeRefBuilder) SetIsMutable ( v bool ) *ElTypeRefBuilder{
+	i.eltyperef.IsMutable = v
+	return i
+}
+
+func (i *ElTypeRefBuilder) Build() *ElTypeRef {
+	 return i.eltyperef
+}
+
+//FUNCTIONS
 // Return type .
 func (e *ElTypeRef) EvalType (  )  IBmmType {
 	return nil
@@ -53,9 +96,10 @@ func (e *ElTypeRef) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElTypeRef) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElTypeRef) IsBoolean (  )  bool {
 	return nil
 }

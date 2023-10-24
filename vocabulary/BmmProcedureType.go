@@ -9,52 +9,91 @@ import (
 	the special Status meta-type
 */
 
+// Interface definition
 type IBmmProcedureType interface {
+	// From: BMM_ROUTINE_TYPE
 	// From: BMM_SIGNATURE
 	FlattenedTypeList (  )  []string
 	// From: BMM_BUILTIN_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_BUILTIN_TYPE
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmProcedureType struct {
+	// embedded for Inheritance
 	BmmRoutineType
 	BmmSignature
 	BmmBuiltinType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
 	// Result type of a procedure.
 	ResultType	IBmmStatusType	`yaml:"resulttype" json:"resulttype" xml:"resulttype"`
 }
 
+//CONSTRUCTOR
+func NewBmmProcedureType() *BmmProcedureType {
+	bmmproceduretype := new(BmmProcedureType)
+	// Constants
+	// Base name (built-in).
+	bmmproceduretype.BaseName = "Procedure"
+	// From: BmmRoutineType
+	// Base name (built-in).
+	bmmproceduretype.BaseName = "Routine"
+	// From: BmmSignature
+	// Base name (built-in).
+	bmmproceduretype.BaseName = "Signature"
+	// From: BmmBuiltinType
+	// Base name (built-in typename).
+	bmmproceduretype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmproceduretype
+}
+//BUILDER
+type BmmProcedureTypeBuilder struct {
+	bmmproceduretype *BmmProcedureType
+}
+
+func NewBmmProcedureTypeBuilder() *BmmProcedureTypeBuilder {
+	 return &BmmProcedureTypeBuilder {
+		bmmproceduretype : NewBmmProcedureType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Result type of a procedure.
+func (i *BmmProcedureTypeBuilder) SetResultType ( v IBmmStatusType ) *BmmProcedureTypeBuilder{
+	i.bmmproceduretype.ResultType = v
+	return i
+}
+
+func (i *BmmProcedureTypeBuilder) Build() *BmmProcedureType {
+	 return i.bmmproceduretype
+}
+
+//FUNCTIONS
 // From: BMM_SIGNATURE
 /**
 	Return the logical set (i.e. unique items) consisting of

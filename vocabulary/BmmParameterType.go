@@ -6,6 +6,7 @@ import (
 
 // Definition of a generic parameter in a class definition of a generic type.
 
+// Interface definition
 type IBmmParameterType interface {
 	FlattenedConformsToType (  )  IBmmEffectiveType
 	TypeSignature (  )  string
@@ -18,23 +19,21 @@ type IBmmParameterType interface {
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmParameterType struct {
+	// embedded for Inheritance
 	BmmUnitaryType
 	BmmType
+	// Constants
+	// Attributes
 	/**
 		Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
 		upper-case.
@@ -46,6 +45,50 @@ type BmmParameterType struct {
 	InheritancePrecursor	IBmmParameterType	`yaml:"inheritanceprecursor" json:"inheritanceprecursor" xml:"inheritanceprecursor"`
 }
 
+//CONSTRUCTOR
+func NewBmmParameterType() *BmmParameterType {
+	bmmparametertype := new(BmmParameterType)
+	// Constants
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmparametertype
+}
+//BUILDER
+type BmmParameterTypeBuilder struct {
+	bmmparametertype *BmmParameterType
+}
+
+func NewBmmParameterTypeBuilder() *BmmParameterTypeBuilder {
+	 return &BmmParameterTypeBuilder {
+		bmmparametertype : NewBmmParameterType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
+		upper-case.
+	*/
+func (i *BmmParameterTypeBuilder) SetName ( v string ) *BmmParameterTypeBuilder{
+	i.bmmparametertype.Name = v
+	return i
+}
+	// Optional conformance constraint that must be the name of a defined type.
+func (i *BmmParameterTypeBuilder) SetTypeConstraint ( v IBmmEffectiveType ) *BmmParameterTypeBuilder{
+	i.bmmparametertype.TypeConstraint = v
+	return i
+}
+	// If set, is the corresponding generic parameter definition in an ancestor class.
+func (i *BmmParameterTypeBuilder) SetInheritancePrecursor ( v IBmmParameterType ) *BmmParameterTypeBuilder{
+	i.bmmparametertype.InheritancePrecursor = v
+	return i
+}
+
+func (i *BmmParameterTypeBuilder) Build() *BmmParameterType {
+	 return i.bmmparametertype
+}
+
+//FUNCTIONS
 /**
 	Result is either conforms_to_type or
 	inheritance_precursor.flattened_conforms_to_type .

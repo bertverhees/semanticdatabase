@@ -9,6 +9,7 @@ import (
 	'application' of a function in Lambda calculus.
 */
 
+// Interface definition
 type IElFunctionCall interface {
 	EvalType (  )  IBmmType
 	Reference (  )  string
@@ -16,25 +17,71 @@ type IElFunctionCall interface {
 	Reference (  )  string
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
+	// From: EL_AGENT_CALL
 }
 
+// Struct definition
 type ElFunctionCall struct {
+	// embedded for Inheritance
 	ElFeatureRef
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
 	ElAgentCall
+	// Constants
+	// Attributes
 	// The function agent being called.
 	Agent	IElFunctionAgent	`yaml:"agent" json:"agent" xml:"agent"`
 	// Defined to return False.
 	IsWritable	bool	`yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
+//CONSTRUCTOR
+func NewElFunctionCall() *ElFunctionCall {
+	elfunctioncall := new(ElFunctionCall)
+	// Constants
+	// From: ElFeatureRef
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	// From: ElAgentCall
+	return elfunctioncall
+}
+//BUILDER
+type ElFunctionCallBuilder struct {
+	elfunctioncall *ElFunctionCall
+}
+
+func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
+	 return &ElFunctionCallBuilder {
+		elfunctioncall : NewElFunctionCall(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// The function agent being called.
+func (i *ElFunctionCallBuilder) SetAgent ( v IElFunctionAgent ) *ElFunctionCallBuilder{
+	i.elfunctioncall.Agent = v
+	return i
+}
+	// Defined to return False.
+func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
+	i.elfunctioncall.IsWritable = v
+	return i
+}
+
+func (i *ElFunctionCallBuilder) Build() *ElFunctionCall {
+	 return i.elfunctioncall
+}
+
+//FUNCTIONS
 // Return agent.definition.type .
 func (e *ElFunctionCall) EvalType (  )  IBmmType {
 	return nil
@@ -72,9 +119,10 @@ func (e *ElFunctionCall) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElFunctionCall) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElFunctionCall) IsBoolean (  )  bool {
 	return nil
 }

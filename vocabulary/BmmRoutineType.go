@@ -6,47 +6,42 @@ import (
 
 // Meta-type for routine objects.
 
+// Interface definition
 type IBmmRoutineType interface {
 	// From: BMM_SIGNATURE
 	FlattenedTypeList (  )  []string
 	// From: BMM_BUILTIN_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_BUILTIN_TYPE
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmRoutineType struct {
+	// embedded for Inheritance
 	BmmSignature
 	BmmBuiltinType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
 	/**
 		Type of arguments in the signature, if any; represented as a type-tuple (list of
 		arbitrary types).
@@ -54,6 +49,49 @@ type BmmRoutineType struct {
 	ArgumentTypes	IBmmTupleType	`yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
 }
 
+//CONSTRUCTOR
+func NewBmmRoutineType() *BmmRoutineType {
+	bmmroutinetype := new(BmmRoutineType)
+	// Constants
+	// Base name (built-in).
+	bmmroutinetype.BaseName = "Routine"
+	// From: BmmSignature
+	// Base name (built-in).
+	bmmroutinetype.BaseName = "Signature"
+	// From: BmmBuiltinType
+	// Base name (built-in typename).
+	bmmroutinetype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmroutinetype
+}
+//BUILDER
+type BmmRoutineTypeBuilder struct {
+	bmmroutinetype *BmmRoutineType
+}
+
+func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
+	 return &BmmRoutineTypeBuilder {
+		bmmroutinetype : NewBmmRoutineType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Type of arguments in the signature, if any; represented as a type-tuple (list of
+		arbitrary types).
+	*/
+func (i *BmmRoutineTypeBuilder) SetArgumentTypes ( v IBmmTupleType ) *BmmRoutineTypeBuilder{
+	i.bmmroutinetype.ArgumentTypes = v
+	return i
+}
+
+func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
+	 return i.bmmroutinetype
+}
+
+//FUNCTIONS
 // From: BMM_SIGNATURE
 /**
 	Return the logical set (i.e. unique items) consisting of

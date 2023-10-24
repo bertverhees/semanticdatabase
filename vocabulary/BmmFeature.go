@@ -6,18 +6,22 @@ import (
 
 // A module-scoped formal element.
 
+// Interface definition
 type IBmmFeature interface {
 	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmFeature struct {
+	// embedded for Inheritance
 	BmmFormalElement
 	BmmModelElement
+	// Constants
+	// Attributes
 	/**
 		True if this feature was synthesised due to generic substitution in an inherited
 		type, or further constraining of a formal generic parameter.
@@ -31,6 +35,55 @@ type BmmFeature struct {
 	Scope	IBmmClass	`yaml:"scope" json:"scope" xml:"scope"`
 }
 
+//CONSTRUCTOR
+func NewBmmFeature() *BmmFeature {
+	bmmfeature := new(BmmFeature)
+	// Constants
+	// From: BmmFormalElement
+	// From: BmmModelElement
+	return bmmfeature
+}
+//BUILDER
+type BmmFeatureBuilder struct {
+	bmmfeature *BmmFeature
+}
+
+func NewBmmFeatureBuilder() *BmmFeatureBuilder {
+	 return &BmmFeatureBuilder {
+		bmmfeature : NewBmmFeature(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		True if this feature was synthesised due to generic substitution in an inherited
+		type, or further constraining of a formal generic parameter.
+	*/
+func (i *BmmFeatureBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmFeatureBuilder{
+	i.bmmfeature.IsSynthesisedGeneric = v
+	return i
+}
+	// Extensions to feature-level meta-types.
+func (i *BmmFeatureBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmFeatureBuilder{
+	i.bmmfeature.FeatureExtensions = v
+	return i
+}
+	// Group containing this feature.
+func (i *BmmFeatureBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmFeatureBuilder{
+	i.bmmfeature.Group = v
+	return i
+}
+	// Model element within which an element is declared.
+func (i *BmmFeatureBuilder) SetScope ( v IBmmClass ) *BmmFeatureBuilder{
+	i.bmmfeature.Scope = v
+	return i
+}
+
+func (i *BmmFeatureBuilder) Build() *BmmFeature {
+	 return i.bmmfeature
+}
+
+//FUNCTIONS
 // From: BMM_FORMAL_ELEMENT
 /**
 	Formal signature of this element, in the form: name [arg1_name: T_arg1,
@@ -41,14 +94,18 @@ func (b *BmmFeature) Signature (  )  IBmmSignature {
 }
 // From: BMM_FORMAL_ELEMENT
 /**
+	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
 */
-func (b *BmmFeature) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (b *BmmFeature) IsBoolean (  )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmFeature) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmFeature) IsRootScope (  )  bool {
 	return nil
 }

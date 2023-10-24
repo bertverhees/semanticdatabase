@@ -13,6 +13,7 @@ import (
 	type_name() to obtain the qualified type name.
 */
 
+// Interface definition
 type IBmmClass interface {
 	Type (  )  IBmmModelType
 	AllAncestors (  )  []string
@@ -26,14 +27,19 @@ type IBmmClass interface {
 	IsAbstract (  )  bool
 	Features (  ) 
 	FlatFeatures (  ) 
-	FlatProperties (  )  List < BMM_PROPERTY >
+	FlatProperties (  )  []vocabulary.IBmmProperty
+	// From: BMM_MODULE
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmClass struct {
+	// embedded for Inheritance
 	BmmModule
 	BmmModelElement
+	// Constants
+	// Attributes
 	// List of immediate inheritance parents.
 	Ancestors	Hash <String, BMM_MODEL_TYPE >	`yaml:"ancestors" json:"ancestors" xml:"ancestors"`
 	// Package this class belongs to.
@@ -88,6 +94,129 @@ type BmmClass struct {
 	Features	List < BMM_FEATURE >	`yaml:"features" json:"features" xml:"features"`
 }
 
+//CONSTRUCTOR
+func NewBmmClass() *BmmClass {
+	bmmclass := new(BmmClass)
+	// Constants
+	// From: BmmModule
+	// From: BmmModelElement
+	return bmmclass
+}
+//BUILDER
+type BmmClassBuilder struct {
+	bmmclass *BmmClass
+}
+
+func NewBmmClassBuilder() *BmmClassBuilder {
+	 return &BmmClassBuilder {
+		bmmclass : NewBmmClass(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// List of immediate inheritance parents.
+func (i *BmmClassBuilder) SetAncestors ( v Hash <String, BMM_MODEL_TYPE > ) *BmmClassBuilder{
+	i.bmmclass.Ancestors = v
+	return i
+}
+	// Package this class belongs to.
+func (i *BmmClassBuilder) SetPackage ( v IBmmPackage ) *BmmClassBuilder{
+	i.bmmclass.Package = v
+	return i
+}
+	// Properties defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetProperties ( v Hash <String, BMM_PROPERTY > ) *BmmClassBuilder{
+	i.bmmclass.Properties = v
+	return i
+}
+	/**
+		Reference to original source schema defining this class. Useful for UI tools to
+		determine which original schema file to open for a given class for manual
+		editing.
+	*/
+func (i *BmmClassBuilder) SetSourceSchemaId ( v string ) *BmmClassBuilder{
+	i.bmmclass.SourceSchemaId = v
+	return i
+}
+	/**
+		List of computed references to base classes of immediate inheritance
+		descendants, derived when members of ancestors are attached at creation time.
+	*/
+func (i *BmmClassBuilder) SetImmediateDescendants ( v List < BMM_CLASS > ) *BmmClassBuilder{
+	i.bmmclass.ImmediateDescendants = v
+	return i
+}
+	/**
+		True if this definition overrides a class of the same name in an included
+		schema.
+	*/
+func (i *BmmClassBuilder) SetIsOverride ( v bool ) *BmmClassBuilder{
+	i.bmmclass.IsOverride = v
+	return i
+}
+	// Static properties defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetStaticProperties ( v Hash <String, BMM_STATIC > ) *BmmClassBuilder{
+	i.bmmclass.StaticProperties = v
+	return i
+}
+	// Functions defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetFunctions ( v Hash <String, BMM_FUNCTION > ) *BmmClassBuilder{
+	i.bmmclass.Functions = v
+	return i
+}
+	// Procedures defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetProcedures ( v Hash <String, BMM_PROCEDURE > ) *BmmClassBuilder{
+	i.bmmclass.Procedures = v
+	return i
+}
+	/**
+		True if this class represents a type considered to be primitive in the type
+		system, i.e. any typically built-in or standard library type such as String ,
+		Date , Hash<K,V> etc.
+	*/
+func (i *BmmClassBuilder) SetIsPrimitive ( v bool ) *BmmClassBuilder{
+	i.bmmclass.IsPrimitive = v
+	return i
+}
+	/**
+		True if this class is marked as abstract, i.e. direct instances cannot be
+		created from its direct type.
+	*/
+func (i *BmmClassBuilder) SetIsAbstract ( v bool ) *BmmClassBuilder{
+	i.bmmclass.IsAbstract = v
+	return i
+}
+func (i *BmmClassBuilder) SetInvariants ( v List < BMM_ASSERTION > ) *BmmClassBuilder{
+	i.bmmclass.Invariants = v
+	return i
+}
+	/**
+		Subset of procedures that may be used to initialise a new instance of an object,
+		and whose execution will guarantee that class invariants are satisfied.
+	*/
+func (i *BmmClassBuilder) SetCreators ( v Hash < String , BMM_PROCEDURE > ) *BmmClassBuilder{
+	i.bmmclass.Creators = v
+	return i
+}
+	/**
+		Subset of creators that create a new instance from a single argument of another
+		type.
+	*/
+func (i *BmmClassBuilder) SetConverters ( v Hash < String , BMM_PROCEDURE > ) *BmmClassBuilder{
+	i.bmmclass.Converters = v
+	return i
+}
+	// Features of this module.
+func (i *BmmClassBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmClassBuilder{
+	i.bmmclass.Features = v
+	return i
+}
+
+func (i *BmmClassBuilder) Build() *BmmClass {
+	 return i.bmmclass
+}
+
+//FUNCTIONS
 /**
 	Generate a type object that represents the type for which this class is the
 	definer.
@@ -166,11 +295,14 @@ func (b *BmmClass) FlatFeatures (  )  {
 	List of all properties due to current and ancestor classes, keyed by property
 	name.
 */
-func (b *BmmClass) FlatProperties (  )  List < BMM_PROPERTY > {
+func (b *BmmClass) FlatProperties (  )  []vocabulary.IBmmProperty {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmClass) IsRootScope (  )  bool {
 	return nil
 }

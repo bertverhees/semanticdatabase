@@ -13,56 +13,91 @@ import (
 	subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 */
 
+// Interface definition
 type IBmmEnumeration interface {
-	NameMap (  )  Hash < String , String >
+	NameMap (  )  map[string]string
 	// From: BMM_SIMPLE_CLASS
 	Type (  )  IBmmSimpleType
 	// From: BMM_CLASS
 	Type (  )  IBmmModelType
-	// From: BMM_CLASS
 	AllAncestors (  )  []string
-	// From: BMM_CLASS
 	AllDescendants (  )  []string
-	// From: BMM_CLASS
 	Suppliers (  )  []string
-	// From: BMM_CLASS
 	SuppliersNonPrimitive (  )  []string
-	// From: BMM_CLASS
 	SupplierClosure (  )  []string
-	// From: BMM_CLASS
 	PackagePath (  )  string
-	// From: BMM_CLASS
 	ClassPath (  )  string
-	// From: BMM_CLASS
 	IsPrimitive (  )  bool
-	// From: BMM_CLASS
 	IsAbstract (  )  bool
-	// From: BMM_CLASS
 	Features (  ) 
-	// From: BMM_CLASS
 	FlatFeatures (  ) 
-	// From: BMM_CLASS
-	FlatProperties (  )  List < BMM_PROPERTY >
+	FlatProperties (  )  []vocabulary.IBmmProperty
+	// From: BMM_MODULE
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmEnumeration struct {
+	// embedded for Inheritance
 	BmmSimpleClass
 	BmmClass
 	BmmModule
 	BmmModelElement
+	// Constants
+	// Attributes
 	/**
 		The list of names of the enumeration. If no values are supplied, the integer
 		values 0, 1, 2, …​ are assumed.
 	*/
 	ItemNames	[]string	`yaml:"itemnames" json:"itemnames" xml:"itemnames"`
 	// Optional list of specific values. Must be 1:1 with item_names list.
-	ItemValues	List < BMM_PRIMITIVE_VALUE >	`yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	ItemValues	[]vocabulary.IBmmPrimitiveValue	`yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 }
 
+//CONSTRUCTOR
+func NewBmmEnumeration() *BmmEnumeration {
+	bmmenumeration := new(BmmEnumeration)
+	// Constants
+	// From: BmmSimpleClass
+	// From: BmmClass
+	// From: BmmModule
+	// From: BmmModelElement
+	return bmmenumeration
+}
+//BUILDER
+type BmmEnumerationBuilder struct {
+	bmmenumeration *BmmEnumeration
+}
+
+func NewBmmEnumerationBuilder() *BmmEnumerationBuilder {
+	 return &BmmEnumerationBuilder {
+		bmmenumeration : NewBmmEnumeration(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		The list of names of the enumeration. If no values are supplied, the integer
+		values 0, 1, 2, …​ are assumed.
+	*/
+func (i *BmmEnumerationBuilder) SetItemNames ( v []string ) *BmmEnumerationBuilder{
+	i.bmmenumeration.ItemNames = v
+	return i
+}
+	// Optional list of specific values. Must be 1:1 with item_names list.
+func (i *BmmEnumerationBuilder) SetItemValues ( v []vocabulary.IBmmPrimitiveValue ) *BmmEnumerationBuilder{
+	i.bmmenumeration.ItemValues = v
+	return i
+}
+
+func (i *BmmEnumerationBuilder) Build() *BmmEnumeration {
+	 return i.bmmenumeration
+}
+
+//FUNCTIONS
 // Map of item_names to item_values (stringified).
-func (b *BmmEnumeration) NameMap (  )  Hash < String , String > {
+func (b *BmmEnumeration) NameMap (  )  map[string]string {
 	return nil
 }
 // From: BMM_SIMPLE_CLASS
@@ -164,11 +199,14 @@ func (b *BmmEnumeration) FlatFeatures (  )  {
 	List of all properties due to current and ancestor classes, keyed by property
 	name.
 */
-func (b *BmmEnumeration) FlatProperties (  )  List < BMM_PROPERTY > {
+func (b *BmmEnumeration) FlatProperties (  )  []vocabulary.IBmmProperty {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmEnumeration) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmEnumeration) IsRootScope (  )  bool {
 	return nil
 }

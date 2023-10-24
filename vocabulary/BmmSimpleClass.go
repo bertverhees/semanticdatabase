@@ -9,44 +9,65 @@ import (
 	1:1 with the type it generates.
 */
 
+// Interface definition
 type IBmmSimpleClass interface {
 	Type (  )  IBmmSimpleType
 	// From: BMM_CLASS
 	Type (  )  IBmmModelType
-	// From: BMM_CLASS
 	AllAncestors (  )  []string
-	// From: BMM_CLASS
 	AllDescendants (  )  []string
-	// From: BMM_CLASS
 	Suppliers (  )  []string
-	// From: BMM_CLASS
 	SuppliersNonPrimitive (  )  []string
-	// From: BMM_CLASS
 	SupplierClosure (  )  []string
-	// From: BMM_CLASS
 	PackagePath (  )  string
-	// From: BMM_CLASS
 	ClassPath (  )  string
-	// From: BMM_CLASS
 	IsPrimitive (  )  bool
-	// From: BMM_CLASS
 	IsAbstract (  )  bool
-	// From: BMM_CLASS
 	Features (  ) 
-	// From: BMM_CLASS
 	FlatFeatures (  ) 
-	// From: BMM_CLASS
-	FlatProperties (  )  List < BMM_PROPERTY >
+	FlatProperties (  )  []vocabulary.IBmmProperty
+	// From: BMM_MODULE
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmSimpleClass struct {
+	// embedded for Inheritance
 	BmmClass
 	BmmModule
 	BmmModelElement
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmSimpleClass() *BmmSimpleClass {
+	bmmsimpleclass := new(BmmSimpleClass)
+	// Constants
+	// From: BmmClass
+	// From: BmmModule
+	// From: BmmModelElement
+	return bmmsimpleclass
+}
+//BUILDER
+type BmmSimpleClassBuilder struct {
+	bmmsimpleclass *BmmSimpleClass
+}
+
+func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
+	 return &BmmSimpleClassBuilder {
+		bmmsimpleclass : NewBmmSimpleClass(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmSimpleClassBuilder) Build() *BmmSimpleClass {
+	 return i.bmmsimpleclass
+}
+
+//FUNCTIONS
 /**
 	Generate a type object that represents the type of this class. Can only be an
 	instance of BMM_SIMPLE_TYPE or a descendant.
@@ -145,11 +166,14 @@ func (b *BmmSimpleClass) FlatFeatures (  )  {
 	List of all properties due to current and ancestor classes, keyed by property
 	name.
 */
-func (b *BmmSimpleClass) FlatProperties (  )  List < BMM_PROPERTY > {
+func (b *BmmSimpleClass) FlatProperties (  )  []vocabulary.IBmmProperty {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmSimpleClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmSimpleClass) IsRootScope (  )  bool {
 	return nil
 }

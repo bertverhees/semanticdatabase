@@ -9,27 +9,73 @@ import (
 	variable 'Self'.
 */
 
+// Interface definition
 type IElReadonlyVariable interface {
+	// From: EL_VARIABLE
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElReadonlyVariable struct {
+	// embedded for Inheritance
 	ElVariable
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	// Variable definition to which this reference refers.
 	Definition	IBmmReadonlyVariable	`yaml:"definition" json:"definition" xml:"definition"`
 	// Defined to return False in all cases.
 	IsWritable	bool	`yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
+//CONSTRUCTOR
+func NewElReadonlyVariable() *ElReadonlyVariable {
+	elreadonlyvariable := new(ElReadonlyVariable)
+	// Constants
+	// From: ElVariable
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	return elreadonlyvariable
+}
+//BUILDER
+type ElReadonlyVariableBuilder struct {
+	elreadonlyvariable *ElReadonlyVariable
+}
+
+func NewElReadonlyVariableBuilder() *ElReadonlyVariableBuilder {
+	 return &ElReadonlyVariableBuilder {
+		elreadonlyvariable : NewElReadonlyVariable(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Variable definition to which this reference refers.
+func (i *ElReadonlyVariableBuilder) SetDefinition ( v IBmmReadonlyVariable ) *ElReadonlyVariableBuilder{
+	i.elreadonlyvariable.Definition = v
+	return i
+}
+	// Defined to return False in all cases.
+func (i *ElReadonlyVariableBuilder) SetIsWritable ( v bool ) *ElReadonlyVariableBuilder{
+	i.elreadonlyvariable.IsWritable = v
+	return i
+}
+
+func (i *ElReadonlyVariableBuilder) Build() *ElReadonlyVariable {
+	 return i.elreadonlyvariable
+}
+
+//FUNCTIONS
 // From: EL_VALUE_GENERATOR
 /**
 	Generated full reference name, based on constituent parts of the entity. Default
@@ -48,9 +94,10 @@ func (e *ElReadonlyVariable) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElReadonlyVariable) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElReadonlyVariable) IsBoolean (  )  bool {
 	return nil
 }

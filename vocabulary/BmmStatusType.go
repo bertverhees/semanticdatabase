@@ -8,46 +8,73 @@ import (
 	Built-in meta-type representing action status, e.g. result of a call invocation.
 */
 
+// Interface definition
 type IBmmStatusType interface {
 	// From: BMM_BUILTIN_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_BUILTIN_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_BUILTIN_TYPE
 	TypeName (  )  string
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmStatusType struct {
+	// embedded for Inheritance
 	BmmBuiltinType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
 	// Base name (built-in).
 	BaseName	string	`yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmStatusType() *BmmStatusType {
+	bmmstatustype := new(BmmStatusType)
+	// Constants
+	// Base name (built-in).
+	bmmstatustype.BaseName = "Status"
+	// From: BmmBuiltinType
+	// Base name (built-in typename).
+	bmmstatustype.BaseName = ""
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmstatustype
+}
+//BUILDER
+type BmmStatusTypeBuilder struct {
+	bmmstatustype *BmmStatusType
+}
+
+func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
+	 return &BmmStatusTypeBuilder {
+		bmmstatustype : NewBmmStatusType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmStatusTypeBuilder) Build() *BmmStatusType {
+	 return i.bmmstatustype
+}
+
+//FUNCTIONS
 // From: BMM_BUILTIN_TYPE
 // Return False.
 func (b *BmmStatusType) IsAbstract (  )  bool {

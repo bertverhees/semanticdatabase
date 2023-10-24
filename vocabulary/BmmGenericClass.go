@@ -6,44 +6,38 @@ import (
 
 // Definition of a generic class in an object model.
 
+// Interface definition
 type IBmmGenericClass interface {
 	Suppliers (  )  []string
 	Type (  )  IBmmGenericType
 	GenericParameterConformanceType ( a_name string )  string
 	// From: BMM_CLASS
 	Type (  )  IBmmModelType
-	// From: BMM_CLASS
 	AllAncestors (  )  []string
-	// From: BMM_CLASS
 	AllDescendants (  )  []string
-	// From: BMM_CLASS
 	Suppliers (  )  []string
-	// From: BMM_CLASS
 	SuppliersNonPrimitive (  )  []string
-	// From: BMM_CLASS
 	SupplierClosure (  )  []string
-	// From: BMM_CLASS
 	PackagePath (  )  string
-	// From: BMM_CLASS
 	ClassPath (  )  string
-	// From: BMM_CLASS
 	IsPrimitive (  )  bool
-	// From: BMM_CLASS
 	IsAbstract (  )  bool
-	// From: BMM_CLASS
 	Features (  ) 
-	// From: BMM_CLASS
 	FlatFeatures (  ) 
-	// From: BMM_CLASS
-	FlatProperties (  )  List < BMM_PROPERTY >
+	FlatProperties (  )  []vocabulary.IBmmProperty
+	// From: BMM_MODULE
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmGenericClass struct {
+	// embedded for Inheritance
 	BmmClass
 	BmmModule
 	BmmModelElement
+	// Constants
+	// Attributes
 	/**
 		List of formal generic parameters, keyed by name. These are defined either
 		directly on this class or by the inclusion of an ancestor class which is
@@ -52,6 +46,42 @@ type BmmGenericClass struct {
 	GenericParameters	Hash <String, BMM_PARAMETER_TYPE >	`yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
 }
 
+//CONSTRUCTOR
+func NewBmmGenericClass() *BmmGenericClass {
+	bmmgenericclass := new(BmmGenericClass)
+	// Constants
+	// From: BmmClass
+	// From: BmmModule
+	// From: BmmModelElement
+	return bmmgenericclass
+}
+//BUILDER
+type BmmGenericClassBuilder struct {
+	bmmgenericclass *BmmGenericClass
+}
+
+func NewBmmGenericClassBuilder() *BmmGenericClassBuilder {
+	 return &BmmGenericClassBuilder {
+		bmmgenericclass : NewBmmGenericClass(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		List of formal generic parameters, keyed by name. These are defined either
+		directly on this class or by the inclusion of an ancestor class which is
+		generic.
+	*/
+func (i *BmmGenericClassBuilder) SetGenericParameters ( v Hash <String, BMM_PARAMETER_TYPE > ) *BmmGenericClassBuilder{
+	i.bmmgenericclass.GenericParameters = v
+	return i
+}
+
+func (i *BmmGenericClassBuilder) Build() *BmmGenericClass {
+	 return i.bmmgenericclass
+}
+
+//FUNCTIONS
 // Add suppliers from generic parameters.
 func (b *BmmGenericClass) Suppliers (  )  []string {
 	return nil
@@ -162,11 +192,14 @@ func (b *BmmGenericClass) FlatFeatures (  )  {
 	List of all properties due to current and ancestor classes, keyed by property
 	name.
 */
-func (b *BmmGenericClass) FlatProperties (  )  List < BMM_PROPERTY > {
+func (b *BmmGenericClass) FlatProperties (  )  []vocabulary.IBmmProperty {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmGenericClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmGenericClass) IsRootScope (  )  bool {
 	return nil
 }

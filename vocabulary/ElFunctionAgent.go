@@ -6,31 +6,35 @@ import (
 
 // An agent whose signature is of a function, i.e. has a result type.
 
+// Interface definition
 type IElFunctionAgent interface {
-	EvalType (  )  BMM_FUNCTION_TYPE  Post_result : Result = definition.signature
+	EvalType (  )  IBmmFunctionType
 	// From: EL_AGENT
-	EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
-	// From: EL_AGENT
+	EvalType (  )  IBmmRoutineType
 	IsCallable (  )  Boolean  Post_result_validity : Result = open_arguments = Void
-	// From: EL_AGENT
 	Reference (  )  string
 	// From: EL_FEATURE_REF
 	Reference (  )  string
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElFunctionAgent struct {
+	// embedded for Inheritance
 	ElAgent
 	ElFeatureRef
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	/**
 		Reference to definition of a routine for which this is a direct call instance,
 		if one exists.
@@ -38,19 +42,57 @@ type ElFunctionAgent struct {
 	Definition	IBmmFunction	`yaml:"definition" json:"definition" xml:"definition"`
 }
 
+//CONSTRUCTOR
+func NewElFunctionAgent() *ElFunctionAgent {
+	elfunctionagent := new(ElFunctionAgent)
+	// Constants
+	// From: ElAgent
+	// From: ElFeatureRef
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	return elfunctionagent
+}
+//BUILDER
+type ElFunctionAgentBuilder struct {
+	elfunctionagent *ElFunctionAgent
+}
+
+func NewElFunctionAgentBuilder() *ElFunctionAgentBuilder {
+	 return &ElFunctionAgentBuilder {
+		elfunctionagent : NewElFunctionAgent(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Reference to definition of a routine for which this is a direct call instance,
+		if one exists.
+	*/
+func (i *ElFunctionAgentBuilder) SetDefinition ( v IBmmFunction ) *ElFunctionAgentBuilder{
+	i.elfunctionagent.Definition = v
+	return i
+}
+
+func (i *ElFunctionAgentBuilder) Build() *ElFunctionAgent {
+	 return i.elfunctionagent
+}
+
+//FUNCTIONS
 /**
-	Eval type is the signature corresponding to the (remaining) open arguments and
-	return type, if any.
+	Post_result : Result = definition.signature. Eval type is the signature
+	corresponding to the (remaining) open arguments and return type, if any.
 */
-func (e *ElFunctionAgent) EvalType (  )  BMM_FUNCTION_TYPE  Post_result : Result = definition.signature {
+func (e *ElFunctionAgent) EvalType (  )  IBmmFunctionType {
 	return nil
 }
 // From: EL_AGENT
 /**
-	Eval type is the signature corresponding to the (remaining) open arguments and
-	return type, if any.
+	Post_result : Result = definition.signature. Eval type is the signature
+	corresponding to the (remaining) open arguments and return type, if any.
 */
-func (e *ElFunctionAgent) EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature {
+func (e *ElFunctionAgent) EvalType (  )  IBmmRoutineType {
 	return nil
 }
 // From: EL_AGENT
@@ -89,9 +131,10 @@ func (e *ElFunctionAgent) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElFunctionAgent) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElFunctionAgent) IsBoolean (  )  bool {
 	return nil
 }

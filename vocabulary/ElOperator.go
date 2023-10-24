@@ -6,17 +6,21 @@ import (
 
 // Abstract parent of operator types.
 
+// Interface definition
 type IElOperator interface {
 	OperatorDefinition (  )  IBmmOperator
 	EquivalentCall (  )  IElFunctionCall
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElOperator struct {
+	// embedded for Inheritance
 	ElExpression
+	// Constants
+	// Attributes
 	/**
 		True if the natural precedence of operators is overridden in the expression
 		represented by this node of the expression tree. If True, parentheses should be
@@ -36,6 +40,57 @@ type ElOperator struct {
 	Call	IElFunctionCall	`yaml:"call" json:"call" xml:"call"`
 }
 
+//CONSTRUCTOR
+func NewElOperator() *ElOperator {
+	eloperator := new(ElOperator)
+	// Constants
+	// From: ElExpression
+	return eloperator
+}
+//BUILDER
+type ElOperatorBuilder struct {
+	eloperator *ElOperator
+}
+
+func NewElOperatorBuilder() *ElOperatorBuilder {
+	 return &ElOperatorBuilder {
+		eloperator : NewElOperator(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		True if the natural precedence of operators is overridden in the expression
+		represented by this node of the expression tree. If True, parentheses should be
+		introduced around the totality of the syntax expression corresponding to this
+		operator node and its operands.
+	*/
+func (i *ElOperatorBuilder) SetPrecedenceOverridden ( v bool ) *ElOperatorBuilder{
+	i.eloperator.PrecedenceOverridden = v
+	return i
+}
+	/**
+		The symbol actually used in the expression, or intended to be used for
+		serialisation. Must be a member of OPERATOR_DEF. symbols .
+	*/
+func (i *ElOperatorBuilder) SetSymbol ( v string ) *ElOperatorBuilder{
+	i.eloperator.Symbol = v
+	return i
+}
+	/**
+		Function call equivalent to this operator expression, inferred by matching
+		operator against functions defined in interface of principal operand.
+	*/
+func (i *ElOperatorBuilder) SetCall ( v IElFunctionCall ) *ElOperatorBuilder{
+	i.eloperator.Call = v
+	return i
+}
+
+func (i *ElOperatorBuilder) Build() *ElOperator {
+	 return i.eloperator
+}
+
+//FUNCTIONS
 // Operator definition derived from definition.operator_definition() .
 func (e *ElOperator) OperatorDefinition (  )  IBmmOperator {
 	return nil
@@ -54,9 +109,10 @@ func (e *ElOperator) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElOperator) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElOperator) IsBoolean (  )  bool {
 	return nil
 }

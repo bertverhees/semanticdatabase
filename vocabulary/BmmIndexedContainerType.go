@@ -9,39 +9,33 @@ import (
 	manner of a standard Hash table, map or dictionary.
 */
 
+// Interface definition
 type IBmmIndexedContainerType interface {
 	TypeName (  )  string
 	// From: BMM_CONTAINER_TYPE
 	TypeName (  )  string
-	// From: BMM_CONTAINER_TYPE
 	IsAbstract (  )  Boolean  Post_is_abstract : Result = container_type.is_abstract
-	// From: BMM_CONTAINER_TYPE
-	FlattenedTypeList (  )  List <String>  Post_result : Result = item_type.flattened_type_list
-	// From: BMM_CONTAINER_TYPE
+	FlattenedTypeList (  )  List
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_CONTAINER_TYPE
-	IsPrimitive (  )  Boolean  Post_result : Result = item_type.is_primitive
-	// From: BMM_CONTAINER_TYPE
+	IsPrimitive (  )  bool
 	EffectiveType (  )  IBmmEffectiveType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmIndexedContainerType struct {
+	// embedded for Inheritance
 	BmmContainerType
 	BmmType
+	// Constants
+	// Attributes
 	/**
 		Type of the element index, typically String or Integer , but may be a numeric
 		type or indeed any type from which a hash value can be derived.
@@ -49,6 +43,40 @@ type BmmIndexedContainerType struct {
 	IndexType	IBmmSimpleType	`yaml:"indextype" json:"indextype" xml:"indextype"`
 }
 
+//CONSTRUCTOR
+func NewBmmIndexedContainerType() *BmmIndexedContainerType {
+	bmmindexedcontainertype := new(BmmIndexedContainerType)
+	// Constants
+	// From: BmmContainerType
+	// From: BmmType
+	return bmmindexedcontainertype
+}
+//BUILDER
+type BmmIndexedContainerTypeBuilder struct {
+	bmmindexedcontainertype *BmmIndexedContainerType
+}
+
+func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
+	 return &BmmIndexedContainerTypeBuilder {
+		bmmindexedcontainertype : NewBmmIndexedContainerType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Type of the element index, typically String or Integer , but may be a numeric
+		type or indeed any type from which a hash value can be derived.
+	*/
+func (i *BmmIndexedContainerTypeBuilder) SetIndexType ( v IBmmSimpleType ) *BmmIndexedContainerTypeBuilder{
+	i.bmmindexedcontainertype.IndexType = v
+	return i
+}
+
+func (i *BmmIndexedContainerTypeBuilder) Build() *BmmIndexedContainerType {
+	 return i.bmmindexedcontainertype
+}
+
+//FUNCTIONS
 // Return full type name, e.g. HashMap<String, ELEMENT> .
 func (b *BmmIndexedContainerType) TypeName (  )  string {
 	return nil
@@ -65,10 +93,10 @@ func (b *BmmIndexedContainerType) IsAbstract (  )  Boolean  Post_is_abstract : R
 }
 // From: BMM_CONTAINER_TYPE
 /**
-	Flattened list of type names of item_type , i.e. item_type.flattened_type_list
-	() .
+	String> Post_result : Result = item_type.flattened_type_list. Flattened list of
+	type names of item_type , i.e. item_type.flattened_type_list () .
 */
-func (b *BmmIndexedContainerType) FlattenedTypeList (  )  List <String>  Post_result : Result = item_type.flattened_type_list {
+func (b *BmmIndexedContainerType) FlattenedTypeList (  )  List {
 	return nil
 }
 // From: BMM_CONTAINER_TYPE
@@ -77,8 +105,8 @@ func (b *BmmIndexedContainerType) UnitaryType (  )  IBmmUnitaryType {
 	return nil
 }
 // From: BMM_CONTAINER_TYPE
-// True if item_type is primitive.
-func (b *BmmIndexedContainerType) IsPrimitive (  )  Boolean  Post_result : Result = item_type.is_primitive {
+// Post_result : Result = item_type.is_primitive. True if item_type is primitive.
+func (b *BmmIndexedContainerType) IsPrimitive (  )  bool {
 	return nil
 }
 // From: BMM_CONTAINER_TYPE

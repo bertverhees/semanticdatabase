@@ -6,22 +6,57 @@ import (
 
 // A routine-scoped formal element.
 
+// Interface definition
 type IBmmVariable interface {
 	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmVariable struct {
+	// embedded for Inheritance
 	BmmFormalElement
 	BmmModelElement
+	// Constants
+	// Attributes
 	// Routine within which variable is defined.
 	Scope	IBmmRoutine	`yaml:"scope" json:"scope" xml:"scope"`
 }
 
+//CONSTRUCTOR
+func NewBmmVariable() *BmmVariable {
+	bmmvariable := new(BmmVariable)
+	// Constants
+	// From: BmmFormalElement
+	// From: BmmModelElement
+	return bmmvariable
+}
+//BUILDER
+type BmmVariableBuilder struct {
+	bmmvariable *BmmVariable
+}
+
+func NewBmmVariableBuilder() *BmmVariableBuilder {
+	 return &BmmVariableBuilder {
+		bmmvariable : NewBmmVariable(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Routine within which variable is defined.
+func (i *BmmVariableBuilder) SetScope ( v IBmmRoutine ) *BmmVariableBuilder{
+	i.bmmvariable.Scope = v
+	return i
+}
+
+func (i *BmmVariableBuilder) Build() *BmmVariable {
+	 return i.bmmvariable
+}
+
+//FUNCTIONS
 // From: BMM_FORMAL_ELEMENT
 /**
 	Formal signature of this element, in the form: name [arg1_name: T_arg1,
@@ -32,14 +67,18 @@ func (b *BmmVariable) Signature (  )  IBmmSignature {
 }
 // From: BMM_FORMAL_ELEMENT
 /**
+	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
 */
-func (b *BmmVariable) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (b *BmmVariable) IsBoolean (  )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmVariable) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmVariable) IsRootScope (  )  bool {
 	return nil
 }

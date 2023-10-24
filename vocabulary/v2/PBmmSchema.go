@@ -6,6 +6,7 @@ import (
 
 // Persisted form of BMM_SCHEMA .
 
+// Interface definition
 type IPBmmSchema interface {
 	ValidateCreatedPreState (  ) 
 	LoadFinalisePreState (  ) 
@@ -13,32 +14,69 @@ type IPBmmSchema interface {
 	Validate (  ) 
 	CreateBmmModelPreState (  ) 
 	CanonicalPackages (  )  P_BMM_PACKAGE
+	// From: P_BMM_PACKAGE_CONTAINER
 	// From: BMM_SCHEMA
 	ValidateCreatedPreState (  ) 
-	// From: BMM_SCHEMA
 	LoadFinalisePreState (  ) 
-	// From: BMM_SCHEMA
 	Merge ( other BMM_SCHEMA [1] )  state = State_includes_pending Pre_other_valid : includes_to_process.has (included_schema.schema_id)
-	// From: BMM_SCHEMA
 	Validate (  ) 
-	// From: BMM_SCHEMA
 	CreateBmmModelPreState (  ) 
-	// From: BMM_SCHEMA
 	ReadToValidate (  )  Boolean  Post_state : state = State_includes_processed
-	// From: BMM_SCHEMA
 	SchemaId (  )  string
+	// From: BMM_MODEL_METADATA
 }
 
+// Struct definition
 type PBmmSchema struct {
+	// embedded for Inheritance
 	PBmmPackageContainer
 	BmmSchema
 	BmmModelMetadata
+	// Constants
+	// Attributes
 	// Primitive type definitions. Persisted attribute.
 	PrimitiveTypes	List < P_BMM_CLASS >	`yaml:"primitivetypes" json:"primitivetypes" xml:"primitivetypes"`
 	// Class definitions. Persisted attribute.
 	ClassDefinitions	List < P_BMM_CLASS >	`yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
 }
 
+//CONSTRUCTOR
+func NewPBmmSchema() *PBmmSchema {
+	pbmmschema := new(PBmmSchema)
+	// Constants
+	// From: PBmmPackageContainer
+	// From: BmmSchema
+	// From: BmmModelMetadata
+	return pbmmschema
+}
+//BUILDER
+type PBmmSchemaBuilder struct {
+	pbmmschema *PBmmSchema
+}
+
+func NewPBmmSchemaBuilder() *PBmmSchemaBuilder {
+	 return &PBmmSchemaBuilder {
+		pbmmschema : NewPBmmSchema(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Primitive type definitions. Persisted attribute.
+func (i *PBmmSchemaBuilder) SetPrimitiveTypes ( v List < P_BMM_CLASS > ) *PBmmSchemaBuilder{
+	i.pbmmschema.PrimitiveTypes = v
+	return i
+}
+	// Class definitions. Persisted attribute.
+func (i *PBmmSchemaBuilder) SetClassDefinitions ( v List < P_BMM_CLASS > ) *PBmmSchemaBuilder{
+	i.pbmmschema.ClassDefinitions = v
+	return i
+}
+
+func (i *PBmmSchemaBuilder) Build() *PBmmSchema {
+	 return i.pbmmschema
+}
+
+//FUNCTIONS
 // Implementation of validate_created()
 func (p *PBmmSchema) ValidateCreatedPreState (  )  {
 	return

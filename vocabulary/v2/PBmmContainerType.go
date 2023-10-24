@@ -6,16 +6,20 @@ import (
 
 // Persistent form of BMM_CONTAINER_TYPE .
 
+// Interface definition
 type IPBmmContainerType interface {
 	TypeRef (  )  IPBmmBaseType
 	// From: P_BMM_TYPE
 	CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
-	// From: P_BMM_TYPE
 	AsTypeString (  )  string
 }
 
+// Struct definition
 type PBmmContainerType struct {
+	// embedded for Inheritance
 	PBmmType
+	// Constants
+	// Attributes
 	/**
 		The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 		Persisted attribute.
@@ -35,6 +39,60 @@ type PBmmContainerType struct {
 	BmmType	vocabulary.IBmmContainerType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
+//CONSTRUCTOR
+func NewPBmmContainerType() *PBmmContainerType {
+	pbmmcontainertype := new(PBmmContainerType)
+	// Constants
+	// From: PBmmType
+	return pbmmcontainertype
+}
+//BUILDER
+type PBmmContainerTypeBuilder struct {
+	pbmmcontainertype *PBmmContainerType
+}
+
+func NewPBmmContainerTypeBuilder() *PBmmContainerTypeBuilder {
+	 return &PBmmContainerTypeBuilder {
+		pbmmcontainertype : NewPBmmContainerType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+		Persisted attribute.
+	*/
+func (i *PBmmContainerTypeBuilder) SetContainerType ( v string ) *PBmmContainerTypeBuilder{
+	i.pbmmcontainertype.ContainerType = v
+	return i
+}
+	/**
+		Type definition of type , if not a simple String type reference. Persisted
+		attribute.
+	*/
+func (i *PBmmContainerTypeBuilder) SetTypeDef ( v IPBmmBaseType ) *PBmmContainerTypeBuilder{
+	i.pbmmcontainertype.TypeDef = v
+	return i
+}
+	/**
+		The target type; this converts to the first parameter in generic_parameters in
+		BMM_GENERIC_TYPE . Persisted attribute.
+	*/
+func (i *PBmmContainerTypeBuilder) SetType ( v string ) *PBmmContainerTypeBuilder{
+	i.pbmmcontainertype.Type = v
+	return i
+}
+	// Result of create_bmm_type() call.
+func (i *PBmmContainerTypeBuilder) SetBmmType ( v vocabulary.IBmmContainerType ) *PBmmContainerTypeBuilder{
+	i.pbmmcontainertype.BmmType = v
+	return i
+}
+
+func (i *PBmmContainerTypeBuilder) Build() *PBmmContainerType {
+	 return i.pbmmcontainertype
+}
+
+//FUNCTIONS
 /**
 	The target type; this converts to the first parameter in generic_parameters in
 	BMM_GENERIC_TYPE . Persisted attribute.

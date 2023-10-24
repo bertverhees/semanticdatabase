@@ -10,22 +10,27 @@ import (
 	non-state-changing.
 */
 
+// Interface definition
 type IBmmFunction interface {
 	// From: BMM_ROUTINE
 	Arity (  )  int
+	// From: BMM_FEATURE
 	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmFunction struct {
+	// embedded for Inheritance
 	BmmRoutine
 	BmmFeature
 	BmmFormalElement
 	BmmModelElement
+	// Constants
+	// Attributes
 	/**
 		Optional details enabling a function to be represented as an operator in a
 		syntactic representation.
@@ -35,6 +40,47 @@ type BmmFunction struct {
 	Result	IBmmResult	`yaml:"result" json:"result" xml:"result"`
 }
 
+//CONSTRUCTOR
+func NewBmmFunction() *BmmFunction {
+	bmmfunction := new(BmmFunction)
+	// Constants
+	// From: BmmRoutine
+	// From: BmmFeature
+	// From: BmmFormalElement
+	// From: BmmModelElement
+	return bmmfunction
+}
+//BUILDER
+type BmmFunctionBuilder struct {
+	bmmfunction *BmmFunction
+}
+
+func NewBmmFunctionBuilder() *BmmFunctionBuilder {
+	 return &BmmFunctionBuilder {
+		bmmfunction : NewBmmFunction(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Optional details enabling a function to be represented as an operator in a
+		syntactic representation.
+	*/
+func (i *BmmFunctionBuilder) SetOperatorDefinition ( v IBmmOperator ) *BmmFunctionBuilder{
+	i.bmmfunction.OperatorDefinition = v
+	return i
+}
+	// Automatically created Result variable, usable in body and post-condition.
+func (i *BmmFunctionBuilder) SetResult ( v IBmmResult ) *BmmFunctionBuilder{
+	i.bmmfunction.Result = v
+	return i
+}
+
+func (i *BmmFunctionBuilder) Build() *BmmFunction {
+	 return i.bmmfunction
+}
+
+//FUNCTIONS
 // From: BMM_ROUTINE
 // Return number of arguments of this routine.
 func (b *BmmFunction) Arity (  )  int {
@@ -50,14 +96,18 @@ func (b *BmmFunction) Signature (  )  IBmmSignature {
 }
 // From: BMM_FORMAL_ELEMENT
 /**
+	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
 */
-func (b *BmmFunction) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (b *BmmFunction) IsBoolean (  )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmFunction) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmFunction) IsRootScope (  )  bool {
 	return nil
 }

@@ -9,26 +9,60 @@ import (
 	packages and classes. The name may be qualified if it is a top-level package.
 */
 
+// Interface definition
 type IBmmPackage interface {
 	RootClasses (  )  List < BMM_CLASS >
 	Path (  )  string
 	// From: BMM_PACKAGE_CONTAINER
 	PackageAtPath ( a_path string )  IBmmPackage
-	// From: BMM_PACKAGE_CONTAINER
 	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
-	// From: BMM_PACKAGE_CONTAINER
 	HasPackagePath ( a_path string )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmPackage struct {
+	// embedded for Inheritance
 	BmmPackageContainer
 	BmmModelElement
+	// Constants
+	// Attributes
 	// Member modules in this package.
 	Members	List < BMM_MODULE >	`yaml:"members" json:"members" xml:"members"`
 }
 
+//CONSTRUCTOR
+func NewBmmPackage() *BmmPackage {
+	bmmpackage := new(BmmPackage)
+	// Constants
+	// From: BmmPackageContainer
+	// From: BmmModelElement
+	return bmmpackage
+}
+//BUILDER
+type BmmPackageBuilder struct {
+	bmmpackage *BmmPackage
+}
+
+func NewBmmPackageBuilder() *BmmPackageBuilder {
+	 return &BmmPackageBuilder {
+		bmmpackage : NewBmmPackage(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Member modules in this package.
+func (i *BmmPackageBuilder) SetMembers ( v List < BMM_MODULE > ) *BmmPackageBuilder{
+	i.bmmpackage.Members = v
+	return i
+}
+
+func (i *BmmPackageBuilder) Build() *BmmPackage {
+	 return i.bmmpackage
+}
+
+//FUNCTIONS
 /**
 	Obtain the set of top-level classes in this package, either from this package
 	itself or by recursing into the structure until classes are obtained from child
@@ -64,7 +98,10 @@ func (b *BmmPackage) HasPackagePath ( a_path string )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmPackage) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmPackage) IsRootScope (  )  bool {
 	return nil
 }

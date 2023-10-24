@@ -9,6 +9,7 @@ import (
 	type in a generic type declaration.
 */
 
+// Interface definition
 type IBmmEffectiveType interface {
 	EffectiveType (  )  IBmmEffectiveType
 	TypeBaseName (  )  string
@@ -16,25 +17,49 @@ type IBmmEffectiveType interface {
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmEffectiveType struct {
+	// embedded for Inheritance
 	BmmUnitaryType
 	BmmType
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmEffectiveType() *BmmEffectiveType {
+	bmmeffectivetype := new(BmmEffectiveType)
+	// Constants
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmeffectivetype
+}
+//BUILDER
+type BmmEffectiveTypeBuilder struct {
+	bmmeffectivetype *BmmEffectiveType
+}
+
+func NewBmmEffectiveTypeBuilder() *BmmEffectiveTypeBuilder {
+	 return &BmmEffectiveTypeBuilder {
+		bmmeffectivetype : NewBmmEffectiveType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmEffectiveTypeBuilder) Build() *BmmEffectiveType {
+	 return i.bmmeffectivetype
+}
+
+//FUNCTIONS
 // Result = self.
 func (b *BmmEffectiveType) EffectiveType (  )  IBmmEffectiveType {
 	return nil

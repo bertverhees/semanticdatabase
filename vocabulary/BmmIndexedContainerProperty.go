@@ -9,33 +9,73 @@ import (
 	T> etc.
 */
 
+// Interface definition
 type IBmmIndexedContainerProperty interface {
 	DisplayName (  )  string
 	// From: BMM_CONTAINER_PROPERTY
 	DisplayName (  )  string
 	// From: BMM_PROPERTY
 	Existence (  )  Multiplicity_interval
-	// From: BMM_PROPERTY
 	DisplayName (  )  string
+	// From: BMM_INSTANTIABLE_FEATURE
+	// From: BMM_FEATURE
 	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmIndexedContainerProperty struct {
+	// embedded for Inheritance
 	BmmContainerProperty
 	BmmProperty
 	BmmInstantiableFeature
 	BmmFeature
 	BmmFormalElement
 	BmmModelElement
+	// Constants
+	// Attributes
 	// Declared or inferred static type of the entity.
 	Type	IBmmIndexedContainerType	`yaml:"type" json:"type" xml:"type"`
 }
 
+//CONSTRUCTOR
+func NewBmmIndexedContainerProperty() *BmmIndexedContainerProperty {
+	bmmindexedcontainerproperty := new(BmmIndexedContainerProperty)
+	// Constants
+	// From: BmmContainerProperty
+	// From: BmmProperty
+	// From: BmmInstantiableFeature
+	// From: BmmFeature
+	// From: BmmFormalElement
+	// From: BmmModelElement
+	return bmmindexedcontainerproperty
+}
+//BUILDER
+type BmmIndexedContainerPropertyBuilder struct {
+	bmmindexedcontainerproperty *BmmIndexedContainerProperty
+}
+
+func NewBmmIndexedContainerPropertyBuilder() *BmmIndexedContainerPropertyBuilder {
+	 return &BmmIndexedContainerPropertyBuilder {
+		bmmindexedcontainerproperty : NewBmmIndexedContainerProperty(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Declared or inferred static type of the entity.
+func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmIndexedContainerType ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Type = v
+	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) Build() *BmmIndexedContainerProperty {
+	 return i.bmmindexedcontainerproperty
+}
+
+//FUNCTIONS
 // Name of this property in form name: ContainerTypeName<IndexTypeName, …​> .
 func (b *BmmIndexedContainerProperty) DisplayName (  )  string {
 	return nil
@@ -65,14 +105,18 @@ func (b *BmmIndexedContainerProperty) Signature (  )  IBmmSignature {
 }
 // From: BMM_FORMAL_ELEMENT
 /**
+	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
 */
-func (b *BmmIndexedContainerProperty) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (b *BmmIndexedContainerProperty) IsBoolean (  )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmIndexedContainerProperty) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmIndexedContainerProperty) IsRootScope (  )  bool {
 	return nil
 }

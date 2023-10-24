@@ -6,6 +6,7 @@ import (
 
 // Meta-type based on a non-container generic class, e.g. Packet<Header> .
 
+// Interface definition
 type IBmmGenericType interface {
 	TypeName (  )  string
 	TypeSignature (  )  string
@@ -16,35 +17,31 @@ type IBmmGenericType interface {
 	IsOpen (  )  bool
 	// From: BMM_MODEL_TYPE
 	TypeBaseName (  )  string
-	// From: BMM_MODEL_TYPE
 	IsPrimitive (  )  bool
 	// From: BMM_EFFECTIVE_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_EFFECTIVE_TYPE
 	TypeBaseName (  )  string
 	// From: BMM_UNITARY_TYPE
 	UnitaryType (  )  IBmmUnitaryType
 	// From: BMM_TYPE
 	TypeName (  )  string
-	// From: BMM_TYPE
 	TypeSignature (  )  string
-	// From: BMM_TYPE
 	IsAbstract (  )  bool
-	// From: BMM_TYPE
 	IsPrimitive (  )  bool
-	// From: BMM_TYPE
 	UnitaryType (  )  IBmmUnitaryType
-	// From: BMM_TYPE
 	EffectiveType (  )  IBmmEffectiveType
-	// From: BMM_TYPE
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmGenericType struct {
+	// embedded for Inheritance
 	BmmModelType
 	BmmEffectiveType
 	BmmUnitaryType
 	BmmType
+	// Constants
+	// Attributes
 	/**
 		Generic parameters of the root_type in this type specifier. The order must match
 		the order of the owning class’s formal generic parameter declarations, and the
@@ -55,6 +52,48 @@ type BmmGenericType struct {
 	BaseClass	IBmmGenericClass	`yaml:"baseclass" json:"baseclass" xml:"baseclass"`
 }
 
+//CONSTRUCTOR
+func NewBmmGenericType() *BmmGenericType {
+	bmmgenerictype := new(BmmGenericType)
+	// Constants
+	// From: BmmModelType
+	// From: BmmEffectiveType
+	// From: BmmUnitaryType
+	// From: BmmType
+	return bmmgenerictype
+}
+//BUILDER
+type BmmGenericTypeBuilder struct {
+	bmmgenerictype *BmmGenericType
+}
+
+func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
+	 return &BmmGenericTypeBuilder {
+		bmmgenerictype : NewBmmGenericType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Generic parameters of the root_type in this type specifier. The order must match
+		the order of the owning class’s formal generic parameter declarations, and the
+		types may be defined types or formal parameter types.
+	*/
+func (i *BmmGenericTypeBuilder) SetGenericParameters ( v List < BMM_UNITARY_TYPE > ) *BmmGenericTypeBuilder{
+	i.bmmgenerictype.GenericParameters = v
+	return i
+}
+	// Defining generic class of this type.
+func (i *BmmGenericTypeBuilder) SetBaseClass ( v IBmmGenericClass ) *BmmGenericTypeBuilder{
+	i.bmmgenerictype.BaseClass = v
+	return i
+}
+
+func (i *BmmGenericTypeBuilder) Build() *BmmGenericType {
+	 return i.bmmgenerictype
+}
+
+//FUNCTIONS
 /**
 	Return the full name of the type including generic parameters, e.g.
 	DV_INTERVAL<T> , TABLE<List<THING>,String> .

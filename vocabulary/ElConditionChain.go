@@ -13,17 +13,23 @@ import (
 	the evaluation result is the result of evaluating the else expression.
 */
 
+// Interface definition
 type IElConditionChain interface {
+	// From: EL_DECISION_TABLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElConditionChain struct {
+	// embedded for Inheritance
 	ElDecisionTable
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	/**
 		Members of the chain, equivalent to branches in an if/then/else chain and cases
 		in a case statement.
@@ -31,6 +37,41 @@ type ElConditionChain struct {
 	Items	List < EL_CONDITIONAL_EXPRESSION >	`yaml:"items" json:"items" xml:"items"`
 }
 
+//CONSTRUCTOR
+func NewElConditionChain() *ElConditionChain {
+	elconditionchain := new(ElConditionChain)
+	// Constants
+	// From: ElDecisionTable
+	// From: ElTerminal
+	// From: ElExpression
+	return elconditionchain
+}
+//BUILDER
+type ElConditionChainBuilder struct {
+	elconditionchain *ElConditionChain
+}
+
+func NewElConditionChainBuilder() *ElConditionChainBuilder {
+	 return &ElConditionChainBuilder {
+		elconditionchain : NewElConditionChain(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	/**
+		Members of the chain, equivalent to branches in an if/then/else chain and cases
+		in a case statement.
+	*/
+func (i *ElConditionChainBuilder) SetItems ( v List < EL_CONDITIONAL_EXPRESSION > ) *ElConditionChainBuilder{
+	i.elconditionchain.Items = v
+	return i
+}
+
+func (i *ElConditionChainBuilder) Build() *ElConditionChain {
+	 return i.elconditionchain
+}
+
+//FUNCTIONS
 // From: EL_EXPRESSION
 /**
 	Meta-type of expression entity used in type-checking and evaluation. Effected in
@@ -41,9 +82,10 @@ func (e *ElConditionChain) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElConditionChain) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElConditionChain) IsBoolean (  )  bool {
 	return nil
 }

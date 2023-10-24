@@ -6,48 +6,87 @@ import (
 
 // An agent whose signature is of a procedure, i.e. has no result type.
 
+// Interface definition
 type IElProcedureAgent interface {
-	EvalType (  )  BMM_PROCEDURE_TYPE  Post_result : Result = definition.signature
+	EvalType (  )  IBmmProcedureType
 	// From: EL_AGENT
-	EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature
-	// From: EL_AGENT
+	EvalType (  )  IBmmRoutineType
 	IsCallable (  )  Boolean  Post_result_validity : Result = open_arguments = Void
-	// From: EL_AGENT
 	Reference (  )  string
 	// From: EL_FEATURE_REF
 	Reference (  )  string
 	// From: EL_VALUE_GENERATOR
 	Reference (  )  string
+	// From: EL_SIMPLE
+	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
-	// From: EL_EXPRESSION
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 }
 
+// Struct definition
 type ElProcedureAgent struct {
+	// embedded for Inheritance
 	ElAgent
 	ElFeatureRef
 	ElValueGenerator
 	ElSimple
 	ElTerminal
 	ElExpression
+	// Constants
+	// Attributes
 	// Reference to definition of routine for which this is a call instance.
 	Definition	IBmmProcedure	`yaml:"definition" json:"definition" xml:"definition"`
 }
 
+//CONSTRUCTOR
+func NewElProcedureAgent() *ElProcedureAgent {
+	elprocedureagent := new(ElProcedureAgent)
+	// Constants
+	// From: ElAgent
+	// From: ElFeatureRef
+	// From: ElValueGenerator
+	// From: ElSimple
+	// From: ElTerminal
+	// From: ElExpression
+	return elprocedureagent
+}
+//BUILDER
+type ElProcedureAgentBuilder struct {
+	elprocedureagent *ElProcedureAgent
+}
+
+func NewElProcedureAgentBuilder() *ElProcedureAgentBuilder {
+	 return &ElProcedureAgentBuilder {
+		elprocedureagent : NewElProcedureAgent(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+	// Reference to definition of routine for which this is a call instance.
+func (i *ElProcedureAgentBuilder) SetDefinition ( v IBmmProcedure ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.Definition = v
+	return i
+}
+
+func (i *ElProcedureAgentBuilder) Build() *ElProcedureAgent {
+	 return i.elprocedureagent
+}
+
+//FUNCTIONS
 /**
-	Eval type is the signature corresponding to the (remaining) open arguments and
-	return type, if any.
+	Post_result : Result = definition.signature. Eval type is the signature
+	corresponding to the (remaining) open arguments and return type, if any.
 */
-func (e *ElProcedureAgent) EvalType (  )  BMM_PROCEDURE_TYPE  Post_result : Result = definition.signature {
+func (e *ElProcedureAgent) EvalType (  )  IBmmProcedureType {
 	return nil
 }
 // From: EL_AGENT
 /**
-	Eval type is the signature corresponding to the (remaining) open arguments and
-	return type, if any.
+	Post_result : Result = definition.signature. Eval type is the signature
+	corresponding to the (remaining) open arguments and return type, if any.
 */
-func (e *ElProcedureAgent) EvalType (  )  BMM_ROUTINE_TYPE  Post_result : Result = definition.signature {
+func (e *ElProcedureAgent) EvalType (  )  IBmmRoutineType {
 	return nil
 }
 // From: EL_AGENT
@@ -86,9 +125,10 @@ func (e *ElProcedureAgent) EvalType (  )  IBmmType {
 }
 // From: EL_EXPRESSION
 /**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
+	Post_result : Result = eval_type().equal(
+	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElProcedureAgent) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (e *ElProcedureAgent) IsBoolean (  )  bool {
 	return nil
 }

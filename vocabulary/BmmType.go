@@ -11,6 +11,7 @@ import (
 	may include generic parameters that might or might not be bound. See subtypes.
 */
 
+// Interface definition
 type IBmmType interface {
 	TypeName (  )  string
 	TypeSignature (  )  string
@@ -21,9 +22,37 @@ type IBmmType interface {
 	FlattenedTypeList (  )  []string
 }
 
+// Struct definition
 type BmmType struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmType() *BmmType {
+	bmmtype := new(BmmType)
+	// Constants
+	return bmmtype
+}
+//BUILDER
+type BmmTypeBuilder struct {
+	bmmtype *BmmType
+}
+
+func NewBmmTypeBuilder() *BmmTypeBuilder {
+	 return &BmmTypeBuilder {
+		bmmtype : NewBmmType(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmTypeBuilder) Build() *BmmType {
+	 return i.bmmtype
+}
+
+//FUNCTIONS
 // Formal string form of the type as per UML.
 func (b *BmmType) TypeName (  )  string {
 	return nil

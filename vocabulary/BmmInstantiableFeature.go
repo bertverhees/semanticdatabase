@@ -9,21 +9,53 @@ import (
 	value objects.
 */
 
+// Interface definition
 type IBmmInstantiableFeature interface {
+	// From: BMM_FEATURE
 	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	IsBoolean (  )  bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
+	IsRootScope (  )  bool
 }
 
+// Struct definition
 type BmmInstantiableFeature struct {
+	// embedded for Inheritance
 	BmmFeature
 	BmmFormalElement
 	BmmModelElement
+	// Constants
+	// Attributes
 }
 
+//CONSTRUCTOR
+func NewBmmInstantiableFeature() *BmmInstantiableFeature {
+	bmminstantiablefeature := new(BmmInstantiableFeature)
+	// Constants
+	// From: BmmFeature
+	// From: BmmFormalElement
+	// From: BmmModelElement
+	return bmminstantiablefeature
+}
+//BUILDER
+type BmmInstantiableFeatureBuilder struct {
+	bmminstantiablefeature *BmmInstantiableFeature
+}
+
+func NewBmmInstantiableFeatureBuilder() *BmmInstantiableFeatureBuilder {
+	 return &BmmInstantiableFeatureBuilder {
+		bmminstantiablefeature : NewBmmInstantiableFeature(),
+	}
+}
+
+//BUILDER ATTRIBUTES
+
+func (i *BmmInstantiableFeatureBuilder) Build() *BmmInstantiableFeature {
+	 return i.bmminstantiablefeature
+}
+
+//FUNCTIONS
 // From: BMM_FORMAL_ELEMENT
 /**
 	Formal signature of this element, in the form: name [arg1_name: T_arg1,
@@ -34,14 +66,18 @@ func (b *BmmInstantiableFeature) Signature (  )  IBmmSignature {
 }
 // From: BMM_FORMAL_ELEMENT
 /**
+	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
 */
-func (b *BmmInstantiableFeature) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
+func (b *BmmInstantiableFeature) IsBoolean (  )  bool {
 	return nil
 }
 // From: BMM_MODEL_ELEMENT
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmInstantiableFeature) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+/**
+	Post_result : Result = (scope = self). True if this model element is the root of
+	a model structure hierarchy.
+*/
+func (b *BmmInstantiableFeature) IsRootScope (  )  bool {
 	return nil
 }
