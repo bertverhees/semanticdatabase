@@ -19,7 +19,7 @@ type PBmmIndexedContainerType struct {
 	PBmmType
 	IndexType	string	`yaml:"indextype" json:"indextype" xml:"indextype"`
 	// Result of create_bmm_type() call.
-	BmmType	BMM_INDEXED_CONTAINER_TYPE	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	vocabulary.IBmmIndexedContainerType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 // From: P_BMM_CONTAINER_TYPE

@@ -32,7 +32,7 @@ type PBmmGenericType struct {
 	*/
 	GenericParameters	[]string	`yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
 	// Result of create_bmm_type() call.
-	BmmType	vocabulary.BmmGenericType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	BmmType	vocabulary.IBmmGenericType	`yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 /**
