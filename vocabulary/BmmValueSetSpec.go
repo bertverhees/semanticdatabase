@@ -50,19 +50,19 @@ func NewBmmValueSetSpecBuilder() *BmmValueSetSpecBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Identifier of a resource (typically available as a service) that contains legal
-		values of a specific type. This is typically a URI but need not be.
-	*/
+/**
+	Identifier of a resource (typically available as a service) that contains legal
+	values of a specific type. This is typically a URI but need not be.
+*/
 func (i *BmmValueSetSpecBuilder) SetResourceId ( v string ) *BmmValueSetSpecBuilder{
 	i.bmmvaluesetspec.ResourceId = v
 	return i
 }
-	/**
-		Identifier of a value set within the resource identified by resource_id , which
-		specifies the set of legal values of a type. This might be a URI, but need not
-		be.
-	*/
+/**
+	Identifier of a value set within the resource identified by resource_id , which
+	specifies the set of legal values of a type. This might be a URI, but need not
+	be.
+*/
 func (i *BmmValueSetSpecBuilder) SetValueSetId ( v string ) *BmmValueSetSpecBuilder{
 	i.bmmvaluesetspec.ValueSetId = v
 	return i

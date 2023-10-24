@@ -70,33 +70,34 @@ func NewBmmContainerTypeBuilder() *BmmContainerTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+// The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 func (i *BmmContainerTypeBuilder) SetContainerClass ( v IBmmGenericClass ) *BmmContainerTypeBuilder{
 	i.bmmcontainertype.ContainerClass = v
 	return i
 }
-	// The container item type.
+// The container item type.
 func (i *BmmContainerTypeBuilder) SetItemType ( v IBmmUnitaryType ) *BmmContainerTypeBuilder{
 	i.bmmcontainertype.ItemType = v
 	return i
 }
-	/**
-		True indicates that order of the items in the container attribute is considered
-		significant and must be preserved, e.g. across sessions, serialisation,
-		deserialisation etc. Otherwise known as 'list' semantics.
-	*/
+/**
+	True indicates that order of the items in the container attribute is considered
+	significant and must be preserved, e.g. across sessions, serialisation,
+	deserialisation etc. Otherwise known as 'list' semantics.
+*/
 func (i *BmmContainerTypeBuilder) SetIsOrdered ( v bool ) *BmmContainerTypeBuilder{
 	i.bmmcontainertype.IsOrdered = v
 	return i
 }
-	/**
-		True indicates that only unique instances of items in the container are allowed.
-		Otherwise known as 'set' semantics.
-	*/
+/**
+	True indicates that only unique instances of items in the container are allowed.
+	Otherwise known as 'set' semantics.
+*/
 func (i *BmmContainerTypeBuilder) SetIsUnique ( v bool ) *BmmContainerTypeBuilder{
 	i.bmmcontainertype.IsUnique = v
 	return i
 }
+	// //From: BmmType
 
 func (i *BmmContainerTypeBuilder) Build() *BmmContainerType {
 	 return i.bmmcontainertype

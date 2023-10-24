@@ -61,19 +61,35 @@ func NewElCaseTableBuilder() *ElCaseTableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Expressing generating the input value for the case table.
+// Expressing generating the input value for the case table.
 func (i *ElCaseTableBuilder) SetTestValue ( v IElValueGenerator ) *ElCaseTableBuilder{
 	i.elcasetable.TestValue = v
 	return i
 }
-	/**
-		Members of the chain, equivalent to branches in an if/then/else chain and cases
-		in a case statement.
-	*/
+/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+*/
 func (i *ElCaseTableBuilder) SetItems ( v List < EL_CASE > ) *ElCaseTableBuilder{
 	i.elcasetable.Items = v
 	return i
 }
+	// //From: ElDecisionTable
+/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+*/
+func (i *ElCaseTableBuilder) SetItems ( v List < EL_DECISION_BRANCH > ) *ElCaseTableBuilder{
+	i.elcasetable.Items = v
+	return i
+}
+// Result expression of conditional, if its condition evaluates to True.
+func (i *ElCaseTableBuilder) SetElse ( v T ) *ElCaseTableBuilder{
+	i.elcasetable.Else = v
+	return i
+}
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElCaseTableBuilder) Build() *ElCaseTable {
 	 return i.elcasetable

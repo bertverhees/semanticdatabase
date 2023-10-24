@@ -83,11 +83,30 @@ func NewBmmProcedureTypeBuilder() *BmmProcedureTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Result type of a procedure.
+// Result type of a procedure.
 func (i *BmmProcedureTypeBuilder) SetResultType ( v IBmmStatusType ) *BmmProcedureTypeBuilder{
 	i.bmmproceduretype.ResultType = v
 	return i
 }
+	// //From: BmmRoutineType
+/**
+	Type of arguments in the signature, if any; represented as a type-tuple (list of
+	arbitrary types).
+*/
+func (i *BmmProcedureTypeBuilder) SetArgumentTypes ( v IBmmTupleType ) *BmmProcedureTypeBuilder{
+	i.bmmproceduretype.ArgumentTypes = v
+	return i
+}
+	// //From: BmmSignature
+// Result type of signature.
+func (i *BmmProcedureTypeBuilder) SetResultType ( v IBmmType ) *BmmProcedureTypeBuilder{
+	i.bmmproceduretype.ResultType = v
+	return i
+}
+	// //From: BmmBuiltinType
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmProcedureTypeBuilder) Build() *BmmProcedureType {
 	 return i.bmmproceduretype

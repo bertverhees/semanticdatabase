@@ -37,7 +37,7 @@ func NewPBmmModelElementBuilder() *PBmmModelElementBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Optional documentation of this element.
+// Optional documentation of this element.
 func (i *PBmmModelElementBuilder) SetDocumentation ( v string ) *PBmmModelElementBuilder{
 	i.pbmmmodelelement.Documentation = v
 	return i

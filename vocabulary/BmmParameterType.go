@@ -65,24 +65,26 @@ func NewBmmParameterTypeBuilder() *BmmParameterTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
-		upper-case.
-	*/
+/**
+	Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
+	upper-case.
+*/
 func (i *BmmParameterTypeBuilder) SetName ( v string ) *BmmParameterTypeBuilder{
 	i.bmmparametertype.Name = v
 	return i
 }
-	// Optional conformance constraint that must be the name of a defined type.
+// Optional conformance constraint that must be the name of a defined type.
 func (i *BmmParameterTypeBuilder) SetTypeConstraint ( v IBmmEffectiveType ) *BmmParameterTypeBuilder{
 	i.bmmparametertype.TypeConstraint = v
 	return i
 }
-	// If set, is the corresponding generic parameter definition in an ancestor class.
+// If set, is the corresponding generic parameter definition in an ancestor class.
 func (i *BmmParameterTypeBuilder) SetInheritancePrecursor ( v IBmmParameterType ) *BmmParameterTypeBuilder{
 	i.bmmparametertype.InheritancePrecursor = v
 	return i
 }
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmParameterTypeBuilder) Build() *BmmParameterType {
 	 return i.bmmparametertype

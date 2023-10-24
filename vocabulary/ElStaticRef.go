@@ -58,16 +58,35 @@ func NewElStaticRefBuilder() *ElStaticRefBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Constant definition (within class).
+// Constant definition (within class).
 func (i *ElStaticRefBuilder) SetDefinition ( v IBmmStatic ) *ElStaticRefBuilder{
 	i.elstaticref.Definition = v
 	return i
 }
-	// Defined to return False.
+// Defined to return False.
 func (i *ElStaticRefBuilder) SetIsWritable ( v bool ) *ElStaticRefBuilder{
 	i.elstaticref.IsWritable = v
 	return i
 }
+	// //From: ElFeatureRef
+// Scoping expression, which must be a EL_VALUE_GENERATOR .
+func (i *ElStaticRefBuilder) SetScoper ( v IElValueGenerator ) *ElStaticRefBuilder{
+	i.elstaticref.Scoper = v
+	return i
+}
+	// //From: ElValueGenerator
+func (i *ElStaticRefBuilder) SetIsWritable ( v bool ) *ElStaticRefBuilder{
+	i.elstaticref.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElStaticRefBuilder) SetName ( v string ) *ElStaticRefBuilder{
+	i.elstaticref.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElStaticRefBuilder) Build() *ElStaticRef {
 	 return i.elstaticref

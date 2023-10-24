@@ -63,14 +63,43 @@ func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Type of the element index, typically String or Integer , but may be a numeric
-		type or indeed any type from which a hash value can be derived.
-	*/
+/**
+	Type of the element index, typically String or Integer , but may be a numeric
+	type or indeed any type from which a hash value can be derived.
+*/
 func (i *BmmIndexedContainerTypeBuilder) SetIndexType ( v IBmmSimpleType ) *BmmIndexedContainerTypeBuilder{
 	i.bmmindexedcontainertype.IndexType = v
 	return i
 }
+	// //From: BmmContainerType
+// The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+func (i *BmmIndexedContainerTypeBuilder) SetContainerClass ( v IBmmGenericClass ) *BmmIndexedContainerTypeBuilder{
+	i.bmmindexedcontainertype.ContainerClass = v
+	return i
+}
+// The container item type.
+func (i *BmmIndexedContainerTypeBuilder) SetItemType ( v IBmmUnitaryType ) *BmmIndexedContainerTypeBuilder{
+	i.bmmindexedcontainertype.ItemType = v
+	return i
+}
+/**
+	True indicates that order of the items in the container attribute is considered
+	significant and must be preserved, e.g. across sessions, serialisation,
+	deserialisation etc. Otherwise known as 'list' semantics.
+*/
+func (i *BmmIndexedContainerTypeBuilder) SetIsOrdered ( v bool ) *BmmIndexedContainerTypeBuilder{
+	i.bmmindexedcontainertype.IsOrdered = v
+	return i
+}
+/**
+	True indicates that only unique instances of items in the container are allowed.
+	Otherwise known as 'set' semantics.
+*/
+func (i *BmmIndexedContainerTypeBuilder) SetIsUnique ( v bool ) *BmmIndexedContainerTypeBuilder{
+	i.bmmindexedcontainertype.IsUnique = v
+	return i
+}
+	// //From: BmmType
 
 func (i *BmmIndexedContainerTypeBuilder) Build() *BmmIndexedContainerType {
 	 return i.bmmindexedcontainertype

@@ -47,11 +47,39 @@ func NewElUnaryOperatorBuilder() *ElUnaryOperatorBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Operand node.
+// Operand node.
 func (i *ElUnaryOperatorBuilder) SetOperand ( v IElExpression ) *ElUnaryOperatorBuilder{
 	i.elunaryoperator.Operand = v
 	return i
 }
+	// //From: ElOperator
+/**
+	True if the natural precedence of operators is overridden in the expression
+	represented by this node of the expression tree. If True, parentheses should be
+	introduced around the totality of the syntax expression corresponding to this
+	operator node and its operands.
+*/
+func (i *ElUnaryOperatorBuilder) SetPrecedenceOverridden ( v bool ) *ElUnaryOperatorBuilder{
+	i.elunaryoperator.PrecedenceOverridden = v
+	return i
+}
+/**
+	The symbol actually used in the expression, or intended to be used for
+	serialisation. Must be a member of OPERATOR_DEF. symbols .
+*/
+func (i *ElUnaryOperatorBuilder) SetSymbol ( v string ) *ElUnaryOperatorBuilder{
+	i.elunaryoperator.Symbol = v
+	return i
+}
+/**
+	Function call equivalent to this operator expression, inferred by matching
+	operator against functions defined in interface of principal operand.
+*/
+func (i *ElUnaryOperatorBuilder) SetCall ( v IElFunctionCall ) *ElUnaryOperatorBuilder{
+	i.elunaryoperator.Call = v
+	return i
+}
+	// //From: ElExpression
 
 func (i *ElUnaryOperatorBuilder) Build() *ElUnaryOperator {
 	 return i.elunaryoperator

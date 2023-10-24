@@ -54,29 +54,29 @@ func NewBmmLiteralValueBuilder() *BmmLiteralValueBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// A serial representation of the value.
+// A serial representation of the value.
 func (i *BmmLiteralValueBuilder) SetValueLiteral ( v string ) *BmmLiteralValueBuilder{
 	i.bmmliteralvalue.ValueLiteral = v
 	return i
 }
-	/**
-		A native representation of the value, possibly derived by deserialising
-		value_literal .
-	*/
+/**
+	A native representation of the value, possibly derived by deserialising
+	value_literal .
+*/
 func (i *BmmLiteralValueBuilder) SetValue ( v Any ) *BmmLiteralValueBuilder{
 	i.bmmliteralvalue.Value = v
 	return i
 }
-	/**
-		Optional specification of formalism of the value_literal attribute for complex
-		values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
-		value agreed by the user community. If not set, json is assumed.
-	*/
+/**
+	Optional specification of formalism of the value_literal attribute for complex
+	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+	value agreed by the user community. If not set, json is assumed.
+*/
 func (i *BmmLiteralValueBuilder) SetSyntax ( v string ) *BmmLiteralValueBuilder{
 	i.bmmliteralvalue.Syntax = v
 	return i
 }
-	// Concrete type of this literal.
+// Concrete type of this literal.
 func (i *BmmLiteralValueBuilder) SetType ( v T ) *BmmLiteralValueBuilder{
 	i.bmmliteralvalue.Type = v
 	return i

@@ -49,6 +49,7 @@ func NewBmmUnitaryTypeBuilder() *BmmUnitaryTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmType
 
 func (i *BmmUnitaryTypeBuilder) Build() *BmmUnitaryType {
 	 return i.bmmunitarytype

@@ -56,11 +56,24 @@ func NewElFeatureRefBuilder() *ElFeatureRefBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Scoping expression, which must be a EL_VALUE_GENERATOR .
+// Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElFeatureRefBuilder) SetScoper ( v IElValueGenerator ) *ElFeatureRefBuilder{
 	i.elfeatureref.Scoper = v
 	return i
 }
+	// //From: ElValueGenerator
+func (i *ElFeatureRefBuilder) SetIsWritable ( v bool ) *ElFeatureRefBuilder{
+	i.elfeatureref.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElFeatureRefBuilder) SetName ( v string ) *ElFeatureRefBuilder{
+	i.elfeatureref.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElFeatureRefBuilder) Build() *ElFeatureRef {
 	 return i.elfeatureref

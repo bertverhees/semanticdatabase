@@ -41,11 +41,11 @@ type BmmClass struct {
 	// Constants
 	// Attributes
 	// List of immediate inheritance parents.
-	Ancestors	Hash <String, BMM_MODEL_TYPE >	`yaml:"ancestors" json:"ancestors" xml:"ancestors"`
+	Ancestors	map[string]vocabulary.IBmmModelType	`yaml:"ancestors" json:"ancestors" xml:"ancestors"`
 	// Package this class belongs to.
 	Package	IBmmPackage	`yaml:"package" json:"package" xml:"package"`
 	// Properties defined in this class (subset of features ).
-	Properties	Hash <String, BMM_PROPERTY >	`yaml:"properties" json:"properties" xml:"properties"`
+	Properties	map[string]vocabulary.IBmmProperty	`yaml:"properties" json:"properties" xml:"properties"`
 	/**
 		Reference to original source schema defining this class. Useful for UI tools to
 		determine which original schema file to open for a given class for manual
@@ -63,11 +63,11 @@ type BmmClass struct {
 	*/
 	IsOverride	bool	`yaml:"isoverride" json:"isoverride" xml:"isoverride"`
 	// Static properties defined in this class (subset of features ).
-	StaticProperties	Hash <String, BMM_STATIC >	`yaml:"staticproperties" json:"staticproperties" xml:"staticproperties"`
+	StaticProperties	map[string]vocabulary.IBmmStatic	`yaml:"staticproperties" json:"staticproperties" xml:"staticproperties"`
 	// Functions defined in this class (subset of features ).
-	Functions	Hash <String, BMM_FUNCTION >	`yaml:"functions" json:"functions" xml:"functions"`
+	Functions	map[string]vocabulary.IBmmFunction	`yaml:"functions" json:"functions" xml:"functions"`
 	// Procedures defined in this class (subset of features ).
-	Procedures	Hash <String, BMM_PROCEDURE >	`yaml:"procedures" json:"procedures" xml:"procedures"`
+	Procedures	map[string]vocabulary.IBmmProcedure	`yaml:"procedures" json:"procedures" xml:"procedures"`
 	/**
 		True if this class represents a type considered to be primitive in the type
 		system, i.e. any typically built-in or standard library type such as String ,
@@ -79,17 +79,17 @@ type BmmClass struct {
 		created from its direct type.
 	*/
 	IsAbstract	bool	`yaml:"isabstract" json:"isabstract" xml:"isabstract"`
-	Invariants	List < BMM_ASSERTION >	`yaml:"invariants" json:"invariants" xml:"invariants"`
+	Invariants	[]vocabulary.IBmmAssertion	`yaml:"invariants" json:"invariants" xml:"invariants"`
 	/**
 		Subset of procedures that may be used to initialise a new instance of an object,
 		and whose execution will guarantee that class invariants are satisfied.
 	*/
-	Creators	Hash < String , BMM_PROCEDURE >	`yaml:"creators" json:"creators" xml:"creators"`
+	Creators	map[string]vocabulary.IBmmProcedure	`yaml:"creators" json:"creators" xml:"creators"`
 	/**
 		Subset of creators that create a new instance from a single argument of another
 		type.
 	*/
-	Converters	Hash < String , BMM_PROCEDURE >	`yaml:"converters" json:"converters" xml:"converters"`
+	Converters	map[string]vocabulary.IBmmProcedure	`yaml:"converters" json:"converters" xml:"converters"`
 	// Features of this module.
 	Features	List < BMM_FEATURE >	`yaml:"features" json:"features" xml:"features"`
 }
@@ -114,101 +114,146 @@ func NewBmmClassBuilder() *BmmClassBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// List of immediate inheritance parents.
-func (i *BmmClassBuilder) SetAncestors ( v Hash <String, BMM_MODEL_TYPE > ) *BmmClassBuilder{
+// List of immediate inheritance parents.
+func (i *BmmClassBuilder) SetAncestors ( v map[string]vocabulary.IBmmModelType ) *BmmClassBuilder{
 	i.bmmclass.Ancestors = v
 	return i
 }
-	// Package this class belongs to.
+// Package this class belongs to.
 func (i *BmmClassBuilder) SetPackage ( v IBmmPackage ) *BmmClassBuilder{
 	i.bmmclass.Package = v
 	return i
 }
-	// Properties defined in this class (subset of features ).
-func (i *BmmClassBuilder) SetProperties ( v Hash <String, BMM_PROPERTY > ) *BmmClassBuilder{
+// Properties defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetProperties ( v map[string]vocabulary.IBmmProperty ) *BmmClassBuilder{
 	i.bmmclass.Properties = v
 	return i
 }
-	/**
-		Reference to original source schema defining this class. Useful for UI tools to
-		determine which original schema file to open for a given class for manual
-		editing.
-	*/
+/**
+	Reference to original source schema defining this class. Useful for UI tools to
+	determine which original schema file to open for a given class for manual
+	editing.
+*/
 func (i *BmmClassBuilder) SetSourceSchemaId ( v string ) *BmmClassBuilder{
 	i.bmmclass.SourceSchemaId = v
 	return i
 }
-	/**
-		List of computed references to base classes of immediate inheritance
-		descendants, derived when members of ancestors are attached at creation time.
-	*/
+/**
+	List of computed references to base classes of immediate inheritance
+	descendants, derived when members of ancestors are attached at creation time.
+*/
 func (i *BmmClassBuilder) SetImmediateDescendants ( v List < BMM_CLASS > ) *BmmClassBuilder{
 	i.bmmclass.ImmediateDescendants = v
 	return i
 }
-	/**
-		True if this definition overrides a class of the same name in an included
-		schema.
-	*/
+/**
+	True if this definition overrides a class of the same name in an included
+	schema.
+*/
 func (i *BmmClassBuilder) SetIsOverride ( v bool ) *BmmClassBuilder{
 	i.bmmclass.IsOverride = v
 	return i
 }
-	// Static properties defined in this class (subset of features ).
-func (i *BmmClassBuilder) SetStaticProperties ( v Hash <String, BMM_STATIC > ) *BmmClassBuilder{
+// Static properties defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetStaticProperties ( v map[string]vocabulary.IBmmStatic ) *BmmClassBuilder{
 	i.bmmclass.StaticProperties = v
 	return i
 }
-	// Functions defined in this class (subset of features ).
-func (i *BmmClassBuilder) SetFunctions ( v Hash <String, BMM_FUNCTION > ) *BmmClassBuilder{
+// Functions defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetFunctions ( v map[string]vocabulary.IBmmFunction ) *BmmClassBuilder{
 	i.bmmclass.Functions = v
 	return i
 }
-	// Procedures defined in this class (subset of features ).
-func (i *BmmClassBuilder) SetProcedures ( v Hash <String, BMM_PROCEDURE > ) *BmmClassBuilder{
+// Procedures defined in this class (subset of features ).
+func (i *BmmClassBuilder) SetProcedures ( v map[string]vocabulary.IBmmProcedure ) *BmmClassBuilder{
 	i.bmmclass.Procedures = v
 	return i
 }
-	/**
-		True if this class represents a type considered to be primitive in the type
-		system, i.e. any typically built-in or standard library type such as String ,
-		Date , Hash<K,V> etc.
-	*/
+/**
+	True if this class represents a type considered to be primitive in the type
+	system, i.e. any typically built-in or standard library type such as String ,
+	Date , Hash<K,V> etc.
+*/
 func (i *BmmClassBuilder) SetIsPrimitive ( v bool ) *BmmClassBuilder{
 	i.bmmclass.IsPrimitive = v
 	return i
 }
-	/**
-		True if this class is marked as abstract, i.e. direct instances cannot be
-		created from its direct type.
-	*/
+/**
+	True if this class is marked as abstract, i.e. direct instances cannot be
+	created from its direct type.
+*/
 func (i *BmmClassBuilder) SetIsAbstract ( v bool ) *BmmClassBuilder{
 	i.bmmclass.IsAbstract = v
 	return i
 }
-func (i *BmmClassBuilder) SetInvariants ( v List < BMM_ASSERTION > ) *BmmClassBuilder{
+func (i *BmmClassBuilder) SetInvariants ( v []vocabulary.IBmmAssertion ) *BmmClassBuilder{
 	i.bmmclass.Invariants = v
 	return i
 }
-	/**
-		Subset of procedures that may be used to initialise a new instance of an object,
-		and whose execution will guarantee that class invariants are satisfied.
-	*/
-func (i *BmmClassBuilder) SetCreators ( v Hash < String , BMM_PROCEDURE > ) *BmmClassBuilder{
+/**
+	Subset of procedures that may be used to initialise a new instance of an object,
+	and whose execution will guarantee that class invariants are satisfied.
+*/
+func (i *BmmClassBuilder) SetCreators ( v map[string]vocabulary.IBmmProcedure ) *BmmClassBuilder{
 	i.bmmclass.Creators = v
 	return i
 }
-	/**
-		Subset of creators that create a new instance from a single argument of another
-		type.
-	*/
-func (i *BmmClassBuilder) SetConverters ( v Hash < String , BMM_PROCEDURE > ) *BmmClassBuilder{
+/**
+	Subset of creators that create a new instance from a single argument of another
+	type.
+*/
+func (i *BmmClassBuilder) SetConverters ( v map[string]vocabulary.IBmmProcedure ) *BmmClassBuilder{
 	i.bmmclass.Converters = v
 	return i
 }
-	// Features of this module.
+// Features of this module.
 func (i *BmmClassBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmClassBuilder{
 	i.bmmclass.Features = v
+	return i
+}
+	// //From: BmmModule
+// List of feature groups in this class.
+func (i *BmmClassBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmClassBuilder{
+	i.bmmclass.FeatureGroups = v
+	return i
+}
+// Features of this module.
+func (i *BmmClassBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmClassBuilder{
+	i.bmmclass.Features = v
+	return i
+}
+// Model within which module is defined.
+func (i *BmmClassBuilder) SetScope ( v IBmmModel ) *BmmClassBuilder{
+	i.bmmclass.Scope = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmClassBuilder) SetName ( v string ) *BmmClassBuilder{
+	i.bmmclass.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmClassBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmClassBuilder{
+	i.bmmclass.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmClassBuilder) SetScope ( v IBmmModelElement ) *BmmClassBuilder{
+	i.bmmclass.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmClassBuilder) SetExtensions ( v Hash < Any , String > ) *BmmClassBuilder{
+	i.bmmclass.Extensions = v
 	return i
 }
 

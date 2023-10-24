@@ -44,9 +44,15 @@ func NewElConditionalExpressionBuilder() *ElConditionalExpressionBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Boolean expression defining the condition of this decision branch.
+// Boolean expression defining the condition of this decision branch.
 func (i *ElConditionalExpressionBuilder) SetCondition ( v IElExpression ) *ElConditionalExpressionBuilder{
 	i.elconditionalexpression.Condition = v
+	return i
+}
+	// //From: ElDecisionBranch
+// Result expression of conditional, if its condition evaluates to True.
+func (i *ElConditionalExpressionBuilder) SetResult ( v T ) *ElConditionalExpressionBuilder{
+	i.elconditionalexpression.Result = v
 	return i
 }
 

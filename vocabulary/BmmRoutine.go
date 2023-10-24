@@ -32,13 +32,13 @@ type BmmRoutine struct {
 		correctly, May be used to generate exceptions if included in run-time build. A
 		False pre-condition implies an error in the passed parameters.
 	*/
-	PreConditions	List < BMM_ASSERTION >	`yaml:"preconditions" json:"preconditions" xml:"preconditions"`
+	PreConditions	[]vocabulary.IBmmAssertion	`yaml:"preconditions" json:"preconditions" xml:"preconditions"`
 	/**
 		Boolean conditions that will evaluate to True if the routine executed correctly,
 		May be used to generate exceptions if included in run-time build. A False
 		post-condition implies an error (i.e. bug) in routine code.
 	*/
-	PostConditions	List < BMM_ASSERTION >	`yaml:"postconditions" json:"postconditions" xml:"postconditions"`
+	PostConditions	[]vocabulary.IBmmAssertion	`yaml:"postconditions" json:"postconditions" xml:"postconditions"`
 	// Body of a routine, i.e. executable program.
 	Definition	IBmmRoutineDefinition	`yaml:"definition" json:"definition" xml:"definition"`
 }
@@ -64,32 +64,99 @@ func NewBmmRoutineBuilder() *BmmRoutineBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Formal parameters of the routine.
+// Formal parameters of the routine.
 func (i *BmmRoutineBuilder) SetParameters ( v List < BMM_PARAMETER > ) *BmmRoutineBuilder{
 	i.bmmroutine.Parameters = v
 	return i
 }
-	/**
-		Boolean conditions that must evaluate to True for the routine to execute
-		correctly, May be used to generate exceptions if included in run-time build. A
-		False pre-condition implies an error in the passed parameters.
-	*/
-func (i *BmmRoutineBuilder) SetPreConditions ( v List < BMM_ASSERTION > ) *BmmRoutineBuilder{
+/**
+	Boolean conditions that must evaluate to True for the routine to execute
+	correctly, May be used to generate exceptions if included in run-time build. A
+	False pre-condition implies an error in the passed parameters.
+*/
+func (i *BmmRoutineBuilder) SetPreConditions ( v []vocabulary.IBmmAssertion ) *BmmRoutineBuilder{
 	i.bmmroutine.PreConditions = v
 	return i
 }
-	/**
-		Boolean conditions that will evaluate to True if the routine executed correctly,
-		May be used to generate exceptions if included in run-time build. A False
-		post-condition implies an error (i.e. bug) in routine code.
-	*/
-func (i *BmmRoutineBuilder) SetPostConditions ( v List < BMM_ASSERTION > ) *BmmRoutineBuilder{
+/**
+	Boolean conditions that will evaluate to True if the routine executed correctly,
+	May be used to generate exceptions if included in run-time build. A False
+	post-condition implies an error (i.e. bug) in routine code.
+*/
+func (i *BmmRoutineBuilder) SetPostConditions ( v []vocabulary.IBmmAssertion ) *BmmRoutineBuilder{
 	i.bmmroutine.PostConditions = v
 	return i
 }
-	// Body of a routine, i.e. executable program.
+// Body of a routine, i.e. executable program.
 func (i *BmmRoutineBuilder) SetDefinition ( v IBmmRoutineDefinition ) *BmmRoutineBuilder{
 	i.bmmroutine.Definition = v
+	return i
+}
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmRoutineBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmRoutineBuilder{
+	i.bmmroutine.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmRoutineBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmRoutineBuilder{
+	i.bmmroutine.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmRoutineBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmRoutineBuilder{
+	i.bmmroutine.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmRoutineBuilder) SetScope ( v IBmmClass ) *BmmRoutineBuilder{
+	i.bmmroutine.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmRoutineBuilder) SetType ( v IBmmType ) *BmmRoutineBuilder{
+	i.bmmroutine.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmRoutineBuilder) SetIsNullable ( v bool ) *BmmRoutineBuilder{
+	i.bmmroutine.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmRoutineBuilder) SetName ( v string ) *BmmRoutineBuilder{
+	i.bmmroutine.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmRoutineBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmRoutineBuilder{
+	i.bmmroutine.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmRoutineBuilder) SetScope ( v IBmmModelElement ) *BmmRoutineBuilder{
+	i.bmmroutine.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmRoutineBuilder) SetExtensions ( v Hash < Any , String > ) *BmmRoutineBuilder{
+	i.bmmroutine.Extensions = v
 	return i
 }
 

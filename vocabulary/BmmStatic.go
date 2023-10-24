@@ -50,6 +50,74 @@ func NewBmmStaticBuilder() *BmmStaticBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmInstantiableFeature
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmStaticBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmStaticBuilder{
+	i.bmmstatic.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmStaticBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmStaticBuilder{
+	i.bmmstatic.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmStaticBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmStaticBuilder{
+	i.bmmstatic.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmStaticBuilder) SetScope ( v IBmmClass ) *BmmStaticBuilder{
+	i.bmmstatic.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmStaticBuilder) SetType ( v IBmmType ) *BmmStaticBuilder{
+	i.bmmstatic.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmStaticBuilder) SetIsNullable ( v bool ) *BmmStaticBuilder{
+	i.bmmstatic.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmStaticBuilder) SetName ( v string ) *BmmStaticBuilder{
+	i.bmmstatic.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmStaticBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmStaticBuilder{
+	i.bmmstatic.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmStaticBuilder) SetScope ( v IBmmModelElement ) *BmmStaticBuilder{
+	i.bmmstatic.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmStaticBuilder) SetExtensions ( v Hash < Any , String > ) *BmmStaticBuilder{
+	i.bmmstatic.Extensions = v
+	return i
+}
 
 func (i *BmmStaticBuilder) Build() *BmmStatic {
 	 return i.bmmstatic

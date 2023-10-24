@@ -37,7 +37,7 @@ func NewBmmIncludeSpecBuilder() *BmmIncludeSpecBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Full identifier of the included schema, e.g. "openehr_primitive_types_1.0.2" .
+// Full identifier of the included schema, e.g. "openehr_primitive_types_1.0.2" .
 func (i *BmmIncludeSpecBuilder) SetId ( v string ) *BmmIncludeSpecBuilder{
 	i.bmmincludespec.Id = v
 	return i

@@ -40,10 +40,10 @@ func NewPBmmPackageContainerBuilder() *PBmmPackageContainerBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Package structure as a hierarchy of packages each potentially containing names
-		of classes in that package in the original model.
-	*/
+/**
+	Package structure as a hierarchy of packages each potentially containing names
+	of classes in that package in the original model.
+*/
 func (i *PBmmPackageContainerBuilder) SetPackages ( v Hash< P_BMM_PACKAGE , String > ) *PBmmPackageContainerBuilder{
 	i.pbmmpackagecontainer.Packages = v
 	return i

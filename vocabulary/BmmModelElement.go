@@ -57,30 +57,30 @@ func NewBmmModelElementBuilder() *BmmModelElementBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Name of this model element.
+// Name of this model element.
 func (i *BmmModelElementBuilder) SetName ( v string ) *BmmModelElementBuilder{
 	i.bmmmodelelement.Name = v
 	return i
 }
-	/**
-		Optional documentation of this element, as a keyed list. It is strongly
-		recommended to use the following key /type combinations for the relevant
-		purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-		String "references": String Other keys and value types may be freely added.
-	*/
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
 func (i *BmmModelElementBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmModelElementBuilder{
 	i.bmmmodelelement.Documentation = v
 	return i
 }
-	// Model element within which an element is declared.
+// Model element within which an element is declared.
 func (i *BmmModelElementBuilder) SetScope ( v IBmmModelElement ) *BmmModelElementBuilder{
 	i.bmmmodelelement.Scope = v
 	return i
 }
-	/**
-		Optional meta-data of this element, as a keyed list. May be used to extend the
-		meta-model.
-	*/
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
 func (i *BmmModelElementBuilder) SetExtensions ( v Hash < Any , String > ) *BmmModelElementBuilder{
 	i.bmmmodelelement.Extensions = v
 	return i

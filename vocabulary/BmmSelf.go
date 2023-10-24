@@ -55,9 +55,59 @@ func NewBmmSelfBuilder() *BmmSelfBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Name of this model element.
+// Name of this model element.
 func (i *BmmSelfBuilder) SetName ( v string ) *BmmSelfBuilder{
 	i.bmmself.Name = v
+	return i
+}
+	// //From: BmmReadonlyVariable
+	// //From: BmmVariable
+// Routine within which variable is defined.
+func (i *BmmSelfBuilder) SetScope ( v IBmmRoutine ) *BmmSelfBuilder{
+	i.bmmself.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmSelfBuilder) SetType ( v IBmmType ) *BmmSelfBuilder{
+	i.bmmself.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmSelfBuilder) SetIsNullable ( v bool ) *BmmSelfBuilder{
+	i.bmmself.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmSelfBuilder) SetName ( v string ) *BmmSelfBuilder{
+	i.bmmself.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmSelfBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmSelfBuilder{
+	i.bmmself.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmSelfBuilder) SetScope ( v IBmmModelElement ) *BmmSelfBuilder{
+	i.bmmself.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmSelfBuilder) SetExtensions ( v Hash < Any , String > ) *BmmSelfBuilder{
+	i.bmmself.Extensions = v
 	return i
 }
 

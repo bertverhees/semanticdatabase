@@ -43,6 +43,8 @@ func NewElSimpleBuilder() *ElSimpleBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElSimpleBuilder) Build() *ElSimple {
 	 return i.elsimple

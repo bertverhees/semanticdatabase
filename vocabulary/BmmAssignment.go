@@ -52,16 +52,19 @@ func NewBmmAssignmentBuilder() *BmmAssignmentBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The target variable on the notional left-hand side of this assignment.
+// The target variable on the notional left-hand side of this assignment.
 func (i *BmmAssignmentBuilder) SetTarget ( v IElValueGenerator ) *BmmAssignmentBuilder{
 	i.bmmassignment.Target = v
 	return i
 }
-	// Source right hand side) of the assignment.
+// Source right hand side) of the assignment.
 func (i *BmmAssignmentBuilder) SetSource ( v IElExpression ) *BmmAssignmentBuilder{
 	i.bmmassignment.Source = v
 	return i
 }
+	// //From: BmmSimpleStatement
+	// //From: BmmStatement
+	// //From: BmmStatementItem
 
 func (i *BmmAssignmentBuilder) Build() *BmmAssignment {
 	 return i.bmmassignment

@@ -81,71 +81,77 @@ func NewPBmmClassBuilder() *PBmmClassBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Name of the class. Persisted attribute.
+// Name of the class. Persisted attribute.
 func (i *PBmmClassBuilder) SetName ( v string ) *PBmmClassBuilder{
 	i.pbmmclass.Name = v
 	return i
 }
-	/**
-		List of immediate inheritance parents. If there are generic ancestors, use
-		ancestor_defs instead. Persisted attribute.
-	*/
+/**
+	List of immediate inheritance parents. If there are generic ancestors, use
+	ancestor_defs instead. Persisted attribute.
+*/
 func (i *PBmmClassBuilder) SetAncestors ( v []string ) *PBmmClassBuilder{
 	i.pbmmclass.Ancestors = v
 	return i
 }
-	// List of attributes defined in this class. Persistent attribute.
+// List of attributes defined in this class. Persistent attribute.
 func (i *PBmmClassBuilder) SetProperties ( v map[string]IPBmmProperty ) *PBmmClassBuilder{
 	i.pbmmclass.Properties = v
 	return i
 }
-	// True if this is an abstract type. Persisted attribute.
+// True if this is an abstract type. Persisted attribute.
 func (i *PBmmClassBuilder) SetIsAbstract ( v bool ) *PBmmClassBuilder{
 	i.pbmmclass.IsAbstract = v
 	return i
 }
-	// True if this class definition overrides one found in an included schema.
+// True if this class definition overrides one found in an included schema.
 func (i *PBmmClassBuilder) SetIsOverride ( v bool ) *PBmmClassBuilder{
 	i.pbmmclass.IsOverride = v
 	return i
 }
-	// List of generic parameter definitions. Persisted attribute.
+// List of generic parameter definitions. Persisted attribute.
 func (i *PBmmClassBuilder) SetGenericParameterDefs ( v map[string]IPBmmGenericParameter ) *PBmmClassBuilder{
 	i.pbmmclass.GenericParameterDefs = v
 	return i
 }
-	/**
-		Reference to original source schema defining this class. Set during BMM_SCHEMA
-		materialise. Useful for GUI tools to enable user to edit the schema file
-		containing a given class (i.e. taking into account that a class may be in any of
-		the schemas in a schema inclusion hierarchy).
-	*/
+/**
+	Reference to original source schema defining this class. Set during BMM_SCHEMA
+	materialise. Useful for GUI tools to enable user to edit the schema file
+	containing a given class (i.e. taking into account that a class may be in any of
+	the schemas in a schema inclusion hierarchy).
+*/
 func (i *PBmmClassBuilder) SetSourceSchemaId ( v string ) *PBmmClassBuilder{
 	i.pbmmclass.SourceSchemaId = v
 	return i
 }
-	/**
-		BMM_CLASS object built by create_bmm_class_definition and
-		populate_bmm_class_definition .
-	*/
+/**
+	BMM_CLASS object built by create_bmm_class_definition and
+	populate_bmm_class_definition .
+*/
 func (i *PBmmClassBuilder) SetBmmClass ( v vocabulary.IBmmClass ) *PBmmClassBuilder{
 	i.pbmmclass.BmmClass = v
 	return i
 }
-	/**
-		Unique id generated for later comparison during merging, in order to detect if
-		two classes are the same. Assigned in post-load processing.
-	*/
+/**
+	Unique id generated for later comparison during merging, in order to detect if
+	two classes are the same. Assigned in post-load processing.
+*/
 func (i *PBmmClassBuilder) SetUid ( v int ) *PBmmClassBuilder{
 	i.pbmmclass.Uid = v
 	return i
 }
-	/**
-		List of structured inheritance ancestors, used only in the case of generic
-		inheritance. Persisted attribute.
-	*/
+/**
+	List of structured inheritance ancestors, used only in the case of generic
+	inheritance. Persisted attribute.
+*/
 func (i *PBmmClassBuilder) SetAncestorDefs ( v []IPBmmGenericType ) *PBmmClassBuilder{
 	i.pbmmclass.AncestorDefs = v
+	return i
+}
+	// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmClassBuilder) SetDocumentation ( v string ) *PBmmClassBuilder{
+	i.pbmmclass.Documentation = v
 	return i
 }
 

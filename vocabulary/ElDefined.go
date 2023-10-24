@@ -54,6 +54,15 @@ func NewElDefinedBuilder() *ElDefinedBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: ElPredicate
+// The target instance of this predicate.
+func (i *ElDefinedBuilder) SetOperand ( v IElValueGenerator ) *ElDefinedBuilder{
+	i.eldefined.Operand = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElDefinedBuilder) Build() *ElDefined {
 	 return i.eldefined

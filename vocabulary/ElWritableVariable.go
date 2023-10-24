@@ -60,16 +60,30 @@ func NewElWritableVariableBuilder() *ElWritableVariableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Variable definition to which this reference refers.
+// Variable definition to which this reference refers.
 func (i *ElWritableVariableBuilder) SetDefinition ( v IBmmWritableVariable ) *ElWritableVariableBuilder{
 	i.elwritablevariable.Definition = v
 	return i
 }
-	// Defined to return True in all cases.
+// Defined to return True in all cases.
 func (i *ElWritableVariableBuilder) SetIsWritable ( v bool ) *ElWritableVariableBuilder{
 	i.elwritablevariable.IsWritable = v
 	return i
 }
+	// //From: ElVariable
+	// //From: ElValueGenerator
+func (i *ElWritableVariableBuilder) SetIsWritable ( v bool ) *ElWritableVariableBuilder{
+	i.elwritablevariable.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElWritableVariableBuilder) SetName ( v string ) *ElWritableVariableBuilder{
+	i.elwritablevariable.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElWritableVariableBuilder) Build() *ElWritableVariable {
 	 return i.elwritablevariable

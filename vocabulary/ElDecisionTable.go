@@ -54,19 +54,21 @@ func NewElDecisionTableBuilder() *ElDecisionTableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Members of the chain, equivalent to branches in an if/then/else chain and cases
-		in a case statement.
-	*/
+/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+*/
 func (i *ElDecisionTableBuilder) SetItems ( v List < EL_DECISION_BRANCH > ) *ElDecisionTableBuilder{
 	i.eldecisiontable.Items = v
 	return i
 }
-	// Result expression of conditional, if its condition evaluates to True.
+// Result expression of conditional, if its condition evaluates to True.
 func (i *ElDecisionTableBuilder) SetElse ( v T ) *ElDecisionTableBuilder{
 	i.eldecisiontable.Else = v
 	return i
 }
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElDecisionTableBuilder) Build() *ElDecisionTable {
 	 return i.eldecisiontable

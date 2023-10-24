@@ -41,6 +41,34 @@ func NewBmmIndexedContainerValueBuilder() *BmmIndexedContainerValueBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmLiteralValue
+// A serial representation of the value.
+func (i *BmmIndexedContainerValueBuilder) SetValueLiteral ( v string ) *BmmIndexedContainerValueBuilder{
+	i.bmmindexedcontainervalue.ValueLiteral = v
+	return i
+}
+/**
+	A native representation of the value, possibly derived by deserialising
+	value_literal .
+*/
+func (i *BmmIndexedContainerValueBuilder) SetValue ( v Any ) *BmmIndexedContainerValueBuilder{
+	i.bmmindexedcontainervalue.Value = v
+	return i
+}
+/**
+	Optional specification of formalism of the value_literal attribute for complex
+	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+	value agreed by the user community. If not set, json is assumed.
+*/
+func (i *BmmIndexedContainerValueBuilder) SetSyntax ( v string ) *BmmIndexedContainerValueBuilder{
+	i.bmmindexedcontainervalue.Syntax = v
+	return i
+}
+// Concrete type of this literal.
+func (i *BmmIndexedContainerValueBuilder) SetType ( v T ) *BmmIndexedContainerValueBuilder{
+	i.bmmindexedcontainervalue.Type = v
+	return i
+}
 
 func (i *BmmIndexedContainerValueBuilder) Build() *BmmIndexedContainerValue {
 	 return i.bmmindexedcontainervalue

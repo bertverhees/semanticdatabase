@@ -43,11 +43,12 @@ func NewBmmStatementBlockBuilder() *BmmStatementBlockBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Child blocks of the current block.
+// Child blocks of the current block.
 func (i *BmmStatementBlockBuilder) SetItems ( v List < BMM_STATEMENT_ITEM > ) *BmmStatementBlockBuilder{
 	i.bmmstatementblock.Items = v
 	return i
 }
+	// //From: BmmStatementItem
 
 func (i *BmmStatementBlockBuilder) Build() *BmmStatementBlock {
 	 return i.bmmstatementblock

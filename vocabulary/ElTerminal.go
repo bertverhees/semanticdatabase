@@ -43,6 +43,7 @@ func NewElTerminalBuilder() *ElTerminalBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: ElExpression
 
 func (i *ElTerminalBuilder) Build() *ElTerminal {
 	 return i.elterminal

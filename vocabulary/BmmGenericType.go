@@ -74,20 +74,33 @@ func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Generic parameters of the root_type in this type specifier. The order must match
-		the order of the owning class’s formal generic parameter declarations, and the
-		types may be defined types or formal parameter types.
-	*/
+/**
+	Generic parameters of the root_type in this type specifier. The order must match
+	the order of the owning class’s formal generic parameter declarations, and the
+	types may be defined types or formal parameter types.
+*/
 func (i *BmmGenericTypeBuilder) SetGenericParameters ( v List < BMM_UNITARY_TYPE > ) *BmmGenericTypeBuilder{
 	i.bmmgenerictype.GenericParameters = v
 	return i
 }
-	// Defining generic class of this type.
+// Defining generic class of this type.
 func (i *BmmGenericTypeBuilder) SetBaseClass ( v IBmmGenericClass ) *BmmGenericTypeBuilder{
 	i.bmmgenerictype.BaseClass = v
 	return i
 }
+	// //From: BmmModelType
+func (i *BmmGenericTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmGenericTypeBuilder{
+	i.bmmgenerictype.ValueConstraint = v
+	return i
+}
+// Base class of this type.
+func (i *BmmGenericTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmGenericTypeBuilder{
+	i.bmmgenerictype.BaseClass = v
+	return i
+}
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmGenericTypeBuilder) Build() *BmmGenericType {
 	 return i.bmmgenerictype

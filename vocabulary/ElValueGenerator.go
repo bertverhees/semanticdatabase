@@ -54,11 +54,14 @@ func (i *ElValueGeneratorBuilder) SetIsWritable ( v bool ) *ElValueGeneratorBuil
 	i.elvaluegenerator.IsWritable = v
 	return i
 }
-	// Name used to represent the reference or other entity.
+// Name used to represent the reference or other entity.
 func (i *ElValueGeneratorBuilder) SetName ( v string ) *ElValueGeneratorBuilder{
 	i.elvaluegenerator.Name = v
 	return i
 }
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElValueGeneratorBuilder) Build() *ElValueGenerator {
 	 return i.elvaluegenerator

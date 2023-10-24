@@ -42,15 +42,15 @@ func NewElTupleItemBuilder() *ElTupleItemBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Reference to value entity. If Void, this indicates that the item in this
-		position is Void, e.g. within a routine call parameter list.
-	*/
+/**
+	Reference to value entity. If Void, this indicates that the item in this
+	position is Void, e.g. within a routine call parameter list.
+*/
 func (i *ElTupleItemBuilder) SetItem ( v IElExpression ) *ElTupleItemBuilder{
 	i.eltupleitem.Item = v
 	return i
 }
-	// Optional name of tuple item.
+// Optional name of tuple item.
 func (i *ElTupleItemBuilder) SetName ( v string ) *ElTupleItemBuilder{
 	i.eltupleitem.Name = v
 	return i

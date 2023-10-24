@@ -50,6 +50,55 @@ func NewBmmReadonlyVariableBuilder() *BmmReadonlyVariableBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmVariable
+// Routine within which variable is defined.
+func (i *BmmReadonlyVariableBuilder) SetScope ( v IBmmRoutine ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmReadonlyVariableBuilder) SetType ( v IBmmType ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmReadonlyVariableBuilder) SetIsNullable ( v bool ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmReadonlyVariableBuilder) SetName ( v string ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmReadonlyVariableBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmReadonlyVariableBuilder) SetScope ( v IBmmModelElement ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmReadonlyVariableBuilder) SetExtensions ( v Hash < Any , String > ) *BmmReadonlyVariableBuilder{
+	i.bmmreadonlyvariable.Extensions = v
+	return i
+}
 
 func (i *BmmReadonlyVariableBuilder) Build() *BmmReadonlyVariable {
 	 return i.bmmreadonlyvariable

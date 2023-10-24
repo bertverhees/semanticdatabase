@@ -42,16 +42,17 @@ func NewBmmLocalRoutineBuilder() *BmmLocalRoutineBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Local variables of the routine, if there is a body defined.
+// Local variables of the routine, if there is a body defined.
 func (i *BmmLocalRoutineBuilder) SetLocals ( v List < BMM_LOCAL > ) *BmmLocalRoutineBuilder{
 	i.bmmlocalroutine.Locals = v
 	return i
 }
-	// Body of routine declaration.
+// Body of routine declaration.
 func (i *BmmLocalRoutineBuilder) SetBody ( v IBmmStatementBlock ) *BmmLocalRoutineBuilder{
 	i.bmmlocalroutine.Body = v
 	return i
 }
+	// //From: BmmRoutineDefinition
 
 func (i *BmmLocalRoutineBuilder) Build() *BmmLocalRoutine {
 	 return i.bmmlocalroutine

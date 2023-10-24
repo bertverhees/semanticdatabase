@@ -55,19 +55,22 @@ func NewBmmAssertionBuilder() *BmmAssertionBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Boolean-valued expression of the assertion.
+// Boolean-valued expression of the assertion.
 func (i *BmmAssertionBuilder) SetExpression ( v IElBooleanExpression ) *BmmAssertionBuilder{
 	i.bmmassertion.Expression = v
 	return i
 }
-	/**
-		Optional tag, typically used to designate design intention of the assertion,
-		e.g. "Inv_all_members_valid" .
-	*/
+/**
+	Optional tag, typically used to designate design intention of the assertion,
+	e.g. "Inv_all_members_valid" .
+*/
 func (i *BmmAssertionBuilder) SetTag ( v string ) *BmmAssertionBuilder{
 	i.bmmassertion.Tag = v
 	return i
 }
+	// //From: BmmSimpleStatement
+	// //From: BmmStatement
+	// //From: BmmStatementItem
 
 func (i *BmmAssertionBuilder) Build() *BmmAssertion {
 	 return i.bmmassertion

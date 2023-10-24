@@ -80,23 +80,74 @@ func NewBmmModelBuilder() *BmmModelBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// All classes in this model, keyed by type name.
+// All classes in this model, keyed by type name.
 func (i *BmmModelBuilder) SetClassDefinitions ( v Hash <String, BMM_CLASS > ) *BmmModelBuilder{
 	i.bmmmodel.ClassDefinitions = v
 	return i
 }
-	/**
-		List of other models 'used' (i.e. 'imported' by this model). Classes in the
-		current model may refer to classes in a used model by specifying the other
-		class’s scope meta-attribute.
-	*/
+/**
+	List of other models 'used' (i.e. 'imported' by this model). Classes in the
+	current model may refer to classes in a used model by specifying the other
+	class’s scope meta-attribute.
+*/
 func (i *BmmModelBuilder) SetUsedModels ( v List < BMM_MODEL > ) *BmmModelBuilder{
 	i.bmmmodel.UsedModels = v
 	return i
 }
-	// All classes in this model, keyed by type name.
+// All classes in this model, keyed by type name.
 func (i *BmmModelBuilder) SetModules ( v Hash <String, BMM_MODULE > ) *BmmModelBuilder{
 	i.bmmmodel.Modules = v
+	return i
+}
+	// //From: BmmPackageContainer
+// Child packages; keys all in upper case for guaranteed matching.
+func (i *BmmModelBuilder) SetPackages ( v Hash <String, BMM_PACKAGE > ) *BmmModelBuilder{
+	i.bmmmodel.Packages = v
+	return i
+}
+// Model element within which a referenceable element is known.
+func (i *BmmModelBuilder) SetScope ( v IBmmPackageContainer ) *BmmModelBuilder{
+	i.bmmmodel.Scope = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmModelBuilder) SetName ( v string ) *BmmModelBuilder{
+	i.bmmmodel.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmModelBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmModelBuilder{
+	i.bmmmodel.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmModelBuilder) SetScope ( v IBmmModelElement ) *BmmModelBuilder{
+	i.bmmmodel.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmModelBuilder) SetExtensions ( v Hash < Any , String > ) *BmmModelBuilder{
+	i.bmmmodel.Extensions = v
+	return i
+}
+	// //From: BmmModelMetadata
+// Publisher of model expressed in the schema.
+func (i *BmmModelBuilder) SetRmPublisher ( v string ) *BmmModelBuilder{
+	i.bmmmodel.RmPublisher = v
+	return i
+}
+// Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
+func (i *BmmModelBuilder) SetRmRelease ( v string ) *BmmModelBuilder{
+	i.bmmmodel.RmRelease = v
 	return i
 }
 

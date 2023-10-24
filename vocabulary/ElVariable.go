@@ -50,6 +50,19 @@ func NewElVariableBuilder() *ElVariableBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: ElValueGenerator
+func (i *ElVariableBuilder) SetIsWritable ( v bool ) *ElVariableBuilder{
+	i.elvariable.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElVariableBuilder) SetName ( v string ) *ElVariableBuilder{
+	i.elvariable.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElVariableBuilder) Build() *ElVariable {
 	 return i.elvariable

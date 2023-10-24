@@ -46,14 +46,16 @@ func NewBmmActionTableBuilder() *BmmActionTableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		A specialised decision table whose outputs can only be procedure agents. In
-		execution, the matched agent will be invoked.
-	*/
+/**
+	A specialised decision table whose outputs can only be procedure agents. In
+	execution, the matched agent will be invoked.
+*/
 func (i *BmmActionTableBuilder) SetDecisionTable ( v IBmmActionDecisionTable ) *BmmActionTableBuilder{
 	i.bmmactiontable.DecisionTable = v
 	return i
 }
+	// //From: BmmStatement
+	// //From: BmmStatementItem
 
 func (i *BmmActionTableBuilder) Build() *BmmActionTable {
 	 return i.bmmactiontable

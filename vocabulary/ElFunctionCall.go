@@ -66,14 +66,39 @@ func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The function agent being called.
+// The function agent being called.
 func (i *ElFunctionCallBuilder) SetAgent ( v IElFunctionAgent ) *ElFunctionCallBuilder{
 	i.elfunctioncall.Agent = v
 	return i
 }
-	// Defined to return False.
+// Defined to return False.
 func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
 	i.elfunctioncall.IsWritable = v
+	return i
+}
+	// //From: ElFeatureRef
+// Scoping expression, which must be a EL_VALUE_GENERATOR .
+func (i *ElFunctionCallBuilder) SetScoper ( v IElValueGenerator ) *ElFunctionCallBuilder{
+	i.elfunctioncall.Scoper = v
+	return i
+}
+	// //From: ElValueGenerator
+func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
+	i.elfunctioncall.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElFunctionCallBuilder) SetName ( v string ) *ElFunctionCallBuilder{
+	i.elfunctioncall.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
+	// //From: ElAgentCall
+// The agent being called.
+func (i *ElFunctionCallBuilder) SetAgent ( v IElAgent ) *ElFunctionCallBuilder{
+	i.elfunctioncall.Agent = v
 	return i
 }
 

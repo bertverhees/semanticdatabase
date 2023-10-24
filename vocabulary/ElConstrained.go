@@ -45,11 +45,12 @@ func NewElConstrainedBuilder() *ElConstrainedBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The base expression of this constrained form.
+// The base expression of this constrained form.
 func (i *ElConstrainedBuilder) SetBaseExpression ( v IElExpression ) *ElConstrainedBuilder{
 	i.elconstrained.BaseExpression = v
 	return i
 }
+	// //From: ElExpression
 
 func (i *ElConstrainedBuilder) Build() *ElConstrained {
 	 return i.elconstrained

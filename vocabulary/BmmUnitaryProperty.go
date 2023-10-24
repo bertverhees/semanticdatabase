@@ -57,9 +57,98 @@ func NewBmmUnitaryPropertyBuilder() *BmmUnitaryPropertyBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Declared or inferred static type of the entity.
+// Declared or inferred static type of the entity.
 func (i *BmmUnitaryPropertyBuilder) SetType ( v IBmmUnitaryType ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Type = v
+	return i
+}
+	// //From: BmmProperty
+// True if this property is marked with info model im_runtime property.
+func (i *BmmUnitaryPropertyBuilder) SetIsImRuntime ( v bool ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.IsImRuntime = v
+	return i
+}
+// True if this property was marked with info model im_infrastructure flag.
+func (i *BmmUnitaryPropertyBuilder) SetIsImInfrastructure ( v bool ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.IsImInfrastructure = v
+	return i
+}
+/**
+	True if this property instance is a compositional sub-part of the owning class
+	instance. Equivalent to 'composition' in UML associations (but missing from UML
+	properties without associations) and also 'cascade-delete' semantics in ER
+	schemas.
+*/
+func (i *BmmUnitaryPropertyBuilder) SetIsComposition ( v bool ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.IsComposition = v
+	return i
+}
+	// //From: BmmInstantiableFeature
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmUnitaryPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmUnitaryPropertyBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmUnitaryPropertyBuilder) SetScope ( v IBmmClass ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmUnitaryPropertyBuilder) SetType ( v IBmmType ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmUnitaryPropertyBuilder) SetIsNullable ( v bool ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmUnitaryPropertyBuilder) SetName ( v string ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmUnitaryPropertyBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmUnitaryPropertyBuilder) SetScope ( v IBmmModelElement ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmUnitaryPropertyBuilder) SetExtensions ( v Hash < Any , String > ) *BmmUnitaryPropertyBuilder{
+	i.bmmunitaryproperty.Extensions = v
 	return i
 }
 

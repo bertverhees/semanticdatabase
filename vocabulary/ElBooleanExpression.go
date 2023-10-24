@@ -43,6 +43,13 @@ func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: ElConstrained
+// The base expression of this constrained form.
+func (i *ElBooleanExpressionBuilder) SetBaseExpression ( v IElExpression ) *ElBooleanExpressionBuilder{
+	i.elbooleanexpression.BaseExpression = v
+	return i
+}
+	// //From: ElExpression
 
 func (i *ElBooleanExpressionBuilder) Build() *ElBooleanExpression {
 	 return i.elbooleanexpression

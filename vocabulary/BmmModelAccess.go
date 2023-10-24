@@ -56,27 +56,27 @@ func NewBmmModelAccessBuilder() *BmmModelAccessBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// List of directories where all the schemas loaded here are found.
+// List of directories where all the schemas loaded here are found.
 func (i *BmmModelAccessBuilder) SetSchemaDirectories ( v []string ) *BmmModelAccessBuilder{
 	i.bmmmodelaccess.SchemaDirectories = v
 	return i
 }
-	// All schemas found and loaded from schema_directory . Keyed by schema_id .
+// All schemas found and loaded from schema_directory . Keyed by schema_id .
 func (i *BmmModelAccessBuilder) SetAllSchemas ( v Hash <String, BMM_SCHEMA_DESCRIPTOR > ) *BmmModelAccessBuilder{
 	i.bmmmodelaccess.AllSchemas = v
 	return i
 }
-	// Top-level (root) models in use, keyed by model_id .
+// Top-level (root) models in use, keyed by model_id .
 func (i *BmmModelAccessBuilder) SetBmmModels ( v Hash <String, BMM_MODEL > ) *BmmModelAccessBuilder{
 	i.bmmmodelaccess.BmmModels = v
 	return i
 }
-	/**
-		Validated models, keyed by model_id() and any shorter forms of id, with some or
-		no versioning information. For example, the keys "openEHR_EHR_1.0.4" ,
-		"openEHR_EHR_1.0" , "openEHR_EHR_1" , and "openEHR_EHR" will all match the
-		"openEHR_EHR_1.0.4" model, assuming it is the most recent version available.
-	*/
+/**
+	Validated models, keyed by model_id() and any shorter forms of id, with some or
+	no versioning information. For example, the keys "openEHR_EHR_1.0.4" ,
+	"openEHR_EHR_1.0" , "openEHR_EHR_1" , and "openEHR_EHR" will all match the
+	"openEHR_EHR_1.0.4" model, assuming it is the most recent version available.
+*/
 func (i *BmmModelAccessBuilder) SetMatchingBmmModels ( v Hash <String, BMM_MODEL > ) *BmmModelAccessBuilder{
 	i.bmmmodelaccess.MatchingBmmModels = v
 	return i

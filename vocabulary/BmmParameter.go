@@ -55,12 +55,62 @@ func NewBmmParameterBuilder() *BmmParameterBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Optional read/write direction of the parameter. If none-supplied, the parameter
-		is treated as in , i.e. readable.
-	*/
+/**
+	Optional read/write direction of the parameter. If none-supplied, the parameter
+	is treated as in , i.e. readable.
+*/
 func (i *BmmParameterBuilder) SetDirection ( v IBmmParameterDirection ) *BmmParameterBuilder{
 	i.bmmparameter.Direction = v
+	return i
+}
+	// //From: BmmReadonlyVariable
+	// //From: BmmVariable
+// Routine within which variable is defined.
+func (i *BmmParameterBuilder) SetScope ( v IBmmRoutine ) *BmmParameterBuilder{
+	i.bmmparameter.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmParameterBuilder) SetType ( v IBmmType ) *BmmParameterBuilder{
+	i.bmmparameter.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmParameterBuilder) SetIsNullable ( v bool ) *BmmParameterBuilder{
+	i.bmmparameter.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmParameterBuilder) SetName ( v string ) *BmmParameterBuilder{
+	i.bmmparameter.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmParameterBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmParameterBuilder{
+	i.bmmparameter.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmParameterBuilder) SetScope ( v IBmmModelElement ) *BmmParameterBuilder{
+	i.bmmparameter.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmParameterBuilder) SetExtensions ( v Hash < Any , String > ) *BmmParameterBuilder{
+	i.bmmparameter.Extensions = v
 	return i
 }
 

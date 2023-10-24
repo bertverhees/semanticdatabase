@@ -50,6 +50,56 @@ func NewBmmLocalBuilder() *BmmLocalBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmWritableVariable
+	// //From: BmmVariable
+// Routine within which variable is defined.
+func (i *BmmLocalBuilder) SetScope ( v IBmmRoutine ) *BmmLocalBuilder{
+	i.bmmlocal.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmLocalBuilder) SetType ( v IBmmType ) *BmmLocalBuilder{
+	i.bmmlocal.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmLocalBuilder) SetIsNullable ( v bool ) *BmmLocalBuilder{
+	i.bmmlocal.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmLocalBuilder) SetName ( v string ) *BmmLocalBuilder{
+	i.bmmlocal.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmLocalBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmLocalBuilder{
+	i.bmmlocal.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmLocalBuilder) SetScope ( v IBmmModelElement ) *BmmLocalBuilder{
+	i.bmmlocal.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmLocalBuilder) SetExtensions ( v Hash < Any , String > ) *BmmLocalBuilder{
+	i.bmmlocal.Extensions = v
+	return i
+}
 
 func (i *BmmLocalBuilder) Build() *BmmLocal {
 	 return i.bmmlocal

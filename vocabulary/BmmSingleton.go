@@ -55,9 +55,78 @@ func NewBmmSingletonBuilder() *BmmSingletonBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Generator of the value of this static property.
+// Generator of the value of this static property.
 func (i *BmmSingletonBuilder) SetGenerator ( v IBmmRoutineDefinition ) *BmmSingletonBuilder{
 	i.bmmsingleton.Generator = v
+	return i
+}
+	// //From: BmmStatic
+	// //From: BmmInstantiableFeature
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmSingletonBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmSingletonBuilder{
+	i.bmmsingleton.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmSingletonBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmSingletonBuilder{
+	i.bmmsingleton.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmSingletonBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmSingletonBuilder{
+	i.bmmsingleton.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmSingletonBuilder) SetScope ( v IBmmClass ) *BmmSingletonBuilder{
+	i.bmmsingleton.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmSingletonBuilder) SetType ( v IBmmType ) *BmmSingletonBuilder{
+	i.bmmsingleton.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmSingletonBuilder) SetIsNullable ( v bool ) *BmmSingletonBuilder{
+	i.bmmsingleton.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmSingletonBuilder) SetName ( v string ) *BmmSingletonBuilder{
+	i.bmmsingleton.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmSingletonBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmSingletonBuilder{
+	i.bmmsingleton.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmSingletonBuilder) SetScope ( v IBmmModelElement ) *BmmSingletonBuilder{
+	i.bmmsingleton.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmSingletonBuilder) SetExtensions ( v Hash < Any , String > ) *BmmSingletonBuilder{
+	i.bmmsingleton.Extensions = v
 	return i
 }
 

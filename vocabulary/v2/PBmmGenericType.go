@@ -60,31 +60,42 @@ func NewPBmmGenericTypeBuilder() *PBmmGenericTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Root type of this generic type, e.g. Interval in Interval<Integer> .
+// Root type of this generic type, e.g. Interval in Interval<Integer> .
 func (i *PBmmGenericTypeBuilder) SetRootType ( v string ) *PBmmGenericTypeBuilder{
 	i.pbmmgenerictype.RootType = v
 	return i
 }
-	/**
-		Generic parameters of the root_type in this type specifier if non-simple types.
-		The order must match the order of the owning class’s formal generic parameter
-		declarations. Persistent attribute.
-	*/
+/**
+	Generic parameters of the root_type in this type specifier if non-simple types.
+	The order must match the order of the owning class’s formal generic parameter
+	declarations. Persistent attribute.
+*/
 func (i *PBmmGenericTypeBuilder) SetGenericParameterDefs ( v []IPBmmType ) *PBmmGenericTypeBuilder{
 	i.pbmmgenerictype.GenericParameterDefs = v
 	return i
 }
-	/**
-		Generic parameters of the root_type in this type specifier, if simple types. The
-		order must match the order of the owning class’s formal generic parameter
-		declarations. Persistent attribute.
-	*/
+/**
+	Generic parameters of the root_type in this type specifier, if simple types. The
+	order must match the order of the owning class’s formal generic parameter
+	declarations. Persistent attribute.
+*/
 func (i *PBmmGenericTypeBuilder) SetGenericParameters ( v []string ) *PBmmGenericTypeBuilder{
 	i.pbmmgenerictype.GenericParameters = v
 	return i
 }
-	// Result of create_bmm_type() call.
+// Result of create_bmm_type() call.
 func (i *PBmmGenericTypeBuilder) SetBmmType ( v vocabulary.IBmmGenericType ) *PBmmGenericTypeBuilder{
+	i.pbmmgenerictype.BmmType = v
+	return i
+}
+	// //From: PBmmBaseType
+func (i *PBmmGenericTypeBuilder) SetValueConstraint ( v string ) *PBmmGenericTypeBuilder{
+	i.pbmmgenerictype.ValueConstraint = v
+	return i
+}
+	// //From: PBmmType
+// Result of create_bmm_type() call.
+func (i *PBmmGenericTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmGenericTypeBuilder{
 	i.pbmmgenerictype.BmmType = v
 	return i
 }

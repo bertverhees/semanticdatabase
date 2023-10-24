@@ -60,16 +60,30 @@ func NewElReadonlyVariableBuilder() *ElReadonlyVariableBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Variable definition to which this reference refers.
+// Variable definition to which this reference refers.
 func (i *ElReadonlyVariableBuilder) SetDefinition ( v IBmmReadonlyVariable ) *ElReadonlyVariableBuilder{
 	i.elreadonlyvariable.Definition = v
 	return i
 }
-	// Defined to return False in all cases.
+// Defined to return False in all cases.
 func (i *ElReadonlyVariableBuilder) SetIsWritable ( v bool ) *ElReadonlyVariableBuilder{
 	i.elreadonlyvariable.IsWritable = v
 	return i
 }
+	// //From: ElVariable
+	// //From: ElValueGenerator
+func (i *ElReadonlyVariableBuilder) SetIsWritable ( v bool ) *ElReadonlyVariableBuilder{
+	i.elreadonlyvariable.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElReadonlyVariableBuilder) SetName ( v string ) *ElReadonlyVariableBuilder{
+	i.elreadonlyvariable.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElReadonlyVariableBuilder) Build() *ElReadonlyVariable {
 	 return i.elreadonlyvariable

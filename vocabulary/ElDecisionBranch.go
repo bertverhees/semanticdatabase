@@ -40,7 +40,7 @@ func NewElDecisionBranchBuilder() *ElDecisionBranchBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Result expression of conditional, if its condition evaluates to True.
+// Result expression of conditional, if its condition evaluates to True.
 func (i *ElDecisionBranchBuilder) SetResult ( v T ) *ElDecisionBranchBuilder{
 	i.eldecisionbranch.Result = v
 	return i

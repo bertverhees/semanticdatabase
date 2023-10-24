@@ -52,11 +52,20 @@ func NewBmmProcedureCallBuilder() *BmmProcedureCallBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The procedure agent being called.
+// The procedure agent being called.
 func (i *BmmProcedureCallBuilder) SetAgent ( v IElProcedureAgent ) *BmmProcedureCallBuilder{
 	i.bmmprocedurecall.Agent = v
 	return i
 }
+	// //From: ElAgentCall
+// The agent being called.
+func (i *BmmProcedureCallBuilder) SetAgent ( v IElAgent ) *BmmProcedureCallBuilder{
+	i.bmmprocedurecall.Agent = v
+	return i
+}
+	// //From: BmmSimpleStatement
+	// //From: BmmStatement
+	// //From: BmmStatementItem
 
 func (i *BmmProcedureCallBuilder) Build() *BmmProcedureCall {
 	 return i.bmmprocedurecall

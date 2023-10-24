@@ -43,9 +43,15 @@ func NewElCaseBuilder() *ElCaseBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Constraint on
+// Constraint on
 func (i *ElCaseBuilder) SetValueConstraint ( v C_OBJECT ) *ElCaseBuilder{
 	i.elcase.ValueConstraint = v
+	return i
+}
+	// //From: ElDecisionBranch
+// Result expression of conditional, if its condition evaluates to True.
+func (i *ElCaseBuilder) SetResult ( v T ) *ElCaseBuilder{
+	i.elcase.Result = v
 	return i
 }
 

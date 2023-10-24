@@ -47,13 +47,24 @@ func NewPBmmOpenTypeBuilder() *PBmmOpenTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Simple type parameter as a single letter like 'T', 'G' etc.
+// Simple type parameter as a single letter like 'T', 'G' etc.
 func (i *PBmmOpenTypeBuilder) SetType ( v string ) *PBmmOpenTypeBuilder{
 	i.pbmmopentype.Type = v
 	return i
 }
-	// Result of create_bmm_type() call.
+// Result of create_bmm_type() call.
 func (i *PBmmOpenTypeBuilder) SetBmmType ( v @@ ) *PBmmOpenTypeBuilder{
+	i.pbmmopentype.BmmType = v
+	return i
+}
+	// //From: PBmmBaseType
+func (i *PBmmOpenTypeBuilder) SetValueConstraint ( v string ) *PBmmOpenTypeBuilder{
+	i.pbmmopentype.ValueConstraint = v
+	return i
+}
+	// //From: PBmmType
+// Result of create_bmm_type() call.
+func (i *PBmmOpenTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmOpenTypeBuilder{
 	i.pbmmopentype.BmmType = v
 	return i
 }

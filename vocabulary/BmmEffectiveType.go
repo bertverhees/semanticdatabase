@@ -54,6 +54,8 @@ func NewBmmEffectiveTypeBuilder() *BmmEffectiveTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmEffectiveTypeBuilder) Build() *BmmEffectiveType {
 	 return i.bmmeffectivetype

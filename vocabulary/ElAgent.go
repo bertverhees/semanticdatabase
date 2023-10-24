@@ -78,26 +78,26 @@ func NewElAgentBuilder() *ElAgentBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Closed arguments of a routine call as a tuple of objects.
+// Closed arguments of a routine call as a tuple of objects.
 func (i *ElAgentBuilder) SetClosedArgs ( v IElTuple ) *ElAgentBuilder{
 	i.elagent.ClosedArgs = v
 	return i
 }
-	/**
-		Optional list of names of open arguments of the call. If not provided, and the
-		name refers to a routine with more arguments than supplied in closed_args , the
-		missing arguments are inferred from the definition .
-	*/
+/**
+	Optional list of names of open arguments of the call. If not provided, and the
+	name refers to a routine with more arguments than supplied in closed_args , the
+	missing arguments are inferred from the definition .
+*/
 func (i *ElAgentBuilder) SetOpenArgs ( v []string ) *ElAgentBuilder{
 	i.elagent.OpenArgs = v
 	return i
 }
-	// Reference to definition of a routine for which this is an agent, if one exists.
+// Reference to definition of a routine for which this is an agent, if one exists.
 func (i *ElAgentBuilder) SetDefinition ( v IBmmRoutine ) *ElAgentBuilder{
 	i.elagent.Definition = v
 	return i
 }
-	// Name of the routine being called.
+// Name of the routine being called.
 func (i *ElAgentBuilder) SetName ( v string ) *ElAgentBuilder{
 	i.elagent.Name = v
 	return i
@@ -106,6 +106,25 @@ func (i *ElAgentBuilder) SetIsWritable ( v bool ) *ElAgentBuilder{
 	i.elagent.IsWritable = v
 	return i
 }
+	// //From: ElFeatureRef
+// Scoping expression, which must be a EL_VALUE_GENERATOR .
+func (i *ElAgentBuilder) SetScoper ( v IElValueGenerator ) *ElAgentBuilder{
+	i.elagent.Scoper = v
+	return i
+}
+	// //From: ElValueGenerator
+func (i *ElAgentBuilder) SetIsWritable ( v bool ) *ElAgentBuilder{
+	i.elagent.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElAgentBuilder) SetName ( v string ) *ElAgentBuilder{
+	i.elagent.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElAgentBuilder) Build() *ElAgent {
 	 return i.elagent

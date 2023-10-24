@@ -45,6 +45,12 @@ func (i *PBmmBaseTypeBuilder) SetValueConstraint ( v string ) *PBmmBaseTypeBuild
 	i.pbmmbasetype.ValueConstraint = v
 	return i
 }
+	// //From: PBmmType
+// Result of create_bmm_type() call.
+func (i *PBmmBaseTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmBaseTypeBuilder{
+	i.pbmmbasetype.BmmType = v
+	return i
+}
 
 func (i *PBmmBaseTypeBuilder) Build() *PBmmBaseType {
 	 return i.pbmmbasetype

@@ -49,11 +49,14 @@ func NewElPredicateBuilder() *ElPredicateBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The target instance of this predicate.
+// The target instance of this predicate.
 func (i *ElPredicateBuilder) SetOperand ( v IElValueGenerator ) *ElPredicateBuilder{
 	i.elpredicate.Operand = v
 	return i
 }
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElPredicateBuilder) Build() *ElPredicate {
 	 return i.elpredicate

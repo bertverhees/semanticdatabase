@@ -49,9 +49,44 @@ func NewBmmBooleanValueBuilder() *BmmBooleanValueBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Native Boolean value.
+// Native Boolean value.
 func (i *BmmBooleanValueBuilder) SetValue ( v bool ) *BmmBooleanValueBuilder{
 	i.bmmbooleanvalue.Value = v
+	return i
+}
+	// //From: BmmPrimitiveValue
+// Concrete type of this literal.
+func (i *BmmBooleanValueBuilder) SetType ( v IBmmSimpleType ) *BmmBooleanValueBuilder{
+	i.bmmbooleanvalue.Type = v
+	return i
+}
+	// //From: BmmUnitaryValue
+	// //From: BmmLiteralValue
+// A serial representation of the value.
+func (i *BmmBooleanValueBuilder) SetValueLiteral ( v string ) *BmmBooleanValueBuilder{
+	i.bmmbooleanvalue.ValueLiteral = v
+	return i
+}
+/**
+	A native representation of the value, possibly derived by deserialising
+	value_literal .
+*/
+func (i *BmmBooleanValueBuilder) SetValue ( v Any ) *BmmBooleanValueBuilder{
+	i.bmmbooleanvalue.Value = v
+	return i
+}
+/**
+	Optional specification of formalism of the value_literal attribute for complex
+	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+	value agreed by the user community. If not set, json is assumed.
+*/
+func (i *BmmBooleanValueBuilder) SetSyntax ( v string ) *BmmBooleanValueBuilder{
+	i.bmmbooleanvalue.Syntax = v
+	return i
+}
+// Concrete type of this literal.
+func (i *BmmBooleanValueBuilder) SetType ( v T ) *BmmBooleanValueBuilder{
+	i.bmmbooleanvalue.Type = v
 	return i
 }
 

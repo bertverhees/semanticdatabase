@@ -44,6 +44,8 @@ func NewBmmSimpleStatementBuilder() *BmmSimpleStatementBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmStatement
+	// //From: BmmStatementItem
 
 func (i *BmmSimpleStatementBuilder) Build() *BmmSimpleStatement {
 	 return i.bmmsimplestatement

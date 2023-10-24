@@ -65,9 +65,109 @@ func NewBmmIndexedContainerPropertyBuilder() *BmmIndexedContainerPropertyBuilder
 }
 
 //BUILDER ATTRIBUTES
-	// Declared or inferred static type of the entity.
+// Declared or inferred static type of the entity.
 func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmIndexedContainerType ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Type = v
+	return i
+}
+	// //From: BmmContainerProperty
+// Cardinality of this container.
+func (i *BmmIndexedContainerPropertyBuilder) SetCardinality ( v Multiplicity_interval ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Cardinality = v
+	return i
+}
+// Declared or inferred static type of the entity.
+func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmContainerType ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Type = v
+	return i
+}
+	// //From: BmmProperty
+// True if this property is marked with info model im_runtime property.
+func (i *BmmIndexedContainerPropertyBuilder) SetIsImRuntime ( v bool ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.IsImRuntime = v
+	return i
+}
+// True if this property was marked with info model im_infrastructure flag.
+func (i *BmmIndexedContainerPropertyBuilder) SetIsImInfrastructure ( v bool ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.IsImInfrastructure = v
+	return i
+}
+/**
+	True if this property instance is a compositional sub-part of the owning class
+	instance. Equivalent to 'composition' in UML associations (but missing from UML
+	properties without associations) and also 'cascade-delete' semantics in ER
+	schemas.
+*/
+func (i *BmmIndexedContainerPropertyBuilder) SetIsComposition ( v bool ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.IsComposition = v
+	return i
+}
+	// //From: BmmInstantiableFeature
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmIndexedContainerPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmIndexedContainerPropertyBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmIndexedContainerPropertyBuilder) SetScope ( v IBmmClass ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmIndexedContainerPropertyBuilder) SetType ( v IBmmType ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmIndexedContainerPropertyBuilder) SetIsNullable ( v bool ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmIndexedContainerPropertyBuilder) SetName ( v string ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmIndexedContainerPropertyBuilder) SetScope ( v IBmmModelElement ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmIndexedContainerPropertyBuilder) SetExtensions ( v Hash < Any , String > ) *BmmIndexedContainerPropertyBuilder{
+	i.bmmindexedcontainerproperty.Extensions = v
 	return i
 }
 

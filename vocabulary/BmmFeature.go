@@ -55,27 +55,70 @@ func NewBmmFeatureBuilder() *BmmFeatureBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		True if this feature was synthesised due to generic substitution in an inherited
-		type, or further constraining of a formal generic parameter.
-	*/
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
 func (i *BmmFeatureBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmFeatureBuilder{
 	i.bmmfeature.IsSynthesisedGeneric = v
 	return i
 }
-	// Extensions to feature-level meta-types.
+// Extensions to feature-level meta-types.
 func (i *BmmFeatureBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmFeatureBuilder{
 	i.bmmfeature.FeatureExtensions = v
 	return i
 }
-	// Group containing this feature.
+// Group containing this feature.
 func (i *BmmFeatureBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmFeatureBuilder{
 	i.bmmfeature.Group = v
 	return i
 }
-	// Model element within which an element is declared.
+// Model element within which an element is declared.
 func (i *BmmFeatureBuilder) SetScope ( v IBmmClass ) *BmmFeatureBuilder{
 	i.bmmfeature.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmFeatureBuilder) SetType ( v IBmmType ) *BmmFeatureBuilder{
+	i.bmmfeature.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmFeatureBuilder) SetIsNullable ( v bool ) *BmmFeatureBuilder{
+	i.bmmfeature.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmFeatureBuilder) SetName ( v string ) *BmmFeatureBuilder{
+	i.bmmfeature.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmFeatureBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmFeatureBuilder{
+	i.bmmfeature.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmFeatureBuilder) SetScope ( v IBmmModelElement ) *BmmFeatureBuilder{
+	i.bmmfeature.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmFeatureBuilder) SetExtensions ( v Hash < Any , String > ) *BmmFeatureBuilder{
+	i.bmmfeature.Extensions = v
 	return i
 }
 

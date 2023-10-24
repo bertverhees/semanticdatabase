@@ -63,11 +63,59 @@ func NewElProcedureAgentBuilder() *ElProcedureAgentBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Reference to definition of routine for which this is a call instance.
+// Reference to definition of routine for which this is a call instance.
 func (i *ElProcedureAgentBuilder) SetDefinition ( v IBmmProcedure ) *ElProcedureAgentBuilder{
 	i.elprocedureagent.Definition = v
 	return i
 }
+	// //From: ElAgent
+// Closed arguments of a routine call as a tuple of objects.
+func (i *ElProcedureAgentBuilder) SetClosedArgs ( v IElTuple ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.ClosedArgs = v
+	return i
+}
+/**
+	Optional list of names of open arguments of the call. If not provided, and the
+	name refers to a routine with more arguments than supplied in closed_args , the
+	missing arguments are inferred from the definition .
+*/
+func (i *ElProcedureAgentBuilder) SetOpenArgs ( v []string ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.OpenArgs = v
+	return i
+}
+// Reference to definition of a routine for which this is an agent, if one exists.
+func (i *ElProcedureAgentBuilder) SetDefinition ( v IBmmRoutine ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.Definition = v
+	return i
+}
+// Name of the routine being called.
+func (i *ElProcedureAgentBuilder) SetName ( v string ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.Name = v
+	return i
+}
+func (i *ElProcedureAgentBuilder) SetIsWritable ( v bool ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.IsWritable = v
+	return i
+}
+	// //From: ElFeatureRef
+// Scoping expression, which must be a EL_VALUE_GENERATOR .
+func (i *ElProcedureAgentBuilder) SetScoper ( v IElValueGenerator ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.Scoper = v
+	return i
+}
+	// //From: ElValueGenerator
+func (i *ElProcedureAgentBuilder) SetIsWritable ( v bool ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElProcedureAgentBuilder) SetName ( v string ) *ElProcedureAgentBuilder{
+	i.elprocedureagent.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElProcedureAgentBuilder) Build() *ElProcedureAgent {
 	 return i.elprocedureagent

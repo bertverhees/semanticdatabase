@@ -47,13 +47,24 @@ func NewPBmmSimpleTypeBuilder() *PBmmSimpleTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Name of type - must be a simple class name.
+// Name of type - must be a simple class name.
 func (i *PBmmSimpleTypeBuilder) SetType ( v string ) *PBmmSimpleTypeBuilder{
 	i.pbmmsimpletype.Type = v
 	return i
 }
-	// Result of create_bmm_type() call.
+// Result of create_bmm_type() call.
 func (i *PBmmSimpleTypeBuilder) SetBmmType ( v BMM_SIMPLE_TYPE ) *PBmmSimpleTypeBuilder{
+	i.pbmmsimpletype.BmmType = v
+	return i
+}
+	// //From: PBmmBaseType
+func (i *PBmmSimpleTypeBuilder) SetValueConstraint ( v string ) *PBmmSimpleTypeBuilder{
+	i.pbmmsimpletype.ValueConstraint = v
+	return i
+}
+	// //From: PBmmType
+// Result of create_bmm_type() call.
+func (i *PBmmSimpleTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmSimpleTypeBuilder{
 	i.pbmmsimpletype.BmmType = v
 	return i
 }

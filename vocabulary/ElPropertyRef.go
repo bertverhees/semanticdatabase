@@ -59,16 +59,35 @@ func NewElPropertyRefBuilder() *ElPropertyRefBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Property definition (within class).
+// Property definition (within class).
 func (i *ElPropertyRefBuilder) SetDefinition ( v IBmmProperty ) *ElPropertyRefBuilder{
 	i.elpropertyref.Definition = v
 	return i
 }
-	// Defined to return True.
+// Defined to return True.
 func (i *ElPropertyRefBuilder) SetIsWritable ( v bool ) *ElPropertyRefBuilder{
 	i.elpropertyref.IsWritable = v
 	return i
 }
+	// //From: ElFeatureRef
+// Scoping expression, which must be a EL_VALUE_GENERATOR .
+func (i *ElPropertyRefBuilder) SetScoper ( v IElValueGenerator ) *ElPropertyRefBuilder{
+	i.elpropertyref.Scoper = v
+	return i
+}
+	// //From: ElValueGenerator
+func (i *ElPropertyRefBuilder) SetIsWritable ( v bool ) *ElPropertyRefBuilder{
+	i.elpropertyref.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElPropertyRefBuilder) SetName ( v string ) *ElPropertyRefBuilder{
+	i.elpropertyref.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElPropertyRefBuilder) Build() *ElPropertyRef {
 	 return i.elpropertyref

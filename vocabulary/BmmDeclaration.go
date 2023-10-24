@@ -56,11 +56,14 @@ func (i *BmmDeclarationBuilder) SetResult ( v IElWritableVariable ) *BmmDeclarat
 	i.bmmdeclaration.Result = v
 	return i
 }
-	// The declared type of the variable.
+// The declared type of the variable.
 func (i *BmmDeclarationBuilder) SetType ( v IBmmType ) *BmmDeclarationBuilder{
 	i.bmmdeclaration.Type = v
 	return i
 }
+	// //From: BmmSimpleStatement
+	// //From: BmmStatement
+	// //From: BmmStatementItem
 
 func (i *BmmDeclarationBuilder) Build() *BmmDeclaration {
 	 return i.bmmdeclaration

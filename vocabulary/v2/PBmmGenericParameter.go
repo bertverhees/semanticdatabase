@@ -51,25 +51,31 @@ func NewPBmmGenericParameterBuilder() *PBmmGenericParameterBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Name of the parameter, e.g. 'T' etc. Persisted attribute. Name is limited to 1
-		character, upper case.
-	*/
+/**
+	Name of the parameter, e.g. 'T' etc. Persisted attribute. Name is limited to 1
+	character, upper case.
+*/
 func (i *PBmmGenericParameterBuilder) SetName ( v string ) *PBmmGenericParameterBuilder{
 	i.pbmmgenericparameter.Name = v
 	return i
 }
-	/**
-		Optional conformance constraint - the name of a type to which a concrete
-		substitution of this generic parameter must conform. Persisted attribute.
-	*/
+/**
+	Optional conformance constraint - the name of a type to which a concrete
+	substitution of this generic parameter must conform. Persisted attribute.
+*/
 func (i *PBmmGenericParameterBuilder) SetConformsToType ( v string ) *PBmmGenericParameterBuilder{
 	i.pbmmgenericparameter.ConformsToType = v
 	return i
 }
-	// BMM_GENERIC_PARAMETER created by create_bmm_generic_parameter .
+// BMM_GENERIC_PARAMETER created by create_bmm_generic_parameter .
 func (i *PBmmGenericParameterBuilder) SetBmmGenericParameter ( v vocabulary.IBmmParameterType ) *PBmmGenericParameterBuilder{
 	i.pbmmgenericparameter.BmmGenericParameter = v
+	return i
+}
+	// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmGenericParameterBuilder) SetDocumentation ( v string ) *PBmmGenericParameterBuilder{
+	i.pbmmgenericparameter.Documentation = v
 	return i
 }
 

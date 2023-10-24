@@ -58,14 +58,30 @@ func NewElConditionChainBuilder() *ElConditionChainBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Members of the chain, equivalent to branches in an if/then/else chain and cases
-		in a case statement.
-	*/
+/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+*/
 func (i *ElConditionChainBuilder) SetItems ( v List < EL_CONDITIONAL_EXPRESSION > ) *ElConditionChainBuilder{
 	i.elconditionchain.Items = v
 	return i
 }
+	// //From: ElDecisionTable
+/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+*/
+func (i *ElConditionChainBuilder) SetItems ( v List < EL_DECISION_BRANCH > ) *ElConditionChainBuilder{
+	i.elconditionchain.Items = v
+	return i
+}
+// Result expression of conditional, if its condition evaluates to True.
+func (i *ElConditionChainBuilder) SetElse ( v T ) *ElConditionChainBuilder{
+	i.elconditionchain.Else = v
+	return i
+}
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElConditionChainBuilder) Build() *ElConditionChain {
 	 return i.elconditionchain

@@ -55,22 +55,37 @@ func NewPBmmPackageBuilder() *PBmmPackageBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Name of the package from schema; this name may be qualified if it is a top-level
-		package within the schema, or unqualified. Persistent attribute.
-	*/
+/**
+	Name of the package from schema; this name may be qualified if it is a top-level
+	package within the schema, or unqualified. Persistent attribute.
+*/
 func (i *PBmmPackageBuilder) SetName ( v string ) *PBmmPackageBuilder{
 	i.pbmmpackage.Name = v
 	return i
 }
-	// List of classes in this package. Persistent attribute.
+// List of classes in this package. Persistent attribute.
 func (i *PBmmPackageBuilder) SetClasses ( v []string ) *PBmmPackageBuilder{
 	i.pbmmpackage.Classes = v
 	return i
 }
-	// BMM_PACKAGE created by create_bmm_package_definition .
+// BMM_PACKAGE created by create_bmm_package_definition .
 func (i *PBmmPackageBuilder) SetBmmPackageDefinition ( v BMM_PACKAGE ) *PBmmPackageBuilder{
 	i.pbmmpackage.BmmPackageDefinition = v
+	return i
+}
+	// //From: PBmmPackageContainer
+/**
+	Package structure as a hierarchy of packages each potentially containing names
+	of classes in that package in the original model.
+*/
+func (i *PBmmPackageBuilder) SetPackages ( v Hash< P_BMM_PACKAGE , String > ) *PBmmPackageBuilder{
+	i.pbmmpackage.Packages = v
+	return i
+}
+	// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmPackageBuilder) SetDocumentation ( v string ) *PBmmPackageBuilder{
+	i.pbmmpackage.Documentation = v
 	return i
 }
 

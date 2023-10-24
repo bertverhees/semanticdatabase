@@ -52,17 +52,90 @@ func NewPBmmIndexedContainerPropertyBuilder() *PBmmIndexedContainerPropertyBuild
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Type definition of this property, if not a simple String type reference.
-		Persistent attribute.
-	*/
+/**
+	Type definition of this property, if not a simple String type reference.
+	Persistent attribute.
+*/
 func (i *PBmmIndexedContainerPropertyBuilder) SetTypeDef ( v IPBmmIndexedContainerType ) *PBmmIndexedContainerPropertyBuilder{
 	i.pbmmindexedcontainerproperty.TypeDef = v
 	return i
 }
-	// BMM_PROPERTY created by create_bmm_property .
+// BMM_PROPERTY created by create_bmm_property .
 func (i *PBmmIndexedContainerPropertyBuilder) SetBmmProperty ( v IPBmmIndexedContainerProperty ) *PBmmIndexedContainerPropertyBuilder{
 	i.pbmmindexedcontainerproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmContainerProperty
+// Cardinality of this property in its class. Persistent attribute.
+func (i *PBmmIndexedContainerPropertyBuilder) SetCardinality ( v base.Interval[int] ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.Cardinality = v
+	return i
+}
+/**
+	Type definition of this property, if not a simple String type reference.
+	Persistent attribute.
+*/
+func (i *PBmmIndexedContainerPropertyBuilder) SetTypeDef ( v IPBmmContainerType ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.TypeDef = v
+	return i
+}
+// BMM_PROPERTY created by create_bmm_property .
+func (i *PBmmIndexedContainerPropertyBuilder) SetBmmProperty ( v vocabulary.IBmmContainerProperty ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmProperty
+// Name of this property within its class. Persisted attribute.
+func (i *PBmmIndexedContainerPropertyBuilder) SetName ( v string ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.Name = v
+	return i
+}
+// True if this property is mandatory in its class. Persisted attribute.
+func (i *PBmmIndexedContainerPropertyBuilder) SetIsMandatory ( v bool ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.IsMandatory = v
+	return i
+}
+/**
+	True if this property is computed rather than stored in objects of this class.
+	Persisted Attribute.
+*/
+func (i *PBmmIndexedContainerPropertyBuilder) SetIsComputed ( v bool ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.IsComputed = v
+	return i
+}
+/**
+	True if this property is info model 'infrastructure' rather than 'data'.
+	Persisted attribute.
+*/
+func (i *PBmmIndexedContainerPropertyBuilder) SetIsImInfrastructure ( v bool ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.IsImInfrastructure = v
+	return i
+}
+/**
+	True if this property is info model 'runtime' settable property. Persisted
+	attribute.
+*/
+func (i *PBmmIndexedContainerPropertyBuilder) SetIsImRuntime ( v bool ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.IsImRuntime = v
+	return i
+}
+/**
+	Type definition of this property, if not a simple String type reference.
+	Persisted attribute.
+*/
+func (i *PBmmIndexedContainerPropertyBuilder) SetTypeDef ( v P_BMM_TYPE ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.TypeDef = v
+	return i
+}
+// BMM_PROPERTY created by create_bmm_property_definition.
+func (i *PBmmIndexedContainerPropertyBuilder) SetBmmProperty ( v BMM_PROPERTY ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmIndexedContainerPropertyBuilder) SetDocumentation ( v string ) *PBmmIndexedContainerPropertyBuilder{
+	i.pbmmindexedcontainerproperty.Documentation = v
 	return i
 }
 

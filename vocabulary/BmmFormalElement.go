@@ -48,17 +48,46 @@ func NewBmmFormalElementBuilder() *BmmFormalElementBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Declared or inferred static type of the entity.
+// Declared or inferred static type of the entity.
 func (i *BmmFormalElementBuilder) SetType ( v IBmmType ) *BmmFormalElementBuilder{
 	i.bmmformalelement.Type = v
 	return i
 }
-	/**
-		True if this element can be null (Void) at execution time. May be interpreted as
-		optionality in subtypes..
-	*/
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
 func (i *BmmFormalElementBuilder) SetIsNullable ( v bool ) *BmmFormalElementBuilder{
 	i.bmmformalelement.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmFormalElementBuilder) SetName ( v string ) *BmmFormalElementBuilder{
+	i.bmmformalelement.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmFormalElementBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmFormalElementBuilder{
+	i.bmmformalelement.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmFormalElementBuilder) SetScope ( v IBmmModelElement ) *BmmFormalElementBuilder{
+	i.bmmformalelement.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmFormalElementBuilder) SetExtensions ( v Hash < Any , String > ) *BmmFormalElementBuilder{
+	i.bmmformalelement.Extensions = v
 	return i
 }
 

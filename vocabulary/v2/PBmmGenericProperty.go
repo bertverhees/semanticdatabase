@@ -49,17 +49,71 @@ func NewPBmmGenericPropertyBuilder() *PBmmGenericPropertyBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Type definition of this property, if not a simple String type reference.
-		Persistent attribute.
-	*/
+/**
+	Type definition of this property, if not a simple String type reference.
+	Persistent attribute.
+*/
 func (i *PBmmGenericPropertyBuilder) SetTypeDef ( v IPBmmGenericType ) *PBmmGenericPropertyBuilder{
 	i.pbmmgenericproperty.TypeDef = v
 	return i
 }
-	// BMM_PROPERTY created by create_bmm_property_definition .
+// BMM_PROPERTY created by create_bmm_property_definition .
 func (i *PBmmGenericPropertyBuilder) SetBmmProperty ( v vocabulary.IBmmUnitaryProperty ) *PBmmGenericPropertyBuilder{
 	i.pbmmgenericproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmProperty
+// Name of this property within its class. Persisted attribute.
+func (i *PBmmGenericPropertyBuilder) SetName ( v string ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.Name = v
+	return i
+}
+// True if this property is mandatory in its class. Persisted attribute.
+func (i *PBmmGenericPropertyBuilder) SetIsMandatory ( v bool ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.IsMandatory = v
+	return i
+}
+/**
+	True if this property is computed rather than stored in objects of this class.
+	Persisted Attribute.
+*/
+func (i *PBmmGenericPropertyBuilder) SetIsComputed ( v bool ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.IsComputed = v
+	return i
+}
+/**
+	True if this property is info model 'infrastructure' rather than 'data'.
+	Persisted attribute.
+*/
+func (i *PBmmGenericPropertyBuilder) SetIsImInfrastructure ( v bool ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.IsImInfrastructure = v
+	return i
+}
+/**
+	True if this property is info model 'runtime' settable property. Persisted
+	attribute.
+*/
+func (i *PBmmGenericPropertyBuilder) SetIsImRuntime ( v bool ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.IsImRuntime = v
+	return i
+}
+/**
+	Type definition of this property, if not a simple String type reference.
+	Persisted attribute.
+*/
+func (i *PBmmGenericPropertyBuilder) SetTypeDef ( v P_BMM_TYPE ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.TypeDef = v
+	return i
+}
+// BMM_PROPERTY created by create_bmm_property_definition.
+func (i *PBmmGenericPropertyBuilder) SetBmmProperty ( v BMM_PROPERTY ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmGenericPropertyBuilder) SetDocumentation ( v string ) *PBmmGenericPropertyBuilder{
+	i.pbmmgenericproperty.Documentation = v
 	return i
 }
 

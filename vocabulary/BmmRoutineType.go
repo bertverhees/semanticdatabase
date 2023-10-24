@@ -78,14 +78,24 @@ func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Type of arguments in the signature, if any; represented as a type-tuple (list of
-		arbitrary types).
-	*/
+/**
+	Type of arguments in the signature, if any; represented as a type-tuple (list of
+	arbitrary types).
+*/
 func (i *BmmRoutineTypeBuilder) SetArgumentTypes ( v IBmmTupleType ) *BmmRoutineTypeBuilder{
 	i.bmmroutinetype.ArgumentTypes = v
 	return i
 }
+	// //From: BmmSignature
+// Result type of signature.
+func (i *BmmRoutineTypeBuilder) SetResultType ( v IBmmType ) *BmmRoutineTypeBuilder{
+	i.bmmroutinetype.ResultType = v
+	return i
+}
+	// //From: BmmBuiltinType
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
 	 return i.bmmroutinetype

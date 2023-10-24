@@ -44,20 +44,20 @@ func NewBmmOperatorBuilder() *BmmOperatorBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Position of operator in syntactic representation.
+// Position of operator in syntactic representation.
 func (i *BmmOperatorBuilder) SetPosition ( v BMM_OPERATOR_POSITION ) *BmmOperatorBuilder{
 	i.bmmoperator.Position = v
 	return i
 }
-	/**
-		Set of String symbols that may be used to represent this operator in a textual
-		representation of a BMM model.
-	*/
+/**
+	Set of String symbols that may be used to represent this operator in a textual
+	representation of a BMM model.
+*/
 func (i *BmmOperatorBuilder) SetSymbols ( v []string ) *BmmOperatorBuilder{
 	i.bmmoperator.Symbols = v
 	return i
 }
-	// Formal name of the operator, e.g. 'minus' etc.
+// Formal name of the operator, e.g. 'minus' etc.
 func (i *BmmOperatorBuilder) SetName ( v string ) *BmmOperatorBuilder{
 	i.bmmoperator.Name = v
 	return i

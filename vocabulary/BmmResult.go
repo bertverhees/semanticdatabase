@@ -55,9 +55,59 @@ func NewBmmResultBuilder() *BmmResultBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Name of this model element.
+// Name of this model element.
 func (i *BmmResultBuilder) SetName ( v string ) *BmmResultBuilder{
 	i.bmmresult.Name = v
+	return i
+}
+	// //From: BmmWritableVariable
+	// //From: BmmVariable
+// Routine within which variable is defined.
+func (i *BmmResultBuilder) SetScope ( v IBmmRoutine ) *BmmResultBuilder{
+	i.bmmresult.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmResultBuilder) SetType ( v IBmmType ) *BmmResultBuilder{
+	i.bmmresult.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmResultBuilder) SetIsNullable ( v bool ) *BmmResultBuilder{
+	i.bmmresult.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmResultBuilder) SetName ( v string ) *BmmResultBuilder{
+	i.bmmresult.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmResultBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmResultBuilder{
+	i.bmmresult.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmResultBuilder) SetScope ( v IBmmModelElement ) *BmmResultBuilder{
+	i.bmmresult.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmResultBuilder) SetExtensions ( v Hash < Any , String > ) *BmmResultBuilder{
+	i.bmmresult.Extensions = v
 	return i
 }
 

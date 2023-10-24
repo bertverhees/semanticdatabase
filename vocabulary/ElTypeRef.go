@@ -59,7 +59,7 @@ func NewElTypeRefBuilder() *ElTypeRefBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
+// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
 func (i *ElTypeRefBuilder) SetType ( v IBmmType ) *ElTypeRefBuilder{
 	i.eltyperef.Type = v
 	return i
@@ -68,6 +68,19 @@ func (i *ElTypeRefBuilder) SetIsMutable ( v bool ) *ElTypeRefBuilder{
 	i.eltyperef.IsMutable = v
 	return i
 }
+	// //From: ElValueGenerator
+func (i *ElTypeRefBuilder) SetIsWritable ( v bool ) *ElTypeRefBuilder{
+	i.eltyperef.IsWritable = v
+	return i
+}
+// Name used to represent the reference or other entity.
+func (i *ElTypeRefBuilder) SetName ( v string ) *ElTypeRefBuilder{
+	i.eltyperef.Name = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElTypeRefBuilder) Build() *ElTypeRef {
 	 return i.eltyperef

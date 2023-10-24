@@ -63,11 +63,14 @@ func (i *BmmModelTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmMode
 	i.bmmmodeltype.ValueConstraint = v
 	return i
 }
-	// Base class of this type.
+// Base class of this type.
 func (i *BmmModelTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmModelTypeBuilder{
 	i.bmmmodeltype.BaseClass = v
 	return i
 }
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmModelTypeBuilder) Build() *BmmModelType {
 	 return i.bmmmodeltype

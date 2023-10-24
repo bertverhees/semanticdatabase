@@ -39,7 +39,7 @@ func NewPBmmTypeBuilder() *PBmmTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Result of create_bmm_type() call.
+// Result of create_bmm_type() call.
 func (i *PBmmTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmTypeBuilder{
 	i.pbmmtype.BmmType = v
 	return i

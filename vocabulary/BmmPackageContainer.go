@@ -46,14 +46,43 @@ func NewBmmPackageContainerBuilder() *BmmPackageContainerBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Child packages; keys all in upper case for guaranteed matching.
+// Child packages; keys all in upper case for guaranteed matching.
 func (i *BmmPackageContainerBuilder) SetPackages ( v Hash <String, BMM_PACKAGE > ) *BmmPackageContainerBuilder{
 	i.bmmpackagecontainer.Packages = v
 	return i
 }
-	// Model element within which a referenceable element is known.
+// Model element within which a referenceable element is known.
 func (i *BmmPackageContainerBuilder) SetScope ( v IBmmPackageContainer ) *BmmPackageContainerBuilder{
 	i.bmmpackagecontainer.Scope = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmPackageContainerBuilder) SetName ( v string ) *BmmPackageContainerBuilder{
+	i.bmmpackagecontainer.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmPackageContainerBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmPackageContainerBuilder{
+	i.bmmpackagecontainer.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmPackageContainerBuilder) SetScope ( v IBmmModelElement ) *BmmPackageContainerBuilder{
+	i.bmmpackagecontainer.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmPackageContainerBuilder) SetExtensions ( v Hash < Any , String > ) *BmmPackageContainerBuilder{
+	i.bmmpackagecontainer.Extensions = v
 	return i
 }
 

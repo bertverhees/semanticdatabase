@@ -48,19 +48,48 @@ func NewBmmModuleBuilder() *BmmModuleBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// List of feature groups in this class.
+// List of feature groups in this class.
 func (i *BmmModuleBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmModuleBuilder{
 	i.bmmmodule.FeatureGroups = v
 	return i
 }
-	// Features of this module.
+// Features of this module.
 func (i *BmmModuleBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmModuleBuilder{
 	i.bmmmodule.Features = v
 	return i
 }
-	// Model within which module is defined.
+// Model within which module is defined.
 func (i *BmmModuleBuilder) SetScope ( v IBmmModel ) *BmmModuleBuilder{
 	i.bmmmodule.Scope = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmModuleBuilder) SetName ( v string ) *BmmModuleBuilder{
+	i.bmmmodule.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmModuleBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmModuleBuilder{
+	i.bmmmodule.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmModuleBuilder) SetScope ( v IBmmModelElement ) *BmmModuleBuilder{
+	i.bmmmodule.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmModuleBuilder) SetExtensions ( v Hash < Any , String > ) *BmmModuleBuilder{
+	i.bmmmodule.Extensions = v
 	return i
 }
 

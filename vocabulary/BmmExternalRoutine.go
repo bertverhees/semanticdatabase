@@ -48,19 +48,20 @@ func NewBmmExternalRoutineBuilder() *BmmExternalRoutineBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		External call general meta-data, including target routine name, type mapping
-		etc.
-	*/
+/**
+	External call general meta-data, including target routine name, type mapping
+	etc.
+*/
 func (i *BmmExternalRoutineBuilder) SetMetaData ( v map[string]string ) *BmmExternalRoutineBuilder{
 	i.bmmexternalroutine.MetaData = v
 	return i
 }
-	// Optional argument-mapping meta-data.
+// Optional argument-mapping meta-data.
 func (i *BmmExternalRoutineBuilder) SetArgumentMapping ( v map[string]string ) *BmmExternalRoutineBuilder{
 	i.bmmexternalroutine.ArgumentMapping = v
 	return i
 }
+	// //From: BmmRoutineDefinition
 
 func (i *BmmExternalRoutineBuilder) Build() *BmmExternalRoutine {
 	 return i.bmmexternalroutine

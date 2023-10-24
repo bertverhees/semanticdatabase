@@ -69,6 +69,10 @@ func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmBuiltinType
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmStatusTypeBuilder) Build() *BmmStatusType {
 	 return i.bmmstatustype

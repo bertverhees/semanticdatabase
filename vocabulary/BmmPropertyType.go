@@ -69,6 +69,16 @@ func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BmmSignature
+// Result type of signature.
+func (i *BmmPropertyTypeBuilder) SetResultType ( v IBmmType ) *BmmPropertyTypeBuilder{
+	i.bmmpropertytype.ResultType = v
+	return i
+}
+	// //From: BmmBuiltinType
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmPropertyTypeBuilder) Build() *BmmPropertyType {
 	 return i.bmmpropertytype

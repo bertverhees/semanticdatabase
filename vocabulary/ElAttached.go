@@ -53,6 +53,15 @@ func NewElAttachedBuilder() *ElAttachedBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: ElPredicate
+// The target instance of this predicate.
+func (i *ElAttachedBuilder) SetOperand ( v IElValueGenerator ) *ElAttachedBuilder{
+	i.elattached.Operand = v
+	return i
+}
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElAttachedBuilder) Build() *ElAttached {
 	 return i.elattached

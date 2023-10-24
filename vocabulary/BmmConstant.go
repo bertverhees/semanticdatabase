@@ -59,9 +59,78 @@ func NewBmmConstantBuilder() *BmmConstantBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Literal value of the constant.
+// Literal value of the constant.
 func (i *BmmConstantBuilder) SetGenerator ( v IBmmLiteralValue ) *BmmConstantBuilder{
 	i.bmmconstant.Generator = v
+	return i
+}
+	// //From: BmmStatic
+	// //From: BmmInstantiableFeature
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmConstantBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmConstantBuilder{
+	i.bmmconstant.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmConstantBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmConstantBuilder{
+	i.bmmconstant.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmConstantBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmConstantBuilder{
+	i.bmmconstant.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmConstantBuilder) SetScope ( v IBmmClass ) *BmmConstantBuilder{
+	i.bmmconstant.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmConstantBuilder) SetType ( v IBmmType ) *BmmConstantBuilder{
+	i.bmmconstant.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmConstantBuilder) SetIsNullable ( v bool ) *BmmConstantBuilder{
+	i.bmmconstant.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmConstantBuilder) SetName ( v string ) *BmmConstantBuilder{
+	i.bmmconstant.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmConstantBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmConstantBuilder{
+	i.bmmconstant.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmConstantBuilder) SetScope ( v IBmmModelElement ) *BmmConstantBuilder{
+	i.bmmconstant.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmConstantBuilder) SetExtensions ( v Hash < Any , String > ) *BmmConstantBuilder{
+	i.bmmconstant.Extensions = v
 	return i
 }
 

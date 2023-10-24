@@ -65,11 +65,24 @@ func NewBmmSimpleTypeBuilder() *BmmSimpleTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Defining class of this type.
+// Defining class of this type.
 func (i *BmmSimpleTypeBuilder) SetBaseClass ( v IBmmSimpleClass ) *BmmSimpleTypeBuilder{
 	i.bmmsimpletype.BaseClass = v
 	return i
 }
+	// //From: BmmModelType
+func (i *BmmSimpleTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmSimpleTypeBuilder{
+	i.bmmsimpletype.ValueConstraint = v
+	return i
+}
+// Base class of this type.
+func (i *BmmSimpleTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmSimpleTypeBuilder{
+	i.bmmsimpletype.BaseClass = v
+	return i
+}
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
 	 return i.bmmsimpletype

@@ -167,6 +167,7 @@ func NewBmmDefinitionsBuilder() *BmmDefinitionsBuilder {
 }
 
 //BUILDER ATTRIBUTES
+	// //From: BasicDefinitions
 
 func (i *BmmDefinitionsBuilder) Build() *BmmDefinitions {
 	 return i.bmmdefinitions

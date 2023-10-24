@@ -76,11 +76,15 @@ func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// List of types of the items of the tuple, keyed by purpose in the tuple.
+// List of types of the items of the tuple, keyed by purpose in the tuple.
 func (i *BmmTupleTypeBuilder) SetItemTypes ( v Hash <String, BMM_TYPE > ) *BmmTupleTypeBuilder{
 	i.bmmtupletype.ItemTypes = v
 	return i
 }
+	// //From: BmmBuiltinType
+	// //From: BmmEffectiveType
+	// //From: BmmUnitaryType
+	// //From: BmmType
 
 func (i *BmmTupleTypeBuilder) Build() *BmmTupleType {
 	 return i.bmmtupletype

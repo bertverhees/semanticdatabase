@@ -56,26 +56,80 @@ func NewPBmmSinglePropertyBuilder() *PBmmSinglePropertyBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		If the type is a simple type, then this attribute will hold the type name. If
-		the type is a container or generic, then type_ref will hold the type definition.
-		The resulting type is generated in type_def.
-	*/
+/**
+	If the type is a simple type, then this attribute will hold the type name. If
+	the type is a container or generic, then type_ref will hold the type definition.
+	The resulting type is generated in type_def.
+*/
 func (i *PBmmSinglePropertyBuilder) SetType ( v string ) *PBmmSinglePropertyBuilder{
 	i.pbmmsingleproperty.Type = v
 	return i
 }
-	/**
-		Type definition of this property computed from type for later use in
-		bmm_property .
-	*/
+/**
+	Type definition of this property computed from type for later use in
+	bmm_property .
+*/
 func (i *PBmmSinglePropertyBuilder) SetTypeRef ( v P_BMM_SIMPLE_TYPE ) *PBmmSinglePropertyBuilder{
 	i.pbmmsingleproperty.TypeRef = v
 	return i
 }
-	// BMM_PROPERTY created by create_bmm_property_definition .
+// BMM_PROPERTY created by create_bmm_property_definition .
 func (i *PBmmSinglePropertyBuilder) SetBmmProperty ( v vocabulary.IBmmUnitaryProperty ) *PBmmSinglePropertyBuilder{
 	i.pbmmsingleproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmProperty
+// Name of this property within its class. Persisted attribute.
+func (i *PBmmSinglePropertyBuilder) SetName ( v string ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.Name = v
+	return i
+}
+// True if this property is mandatory in its class. Persisted attribute.
+func (i *PBmmSinglePropertyBuilder) SetIsMandatory ( v bool ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.IsMandatory = v
+	return i
+}
+/**
+	True if this property is computed rather than stored in objects of this class.
+	Persisted Attribute.
+*/
+func (i *PBmmSinglePropertyBuilder) SetIsComputed ( v bool ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.IsComputed = v
+	return i
+}
+/**
+	True if this property is info model 'infrastructure' rather than 'data'.
+	Persisted attribute.
+*/
+func (i *PBmmSinglePropertyBuilder) SetIsImInfrastructure ( v bool ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.IsImInfrastructure = v
+	return i
+}
+/**
+	True if this property is info model 'runtime' settable property. Persisted
+	attribute.
+*/
+func (i *PBmmSinglePropertyBuilder) SetIsImRuntime ( v bool ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.IsImRuntime = v
+	return i
+}
+/**
+	Type definition of this property, if not a simple String type reference.
+	Persisted attribute.
+*/
+func (i *PBmmSinglePropertyBuilder) SetTypeDef ( v P_BMM_TYPE ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.TypeDef = v
+	return i
+}
+// BMM_PROPERTY created by create_bmm_property_definition.
+func (i *PBmmSinglePropertyBuilder) SetBmmProperty ( v BMM_PROPERTY ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.BmmProperty = v
+	return i
+}
+	// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmSinglePropertyBuilder) SetDocumentation ( v string ) *PBmmSinglePropertyBuilder{
+	i.pbmmsingleproperty.Documentation = v
 	return i
 }
 

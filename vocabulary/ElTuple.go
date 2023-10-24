@@ -48,19 +48,20 @@ func NewElTupleBuilder() *ElTupleBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Items in the tuple, potentially with names. Typical use is to represent an
-		argument list to routine call.
-	*/
+/**
+	Items in the tuple, potentially with names. Typical use is to represent an
+	argument list to routine call.
+*/
 func (i *ElTupleBuilder) SetItems ( v List < EL_TUPLE_ITEM > ) *ElTupleBuilder{
 	i.eltuple.Items = v
 	return i
 }
-	// Static type inferred from literal value.
+// Static type inferred from literal value.
 func (i *ElTupleBuilder) SetType ( v IBmmTupleType ) *ElTupleBuilder{
 	i.eltuple.Type = v
 	return i
 }
+	// //From: ElExpression
 
 func (i *ElTupleBuilder) Build() *ElTuple {
 	 return i.eltuple

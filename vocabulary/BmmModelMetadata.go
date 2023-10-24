@@ -42,12 +42,12 @@ func NewBmmModelMetadataBuilder() *BmmModelMetadataBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Publisher of model expressed in the schema.
+// Publisher of model expressed in the schema.
 func (i *BmmModelMetadataBuilder) SetRmPublisher ( v string ) *BmmModelMetadataBuilder{
 	i.bmmmodelmetadata.RmPublisher = v
 	return i
 }
-	// Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
+// Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
 func (i *BmmModelMetadataBuilder) SetRmRelease ( v string ) *BmmModelMetadataBuilder{
 	i.bmmmodelmetadata.RmRelease = v
 	return i

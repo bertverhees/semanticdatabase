@@ -50,8 +50,44 @@ func (i *PBmmIndexedContainerTypeBuilder) SetIndexType ( v string ) *PBmmIndexed
 	i.pbmmindexedcontainertype.IndexType = v
 	return i
 }
-	// Result of create_bmm_type() call.
+// Result of create_bmm_type() call.
 func (i *PBmmIndexedContainerTypeBuilder) SetBmmType ( v vocabulary.IBmmIndexedContainerType ) *PBmmIndexedContainerTypeBuilder{
+	i.pbmmindexedcontainertype.BmmType = v
+	return i
+}
+	// //From: PBmmContainerType
+/**
+	The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+	Persisted attribute.
+*/
+func (i *PBmmIndexedContainerTypeBuilder) SetContainerType ( v string ) *PBmmIndexedContainerTypeBuilder{
+	i.pbmmindexedcontainertype.ContainerType = v
+	return i
+}
+/**
+	Type definition of type , if not a simple String type reference. Persisted
+	attribute.
+*/
+func (i *PBmmIndexedContainerTypeBuilder) SetTypeDef ( v IPBmmBaseType ) *PBmmIndexedContainerTypeBuilder{
+	i.pbmmindexedcontainertype.TypeDef = v
+	return i
+}
+/**
+	The target type; this converts to the first parameter in generic_parameters in
+	BMM_GENERIC_TYPE . Persisted attribute.
+*/
+func (i *PBmmIndexedContainerTypeBuilder) SetType ( v string ) *PBmmIndexedContainerTypeBuilder{
+	i.pbmmindexedcontainertype.Type = v
+	return i
+}
+// Result of create_bmm_type() call.
+func (i *PBmmIndexedContainerTypeBuilder) SetBmmType ( v vocabulary.IBmmContainerType ) *PBmmIndexedContainerTypeBuilder{
+	i.pbmmindexedcontainertype.BmmType = v
+	return i
+}
+	// //From: PBmmType
+// Result of create_bmm_type() call.
+func (i *PBmmIndexedContainerTypeBuilder) SetBmmType ( v BMM_TYPE ) *PBmmIndexedContainerTypeBuilder{
 	i.pbmmindexedcontainertype.BmmType = v
 	return i
 }

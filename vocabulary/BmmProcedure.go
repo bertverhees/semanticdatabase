@@ -59,9 +59,105 @@ func NewBmmProcedureBuilder() *BmmProcedureBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Declared or inferred static type of the entity.
+// Declared or inferred static type of the entity.
 func (i *BmmProcedureBuilder) SetType ( v IBmmStatusType ) *BmmProcedureBuilder{
 	i.bmmprocedure.Type = v
+	return i
+}
+	// //From: BmmRoutine
+// Formal parameters of the routine.
+func (i *BmmProcedureBuilder) SetParameters ( v List < BMM_PARAMETER > ) *BmmProcedureBuilder{
+	i.bmmprocedure.Parameters = v
+	return i
+}
+/**
+	Boolean conditions that must evaluate to True for the routine to execute
+	correctly, May be used to generate exceptions if included in run-time build. A
+	False pre-condition implies an error in the passed parameters.
+*/
+func (i *BmmProcedureBuilder) SetPreConditions ( v []vocabulary.IBmmAssertion ) *BmmProcedureBuilder{
+	i.bmmprocedure.PreConditions = v
+	return i
+}
+/**
+	Boolean conditions that will evaluate to True if the routine executed correctly,
+	May be used to generate exceptions if included in run-time build. A False
+	post-condition implies an error (i.e. bug) in routine code.
+*/
+func (i *BmmProcedureBuilder) SetPostConditions ( v []vocabulary.IBmmAssertion ) *BmmProcedureBuilder{
+	i.bmmprocedure.PostConditions = v
+	return i
+}
+// Body of a routine, i.e. executable program.
+func (i *BmmProcedureBuilder) SetDefinition ( v IBmmRoutineDefinition ) *BmmProcedureBuilder{
+	i.bmmprocedure.Definition = v
+	return i
+}
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmProcedureBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmProcedureBuilder{
+	i.bmmprocedure.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmProcedureBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmProcedureBuilder{
+	i.bmmprocedure.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmProcedureBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmProcedureBuilder{
+	i.bmmprocedure.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmProcedureBuilder) SetScope ( v IBmmClass ) *BmmProcedureBuilder{
+	i.bmmprocedure.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmProcedureBuilder) SetType ( v IBmmType ) *BmmProcedureBuilder{
+	i.bmmprocedure.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmProcedureBuilder) SetIsNullable ( v bool ) *BmmProcedureBuilder{
+	i.bmmprocedure.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmProcedureBuilder) SetName ( v string ) *BmmProcedureBuilder{
+	i.bmmprocedure.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmProcedureBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmProcedureBuilder{
+	i.bmmprocedure.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmProcedureBuilder) SetScope ( v IBmmModelElement ) *BmmProcedureBuilder{
+	i.bmmprocedure.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmProcedureBuilder) SetExtensions ( v Hash < Any , String > ) *BmmProcedureBuilder{
+	i.bmmprocedure.Extensions = v
 	return i
 }
 

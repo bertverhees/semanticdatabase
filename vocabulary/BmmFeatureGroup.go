@@ -49,25 +49,25 @@ func NewBmmFeatureGroupBuilder() *BmmFeatureGroupBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// Name of this feature group; defaults to 'feature'.
+// Name of this feature group; defaults to 'feature'.
 func (i *BmmFeatureGroupBuilder) SetName ( v string ) *BmmFeatureGroupBuilder{
 	i.bmmfeaturegroup.Name = v
 	return i
 }
-	/**
-		Set of properties of this group, represented as name/value pairs. These are
-		understood to apply logically to all of the features contained within the group.
-	*/
+/**
+	Set of properties of this group, represented as name/value pairs. These are
+	understood to apply logically to all of the features contained within the group.
+*/
 func (i *BmmFeatureGroupBuilder) SetProperties ( v map[string]string ) *BmmFeatureGroupBuilder{
 	i.bmmfeaturegroup.Properties = v
 	return i
 }
-	// Set of features in this group.
+// Set of features in this group.
 func (i *BmmFeatureGroupBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmFeatureGroupBuilder{
 	i.bmmfeaturegroup.Features = v
 	return i
 }
-	// Optional visibility to apply to all features in this group.
+// Optional visibility to apply to all features in this group.
 func (i *BmmFeatureGroupBuilder) SetVisibility ( v IBmmVisibility ) *BmmFeatureGroupBuilder{
 	i.bmmfeaturegroup.Visibility = v
 	return i

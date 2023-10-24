@@ -62,17 +62,113 @@ func NewBmmFunctionBuilder() *BmmFunctionBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		Optional details enabling a function to be represented as an operator in a
-		syntactic representation.
-	*/
+/**
+	Optional details enabling a function to be represented as an operator in a
+	syntactic representation.
+*/
 func (i *BmmFunctionBuilder) SetOperatorDefinition ( v IBmmOperator ) *BmmFunctionBuilder{
 	i.bmmfunction.OperatorDefinition = v
 	return i
 }
-	// Automatically created Result variable, usable in body and post-condition.
+// Automatically created Result variable, usable in body and post-condition.
 func (i *BmmFunctionBuilder) SetResult ( v IBmmResult ) *BmmFunctionBuilder{
 	i.bmmfunction.Result = v
+	return i
+}
+	// //From: BmmRoutine
+// Formal parameters of the routine.
+func (i *BmmFunctionBuilder) SetParameters ( v List < BMM_PARAMETER > ) *BmmFunctionBuilder{
+	i.bmmfunction.Parameters = v
+	return i
+}
+/**
+	Boolean conditions that must evaluate to True for the routine to execute
+	correctly, May be used to generate exceptions if included in run-time build. A
+	False pre-condition implies an error in the passed parameters.
+*/
+func (i *BmmFunctionBuilder) SetPreConditions ( v []vocabulary.IBmmAssertion ) *BmmFunctionBuilder{
+	i.bmmfunction.PreConditions = v
+	return i
+}
+/**
+	Boolean conditions that will evaluate to True if the routine executed correctly,
+	May be used to generate exceptions if included in run-time build. A False
+	post-condition implies an error (i.e. bug) in routine code.
+*/
+func (i *BmmFunctionBuilder) SetPostConditions ( v []vocabulary.IBmmAssertion ) *BmmFunctionBuilder{
+	i.bmmfunction.PostConditions = v
+	return i
+}
+// Body of a routine, i.e. executable program.
+func (i *BmmFunctionBuilder) SetDefinition ( v IBmmRoutineDefinition ) *BmmFunctionBuilder{
+	i.bmmfunction.Definition = v
+	return i
+}
+	// //From: BmmFeature
+/**
+	True if this feature was synthesised due to generic substitution in an inherited
+	type, or further constraining of a formal generic parameter.
+*/
+func (i *BmmFunctionBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmFunctionBuilder{
+	i.bmmfunction.IsSynthesisedGeneric = v
+	return i
+}
+// Extensions to feature-level meta-types.
+func (i *BmmFunctionBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmFunctionBuilder{
+	i.bmmfunction.FeatureExtensions = v
+	return i
+}
+// Group containing this feature.
+func (i *BmmFunctionBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmFunctionBuilder{
+	i.bmmfunction.Group = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmFunctionBuilder) SetScope ( v IBmmClass ) *BmmFunctionBuilder{
+	i.bmmfunction.Scope = v
+	return i
+}
+	// //From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmFunctionBuilder) SetType ( v IBmmType ) *BmmFunctionBuilder{
+	i.bmmfunction.Type = v
+	return i
+}
+/**
+	True if this element can be null (Void) at execution time. May be interpreted as
+	optionality in subtypes..
+*/
+func (i *BmmFunctionBuilder) SetIsNullable ( v bool ) *BmmFunctionBuilder{
+	i.bmmfunction.IsNullable = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmFunctionBuilder) SetName ( v string ) *BmmFunctionBuilder{
+	i.bmmfunction.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmFunctionBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmFunctionBuilder{
+	i.bmmfunction.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmFunctionBuilder) SetScope ( v IBmmModelElement ) *BmmFunctionBuilder{
+	i.bmmfunction.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmFunctionBuilder) SetExtensions ( v Hash < Any , String > ) *BmmFunctionBuilder{
+	i.bmmfunction.Extensions = v
 	return i
 }
 

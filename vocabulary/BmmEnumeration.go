@@ -77,17 +77,161 @@ func NewBmmEnumerationBuilder() *BmmEnumerationBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	/**
-		The list of names of the enumeration. If no values are supplied, the integer
-		values 0, 1, 2, …​ are assumed.
-	*/
+/**
+	The list of names of the enumeration. If no values are supplied, the integer
+	values 0, 1, 2, …​ are assumed.
+*/
 func (i *BmmEnumerationBuilder) SetItemNames ( v []string ) *BmmEnumerationBuilder{
 	i.bmmenumeration.ItemNames = v
 	return i
 }
-	// Optional list of specific values. Must be 1:1 with item_names list.
+// Optional list of specific values. Must be 1:1 with item_names list.
 func (i *BmmEnumerationBuilder) SetItemValues ( v []vocabulary.IBmmPrimitiveValue ) *BmmEnumerationBuilder{
 	i.bmmenumeration.ItemValues = v
+	return i
+}
+	// //From: BmmSimpleClass
+	// //From: BmmClass
+// List of immediate inheritance parents.
+func (i *BmmEnumerationBuilder) SetAncestors ( v map[string]vocabulary.IBmmModelType ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Ancestors = v
+	return i
+}
+// Package this class belongs to.
+func (i *BmmEnumerationBuilder) SetPackage ( v IBmmPackage ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Package = v
+	return i
+}
+// Properties defined in this class (subset of features ).
+func (i *BmmEnumerationBuilder) SetProperties ( v map[string]vocabulary.IBmmProperty ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Properties = v
+	return i
+}
+/**
+	Reference to original source schema defining this class. Useful for UI tools to
+	determine which original schema file to open for a given class for manual
+	editing.
+*/
+func (i *BmmEnumerationBuilder) SetSourceSchemaId ( v string ) *BmmEnumerationBuilder{
+	i.bmmenumeration.SourceSchemaId = v
+	return i
+}
+/**
+	List of computed references to base classes of immediate inheritance
+	descendants, derived when members of ancestors are attached at creation time.
+*/
+func (i *BmmEnumerationBuilder) SetImmediateDescendants ( v List < BMM_CLASS > ) *BmmEnumerationBuilder{
+	i.bmmenumeration.ImmediateDescendants = v
+	return i
+}
+/**
+	True if this definition overrides a class of the same name in an included
+	schema.
+*/
+func (i *BmmEnumerationBuilder) SetIsOverride ( v bool ) *BmmEnumerationBuilder{
+	i.bmmenumeration.IsOverride = v
+	return i
+}
+// Static properties defined in this class (subset of features ).
+func (i *BmmEnumerationBuilder) SetStaticProperties ( v map[string]vocabulary.IBmmStatic ) *BmmEnumerationBuilder{
+	i.bmmenumeration.StaticProperties = v
+	return i
+}
+// Functions defined in this class (subset of features ).
+func (i *BmmEnumerationBuilder) SetFunctions ( v map[string]vocabulary.IBmmFunction ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Functions = v
+	return i
+}
+// Procedures defined in this class (subset of features ).
+func (i *BmmEnumerationBuilder) SetProcedures ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Procedures = v
+	return i
+}
+/**
+	True if this class represents a type considered to be primitive in the type
+	system, i.e. any typically built-in or standard library type such as String ,
+	Date , Hash<K,V> etc.
+*/
+func (i *BmmEnumerationBuilder) SetIsPrimitive ( v bool ) *BmmEnumerationBuilder{
+	i.bmmenumeration.IsPrimitive = v
+	return i
+}
+/**
+	True if this class is marked as abstract, i.e. direct instances cannot be
+	created from its direct type.
+*/
+func (i *BmmEnumerationBuilder) SetIsAbstract ( v bool ) *BmmEnumerationBuilder{
+	i.bmmenumeration.IsAbstract = v
+	return i
+}
+func (i *BmmEnumerationBuilder) SetInvariants ( v []vocabulary.IBmmAssertion ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Invariants = v
+	return i
+}
+/**
+	Subset of procedures that may be used to initialise a new instance of an object,
+	and whose execution will guarantee that class invariants are satisfied.
+*/
+func (i *BmmEnumerationBuilder) SetCreators ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Creators = v
+	return i
+}
+/**
+	Subset of creators that create a new instance from a single argument of another
+	type.
+*/
+func (i *BmmEnumerationBuilder) SetConverters ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Converters = v
+	return i
+}
+// Features of this module.
+func (i *BmmEnumerationBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Features = v
+	return i
+}
+	// //From: BmmModule
+// List of feature groups in this class.
+func (i *BmmEnumerationBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmEnumerationBuilder{
+	i.bmmenumeration.FeatureGroups = v
+	return i
+}
+// Features of this module.
+func (i *BmmEnumerationBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Features = v
+	return i
+}
+// Model within which module is defined.
+func (i *BmmEnumerationBuilder) SetScope ( v IBmmModel ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Scope = v
+	return i
+}
+	// //From: BmmModelElement
+// Name of this model element.
+func (i *BmmEnumerationBuilder) SetName ( v string ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Name = v
+	return i
+}
+/**
+	Optional documentation of this element, as a keyed list. It is strongly
+	recommended to use the following key /type combinations for the relevant
+	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+	String "references": String Other keys and value types may be freely added.
+*/
+func (i *BmmEnumerationBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Documentation = v
+	return i
+}
+// Model element within which an element is declared.
+func (i *BmmEnumerationBuilder) SetScope ( v IBmmModelElement ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Scope = v
+	return i
+}
+/**
+	Optional meta-data of this element, as a keyed list. May be used to extend the
+	meta-model.
+*/
+func (i *BmmEnumerationBuilder) SetExtensions ( v Hash < Any , String > ) *BmmEnumerationBuilder{
+	i.bmmenumeration.Extensions = v
 	return i
 }
 

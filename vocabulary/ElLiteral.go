@@ -52,11 +52,14 @@ func NewElLiteralBuilder() *ElLiteralBuilder {
 }
 
 //BUILDER ATTRIBUTES
-	// The reference item from which the value of this node can be computed.
+// The reference item from which the value of this node can be computed.
 func (i *ElLiteralBuilder) SetValue ( v BMM_LITERAL_VALUE < BMM_TYPE > ) *ElLiteralBuilder{
 	i.elliteral.Value = v
 	return i
 }
+	// //From: ElSimple
+	// //From: ElTerminal
+	// //From: ElExpression
 
 func (i *ElLiteralBuilder) Build() *ElLiteral {
 	 return i.elliteral
