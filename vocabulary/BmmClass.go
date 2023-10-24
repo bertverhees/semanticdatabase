@@ -15,30 +15,19 @@ import (
 
 type IBmmClass interface {
 	Type (  )  IBmmModelType
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	AllAncestors (  )  []string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	AllDescendants (  )  []string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	Suppliers (  )  []string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	SuppliersNonPrimitive (  )  []string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	SupplierClosure (  )  []string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	PackagePath (  )  string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	ClassPath (  )  string
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	IsPrimitive (  )  bool
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	IsAbstract (  )  bool
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	Features (  ) 
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	FlatFeatures (  ) 
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	FlatProperties (  )  List < BMM_PROPERTY >
+	// From: BMM_MODEL_ELEMENT
 	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
@@ -106,24 +95,12 @@ type BmmClass struct {
 func (b *BmmClass) Type (  )  IBmmModelType {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 // List of all inheritance parent class names, recursively.
 func (b *BmmClass) AllAncestors (  )  []string {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 // Compute all descendants by following immediate_descendants .
 func (b *BmmClass) AllDescendants (  )  []string {
-	return nil
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -136,16 +113,8 @@ func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = se
 func (b *BmmClass) Suppliers (  )  []string {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 // Same as suppliers minus primitive types, as defined in input schema.
 func (b *BmmClass) SuppliersNonPrimitive (  )  []string {
-	return nil
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -157,16 +126,8 @@ func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = se
 func (b *BmmClass) SupplierClosure (  )  []string {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 // Fully qualified package name, of form: package.package .
 func (b *BmmClass) PackagePath (  )  string {
-	return nil
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -176,19 +137,11 @@ func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = se
 func (b *BmmClass) ClassPath (  )  string {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 /**
 	True if this class is designated a primitive type within the overall type system
 	of the schema. Set from schema.
 */
 func (b *BmmClass) IsPrimitive (  )  bool {
-	return nil
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil
 }
 /**
@@ -198,17 +151,9 @@ func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = se
 func (b *BmmClass) IsAbstract (  )  bool {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 // List of all feature definitions introduced in this class.
 func (b *BmmClass) Features (  )  {
 	return
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
 }
 /**
 	Consolidated list of all feature definitions from this class and all inheritance
@@ -217,10 +162,6 @@ func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = se
 func (b *BmmClass) FlatFeatures (  )  {
 	return
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 /**
 	List of all properties due to current and ancestor classes, keyed by property
 	name.
@@ -228,6 +169,7 @@ func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = se
 func (b *BmmClass) FlatProperties (  )  List < BMM_PROPERTY > {
 	return nil
 }
+// From: BMM_MODEL_ELEMENT
 // True if this model element is the root of a model structure hierarchy.
 func (b *BmmClass) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil

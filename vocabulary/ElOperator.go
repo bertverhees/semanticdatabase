@@ -8,10 +8,10 @@ import (
 
 type IElOperator interface {
 	OperatorDefinition (  )  IBmmOperator
-	EvalType (  )  IBmmType
-	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 	EquivalentCall (  )  IElFunctionCall
+	// From: EL_EXPRESSION
 	EvalType (  )  IBmmType
+	// From: EL_EXPRESSION
 	IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition())
 }
 
@@ -40,24 +40,11 @@ type ElOperator struct {
 func (e *ElOperator) OperatorDefinition (  )  IBmmOperator {
 	return nil
 }
-/**
-	Meta-type of expression entity used in type-checking and evaluation. Effected in
-	descendants.
-*/
-func (e *ElOperator) EvalType (  )  IBmmType {
-	return nil
-}
-/**
-	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
-	= Boolean ).
-*/
-func (e *ElOperator) IsBoolean (  )  Boolean  Post_result : Result = eval_type().equal( {BMM_MODEL}.boolean_type_definition()) {
-	return nil
-}
 // Function call equivalent to this operator.
 func (e *ElOperator) EquivalentCall (  )  IElFunctionCall {
 	return nil
 }
+// From: EL_EXPRESSION
 /**
 	Meta-type of expression entity used in type-checking and evaluation. Effected in
 	descendants.
@@ -65,6 +52,7 @@ func (e *ElOperator) EquivalentCall (  )  IElFunctionCall {
 func (e *ElOperator) EvalType (  )  IBmmType {
 	return nil
 }
+// From: EL_EXPRESSION
 /**
 	True if eval_type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name()
 	= Boolean ).

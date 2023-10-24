@@ -8,6 +8,7 @@ import (
 
 type IPBmmContainerProperty interface {
 	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
+	// From: P_BMM_PROPERTY
 	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
 }
 
@@ -15,7 +16,7 @@ type PBmmContainerProperty struct {
 	PBmmProperty
 	PBmmModelElement
 	// Cardinality of this property in its class. Persistent attribute.
-	Cardinality	Interval < Integer >	`yaml:"cardinality" json:"cardinality" xml:"cardinality"`
+	Cardinality	base.Interval[int]	`yaml:"cardinality" json:"cardinality" xml:"cardinality"`
 	/**
 		Type definition of this property, if not a simple String type reference.
 		Persistent attribute.
@@ -29,6 +30,7 @@ type PBmmContainerProperty struct {
 func (p *PBmmContainerProperty) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
 	return
 }
+// From: P_BMM_PROPERTY
 // Create bmm_property_definition from P_BMM_XX parts.
 func (p *PBmmContainerProperty) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
 	return

@@ -10,6 +10,8 @@ import (
 */
 
 type IBmmModule interface {
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
 type BmmModule struct {
@@ -22,3 +24,8 @@ type BmmModule struct {
 	Scope	IBmmModel	`yaml:"scope" json:"scope" xml:"scope"`
 }
 
+// From: BMM_MODEL_ELEMENT
+// True if this model element is the root of a model structure hierarchy.
+func (b *BmmModule) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
+	return nil
+}

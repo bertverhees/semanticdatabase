@@ -8,10 +8,9 @@ import (
 
 type IBmmPackageContainer interface {
 	PackageAtPath ( a_path string )  IBmmPackage
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] ) 
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	HasPackagePath ( a_path string )  bool
+	// From: BMM_MODEL_ELEMENT
 	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
@@ -27,20 +26,12 @@ type BmmPackageContainer struct {
 func (b *BmmPackageContainer) PackageAtPath ( a_path string )  IBmmPackage {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmPackageContainer) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 /**
 	Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
 	on all members of packages.
 */
 func (b *BmmPackageContainer) DoRecursivePackages ( action EL_PROCEDURE_AGENT [1] )  {
 	return
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmPackageContainer) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
 }
 /**
 	True if there is a package at the path a_path ; paths are delimited with
@@ -49,6 +40,7 @@ func (b *BmmPackageContainer) IsRootScope (  )  Boolean  Post_result : Result = 
 func (b *BmmPackageContainer) HasPackagePath ( a_path string )  bool {
 	return nil
 }
+// From: BMM_MODEL_ELEMENT
 // True if this model element is the root of a model structure hierarchy.
 func (b *BmmPackageContainer) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil

@@ -8,7 +8,9 @@ import (
 
 type IPBmmContainerType interface {
 	TypeRef (  )  IPBmmBaseType
+	// From: P_BMM_TYPE
 	CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
+	// From: P_BMM_TYPE
 	AsTypeString (  )  string
 }
 
@@ -40,10 +42,12 @@ type PBmmContainerType struct {
 func (p *PBmmContainerType) TypeRef (  )  IPBmmBaseType {
 	return nil
 }
+// From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
 func (p *PBmmContainerType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
 	return
 }
+// From: P_BMM_TYPE
 // Formal name of the type for display.
 func (p *PBmmContainerType) AsTypeString (  )  string {
 	return nil

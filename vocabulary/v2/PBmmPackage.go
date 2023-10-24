@@ -10,7 +10,7 @@ import (
 */
 
 type IPBmmPackage interface {
-	Merge ( other vocabulary.IPBmmPackage ) 
+	Merge ( other IPBmmPackage ) 
 	CreateBmmPackageDefinition (  ) 
 }
 
@@ -32,7 +32,7 @@ type PBmmPackage struct {
 	Merge packages and classes from other (from an included P_BMM_SCHEMA ) into this
 	package.
 */
-func (p *PBmmPackage) Merge ( other vocabulary.IPBmmPackage )  {
+func (p *PBmmPackage) Merge ( other IPBmmPackage )  {
 	return
 }
 /**

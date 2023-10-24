@@ -8,6 +8,7 @@ import (
 
 type IPBmmSinglePropertyOpen interface {
 	TypeDef (  )  P_BMM_OPEN_TYPE
+	// From: P_BMM_PROPERTY
 	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
 }
 
@@ -27,13 +28,14 @@ type PBmmSinglePropertyOpen struct {
 	*/
 	Type	string	`yaml:"type" json:"type" xml:"type"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty	BMM_UNITARY_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	vocabulary.IBmmUnitaryProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // Generate type_ref from type and save.
 func (p *PBmmSinglePropertyOpen) TypeDef (  )  P_BMM_OPEN_TYPE {
 	return nil
 }
+// From: P_BMM_PROPERTY
 // Create bmm_property_definition from P_BMM_XX parts.
 func (p *PBmmSinglePropertyOpen) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
 	return

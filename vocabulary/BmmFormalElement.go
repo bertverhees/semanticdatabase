@@ -8,8 +8,8 @@ import (
 
 type IBmmFormalElement interface {
 	Signature (  )  IBmmSignature
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	// From: BMM_MODEL_ELEMENT
 	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
@@ -31,10 +31,6 @@ type BmmFormalElement struct {
 func (b *BmmFormalElement) Signature (  )  IBmmSignature {
 	return nil
 }
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmFormalElement) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 /**
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
@@ -42,6 +38,7 @@ func (b *BmmFormalElement) IsRootScope (  )  Boolean  Post_result : Result = (sc
 func (b *BmmFormalElement) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
 	return nil
 }
+// From: BMM_MODEL_ELEMENT
 // True if this model element is the root of a model structure hierarchy.
 func (b *BmmFormalElement) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil

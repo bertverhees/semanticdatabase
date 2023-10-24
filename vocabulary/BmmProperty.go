@@ -12,12 +12,12 @@ import (
 
 type IBmmProperty interface {
 	Existence (  )  Multiplicity_interval
-	Signature (  )  IBmmSignature
-	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
-	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 	DisplayName (  )  string
+	// From: BMM_FORMAL_ELEMENT
 	Signature (  )  IBmmSignature
+	// From: BMM_FORMAL_ELEMENT
 	IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition())
+	// From: BMM_MODEL_ELEMENT
 	IsRootScope (  )  Boolean  Post_result : Result = (scope = self)
 }
 
@@ -43,28 +43,11 @@ type BmmProperty struct {
 func (b *BmmProperty) Existence (  )  Multiplicity_interval {
 	return nil
 }
-/**
-	Formal signature of this element, in the form: name [arg1_name: T_arg1,
-	…​][:T_value] Specific implementations in descendants.
-*/
-func (b *BmmProperty) Signature (  )  IBmmSignature {
-	return nil
-}
-/**
-	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-	'Boolean' ).
-*/
-func (b *BmmProperty) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
-	return nil
-}
-// True if this model element is the root of a model structure hierarchy.
-func (b *BmmProperty) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
-	return nil
-}
 // Name of this property to display in UI.
 func (b *BmmProperty) DisplayName (  )  string {
 	return nil
 }
+// From: BMM_FORMAL_ELEMENT
 /**
 	Formal signature of this element, in the form: name [arg1_name: T_arg1,
 	…​][:T_value] Specific implementations in descendants.
@@ -72,6 +55,7 @@ func (b *BmmProperty) DisplayName (  )  string {
 func (b *BmmProperty) Signature (  )  IBmmSignature {
 	return nil
 }
+// From: BMM_FORMAL_ELEMENT
 /**
 	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 	'Boolean' ).
@@ -79,6 +63,7 @@ func (b *BmmProperty) Signature (  )  IBmmSignature {
 func (b *BmmProperty) IsBoolean (  )  Boolean  Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()) {
 	return nil
 }
+// From: BMM_MODEL_ELEMENT
 // True if this model element is the root of a model structure hierarchy.
 func (b *BmmProperty) IsRootScope (  )  Boolean  Post_result : Result = (scope = self) {
 	return nil

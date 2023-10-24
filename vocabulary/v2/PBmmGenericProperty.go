@@ -7,6 +7,8 @@ import (
 // Persistent form of BMM_GENERIC_PROPERTY .
 
 type IPBmmGenericProperty interface {
+	// From: P_BMM_PROPERTY
+	CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
 }
 
 type PBmmGenericProperty struct {
@@ -16,8 +18,13 @@ type PBmmGenericProperty struct {
 		Type definition of this property, if not a simple String type reference.
 		Persistent attribute.
 	*/
-	TypeDef	P_BMM_GENERIC_TYPE	`yaml:"typedef" json:"typedef" xml:"typedef"`
+	TypeDef	IPBmmGenericType	`yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty	BMM_UNITARY_PROPERTY	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty	vocabulary.IBmmUnitaryProperty	`yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
+// From: P_BMM_PROPERTY
+// Create bmm_property_definition from P_BMM_XX parts.
+func (p *PBmmGenericProperty) CreateBmmProperty ( a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+	return
+}

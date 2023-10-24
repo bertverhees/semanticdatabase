@@ -23,7 +23,7 @@ type PBmmGenericParameter struct {
 	*/
 	ConformsToType	string	`yaml:"conformstotype" json:"conformstotype" xml:"conformstotype"`
 	// BMM_GENERIC_PARAMETER created by create_bmm_generic_parameter .
-	BmmGenericParameter	BMM_PARAMETER_TYPE	`yaml:"bmmgenericparameter" json:"bmmgenericparameter" xml:"bmmgenericparameter"`
+	BmmGenericParameter	vocabulary.IBmmParameterType	`yaml:"bmmgenericparameter" json:"bmmgenericparameter" xml:"bmmgenericparameter"`
 }
 
 // Create bmm_generic_parameter .

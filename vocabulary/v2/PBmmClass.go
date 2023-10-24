@@ -25,13 +25,13 @@ type PBmmClass struct {
 	*/
 	Ancestors	[]string	`yaml:"ancestors" json:"ancestors" xml:"ancestors"`
 	// List of attributes defined in this class. Persistent attribute.
-	Properties	map[string]vocabulary.IPBmmProperty	`yaml:"properties" json:"properties" xml:"properties"`
+	Properties	map[string]IPBmmProperty	`yaml:"properties" json:"properties" xml:"properties"`
 	// True if this is an abstract type. Persisted attribute.
 	IsAbstract	bool	`yaml:"isabstract" json:"isabstract" xml:"isabstract"`
 	// True if this class definition overrides one found in an included schema.
 	IsOverride	bool	`yaml:"isoverride" json:"isoverride" xml:"isoverride"`
 	// List of generic parameter definitions. Persisted attribute.
-	GenericParameterDefs	map[string]vocabulary.IPBmmGenericParameter	`yaml:"genericparameterdefs" json:"genericparameterdefs" xml:"genericparameterdefs"`
+	GenericParameterDefs	map[string]IPBmmGenericParameter	`yaml:"genericparameterdefs" json:"genericparameterdefs" xml:"genericparameterdefs"`
 	/**
 		Reference to original source schema defining this class. Set during BMM_SCHEMA
 		materialise. Useful for GUI tools to enable user to edit the schema file
@@ -53,7 +53,7 @@ type PBmmClass struct {
 		List of structured inheritance ancestors, used only in the case of generic
 		inheritance. Persisted attribute.
 	*/
-	AncestorDefs	[]vocabulary.IPBmmGenericType	`yaml:"ancestordefs" json:"ancestordefs" xml:"ancestordefs"`
+	AncestorDefs	[]IPBmmGenericType	`yaml:"ancestordefs" json:"ancestordefs" xml:"ancestordefs"`
 }
 
 /**
