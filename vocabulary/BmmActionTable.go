@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Multi-branch conditional statement structure
 
 // Interface definition
@@ -20,41 +16,42 @@ type BmmActionTable struct {
 	// Constants
 	// Attributes
 	/**
-		A specialised decision table whose outputs can only be procedure agents. In
-		execution, the matched agent will be invoked.
+	A specialised decision table whose outputs can only be procedure agents. In
+	execution, the matched agent will be invoked.
 	*/
-	DecisionTable	IBmmActionDecisionTable	`yaml:"decisiontable" json:"decisiontable" xml:"decisiontable"`
+	DecisionTable IBmmActionDecisionTable `yaml:"decisiontable" json:"decisiontable" xml:"decisiontable"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmActionTable() *BmmActionTable {
 	bmmactiontable := new(BmmActionTable)
 	// Constants
 	return bmmactiontable
 }
-//BUILDER
+
+// BUILDER
 type BmmActionTableBuilder struct {
 	bmmactiontable *BmmActionTable
 }
 
 func NewBmmActionTableBuilder() *BmmActionTableBuilder {
-	 return &BmmActionTableBuilder {
-		bmmactiontable : NewBmmActionTable(),
+	return &BmmActionTableBuilder{
+		bmmactiontable: NewBmmActionTable(),
 	}
 }
 
 //BUILDER ATTRIBUTES
 /**
-	A specialised decision table whose outputs can only be procedure agents. In
-	execution, the matched agent will be invoked.
+A specialised decision table whose outputs can only be procedure agents. In
+execution, the matched agent will be invoked.
 */
-func (i *BmmActionTableBuilder) SetDecisionTable ( v IBmmActionDecisionTable ) *BmmActionTableBuilder{
+func (i *BmmActionTableBuilder) SetDecisionTable(v IBmmActionDecisionTable) *BmmActionTableBuilder {
 	i.bmmactiontable.DecisionTable = v
 	return i
 }
 
 func (i *BmmActionTableBuilder) Build() *BmmActionTable {
-	 return i.bmmactiontable
+	return i.bmmactiontable
 }
 
 //FUNCTIONS

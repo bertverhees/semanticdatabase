@@ -1,12 +1,8 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	Specialised form of Decision Table that allows only procedure call agents
-	(lambdas) as the result of branches.
+Specialised form of Decision Table that allows only procedure call agents
+(lambdas) as the result of branches.
 */
 
 // Interface definition
@@ -20,27 +16,28 @@ type BmmActionDecisionTable struct {
 	// Attributes
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmActionDecisionTable() *BmmActionDecisionTable {
 	bmmactiondecisiontable := new(BmmActionDecisionTable)
 	// Constants
 	return bmmactiondecisiontable
 }
-//BUILDER
+
+// BUILDER
 type BmmActionDecisionTableBuilder struct {
 	bmmactiondecisiontable *BmmActionDecisionTable
 }
 
 func NewBmmActionDecisionTableBuilder() *BmmActionDecisionTableBuilder {
-	 return &BmmActionDecisionTableBuilder {
-		bmmactiondecisiontable : NewBmmActionDecisionTable(),
+	return &BmmActionDecisionTableBuilder{
+		bmmactiondecisiontable: NewBmmActionDecisionTable(),
 	}
 }
 
 //BUILDER ATTRIBUTES
 
 func (i *BmmActionDecisionTableBuilder) Build() *BmmActionDecisionTable {
-	 return i.bmmactiondecisiontable
+	return i.bmmactiondecisiontable
 }
 
 //FUNCTIONS

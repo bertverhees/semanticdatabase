@@ -1,13 +1,9 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	An immutable, static value-returning element scoped to a class. The value is the
-	result of the evaluation of the generator , which may be as simple as a literal
-	value, or may be any expression, including a function call.
+An immutable, static value-returning element scoped to a class. The value is the
+result of the evaluation of the generator , which may be as simple as a literal
+value, or may be any expression, including a function call.
 */
 
 // Interface definition
@@ -16,10 +12,10 @@ type IBmmConstant interface {
 	// From: BMM_INSTANTIABLE_FEATURE
 	// From: BMM_FEATURE
 	// From: BMM_FORMAL_ELEMENT
-	Signature (  )  IBmmSignature
-	IsBoolean (  )  bool
+	Signature() IBmmSignature
+	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  bool
+	IsRootScope() bool
 }
 
 // Struct definition
@@ -33,134 +29,140 @@ type BmmConstant struct {
 	// Constants
 	// Attributes
 	// Literal value of the constant.
-	Generator	IBmmLiteralValue	`yaml:"generator" json:"generator" xml:"generator"`
+	Generator IBmmLiteralValue `yaml:"generator" json:"generator" xml:"generator"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmConstant() *BmmConstant {
 	bmmconstant := new(BmmConstant)
 	// Constants
 	return bmmconstant
 }
-//BUILDER
+
+// BUILDER
 type BmmConstantBuilder struct {
 	bmmconstant *BmmConstant
 }
 
 func NewBmmConstantBuilder() *BmmConstantBuilder {
-	 return &BmmConstantBuilder {
-		bmmconstant : NewBmmConstant(),
+	return &BmmConstantBuilder{
+		bmmconstant: NewBmmConstant(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Literal value of the constant.
-func (i *BmmConstantBuilder) SetGenerator ( v IBmmLiteralValue ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetGenerator(v IBmmLiteralValue) *BmmConstantBuilder {
 	i.bmmconstant.Generator = v
 	return i
 }
+
 // From: BmmFeature
 /**
-	True if this feature was synthesised due to generic substitution in an inherited
-	type, or further constraining of a formal generic parameter.
+True if this feature was synthesised due to generic substitution in an inherited
+type, or further constraining of a formal generic parameter.
 */
-func (i *BmmConstantBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetIsSynthesisedGeneric(v bool) *BmmConstantBuilder {
 	i.bmmconstant.IsSynthesisedGeneric = v
 	return i
 }
+
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmConstantBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmConstantBuilder {
 	i.bmmconstant.FeatureExtensions = v
 	return i
 }
+
 // From: BmmFeature
 // Group containing this feature.
-func (i *BmmConstantBuilder) SetGroup ( v IBmmFeatureGroup ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetGroup(v IBmmFeatureGroup) *BmmConstantBuilder {
 	i.bmmconstant.Group = v
 	return i
 }
+
 // From: BmmFeature
 // Model element within which an element is declared.
-func (i *BmmConstantBuilder) SetScope ( v IBmmClass ) *BmmConstantBuilder{
-	i.bmmconstant.Scope = v
+func (i *BmmConstantBuilder) SetScope(v IBmmClass) *BmmConstantBuilder {
+	i.bmmconstant.BmmFeature.Scope = v
 	return i
 }
+
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
-func (i *BmmConstantBuilder) SetType ( v IBmmType ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetType(v IBmmType) *BmmConstantBuilder {
 	i.bmmconstant.Type = v
 	return i
 }
+
 // From: BmmFormalElement
 /**
-	True if this element can be null (Void) at execution time. May be interpreted as
-	optionality in subtypes..
+True if this element can be null (Void) at execution time. May be interpreted as
+optionality in subtypes..
 */
-func (i *BmmConstantBuilder) SetIsNullable ( v bool ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetIsNullable(v bool) *BmmConstantBuilder {
 	i.bmmconstant.IsNullable = v
 	return i
 }
+
 // From: BmmModelElement
 // Name of this model element.
-func (i *BmmConstantBuilder) SetName ( v string ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetName(v string) *BmmConstantBuilder {
 	i.bmmconstant.Name = v
 	return i
 }
+
 // From: BmmModelElement
 /**
-	Optional documentation of this element, as a keyed list. It is strongly
-	recommended to use the following key /type combinations for the relevant
-	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-	String "references": String Other keys and value types may be freely added.
+Optional documentation of this element, as a keyed list. It is strongly
+recommended to use the following key /type combinations for the relevant
+purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmConstantBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetDocumentation(v map[any]string) *BmmConstantBuilder {
 	i.bmmconstant.Documentation = v
 	return i
 }
-// From: BmmModelElement
-// Model element within which an element is declared.
-func (i *BmmConstantBuilder) SetScope ( v IBmmModelElement ) *BmmConstantBuilder{
-	i.bmmconstant.Scope = v
-	return i
-}
+
 // From: BmmModelElement
 /**
-	Optional meta-data of this element, as a keyed list. May be used to extend the
-	meta-model.
+Optional meta-data of this element, as a keyed list. May be used to extend the
+meta-model.
 */
-func (i *BmmConstantBuilder) SetExtensions ( v Hash < Any , String > ) *BmmConstantBuilder{
+func (i *BmmConstantBuilder) SetExtensions(v map[any]string) *BmmConstantBuilder {
 	i.bmmconstant.Extensions = v
 	return i
 }
 
 func (i *BmmConstantBuilder) Build() *BmmConstant {
-	 return i.bmmconstant
+	return i.bmmconstant
 }
 
 //FUNCTIONS
 // From: BMM_FORMAL_ELEMENT
 /**
-	Formal signature of this element, in the form: name [arg1_name: T_arg1,
-	…​][:T_value] Specific implementations in descendants.
+Formal signature of this element, in the form: name [arg1_name: T_arg1,
+…​][:T_value] Specific implementations in descendants.
 */
-func (b *BmmConstant) Signature (  )  IBmmSignature {
+func (b *BmmConstant) Signature() IBmmSignature {
 	return nil
 }
+
 // From: BMM_FORMAL_ELEMENT
 /**
-	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
-	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-	'Boolean' ).
+Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
+True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
+'Boolean' ).
 */
-func (b *BmmConstant) IsBoolean (  )  bool {
+func (b *BmmConstant) IsBoolean() bool {
 	return false
 }
+
 // From: BMM_MODEL_ELEMENT
 /**
-	Post_result : Result = (scope = self). True if this model element is the root of
-	a model structure hierarchy.
+Post_result : Result = (scope = self). True if this model element is the root of
+a model structure hierarchy.
 */
-func (b *BmmConstant) IsRootScope (  )  bool {
+func (b *BmmConstant) IsRootScope() bool {
 	return false
 }

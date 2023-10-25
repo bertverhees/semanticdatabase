@@ -1,12 +1,6 @@
 package base
 
-import (
-	"golang.org/x/exp/constraints"
-)
-
-type Number interface {
-	constraints.Integer | constraints.Float
-}
+import "errors"
 
 type Interval[T Number] struct {
 	lower T
@@ -42,12 +36,18 @@ func NewIntervalBuilder[T Number]() *IntervalBuilder[T] {
 
 func (i *IntervalBuilder[T]) setLower(lower T) *IntervalBuilder[T] {
 	i.interval.lower = lower
+	if i.interval.lower == i.interval.upper {
+		errors.New("Lower cannot be equal with Upper")
+	}
 	i.interval.LowerUnbounded = false
 	return i
 }
 
 func (i *IntervalBuilder[T]) setUpper(upper T) *IntervalBuilder[T] {
 	i.interval.upper = upper
+	if i.interval.lower == i.interval.upper {
+		errors.New("Lower cannot be equal with Upper")
+	}
 	i.interval.UpperUnbounded = false
 	return i
 }
