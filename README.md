@@ -1,4 +1,4 @@
-# semanticdatabase
+# Semanticdatabase
 
 This work is heavily inspired by the work of Thomas Beale, but has its own purposes, meanings and naming
 
