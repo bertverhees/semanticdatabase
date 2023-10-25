@@ -11,9 +11,9 @@ type BasicDefinitions struct {
 	// embedded for Inheritance
 	// Constants
 	// Carriage return character.
-	Cr rune `yaml:"cr" json:"cr" xml:"cr"`
+	Cr string `yaml:"cr" json:"cr" xml:"cr"`
 	// Line feed character.
-	Lf              rune   `yaml:"lf" json:"lf" xml:"lf"`
+	Lf              string `yaml:"lf" json:"lf" xml:"lf"`
 	AnyTypeName     string `yaml:"anytypename" json:"anytypename" xml:"anytypename"`
 	RegexAnyPattern string `yaml:"regexanypattern" json:"regexanypattern" xml:"regexanypattern"`
 	DefaultEncoding string `yaml:"defaultencoding" json:"defaultencoding" xml:"defaultencoding"`
@@ -26,9 +26,9 @@ func NewBasicDefinitions() *BasicDefinitions {
 	basicdefinitions := new(BasicDefinitions)
 	// Constants
 	// Carriage return character.
-	basicdefinitions.Cr = '\015'
+	basicdefinitions.Cr = string(015)
 	// Line feed character.
-	basicdefinitions.Lf = '\012'
+	basicdefinitions.Lf = string(012)
 	basicdefinitions.AnyTypeName = "Any"
 	basicdefinitions.RegexAnyPattern = ".*"
 	basicdefinitions.DefaultEncoding = "UTF-8"
