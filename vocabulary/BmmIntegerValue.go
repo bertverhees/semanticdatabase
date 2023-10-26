@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
 	Meta-type for a literal Integer value, for which type is fixed to the BMM_TYPE
 	representing Integer and value is of type Integer .
@@ -65,15 +61,6 @@ func (i *BmmIntegerValueBuilder) SetValueLiteral ( v string ) *BmmIntegerValueBu
 }
 // From: BmmLiteralValue
 /**
-	A native representation of the value, possibly derived by deserialising
-	value_literal .
-*/
-func (i *BmmIntegerValueBuilder) SetValue ( v Any ) *BmmIntegerValueBuilder{
-	i.bmmintegervalue.Value = v
-	return i
-}
-// From: BmmLiteralValue
-/**
 	Optional specification of formalism of the value_literal attribute for complex
 	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
 	value agreed by the user community. If not set, json is assumed.
@@ -82,13 +69,6 @@ func (i *BmmIntegerValueBuilder) SetSyntax ( v string ) *BmmIntegerValueBuilder{
 	i.bmmintegervalue.Syntax = v
 	return i
 }
-// From: BmmLiteralValue
-// Concrete type of this literal.
-func (i *BmmIntegerValueBuilder) SetType ( v T ) *BmmIntegerValueBuilder{
-	i.bmmintegervalue.Type = v
-	return i
-}
-
 func (i *BmmIntegerValueBuilder) Build() *BmmIntegerValue {
 	 return i.bmmintegervalue
 }

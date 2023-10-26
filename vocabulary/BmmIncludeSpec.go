@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Schema inclusion structure.
 
 // Interface definition
@@ -16,35 +12,36 @@ type BmmIncludeSpec struct {
 	// Constants
 	// Attributes
 	// Full identifier of the included schema, e.g. "openehr_primitive_types_1.0.2" .
-	Id	string	`yaml:"id" json:"id" xml:"id"`
+	Id string `yaml:"id" json:"id" xml:"id"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmIncludeSpec() *BmmIncludeSpec {
 	bmmincludespec := new(BmmIncludeSpec)
 	// Constants
 	return bmmincludespec
 }
-//BUILDER
+
+// BUILDER
 type BmmIncludeSpecBuilder struct {
 	bmmincludespec *BmmIncludeSpec
 }
 
 func NewBmmIncludeSpecBuilder() *BmmIncludeSpecBuilder {
-	 return &BmmIncludeSpecBuilder {
-		bmmincludespec : NewBmmIncludeSpec(),
+	return &BmmIncludeSpecBuilder{
+		bmmincludespec: NewBmmIncludeSpec(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Full identifier of the included schema, e.g. "openehr_primitive_types_1.0.2" .
-func (i *BmmIncludeSpecBuilder) SetId ( v string ) *BmmIncludeSpecBuilder{
+func (i *BmmIncludeSpecBuilder) SetId(v string) *BmmIncludeSpecBuilder {
 	i.bmmincludespec.Id = v
 	return i
 }
 
 func (i *BmmIncludeSpecBuilder) Build() *BmmIncludeSpec {
-	 return i.bmmincludespec
+	return i.bmmincludespec
 }
 
 //FUNCTIONS
