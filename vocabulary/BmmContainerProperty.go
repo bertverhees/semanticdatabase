@@ -141,7 +141,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmContainerPropertyBuilder) SetDocumentation(v map[any]string) *BmmContainerPropertyBuilder {
+func (i *BmmContainerPropertyBuilder) SetDocumentation(v map[string]any) *BmmContainerPropertyBuilder {
 	i.bmmcontainerproperty.Documentation = v
 	return i
 }
@@ -158,7 +158,7 @@ func (i *BmmContainerPropertyBuilder) SetScope(v IBmmModelElement) *BmmContainer
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmContainerPropertyBuilder) SetExtensions(v map[any]string) *BmmContainerPropertyBuilder {
+func (i *BmmContainerPropertyBuilder) SetExtensions(v map[string]any) *BmmContainerPropertyBuilder {
 	i.bmmcontainerproperty.Extensions = v
 	return i
 }

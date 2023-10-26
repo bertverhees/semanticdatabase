@@ -25,14 +25,14 @@ type BmmModelElement struct {
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 	*/
-	Documentation map[any]string `yaml:"documentation" json:"documentation" xml:"documentation"`
+	Documentation map[string]any `yaml:"documentation" json:"documentation" xml:"documentation"`
 	// Model element within which an element is declared.
 	Scope IBmmModelElement `yaml:"scope" json:"scope" xml:"scope"`
 	/**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 	*/
-	Extensions map[any]string `yaml:"extensions" json:"extensions" xml:"extensions"`
+	Extensions map[string]any `yaml:"extensions" json:"extensions" xml:"extensions"`
 }
 
 // CONSTRUCTOR
@@ -67,7 +67,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmModelElementBuilder) SetDocumentation(v map[any]string) *BmmModelElementBuilder {
+func (i *BmmModelElementBuilder) SetDocumentation(v map[string]any) *BmmModelElementBuilder {
 	i.bmmmodelelement.Documentation = v
 	return i
 }
@@ -83,7 +83,7 @@ func (i *BmmModelElementBuilder) SetScope(v IBmmModelElement) *BmmModelElementBu
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmModelElementBuilder) SetExtensions(v map[any]string) *BmmModelElementBuilder {
+func (i *BmmModelElementBuilder) SetExtensions(v map[string]any) *BmmModelElementBuilder {
 	i.bmmmodelelement.Extensions = v
 	return i
 }

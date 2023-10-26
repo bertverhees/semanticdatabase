@@ -58,7 +58,7 @@ func (i *BmmInstantiableFeatureBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmI
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmInstantiableFeatureBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmInstantiableFeatureBuilder{
+func (i *BmmInstantiableFeatureBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.FeatureExtensions = v
 	return i
 }
@@ -102,7 +102,7 @@ func (i *BmmInstantiableFeatureBuilder) SetName ( v string ) *BmmInstantiableFea
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmInstantiableFeatureBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmInstantiableFeatureBuilder{
+func (i *BmmInstantiableFeatureBuilder) SetDocumentation ( v map[string]any ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Documentation = v
 	return i
 }
@@ -117,7 +117,7 @@ func (i *BmmInstantiableFeatureBuilder) SetScope ( v IBmmModelElement ) *BmmInst
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmInstantiableFeatureBuilder) SetExtensions ( v Hash < Any , String > ) *BmmInstantiableFeatureBuilder{
+func (i *BmmInstantiableFeatureBuilder) SetExtensions ( v map[string]any ) *BmmInstantiableFeatureBuilder{
 	i.bmminstantiablefeature.Extensions = v
 	return i
 }

@@ -57,7 +57,7 @@ func (i *BmmStaticBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmStaticBuilder{
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmStaticBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmStaticBuilder{
+func (i *BmmStaticBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmStaticBuilder{
 	i.bmmstatic.FeatureExtensions = v
 	return i
 }
@@ -101,7 +101,7 @@ func (i *BmmStaticBuilder) SetName ( v string ) *BmmStaticBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmStaticBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmStaticBuilder{
+func (i *BmmStaticBuilder) SetDocumentation ( v map[string]any ) *BmmStaticBuilder{
 	i.bmmstatic.Documentation = v
 	return i
 }
@@ -116,7 +116,7 @@ func (i *BmmStaticBuilder) SetScope ( v IBmmModelElement ) *BmmStaticBuilder{
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmStaticBuilder) SetExtensions ( v Hash < Any , String > ) *BmmStaticBuilder{
+func (i *BmmStaticBuilder) SetExtensions ( v map[string]any ) *BmmStaticBuilder{
 	i.bmmstatic.Extensions = v
 	return i
 }

@@ -91,7 +91,7 @@ func (i *BmmUnitaryPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmUnita
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmUnitaryPropertyBuilder{
+func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.FeatureExtensions = v
 	return i
 }
@@ -135,7 +135,7 @@ func (i *BmmUnitaryPropertyBuilder) SetName ( v string ) *BmmUnitaryPropertyBuil
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmUnitaryPropertyBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmUnitaryPropertyBuilder{
+func (i *BmmUnitaryPropertyBuilder) SetDocumentation ( v map[string]any ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Documentation = v
 	return i
 }
@@ -150,7 +150,7 @@ func (i *BmmUnitaryPropertyBuilder) SetScope ( v IBmmModelElement ) *BmmUnitaryP
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmUnitaryPropertyBuilder) SetExtensions ( v Hash < Any , String > ) *BmmUnitaryPropertyBuilder{
+func (i *BmmUnitaryPropertyBuilder) SetExtensions ( v map[string]any ) *BmmUnitaryPropertyBuilder{
 	i.bmmunitaryproperty.Extensions = v
 	return i
 }

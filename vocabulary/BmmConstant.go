@@ -119,7 +119,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmConstantBuilder) SetDocumentation(v map[any]string) *BmmConstantBuilder {
+func (i *BmmConstantBuilder) SetDocumentation(v map[string]any) *BmmConstantBuilder {
 	i.bmmconstant.Documentation = v
 	return i
 }
@@ -129,7 +129,7 @@ func (i *BmmConstantBuilder) SetDocumentation(v map[any]string) *BmmConstantBuil
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmConstantBuilder) SetExtensions(v map[any]string) *BmmConstantBuilder {
+func (i *BmmConstantBuilder) SetExtensions(v map[string]any) *BmmConstantBuilder {
 	i.bmmconstant.Extensions = v
 	return i
 }

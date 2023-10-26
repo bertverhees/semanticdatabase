@@ -78,7 +78,7 @@ func (i *BmmWritableVariableBuilder) SetName ( v string ) *BmmWritableVariableBu
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmWritableVariableBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmWritableVariableBuilder{
+func (i *BmmWritableVariableBuilder) SetDocumentation ( v map[string]any ) *BmmWritableVariableBuilder{
 	i.bmmwritablevariable.Documentation = v
 	return i
 }
@@ -93,7 +93,7 @@ func (i *BmmWritableVariableBuilder) SetScope ( v IBmmModelElement ) *BmmWritabl
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmWritableVariableBuilder) SetExtensions ( v Hash < Any , String > ) *BmmWritableVariableBuilder{
+func (i *BmmWritableVariableBuilder) SetExtensions ( v map[string]any ) *BmmWritableVariableBuilder{
 	i.bmmwritablevariable.Extensions = v
 	return i
 }

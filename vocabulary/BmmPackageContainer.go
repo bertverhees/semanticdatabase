@@ -68,7 +68,7 @@ func (i *BmmPackageContainerBuilder) SetName ( v string ) *BmmPackageContainerBu
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmPackageContainerBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmPackageContainerBuilder{
+func (i *BmmPackageContainerBuilder) SetDocumentation ( v map[string]any ) *BmmPackageContainerBuilder{
 	i.bmmpackagecontainer.Documentation = v
 	return i
 }
@@ -83,7 +83,7 @@ func (i *BmmPackageContainerBuilder) SetScope ( v IBmmModelElement ) *BmmPackage
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmPackageContainerBuilder) SetExtensions ( v Hash < Any , String > ) *BmmPackageContainerBuilder{
+func (i *BmmPackageContainerBuilder) SetExtensions ( v map[string]any ) *BmmPackageContainerBuilder{
 	i.bmmpackagecontainer.Extensions = v
 	return i
 }

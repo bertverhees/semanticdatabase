@@ -92,7 +92,7 @@ func (i *BmmSimpleClassBuilder) SetSourceSchemaId ( v string ) *BmmSimpleClassBu
 	List of computed references to base classes of immediate inheritance
 	descendants, derived when members of ancestors are attached at creation time.
 */
-func (i *BmmSimpleClassBuilder) SetImmediateDescendants ( v List < BMM_CLASS > ) *BmmSimpleClassBuilder{
+func (i *BmmSimpleClassBuilder) SetImmediateDescendants ( v []IBmmClass ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.ImmediateDescendants = v
 	return i
 }
@@ -167,19 +167,19 @@ func (i *BmmSimpleClassBuilder) SetConverters ( v map[string]vocabulary.IBmmProc
 }
 // From: BmmClass
 // Features of this module.
-func (i *BmmSimpleClassBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmSimpleClassBuilder{
+func (i *BmmSimpleClassBuilder) SetFeatures ( v []IBmmFeature ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Features = v
 	return i
 }
 // From: BmmModule
 // List of feature groups in this class.
-func (i *BmmSimpleClassBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmSimpleClassBuilder{
+func (i *BmmSimpleClassBuilder) SetFeatureGroups ( v []IBmmFeatureGroup ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.FeatureGroups = v
 	return i
 }
 // From: BmmModule
 // Features of this module.
-func (i *BmmSimpleClassBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmSimpleClassBuilder{
+func (i *BmmSimpleClassBuilder) SetFeatures ( v []IBmmFormalElement ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Features = v
 	return i
 }
@@ -202,7 +202,7 @@ func (i *BmmSimpleClassBuilder) SetName ( v string ) *BmmSimpleClassBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmSimpleClassBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmSimpleClassBuilder{
+func (i *BmmSimpleClassBuilder) SetDocumentation ( v map[string]any ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Documentation = v
 	return i
 }
@@ -217,7 +217,7 @@ func (i *BmmSimpleClassBuilder) SetScope ( v IBmmModelElement ) *BmmSimpleClassB
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmSimpleClassBuilder) SetExtensions ( v Hash < Any , String > ) *BmmSimpleClassBuilder{
+func (i *BmmSimpleClassBuilder) SetExtensions ( v map[string]any ) *BmmSimpleClassBuilder{
 	i.bmmsimpleclass.Extensions = v
 	return i
 }

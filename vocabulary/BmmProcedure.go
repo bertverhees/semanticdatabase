@@ -103,7 +103,7 @@ func (i *BmmProcedureBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmProcedureBu
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmProcedureBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmProcedureBuilder{
+func (i *BmmProcedureBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmProcedureBuilder{
 	i.bmmprocedure.FeatureExtensions = v
 	return i
 }
@@ -147,7 +147,7 @@ func (i *BmmProcedureBuilder) SetName ( v string ) *BmmProcedureBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmProcedureBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmProcedureBuilder{
+func (i *BmmProcedureBuilder) SetDocumentation ( v map[string]any ) *BmmProcedureBuilder{
 	i.bmmprocedure.Documentation = v
 	return i
 }
@@ -162,7 +162,7 @@ func (i *BmmProcedureBuilder) SetScope ( v IBmmModelElement ) *BmmProcedureBuild
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmProcedureBuilder) SetExtensions ( v Hash < Any , String > ) *BmmProcedureBuilder{
+func (i *BmmProcedureBuilder) SetExtensions ( v map[string]any ) *BmmProcedureBuilder{
 	i.bmmprocedure.Extensions = v
 	return i
 }

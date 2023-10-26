@@ -76,7 +76,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmModuleBuilder) SetDocumentation(v map[any]string) *BmmModuleBuilder {
+func (i *BmmModuleBuilder) SetDocumentation(v map[string]any) *BmmModuleBuilder {
 	i.bmmmodule.Documentation = v
 	return i
 }
@@ -86,7 +86,7 @@ func (i *BmmModuleBuilder) SetDocumentation(v map[any]string) *BmmModuleBuilder 
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmModuleBuilder) SetExtensions(v map[any]string) *BmmModuleBuilder {
+func (i *BmmModuleBuilder) SetExtensions(v map[string]any) *BmmModuleBuilder {
 	i.bmmmodule.Extensions = v
 	return i
 }

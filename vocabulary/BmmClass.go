@@ -248,7 +248,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmClassBuilder) SetDocumentation(v map[any]string) *BmmClassBuilder {
+func (i *BmmClassBuilder) SetDocumentation(v map[string]any) *BmmClassBuilder {
 	i.bmmclass.Documentation = v
 	return i
 }
@@ -265,7 +265,7 @@ func (i *BmmClassBuilder) SetScope(v IBmmModel) *BmmClassBuilder {
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmClassBuilder) SetExtensions(v map[any]string) *BmmClassBuilder {
+func (i *BmmClassBuilder) SetExtensions(v map[string]any) *BmmClassBuilder {
 	i.bmmclass.Extensions = v
 	return i
 }

@@ -66,7 +66,7 @@ func (i *BmmSingletonBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmSingletonBu
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmSingletonBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmSingletonBuilder{
+func (i *BmmSingletonBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmSingletonBuilder{
 	i.bmmsingleton.FeatureExtensions = v
 	return i
 }
@@ -110,7 +110,7 @@ func (i *BmmSingletonBuilder) SetName ( v string ) *BmmSingletonBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmSingletonBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmSingletonBuilder{
+func (i *BmmSingletonBuilder) SetDocumentation ( v map[string]any ) *BmmSingletonBuilder{
 	i.bmmsingleton.Documentation = v
 	return i
 }
@@ -125,7 +125,7 @@ func (i *BmmSingletonBuilder) SetScope ( v IBmmModelElement ) *BmmSingletonBuild
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmSingletonBuilder) SetExtensions ( v Hash < Any , String > ) *BmmSingletonBuilder{
+func (i *BmmSingletonBuilder) SetExtensions ( v map[string]any ) *BmmSingletonBuilder{
 	i.bmmsingleton.Extensions = v
 	return i
 }

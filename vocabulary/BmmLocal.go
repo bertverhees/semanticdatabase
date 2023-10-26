@@ -80,7 +80,7 @@ func (i *BmmLocalBuilder) SetName ( v string ) *BmmLocalBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmLocalBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmLocalBuilder{
+func (i *BmmLocalBuilder) SetDocumentation ( v map[string]any ) *BmmLocalBuilder{
 	i.bmmlocal.Documentation = v
 	return i
 }
@@ -95,7 +95,7 @@ func (i *BmmLocalBuilder) SetScope ( v IBmmModelElement ) *BmmLocalBuilder{
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmLocalBuilder) SetExtensions ( v Hash < Any , String > ) *BmmLocalBuilder{
+func (i *BmmLocalBuilder) SetExtensions ( v map[string]any ) *BmmLocalBuilder{
 	i.bmmlocal.Extensions = v
 	return i
 }

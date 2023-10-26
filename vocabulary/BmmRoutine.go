@@ -100,7 +100,7 @@ func (i *BmmRoutineBuilder) SetIsSynthesisedGeneric ( v bool ) *BmmRoutineBuilde
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmRoutineBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmRoutineBuilder{
+func (i *BmmRoutineBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmRoutineBuilder{
 	i.bmmroutine.FeatureExtensions = v
 	return i
 }
@@ -144,7 +144,7 @@ func (i *BmmRoutineBuilder) SetName ( v string ) *BmmRoutineBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmRoutineBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmRoutineBuilder{
+func (i *BmmRoutineBuilder) SetDocumentation ( v map[string]any ) *BmmRoutineBuilder{
 	i.bmmroutine.Documentation = v
 	return i
 }
@@ -159,7 +159,7 @@ func (i *BmmRoutineBuilder) SetScope ( v IBmmModelElement ) *BmmRoutineBuilder{
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmRoutineBuilder) SetExtensions ( v Hash < Any , String > ) *BmmRoutineBuilder{
+func (i *BmmRoutineBuilder) SetExtensions ( v map[string]any ) *BmmRoutineBuilder{
 	i.bmmroutine.Extensions = v
 	return i
 }

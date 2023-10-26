@@ -222,7 +222,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmEnumerationIntegerBuilder) SetDocumentation(v map[any]string) *BmmEnumerationIntegerBuilder {
+func (i *BmmEnumerationIntegerBuilder) SetDocumentation(v map[string]any) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Documentation = v
 	return i
 }
@@ -239,7 +239,7 @@ func (i *BmmEnumerationIntegerBuilder) SetScope(v IBmmModelElement) *BmmEnumerat
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmEnumerationIntegerBuilder) SetExtensions(v map[any]string) *BmmEnumerationIntegerBuilder {
+func (i *BmmEnumerationIntegerBuilder) SetExtensions(v map[string]any) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Extensions = v
 	return i
 }

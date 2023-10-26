@@ -90,7 +90,7 @@ func (i *BmmSelfBuilder) SetName ( v string ) *BmmSelfBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmSelfBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmSelfBuilder{
+func (i *BmmSelfBuilder) SetDocumentation ( v map[string]any ) *BmmSelfBuilder{
 	i.bmmself.Documentation = v
 	return i
 }
@@ -105,7 +105,7 @@ func (i *BmmSelfBuilder) SetScope ( v IBmmModelElement ) *BmmSelfBuilder{
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmSelfBuilder) SetExtensions ( v Hash < Any , String > ) *BmmSelfBuilder{
+func (i *BmmSelfBuilder) SetExtensions ( v map[string]any ) *BmmSelfBuilder{
 	i.bmmself.Extensions = v
 	return i
 }

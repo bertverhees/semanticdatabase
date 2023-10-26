@@ -11,7 +11,7 @@ import (
 
 // Interface definition
 type IBmmPackage interface {
-	RootClasses (  )  List < BMM_CLASS >
+	RootClasses (  )  []IBmmClass
 	Path (  )  string
 	// From: BMM_PACKAGE_CONTAINER
 	PackageAtPath ( a_path string )  IBmmPackage
@@ -80,7 +80,7 @@ func (i *BmmPackageBuilder) SetName ( v string ) *BmmPackageBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmPackageBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmPackageBuilder{
+func (i *BmmPackageBuilder) SetDocumentation ( v map[string]any ) *BmmPackageBuilder{
 	i.bmmpackage.Documentation = v
 	return i
 }
@@ -95,7 +95,7 @@ func (i *BmmPackageBuilder) SetScope ( v IBmmModelElement ) *BmmPackageBuilder{
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmPackageBuilder) SetExtensions ( v Hash < Any , String > ) *BmmPackageBuilder{
+func (i *BmmPackageBuilder) SetExtensions ( v map[string]any ) *BmmPackageBuilder{
 	i.bmmpackage.Extensions = v
 	return i
 }
@@ -111,7 +111,7 @@ func (i *BmmPackageBuilder) Build() *BmmPackage {
 	packages. Recurse into each child only far enough to find the first level of
 	classes.
 */
-func (b *BmmPackage) RootClasses (  )  List < BMM_CLASS > {
+func (b *BmmPackage) RootClasses (  )  []IBmmClass {
 	return nil
 }
 // Full path of this package back to root package.

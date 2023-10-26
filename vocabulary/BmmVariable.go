@@ -77,7 +77,7 @@ func (i *BmmVariableBuilder) SetName ( v string ) *BmmVariableBuilder{
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmVariableBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetDocumentation ( v map[string]any ) *BmmVariableBuilder{
 	i.bmmvariable.Documentation = v
 	return i
 }
@@ -92,7 +92,7 @@ func (i *BmmVariableBuilder) SetScope ( v IBmmModelElement ) *BmmVariableBuilder
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmVariableBuilder) SetExtensions ( v Hash < Any , String > ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetExtensions ( v map[string]any ) *BmmVariableBuilder{
 	i.bmmvariable.Extensions = v
 	return i
 }

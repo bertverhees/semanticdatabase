@@ -110,7 +110,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetIsSynthesisedGeneric ( v bool ) 
 }
 // From: BmmFeature
 // Extensions to feature-level meta-types.
-func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions ( v List < BMM_FEATURE_EXTENSION > ) *BmmIndexedContainerPropertyBuilder{
+func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions ( v []IBmmFeatureExtension ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.FeatureExtensions = v
 	return i
 }
@@ -154,7 +154,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetName ( v string ) *BmmIndexedCon
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmIndexedContainerPropertyBuilder{
+func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation ( v map[string]any ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Documentation = v
 	return i
 }
@@ -169,7 +169,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetScope ( v IBmmModelElement ) *Bm
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmIndexedContainerPropertyBuilder) SetExtensions ( v Hash < Any , String > ) *BmmIndexedContainerPropertyBuilder{
+func (i *BmmIndexedContainerPropertyBuilder) SetExtensions ( v map[string]any ) *BmmIndexedContainerPropertyBuilder{
 	i.bmmindexedcontainerproperty.Extensions = v
 	return i
 }

@@ -81,7 +81,7 @@ func (i *BmmReadonlyVariableBuilder) SetName ( v string ) *BmmReadonlyVariableBu
 	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 	String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmReadonlyVariableBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmReadonlyVariableBuilder{
+func (i *BmmReadonlyVariableBuilder) SetDocumentation ( v map[string]any ) *BmmReadonlyVariableBuilder{
 	i.bmmreadonlyvariable.Documentation = v
 	return i
 }
@@ -96,7 +96,7 @@ func (i *BmmReadonlyVariableBuilder) SetScope ( v IBmmModelElement ) *BmmReadonl
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 */
-func (i *BmmReadonlyVariableBuilder) SetExtensions ( v Hash < Any , String > ) *BmmReadonlyVariableBuilder{
+func (i *BmmReadonlyVariableBuilder) SetExtensions ( v map[string]any ) *BmmReadonlyVariableBuilder{
 	i.bmmreadonlyvariable.Extensions = v
 	return i
 }

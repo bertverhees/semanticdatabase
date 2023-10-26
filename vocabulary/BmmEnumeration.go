@@ -238,7 +238,7 @@ recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmEnumerationBuilder) SetDocumentation(v map[any]string) *BmmEnumerationBuilder {
+func (i *BmmEnumerationBuilder) SetDocumentation(v map[string]any) *BmmEnumerationBuilder {
 	i.bmmenumeration.Documentation = v
 	return i
 }
@@ -248,7 +248,7 @@ func (i *BmmEnumerationBuilder) SetDocumentation(v map[any]string) *BmmEnumerati
 Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
-func (i *BmmEnumerationBuilder) SetExtensions(v map[any]string) *BmmEnumerationBuilder {
+func (i *BmmEnumerationBuilder) SetExtensions(v map[string]any) *BmmEnumerationBuilder {
 	i.bmmenumeration.Extensions = v
 	return i
 }
