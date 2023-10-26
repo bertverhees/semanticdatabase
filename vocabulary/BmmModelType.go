@@ -1,28 +1,20 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // A type that is defined by a class (or classes) in the model.
 
 // Interface definition
 type IBmmModelType interface {
-	TypeBaseName (  )  string
-	IsPrimitive (  )  bool
+	TypeBaseName() string
+	IsPrimitive() bool
 	// From: BMM_EFFECTIVE_TYPE
-	EffectiveType (  )  IBmmEffectiveType
-	TypeBaseName (  )  string
+	EffectiveType() IBmmEffectiveType
 	// From: BMM_UNITARY_TYPE
-	UnitaryType (  )  IBmmUnitaryType
+	UnitaryType() IBmmUnitaryType
 	// From: BMM_TYPE
-	TypeName (  )  string
-	TypeSignature (  )  string
-	IsAbstract (  )  bool
-	IsPrimitive (  )  bool
-	UnitaryType (  )  IBmmUnitaryType
-	EffectiveType (  )  IBmmEffectiveType
-	FlattenedTypeList (  )  []string
+	TypeName() string
+	TypeSignature() string
+	IsAbstract() bool
+	FlattenedTypeList() []string
 }
 
 // Struct definition
@@ -33,109 +25,98 @@ type BmmModelType struct {
 	BmmType
 	// Constants
 	// Attributes
-	ValueConstraint	IBmmValueSetSpec	`yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
+	ValueConstraint IBmmValueSetSpec `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 	// Base class of this type.
-	BaseClass	IBmmClass	`yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+	BaseClass IBmmClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmModelType() *BmmModelType {
 	bmmmodeltype := new(BmmModelType)
 	// Constants
 	return bmmmodeltype
 }
-//BUILDER
+
+// BUILDER
 type BmmModelTypeBuilder struct {
 	bmmmodeltype *BmmModelType
 }
 
 func NewBmmModelTypeBuilder() *BmmModelTypeBuilder {
-	 return &BmmModelTypeBuilder {
-		bmmmodeltype : NewBmmModelType(),
+	return &BmmModelTypeBuilder{
+		bmmmodeltype: NewBmmModelType(),
 	}
 }
 
-//BUILDER ATTRIBUTES
-func (i *BmmModelTypeBuilder) SetValueConstraint ( v IBmmValueSetSpec ) *BmmModelTypeBuilder{
+// BUILDER ATTRIBUTES
+func (i *BmmModelTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmModelTypeBuilder {
 	i.bmmmodeltype.ValueConstraint = v
 	return i
 }
+
 // Base class of this type.
-func (i *BmmModelTypeBuilder) SetBaseClass ( v IBmmClass ) *BmmModelTypeBuilder{
+func (i *BmmModelTypeBuilder) SetBaseClass(v IBmmClass) *BmmModelTypeBuilder {
 	i.bmmmodeltype.BaseClass = v
 	return i
 }
 
 func (i *BmmModelTypeBuilder) Build() *BmmModelType {
-	 return i.bmmmodeltype
+	return i.bmmmodeltype
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // Result = base_class.name .
-func (b *BmmModelType) TypeBaseName (  )  string {
+func (b *BmmModelType) TypeBaseName() string {
 	return ""
 }
+
 // Result = base_class.is_primitive .
-func (b *BmmModelType) IsPrimitive (  )  bool {
+func (b *BmmModelType) IsPrimitive() bool {
 	return false
 }
-// From: BMM_EFFECTIVE_TYPE
-// Result = self.
-func (b *BmmModelType) EffectiveType (  )  IBmmEffectiveType {
-	return nil
-}
-// From: BMM_EFFECTIVE_TYPE
-// Name of base generator type, i.e. excluding any generic parts if present.
-func (b *BmmModelType) TypeBaseName (  )  string {
-	return ""
-}
-// From: BMM_UNITARY_TYPE
-// Result = self.
-func (b *BmmModelType) UnitaryType (  )  IBmmUnitaryType {
-	return nil
-}
+
 // From: BMM_TYPE
 // Formal string form of the type as per UML.
-func (b *BmmModelType) TypeName (  )  string {
+func (b *BmmModelType) TypeName() string {
 	return ""
 }
+
 // From: BMM_TYPE
 /**
-	Signature form of the type name, which for generics includes generic parameter
-	constrainer types E.g. Interval<T:Ordered> . Defaults to the value of
-	type_name() .
+Signature form of the type name, which for generics includes generic parameter
+constrainer types E.g. Interval<T:Ordered> . Defaults to the value of
+type_name() .
 */
-func (b *BmmModelType) TypeSignature (  )  string {
+func (b *BmmModelType) TypeSignature() string {
 	return ""
 }
+
 // From: BMM_TYPE
 /**
-	If true, indicates a type based on an abstract class, i.e. a type that cannot be
-	directly instantiated.
+If true, indicates a type based on an abstract class, i.e. a type that cannot be
+directly instantiated.
 */
-func (b *BmmModelType) IsAbstract (  )  bool {
+func (b *BmmModelType) IsAbstract() bool {
 	return false
 }
-// From: BMM_TYPE
-// If True, indicates that a type based solely on primitive classes.
-func (b *BmmModelType) IsPrimitive (  )  bool {
-	return false
-}
+
 // From: BMM_TYPE
 // Type with any container abstracted away; may be a formal generic type.
-func (b *BmmModelType) UnitaryType (  )  IBmmUnitaryType {
+func (b *BmmModelType) UnitaryType() IBmmUnitaryType {
 	return nil
 }
+
 // From: BMM_TYPE
 /**
-	Type with any container abstracted away, and any formal parameter replaced by
-	its effective constraint type.
+Type with any container abstracted away, and any formal parameter replaced by
+its effective constraint type.
 */
-func (b *BmmModelType) EffectiveType (  )  IBmmEffectiveType {
+func (b *BmmModelType) EffectiveType() IBmmEffectiveType {
 	return nil
 }
+
 // From: BMM_TYPE
 // Completely flattened list of type names, flattening out all generic parameters.
-func (b *BmmModelType) FlattenedTypeList (  )  []string {
+func (b *BmmModelType) FlattenedTypeList() []string {
 	return nil
 }
