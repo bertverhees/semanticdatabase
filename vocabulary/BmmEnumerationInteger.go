@@ -1,34 +1,28 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Integer-based enumeration meta-type.
 
 // Interface definition
 type IBmmEnumerationInteger interface {
 	// From: BMM_ENUMERATION
-	NameMap (  )  map[string]string
-	// From: BMM_SIMPLE_CLASS
-	Type (  )  IBmmSimpleType
+	NameMap() map[string]string
 	// From: BMM_CLASS
-	Type (  )  IBmmModelType
-	AllAncestors (  )  []string
-	AllDescendants (  )  []string
-	Suppliers (  )  []string
-	SuppliersNonPrimitive (  )  []string
-	SupplierClosure (  )  []string
-	PackagePath (  )  string
-	ClassPath (  )  string
-	IsPrimitive (  )  bool
-	IsAbstract (  )  bool
-	Features (  ) 
-	FlatFeatures (  ) 
-	FlatProperties (  )  []vocabulary.IBmmProperty
+	Type() IBmmModelType
+	AllAncestors() []string
+	AllDescendants() []string
+	Suppliers() []string
+	SuppliersNonPrimitive() []string
+	SupplierClosure() []string
+	PackagePath() string
+	ClassPath() string
+	IsPrimitive() bool
+	IsAbstract() bool
+	Features()
+	FlatFeatures()
+	FlatProperties() []IBmmProperty
 	// From: BMM_MODULE
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  bool
+	IsRootScope() bool
 }
 
 // Struct definition
@@ -42,327 +36,337 @@ type BmmEnumerationInteger struct {
 	// Constants
 	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
-	ItemValues	List < BMM_INTEGER_VALUE >	`yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	ItemValues []IBmmIntegerValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	bmmenumerationinteger := new(BmmEnumerationInteger)
 	// Constants
 	return bmmenumerationinteger
 }
-//BUILDER
+
+// BUILDER
 type BmmEnumerationIntegerBuilder struct {
 	bmmenumerationinteger *BmmEnumerationInteger
 }
 
 func NewBmmEnumerationIntegerBuilder() *BmmEnumerationIntegerBuilder {
-	 return &BmmEnumerationIntegerBuilder {
-		bmmenumerationinteger : NewBmmEnumerationInteger(),
+	return &BmmEnumerationIntegerBuilder{
+		bmmenumerationinteger: NewBmmEnumerationInteger(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationIntegerBuilder) SetItemValues ( v List < BMM_INTEGER_VALUE > ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetItemValues(v []IBmmIntegerValue) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.ItemValues = v
 	return i
 }
+
 // From: BmmEnumeration
 /**
-	The list of names of the enumeration. If no values are supplied, the integer
-	values 0, 1, 2, …​ are assumed.
+The list of names of the enumeration. If no values are supplied, the integer
+values 0, 1, 2, …​ are assumed.
 */
-func (i *BmmEnumerationIntegerBuilder) SetItemNames ( v []string ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetItemNames(v []string) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.ItemNames = v
 	return i
 }
-// From: BmmEnumeration
-// Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationIntegerBuilder) SetItemValues ( v []vocabulary.IBmmPrimitiveValue ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.ItemValues = v
-	return i
-}
+
 // From: BmmClass
 // List of immediate inheritance parents.
-func (i *BmmEnumerationIntegerBuilder) SetAncestors ( v map[string]vocabulary.IBmmModelType ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetAncestors(v map[string]IBmmModelType) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Ancestors = v
 	return i
 }
+
 // From: BmmClass
 // Package this class belongs to.
-func (i *BmmEnumerationIntegerBuilder) SetPackage ( v IBmmPackage ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetPackage(v IBmmPackage) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Package = v
 	return i
 }
+
 // From: BmmClass
 // Properties defined in this class (subset of features ).
-func (i *BmmEnumerationIntegerBuilder) SetProperties ( v map[string]vocabulary.IBmmProperty ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Properties = v
 	return i
 }
+
 // From: BmmClass
 /**
-	Reference to original source schema defining this class. Useful for UI tools to
-	determine which original schema file to open for a given class for manual
-	editing.
+Reference to original source schema defining this class. Useful for UI tools to
+determine which original schema file to open for a given class for manual
+editing.
 */
-func (i *BmmEnumerationIntegerBuilder) SetSourceSchemaId ( v string ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetSourceSchemaId(v string) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.SourceSchemaId = v
 	return i
 }
+
 // From: BmmClass
 /**
-	List of computed references to base classes of immediate inheritance
-	descendants, derived when members of ancestors are attached at creation time.
+List of computed references to base classes of immediate inheritance
+descendants, derived when members of ancestors are attached at creation time.
 */
-func (i *BmmEnumerationIntegerBuilder) SetImmediateDescendants ( v List < BMM_CLASS > ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetImmediateDescendants(v []IBmmClass) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.ImmediateDescendants = v
 	return i
 }
+
 // From: BmmClass
 /**
-	True if this definition overrides a class of the same name in an included
-	schema.
+True if this definition overrides a class of the same name in an included
+schema.
 */
-func (i *BmmEnumerationIntegerBuilder) SetIsOverride ( v bool ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetIsOverride(v bool) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.IsOverride = v
 	return i
 }
+
 // From: BmmClass
 // Static properties defined in this class (subset of features ).
-func (i *BmmEnumerationIntegerBuilder) SetStaticProperties ( v map[string]vocabulary.IBmmStatic ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.StaticProperties = v
 	return i
 }
+
 // From: BmmClass
 // Functions defined in this class (subset of features ).
-func (i *BmmEnumerationIntegerBuilder) SetFunctions ( v map[string]vocabulary.IBmmFunction ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetFunctions(v map[string]IBmmFunction) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Functions = v
 	return i
 }
+
 // From: BmmClass
 // Procedures defined in this class (subset of features ).
-func (i *BmmEnumerationIntegerBuilder) SetProcedures ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Procedures = v
 	return i
 }
+
 // From: BmmClass
 /**
-	True if this class represents a type considered to be primitive in the type
-	system, i.e. any typically built-in or standard library type such as String ,
-	Date , Hash<K,V> etc.
+True if this class represents a type considered to be primitive in the type
+system, i.e. any typically built-in or standard library type such as String ,
+Date , Hash<K,V> etc.
 */
-func (i *BmmEnumerationIntegerBuilder) SetIsPrimitive ( v bool ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.IsPrimitive = v
+func (i *BmmEnumerationIntegerBuilder) SetIsPrimitive(v bool) *BmmEnumerationIntegerBuilder {
+	i.bmmenumerationinteger.BmmClass.IsPrimitive = v
 	return i
 }
+
 // From: BmmClass
 /**
-	True if this class is marked as abstract, i.e. direct instances cannot be
-	created from its direct type.
+True if this class is marked as abstract, i.e. direct instances cannot be
+created from its direct type.
 */
-func (i *BmmEnumerationIntegerBuilder) SetIsAbstract ( v bool ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.IsAbstract = v
+func (i *BmmEnumerationIntegerBuilder) SetIsAbstract(v bool) *BmmEnumerationIntegerBuilder {
+	i.bmmenumerationinteger.BmmClass.IsAbstract = v
 	return i
 }
+
 // From: BmmClass
-func (i *BmmEnumerationIntegerBuilder) SetInvariants ( v []vocabulary.IBmmAssertion ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetInvariants(v []IBmmAssertion) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Invariants = v
 	return i
 }
+
 // From: BmmClass
 /**
-	Subset of procedures that may be used to initialise a new instance of an object,
-	and whose execution will guarantee that class invariants are satisfied.
+Subset of procedures that may be used to initialise a new instance of an object,
+and whose execution will guarantee that class invariants are satisfied.
 */
-func (i *BmmEnumerationIntegerBuilder) SetCreators ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetCreators(v map[string]IBmmProcedure) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Creators = v
 	return i
 }
+
 // From: BmmClass
 /**
-	Subset of creators that create a new instance from a single argument of another
-	type.
+Subset of creators that create a new instance from a single argument of another
+type.
 */
-func (i *BmmEnumerationIntegerBuilder) SetConverters ( v map[string]vocabulary.IBmmProcedure ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetConverters(v map[string]IBmmProcedure) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Converters = v
 	return i
 }
+
 // From: BmmClass
 // Features of this module.
-func (i *BmmEnumerationIntegerBuilder) SetFeatures ( v List < BMM_FEATURE > ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.Features = v
+func (i *BmmEnumerationIntegerBuilder) SetFeatures(v []IBmmFeature) *BmmEnumerationIntegerBuilder {
+	i.bmmenumerationinteger.BmmClass.Features = v
 	return i
 }
+
 // From: BmmModule
 // List of feature groups in this class.
-func (i *BmmEnumerationIntegerBuilder) SetFeatureGroups ( v List < BMM_FEATURE_GROUP > ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.FeatureGroups = v
+func (i *BmmEnumerationIntegerBuilder) SetFeatureGroups(v IBmmFeatureGroup) *BmmEnumerationIntegerBuilder {
+	i.bmmenumerationinteger.BmmModule.FeatureGroups = v
 	return i
 }
-// From: BmmModule
-// Features of this module.
-func (i *BmmEnumerationIntegerBuilder) SetFeatures ( v List < BMM_FORMAL_ELEMENT > ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.Features = v
-	return i
-}
-// From: BmmModule
-// Model within which module is defined.
-func (i *BmmEnumerationIntegerBuilder) SetScope ( v IBmmModel ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.Scope = v
-	return i
-}
+
 // From: BmmModelElement
 // Name of this model element.
-func (i *BmmEnumerationIntegerBuilder) SetName ( v string ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetName(v string) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Name = v
 	return i
 }
+
 // From: BmmModelElement
 /**
-	Optional documentation of this element, as a keyed list. It is strongly
-	recommended to use the following key /type combinations for the relevant
-	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-	String "references": String Other keys and value types may be freely added.
+Optional documentation of this element, as a keyed list. It is strongly
+recommended to use the following key /type combinations for the relevant
+purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmEnumerationIntegerBuilder) SetDocumentation ( v Hash < Any , String > ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetDocumentation(v map[any]string) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Documentation = v
 	return i
 }
+
 // From: BmmModelElement
 // Model element within which an element is declared.
-func (i *BmmEnumerationIntegerBuilder) SetScope ( v IBmmModelElement ) *BmmEnumerationIntegerBuilder{
-	i.bmmenumerationinteger.Scope = v
+func (i *BmmEnumerationIntegerBuilder) SetScope(v IBmmModelElement) *BmmEnumerationIntegerBuilder {
+	i.bmmenumerationinteger.BmmModelElement.Scope = v
 	return i
 }
+
 // From: BmmModelElement
 /**
-	Optional meta-data of this element, as a keyed list. May be used to extend the
-	meta-model.
+Optional meta-data of this element, as a keyed list. May be used to extend the
+meta-model.
 */
-func (i *BmmEnumerationIntegerBuilder) SetExtensions ( v Hash < Any , String > ) *BmmEnumerationIntegerBuilder{
+func (i *BmmEnumerationIntegerBuilder) SetExtensions(v map[any]string) *BmmEnumerationIntegerBuilder {
 	i.bmmenumerationinteger.Extensions = v
 	return i
 }
 
 func (i *BmmEnumerationIntegerBuilder) Build() *BmmEnumerationInteger {
-	 return i.bmmenumerationinteger
+	return i.bmmenumerationinteger
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // From: BMM_ENUMERATION
 // Map of item_names to item_values (stringified).
-func (b *BmmEnumerationInteger) NameMap (  )  map[string]string {
+func (b *BmmEnumerationInteger) NameMap() map[string]string {
 	return nil
 }
-// From: BMM_SIMPLE_CLASS
-/**
-	Generate a type object that represents the type of this class. Can only be an
-	instance of BMM_SIMPLE_TYPE or a descendant.
-*/
-func (b *BmmEnumerationInteger) Type (  )  IBmmSimpleType {
-	return nil
-}
+
 // From: BMM_CLASS
 /**
-	Generate a type object that represents the type for which this class is the
-	definer.
+Generate a type object that represents the type for which this class is the
+definer.
 */
-func (b *BmmEnumerationInteger) Type (  )  IBmmModelType {
+func (b *BmmEnumerationInteger) Type() IBmmModelType {
 	return nil
 }
+
 // From: BMM_CLASS
 // List of all inheritance parent class names, recursively.
-func (b *BmmEnumerationInteger) AllAncestors (  )  []string {
+func (b *BmmEnumerationInteger) AllAncestors() []string {
 	return nil
 }
+
 // From: BMM_CLASS
 // Compute all descendants by following immediate_descendants .
-func (b *BmmEnumerationInteger) AllDescendants (  )  []string {
+func (b *BmmEnumerationInteger) AllDescendants() []string {
 	return nil
 }
+
 // From: BMM_CLASS
 /**
-	List of names of immediate supplier classes, including concrete generic
-	parameters, concrete descendants of abstract statically defined types, and
-	inherited suppliers. (Where generics are unconstrained, no class name is added,
-	since logically it would be Any and this can always be assumed anyway). This
-	list includes primitive types.
+List of names of immediate supplier classes, including concrete generic
+parameters, concrete descendants of abstract statically defined types, and
+inherited suppliers. (Where generics are unconstrained, no class name is added,
+since logically it would be Any and this can always be assumed anyway). This
+list includes primitive types.
 */
-func (b *BmmEnumerationInteger) Suppliers (  )  []string {
+func (b *BmmEnumerationInteger) Suppliers() []string {
 	return nil
 }
+
 // From: BMM_CLASS
 // Same as suppliers minus primitive types, as defined in input schema.
-func (b *BmmEnumerationInteger) SuppliersNonPrimitive (  )  []string {
+func (b *BmmEnumerationInteger) SuppliersNonPrimitive() []string {
 	return nil
 }
+
 // From: BMM_CLASS
 /**
-	List of names of all classes in full supplier closure, including concrete
-	generic parameters; (where generics are unconstrained, no class name is added,
-	since logically it would be Any and this can always be assumed anyway). This
-	list includes primitive types.
+List of names of all classes in full supplier closure, including concrete
+generic parameters; (where generics are unconstrained, no class name is added,
+since logically it would be Any and this can always be assumed anyway). This
+list includes primitive types.
 */
-func (b *BmmEnumerationInteger) SupplierClosure (  )  []string {
+func (b *BmmEnumerationInteger) SupplierClosure() []string {
 	return nil
 }
+
 // From: BMM_CLASS
 // Fully qualified package name, of form: package.package .
-func (b *BmmEnumerationInteger) PackagePath (  )  string {
+func (b *BmmEnumerationInteger) PackagePath() string {
 	return ""
 }
+
 // From: BMM_CLASS
 /**
-	Fully qualified class name, of form: package.package.CLASS with package path in
-	lower-case and class in original case.
+Fully qualified class name, of form: package.package.CLASS with package path in
+lower-case and class in original case.
 */
-func (b *BmmEnumerationInteger) ClassPath (  )  string {
+func (b *BmmEnumerationInteger) ClassPath() string {
 	return ""
 }
+
 // From: BMM_CLASS
 /**
-	True if this class is designated a primitive type within the overall type system
-	of the schema. Set from schema.
+True if this class is designated a primitive type within the overall type system
+of the schema. Set from schema.
 */
-func (b *BmmEnumerationInteger) IsPrimitive (  )  bool {
+func (b *BmmEnumerationInteger) IsPrimitive() bool {
 	return false
 }
+
 // From: BMM_CLASS
 /**
-	True if this class is abstract in its model. Value provided from an underlying
-	data property set at creation or construction time.
+True if this class is abstract in its model. Value provided from an underlying
+data property set at creation or construction time.
 */
-func (b *BmmEnumerationInteger) IsAbstract (  )  bool {
+func (b *BmmEnumerationInteger) IsAbstract() bool {
 	return false
 }
+
 // From: BMM_CLASS
 // List of all feature definitions introduced in this class.
-func (b *BmmEnumerationInteger) Features (  )  {
+func (b *BmmEnumerationInteger) Features() {
 	return
 }
+
 // From: BMM_CLASS
 /**
-	Consolidated list of all feature definitions from this class and all inheritance
-	ancestors.
+Consolidated list of all feature definitions from this class and all inheritance
+ancestors.
 */
-func (b *BmmEnumerationInteger) FlatFeatures (  )  {
+func (b *BmmEnumerationInteger) FlatFeatures() {
 	return
 }
+
 // From: BMM_CLASS
 /**
-	List of all properties due to current and ancestor classes, keyed by property
-	name.
+List of all properties due to current and ancestor classes, keyed by property
+name.
 */
-func (b *BmmEnumerationInteger) FlatProperties (  )  []vocabulary.IBmmProperty {
+func (b *BmmEnumerationInteger) FlatProperties() []IBmmProperty {
 	return nil
 }
+
 // From: BMM_MODEL_ELEMENT
 /**
-	Post_result : Result = (scope = self). True if this model element is the root of
-	a model structure hierarchy.
+Post_result : Result = (scope = self). True if this model element is the root of
+a model structure hierarchy.
 */
-func (b *BmmEnumerationInteger) IsRootScope (  )  bool {
+func (b *BmmEnumerationInteger) IsRootScope() bool {
 	return false
 }
