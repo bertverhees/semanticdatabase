@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Meta-type for locally declared routine body.
 
 // Interface definition
@@ -18,42 +14,44 @@ type BmmLocalRoutine struct {
 	// Constants
 	// Attributes
 	// Local variables of the routine, if there is a body defined.
-	Locals	List < BMM_LOCAL >	`yaml:"locals" json:"locals" xml:"locals"`
+	Locals []IBmmLocal `yaml:"locals" json:"locals" xml:"locals"`
 	// Body of routine declaration.
-	Body	IBmmStatementBlock	`yaml:"body" json:"body" xml:"body"`
+	Body IBmmStatementBlock `yaml:"body" json:"body" xml:"body"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmLocalRoutine() *BmmLocalRoutine {
 	bmmlocalroutine := new(BmmLocalRoutine)
 	// Constants
 	return bmmlocalroutine
 }
-//BUILDER
+
+// BUILDER
 type BmmLocalRoutineBuilder struct {
 	bmmlocalroutine *BmmLocalRoutine
 }
 
 func NewBmmLocalRoutineBuilder() *BmmLocalRoutineBuilder {
-	 return &BmmLocalRoutineBuilder {
-		bmmlocalroutine : NewBmmLocalRoutine(),
+	return &BmmLocalRoutineBuilder{
+		bmmlocalroutine: NewBmmLocalRoutine(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Local variables of the routine, if there is a body defined.
-func (i *BmmLocalRoutineBuilder) SetLocals ( v List < BMM_LOCAL > ) *BmmLocalRoutineBuilder{
+func (i *BmmLocalRoutineBuilder) SetLocals(v []IBmmLocal) *BmmLocalRoutineBuilder {
 	i.bmmlocalroutine.Locals = v
 	return i
 }
+
 // Body of routine declaration.
-func (i *BmmLocalRoutineBuilder) SetBody ( v IBmmStatementBlock ) *BmmLocalRoutineBuilder{
+func (i *BmmLocalRoutineBuilder) SetBody(v IBmmStatementBlock) *BmmLocalRoutineBuilder {
 	i.bmmlocalroutine.Body = v
 	return i
 }
 
 func (i *BmmLocalRoutineBuilder) Build() *BmmLocalRoutine {
-	 return i.bmmlocalroutine
+	return i.bmmlocalroutine
 }
 
 //FUNCTIONS
