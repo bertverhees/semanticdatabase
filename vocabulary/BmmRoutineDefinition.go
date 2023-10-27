@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Abstract ancestor of routine body meta-types.
 
 // Interface definition
