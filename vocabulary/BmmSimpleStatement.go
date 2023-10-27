@@ -1,12 +1,8 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	Simple statement, i.e. statement with one logical element - a single expression,
-	procedure call etc.
+Simple statement, i.e. statement with one logical element - a single expression,
+procedure call etc.
 */
 
 // Interface definition
@@ -24,27 +20,28 @@ type BmmSimpleStatement struct {
 	// Attributes
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmSimpleStatement() *BmmSimpleStatement {
 	bmmsimplestatement := new(BmmSimpleStatement)
 	// Constants
 	return bmmsimplestatement
 }
-//BUILDER
+
+// BUILDER
 type BmmSimpleStatementBuilder struct {
 	bmmsimplestatement *BmmSimpleStatement
 }
 
 func NewBmmSimpleStatementBuilder() *BmmSimpleStatementBuilder {
-	 return &BmmSimpleStatementBuilder {
-		bmmsimplestatement : NewBmmSimpleStatement(),
+	return &BmmSimpleStatementBuilder{
+		bmmsimplestatement: NewBmmSimpleStatement(),
 	}
 }
 
 //BUILDER ATTRIBUTES
 
 func (i *BmmSimpleStatementBuilder) Build() *BmmSimpleStatement {
-	 return i.bmmsimplestatement
+	return i.bmmsimplestatement
 }
 
 //FUNCTIONS
