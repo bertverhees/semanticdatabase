@@ -1,12 +1,8 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	Abstract parent of 'statement' types that may be defined to implement BMM
-	Routines.
+Abstract parent of 'statement' types that may be defined to implement BMM
+Routines.
 */
 
 // Interface definition
@@ -22,27 +18,28 @@ type BmmStatement struct {
 	// Attributes
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmStatement() *BmmStatement {
 	bmmstatement := new(BmmStatement)
 	// Constants
 	return bmmstatement
 }
-//BUILDER
+
+// BUILDER
 type BmmStatementBuilder struct {
 	bmmstatement *BmmStatement
 }
 
 func NewBmmStatementBuilder() *BmmStatementBuilder {
-	 return &BmmStatementBuilder {
-		bmmstatement : NewBmmStatement(),
+	return &BmmStatementBuilder{
+		bmmstatement: NewBmmStatement(),
 	}
 }
 
 //BUILDER ATTRIBUTES
 
 func (i *BmmStatementBuilder) Build() *BmmStatement {
-	 return i.bmmstatement
+	return i.bmmstatement
 }
 
 //FUNCTIONS

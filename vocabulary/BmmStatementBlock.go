@@ -1,12 +1,8 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	A statement 'block' corresponding to the programming language concept of the
-	same name. May be used to establish scope in specific languages.
+A statement 'block' corresponding to the programming language concept of the
+same name. May be used to establish scope in specific languages.
 */
 
 // Interface definition
@@ -21,35 +17,36 @@ type BmmStatementBlock struct {
 	// Constants
 	// Attributes
 	// Child blocks of the current block.
-	Items	List < BMM_STATEMENT_ITEM >	`yaml:"items" json:"items" xml:"items"`
+	Items []IBmmStatementItem `yaml:"items" json:"items" xml:"items"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmStatementBlock() *BmmStatementBlock {
 	bmmstatementblock := new(BmmStatementBlock)
 	// Constants
 	return bmmstatementblock
 }
-//BUILDER
+
+// BUILDER
 type BmmStatementBlockBuilder struct {
 	bmmstatementblock *BmmStatementBlock
 }
 
 func NewBmmStatementBlockBuilder() *BmmStatementBlockBuilder {
-	 return &BmmStatementBlockBuilder {
-		bmmstatementblock : NewBmmStatementBlock(),
+	return &BmmStatementBlockBuilder{
+		bmmstatementblock: NewBmmStatementBlock(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Child blocks of the current block.
-func (i *BmmStatementBlockBuilder) SetItems ( v List < BMM_STATEMENT_ITEM > ) *BmmStatementBlockBuilder{
+func (i *BmmStatementBlockBuilder) SetItems(v []IBmmStatementItem) *BmmStatementBlockBuilder {
 	i.bmmstatementblock.Items = v
 	return i
 }
 
 func (i *BmmStatementBlockBuilder) Build() *BmmStatementBlock {
-	 return i.bmmstatementblock
+	return i.bmmstatementblock
 }
 
 //FUNCTIONS

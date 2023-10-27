@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Abstract parent of statement types representing a locally defined routine body.
 
 // Interface definition
@@ -17,27 +13,28 @@ type BmmStatementItem struct {
 	// Attributes
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmStatementItem() *BmmStatementItem {
 	bmmstatementitem := new(BmmStatementItem)
 	// Constants
 	return bmmstatementitem
 }
-//BUILDER
+
+// BUILDER
 type BmmStatementItemBuilder struct {
 	bmmstatementitem *BmmStatementItem
 }
 
 func NewBmmStatementItemBuilder() *BmmStatementItemBuilder {
-	 return &BmmStatementItemBuilder {
-		bmmstatementitem : NewBmmStatementItem(),
+	return &BmmStatementItemBuilder{
+		bmmstatementitem: NewBmmStatementItem(),
 	}
 }
 
 //BUILDER ATTRIBUTES
 
 func (i *BmmStatementItemBuilder) Build() *BmmStatementItem {
-	 return i.bmmstatementitem
+	return i.bmmstatementitem
 }
 
 //FUNCTIONS

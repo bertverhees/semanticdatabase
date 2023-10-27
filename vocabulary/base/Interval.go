@@ -1,8 +1,11 @@
 package base
 
-import "errors"
+import (
+	"errors"
+	"vocabulary/generics"
+)
 
-type Interval[T Number] struct {
+type Interval[T generics.Number] struct {
 	lower T
 	upper T
 	// lower boundary open (i.e. = -infinity)
@@ -15,15 +18,15 @@ type Interval[T Number] struct {
 	UpperIncluded bool
 }
 
-func NewInterval[T Number]() *Interval[T] {
+func NewInterval[T generics.Number]() *Interval[T] {
 	return new(Interval[T])
 }
 
-type IntervalBuilder[T Number] struct {
+type IntervalBuilder[T generics.Number] struct {
 	interval *Interval[T]
 }
 
-func NewIntervalBuilder[T Number]() *IntervalBuilder[T] {
+func NewIntervalBuilder[T generics.Number]() *IntervalBuilder[T] {
 	i := new(Interval[T])
 	i.LowerIncluded = true
 	i.UpperIncluded = true
@@ -76,15 +79,15 @@ func (i *IntervalBuilder[T]) build() *Interval[T] {
 	return i.interval
 }
 
-func LowerUnboundedInterval[T Number](upper T, UpperIncluded bool) *Interval[T] {
+func LowerUnboundedInterval[T generics.Number](upper T, UpperIncluded bool) *Interval[T] {
 	return NewIntervalBuilder[T]().setUpper(upper).setLowerIncluded(false).setUpperIncluded(UpperIncluded).setLowerUnbounded(true).build()
 }
 
-func UpperUnboundedInterval[T Number](lower T, LowerIncluded bool) *Interval[T] {
+func UpperUnboundedInterval[T generics.Number](lower T, LowerIncluded bool) *Interval[T] {
 	return NewIntervalBuilder[T]().setLower(lower).setUpperIncluded(false).setLowerIncluded(LowerIncluded).setUpperUnbounded(true).build()
 }
 
-func UnboundedInterval[T Number](lower T, LowerIncluded bool) *Interval[T] {
+func UnboundedInterval[T generics.Number](lower T, LowerIncluded bool) *Interval[T] {
 	return NewIntervalBuilder[T]().setUpperIncluded(false).setLowerIncluded(false).setUpperUnbounded(true).setLowerUnbounded(true).build()
 }
 

@@ -1,12 +1,14 @@
 package base
 
-type MultiplicityInterval[T Number] struct {
+import "vocabulary/generics"
+
+type MultiplicityInterval[T generics.Number] struct {
 	ProperInterval[T]
 	multiplicityRangeMarker     string `yaml:"multiplicityrangemarker" json:"multiplicityrangemarker" xml:"multiplicityrangemarker"`
 	multiplicityUnboundedMarker string `yaml:"multiplicityunboundedmarker" json:"multiplicityunboundedmarker" xml:"multiplicityunboundedmarker"`
 }
 
-func NewMultiplicityInterval[T Number]() *MultiplicityInterval[T] {
+func NewMultiplicityInterval[T generics.Number]() *MultiplicityInterval[T] {
 	mi := new(MultiplicityInterval[T])
 	mi.multiplicityRangeMarker = ".."
 	mi.multiplicityUnboundedMarker = "*"
