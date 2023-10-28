@@ -1,22 +1,15 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	Literal value of any type known in the model, including primitive types. Defined
-	via a BMM_LITERAL_VALUE .
+Literal value of any type known in the model, including primitive types. Defined
+via a BMM_LITERAL_VALUE .
 */
 
 // Interface definition
 type IElLiteral interface {
-	EvalType (  )  IBmmType
-	// From: EL_SIMPLE
-	// From: EL_TERMINAL
+	EvalType() IBmmType
 	// From: EL_EXPRESSION
-	EvalType (  )  IBmmType
-	IsBoolean (  )  bool
+	IsBoolean() bool
 }
 
 // Struct definition
@@ -28,56 +21,50 @@ type ElLiteral struct {
 	// Constants
 	// Attributes
 	// The reference item from which the value of this node can be computed.
-	Value	BMM_LITERAL_VALUE < BMM_TYPE >	`yaml:"value" json:"value" xml:"value"`
+	Value IBmmLiteralValue[IBmmType] `yaml:"value" json:"value" xml:"value"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewElLiteral() *ElLiteral {
 	elliteral := new(ElLiteral)
 	// Constants
 	return elliteral
 }
-//BUILDER
+
+// BUILDER
 type ElLiteralBuilder struct {
 	elliteral *ElLiteral
 }
 
 func NewElLiteralBuilder() *ElLiteralBuilder {
-	 return &ElLiteralBuilder {
-		elliteral : NewElLiteral(),
+	return &ElLiteralBuilder{
+		elliteral: NewElLiteral(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // The reference item from which the value of this node can be computed.
-func (i *ElLiteralBuilder) SetValue ( v BMM_LITERAL_VALUE < BMM_TYPE > ) *ElLiteralBuilder{
+func (i *ElLiteralBuilder) SetValue(v IBmmLiteralValue[IBmmType]) *ElLiteralBuilder {
 	i.elliteral.Value = v
 	return i
 }
 
 func (i *ElLiteralBuilder) Build() *ElLiteral {
-	 return i.elliteral
+	return i.elliteral
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // Return value.type .
-func (e *ElLiteral) EvalType (  )  IBmmType {
+func (e *ElLiteral) EvalType() IBmmType {
 	return nil
 }
+
 // From: EL_EXPRESSION
 /**
-	Meta-type of expression entity used in type-checking and evaluation. Effected in
-	descendants.
+Post_result : Result = eval_type().equal(
+{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElLiteral) EvalType (  )  IBmmType {
-	return nil
-}
-// From: EL_EXPRESSION
-/**
-	Post_result : Result = eval_type().equal(
-	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElLiteral) IsBoolean (  )  bool {
+func (e *ElLiteral) IsBoolean() bool {
 	return false
 }

@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // Abstract parent of operator types.
 
 // Interface definition

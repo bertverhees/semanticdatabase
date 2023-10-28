@@ -1,7 +1,5 @@
 package vocabulary
 
-import "golang.org/x/exp/constraints"
-
 /**
 Meta-type for literal instance values declared in a model. Instance values may
 be inline values of primitive types in the usual fashion or complex objects in
@@ -9,11 +7,11 @@ syntax form, e.g. JSON.
 */
 
 // Interface definition
-type IBmmLiteralValue interface {
+type IBmmLiteralValue[T IBmmType] interface {
 }
 
 // Struct definition
-type BmmLiteralValue[T constraints.Ordered] struct {
+type BmmLiteralValue[T IBmmType] struct {
 	// embedded for Inheritance
 	// Constants
 	// Attributes
@@ -35,18 +33,18 @@ type BmmLiteralValue[T constraints.Ordered] struct {
 }
 
 // CONSTRUCTOR
-func NewBmmLiteralValue[T constraints.Ordered]() *BmmLiteralValue[T] {
+func NewBmmLiteralValue[T IBmmType]() *BmmLiteralValue[T] {
 	bmmliteralvalue := new(BmmLiteralValue[T])
 	// Constants
 	return bmmliteralvalue
 }
 
 // BUILDER
-type BmmLiteralValueBuilder[T constraints.Ordered] struct {
+type BmmLiteralValueBuilder[T IBmmType] struct {
 	bmmliteralvalue *BmmLiteralValue[T]
 }
 
-func NewBmmLiteralValueBuilder[T constraints.Ordered]() *BmmLiteralValueBuilder[T] {
+func NewBmmLiteralValueBuilder[T IBmmType]() *BmmLiteralValueBuilder[T] {
 	return &BmmLiteralValueBuilder[T]{
 		bmmliteralvalue: NewBmmLiteralValue[T](),
 	}

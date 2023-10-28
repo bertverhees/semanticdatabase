@@ -1,27 +1,16 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
-	A call made on a closed function agent, returning a result. Equivalent to an
-	'application' of a function in Lambda calculus.
+A call made on a closed function agent, returning a result. Equivalent to an
+'application' of a function in Lambda calculus.
 */
 
 // Interface definition
 type IElFunctionCall interface {
-	EvalType (  )  IBmmType
-	Reference (  )  string
-	// From: EL_FEATURE_REF
-	Reference (  )  string
-	// From: EL_VALUE_GENERATOR
-	Reference (  )  string
-	// From: EL_SIMPLE
-	// From: EL_TERMINAL
+	EvalType() IBmmType
+	Reference() string
 	// From: EL_EXPRESSION
-	EvalType (  )  IBmmType
-	IsBoolean (  )  bool
+	IsBoolean() bool
 	// From: EL_AGENT_CALL
 }
 
@@ -37,109 +26,81 @@ type ElFunctionCall struct {
 	// Constants
 	// Attributes
 	// The function agent being called.
-	Agent	IElFunctionAgent	`yaml:"agent" json:"agent" xml:"agent"`
+	Agent IElFunctionAgent `yaml:"agent" json:"agent" xml:"agent"`
 	// Defined to return False.
-	IsWritable	bool	`yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+	IsWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewElFunctionCall() *ElFunctionCall {
 	elfunctioncall := new(ElFunctionCall)
 	// Constants
 	return elfunctioncall
 }
-//BUILDER
+
+// BUILDER
 type ElFunctionCallBuilder struct {
 	elfunctioncall *ElFunctionCall
 }
 
 func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
-	 return &ElFunctionCallBuilder {
-		elfunctioncall : NewElFunctionCall(),
+	return &ElFunctionCallBuilder{
+		elfunctioncall: NewElFunctionCall(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // The function agent being called.
-func (i *ElFunctionCallBuilder) SetAgent ( v IElFunctionAgent ) *ElFunctionCallBuilder{
+func (i *ElFunctionCallBuilder) SetAgent(v IElFunctionAgent) *ElFunctionCallBuilder {
 	i.elfunctioncall.Agent = v
 	return i
 }
+
 // Defined to return False.
-func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
+func (i *ElFunctionCallBuilder) SetIsWritable(v bool) *ElFunctionCallBuilder {
 	i.elfunctioncall.IsWritable = v
 	return i
 }
+
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
-func (i *ElFunctionCallBuilder) SetScoper ( v IElValueGenerator ) *ElFunctionCallBuilder{
+func (i *ElFunctionCallBuilder) SetScoper(v IElValueGenerator) *ElFunctionCallBuilder {
 	i.elfunctioncall.Scoper = v
 	return i
 }
-// From: ElValueGenerator
-func (i *ElFunctionCallBuilder) SetIsWritable ( v bool ) *ElFunctionCallBuilder{
-	i.elfunctioncall.IsWritable = v
-	return i
-}
+
 // From: ElValueGenerator
 // Name used to represent the reference or other entity.
-func (i *ElFunctionCallBuilder) SetName ( v string ) *ElFunctionCallBuilder{
+func (i *ElFunctionCallBuilder) SetName(v string) *ElFunctionCallBuilder {
 	i.elfunctioncall.Name = v
-	return i
-}
-// From: ElAgentCall
-// The agent being called.
-func (i *ElFunctionCallBuilder) SetAgent ( v IElAgent ) *ElFunctionCallBuilder{
-	i.elfunctioncall.Agent = v
 	return i
 }
 
 func (i *ElFunctionCallBuilder) Build() *ElFunctionCall {
-	 return i.elfunctioncall
+	return i.elfunctioncall
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // Return agent.definition.type .
-func (e *ElFunctionCall) EvalType (  )  IBmmType {
+func (e *ElFunctionCall) EvalType() IBmmType {
 	return nil
 }
-/**
-	Generated full reference name, consisting of any scoping elements, function name
-	and routine parameters enclosed in parentheses.
+
+/*
+*
+Generated full reference name, consisting of any scoping elements, function name
+and routine parameters enclosed in parentheses.
 */
-func (e *ElFunctionCall) Reference (  )  string {
+func (e *ElFunctionCall) Reference() string {
 	return ""
 }
-// From: EL_FEATURE_REF
-/**
-	Generated full reference name, consisting of scoping elements and name
-	concatenated using dot notation.
-*/
-func (e *ElFunctionCall) Reference (  )  string {
-	return ""
-}
-// From: EL_VALUE_GENERATOR
-/**
-	Generated full reference name, based on constituent parts of the entity. Default
-	version outputs name field.
-*/
-func (e *ElFunctionCall) Reference (  )  string {
-	return ""
-}
+
 // From: EL_EXPRESSION
 /**
-	Meta-type of expression entity used in type-checking and evaluation. Effected in
-	descendants.
+Post_result : Result = eval_type().equal(
+{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
+(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElFunctionCall) EvalType (  )  IBmmType {
-	return nil
-}
-// From: EL_EXPRESSION
-/**
-	Post_result : Result = eval_type().equal(
-	{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-	(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElFunctionCall) IsBoolean (  )  bool {
+func (e *ElFunctionCall) IsBoolean() bool {
 	return false
 }
