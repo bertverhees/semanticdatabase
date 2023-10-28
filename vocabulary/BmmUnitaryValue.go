@@ -1,8 +1,6 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
+import "golang.org/x/exp/constraints"
 
 // Meta-type for literals whose concrete type is a unitary type in the BMM sense.
 
@@ -12,65 +10,69 @@ type IBmmUnitaryValue interface {
 }
 
 // Struct definition
-type BmmUnitaryValue struct {
+type BmmUnitaryValue[T constraints.Ordered] struct {
 	// embedded for Inheritance
-	BmmLiteralValue
+	BmmLiteralValue[T]
 	// Constants
 	// Attributes
 }
 
-//CONSTRUCTOR
-func NewBmmUnitaryValue() *BmmUnitaryValue {
-	bmmunitaryvalue := new(BmmUnitaryValue)
+// CONSTRUCTOR
+func NewBmmUnitaryValue[T constraints.Ordered]() *BmmUnitaryValue[T] {
+	bmmunitaryvalue := new(BmmUnitaryValue[T])
 	// Constants
 	return bmmunitaryvalue
 }
-//BUILDER
-type BmmUnitaryValueBuilder struct {
-	bmmunitaryvalue *BmmUnitaryValue
+
+// BUILDER
+type BmmUnitaryValueBuilder[T constraints.Ordered] struct {
+	bmmunitaryvalue *BmmUnitaryValue[T]
 }
 
-func NewBmmUnitaryValueBuilder() *BmmUnitaryValueBuilder {
-	 return &BmmUnitaryValueBuilder {
-		bmmunitaryvalue : NewBmmUnitaryValue(),
+func NewBmmUnitaryValueBuilder[T constraints.Ordered]() *BmmUnitaryValueBuilder[T] {
+	return &BmmUnitaryValueBuilder[T]{
+		bmmunitaryvalue: NewBmmUnitaryValue[T](),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // From: BmmLiteralValue
 // A serial representation of the value.
-func (i *BmmUnitaryValueBuilder) SetValueLiteral ( v string ) *BmmUnitaryValueBuilder{
+func (i *BmmUnitaryValueBuilder[T]) SetValueLiteral(v string) *BmmUnitaryValueBuilder[T] {
 	i.bmmunitaryvalue.ValueLiteral = v
 	return i
 }
+
 // From: BmmLiteralValue
 /**
-	A native representation of the value, possibly derived by deserialising
-	value_literal .
+A native representation of the value, possibly derived by deserialising
+value_literal .
 */
-func (i *BmmUnitaryValueBuilder) SetValue ( v Any ) *BmmUnitaryValueBuilder{
+func (i *BmmUnitaryValueBuilder[T]) SetValue(v any) *BmmUnitaryValueBuilder[T] {
 	i.bmmunitaryvalue.Value = v
 	return i
 }
+
 // From: BmmLiteralValue
 /**
-	Optional specification of formalism of the value_literal attribute for complex
-	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
-	value agreed by the user community. If not set, json is assumed.
+Optional specification of formalism of the value_literal attribute for complex
+values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+value agreed by the user community. If not set, json is assumed.
 */
-func (i *BmmUnitaryValueBuilder) SetSyntax ( v string ) *BmmUnitaryValueBuilder{
+func (i *BmmUnitaryValueBuilder[T]) SetSyntax(v string) *BmmUnitaryValueBuilder[T] {
 	i.bmmunitaryvalue.Syntax = v
 	return i
 }
+
 // From: BmmLiteralValue
 // Concrete type of this literal.
-func (i *BmmUnitaryValueBuilder) SetType ( v T ) *BmmUnitaryValueBuilder{
+func (i *BmmUnitaryValueBuilder[T]) SetType(v T) *BmmUnitaryValueBuilder[T] {
 	i.bmmunitaryvalue.Type = v
 	return i
 }
 
-func (i *BmmUnitaryValueBuilder) Build() *BmmUnitaryValue {
-	 return i.bmmunitaryvalue
+func (i *BmmUnitaryValueBuilder[T]) Build() *BmmUnitaryValue[T] {
+	return i.bmmunitaryvalue[T]
 }
 
 //FUNCTIONS

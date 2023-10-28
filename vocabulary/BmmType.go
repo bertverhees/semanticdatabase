@@ -1,9 +1,5 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 /**
 	Abstract idea of specifying a type in some context. This is not the same as
 	'defining' a class. A type specification is essentially a reference of some
