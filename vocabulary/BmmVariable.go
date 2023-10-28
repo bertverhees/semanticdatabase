@@ -1,18 +1,14 @@
 package vocabulary
 
-import (
-	"vocabulary"
-)
-
 // A routine-scoped formal element.
 
 // Interface definition
 type IBmmVariable interface {
 	// From: BMM_FORMAL_ELEMENT
-	Signature (  )  IBmmSignature
-	IsBoolean (  )  bool
+	Signature() IBmmSignature
+	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope (  )  bool
+	IsRootScope() bool
 }
 
 // Struct definition
@@ -23,107 +19,109 @@ type BmmVariable struct {
 	// Constants
 	// Attributes
 	// Routine within which variable is defined.
-	Scope	IBmmRoutine	`yaml:"scope" json:"scope" xml:"scope"`
+	Scope IBmmRoutine `yaml:"scope" json:"scope" xml:"scope"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmVariable() *BmmVariable {
 	bmmvariable := new(BmmVariable)
 	// Constants
 	return bmmvariable
 }
-//BUILDER
+
+// BUILDER
 type BmmVariableBuilder struct {
 	bmmvariable *BmmVariable
 }
 
 func NewBmmVariableBuilder() *BmmVariableBuilder {
-	 return &BmmVariableBuilder {
-		bmmvariable : NewBmmVariable(),
+	return &BmmVariableBuilder{
+		bmmvariable: NewBmmVariable(),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
 // Routine within which variable is defined.
-func (i *BmmVariableBuilder) SetScope ( v IBmmRoutine ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetScope(v IBmmRoutine) *BmmVariableBuilder {
 	i.bmmvariable.Scope = v
 	return i
 }
+
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
-func (i *BmmVariableBuilder) SetType ( v IBmmType ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetType(v IBmmType) *BmmVariableBuilder {
 	i.bmmvariable.Type = v
 	return i
 }
+
 // From: BmmFormalElement
 /**
-	True if this element can be null (Void) at execution time. May be interpreted as
-	optionality in subtypes..
+True if this element can be null (Void) at execution time. May be interpreted as
+optionality in subtypes..
 */
-func (i *BmmVariableBuilder) SetIsNullable ( v bool ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetIsNullable(v bool) *BmmVariableBuilder {
 	i.bmmvariable.IsNullable = v
 	return i
 }
+
 // From: BmmModelElement
 // Name of this model element.
-func (i *BmmVariableBuilder) SetName ( v string ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetName(v string) *BmmVariableBuilder {
 	i.bmmvariable.Name = v
 	return i
 }
+
 // From: BmmModelElement
 /**
-	Optional documentation of this element, as a keyed list. It is strongly
-	recommended to use the following key /type combinations for the relevant
-	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-	String "references": String Other keys and value types may be freely added.
+Optional documentation of this element, as a keyed list. It is strongly
+recommended to use the following key /type combinations for the relevant
+purposes: "purpose": String "keywords": List<String> "use": String "misuse":
+String "references": String Other keys and value types may be freely added.
 */
-func (i *BmmVariableBuilder) SetDocumentation ( v map[string]any ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetDocumentation(v map[string]any) *BmmVariableBuilder {
 	i.bmmvariable.Documentation = v
 	return i
 }
-// From: BmmModelElement
-// Model element within which an element is declared.
-func (i *BmmVariableBuilder) SetScope ( v IBmmModelElement ) *BmmVariableBuilder{
-	i.bmmvariable.Scope = v
-	return i
-}
+
 // From: BmmModelElement
 /**
-	Optional meta-data of this element, as a keyed list. May be used to extend the
-	meta-model.
+Optional meta-data of this element, as a keyed list. May be used to extend the
+meta-model.
 */
-func (i *BmmVariableBuilder) SetExtensions ( v map[string]any ) *BmmVariableBuilder{
+func (i *BmmVariableBuilder) SetExtensions(v map[string]any) *BmmVariableBuilder {
 	i.bmmvariable.Extensions = v
 	return i
 }
 
 func (i *BmmVariableBuilder) Build() *BmmVariable {
-	 return i.bmmvariable
+	return i.bmmvariable
 }
 
 //FUNCTIONS
 // From: BMM_FORMAL_ELEMENT
 /**
-	Formal signature of this element, in the form: name [arg1_name: T_arg1,
-	…​][:T_value] Specific implementations in descendants.
+Formal signature of this element, in the form: name [arg1_name: T_arg1,
+…​][:T_value] Specific implementations in descendants.
 */
-func (b *BmmVariable) Signature (  )  IBmmSignature {
+func (b *BmmVariable) Signature() IBmmSignature {
 	return nil
 }
+
 // From: BMM_FORMAL_ELEMENT
 /**
-	Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
-	True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-	'Boolean' ).
+Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
+True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
+'Boolean' ).
 */
-func (b *BmmVariable) IsBoolean (  )  bool {
+func (b *BmmVariable) IsBoolean() bool {
 	return false
 }
+
 // From: BMM_MODEL_ELEMENT
 /**
-	Post_result : Result = (scope = self). True if this model element is the root of
-	a model structure hierarchy.
+Post_result : Result = (scope = self). True if this model element is the root of
+a model structure hierarchy.
 */
-func (b *BmmVariable) IsRootScope (  )  bool {
+func (b *BmmVariable) IsRootScope() bool {
 	return false
 }
