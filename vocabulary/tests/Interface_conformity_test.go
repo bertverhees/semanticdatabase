@@ -23,7 +23,7 @@ func TestFooerTableDriven(t *testing.T) {
 		i    any
 	}{
 		{"BmmDefinitions should conform to IBasicDefinitions", new(vocabulary.BmmDefinitions), new(vocabulary.IBasicDefinitions)},
-		{"BmmSchema should conform to IBmmModelMetadata", new(vocabulary.BmmSchema), new(vocabulary.IBmmModelMetadata)},
+		{name: "BmmSchema should conform to IBmmModelMetadata", c: new(vocabulary.BmmSchema), i: new(vocabulary.IBmmModelMetadata)},
 		{"BmmPackageContainer should conform to IBmmModelElement", new(vocabulary.BmmPackageContainer), new(vocabulary.IBmmModelElement)},
 		{"BmmPackage should conform to IBmmPackageContainer", new(vocabulary.BmmPackage), new(vocabulary.IBmmPackageContainer)},
 		{"BmmPackage should conform to IBmmModelElement", new(vocabulary.BmmPackage), new(vocabulary.IBmmModelElement)},
