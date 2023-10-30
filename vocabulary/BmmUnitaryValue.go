@@ -1,16 +1,14 @@
 package vocabulary
 
-import "golang.org/x/exp/constraints"
-
 // Meta-type for literals whose concrete type is a unitary type in the BMM sense.
 
 // Interface definition
-type IBmmUnitaryValue interface {
+type IBmmUnitaryValue[T IBmmUnitaryType] interface {
 	// From: BMM_LITERAL_VALUE
 }
 
 // Struct definition
-type BmmUnitaryValue[T constraints.Ordered] struct {
+type BmmUnitaryValue[T IBmmUnitaryType] struct {
 	// embedded for Inheritance
 	BmmLiteralValue[T]
 	// Constants
@@ -18,18 +16,18 @@ type BmmUnitaryValue[T constraints.Ordered] struct {
 }
 
 // CONSTRUCTOR
-func NewBmmUnitaryValue[T constraints.Ordered]() *BmmUnitaryValue[T] {
+func NewBmmUnitaryValue[T IBmmUnitaryType]() *BmmUnitaryValue[T] {
 	bmmunitaryvalue := new(BmmUnitaryValue[T])
 	// Constants
 	return bmmunitaryvalue
 }
 
 // BUILDER
-type BmmUnitaryValueBuilder[T constraints.Ordered] struct {
+type BmmUnitaryValueBuilder[T IBmmUnitaryType] struct {
 	bmmunitaryvalue *BmmUnitaryValue[T]
 }
 
-func NewBmmUnitaryValueBuilder[T constraints.Ordered]() *BmmUnitaryValueBuilder[T] {
+func NewBmmUnitaryValueBuilder[T IBmmUnitaryType]() *BmmUnitaryValueBuilder[T] {
 	return &BmmUnitaryValueBuilder[T]{
 		bmmunitaryvalue: NewBmmUnitaryValue[T](),
 	}
@@ -72,7 +70,7 @@ func (i *BmmUnitaryValueBuilder[T]) SetType(v T) *BmmUnitaryValueBuilder[T] {
 }
 
 func (i *BmmUnitaryValueBuilder[T]) Build() *BmmUnitaryValue[T] {
-	return i.bmmunitaryvalue[T]
+	return i.bmmunitaryvalue
 }
 
 //FUNCTIONS

@@ -5,15 +5,12 @@ import "golang.org/x/exp/constraints"
 // Meta-type for literals whose concrete type is a primitive type.
 
 // Interface definition
-type IBmmPrimitiveValue interface {
-	// From: BMM_UNITARY_VALUE
-	// From: BMM_LITERAL_VALUE
+type IBmmPrimitiveValue[T IBmmSimpleType] interface {
 }
 
 // Struct definition
-type BmmPrimitiveValue[T constraints.Ordered] struct {
-	// embedded for Inheritance
-	BmmUnitaryValue
+type BmmPrimitiveValue[T IBmmSimpleType] struct
+	BmmUnitaryValue[T]
 	BmmLiteralValue[T]
 	// Constants
 	// Attributes
@@ -22,18 +19,18 @@ type BmmPrimitiveValue[T constraints.Ordered] struct {
 }
 
 // CONSTRUCTOR
-func NewBmmPrimitiveValue[T constraints.Ordered]() *BmmPrimitiveValue[T] {
+func NewBmmPrimitiveValue[T IBmmSimpleType]() *BmmPrimitiveValue[T] {
 	bmmprimitivevalue := new(BmmPrimitiveValue[T])
 	// Constants
 	return bmmprimitivevalue
 }
 
 // BUILDER
-type BmmPrimitiveValueBuilder[T constraints.Ordered] struct {
+type BmmPrimitiveValueBuilder[T IBmmSimpleType] struct {
 	bmmprimitivevalue *BmmPrimitiveValue[T]
 }
 
-func NewBmmPrimitiveValueBuilder[T constraints.Ordered]() *BmmPrimitiveValueBuilder[T] {
+func NewBmmPrimitiveValueBuilder[T IBmmSimpleType]() *BmmPrimitiveValueBuilder[T] {
 	return &BmmPrimitiveValueBuilder[T]{
 		bmmprimitivevalue: NewBmmPrimitiveValue[T](),
 	}
@@ -74,7 +71,7 @@ func (i *BmmPrimitiveValueBuilder[T]) SetSyntax(v string) *BmmPrimitiveValueBuil
 	return i
 }
 
-func (i *BmmPrimitiveValueBuilder) Build() *BmmPrimitiveValue {
+func (i *BmmPrimitiveValueBuilder[T]) Build() *BmmPrimitiveValue[T] {
 	return i.bmmprimitivevalue
 }
 
