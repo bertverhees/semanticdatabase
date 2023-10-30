@@ -105,7 +105,7 @@ func (i *BmmUnitaryPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmUnitaryProp
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmUnitaryPropertyBuilder) SetScope(v IBmmClass) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.Scope = v
+	i.bmmunitaryproperty.BmmModelElement.Scope = v
 	return i
 }
 

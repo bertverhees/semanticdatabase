@@ -1,4 +1,4 @@
-package tests
+package test_interface_conformity
 
 import (
 	"SemanticDatabase/v2"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func CheckInterfaceConformance(c any, i any) bool {
+func Check_InterfaceConformance(c any, i any) bool {
 	interp := reflect.TypeOf((i)).Elem()
 	if reflect.TypeOf(c).Implements(interp) {
 		return true
@@ -15,7 +15,7 @@ func CheckInterfaceConformance(c any, i any) bool {
 		return false
 	}
 }
-func TestFooerTableDriven(t *testing.T) {
+func Test_InterfaceConformance_TableDriven(t *testing.T) {
 	// Defining the columns of the table
 	var tests = []struct {
 		name string
@@ -23,7 +23,7 @@ func TestFooerTableDriven(t *testing.T) {
 		i    any
 	}{
 		{"BmmDefinitions should conform to IBasicDefinitions", new(vocabulary.BmmDefinitions), new(vocabulary.IBasicDefinitions)},
-		{name: "BmmSchema should conform to IBmmModelMetadata", c: new(vocabulary.BmmSchema), i: new(vocabulary.IBmmModelMetadata)},
+		{"BmmSchema should conform to IBmmModelMetadata", new(vocabulary.BmmSchema), new(vocabulary.IBmmModelMetadata)},
 		{"BmmPackageContainer should conform to IBmmModelElement", new(vocabulary.BmmPackageContainer), new(vocabulary.IBmmModelElement)},
 		{"BmmPackage should conform to IBmmPackageContainer", new(vocabulary.BmmPackage), new(vocabulary.IBmmPackageContainer)},
 		{"BmmPackage should conform to IBmmModelElement", new(vocabulary.BmmPackage), new(vocabulary.IBmmModelElement)},
@@ -356,7 +356,7 @@ func TestFooerTableDriven(t *testing.T) {
 	// The execution loop
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res := CheckInterfaceConformance(tt.c, tt.i)
+			res := Check_InterfaceConformance(tt.c, tt.i)
 			if res != true {
 				t.Errorf("got %s", res)
 			}

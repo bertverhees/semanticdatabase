@@ -1,8 +1,8 @@
 package base
 
 import (
+	"SemanticDatabase/generics"
 	"errors"
-	"vocabulary/generics"
 )
 
 type Interval[T generics.Number] struct {
