@@ -60,7 +60,7 @@ func (i *BmmParameterBuilder) SetDirection(v BmmParameterDirection) *BmmParamete
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmParameterBuilder) SetScope(v IBmmRoutine) *BmmParameterBuilder {
-	i.bmmparameter.Scope = v
+	i.bmmparameter.BmmModelElement.Scope = v
 	return i
 }
 

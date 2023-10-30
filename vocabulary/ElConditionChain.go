@@ -10,7 +10,7 @@ the evaluation result is the result of evaluating the else expression.
 */
 
 // Interface definition
-type IElConditionChain interface {
+type IElConditionChain[T IBmmSimpleType] interface {
 	// From: EL_DECISION_TABLE
 	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
@@ -19,9 +19,9 @@ type IElConditionChain interface {
 }
 
 // Struct definition
-type ElConditionChain struct {
+type ElConditionChain[T IBmmSimpleType] struct {
 	// embedded for Inheritance
-	ElDecisionTable
+	ElDecisionTable[T]
 	ElTerminal
 	ElExpression
 	// Constants
@@ -30,24 +30,24 @@ type ElConditionChain struct {
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	Items []IElConditionalExpression `yaml:"items" json:"items" xml:"items"`
+	Items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
 }
 
 // CONSTRUCTOR
-func NewElConditionChain() *ElConditionChain {
-	elconditionchain := new(ElConditionChain)
+func NewElConditionChain[T IBmmSimpleType]() *ElConditionChain[T] {
+	elconditionchain := new(ElConditionChain[T])
 	// Constants
 	return elconditionchain
 }
 
 // BUILDER
-type ElConditionChainBuilder struct {
-	elconditionchain *ElConditionChain
+type ElConditionChainBuilder[T IBmmSimpleType] struct {
+	elconditionchain *ElConditionChain[T]
 }
 
-func NewElConditionChainBuilder() *ElConditionChainBuilder {
-	return &ElConditionChainBuilder{
-		elconditionchain: NewElConditionChain(),
+func NewElConditionChainBuilder[T IBmmSimpleType]() *ElConditionChainBuilder[T] {
+	return &ElConditionChainBuilder[T]{
+		elconditionchain: NewElConditionChain[T](),
 	}
 }
 
@@ -56,19 +56,19 @@ func NewElConditionChainBuilder() *ElConditionChainBuilder {
 Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
-func (i *ElConditionChainBuilder) SetItems(v []IElConditionalExpression) *ElConditionChainBuilder {
+func (i *ElConditionChainBuilder[T]) SetItems(v []IElConditionalExpression[T]) *ElConditionChainBuilder[T] {
 	i.elconditionchain.Items = v
 	return i
 }
 
 // From: ElDecisionTable
 // Result expression of conditional, if its condition evaluates to True.
-func (i *ElConditionChainBuilder) SetElse(v T) *ElConditionChainBuilder {
+func (i *ElConditionChainBuilder[T]) SetElse(v T) *ElConditionChainBuilder[T] {
 	i.elconditionchain.Else = v
 	return i
 }
 
-func (i *ElConditionChainBuilder) Build() *ElConditionChain {
+func (i *ElConditionChainBuilder[T]) Build() *ElConditionChain[T] {
 	return i.elconditionchain
 }
 
@@ -78,7 +78,7 @@ func (i *ElConditionChainBuilder) Build() *ElConditionChain {
 Meta-type of expression entity used in type-checking and evaluation. Effected in
 descendants.
 */
-func (e *ElConditionChain) EvalType() IBmmType {
+func (e *ElConditionChain[T]) EvalType() IBmmType {
 	return nil
 }
 
@@ -88,6 +88,6 @@ Post_result : Result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElConditionChain) IsBoolean() bool {
+func (e *ElConditionChain[T]) IsBoolean() bool {
 	return false
 }

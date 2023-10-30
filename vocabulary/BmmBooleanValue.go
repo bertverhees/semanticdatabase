@@ -15,9 +15,9 @@ type IBmmBooleanValue interface {
 // Struct definition
 type BmmBooleanValue struct {
 	// embedded for Inheritance
-	BmmPrimitiveValue
-	BmmUnitaryValue
-	BmmLiteralValue
+	BmmPrimitiveValue[IBmmSimpleType]
+	BmmUnitaryValue[IBmmSimpleType]
+	BmmLiteralValue[IBmmSimpleType]
 	// Constants
 	// Attributes
 	// Native Boolean value.

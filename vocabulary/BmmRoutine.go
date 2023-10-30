@@ -119,7 +119,7 @@ func (i *BmmRoutineBuilder) SetGroup(v IBmmFeatureGroup) *BmmRoutineBuilder {
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmRoutineBuilder) SetScope(v IBmmClass) *BmmRoutineBuilder {
-	i.bmmroutine.Scope = v
+	i.bmmroutine.BmmModelElement.Scope = v
 	return i
 }
 

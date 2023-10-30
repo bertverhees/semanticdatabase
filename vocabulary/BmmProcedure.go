@@ -149,7 +149,7 @@ func (i *BmmProcedureBuilder) SetDocumentation(v map[string]any) *BmmProcedureBu
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmProcedureBuilder) SetScope(v IBmmModelElement) *BmmProcedureBuilder {
-	i.bmmprocedure.Scope = v
+	i.bmmprocedure.BmmModelElement.Scope = v
 	return i
 }
 

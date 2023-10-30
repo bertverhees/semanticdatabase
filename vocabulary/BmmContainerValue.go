@@ -67,7 +67,7 @@ func (i *BmmContainerValueBuilder) SetSyntax(v string) *BmmContainerValueBuilder
 
 // From: BmmLiteralValue
 // Concrete type of this literal.
-func (i *BmmContainerValueBuilder) SetType(v IBmmContainerValue) *BmmContainerValueBuilder {
+func (i *BmmContainerValueBuilder) SetType(v IBmmType) *BmmContainerValueBuilder {
 	i.bmmcontainervalue.Type = v
 	return i
 }

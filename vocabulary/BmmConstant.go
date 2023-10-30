@@ -29,7 +29,7 @@ type BmmConstant struct {
 	// Constants
 	// Attributes
 	// Literal value of the constant.
-	Generator IBmmLiteralValue `yaml:"generator" json:"generator" xml:"generator"`
+	Generator IBmmLiteralValue[IBmmSimpleType] `yaml:"generator" json:"generator" xml:"generator"`
 }
 
 // CONSTRUCTOR
@@ -52,7 +52,7 @@ func NewBmmConstantBuilder() *BmmConstantBuilder {
 
 // BUILDER ATTRIBUTES
 // Literal value of the constant.
-func (i *BmmConstantBuilder) SetGenerator(v IBmmLiteralValue) *BmmConstantBuilder {
+func (i *BmmConstantBuilder) SetGenerator(v IBmmLiteralValue[IBmmSimpleType]) *BmmConstantBuilder {
 	i.bmmconstant.Generator = v
 	return i
 }

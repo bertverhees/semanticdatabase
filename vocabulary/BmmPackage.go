@@ -63,7 +63,7 @@ func (i *BmmPackageBuilder) SetPackages(v map[string]IBmmPackage) *BmmPackageBui
 // From: BmmPackageContainer
 // Model element within which a referenceable element is known.
 func (i *BmmPackageBuilder) SetScope(v IBmmPackageContainer) *BmmPackageBuilder {
-	i.bmmpackage.Scope = v
+	i.bmmpackage.BmmModelElement.Scope = v
 	return i
 }
 

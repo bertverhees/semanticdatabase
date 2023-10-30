@@ -10,7 +10,7 @@ type IElDecisionBranch interface {
 }
 
 // Struct definition
-type ElDecisionBranch struct {
+type ElDecisionBranch[T IBmmSimpleType] struct {
 	// embedded for Inheritance
 	// Constants
 	// Attributes
@@ -19,31 +19,31 @@ type ElDecisionBranch struct {
 }
 
 // CONSTRUCTOR
-func NewElDecisionBranch() *ElDecisionBranch {
-	eldecisionbranch := new(ElDecisionBranch)
+func NewElDecisionBranch[T IBmmSimpleType]() *ElDecisionBranch[T] {
+	eldecisionbranch := new(ElDecisionBranch[T])
 	// Constants
 	return eldecisionbranch
 }
 
 // BUILDER
-type ElDecisionBranchBuilder struct {
-	eldecisionbranch *ElDecisionBranch
+type ElDecisionBranchBuilder[T IBmmSimpleType] struct {
+	eldecisionbranch *ElDecisionBranch[T]
 }
 
-func NewElDecisionBranchBuilder() *ElDecisionBranchBuilder {
-	return &ElDecisionBranchBuilder{
-		eldecisionbranch: NewElDecisionBranch(),
+func NewElDecisionBranchBuilder[T IBmmSimpleType]() *ElDecisionBranchBuilder[T] {
+	return &ElDecisionBranchBuilder[T]{
+		eldecisionbranch: NewElDecisionBranch[T](),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Result expression of conditional, if its condition evaluates to True.
-func (i *ElDecisionBranchBuilder) SetResult(v T) *ElDecisionBranchBuilder {
+func (i *ElDecisionBranchBuilder[T]) SetResult(v T) *ElDecisionBranchBuilder[T] {
 	i.eldecisionbranch.Result = v
 	return i
 }
 
-func (i *ElDecisionBranchBuilder) Build() *ElDecisionBranch {
+func (i *ElDecisionBranchBuilder[T]) Build() *ElDecisionBranch[T] {
 	return i.eldecisionbranch
 }
 

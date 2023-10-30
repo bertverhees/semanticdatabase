@@ -128,27 +128,6 @@ func (i *BmmSimpleClassBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmSi
 }
 
 // From: BmmClass
-/**
-True if this class represents a type considered to be primitive in the type
-system, i.e. any typically built-in or standard library type such as String ,
-Date , Hash<K,V> etc.
-*/
-func (i *BmmSimpleClassBuilder) SetIsPrimitive(v bool) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.IsPrimitive = v
-	return i
-}
-
-// From: BmmClass
-/**
-True if this class is marked as abstract, i.e. direct instances cannot be
-created from its direct type.
-*/
-func (i *BmmSimpleClassBuilder) SetIsAbstract(v bool) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.IsAbstract = v
-	return i
-}
-
-// From: BmmClass
 func (i *BmmSimpleClassBuilder) SetInvariants(v []IBmmAssertion) *BmmSimpleClassBuilder {
 	i.bmmsimpleclass.Invariants = v
 	return i
@@ -174,13 +153,6 @@ func (i *BmmSimpleClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmSi
 	return i
 }
 
-// From: BmmClass
-// Features of this module.
-func (i *BmmSimpleClassBuilder) SetFeatures(v []IBmmFeature) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Features = v
-	return i
-}
-
 // From: BmmModule
 // List of feature groups in this class.
 func (i *BmmSimpleClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmSimpleClassBuilder {
@@ -191,7 +163,7 @@ func (i *BmmSimpleClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmSimpl
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmSimpleClassBuilder) SetScope(v IBmmModel) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Scope = v
+	i.bmmsimpleclass.BmmModelElement.Scope = v
 	return i
 }
 

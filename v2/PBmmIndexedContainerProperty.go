@@ -1,8 +1,8 @@
 package v2
 
 import (
+	"SemanticDatabase/base"
 	"SemanticDatabase/vocabulary"
-	"vocabulary/base"
 )
 
 // Interface definition

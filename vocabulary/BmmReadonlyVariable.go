@@ -47,7 +47,7 @@ func NewBmmReadonlyVariableBuilder() *BmmReadonlyVariableBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmReadonlyVariableBuilder) SetScope(v IBmmRoutine) *BmmReadonlyVariableBuilder {
-	i.bmmreadonlyvariable.Scope = v
+	i.bmmreadonlyvariable.BmmModelElement.Scope = v
 	return i
 }
 

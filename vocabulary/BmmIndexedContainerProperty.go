@@ -1,6 +1,6 @@
 package vocabulary
 
-import "vocabulary/base"
+import "SemanticDatabase/base"
 
 /**
 Meta-type of for properties of linear container type, such as Hash<Index_type,
@@ -63,7 +63,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetType(v IBmmIndexedContainerType)
 
 // From: BmmContainerProperty
 // Cardinality of this container.
-func (i *BmmIndexedContainerPropertyBuilder) SetCardinality(v base.MultiplicityInterval[int]) *BmmIndexedContainerPropertyBuilder {
+func (i *BmmIndexedContainerPropertyBuilder) SetCardinality(v *base.MultiplicityInterval[int]) *BmmIndexedContainerPropertyBuilder {
 	i.bmmindexedcontainerproperty.Cardinality = v
 	return i
 }
@@ -150,7 +150,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation(v map[string]any) 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmIndexedContainerPropertyBuilder) SetScope(v IBmmModelElement) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.Scope = v
+	i.bmmindexedcontainerproperty.BmmModelElement.Scope = v
 	return i
 }
 

@@ -107,7 +107,7 @@ func (i *BmmInstantiableFeatureBuilder) SetDocumentation(v map[string]any) *BmmI
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmInstantiableFeatureBuilder) SetScope(v IBmmModelElement) *BmmInstantiableFeatureBuilder {
-	i.bmminstantiablefeature.Scope = v
+	i.bmminstantiablefeature.BmmModelElement.Scope = v
 	return i
 }
 

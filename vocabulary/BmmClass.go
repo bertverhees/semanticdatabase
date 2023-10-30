@@ -256,7 +256,7 @@ func (i *BmmClassBuilder) SetDocumentation(v map[string]any) *BmmClassBuilder {
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmClassBuilder) SetScope(v IBmmModel) *BmmClassBuilder {
-	i.bmmclass.Scope = v
+	i.bmmclass.BmmModelElement.Scope = v
 	return i
 }
 

@@ -70,7 +70,7 @@ func (i *BmmStaticBuilder) SetGroup(v IBmmFeatureGroup) *BmmStaticBuilder {
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmStaticBuilder) SetScope(v IBmmClass) *BmmStaticBuilder {
-	i.bmmstatic.Scope = v
+	i.bmmstatic.BmmModelElement.Scope = v
 	return i
 }
 

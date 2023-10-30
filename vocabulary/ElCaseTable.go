@@ -11,7 +11,7 @@ else expression.
 */
 
 // Interface definition
-type IElCaseTable interface {
+type IElCaseTable[T IBmmSimpleType] interface {
 	// From: EL_DECISION_TABLE
 	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
@@ -20,9 +20,9 @@ type IElCaseTable interface {
 }
 
 // Struct definition
-type ElCaseTable struct {
+type ElCaseTable[T IBmmSimpleType] struct {
 	// embedded for Inheritance
-	ElDecisionTable
+	ElDecisionTable[T]
 	ElTerminal
 	ElExpression
 	// Constants
@@ -33,30 +33,30 @@ type ElCaseTable struct {
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	Items []IElCase `yaml:"items" json:"items" xml:"items"`
+	Items []IElCase[T] `yaml:"items" json:"items" xml:"items"`
 }
 
 // CONSTRUCTOR
-func NewElCaseTable() *ElCaseTable {
-	elcasetable := new(ElCaseTable)
+func NewElCaseTable[T IBmmSimpleType]() *ElCaseTable[T] {
+	elcasetable := new(ElCaseTable[T])
 	// Constants
 	return elcasetable
 }
 
 // BUILDER
-type ElCaseTableBuilder struct {
-	elcasetable *ElCaseTable
+type ElCaseTableBuilder[T IBmmSimpleType] struct {
+	elcasetable *ElCaseTable[T]
 }
 
-func NewElCaseTableBuilder() *ElCaseTableBuilder {
-	return &ElCaseTableBuilder{
-		elcasetable: NewElCaseTable(),
+func NewElCaseTableBuilder[T IBmmSimpleType]() *ElCaseTableBuilder[T] {
+	return &ElCaseTableBuilder[T]{
+		elcasetable: NewElCaseTable[T](),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Expressing generating the input value for the case table.
-func (i *ElCaseTableBuilder) SetTestValue(v IElValueGenerator) *ElCaseTableBuilder {
+func (i *ElCaseTableBuilder[T]) SetTestValue(v IElValueGenerator) *ElCaseTableBuilder[T] {
 	i.elcasetable.TestValue = v
 	return i
 }
@@ -66,19 +66,19 @@ func (i *ElCaseTableBuilder) SetTestValue(v IElValueGenerator) *ElCaseTableBuild
 Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
-func (i *ElCaseTableBuilder) SetItems(v []IElCase) *ElCaseTableBuilder {
+func (i *ElCaseTableBuilder[T]) SetItems(v []IElCase[T]) *ElCaseTableBuilder[T] {
 	i.elcasetable.Items = v
 	return i
 }
 
 // From: ElDecisionTable
 // Result expression of conditional, if its condition evaluates to True.
-func (i *ElCaseTableBuilder) SetElse(v T) *ElCaseTableBuilder {
+func (i *ElCaseTableBuilder[T]) SetElse(v T) *ElCaseTableBuilder[T] {
 	i.elcasetable.Else = v
 	return i
 }
 
-func (i *ElCaseTableBuilder) Build() *ElCaseTable {
+func (i *ElCaseTableBuilder[T]) Build() *ElCaseTable[T] {
 	return i.elcasetable
 }
 
@@ -88,7 +88,7 @@ func (i *ElCaseTableBuilder) Build() *ElCaseTable {
 Meta-type of expression entity used in type-checking and evaluation. Effected in
 descendants.
 */
-func (e *ElCaseTable) EvalType() IBmmType {
+func (e *ElCaseTable[T]) EvalType() IBmmType {
 	return nil
 }
 
@@ -98,6 +98,6 @@ Post_result : Result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElCaseTable) IsBoolean() bool {
+func (e *ElCaseTable[T]) IsBoolean() bool {
 	return false
 }

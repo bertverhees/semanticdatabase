@@ -57,7 +57,7 @@ func (i *BmmResultBuilder) SetName(v string) *BmmResultBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmResultBuilder) SetScope(v IBmmRoutine) *BmmResultBuilder {
-	i.bmmresult.Scope = v
+	i.bmmresult.BmmModelElement.Scope = v
 	return i
 }
 

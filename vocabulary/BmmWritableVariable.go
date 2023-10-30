@@ -44,7 +44,7 @@ func NewBmmWritableVariableBuilder() *BmmWritableVariableBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmWritableVariableBuilder) SetScope(v IBmmRoutine) *BmmWritableVariableBuilder {
-	i.bmmwritablevariable.Scope = v
+	i.bmmwritablevariable.BmmModelElement.Scope = v
 	return i
 }
 

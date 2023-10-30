@@ -1,7 +1,5 @@
 package vocabulary
 
-import "golang.org/x/exp/constraints"
-
 // Meta-type for literals whose concrete type is a primitive type.
 
 // Interface definition
@@ -9,7 +7,7 @@ type IBmmPrimitiveValue[T IBmmSimpleType] interface {
 }
 
 // Struct definition
-type BmmPrimitiveValue[T IBmmSimpleType] struct
+type BmmPrimitiveValue[T IBmmSimpleType] struct {
 	BmmUnitaryValue[T]
 	BmmLiteralValue[T]
 	// Constants

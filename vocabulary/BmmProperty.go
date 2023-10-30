@@ -1,6 +1,6 @@
 package vocabulary
 
-import "vocabulary/base"
+import "SemanticDatabase/base"
 
 /**
 Meta-type of a writable property definition within a class definition of an
@@ -149,7 +149,7 @@ func (i *BmmPropertyBuilder) SetDocumentation(v map[string]any) *BmmPropertyBuil
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmPropertyBuilder) SetScope(v IBmmModelElement) *BmmPropertyBuilder {
-	i.bmmproperty.Scope = v
+	i.bmmproperty.BmmModelElement.Scope = v
 	return i
 }
 

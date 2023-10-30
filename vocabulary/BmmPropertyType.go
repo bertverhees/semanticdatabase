@@ -37,10 +37,7 @@ func NewBmmPropertyType() *BmmPropertyType {
 	// Constants
 	// From: BmmSignature
 	// Base name (built-in).
-	bmmpropertytype.BaseName = "Signature"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
-	bmmpropertytype.BaseName = ""
+	bmmpropertytype.BmmBuiltinType.BaseName = "Signature"
 	return bmmpropertytype
 }
 

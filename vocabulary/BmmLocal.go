@@ -46,7 +46,7 @@ func NewBmmLocalBuilder() *BmmLocalBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmLocalBuilder) SetScope(v IBmmRoutine) *BmmLocalBuilder {
-	i.bmmlocal.Scope = v
+	i.bmmlocal.BmmModelElement.Scope = v
 	return i
 }
 

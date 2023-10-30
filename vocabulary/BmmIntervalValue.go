@@ -10,7 +10,7 @@ type IBmmIntervalValue interface {
 // Struct definition
 type BmmIntervalValue struct {
 	// embedded for Inheritance
-	BmmLiteralValue
+	BmmLiteralValue[IBmmSimpleType]
 	// Constants
 	// Attributes
 }

@@ -46,7 +46,7 @@ type BmmEnumeration struct {
 	*/
 	ItemNames []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
 	// Optional list of specific values. Must be 1:1 with item_names list.
-	ItemValues []IBmmPrimitiveValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	ItemValues []IBmmPrimitiveValue[IBmmSimpleType] `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 }
 
 // CONSTRUCTOR
@@ -78,7 +78,7 @@ func (i *BmmEnumerationBuilder) SetItemNames(v []string) *BmmEnumerationBuilder 
 }
 
 // Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationBuilder) SetItemValues(v []IBmmPrimitiveValue) *BmmEnumerationBuilder {
+func (i *BmmEnumerationBuilder) SetItemValues(v []IBmmPrimitiveValue[IBmmSimpleType]) *BmmEnumerationBuilder {
 	i.bmmenumeration.ItemValues = v
 	return i
 }
@@ -212,7 +212,7 @@ func (i *BmmEnumerationBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnume
 
 // From: BmmModule
 // Features of this module.
-func (i *BmmEnumerationBuilder) SetFeatures(v []IBmmFormalElement) *BmmEnumerationBuilder {
+func (i *BmmEnumerationBuilder) SetFeatures(v []IBmmFeature) *BmmEnumerationBuilder {
 	i.bmmenumeration.BmmClass.Features = v
 	return i
 }
@@ -220,7 +220,7 @@ func (i *BmmEnumerationBuilder) SetFeatures(v []IBmmFormalElement) *BmmEnumerati
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmEnumerationBuilder) SetScope(v IBmmModel) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmClass.Scope = v
+	i.bmmenumeration.BmmModelElement.Scope = v
 	return i
 }
 

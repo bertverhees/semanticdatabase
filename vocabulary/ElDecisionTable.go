@@ -7,7 +7,7 @@ created.
 */
 
 // Interface definition
-type IElDecisionTable interface {
+type IElDecisionTable[T IBmmSimpleType] interface {
 	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
@@ -15,7 +15,7 @@ type IElDecisionTable interface {
 }
 
 // Struct definition
-type ElDecisionTable struct {
+type ElDecisionTable[T IBmmSimpleType] struct {
 	// embedded for Inheritance
 	ElTerminal
 	ElExpression
@@ -31,20 +31,20 @@ type ElDecisionTable struct {
 }
 
 // CONSTRUCTOR
-func NewElDecisionTable() *ElDecisionTable {
-	eldecisiontable := new(ElDecisionTable)
+func NewElDecisionTable[T IBmmSimpleType]() *ElDecisionTable[T] {
+	eldecisiontable := new(ElDecisionTable[T])
 	// Constants
 	return eldecisiontable
 }
 
 // BUILDER
-type ElDecisionTableBuilder struct {
-	eldecisiontable *ElDecisionTable
+type ElDecisionTableBuilder[T IBmmSimpleType] struct {
+	eldecisiontable *ElDecisionTable[T]
 }
 
-func NewElDecisionTableBuilder() *ElDecisionTableBuilder {
-	return &ElDecisionTableBuilder{
-		eldecisiontable: NewElDecisionTable(),
+func NewElDecisionTableBuilder[T IBmmSimpleType]() *ElDecisionTableBuilder[T] {
+	return &ElDecisionTableBuilder[T]{
+		eldecisiontable: NewElDecisionTable[T](),
 	}
 }
 
@@ -53,18 +53,18 @@ func NewElDecisionTableBuilder() *ElDecisionTableBuilder {
 Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
-func (i *ElDecisionTableBuilder) SetItems(v []IElDecisionBranch) *ElDecisionTableBuilder {
+func (i *ElDecisionTableBuilder[T]) SetItems(v []IElDecisionBranch) *ElDecisionTableBuilder[T] {
 	i.eldecisiontable.Items = v
 	return i
 }
 
 // Result expression of conditional, if its condition evaluates to True.
-func (i *ElDecisionTableBuilder) SetElse(v T) *ElDecisionTableBuilder {
+func (i *ElDecisionTableBuilder[T]) SetElse(v T) *ElDecisionTableBuilder[T] {
 	i.eldecisiontable.Else = v
 	return i
 }
 
-func (i *ElDecisionTableBuilder) Build() *ElDecisionTable {
+func (i *ElDecisionTableBuilder[T]) Build() *ElDecisionTable[T] {
 	return i.eldecisiontable
 }
 
@@ -74,7 +74,7 @@ func (i *ElDecisionTableBuilder) Build() *ElDecisionTable {
 Meta-type of expression entity used in type-checking and evaluation. Effected in
 descendants.
 */
-func (e *ElDecisionTable) EvalType() IBmmType {
+func (e *ElDecisionTable[T]) EvalType() IBmmType {
 	return nil
 }
 
@@ -84,6 +84,6 @@ Post_result : Result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */
-func (e *ElDecisionTable) IsBoolean() bool {
+func (e *ElDecisionTable[T]) IsBoolean() bool {
 	return false
 }

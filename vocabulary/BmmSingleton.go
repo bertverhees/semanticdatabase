@@ -80,7 +80,7 @@ func (i *BmmSingletonBuilder) SetGroup(v IBmmFeatureGroup) *BmmSingletonBuilder 
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmSingletonBuilder) SetScope(v IBmmClass) *BmmSingletonBuilder {
-	i.bmmsingleton.Scope = v
+	i.bmmsingleton.BmmModelElement.Scope = v
 	return i
 }
 

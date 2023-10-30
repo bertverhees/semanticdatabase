@@ -211,7 +211,7 @@ func (i *BmmEnumerationStringBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *Bm
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmEnumerationStringBuilder) SetScope(v IBmmModel) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.BmmClass.Scope = v
+	i.bmmenumerationstring.BmmModelElement.Scope = v
 	return i
 }
 

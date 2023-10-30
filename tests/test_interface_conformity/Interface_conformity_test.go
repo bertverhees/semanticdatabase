@@ -276,16 +276,16 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		{"ElAttached should conform to IElSimple", new(vocabulary.ElAttached), new(vocabulary.IElSimple)},
 		{"ElAttached should conform to IElTerminal", new(vocabulary.ElAttached), new(vocabulary.IElTerminal)},
 		{"ElAttached should conform to IElExpression", new(vocabulary.ElAttached), new(vocabulary.IElExpression)},
-		{"ElDecisionTable should conform to IElTerminal", new(vocabulary.ElDecisionTable), new(vocabulary.IElTerminal)},
-		{"ElDecisionTable should conform to IElExpression", new(vocabulary.ElDecisionTable), new(vocabulary.IElExpression)},
-		{"ElConditionChain should conform to IElDecisionTable", new(vocabulary.ElConditionChain), new(vocabulary.IElDecisionTable)},
-		{"ElConditionChain should conform to IElTerminal", new(vocabulary.ElConditionChain), new(vocabulary.IElTerminal)},
-		{"ElConditionChain should conform to IElExpression", new(vocabulary.ElConditionChain), new(vocabulary.IElExpression)},
-		{"ElConditionalExpression should conform to IElDecisionBranch", new(vocabulary.ElConditionalExpression), new(vocabulary.IElDecisionBranch)},
-		{"ElCaseTable should conform to IElDecisionTable", new(vocabulary.ElCaseTable), new(vocabulary.IElDecisionTable)},
-		{"ElCaseTable should conform to IElTerminal", new(vocabulary.ElCaseTable), new(vocabulary.IElTerminal)},
-		{"ElCaseTable should conform to IElExpression", new(vocabulary.ElCaseTable), new(vocabulary.IElExpression)},
-		{"ElCase should conform to IElDecisionBranch", new(vocabulary.ElCase), new(vocabulary.IElDecisionBranch)},
+		{"ElDecisionTable should conform to IElTerminal", new(vocabulary.ElDecisionTable[vocabulary.IBmmSimpleType]), new(vocabulary.IElTerminal)},
+		{"ElDecisionTable should conform to IElExpression", new(vocabulary.ElDecisionTable[vocabulary.IBmmSimpleType]), new(vocabulary.IElExpression)},
+		{"ElConditionChain should conform to IElDecisionTable", new(vocabulary.ElConditionChain[vocabulary.IBmmSimpleType]), new(vocabulary.IElDecisionTable[vocabulary.IBmmSimpleType])},
+		{"ElConditionChain should conform to IElTerminal", new(vocabulary.ElConditionChain[vocabulary.IBmmSimpleType]), new(vocabulary.IElTerminal)},
+		{"ElConditionChain should conform to IElExpression", new(vocabulary.ElConditionChain[vocabulary.IBmmSimpleType]), new(vocabulary.IElExpression)},
+		{"ElConditionalExpression should conform to IElDecisionBranch", new(vocabulary.ElConditionalExpression[vocabulary.IBmmSimpleType]), new(vocabulary.IElDecisionBranch)},
+		{"ElCaseTable should conform to IElDecisionTable", new(vocabulary.ElCaseTable[vocabulary.IBmmSimpleType]), new(vocabulary.IElDecisionTable[vocabulary.IBmmSimpleType])},
+		{"ElCaseTable should conform to IElTerminal", new(vocabulary.ElCaseTable[vocabulary.IBmmSimpleType]), new(vocabulary.IElTerminal)},
+		{"ElCaseTable should conform to IElExpression", new(vocabulary.ElCaseTable[vocabulary.IBmmSimpleType]), new(vocabulary.IElExpression)},
+		{"ElCase should conform to IElDecisionBranch", new(vocabulary.ElCase[vocabulary.IBmmSimpleType]), new(vocabulary.IElDecisionBranch)},
 		{"ElOperator should conform to IElExpression", new(vocabulary.ElOperator), new(vocabulary.IElExpression)},
 		{"ElUnaryOperator should conform to IElOperator", new(vocabulary.ElUnaryOperator), new(vocabulary.IElOperator)},
 		{"ElUnaryOperator should conform to IElExpression", new(vocabulary.ElUnaryOperator), new(vocabulary.IElExpression)},
@@ -358,7 +358,7 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			res := Check_InterfaceConformance(tt.c, tt.i)
 			if res != true {
-				t.Errorf("got %s", res)
+				t.Errorf("got %s", tt.name)
 			}
 		})
 	}

@@ -1,6 +1,6 @@
 package base
 
-import "vocabulary/generics"
+import "SemanticDatabase/generics"
 
 /*
 Type representing a 'proper' Interval, i.e. any two-sided or one-sided interval.

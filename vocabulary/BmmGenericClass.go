@@ -14,7 +14,6 @@ type IBmmGenericClass interface {
 	SupplierClosure() []string
 	PackagePath() string
 	ClassPath() string
-	IsPrimitive() bool
 	IsAbstract() bool
 	Features()
 	FlatFeatures()
@@ -192,7 +191,7 @@ func (i *BmmGenericClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmG
 // From: BmmClass
 // Features of this module.
 func (i *BmmGenericClassBuilder) SetFeatures(v []IBmmFeature) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Features = v
+	i.bmmgenericclass.BmmClass.Features = v
 	return i
 }
 
@@ -225,7 +224,7 @@ func (i *BmmGenericClassBuilder) SetDocumentation(v map[string]any) *BmmGenericC
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmGenericClassBuilder) SetScope(v IBmmModelElement) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Scope = v
+	i.bmmgenericclass.BmmModelElement.Scope = v
 	return i
 }
 
@@ -316,30 +315,6 @@ lower-case and class in original case.
 */
 func (b *BmmGenericClass) ClassPath() string {
 	return ""
-}
-
-// From: BMM_CLASS
-/**
-True if this class is designated a primitive type within the overall type system
-of the schema. Set from schema.
-*/
-func (b *BmmGenericClass) IsPrimitive() bool {
-	return false
-}
-
-// From: BMM_CLASS
-/**
-True if this class is abstract in its model. Value provided from an underlying
-data property set at creation or construction time.
-*/
-func (b *BmmGenericClass) IsAbstract() bool {
-	return false
-}
-
-// From: BMM_CLASS
-// List of all feature definitions introduced in this class.
-func (b *BmmGenericClass) Features() {
-	return
 }
 
 // From: BMM_CLASS

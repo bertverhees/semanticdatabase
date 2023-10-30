@@ -13,7 +13,7 @@ type IBmmIndexedContainerValue interface {
 // Struct definition
 type BmmIndexedContainerValue struct {
 	// embedded for Inheritance
-	BmmLiteralValue
+	BmmLiteralValue[IBmmType]
 	// Constants
 	// Attributes
 }

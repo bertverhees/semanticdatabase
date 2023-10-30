@@ -133,7 +133,7 @@ func (i *BmmFunctionBuilder) SetGroup(v IBmmFeatureGroup) *BmmFunctionBuilder {
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmFunctionBuilder) SetScope(v IBmmClass) *BmmFunctionBuilder {
-	i.bmmfunction.Scope = v
+	i.bmmfunction.BmmModelElement.Scope = v
 	return i
 }
 
@@ -191,7 +191,7 @@ func (i *BmmFunctionBuilder) Build() *BmmFunction {
 // From: BMM_ROUTINE
 // Return number of arguments of this routine.
 func (b *BmmFunction) Arity() int {
-	return nil
+	return 0
 }
 
 // From: BMM_FORMAL_ELEMENT

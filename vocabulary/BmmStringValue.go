@@ -15,9 +15,9 @@ type IBmmStringValue interface {
 // Struct definition
 type BmmStringValue struct {
 	// embedded for Inheritance
-	BmmPrimitiveValue[string]
-	BmmUnitaryValue
-	BmmLiteralValue[string]
+	BmmPrimitiveValue[IBmmSimpleType]
+	BmmUnitaryValue[IBmmSimpleType]
+	BmmLiteralValue[IBmmSimpleType]
 	// Constants
 	// Attributes
 	// Native String value.
@@ -52,7 +52,7 @@ func (i *BmmStringValueBuilder) SetValue(v string) *BmmStringValueBuilder {
 // From: BmmPrimitiveValue
 // Concrete type of this literal.
 func (i *BmmStringValueBuilder) SetType(v IBmmSimpleType) *BmmStringValueBuilder {
-	i.bmmstringvalue.Type = v
+	i.bmmstringvalue.BmmPrimitiveValue.Type = v
 	return i
 }
 

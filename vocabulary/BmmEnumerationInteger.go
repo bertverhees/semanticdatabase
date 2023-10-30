@@ -203,8 +203,8 @@ func (i *BmmEnumerationIntegerBuilder) SetFeatures(v []IBmmFeature) *BmmEnumerat
 
 // From: BmmModule
 // List of feature groups in this class.
-func (i *BmmEnumerationIntegerBuilder) SetFeatureGroups(v IBmmFeatureGroup) *BmmEnumerationIntegerBuilder {
-	i.bmmenumerationinteger.BmmModule.FeatureGroups = v
+func (i *BmmEnumerationIntegerBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnumerationIntegerBuilder {
+	i.bmmenumerationinteger.FeatureGroups = v
 	return i
 }
 
