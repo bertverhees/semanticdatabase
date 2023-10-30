@@ -1,7 +1,7 @@
 package vocabulary
 
 import (
-	"vocabulary/base"
+	"SemanticDatabase/base"
 )
 
 // Meta-type of for properties of unitary type.
@@ -162,7 +162,7 @@ func (i *BmmUnitaryPropertyBuilder) Build() *BmmUnitaryProperty {
 // FUNCTIONS
 // From: BMM_PROPERTY
 // Interval form of 0..1 , 1..1 etc, derived from is_nullable .
-func (b *BmmUnitaryProperty) Existence() *base.MultiplicityInterval {
+func (b *BmmUnitaryProperty) Existence() *base.MultiplicityInterval[int] {
 	return nil
 }
 

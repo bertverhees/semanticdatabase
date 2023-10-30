@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"vocabulary"
+	"SemanticDatabase/vocabulary"
 )
 
 // Persisted form of BMM_SCHEMA .

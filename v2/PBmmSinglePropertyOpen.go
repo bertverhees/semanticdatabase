@@ -1,7 +1,7 @@
 package v2
 
 import (
-	"vocabulary"
+	"SemanticDatabase/vocabulary"
 )
 
 // Persistent form of a BMM_SINGLE_PROPERTY_OPEN .

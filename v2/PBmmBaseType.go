@@ -1,16 +1,14 @@
 package v2
 
-import (
-	"vocabulary"
-)
+import "SemanticDatabase/vocabulary"
 
 // Persistent form of BMM_PROPER_TYPE .
 
 // Interface definition
 type IPBmmBaseType interface {
 	// From: P_BMM_TYPE
-	CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass ) 
-	AsTypeString (  )  string
+	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	AsTypeString() string
 }
 
 // Struct definition
@@ -19,51 +17,54 @@ type PBmmBaseType struct {
 	PBmmType
 	// Constants
 	// Attributes
-	ValueConstraint	string	`yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
+	ValueConstraint string `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewPBmmBaseType() *PBmmBaseType {
 	pbmmbasetype := new(PBmmBaseType)
 	// Constants
 	// From: PBmmType
 	return pbmmbasetype
 }
-//BUILDER
+
+// BUILDER
 type PBmmBaseTypeBuilder struct {
 	pbmmbasetype *PBmmBaseType
 }
 
 func NewPBmmBaseTypeBuilder() *PBmmBaseTypeBuilder {
-	 return &PBmmBaseTypeBuilder {
-		pbmmbasetype : NewPBmmBaseType(),
+	return &PBmmBaseTypeBuilder{
+		pbmmbasetype: NewPBmmBaseType(),
 	}
 }
 
-//BUILDER ATTRIBUTES
-func (i *PBmmBaseTypeBuilder) SetValueConstraint ( v string ) *PBmmBaseTypeBuilder{
+// BUILDER ATTRIBUTES
+func (i *PBmmBaseTypeBuilder) SetValueConstraint(v string) *PBmmBaseTypeBuilder {
 	i.pbmmbasetype.ValueConstraint = v
 	return i
 }
-	// //From: PBmmType
+
+// //From: PBmmType
 // Result of create_bmm_type() call.
-func (i *PBmmBaseTypeBuilder) SetBmmType ( v vocabulary.IBmmType ) *PBmmBaseTypeBuilder{
+func (i *PBmmBaseTypeBuilder) SetBmmType(v vocabulary.IBmmType) *PBmmBaseTypeBuilder {
 	i.pbmmbasetype.BmmType = v
 	return i
 }
 
 func (i *PBmmBaseTypeBuilder) Build() *PBmmBaseType {
-	 return i.pbmmbasetype
+	return i.pbmmbasetype
 }
 
-//FUNCTIONS
+// FUNCTIONS
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmBaseType) CreateBmmType ( a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass )  {
+func (p *PBmmBaseType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
 	return
 }
+
 // From: P_BMM_TYPE
 // Formal name of the type for display.
-func (p *PBmmBaseType) AsTypeString (  )  string {
+func (p *PBmmBaseType) AsTypeString() string {
 	return ""
 }

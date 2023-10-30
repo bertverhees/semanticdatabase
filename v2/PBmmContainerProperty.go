@@ -1,8 +1,8 @@
 package v2
 
 import (
-	"vocabulary"
-	"vocabulary/base"
+	"SemanticDatabase/base"
+	"SemanticDatabase/vocabulary"
 )
 
 // Persistent form of BMM_CONTAINER_PROPERTY .
