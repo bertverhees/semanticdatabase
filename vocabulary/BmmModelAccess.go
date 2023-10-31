@@ -1,5 +1,9 @@
 package vocabulary
 
+import (
+	"log"
+)
+
 /**
 Access to BMM models that have been loaded and validated from one or more schema
 sets.
@@ -37,7 +41,10 @@ type BmmModelAccess struct {
 // CONSTRUCTOR
 func NewBmmModelAccess() *BmmModelAccess {
 	bmmmodelaccess := new(BmmModelAccess)
-	// Constants
+	bmmmodelaccess.SchemaDirectories = make([]string, 0)
+	bmmmodelaccess.AllSchemas = make(map[string]IBmmSchemaDescriptor)
+	bmmmodelaccess.BmmModels = make(map[string]IBmmModel)
+	bmmmodelaccess.MatchingBmmModels = make(map[string]IBmmModel)
 	return bmmmodelaccess
 }
 
@@ -47,9 +54,12 @@ type BmmModelAccessBuilder struct {
 }
 
 func NewBmmModelAccessBuilder() *BmmModelAccessBuilder {
-	return &BmmModelAccessBuilder{
-		bmmmodelaccess: NewBmmModelAccess(),
-	}
+	log.Fatal("The class BmmModelAccess is not yet supported")
+
+	//return &BmmModelAccessBuilder{
+	//	bmmmodelaccess: NewBmmModelAccess(),
+	//}
+	return nil
 }
 
 // BUILDER ATTRIBUTES
@@ -92,17 +102,20 @@ func (i *BmmModelAccessBuilder) Build() *BmmModelAccess {
 Initialise with a specific schema load list, usually a sub-set of schemas that
 will be found in a specified directories a_schema_dirs .
 */
-func (b *BmmModelAccess) InitialiseWithLoadList(a_schema_dirs []string, a_schema_load_list []string) {
+func (b *BmmModelAccess) InitialiseWithLoadList(aSchemaDirs []string, aSchemaLoadList []string) {
+	log.Fatal("The class BmmModelAccess is not yet supported")
 	return
 }
 
 // Load all schemas found in a specified directories a_schema_dirs .
 func (b *BmmModelAccess) InitialiseAll(a_schema_dirs []string) {
+	log.Fatal("The class BmmModelAccess is not yet supported")
 	return
 }
 
 // Reload BMM schemas.
 func (b *BmmModelAccess) ReloadSchemas() {
+	log.Fatal("The class BmmModelAccess is not yet supported")
 	return
 }
 
@@ -114,6 +127,7 @@ the most recent version will be selected. Uses matching_bmm_models table to find
 matches if partial version information is supplied in key.
 */
 func (b *BmmModelAccess) BmmModel(a_model_key string) IBmmModel {
+	log.Fatal("The class BmmModelAccess is not yet supported")
 	return nil
 }
 
@@ -124,5 +138,6 @@ shorter form e.g. model id minus the version. If a shorter key is used, the
 Result s True if a BMM_MODEL with any version exists.
 */
 func (b *BmmModelAccess) HasBmmModel(a_model_key string) bool {
+	log.Fatal("The class BmmModelAccess is not yet supported")
 	return false
 }
