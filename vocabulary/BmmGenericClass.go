@@ -257,7 +257,7 @@ func (b *BmmGenericClass) GenericParameterConformanceType(a_name string) string 
 Generate a type object that represents the type for which this class is the
 definer.
 */
-func (b *BmmGenericClass) Type() IBmmModelType {
+func (b BmmGenericClass) Type() IBmmGenericType {
 	return nil
 }
 
