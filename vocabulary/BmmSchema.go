@@ -1,5 +1,7 @@
 package vocabulary
 
+import "log"
+
 // Abstract parent of any persistable form of a BMM model, e.g. P_BMM_SCHEMA .
 
 // Interface definition
@@ -101,9 +103,11 @@ type BmmSchemaBuilder struct {
 }
 
 func NewBmmSchemaBuilder() *BmmSchemaBuilder {
-	return &BmmSchemaBuilder{
-		bmmschema: NewBmmSchema(),
-	}
+	log.Fatal("The class BmmSchema is not yet supported")
+	//return &BmmSchemaBuilder{
+	//	bmmschema: NewBmmSchema(),
+	//}
+	return nil
 }
 
 // BUILDER ATTRIBUTES
@@ -215,6 +219,7 @@ under the parent) check that all classes are mentioned in the package structure
 check that all models refer to valid packages
 */
 func (b *BmmSchema) ValidateCreated() {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return
 }
 
@@ -224,6 +229,7 @@ Finalisation work: convert packages to canonical form, i.e. full hierarchy with
 no packages with names like aa.bb.cc set up include processing list
 */
 func (b *BmmSchema) LoadFinalise() {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return
 }
 
@@ -233,21 +239,25 @@ Merge in class and package definitions from other , except where the current
 schema already has a definition for the given type or package.
 */
 func (b *BmmSchema) Merge(other IBmmSchema) {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return
 }
 
 // Main validation prior to generation of bmm_model .
 func (b *BmmSchema) Validate() {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return
 }
 
 // Populate bmm_model from schema.
 func (b *BmmSchema) CreateBmmModelPreState() {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return
 }
 
 // True when validation may be commenced.
 func (b *BmmSchema) ReadToValidate() bool {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return false
 }
 
@@ -258,5 +268,6 @@ Formed as: {BMM_DEFINITIONS}.create_schema_id ( rm_publisher , schema_name ,
 rm_release ) E.g. "openehr_rm_ehr_1.0.4" .
 */
 func (b *BmmSchema) SchemaId() string {
+	log.Fatal("The class BmmSchema is not yet supported")
 	return ""
 }
