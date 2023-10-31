@@ -1,5 +1,7 @@
 package vocabulary
 
+import "log"
+
 /**
 Core properties of BMM_MODEL , may be used in a serial representation as well,
 such as P_BMM_SCHEMA .
@@ -11,9 +13,6 @@ type IBmmModelMetadata interface {
 
 // Struct definition
 type BmmModelMetadata struct {
-	// embedded for Inheritance
-	// Constants
-	// Attributes
 	// Publisher of model expressed in the schema.
 	RmPublisher string `yaml:"rmpublisher" json:"rmpublisher" xml:"rmpublisher"`
 	// Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
@@ -33,9 +32,11 @@ type BmmModelMetadataBuilder struct {
 }
 
 func NewBmmModelMetadataBuilder() *BmmModelMetadataBuilder {
-	return &BmmModelMetadataBuilder{
-		bmmmodelmetadata: NewBmmModelMetadata(),
-	}
+	log.Fatal("The class BmmModelMetadata is not yet supported")
+	//return &BmmModelMetadataBuilder{
+	//	bmmmodelmetadata: NewBmmModelMetadata(),
+	//}
+	return nil
 }
 
 // BUILDER ATTRIBUTES
