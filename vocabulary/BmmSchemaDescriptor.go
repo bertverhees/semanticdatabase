@@ -1,5 +1,7 @@
 package vocabulary
 
+import "log"
+
 /**
 Descriptor for a BMM schema. Contains a meta-data table of attributes obtained
 from a mini-ODIN parse of the schema file.
@@ -54,9 +56,11 @@ type BmmSchemaDescriptorBuilder struct {
 }
 
 func NewBmmSchemaDescriptorBuilder() *BmmSchemaDescriptorBuilder {
-	return &BmmSchemaDescriptorBuilder{
-		bmmschemadescriptor: NewBmmSchemaDescriptor(),
-	}
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
+	//return &BmmSchemaDescriptorBuilder{
+	//	bmmschemadescriptor: NewBmmSchemaDescriptor(),
+	//}
+	return nil
 }
 
 // BUILDER ATTRIBUTES
@@ -111,6 +115,7 @@ True if this is a top-level schema, i.e. is the root schema of a 'model'. True
 if bmm_schema /= Void and then bmm_schema.model_name /= Void .
 */
 func (b *BmmSchemaDescriptor) IsTopLevel() bool {
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
 	return false
 }
 
@@ -120,6 +125,7 @@ True if the BMM version found in the schema (or assumed, if none) is compatible
 with that in this software.
 */
 func (b *BmmSchemaDescriptor) IsBmmCompatible() bool {
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
 	return false
 }
 
@@ -129,11 +135,13 @@ Load schema into in-memory form, i.e. a P_BMM_SCHEMA instance, if structurally
 valid. If successful, p_schema will be set.
 */
 func (b *BmmSchemaDescriptor) Load() {
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
 	return
 }
 
 // Validate loaded schema and report errors.
 func (b *BmmSchemaDescriptor) ValidateMerged() {
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
 	return
 }
 
@@ -143,10 +151,12 @@ Validate includes list for this schema, to see if each mentioned schema exists
 in all_schemas list.
 */
 func (b *BmmSchemaDescriptor) ValidateIncludes(all_schemas_list []string /*0..1*/) {
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
 	return
 }
 
 // Create schema , i.e. the BMM_MODEL from one P_BMM_SCHEMA schema.
 func (b *BmmSchemaDescriptor) CreateModel() {
+	log.Fatal("The class BmmSchemaDescriptor is not yet supported")
 	return
 }
