@@ -31,8 +31,14 @@ type BmmPackage struct {
 // CONSTRUCTOR
 func NewBmmPackage() *BmmPackage {
 	bmmpackage := new(BmmPackage)
+	//BmmPackage
 	bmmpackage.Members = make([]IBmmModule, 0)
+	//BmmPackageContainer
 	bmmpackage.Packages = make(map[string]IBmmPackage)
+	//BmmModelElement
+	bmmpackage.Documentation = make(map[string]any)
+	bmmpackage.Extensions = make(map[string]any)
+
 	return bmmpackage
 }
 

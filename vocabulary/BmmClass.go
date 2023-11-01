@@ -93,7 +93,14 @@ type BmmClass struct {
 // CONSTRUCTOR
 func NewBmmClass() *BmmClass {
 	bmmclass := new(BmmClass)
-	// Constants
+	//BmmModule
+	bmmclass.Features = make([]IBmmFeature, 0)
+	bmmclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	//BmmModelElement
+	bmmclass.Documentation = make(map[string]any)
+	bmmclass.Extensions = make(map[string]any)
+	//BmmClass
+
 	return bmmclass
 }
 
