@@ -28,7 +28,10 @@ type BmmModule struct {
 // CONSTRUCTOR
 func NewBmmModule() *BmmModule {
 	bmmmodule := new(BmmModule)
-	// Constants
+	bmmmodule.Features := make([]IBmmFormalElement,0)
+	bmmmodule.FeatureGroups := make([]IBmmFeatureGroup,0)
+	bmmmodule.Documentation := make(map[string]any)
+	bmmmodule.Extensions := make(map[string]any)
 	return bmmmodule
 }
 

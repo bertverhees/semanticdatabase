@@ -14,16 +14,19 @@ type IBmmModelElement interface {
 
 // Struct definition
 type BmmModelElement struct {
-	// embedded for Inheritance
-	// Constants
 	// Attributes
 	// Name of this model element.
 	Name string `yaml:"name" json:"name" xml:"name"`
 	/**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
-	purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-	String "references": String Other keys and value types may be freely added.
+	purposes:
+	"purpose": String
+	"keywords": List<String>
+	"use": String
+	"misuse": String
+	"references": String
+	Other keys and value types may be freely added.
 	*/
 	Documentation map[string]any `yaml:"documentation" json:"documentation" xml:"documentation"`
 	// Model element within which an element is declared.
@@ -36,61 +39,7 @@ type BmmModelElement struct {
 }
 
 // CONSTRUCTOR
-func NewBmmModelElement() *BmmModelElement {
-	bmmmodelelement := new(BmmModelElement)
-	// Constants
-	return bmmmodelelement
-}
-
-// BUILDER
-type BmmModelElementBuilder struct {
-	bmmmodelelement *BmmModelElement
-}
-
-func NewBmmModelElementBuilder() *BmmModelElementBuilder {
-	return &BmmModelElementBuilder{
-		bmmmodelelement: NewBmmModelElement(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// Name of this model element.
-func (i *BmmModelElementBuilder) SetName(v string) *BmmModelElementBuilder {
-	i.bmmmodelelement.Name = v
-	return i
-}
-
-/*
-*
-Optional documentation of this element, as a keyed list. It is strongly
-recommended to use the following key /type combinations for the relevant
-purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-String "references": String Other keys and value types may be freely added.
-*/
-func (i *BmmModelElementBuilder) SetDocumentation(v map[string]any) *BmmModelElementBuilder {
-	i.bmmmodelelement.Documentation = v
-	return i
-}
-
-// Model element within which an element is declared.
-func (i *BmmModelElementBuilder) SetScope(v IBmmModelElement) *BmmModelElementBuilder {
-	i.bmmmodelelement.Scope = v
-	return i
-}
-
-/*
-*
-Optional meta-data of this element, as a keyed list. May be used to extend the
-meta-model.
-*/
-func (i *BmmModelElementBuilder) SetExtensions(v map[string]any) *BmmModelElementBuilder {
-	i.bmmmodelelement.Extensions = v
-	return i
-}
-
-func (i *BmmModelElementBuilder) Build() *BmmModelElement {
-	return i.bmmmodelelement
-}
+// No constructor or Builder, class is abstract
 
 //FUNCTIONS
 /**

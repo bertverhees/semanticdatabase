@@ -40,7 +40,7 @@ type BmmSchemaDescriptor struct {
 	*/
 	MetaData map[string]string `yaml:"metadata" json:"metadata" xml:"metadata"`
 	// Identifiers of schemas included by this schema.
-	Includes []string `yaml:"includes" json:"includes" xml:"includes"`
+	Includes []IBmmIncludeSpec `yaml:"includes" json:"includes" xml:"includes"`
 }
 
 // CONSTRUCTOR
@@ -100,7 +100,7 @@ func (i *BmmSchemaDescriptorBuilder) SetMetaData(v map[string]string) *BmmSchema
 }
 
 // Identifiers of schemas included by this schema.
-func (i *BmmSchemaDescriptorBuilder) SetIncludes(v []string) *BmmSchemaDescriptorBuilder {
+func (i *BmmSchemaDescriptorBuilder) SetIncludes(v []IBmmIncludeSpec) *BmmSchemaDescriptorBuilder {
 	i.bmmschemadescriptor.Includes = v
 	return i
 }
