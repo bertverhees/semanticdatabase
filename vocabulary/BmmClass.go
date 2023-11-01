@@ -21,7 +21,6 @@ type IBmmClass interface {
 	ClassPath() string
 	IsPrimitive() bool
 	IsAbstract() bool
-	Features()
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
 	// From: BMM_MODULE
@@ -100,7 +99,15 @@ func NewBmmClass() *BmmClass {
 	bmmclass.Documentation = make(map[string]any)
 	bmmclass.Extensions = make(map[string]any)
 	//BmmClass
-
+	bmmclass.Ancestors = make(map[string]IBmmModelType)
+	bmmclass.Properties = make(map[string]IBmmProperty)
+	bmmclass.ImmediateDescendants = make([]IBmmClass, 0)
+	bmmclass.StaticProperties = make(map[string]IBmmStatic)
+	bmmclass.Functions = make(map[string]IBmmFunction)
+	bmmclass.Procedures = make(map[string]IBmmProcedure)
+	bmmclass.Invariants = make([]IBmmAssertion, 0)
+	bmmclass.Creators = make(map[string]IBmmProcedure)
+	bmmclass.Converters = make(map[string]IBmmProcedure)
 	return bmmclass
 }
 

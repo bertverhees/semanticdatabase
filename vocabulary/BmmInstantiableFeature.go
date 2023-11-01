@@ -21,14 +21,16 @@ type BmmInstantiableFeature struct {
 	BmmFeature
 	BmmFormalElement
 	BmmModelElement
-	// Constants
-	// Attributes
 }
 
 // CONSTRUCTOR
 func NewBmmInstantiableFeature() *BmmInstantiableFeature {
 	bmminstantiablefeature := new(BmmInstantiableFeature)
-	// Constants
+	//BmmFormalElement
+	//BmmFeature
+	//BmmModelElement
+	bmminstantiablefeature.Documentation = make(map[string]any)
+	bmminstantiablefeature.Extensions = make(map[string]any)
 	return bmminstantiablefeature
 }
 

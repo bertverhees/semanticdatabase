@@ -28,7 +28,10 @@ type BmmFormalElement struct {
 // CONSTRUCTOR
 func NewBmmFormalElement() *BmmFormalElement {
 	bmmformalelement := new(BmmFormalElement)
-	// Constants
+	//BmmModelElement
+	bmmformalelement.Documentation = make(map[string]any)
+	bmmformalelement.Extensions = make(map[string]any)
+
 	return bmmformalelement
 }
 

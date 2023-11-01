@@ -17,7 +17,6 @@ type IBmmEnumerationInteger interface {
 	ClassPath() string
 	IsPrimitive() bool
 	IsAbstract() bool
-	Features()
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
 	// From: BMM_MODULE
@@ -42,7 +41,25 @@ type BmmEnumerationInteger struct {
 // CONSTRUCTOR
 func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	bmmenumerationinteger := new(BmmEnumerationInteger)
-	// Constants
+	//BmmModule
+	bmmenumerationinteger.Features = make([]IBmmFeature, 0)
+	bmmenumerationinteger.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	//BmmModelElement
+	bmmenumerationinteger.Documentation = make(map[string]any)
+	bmmenumerationinteger.Extensions = make(map[string]any)
+	//BmmClass
+	bmmenumerationinteger.Ancestors = make(map[string]IBmmModelType)
+	bmmenumerationinteger.Properties = make(map[string]IBmmProperty)
+	bmmenumerationinteger.ImmediateDescendants = make([]IBmmClass, 0)
+	bmmenumerationinteger.StaticProperties = make(map[string]IBmmStatic)
+	bmmenumerationinteger.Functions = make(map[string]IBmmFunction)
+	bmmenumerationinteger.Procedures = make(map[string]IBmmProcedure)
+	bmmenumerationinteger.Invariants = make([]IBmmAssertion, 0)
+	bmmenumerationinteger.Creators = make(map[string]IBmmProcedure)
+	bmmenumerationinteger.Converters = make(map[string]IBmmProcedure)
+	//BmmEnumeration
+	bmmenumerationinteger.ItemValues = make([]IBmmIntegerValue, 0)
+
 	return bmmenumerationinteger
 }
 
@@ -336,12 +353,6 @@ data property set at creation or construction time.
 */
 func (b *BmmEnumerationInteger) IsAbstract() bool {
 	return false
-}
-
-// From: BMM_CLASS
-// List of all feature definitions introduced in this class.
-func (b *BmmEnumerationInteger) Features() {
-	return
 }
 
 // From: BMM_CLASS

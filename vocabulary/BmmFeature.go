@@ -34,7 +34,12 @@ type BmmFeature struct {
 // CONSTRUCTOR
 func NewBmmFeature() *BmmFeature {
 	bmmfeature := new(BmmFeature)
-	// Constants
+	//BmmFormalElement
+	//BmmModelElement
+	bmmfeature.Documentation = make(map[string]any)
+	bmmfeature.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmfeature.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	return bmmfeature
 }
 

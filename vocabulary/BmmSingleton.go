@@ -31,7 +31,14 @@ type BmmSingleton struct {
 // CONSTRUCTOR
 func NewBmmSingleton() *BmmSingleton {
 	bmmsingleton := new(BmmSingleton)
-	// Constants
+	//BmmFormalElement
+	//BmmModelElement
+	bmmsingleton.Documentation = make(map[string]any)
+	bmmsingleton.Extensions = make(map[string]any)
+	//BmmFeature
+	//BmmInstantiableFeature
+	//BmmStatic
+
 	return bmmsingleton
 }
 

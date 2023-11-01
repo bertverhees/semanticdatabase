@@ -17,7 +17,6 @@ type IBmmEnumerationString interface {
 	ClassPath() string
 	IsPrimitive() bool
 	IsAbstract() bool
-	Features()
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
 	// From: BMM_MODULE
@@ -42,7 +41,25 @@ type BmmEnumerationString struct {
 // CONSTRUCTOR
 func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring := new(BmmEnumerationString)
-	// Constants
+	//BmmModule
+	bmmenumerationstring.Features = make([]IBmmFeature, 0)
+	bmmenumerationstring.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	//BmmModelElement
+	bmmenumerationstring.Documentation = make(map[string]any)
+	bmmenumerationstring.Extensions = make(map[string]any)
+	//BmmClass
+	bmmenumerationstring.Ancestors = make(map[string]IBmmModelType)
+	bmmenumerationstring.Properties = make(map[string]IBmmProperty)
+	bmmenumerationstring.ImmediateDescendants = make([]IBmmClass, 0)
+	bmmenumerationstring.StaticProperties = make(map[string]IBmmStatic)
+	bmmenumerationstring.Functions = make(map[string]IBmmFunction)
+	bmmenumerationstring.Procedures = make(map[string]IBmmProcedure)
+	bmmenumerationstring.Invariants = make([]IBmmAssertion, 0)
+	bmmenumerationstring.Creators = make(map[string]IBmmProcedure)
+	bmmenumerationstring.Converters = make(map[string]IBmmProcedure)
+	//BmmEnumeration
+	bmmenumerationstring.ItemValues = make([]IBmmStringValue, 0)
+
 	return bmmenumerationstring
 }
 
@@ -330,12 +347,6 @@ data property set at creation or construction time.
 */
 func (b *BmmEnumerationString) IsAbstract() bool {
 	return false
-}
-
-// From: BMM_CLASS
-// List of all feature definitions introduced in this class.
-func (b *BmmEnumerationString) Features() {
-	return
 }
 
 // From: BMM_CLASS

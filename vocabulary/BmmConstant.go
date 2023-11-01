@@ -35,7 +35,14 @@ type BmmConstant struct {
 // CONSTRUCTOR
 func NewBmmConstant() *BmmConstant {
 	bmmconstant := new(BmmConstant)
-	// Constants
+	//BmmFormalElement
+	//BmmModelElement
+	bmmconstant.Documentation = make(map[string]any)
+	bmmconstant.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmconstant.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	//BmmInstantiableFeature
+	//BmmStatic
 	return bmmconstant
 }
 

@@ -15,7 +15,6 @@ type IBmmGenericClass interface {
 	PackagePath() string
 	ClassPath() string
 	IsAbstract() bool
-	Features()
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
 	// From: BMM_MODULE

@@ -17,7 +17,6 @@ type IBmmSimpleClass interface {
 	ClassPath() string
 	IsPrimitive() bool
 	IsAbstract() bool
-	Features()
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
 	// From: BMM_MODULE
@@ -38,7 +37,23 @@ type BmmSimpleClass struct {
 // CONSTRUCTOR
 func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass := new(BmmSimpleClass)
-	// Constants
+	//BmmModule
+	bmmsimpleclass.Features = make([]IBmmFeature, 0)
+	bmmsimpleclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	//BmmModelElement
+	bmmsimpleclass.Documentation = make(map[string]any)
+	bmmsimpleclass.Extensions = make(map[string]any)
+	//BmmClass
+	bmmsimpleclass.Ancestors = make(map[string]IBmmModelType)
+	bmmsimpleclass.Properties = make(map[string]IBmmProperty)
+	bmmsimpleclass.ImmediateDescendants = make([]IBmmClass, 0)
+	bmmsimpleclass.StaticProperties = make(map[string]IBmmStatic)
+	bmmsimpleclass.Functions = make(map[string]IBmmFunction)
+	bmmsimpleclass.Procedures = make(map[string]IBmmProcedure)
+	bmmsimpleclass.Invariants = make([]IBmmAssertion, 0)
+	bmmsimpleclass.Creators = make(map[string]IBmmProcedure)
+	bmmsimpleclass.Converters = make(map[string]IBmmProcedure)
+
 	return bmmsimpleclass
 }
 
@@ -281,12 +296,6 @@ data property set at creation or construction time.
 */
 func (b *BmmSimpleClass) IsAbstract() bool {
 	return false
-}
-
-// From: BMM_CLASS
-// List of all feature definitions introduced in this class.
-func (b *BmmSimpleClass) Features() {
-	return
 }
 
 // From: BMM_CLASS
