@@ -30,12 +30,11 @@ type IBmmPropertyType interface {
 // Struct definition
 type BmmPropertyType struct {
 	// embedded for Inheritance
-	BmmSignature
-	BmmBuiltinType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmBuiltinType
+	BmmSignature
 	// Attributes
 }
 

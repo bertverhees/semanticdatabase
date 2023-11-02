@@ -31,11 +31,10 @@ type IBmmSimpleType interface {
 // Struct definition
 type BmmSimpleType struct {
 	// embedded for Inheritance
-	BmmModelType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmModelType
 	// Attributes
 	// Defining class of this type.
 	BaseClass IBmmSimpleClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`

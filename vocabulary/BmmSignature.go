@@ -34,10 +34,10 @@ type IBmmSignature interface {
 // Struct definition
 type BmmSignature struct {
 	// embedded for Inheritance
-	BmmBuiltinType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmBuiltinType
 	// Constants
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`

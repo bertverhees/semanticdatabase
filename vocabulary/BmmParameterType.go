@@ -27,9 +27,8 @@ type IBmmParameterType interface {
 // Struct definition
 type BmmParameterType struct {
 	// embedded for Inheritance
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
 	// Attributes
 	/**
 	Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and

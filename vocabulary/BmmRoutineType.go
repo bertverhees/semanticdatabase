@@ -31,12 +31,11 @@ type IBmmRoutineType interface {
 // Struct definition
 type BmmRoutineType struct {
 	// embedded for Inheritance
-	BmmSignature
-	BmmBuiltinType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmBuiltinType
+	BmmSignature
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes

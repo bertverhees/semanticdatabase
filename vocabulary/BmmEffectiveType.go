@@ -25,8 +25,8 @@ type IBmmEffectiveType interface {
 // Struct definition
 type BmmEffectiveType struct {
 	// embedded for Inheritance
-	BmmUnitaryType
 	BmmType
+	BmmUnitaryType
 	// Constants
 	// Attributes
 }

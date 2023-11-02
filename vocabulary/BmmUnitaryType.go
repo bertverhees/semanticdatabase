@@ -23,8 +23,6 @@ type IBmmUnitaryType interface {
 type BmmUnitaryType struct {
 	// embedded for Inheritance
 	BmmType
-	// Constants
-	// Attributes
 }
 
 // CONSTRUCTOR

@@ -30,9 +30,8 @@ type IBmmIndexedContainerType interface {
 // Struct definition
 type BmmIndexedContainerType struct {
 	// embedded for Inheritance
-	BmmContainerType
 	BmmType
-	// Constants
+	BmmContainerType
 	// Attributes
 	/**
 	Type of the element index, typically String or Integer , but may be a numeric

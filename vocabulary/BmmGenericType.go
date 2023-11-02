@@ -29,11 +29,10 @@ type IBmmGenericType interface {
 // Struct definition
 type BmmGenericType struct {
 	// embedded for Inheritance
-	BmmModelType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmModelType
 	// Attributes
 	/**
 	Generic parameters of the root_type in this type specifier. The order must match

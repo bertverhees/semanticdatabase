@@ -31,10 +31,10 @@ type IBmmStatusType interface {
 // Struct definition
 type BmmStatusType struct {
 	// embedded for Inheritance
-	BmmBuiltinType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmBuiltinType
 	// Constants
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`

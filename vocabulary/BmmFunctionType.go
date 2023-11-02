@@ -33,13 +33,12 @@ type IBmmFunctionType interface {
 // Struct definition
 type BmmFunctionType struct {
 	// embedded for Inheritance
-	BmmRoutineType
-	BmmSignature
-	BmmBuiltinType
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
+	BmmEffectiveType
+	BmmBuiltinType
+	BmmSignature
+	BmmRoutineType
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes

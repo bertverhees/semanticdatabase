@@ -25,10 +25,9 @@ type IBmmModelType interface {
 // Struct definition
 type BmmModelType struct {
 	// embedded for Inheritance
-	BmmEffectiveType
-	BmmUnitaryType
 	BmmType
-	// Constants
+	BmmUnitaryType
+	BmmEffectiveType
 	// Attributes
 	ValueConstraint IBmmValueSetSpec `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 	// Base class of this type.
