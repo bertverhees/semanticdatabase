@@ -49,12 +49,8 @@ type BmmSignature struct {
 // CONSTRUCTOR
 func NewBmmSignature() *BmmSignature {
 	bmmsignature := new(BmmSignature)
-	// Constants
 	// Base name (built-in).
 	bmmsignature.BaseName = "Signature"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
-	bmmsignature.BaseName = ""
 	return bmmsignature
 }
 

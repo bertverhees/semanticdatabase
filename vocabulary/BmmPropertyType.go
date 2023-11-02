@@ -41,10 +41,8 @@ type BmmPropertyType struct {
 // CONSTRUCTOR
 func NewBmmPropertyType() *BmmPropertyType {
 	bmmpropertytype := new(BmmPropertyType)
-	// Constants
-	// From: BmmSignature
 	// Base name (built-in).
-	bmmpropertytype.BmmBuiltinType.BaseName = "Signature"
+	bmmpropertytype.BmmBuiltinType.BaseName = "Property"
 	return bmmpropertytype
 }
 

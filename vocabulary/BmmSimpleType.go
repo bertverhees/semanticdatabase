@@ -43,7 +43,6 @@ type BmmSimpleType struct {
 // CONSTRUCTOR
 func NewBmmSimpleType() *BmmSimpleType {
 	bmmsimpletype := new(BmmSimpleType)
-	// Constants
 	return bmmsimpletype
 }
 

@@ -40,9 +40,8 @@ type BmmBuiltinType struct {
 // CONSTRUCTOR
 func NewBmmBuiltinType() *BmmBuiltinType {
 	bmmbuiltintype := new(BmmBuiltinType)
-	// Constants
 	// Base name (built-in typename).
-	bmmbuiltintype.BaseName = ""
+	bmmbuiltintype.BaseName = "Builtin"
 	return bmmbuiltintype
 }
 

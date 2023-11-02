@@ -55,6 +55,7 @@ type BmmModel struct {
 }
 
 // CONSTRUCTOR
+
 func NewBmmModel() *BmmModel {
 	bmmmodel := new(BmmModel)
 	//BmmModelElement

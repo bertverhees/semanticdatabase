@@ -44,12 +44,8 @@ type BmmStatusType struct {
 // CONSTRUCTOR
 func NewBmmStatusType() *BmmStatusType {
 	bmmstatustype := new(BmmStatusType)
-	// Constants
 	// Base name (built-in).
 	bmmstatustype.BaseName = "Status"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
-	bmmstatustype.BaseName = ""
 	return bmmstatustype
 }
 

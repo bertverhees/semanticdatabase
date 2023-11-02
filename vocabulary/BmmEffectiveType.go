@@ -27,33 +27,10 @@ type BmmEffectiveType struct {
 	// embedded for Inheritance
 	BmmType
 	BmmUnitaryType
-	// Constants
-	// Attributes
 }
 
 // CONSTRUCTOR
-func NewBmmEffectiveType() *BmmEffectiveType {
-	bmmeffectivetype := new(BmmEffectiveType)
-	// Constants
-	return bmmeffectivetype
-}
-
-// BUILDER
-type BmmEffectiveTypeBuilder struct {
-	bmmeffectivetype *BmmEffectiveType
-}
-
-func NewBmmEffectiveTypeBuilder() *BmmEffectiveTypeBuilder {
-	return &BmmEffectiveTypeBuilder{
-		bmmeffectivetype: NewBmmEffectiveType(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *BmmEffectiveTypeBuilder) Build() *BmmEffectiveType {
-	return i.bmmeffectivetype
-}
+// is abstract, no constructor, no builder
 
 // FUNCTIONS
 // Result = self.

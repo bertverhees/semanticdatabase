@@ -123,7 +123,8 @@ func (i *BmmDefinitionsBuilder) Build() *BmmDefinitions {
 // any_class_definition() method. This will create the following structure, including a default package structure, and an Any type.
 // built-in class definition corresponding to the top `Any' class.
 func (b *BmmDefinitions) AnyClass() IBmmSimpleClass {
-	return NewBmmSimpleClassBuilder().SetName("Any").SetPackage(NewBmmPackageBuilder().SetName("foundation_types").Build()).Build()
+	//return NewBmmSimpleClassBuilder().SetName("Any").SetPackage(NewBmmPackageBuilder().SetName("foundation_types").Build()).Build()
+	return nil
 }
 
 // Built-in type definition corresponding to the top `Any' type.

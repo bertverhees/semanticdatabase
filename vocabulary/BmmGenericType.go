@@ -47,7 +47,8 @@ type BmmGenericType struct {
 // CONSTRUCTOR
 func NewBmmGenericType() *BmmGenericType {
 	bmmgenerictype := new(BmmGenericType)
-	// Constants
+	//BMM_GENERIC_TYPE
+	bmmgenerictype.GenericParameters = make([]IBmmUnitaryType, 0)
 	return bmmgenerictype
 }
 

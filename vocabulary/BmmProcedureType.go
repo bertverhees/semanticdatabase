@@ -30,7 +30,7 @@ type IBmmProcedureType interface {
 	//BMM_ROUTINE_TYPE
 	ArgumentTypes() IBmmTupleType
 	//BMM_PROCEDURE_TYPE
-	ResultType() IBmmStatusType
+	GetResultType() IBmmStatusType
 }
 
 // Struct definition
@@ -99,7 +99,17 @@ func (i *BmmProcedureTypeBuilder) Build() *BmmProcedureType {
 	return i.bmmproceduretype
 }
 
-//FUNCTIONS
+// FROM BMM_ROUTINE_TYPE
+func (b *BmmProcedureType) GetArgumentTypes() IBmmTupleType {
+	return b.ArgumentTypes
+}
+
+// FUNCTIONS
+// BMM_PROCEDURE_TYPE
+func (b *BmmProcedureType) GetResultType() IBmmStatusType {
+	return b.ResultType
+}
+
 // From: BMM_SIGNATURE
 /**
 Return the logical set (i.e. unique items) consisting of

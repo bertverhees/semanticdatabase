@@ -50,12 +50,8 @@ type BmmTupleType struct {
 // CONSTRUCTOR
 func NewBmmTupleType() *BmmTupleType {
 	bmmtupletype := new(BmmTupleType)
-	// Constants
 	// Base name (built-in).
 	bmmtupletype.BaseName = "Tuple"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
-	bmmtupletype.BaseName = ""
 	return bmmtupletype
 }
 

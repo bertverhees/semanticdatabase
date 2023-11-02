@@ -27,7 +27,7 @@ type IBmmFunctionType interface {
 	//BMM_ROUTINE_TYPE
 	ArgumentTypes() IBmmTupleType
 	//BMM_FUNCTION_TYPE
-	ResultType() IBmmStatusType
+	GetResultType() IBmmStatusType
 }
 
 // Struct definition
@@ -42,23 +42,14 @@ type BmmFunctionType struct {
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes
+	ResultType IBmmStatusType
 }
 
 // CONSTRUCTOR
 func NewBmmFunctionType() *BmmFunctionType {
 	bmmfunctiontype := new(BmmFunctionType)
-	// Constants
 	// Base name (built-in).
 	bmmfunctiontype.BaseName = "Function"
-	// From: BmmRoutineType
-	// Base name (built-in).
-	bmmfunctiontype.BaseName = "Routine"
-	// From: BmmSignature
-	// Base name (built-in).
-	bmmfunctiontype.BaseName = "Signature"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
-	bmmfunctiontype.BaseName = ""
 	return bmmfunctiontype
 }
 
@@ -73,7 +64,13 @@ func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
+// Result type of BmmFunctionType.
+func (i *BmmFunctionTypeBuilder) SetResultType(v IBmmStatusType) *BmmFunctionTypeBuilder {
+	i.bmmfunctiontype.ResultType = v
+	return i
+}
+
 // From: BmmRoutineType
 /**
 Type of arguments in the signature, if any; represented as a type-tuple (list of
@@ -84,18 +81,21 @@ func (i *BmmFunctionTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmFunctionT
 	return i
 }
 
-// From: BmmSignature
-// Result type of signature.
-func (i *BmmFunctionTypeBuilder) SetResultType(v IBmmType) *BmmFunctionTypeBuilder {
-	i.bmmfunctiontype.ResultType = v
-	return i
-}
-
 func (i *BmmFunctionTypeBuilder) Build() *BmmFunctionType {
 	return i.bmmfunctiontype
 }
 
-//FUNCTIONS
+// FUNCTIONS
+// BMM_FUNCTION_TYPE
+func (b *BmmFunctionType) GetResultType() IBmmStatusType {
+	return b.ResultType
+}
+
+// FROM BMM_ROUTINE_TYPE
+func (b *BmmFunctionType) GetArgumentTypes() IBmmTupleType {
+	return b.ArgumentTypes
+}
+
 // From: BMM_SIGNATURE
 /**
 Return the logical set (i.e. unique items) consisting of

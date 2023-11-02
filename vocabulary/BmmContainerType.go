@@ -51,6 +51,8 @@ type BmmContainerType struct {
 // CONSTRUCTOR
 func NewBmmContainerType() *BmmContainerType {
 	bmmcontainertype := new(BmmContainerType)
+	bmmcontainertype.IsOrdered = true
+	bmmcontainertype.IsUnique = false
 	// Constants
 	return bmmcontainertype
 }
@@ -149,3 +151,4 @@ type_name() .
 func (b *BmmContainerType) TypeSignature() string {
 	return ""
 }
+

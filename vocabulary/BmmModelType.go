@@ -35,38 +35,7 @@ type BmmModelType struct {
 }
 
 // CONSTRUCTOR
-func NewBmmModelType() *BmmModelType {
-	bmmmodeltype := new(BmmModelType)
-	// Constants
-	return bmmmodeltype
-}
-
-// BUILDER
-type BmmModelTypeBuilder struct {
-	bmmmodeltype *BmmModelType
-}
-
-func NewBmmModelTypeBuilder() *BmmModelTypeBuilder {
-	return &BmmModelTypeBuilder{
-		bmmmodeltype: NewBmmModelType(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-func (i *BmmModelTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmModelTypeBuilder {
-	i.bmmmodeltype.ValueConstraint = v
-	return i
-}
-
-// Base class of this type.
-func (i *BmmModelTypeBuilder) SetBaseClass(v IBmmClass) *BmmModelTypeBuilder {
-	i.bmmmodeltype.BaseClass = v
-	return i
-}
-
-func (i *BmmModelTypeBuilder) Build() *BmmModelType {
-	return i.bmmmodeltype
-}
+// is abstract, no constructor, no builder
 
 // FUNCTIONS
 // Result = base_class.name .

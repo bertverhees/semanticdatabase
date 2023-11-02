@@ -25,7 +25,7 @@ type IBmmRoutineType interface {
 	//BMM_SIGNATURE
 	//FlattenedTypeList() []string
 	//BMM_ROUTINE_TYPE
-	ArgumentTypes() IBmmTupleType
+	GetArgumentTypes() IBmmTupleType
 }
 
 // Struct definition
@@ -49,15 +49,8 @@ type BmmRoutineType struct {
 // CONSTRUCTOR
 func NewBmmRoutineType() *BmmRoutineType {
 	bmmroutinetype := new(BmmRoutineType)
-	// Constants
 	// Base name (built-in).
 	bmmroutinetype.BaseName = "Routine"
-	// From: BmmSignature
-	// Base name (built-in).
-	bmmroutinetype.BaseName = "Signature"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
-	bmmroutinetype.BaseName = ""
 	return bmmroutinetype
 }
 
@@ -93,7 +86,12 @@ func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
 	return i.bmmroutinetype
 }
 
-//FUNCTIONS
+// FUNCTIONS
+// FROM BMM_ROUTINE_TYPE
+func (b *BmmRoutineType) GetArgumentTypes() IBmmTupleType {
+	return b.ArgumentTypes
+}
+
 // From: BMM_SIGNATURE
 /**
 Return the logical set (i.e. unique items) consisting of

@@ -43,7 +43,6 @@ type BmmIndexedContainerType struct {
 // CONSTRUCTOR
 func NewBmmIndexedContainerType() *BmmIndexedContainerType {
 	bmmindexedcontainertype := new(BmmIndexedContainerType)
-	// Constants
 	return bmmindexedcontainertype
 }
 

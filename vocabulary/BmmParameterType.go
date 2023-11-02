@@ -44,7 +44,6 @@ type BmmParameterType struct {
 // CONSTRUCTOR
 func NewBmmParameterType() *BmmParameterType {
 	bmmparametertype := new(BmmParameterType)
-	// Constants
 	return bmmparametertype
 }
 

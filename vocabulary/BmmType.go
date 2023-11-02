@@ -26,7 +26,7 @@ type BmmType struct {
 // Is abstract, no constructor, no builder
 
 // FUNCTIONS
-// Formal string form of the type as per UML.
+// abstract, Formal string form of the type as per UML.
 func (b *BmmType) TypeName() string {
 	return ""
 }
@@ -43,33 +43,33 @@ func (b *BmmType) TypeSignature() string {
 
 /*
 *
-If true, indicates a type based on an abstract class, i.e. a type that cannot be
+abstract, If true, indicates a type based on an abstract class, i.e. a type that cannot be
 directly instantiated.
 */
 func (b *BmmType) IsAbstract() bool {
 	return false
 }
 
-// If True, indicates that a type based solely on primitive classes.
+// abstract,  If True, indicates that a type based solely on primitive classes.
 func (b *BmmType) IsPrimitive() bool {
 	return false
 }
 
-// Type with any container abstracted away; may be a formal generic type.
+// abstract,  Type with any container abstracted away; may be a formal generic type.
 func (b *BmmType) UnitaryType() IBmmUnitaryType {
 	return nil
 }
 
 /*
 *
-Type with any container abstracted away, and any formal parameter replaced by
+abstract, Type with any container abstracted away, and any formal parameter replaced by
 its effective constraint type.
 */
 func (b *BmmType) EffectiveType() IBmmEffectiveType {
 	return nil
 }
 
-// Completely flattened list of type names, flattening out all generic parameters.
+// abstract,  Completely flattened list of type names, flattening out all generic parameters.
 func (b *BmmType) FlattenedTypeList() []string {
 	return nil
 }
