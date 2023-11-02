@@ -7,16 +7,19 @@ type in a generic type declaration.
 
 // Interface definition
 type IBmmEffectiveType interface {
-	EffectiveType() IBmmEffectiveType
-	TypeBaseName() string
-	// From: BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType
-	// From: BMM_TYPE
+	// BMM_TYPE
 	TypeName() string
 	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
+	UnitaryType() IBmmUnitaryType
+	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
+	//BMM_UNITARY_TYPE
+	//UnitaryType() IBmmUnitaryType
+	//BMM_EFFECTIVE_TYPE
+	TypeBaseName() string
+	//EffectiveType() IBmmEffectiveType
 }
 
 // Struct definition

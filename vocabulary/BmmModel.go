@@ -38,10 +38,9 @@ type IBmmModel interface {
 // Struct definition
 type BmmModel struct {
 	// embedded for Inheritance
-	BmmPackageContainer
 	BmmModelElement
+	BmmPackageContainer
 	BmmModelMetadata
-	// Constants
 	// Attributes
 	// All classes in this model, keyed by type name.
 	ClassDefinitions map[string]IBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
@@ -58,14 +57,14 @@ type BmmModel struct {
 // CONSTRUCTOR
 func NewBmmModel() *BmmModel {
 	bmmmodel := new(BmmModel)
-	//BmmModel
-	bmmmodel.UsedModels = make([]IBmmModel, 0)
-	bmmmodel.Modules = make(map[string]IBmmModule)
 	//BmmModelElement
 	bmmmodel.Documentation = make(map[string]any)
 	bmmmodel.Extensions = make(map[string]any)
 	//BmmPackageContainer
 	bmmmodel.Packages = make(map[string]IBmmPackage)
+	//BmmModel
+	bmmmodel.UsedModels = make([]IBmmModel, 0)
+	bmmmodel.Modules = make(map[string]IBmmModule)
 
 	return bmmmodel
 }

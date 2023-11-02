@@ -8,15 +8,21 @@ generic type such as List<T> , Set<T> etc.
 
 // Interface definition
 type IBmmContainerType interface {
+	// BMM_TYPE
 	TypeName() string
-	// Post_is_abstract : Result = container_type.is_abstract
-	IsAbstract() bool
-	FlattenedTypeList() []string
-	UnitaryType() IBmmUnitaryType
-	IsPrimitive() bool
-	EffectiveType() IBmmEffectiveType
-	// From: BMM_TYPE
 	TypeSignature() string
+	IsAbstract() bool
+	IsPrimitive() bool
+	UnitaryType() IBmmUnitaryType
+	EffectiveType() IBmmEffectiveType
+	FlattenedTypeList() []string
+	//BMM_CONTAINERTYPE
+	//TypeName() string
+	//IsAbstract() bool
+	//FlattenedTypeList() []string
+	//UnitaryType() IBmmUnitaryType
+	//IsPrimitive() bool
+	//EffectiveType() IBmmEffectiveType
 }
 
 // Struct definition

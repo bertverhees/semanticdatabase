@@ -27,11 +27,11 @@ type IBmmEnumerationString interface {
 // Struct definition
 type BmmEnumerationString struct {
 	// embedded for Inheritance
-	BmmEnumeration
-	BmmSimpleClass
-	BmmClass
-	BmmModule
 	BmmModelElement
+	BmmModule
+	BmmClass
+	BmmSimpleClass
+	BmmEnumeration
 	// Constants
 	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
@@ -42,12 +42,13 @@ type BmmEnumerationString struct {
 func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring := new(BmmEnumerationString)
 	//BmmModule
-	bmmenumerationstring.Features = make([]IBmmFeature, 0)
+	// redfined bmmenumerationstring.Features = make([]IBmmFeature, 0)
 	bmmenumerationstring.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmModelElement
 	bmmenumerationstring.Documentation = make(map[string]any)
 	bmmenumerationstring.Extensions = make(map[string]any)
 	//BmmClass
+	bmmenumerationstring.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmenumerationstring.Ancestors = make(map[string]IBmmModelType)
 	bmmenumerationstring.Properties = make(map[string]IBmmProperty)
 	bmmenumerationstring.ImmediateDescendants = make([]IBmmClass, 0)

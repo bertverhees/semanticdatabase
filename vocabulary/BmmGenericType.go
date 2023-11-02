@@ -4,21 +4,26 @@ package vocabulary
 
 // Interface definition
 type IBmmGenericType interface {
+	// From: BMM_TYPE
 	TypeName() string
 	TypeSignature() string
 	IsAbstract() bool
+	IsPrimitive() bool
+	UnitaryType() IBmmUnitaryType
+	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
+	//BMM_UNITARY_TYPE
+	//UnitaryType() IBmmUnitaryType
+	//BMM_EFFECTIVE_TYPE
+	TypeBaseName() string
+	//EffectiveType() IBmmEffectiveType
+	//BMM_MODEL_TYPE
+	//TypeBaseName() string
+	//IsPrimitive() bool
+	//BMM_GENERIC_TYPE
 	IsPartiallyClosed() bool
 	EffectiveBaseClass() IBmmGenericClass
 	IsOpen() bool
-	// From: BMM_MODEL_TYPE
-	TypeBaseName() string
-	IsPrimitive() bool
-	// From: BMM_EFFECTIVE_TYPE
-	EffectiveType() IBmmEffectiveType
-	// From: BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType
-	// From: BMM_TYPE
 }
 
 // Struct definition

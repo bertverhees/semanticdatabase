@@ -7,14 +7,16 @@ that is not a container object.
 
 // Interface definition
 type IBmmUnitaryType interface {
-	UnitaryType() IBmmUnitaryType
-	// From: BMM_TYPE
+	// BMM_TYPE
 	TypeName() string
 	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
+	UnitaryType() IBmmUnitaryType
 	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
+	//BMM_UNITARY_TYPE
+	//UnitaryType() IBmmUnitaryType
 }
 
 // Struct definition
@@ -26,28 +28,7 @@ type BmmUnitaryType struct {
 }
 
 // CONSTRUCTOR
-func NewBmmUnitaryType() *BmmUnitaryType {
-	bmmunitarytype := new(BmmUnitaryType)
-	// Constants
-	return bmmunitarytype
-}
-
-// BUILDER
-type BmmUnitaryTypeBuilder struct {
-	bmmunitarytype *BmmUnitaryType
-}
-
-func NewBmmUnitaryTypeBuilder() *BmmUnitaryTypeBuilder {
-	return &BmmUnitaryTypeBuilder{
-		bmmunitarytype: NewBmmUnitaryType(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *BmmUnitaryTypeBuilder) Build() *BmmUnitaryType {
-	return i.bmmunitarytype
-}
+// is abstract, no constructor, no builder
 
 // FUNCTIONS
 // Result = self.

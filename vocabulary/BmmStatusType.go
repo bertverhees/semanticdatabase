@@ -6,18 +6,26 @@ Built-in meta-type representing action status, e.g. result of a call invocation.
 
 // Interface definition
 type IBmmStatusType interface {
-	// From: BMM_BUILTIN_TYPE
+	// BMM_TYPE
+	TypeName() string
+	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
-	TypeBaseName() string
-	TypeName() string
-	// From: BMM_EFFECTIVE_TYPE
-	EffectiveType() IBmmEffectiveType
-	// From: BMM_UNITARY_TYPE
 	UnitaryType() IBmmUnitaryType
-	// From: BMM_TYPE
-	TypeSignature() string
+	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
+	//BMM_UNITARY_TYPE
+	//UnitaryType() IBmmUnitaryType
+	//BMM_EFFECTIVE_TYPE
+	TypeBaseName() string
+	//EffectiveType() IBmmEffectiveType
+	//BMM_BUILTIN_TYPE
+	//IsAbstract() bool
+	//IsPrimitive() bool
+	//TypeBaseName() string
+	//TypeName() string
+	//BMM_STATUS_TYPE
+	BaseName() string //="status"
 }
 
 // Struct definition

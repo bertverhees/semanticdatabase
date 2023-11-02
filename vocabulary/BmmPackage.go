@@ -20,8 +20,8 @@ type IBmmPackage interface {
 // Struct definition
 type BmmPackage struct {
 	// embedded for Inheritance
-	BmmPackageContainer
 	BmmModelElement
+	BmmPackageContainer
 	// Constants
 	// Attributes
 	// Member modules in this package.
@@ -31,13 +31,13 @@ type BmmPackage struct {
 // CONSTRUCTOR
 func NewBmmPackage() *BmmPackage {
 	bmmpackage := new(BmmPackage)
-	//BmmPackage
-	bmmpackage.Members = make([]IBmmModule, 0)
-	//BmmPackageContainer
-	bmmpackage.Packages = make(map[string]IBmmPackage)
 	//BmmModelElement
 	bmmpackage.Documentation = make(map[string]any)
 	bmmpackage.Extensions = make(map[string]any)
+	//BmmPackageContainer
+	bmmpackage.Packages = make(map[string]IBmmPackage)
+	//BmmPackage
+	bmmpackage.Members = make([]IBmmModule, 0)
 
 	return bmmpackage
 }

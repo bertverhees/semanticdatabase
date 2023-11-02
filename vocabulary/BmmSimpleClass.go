@@ -7,7 +7,8 @@ Definition of a simple class, i.e. a class that has no generic parameters and is
 
 // Interface definition
 type IBmmSimpleClass interface {
-	Type() IBmmSimpleType
+	//BMM_CLASS
+	Type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -27,9 +28,9 @@ type IBmmSimpleClass interface {
 // Struct definition
 type BmmSimpleClass struct {
 	// embedded for Inheritance
-	BmmClass
-	BmmModule
 	BmmModelElement
+	BmmModule
+	BmmClass
 	// Constants
 	// Attributes
 }
@@ -37,13 +38,14 @@ type BmmSimpleClass struct {
 // CONSTRUCTOR
 func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass := new(BmmSimpleClass)
-	//BmmModule
-	bmmsimpleclass.Features = make([]IBmmFeature, 0)
-	bmmsimpleclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmModelElement
 	bmmsimpleclass.Documentation = make(map[string]any)
 	bmmsimpleclass.Extensions = make(map[string]any)
+	//BmmModule
+	//redefined bmmsimpleclass.Features = make([]IBmmFeature, 0)
+	bmmsimpleclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
+	bmmsimpleclass.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmsimpleclass.Ancestors = make(map[string]IBmmModelType)
 	bmmsimpleclass.Properties = make(map[string]IBmmProperty)
 	bmmsimpleclass.ImmediateDescendants = make([]IBmmClass, 0)

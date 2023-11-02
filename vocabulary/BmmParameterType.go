@@ -4,16 +4,24 @@ package vocabulary
 
 // Interface definition
 type IBmmParameterType interface {
-	FlattenedConformsToType() IBmmEffectiveType
-	TypeSignature() string
-	IsPrimitive() bool
-	IsAbstract() bool
+	// BMM_TYPE
 	TypeName() string
-	FlattenedTypeList() []string
-	EffectiveType() IBmmEffectiveType
-	// From: BMM_UNITARY_TYPE
+	TypeSignature() string
+	IsAbstract() bool
+	IsPrimitive() bool
 	UnitaryType() IBmmUnitaryType
-	// From: BMM_TYPE
+	EffectiveType() IBmmEffectiveType
+	FlattenedTypeList() []string
+	//BMM_UNITARY_TYPE
+	//UnitaryType() IBmmUnitaryType
+	//BMM_PARAMETER_TYPE
+	FlattenedConformsToType() IBmmEffectiveType
+	//TypeSignature() string
+	//IsPrimitive() bool
+	//IsAbstract() bool
+	//TypeName() string
+	//FlattenedTypeList() []string
+	//EffectiveType() IBmmEffectiveType
 }
 
 // Struct definition

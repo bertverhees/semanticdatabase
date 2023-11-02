@@ -33,10 +33,10 @@ type IBmmEnumeration interface {
 // Struct definition
 type BmmEnumeration struct {
 	// embedded for Inheritance
-	BmmSimpleClass
-	BmmClass
-	BmmModule
 	BmmModelElement
+	BmmModule
+	BmmClass
+	BmmSimpleClass
 	// Constants
 	// Attributes
 	/**
@@ -52,12 +52,13 @@ type BmmEnumeration struct {
 func NewBmmEnumeration() *BmmEnumeration {
 	bmmenumeration := new(BmmEnumeration)
 	//BmmModule
-	bmmenumeration.Features = make([]IBmmFeature, 0)
+	// redefined bmmenumeration.Features = make([]IBmmFeature, 0)
 	bmmenumeration.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmModelElement
 	bmmenumeration.Documentation = make(map[string]any)
 	bmmenumeration.Extensions = make(map[string]any)
 	//BmmClass
+	bmmenumeration.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmenumeration.Ancestors = make(map[string]IBmmModelType)
 	bmmenumeration.Properties = make(map[string]IBmmProperty)
 	bmmenumeration.ImmediateDescendants = make([]IBmmClass, 0)

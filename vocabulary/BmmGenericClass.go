@@ -5,7 +5,7 @@ package vocabulary
 // Interface definition
 type IBmmGenericClass interface {
 	Suppliers() []string
-	Type() IBmmGenericType
+	Type() IBmmModelType //redefined from class where BMM_MODEL_TYPE
 	GenericParameterConformanceType(a_name string) string
 	// From: BMM_CLASS
 	AllAncestors() []string
@@ -14,6 +14,7 @@ type IBmmGenericClass interface {
 	SupplierClosure() []string
 	PackagePath() string
 	ClassPath() string
+	IsPrimitive() bool
 	IsAbstract() bool
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
@@ -25,9 +26,9 @@ type IBmmGenericClass interface {
 // Struct definition
 type BmmGenericClass struct {
 	// embedded for Inheritance
-	BmmClass
-	BmmModule
 	BmmModelElement
+	BmmModule
+	BmmClass
 	// Constants
 	// Attributes
 	/**
@@ -41,7 +42,24 @@ type BmmGenericClass struct {
 // CONSTRUCTOR
 func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass := new(BmmGenericClass)
-	// Constants
+	//BmmModelElement
+	bmmgenericclass.Documentation = make(map[string]any)
+	bmmgenericclass.Extensions = make(map[string]any)
+	//BmmModule
+	// redefined bmmgenericclass.Features = make([]IBmmFeature, 0)
+	bmmgenericclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	//BmmClass
+	bmmgenericclass.BmmClass.Features = make([]IBmmFeature, 0)
+	bmmgenericclass.Ancestors = make(map[string]IBmmModelType)
+	bmmgenericclass.Properties = make(map[string]IBmmProperty)
+	bmmgenericclass.ImmediateDescendants = make([]IBmmClass, 0)
+	bmmgenericclass.StaticProperties = make(map[string]IBmmStatic)
+	bmmgenericclass.Functions = make(map[string]IBmmFunction)
+	bmmgenericclass.Procedures = make(map[string]IBmmProcedure)
+	bmmgenericclass.Invariants = make([]IBmmAssertion, 0)
+	bmmgenericclass.Creators = make(map[string]IBmmProcedure)
+	bmmgenericclass.Converters = make(map[string]IBmmProcedure)
+
 	return bmmgenericclass
 }
 

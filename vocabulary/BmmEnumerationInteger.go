@@ -27,12 +27,11 @@ type IBmmEnumerationInteger interface {
 // Struct definition
 type BmmEnumerationInteger struct {
 	// embedded for Inheritance
-	BmmEnumeration
-	BmmSimpleClass
-	BmmClass
-	BmmModule
 	BmmModelElement
-	// Constants
+	BmmModule
+	BmmClass
+	BmmSimpleClass
+	BmmEnumeration
 	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
 	ItemValues []IBmmIntegerValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
@@ -41,13 +40,14 @@ type BmmEnumerationInteger struct {
 // CONSTRUCTOR
 func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	bmmenumerationinteger := new(BmmEnumerationInteger)
-	//BmmModule
-	bmmenumerationinteger.Features = make([]IBmmFeature, 0)
-	bmmenumerationinteger.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmModelElement
 	bmmenumerationinteger.Documentation = make(map[string]any)
 	bmmenumerationinteger.Extensions = make(map[string]any)
+	//BmmModule
+	// redefined bmmenumerationinteger.Features = make([]IBmmFeature, 0)
+	bmmenumerationinteger.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
+	bmmenumerationinteger.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmenumerationinteger.Ancestors = make(map[string]IBmmModelType)
 	bmmenumerationinteger.Properties = make(map[string]IBmmProperty)
 	bmmenumerationinteger.ImmediateDescendants = make([]IBmmClass, 0)
