@@ -41,7 +41,7 @@ type BmmTupleType struct {
 	BmmType
 	// Constants
 	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
+	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 	// Attributes
 	// List of types of the items of the tuple, keyed by purpose in the tuple.
 	ItemTypes map[string]IBmmType `yaml:"itemtypes" json:"itemtypes" xml:"itemtypes"`

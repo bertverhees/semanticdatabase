@@ -38,12 +38,12 @@ type BmmModelType struct {
 // is abstract, no constructor, no builder
 
 // FUNCTIONS
-// Result = base_class.name .
+// (effected) Result = base_class.name .
 func (b *BmmModelType) TypeBaseName() string {
 	return ""
 }
 
-// Result = base_class.is_primitive .
+// (effected) Result = base_class.is_primitive .
 func (b *BmmModelType) IsPrimitive() bool {
 	return false
 }

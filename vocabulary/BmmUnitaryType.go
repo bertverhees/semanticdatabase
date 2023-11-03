@@ -29,7 +29,7 @@ type BmmUnitaryType struct {
 // is abstract, no constructor, no builder
 
 // FUNCTIONS
-// Result = self.
+// (effected) Result = self.
 func (b *BmmUnitaryType) UnitaryType() IBmmUnitaryType {
 	return nil
 }

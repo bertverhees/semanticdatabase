@@ -63,24 +63,24 @@ func (i *BmmBuiltinTypeBuilder) Build() *BmmBuiltinType {
 }
 
 // FUNCTIONS
-// Return False.
+// (effected) Return False.
 func (b *BmmBuiltinType) IsAbstract() bool {
 	return false
 }
 
-// Return True.
+// (effected) Return True.
 func (b *BmmBuiltinType) IsPrimitive() bool {
-	return false
+	return true
 }
 
-// Return base_name .
+// (effected) Return base_name .
 func (b *BmmBuiltinType) TypeBaseName() string {
-	return ""
+	return b.BaseName
 }
 
-// Return base_name .
+// (effected) Return base_name .
 func (b *BmmBuiltinType) TypeName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_EFFECTIVE_TYPE

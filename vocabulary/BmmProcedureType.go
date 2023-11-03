@@ -55,14 +55,6 @@ func NewBmmProcedureType() *BmmProcedureType {
 	// Constants
 	// Base name (built-in).
 	bmmproceduretype.BaseName = "Procedure"
-	// From: BmmRoutineType
-	// Base name (built-in).
-	bmmproceduretype.BaseName = "Routine"
-	// From: BmmSignature
-	// Base name (built-in).
-	bmmproceduretype.BaseName = "Signature"
-	// From: BmmBuiltinType
-	// Base name (built-in typename).
 	bmmproceduretype.BaseName = ""
 	return bmmproceduretype
 }
@@ -138,9 +130,9 @@ func (b *BmmProcedureType) TypeBaseName() string {
 }
 
 // From: BMM_BUILTIN_TYPE
-// Return base_name .
+// (redefined) Return base_name .
 func (b *BmmProcedureType) TypeName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_EFFECTIVE_TYPE

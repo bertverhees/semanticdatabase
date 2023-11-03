@@ -78,7 +78,7 @@ func (i *BmmSignatureBuilder) Build() *BmmSignature {
 
 //FUNCTIONS
 /**
-Return the logical set (i.e. unique items) consisting of
+(effected) Return the logical set (i.e. unique items) consisting of
 argument_types.flattened_type_list () and result_type.flattened_type_list () .
 */
 func (b *BmmSignature) FlattenedTypeList() []string {
@@ -98,9 +98,9 @@ func (b *BmmSignature) IsPrimitive() bool {
 }
 
 // From: BMM_BUILTIN_TYPE
-// Return base_name .
+// (effected) Return base_name .
 func (b *BmmSignature) TypeBaseName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_BUILTIN_TYPE

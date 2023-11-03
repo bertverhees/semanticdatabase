@@ -33,12 +33,12 @@ type BmmEffectiveType struct {
 // is abstract, no constructor, no builder
 
 // FUNCTIONS
-// Result = self.
+// (effected) Result = self.
 func (b *BmmEffectiveType) EffectiveType() IBmmEffectiveType {
 	return nil
 }
 
-// Name of base generator type, i.e. excluding any generic parts if present.
+// (effected) Name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmEffectiveType) TypeBaseName() string {
 	return ""
 }

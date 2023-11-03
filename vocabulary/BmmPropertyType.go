@@ -36,6 +36,7 @@ type BmmPropertyType struct {
 	BmmBuiltinType
 	BmmSignature
 	// Attributes
+	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 }
 
 // CONSTRUCTOR
@@ -92,9 +93,9 @@ func (b *BmmPropertyType) IsPrimitive() bool {
 }
 
 // From: BMM_BUILTIN_TYPE
-// Return base_name .
+// (redefined) Return base_name .
 func (b *BmmPropertyType) TypeBaseName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_BUILTIN_TYPE

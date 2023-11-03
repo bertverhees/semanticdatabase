@@ -95,7 +95,7 @@ func (b *BmmParameterType) FlattenedConformsToType() IBmmEffectiveType {
 
 /*
 *
-Signature form of the open type, including constrainer type if there is one,
+(redefined) Signature form of the open type, including constrainer type if there is one,
 e.g. T:Ordered .
 */
 func (b *BmmParameterType) TypeSignature() string {
@@ -104,7 +104,7 @@ func (b *BmmParameterType) TypeSignature() string {
 
 /*
 *
-Result = False - generic parameters are understood by definition to be
+(effected) Result = False - generic parameters are understood by definition to be
 non-primitive.
 */
 func (b *BmmParameterType) IsPrimitive() bool {
@@ -113,21 +113,21 @@ func (b *BmmParameterType) IsPrimitive() bool {
 
 /*
 *
-Result = False - generic parameters are understood by definition to be
+(effected) Result = False - generic parameters are understood by definition to be
 non-abstract.
 */
 func (b *BmmParameterType) IsAbstract() bool {
 	return false
 }
 
-// Return name .
+// (effected) Return name .
 func (b *BmmParameterType) TypeName() string {
 	return ""
 }
 
 /*
 *
-Result is either flattened_conforms_to_type.flattened_type_list or the Any type.
+(effected) Result is either flattened_conforms_to_type.flattened_type_list or the Any type.
 */
 func (b *BmmParameterType) FlattenedTypeList() []string {
 	return nil
@@ -135,7 +135,7 @@ func (b *BmmParameterType) FlattenedTypeList() []string {
 
 /*
 *
-Generate ultimate conformance type, which is either flattened_conforms_to_type
+(effected) Generate ultimate conformance type, which is either flattened_conforms_to_type
 or if not set, 'Any' .
 */
 func (b *BmmParameterType) EffectiveType() IBmmEffectiveType {

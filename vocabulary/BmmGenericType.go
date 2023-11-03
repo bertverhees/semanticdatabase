@@ -49,6 +49,7 @@ func NewBmmGenericType() *BmmGenericType {
 	bmmgenerictype := new(BmmGenericType)
 	//BMM_GENERIC_TYPE
 	bmmgenerictype.GenericParameters = make([]IBmmUnitaryType, 0)
+	// (redefined) BaseClass IBmmGenericType
 	return bmmgenerictype
 }
 
@@ -91,7 +92,7 @@ func (i *BmmGenericTypeBuilder) Build() *BmmGenericType {
 
 //FUNCTIONS
 /**
-Return the full name of the type including generic parameters, e.g.
+(effected) Return the full name of the type including generic parameters, e.g.
 DV_INTERVAL<T> , TABLE<List<THING>,String> .
 */
 func (b *BmmGenericType) TypeName() string {
@@ -100,21 +101,21 @@ func (b *BmmGenericType) TypeName() string {
 
 /*
 *
-Signature form of the type, which for generics includes generic parameter
+(effected) Signature form of the type, which for generics includes generic parameter
 constrainer types E.g. Interval<T:Ordered> .
 */
 func (b *BmmGenericType) TypeSignature() string {
 	return ""
 }
 
-// True if base_class.is_abstract or if any (non-open) parameter type is abstract.
+// (effected) True if base_class.is_abstract or if any (non-open) parameter type is abstract.
 func (b *BmmGenericType) IsAbstract() bool {
 	return false
 }
 
 /*
 *
-Result is base_class.name followed by names of all generic parameter type names,
+(effected) Result is base_class.name followed by names of all generic parameter type names,
 which may be open or closed.
 */
 func (b *BmmGenericType) FlattenedTypeList() []string {

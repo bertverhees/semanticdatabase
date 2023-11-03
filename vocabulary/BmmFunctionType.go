@@ -40,7 +40,7 @@ type BmmFunctionType struct {
 	BmmSignature
 	BmmRoutineType
 	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
+	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 	// Attributes
 	ResultType IBmmStatusType
 }
@@ -118,9 +118,9 @@ func (b *BmmFunctionType) IsPrimitive() bool {
 }
 
 // From: BMM_BUILTIN_TYPE
-// Return base_name .
+// (redefined) Return base_name .
 func (b *BmmFunctionType) TypeBaseName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_BUILTIN_TYPE

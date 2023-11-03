@@ -107,7 +107,7 @@ func (i *BmmIndexedContainerTypeBuilder) Build() *BmmIndexedContainerType {
 }
 
 // FUNCTIONS
-// Return full type name, e.g. HashMap<String, ELEMENT> .
+// (effected) Return full type name, e.g. HashMap<String, ELEMENT> .
 func (b *BmmIndexedContainerType) TypeName() string {
 	return ""
 }

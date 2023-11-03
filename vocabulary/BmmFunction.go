@@ -39,7 +39,6 @@ type BmmFunction struct {
 // CONSTRUCTOR
 func NewBmmFunction() *BmmFunction {
 	bmmfunction := new(BmmFunction)
-	// Constants
 	return bmmfunction
 }
 

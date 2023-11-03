@@ -37,7 +37,7 @@ type BmmStatusType struct {
 	BmmBuiltinType
 	// Constants
 	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
+	BaseName string `yaml:"basename" json:"basename" xml:"basename"` // (redefined)
 	// Attributes
 }
 
@@ -80,9 +80,9 @@ func (b *BmmStatusType) IsPrimitive() bool {
 }
 
 // From: BMM_BUILTIN_TYPE
-// Return base_name .
+// (redefined) Return base_name .
 func (b *BmmStatusType) TypeBaseName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_BUILTIN_TYPE

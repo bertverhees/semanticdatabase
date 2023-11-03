@@ -43,6 +43,7 @@ type BmmSimpleType struct {
 // CONSTRUCTOR
 func NewBmmSimpleType() *BmmSimpleType {
 	bmmsimpletype := new(BmmSimpleType)
+	// BaseClass IBmmSimpleType (redefined)
 	return bmmsimpletype
 }
 
@@ -75,17 +76,17 @@ func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
 }
 
 // FUNCTIONS
-// Result is base_class.name .
+// (effected) Result is base_class.name .
 func (b *BmmSimpleType) TypeName() string {
 	return ""
 }
 
-// Result is base_class.is_abstract .
+// (effected) Result is base_class.is_abstract .
 func (b *BmmSimpleType) IsAbstract() bool {
 	return false
 }
 
-// Result is base_class.name .
+// (effected) Result is base_class.name .
 func (b *BmmSimpleType) FlattenedTypeList() []string {
 	return nil
 }

@@ -114,9 +114,9 @@ func (b *BmmRoutineType) IsPrimitive() bool {
 }
 
 // From: BMM_BUILTIN_TYPE
-// Return base_name .
+// (redefined) Return base_name .
 func (b *BmmRoutineType) TypeBaseName() string {
-	return ""
+	return b.BaseName
 }
 
 // From: BMM_BUILTIN_TYPE
