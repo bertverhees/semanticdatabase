@@ -11,7 +11,11 @@ type_name() to obtain the qualified type name.
 
 // Interface definition
 type IBmmClass interface {
-	Type() IBmmModelType
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
+	// From: BMM_MODULE
+	//BMM_CLASS
+	//redefined in subclasses Type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -19,20 +23,15 @@ type IBmmClass interface {
 	SupplierClosure() []string
 	PackagePath() string
 	ClassPath() string
-	IsPrimitive() bool
-	IsAbstract() bool
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
-	// From: BMM_MODULE
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
 }
 
 // Struct definition
 type BmmClass struct {
 	// embedded for Inheritance
-	BmmModule
 	BmmModelElement
+	BmmModule
 	// Constants
 	// Attributes
 	// List of immediate inheritance parents.
@@ -86,7 +85,7 @@ type BmmClass struct {
 	*/
 	Converters map[string]IBmmProcedure `yaml:"converters" json:"converters" xml:"converters"`
 	// Features of this module.
-	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"`
+	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR

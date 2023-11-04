@@ -4,10 +4,11 @@ package vocabulary
 
 // Interface definition
 type IBmmEnumerationString interface {
-	// From: BMM_ENUMERATION
-	NameMap() map[string]string
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
+	// From: BMM_MODULE
 	// From: BMM_CLASS
-	Type() IBmmModelType
+	//redefined Type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -19,9 +20,10 @@ type IBmmEnumerationString interface {
 	IsAbstract() bool
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
-	// From: BMM_MODULE
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_SIMPLE_CLASS
+	Type() IBmmSimpleType
+	// From: BMM_ENUMERATION
+	NameMap() map[string]string
 }
 
 // Struct definition
@@ -36,17 +38,19 @@ type BmmEnumerationString struct {
 	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
 	ItemValues []IBmmStringValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	//Features of this module.
+	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
 func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring := new(BmmEnumerationString)
-	//BmmModule
-	// redfined bmmenumerationstring.Features = make([]IBmmFeature, 0)
-	bmmenumerationstring.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmModelElement
 	bmmenumerationstring.Documentation = make(map[string]any)
 	bmmenumerationstring.Extensions = make(map[string]any)
+	//BmmModule
+	bmmenumerationstring.Features = make([]IBmmFeature, 0)
+	bmmenumerationstring.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
 	bmmenumerationstring.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmenumerationstring.Ancestors = make(map[string]IBmmModelType)

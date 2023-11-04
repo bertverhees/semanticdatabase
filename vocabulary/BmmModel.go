@@ -7,6 +7,13 @@ BMM_SCHEMA_CORE ).
 
 // Interface definition
 type IBmmModel interface {
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
+	// From: BMM_PACKAGE_CONTAINER
+	PackageAtPath(a_path string) IBmmPackage
+	DoRecursivePackages(action IElProcedureAgent)
+	HasPackagePath(a_path string) bool
+	// BMM_MODEL
 	ModelId() string
 	ClassDefinition(a_name string) IBmmClass
 	TypeDefinition() IBmmClass
@@ -26,12 +33,6 @@ type IBmmModel interface {
 	AnyClassDefinition() IBmmSimpleClass
 	AnyTypeDefinition() IBmmSimpleType
 	BooleanTypeDefinition() IBmmSimpleType
-	// From: BMM_PACKAGE_CONTAINER
-	PackageAtPath(a_path string) IBmmPackage
-	DoRecursivePackages(action IElProcedureAgent)
-	HasPackagePath(a_path string) bool
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
 	// From: BMM_MODEL_METADATA
 }
 

@@ -7,8 +7,11 @@ Definition of a simple class, i.e. a class that has no generic parameters and is
 
 // Interface definition
 type IBmmSimpleClass interface {
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
+	// From: BMM_MODULE
 	//BMM_CLASS
-	Type() IBmmModelType
+	// Type() IBmmModelType redefined
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -16,13 +19,10 @@ type IBmmSimpleClass interface {
 	SupplierClosure() []string
 	PackagePath() string
 	ClassPath() string
-	IsPrimitive() bool
-	IsAbstract() bool
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
-	// From: BMM_MODULE
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_SIMPLE_CLASS
+	Type() IBmmSimpleType
 }
 
 // Struct definition
@@ -31,8 +31,9 @@ type BmmSimpleClass struct {
 	BmmModelElement
 	BmmModule
 	BmmClass
-	// Constants
 	// Attributes
+	//Features of this module
+	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
@@ -42,11 +43,11 @@ func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass.Documentation = make(map[string]any)
 	bmmsimpleclass.Extensions = make(map[string]any)
 	//BmmModule
-	//redefined bmmsimpleclass.Features = make([]IBmmFeature, 0)
+	bmmsimpleclass.Features = make([]IBmmFeature, 0)
 	bmmsimpleclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
-	bmmsimpleclass.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmsimpleclass.Ancestors = make(map[string]IBmmModelType)
+	bmmsimpleclass.Features = make([]IBmmFeature, 0)
 	bmmsimpleclass.Properties = make(map[string]IBmmProperty)
 	bmmsimpleclass.ImmediateDescendants = make([]IBmmClass, 0)
 	bmmsimpleclass.StaticProperties = make(map[string]IBmmStatic)
@@ -280,24 +281,6 @@ lower-case and class in original case.
 */
 func (b *BmmSimpleClass) ClassPath() string {
 	return ""
-}
-
-// From: BMM_CLASS
-/**
-True if this class is designated a primitive type within the overall type system
-of the schema. Set from schema.
-*/
-func (b *BmmSimpleClass) IsPrimitive() bool {
-	return false
-}
-
-// From: BMM_CLASS
-/**
-True if this class is abstract in its model. Value provided from an underlying
-data property set at creation or construction time.
-*/
-func (b *BmmSimpleClass) IsAbstract() bool {
-	return false
 }
 
 // From: BMM_CLASS

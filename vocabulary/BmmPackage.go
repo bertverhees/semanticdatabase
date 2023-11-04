@@ -7,14 +7,15 @@ packages and classes. The name may be qualified if it is a top-level package.
 
 // Interface definition
 type IBmmPackage interface {
-	RootClasses() []IBmmClass
-	Path() string
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
 	// From: BMM_PACKAGE_CONTAINER
 	PackageAtPath(a_path string) IBmmPackage
 	DoRecursivePackages(action IElProcedureAgent)
 	HasPackagePath(a_path string) bool
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	// BMM_PACKAGE
+	RootClasses() []IBmmClass
+	Path() string
 }
 
 // Struct definition

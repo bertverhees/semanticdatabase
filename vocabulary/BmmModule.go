@@ -22,7 +22,7 @@ type BmmModule struct {
 	// Features of this module.
 	Features []IBmmFormalElement `yaml:"features" json:"features" xml:"features"`
 	// Model within which module is defined.
-	Scope IBmmModel `yaml:"scope" json:"scope" xml:"scope"`
+	Scope IBmmModel `yaml:"scope" json:"scope" xml:"scope"` //redefined
 }
 
 // CONSTRUCTOR

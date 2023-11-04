@@ -11,9 +11,11 @@ subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 
 // Interface definition
 type IBmmEnumeration interface {
-	NameMap() map[string]string
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
+	// From: BMM_MODULE
 	// From: BMM_CLASS
-	Type() IBmmModelType
+	//redefined Type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -21,13 +23,12 @@ type IBmmEnumeration interface {
 	SupplierClosure() []string
 	PackagePath() string
 	ClassPath() string
-	IsPrimitive() bool
-	IsAbstract() bool
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
-	// From: BMM_MODULE
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_SIMPLE_CLASS
+	Type() IBmmSimpleType
+	// From: BMM_ENUMERATION
+	NameMap() map[string]string
 }
 
 // Struct definition
@@ -46,17 +47,19 @@ type BmmEnumeration struct {
 	ItemNames []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
 	// Optional list of specific values. Must be 1:1 with item_names list.
 	ItemValues []IBmmPrimitiveValue[IBmmSimpleType] `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	//Features of this module
+	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
 func NewBmmEnumeration() *BmmEnumeration {
 	bmmenumeration := new(BmmEnumeration)
-	//BmmModule
-	// redefined bmmenumeration.Features = make([]IBmmFeature, 0)
-	bmmenumeration.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmModelElement
 	bmmenumeration.Documentation = make(map[string]any)
 	bmmenumeration.Extensions = make(map[string]any)
+	//BmmModule
+	bmmenumeration.Features = make([]IBmmFeature, 0)
+	bmmenumeration.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
 	bmmenumeration.BmmClass.Features = make([]IBmmFeature, 0)
 	bmmenumeration.Ancestors = make(map[string]IBmmModelType)
@@ -285,7 +288,7 @@ func (b *BmmEnumeration) NameMap() map[string]string {
 Generate a type object that represents the type for which this class is the
 definer.
 */
-func (b *BmmEnumeration) Type() IBmmModelType {
+func (b *BmmEnumeration) Type() IBmmSimpleType {
 	return nil
 }
 

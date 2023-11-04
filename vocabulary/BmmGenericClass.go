@@ -4,23 +4,23 @@ package vocabulary
 
 // Interface definition
 type IBmmGenericClass interface {
-	Suppliers() []string
-	Type() IBmmModelType //redefined from class where BMM_MODEL_TYPE
-	GenericParameterConformanceType(a_name string) string
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
+	// From: BMM_MODULE
 	// From: BMM_CLASS
+	// redefined Type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
+	Suppliers() []string
 	SuppliersNonPrimitive() []string
 	SupplierClosure() []string
 	PackagePath() string
 	ClassPath() string
-	IsPrimitive() bool
-	IsAbstract() bool
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
-	// From: BMM_MODULE
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	// BMM_GENERIC_CLASS
+	Type() IBmmGenericType //redefined from class where BMM_MODEL_TYPE
+	GenericParameterConformanceType(a_name string) string
 }
 
 // Struct definition
@@ -37,6 +37,8 @@ type BmmGenericClass struct {
 	generic.
 	*/
 	GenericParameters map[string]IBmmParameterType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
+	//Features of this module
+	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
@@ -46,10 +48,9 @@ func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass.Documentation = make(map[string]any)
 	bmmgenericclass.Extensions = make(map[string]any)
 	//BmmModule
-	// redefined bmmgenericclass.Features = make([]IBmmFeature, 0)
 	bmmgenericclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
-	bmmgenericclass.BmmClass.Features = make([]IBmmFeature, 0)
+	bmmgenericclass.Features = make([]IBmmFeature, 0)
 	bmmgenericclass.Ancestors = make(map[string]IBmmModelType)
 	bmmgenericclass.Properties = make(map[string]IBmmProperty)
 	bmmgenericclass.ImmediateDescendants = make([]IBmmClass, 0)
