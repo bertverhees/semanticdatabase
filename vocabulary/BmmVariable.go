@@ -10,7 +10,6 @@ type IBmmVariable interface {
 	Signature() IBmmSignature
 	IsBoolean() bool
 	//BMM_VARIABLE
-	Scope() IBmmRoutine
 }
 
 // Struct definition

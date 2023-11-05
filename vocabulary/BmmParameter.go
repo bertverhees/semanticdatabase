@@ -10,7 +10,6 @@ type IBmmParameter interface {
 	Signature() IBmmSignature
 	IsBoolean() bool
 	//BMM_VARIABLE
-	Scope() IBmmRoutine
 	//BMM_READONLY_VARIABLE
 	//BMM_PARAMETER
 }

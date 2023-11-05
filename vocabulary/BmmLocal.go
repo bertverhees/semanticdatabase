@@ -10,7 +10,6 @@ type IBmmLocal interface {
 	Signature() IBmmSignature
 	IsBoolean() bool
 	//BMM_VARIABLE
-	Scope() IBmmRoutine
 	//BMM_WRITEABLE_VARIABLE
 	//BMM_LOCAL
 }
