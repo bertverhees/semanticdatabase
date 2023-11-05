@@ -7,14 +7,15 @@ variable 'Result'.
 
 // Interface definition
 type IElWritableVariable interface {
-	// From: EL_VARIABLE
-	// From: EL_VALUE_GENERATOR
-	Reference() string
-	// From: EL_SIMPLE
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	Reference() string
+	//EL_VARIABLE
+	//EL_WRITEABLE_VARIABLE
 }
 
 // Struct definition

@@ -9,11 +9,14 @@ constant access.
 
 // Interface definition
 type IElTypeRef interface {
-	EvalType() IBmmType
-	// From: EL_VALUE_GENERATOR
-	Reference() string
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	//EL_SIMPLE
+	//EL_VALUE_GENERATOR
+	Reference() string
+	//EL_TYPEREF
+	EvalType() IBmmType //effected
 }
 
 // Struct definition

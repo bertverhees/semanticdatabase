@@ -4,12 +4,13 @@ package vocabulary
 
 // Interface definition
 type IElBinaryOperator interface {
-	// From: EL_OPERATOR
-	OperatorDefinition() IBmmOperator
-	EquivalentCall() IElFunctionCall
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	//EL_OPERATOR
+	OperatorDefinition() IBmmOperator
+	EquivalentCall() IElFunctionCall
+	//EL_CONSTRAINED
 }
 
 // Struct definition

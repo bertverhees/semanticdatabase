@@ -4,11 +4,14 @@ package vocabulary
 
 // Interface definition
 type IElStaticRef interface {
-	// From: EL_FEATURE_REF
-	Reference() string
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	//EL_FEATURE_REF
+	Reference() string //redefined
 }
 
 // Struct definition

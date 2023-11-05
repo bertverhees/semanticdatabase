@@ -12,11 +12,16 @@ evaluated form) is BMM_SIGNATURE .
 
 // Interface definition
 type IElAgent interface {
-	EvalType() IBmmRoutineType
-	IsCallable() bool
-	Reference() string
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	//EL_FEATURE_REF
+	//EL_AGENT
+	//EvalType() IBmmRoutineType //effected //abstract
+	IsCallable() bool
+	Reference() string
 }
 
 // Struct definition
@@ -45,67 +50,7 @@ type ElAgent struct {
 }
 
 // CONSTRUCTOR
-func NewElAgent() *ElAgent {
-	elagent := new(ElAgent)
-	// Constants
-	return elagent
-}
-
-// BUILDER
-type ElAgentBuilder struct {
-	elagent *ElAgent
-}
-
-func NewElAgentBuilder() *ElAgentBuilder {
-	return &ElAgentBuilder{
-		elagent: NewElAgent(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// Closed arguments of a routine call as a tuple of objects.
-func (i *ElAgentBuilder) SetClosedArgs(v IElTuple) *ElAgentBuilder {
-	i.elagent.ClosedArgs = v
-	return i
-}
-
-/*
-*
-Optional list of names of open arguments of the call. If not provided, and the
-name refers to a routine with more arguments than supplied in closed_args , the
-missing arguments are inferred from the definition .
-*/
-func (i *ElAgentBuilder) SetOpenArgs(v []string) *ElAgentBuilder {
-	i.elagent.OpenArgs = v
-	return i
-}
-
-// Reference to definition of a routine for which this is an agent, if one exists.
-func (i *ElAgentBuilder) SetDefinition(v IBmmRoutine) *ElAgentBuilder {
-	i.elagent.Definition = v
-	return i
-}
-
-// Name of the routine being called.
-func (i *ElAgentBuilder) SetName(v string) *ElAgentBuilder {
-	i.elagent.Name = v
-	return i
-}
-func (i *ElAgentBuilder) SetIsWritable(v bool) *ElAgentBuilder {
-	i.elagent.IsWritable = v
-	return i
-}
-
-// From: ElFeatureRef
-// Scoping expression, which must be a EL_VALUE_GENERATOR .
-func (i *ElAgentBuilder) SetScoper(v IElValueGenerator) *ElAgentBuilder {
-	i.elagent.Scoper = v
-	return i
-}
-
-func (i *ElAgentBuilder) Build() *ElAgent {
-	return i.elagent
-}
+//abstract, no constructor, no builder
 
 //FUNCTIONS
 /**

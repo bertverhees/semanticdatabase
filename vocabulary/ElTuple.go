@@ -4,9 +4,13 @@ package vocabulary
 
 // Interface definition
 type IElTuple interface {
-	EvalType() IBmmType
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	//EL_OPERATOR
+	OperatorDefinition() IBmmOperator
+	EquivalentCall() IElFunctionCall
+	//EL_TUPLE
+	EvalType() IBmmType
 }
 
 // Struct definition

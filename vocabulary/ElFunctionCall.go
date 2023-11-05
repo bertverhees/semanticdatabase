@@ -7,11 +7,15 @@ A call made on a closed function agent, returning a result. Equivalent to an
 
 // Interface definition
 type IElFunctionCall interface {
-	EvalType() IBmmType
-	Reference() string
 	// From: EL_EXPRESSION
+	EvalType() IBmmType
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	//EL_FEATURE_REF
 	// From: EL_AGENT_CALL
+	Reference() string //redefined
 }
 
 // Struct definition

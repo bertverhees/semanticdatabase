@@ -12,11 +12,12 @@ else expression.
 
 // Interface definition
 type IElCaseTable[T IBmmSimpleType] interface {
-	// From: EL_DECISION_TABLE
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	//EL_TERMINAL
+	//EL_DECISION_TABLE
+	//EL_CASE_TABLE
 }
 
 // Struct definition

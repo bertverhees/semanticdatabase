@@ -8,10 +8,11 @@ created.
 
 // Interface definition
 type IElDecisionTable[T IBmmSimpleType] interface {
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	//EL_TERMINAL
+	//EL_DECISION_TABLE
 }
 
 // Struct definition

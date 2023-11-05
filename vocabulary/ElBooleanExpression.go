@@ -4,10 +4,13 @@ package vocabulary
 
 // Interface definition
 type IElBooleanExpression interface {
-	// From: EL_CONSTRAINED
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	//EL_OPERATOR
+	OperatorDefinition() IBmmOperator
+	EquivalentCall() IElFunctionCall
+	//EL_CONSTRAINED
 }
 
 // Struct definition

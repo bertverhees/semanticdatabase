@@ -4,12 +4,17 @@ package vocabulary
 
 // Interface definition
 type IElFunctionAgent interface {
-	EvalType() IBmmFunctionType
-	// From: EL_AGENT
-	IsCallable() bool
-	Reference() string
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	//EL_FEATURE_REF
+	//EL_AGENT
+	IsCallable() bool
+	Reference() string
+	//EL_FUNCTION_AGENT
+	EvalType() IBmmFunctionType
 }
 
 // Struct definition

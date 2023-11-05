@@ -8,10 +8,13 @@ probably to be removed.
 
 // Interface definition
 type IElDefined interface {
-	// From: EL_PREDICATE
-	EvalType() IBmmSimpleType
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	//EL_SIMPLE
+	//EL_PREDICATE
+	EvalType() IBmmSimpleType
+	//EL_DEFINED
 }
 
 // Struct definition

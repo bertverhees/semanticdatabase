@@ -7,14 +7,15 @@ variable 'Self'.
 
 // Interface definition
 type IElReadonlyVariable interface {
-	// From: EL_VARIABLE
-	// From: EL_VALUE_GENERATOR
-	Reference() string
-	// From: EL_SIMPLE
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	Reference() string
+	//EL_VARIABLE
+	//EL_READONLY_VARIABLE
 }
 
 // Struct definition

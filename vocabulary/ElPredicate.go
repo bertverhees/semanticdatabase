@@ -4,9 +4,12 @@ package vocabulary
 
 // Interface definition
 type IElPredicate interface {
-	EvalType() IBmmSimpleType
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	//EL_SIMPLE
+	//EL_PREDICATE
+	EvalType() IBmmSimpleType
 }
 
 // Struct definition

@@ -4,13 +4,14 @@ package vocabulary
 
 // Interface definition
 type IElVariable interface {
-	// From: EL_VALUE_GENERATOR
-	Reference() string
-	// From: EL_SIMPLE
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	Reference() string
+	//EL_VARIABLE
 }
 
 // Struct definition

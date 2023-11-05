@@ -11,11 +11,11 @@ the evaluation result is the result of evaluating the else expression.
 
 // Interface definition
 type IElConditionChain[T IBmmSimpleType] interface {
-	// From: EL_DECISION_TABLE
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
+	//EL_TERMINAL
+	//EL_DECISION_TABLE
 }
 
 // Struct definition

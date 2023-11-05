@@ -8,8 +8,9 @@ or tuples.
 // Interface definition
 type IElTerminal interface {
 	// From: EL_EXPRESSION
-	EvalType() IBmmType
+	//EvalType() IBmmType //abstract
 	IsBoolean() bool
+	//EL_TERMINAL
 }
 
 // Struct definition
@@ -21,29 +22,7 @@ type ElTerminal struct {
 }
 
 // CONSTRUCTOR
-func NewElTerminal() *ElTerminal {
-	elterminal := new(ElTerminal)
-	// Constants
-	return elterminal
-}
-
-// BUILDER
-type ElTerminalBuilder struct {
-	elterminal *ElTerminal
-}
-
-func NewElTerminalBuilder() *ElTerminalBuilder {
-	return &ElTerminalBuilder{
-		elterminal: NewElTerminal(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *ElTerminalBuilder) Build() *ElTerminal {
-	return i.elterminal
-}
-
+//abstract, no constructor, no builder
 //FUNCTIONS
 // From: EL_EXPRESSION
 /**

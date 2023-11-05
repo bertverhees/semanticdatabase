@@ -7,9 +7,12 @@ via a BMM_LITERAL_VALUE .
 
 // Interface definition
 type IElLiteral interface {
-	EvalType() IBmmType
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	//EL_SIMPLE
+	//EL_LITERAL
+	EvalType() IBmmType //effected
 }
 
 // Struct definition

@@ -4,12 +4,13 @@ package vocabulary
 
 // Interface definition
 type IElValueGenerator interface {
-	Reference() string
-	// From: EL_SIMPLE
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
-	EvalType() IBmmType
+	//EvalType() IBmmType //abstract
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	//EL_SIMPLE
+	//EL_VALUE_GENERATOR
+	Reference() string
 }
 
 // Struct definition
@@ -26,38 +27,7 @@ type ElValueGenerator struct {
 }
 
 // CONSTRUCTOR
-func NewElValueGenerator() *ElValueGenerator {
-	elvaluegenerator := new(ElValueGenerator)
-	// Constants
-	return elvaluegenerator
-}
-
-// BUILDER
-type ElValueGeneratorBuilder struct {
-	elvaluegenerator *ElValueGenerator
-}
-
-func NewElValueGeneratorBuilder() *ElValueGeneratorBuilder {
-	return &ElValueGeneratorBuilder{
-		elvaluegenerator: NewElValueGenerator(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-func (i *ElValueGeneratorBuilder) SetIsWritable(v bool) *ElValueGeneratorBuilder {
-	i.elvaluegenerator.IsWritable = v
-	return i
-}
-
-// Name used to represent the reference or other entity.
-func (i *ElValueGeneratorBuilder) SetName(v string) *ElValueGeneratorBuilder {
-	i.elvaluegenerator.Name = v
-	return i
-}
-
-func (i *ElValueGeneratorBuilder) Build() *ElValueGenerator {
-	return i.elvaluegenerator
-}
+//abstract, no constructor, no builder
 
 //FUNCTIONS
 /**

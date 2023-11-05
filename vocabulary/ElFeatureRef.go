@@ -7,10 +7,14 @@ qualifier if it is not the currently scoping entity.
 
 // Interface definition
 type IElFeatureRef interface {
-	Reference() string
 	// From: EL_EXPRESSION
-	EvalType() IBmmType
+	//EvalType() IBmmType //abstract
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	//EL_FEATURE_REF
+	Reference() string //redefined
 }
 
 // Struct definition
@@ -27,47 +31,7 @@ type ElFeatureRef struct {
 }
 
 // CONSTRUCTOR
-func NewElFeatureRef() *ElFeatureRef {
-	elfeatureref := new(ElFeatureRef)
-	// Constants
-	return elfeatureref
-}
-
-// BUILDER
-type ElFeatureRefBuilder struct {
-	elfeatureref *ElFeatureRef
-}
-
-func NewElFeatureRefBuilder() *ElFeatureRefBuilder {
-	return &ElFeatureRefBuilder{
-		elfeatureref: NewElFeatureRef(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// Scoping expression, which must be a EL_VALUE_GENERATOR .
-func (i *ElFeatureRefBuilder) SetScoper(v IElValueGenerator) *ElFeatureRefBuilder {
-	i.elfeatureref.Scoper = v
-	return i
-}
-
-// From: ElValueGenerator
-func (i *ElFeatureRefBuilder) SetIsWritable(v bool) *ElFeatureRefBuilder {
-	i.elfeatureref.IsWritable = v
-	return i
-}
-
-// From: ElValueGenerator
-// Name used to represent the reference or other entity.
-func (i *ElFeatureRefBuilder) SetName(v string) *ElFeatureRefBuilder {
-	i.elfeatureref.Name = v
-	return i
-}
-
-func (i *ElFeatureRefBuilder) Build() *ElFeatureRef {
-	return i.elfeatureref
-}
-
+//abstract, no constructor, no builder
 //FUNCTIONS
 /**
 Generated full reference name, consisting of scoping elements and name

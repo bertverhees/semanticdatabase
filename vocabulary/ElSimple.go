@@ -4,10 +4,11 @@ package vocabulary
 
 // Interface definition
 type IElSimple interface {
-	// From: EL_TERMINAL
 	// From: EL_EXPRESSION
-	EvalType() IBmmType
+	//EvalType() IBmmType //abstract
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	//EL_SIMPLE
 }
 
 // Struct definition

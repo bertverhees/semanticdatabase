@@ -4,13 +4,17 @@ package vocabulary
 
 // Interface definition
 type IElProcedureAgent interface {
-	EvalType() IBmmProcedureType
-	// From: EL_AGENT
-	IsCallable() bool
-	// From: EL_FEATURE_REF
-	Reference() string
 	// From: EL_EXPRESSION
 	IsBoolean() bool
+	// From: EL_TERMINAL
+	// From: EL_SIMPLE
+	// From: EL_VALUE_GENERATOR
+	//EL_FEATURE_REF
+	//EL_AGENT
+	IsCallable() bool
+	Reference() string
+	//EL_PROCEDURE_AGENT
+	EvalType() IBmmProcedureType
 }
 
 // Struct definition

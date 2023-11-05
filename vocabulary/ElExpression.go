@@ -4,7 +4,8 @@ package vocabulary
 
 // Interface definition
 type IElExpression interface {
-	EvalType() IBmmType
+	//EL_EXPRESSION
+	//EvalType() IBmmType //abstract
 	IsBoolean() bool
 }
 
@@ -16,29 +17,7 @@ type ElExpression struct {
 }
 
 // CONSTRUCTOR
-func NewElExpression() *ElExpression {
-	elexpression := new(ElExpression)
-	// Constants
-	return elexpression
-}
-
-// BUILDER
-type ElExpressionBuilder struct {
-	elexpression *ElExpression
-}
-
-func NewElExpressionBuilder() *ElExpressionBuilder {
-	return &ElExpressionBuilder{
-		elexpression: NewElExpression(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *ElExpressionBuilder) Build() *ElExpression {
-	return i.elexpression
-}
-
+//abstract, no constructor, no builder
 //FUNCTIONS
 /**
 Meta-type of expression entity used in type-checking and evaluation. Effected in
