@@ -25,7 +25,7 @@ type BmmOperator struct {
 // CONSTRUCTOR
 func NewBmmOperator() *BmmOperator {
 	bmmoperator := new(BmmOperator)
-	// Constants
+	bmmoperator.Symbols = make([]string, 0)
 	return bmmoperator
 }
 

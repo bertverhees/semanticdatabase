@@ -4,24 +4,25 @@ package vocabulary
 
 // Interface definition
 type IBmmSingleton interface {
-	// From: BMM_STATIC
-	// From: BMM_INSTANTIABLE_FEATURE
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_INSTANTIABLE_FEATURE
+	//BMM_STATIC
+	//BMM_SINGLETON
 }
 
 // Struct definition
 type BmmSingleton struct {
 	// embedded for Inheritance
-	BmmStatic
-	BmmInstantiableFeature
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmInstantiableFeature
+	BmmStatic
 	// Constants
 	// Attributes
 	// Generator of the value of this static property.
@@ -32,10 +33,13 @@ type BmmSingleton struct {
 func NewBmmSingleton() *BmmSingleton {
 	bmmsingleton := new(BmmSingleton)
 	//BmmFormalElement
+	//default, no constant
+	bmmsingleton.IsNullable = false
 	//BmmModelElement
 	bmmsingleton.Documentation = make(map[string]any)
 	bmmsingleton.Extensions = make(map[string]any)
 	//BmmFeature
+	bmmsingleton.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
 	//BmmStatic
 

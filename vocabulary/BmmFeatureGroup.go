@@ -11,8 +11,6 @@ type IBmmFeatureGroup interface {
 
 // Struct definition
 type BmmFeatureGroup struct {
-	// embedded for Inheritance
-	// Constants
 	// Attributes
 	// Name of this feature group; defaults to 'feature'.
 	Name string `yaml:"name" json:"name" xml:"name"`

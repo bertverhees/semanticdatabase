@@ -7,22 +7,24 @@ Automatically declared variable representing result of a Function call
 
 // Interface definition
 type IBmmResult interface {
-	// From: BMM_WRITABLE_VARIABLE
-	// From: BMM_VARIABLE
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_VARIABLE
+	Scope() IBmmRoutine
+	//BMM_WRITEABLE_VARIABLE
+	//BMM_RESULT
 }
 
 // Struct definition
 type BmmResult struct {
 	// embedded for Inheritance
-	BmmWritableVariable
-	BmmVariable
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmVariable
+	BmmWritableVariable
 	// Constants
 	// Attributes
 	// Name of this model element.
@@ -32,7 +34,13 @@ type BmmResult struct {
 // CONSTRUCTOR
 func NewBmmResult() *BmmResult {
 	bmmresult := new(BmmResult)
-	// Constants
+	//BmmModelElement
+	bmmresult.Documentation = make(map[string]any)
+	bmmresult.Extensions = make(map[string]any)
+	//BmmFormalElement
+	//default, no constant
+	bmmresult.IsNullable = false
+
 	return bmmresult
 }
 

@@ -7,22 +7,24 @@ instance. Typically called 'self' or 'this' in programming languages. Read-only.
 
 // Interface definition
 type IBmmSelf interface {
-	// From: BMM_READONLY_VARIABLE
-	// From: BMM_VARIABLE
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_VARIABLE
+	Scope() IBmmRoutine
+	//BMM_READONLY_VARIABLE
+	//BMM_SELF
 }
 
 // Struct definition
 type BmmSelf struct {
 	// embedded for Inheritance
-	BmmReadonlyVariable
-	BmmVariable
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmVariable
+	BmmReadonlyVariable
 	// Constants
 	// Attributes
 	// Name of this model element.
@@ -32,7 +34,14 @@ type BmmSelf struct {
 // CONSTRUCTOR
 func NewBmmSelf() *BmmSelf {
 	bmmself := new(BmmSelf)
-	// Constants
+	//BmmModelElement
+	bmmself.Documentation = make(map[string]any)
+	bmmself.Extensions = make(map[string]any)
+	//BmmFormalElement
+	//default, no constant
+	bmmself.IsNullable = false
+	//default, no constant
+	bmmself.Name = "Self"
 	return bmmself
 }
 

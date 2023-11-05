@@ -8,26 +8,27 @@ import (
 
 // Interface definition
 type IBmmUnitaryProperty interface {
-	// From: BMM_PROPERTY
-	Existence() *base.MultiplicityInterval[int]
-	DisplayName() string
-	// From: BMM_INSTANTIABLE_FEATURE
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_INSTANTIABLE_FEATURE
+	//BMM_PROPERTY
+	Existence() *base.MultiplicityInterval[int]
+	DisplayName() string
+	//BMM_UNITARY_PROPERTY
 }
 
 // Struct definition
 type BmmUnitaryProperty struct {
 	// embedded for Inheritance
-	BmmProperty
-	BmmInstantiableFeature
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmInstantiableFeature
+	BmmProperty
 	// Constants
 	// Attributes
 	// Declared or inferred static type of the entity.
@@ -37,7 +38,22 @@ type BmmUnitaryProperty struct {
 // CONSTRUCTOR
 func NewBmmUnitaryProperty() *BmmUnitaryProperty {
 	bmmunitaryproperty := new(BmmUnitaryProperty)
-	// Constants
+	//BmmFormalElement
+	//default, no constant
+	bmmunitaryproperty.IsNullable = false
+	//BmmModelElement
+	bmmunitaryproperty.Documentation = make(map[string]any)
+	bmmunitaryproperty.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmunitaryproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	//BmmInstantiableFeature
+	//BmmProperty
+	//default, no constant
+	bmmunitaryproperty.IsImRuntime = false
+	//default, no constant
+	bmmunitaryproperty.IsImInfrastructure = false
+	//default, no constant
+	bmmunitaryproperty.IsComposition = false
 	return bmmunitaryproperty
 }
 

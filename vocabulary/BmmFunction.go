@@ -8,23 +8,23 @@ non-state-changing.
 
 // Interface definition
 type IBmmFunction interface {
-	// From: BMM_ROUTINE
-	Arity() int
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_ROUTINE
+	Arity() int
 }
 
 // Struct definition
 type BmmFunction struct {
 	// embedded for Inheritance
-	BmmRoutine
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmRoutine
 	// Constants
 	// Attributes
 	/**
@@ -39,6 +39,19 @@ type BmmFunction struct {
 // CONSTRUCTOR
 func NewBmmFunction() *BmmFunction {
 	bmmfunction := new(BmmFunction)
+	//BmmFormalElement
+	//default, no constant
+	bmmfunction.IsNullable = false
+	//BmmModelElement
+	bmmfunction.Documentation = make(map[string]any)
+	bmmfunction.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmfunction.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	//BmmRoutine
+	bmmfunction.Parameters = make([]IBmmParameter, 0)
+	bmmfunction.PreConditions = make([]IBmmAssertion, 0)
+	bmmfunction.PostConditions = make([]IBmmAssertion, 0)
+
 	return bmmfunction
 }
 

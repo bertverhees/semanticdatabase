@@ -8,26 +8,27 @@ import (
 
 // Interface definition
 type IBmmContainerProperty interface {
-	DisplayName() string
-	// From: BMM_PROPERTY
-	Existence() base.MultiplicityInterval[int]
-	// From: BMM_INSTANTIABLE_FEATURE
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_INSTANTIABLE_FEATURE
+	//BMM_PROPERTY
+	Existence() *base.MultiplicityInterval[int]
+	//BMM_CONTAINER_PROPERTY
+	DisplayName() string //redefined
 }
 
 // Struct definition
 type BmmContainerProperty struct {
 	// embedded for Inheritance
-	BmmProperty
-	BmmInstantiableFeature
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmInstantiableFeature
+	BmmProperty
 	// Constants
 	// Attributes
 	// Cardinality of this container.
@@ -39,7 +40,22 @@ type BmmContainerProperty struct {
 // CONSTRUCTOR
 func NewBmmContainerProperty() *BmmContainerProperty {
 	bmmcontainerproperty := new(BmmContainerProperty)
-	// Constants
+	//BmmFormalElement
+	//default, no constant
+	bmmcontainerproperty.IsNullable = false
+	//BmmModelElement
+	bmmcontainerproperty.Documentation = make(map[string]any)
+	bmmcontainerproperty.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmcontainerproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	//BmmInstantiableFeature
+	//BmmProperty
+	//default, no constant
+	bmmcontainerproperty.IsImRuntime = false
+	//default, no constant
+	bmmcontainerproperty.IsImInfrastructure = false
+	//default, no constant
+	bmmcontainerproperty.IsComposition = false
 	return bmmcontainerproperty
 }
 

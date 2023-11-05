@@ -4,6 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmRoutineDefinition interface {
+	//BMM_ROUTINE_DEFINITION
 }
 
 // Struct definition
@@ -13,27 +14,6 @@ type BmmRoutineDefinition struct {
 	// Attributes
 }
 
-//CONSTRUCTOR
-func NewBmmRoutineDefinition() *BmmRoutineDefinition {
-	bmmroutinedefinition := new(BmmRoutineDefinition)
-	// Constants
-	return bmmroutinedefinition
-}
-//BUILDER
-type BmmRoutineDefinitionBuilder struct {
-	bmmroutinedefinition *BmmRoutineDefinition
-}
-
-func NewBmmRoutineDefinitionBuilder() *BmmRoutineDefinitionBuilder {
-	 return &BmmRoutineDefinitionBuilder {
-		bmmroutinedefinition : NewBmmRoutineDefinition(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *BmmRoutineDefinitionBuilder) Build() *BmmRoutineDefinition {
-	 return i.bmmroutinedefinition
-}
-
+// CONSTRUCTOR
+// abstract, no constructor, no builder
 //FUNCTIONS

@@ -4,22 +4,24 @@ package vocabulary
 
 // Interface definition
 type IBmmLocal interface {
-	// From: BMM_WRITABLE_VARIABLE
-	// From: BMM_VARIABLE
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_VARIABLE
+	Scope() IBmmRoutine
+	//BMM_WRITEABLE_VARIABLE
+	//BMM_LOCAL
 }
 
 // Struct definition
 type BmmLocal struct {
 	// embedded for Inheritance
-	BmmWritableVariable
-	BmmVariable
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmVariable
+	BmmWritableVariable
 	// Constants
 	// Attributes
 }
@@ -27,7 +29,13 @@ type BmmLocal struct {
 // CONSTRUCTOR
 func NewBmmLocal() *BmmLocal {
 	bmmlocal := new(BmmLocal)
-	// Constants
+	//BmmModelElement
+	bmmlocal.Documentation = make(map[string]any)
+	bmmlocal.Extensions = make(map[string]any)
+	//BmmFormalElement
+	//default, no constant
+	bmmlocal.IsNullable = false
+
 	return bmmlocal
 }
 

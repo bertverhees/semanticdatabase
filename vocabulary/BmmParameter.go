@@ -4,22 +4,24 @@ package vocabulary
 
 // Interface definition
 type IBmmParameter interface {
-	// From: BMM_READONLY_VARIABLE
-	// From: BMM_VARIABLE
+	// From: BMM_MODEL_ELEMENT
+	IsRootScope() bool
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	//BMM_VARIABLE
+	Scope() IBmmRoutine
+	//BMM_READONLY_VARIABLE
+	//BMM_PARAMETER
 }
 
 // Struct definition
 type BmmParameter struct {
 	// embedded for Inheritance
-	BmmReadonlyVariable
-	BmmVariable
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmVariable
+	BmmReadonlyVariable
 	// Constants
 	// Attributes
 	/**
@@ -32,7 +34,12 @@ type BmmParameter struct {
 // CONSTRUCTOR
 func NewBmmParameter() *BmmParameter {
 	bmmparameter := new(BmmParameter)
-	// Constants
+	//BmmModelElement
+	bmmparameter.Documentation = make(map[string]any)
+	bmmparameter.Extensions = make(map[string]any)
+	//BmmFormalElement
+	//default, no constant
+	bmmparameter.IsNullable = false
 	return bmmparameter
 }
 

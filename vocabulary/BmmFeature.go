@@ -4,18 +4,19 @@ package vocabulary
 
 // Interface definition
 type IBmmFeature interface {
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
 }
 
 // Struct definition
 type BmmFeature struct {
 	// embedded for Inheritance
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
 	// Constants
 	// Attributes
 	/**

@@ -8,24 +8,25 @@ value, or may be any expression, including a function call.
 
 // Interface definition
 type IBmmConstant interface {
-	// From: BMM_STATIC
-	// From: BMM_INSTANTIABLE_FEATURE
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_INSTANTIABLE_FEATURE
+	//BMM_STATIC
+	//BMM_CONSTANT
 }
 
 // Struct definition
 type BmmConstant struct {
 	// embedded for Inheritance
-	BmmStatic
-	BmmInstantiableFeature
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmInstantiableFeature
+	BmmStatic
 	// Constants
 	// Attributes
 	// Literal value of the constant.
@@ -36,6 +37,8 @@ type BmmConstant struct {
 func NewBmmConstant() *BmmConstant {
 	bmmconstant := new(BmmConstant)
 	//BmmFormalElement
+	//default, no constant
+	bmmconstant.IsNullable = false
 	//BmmModelElement
 	bmmconstant.Documentation = make(map[string]any)
 	bmmconstant.Extensions = make(map[string]any)

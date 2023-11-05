@@ -9,27 +9,29 @@ T> etc.
 
 // Interface definition
 type IBmmIndexedContainerProperty interface {
-	DisplayName() string
-	// From: BMM_PROPERTY
-	Existence() *base.MultiplicityInterval[int]
-	// From: BMM_INSTANTIABLE_FEATURE
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_INSTANTIABLE_FEATURE
+	//BMM_PROPERTY
+	Existence() *base.MultiplicityInterval[int]
+	//BMM_CONTAINER_PROPERTY
+	//BMM_INDEXED_CONTAINER_PROPERTY
+	DisplayName() string //redefined
 }
 
 // Struct definition
 type BmmIndexedContainerProperty struct {
 	// embedded for Inheritance
-	BmmContainerProperty
-	BmmProperty
-	BmmInstantiableFeature
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmInstantiableFeature
+	BmmProperty
+	BmmContainerProperty
 	// Constants
 	// Attributes
 	// Declared or inferred static type of the entity.
@@ -39,7 +41,22 @@ type BmmIndexedContainerProperty struct {
 // CONSTRUCTOR
 func NewBmmIndexedContainerProperty() *BmmIndexedContainerProperty {
 	bmmindexedcontainerproperty := new(BmmIndexedContainerProperty)
-	// Constants
+	//BmmFormalElement
+	//default, no constant
+	bmmindexedcontainerproperty.IsNullable = false
+	//BmmModelElement
+	bmmindexedcontainerproperty.Documentation = make(map[string]any)
+	bmmindexedcontainerproperty.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmindexedcontainerproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	//BmmInstantiableFeature
+	//BmmProperty
+	//default, no constant
+	bmmindexedcontainerproperty.IsImRuntime = false
+	//default, no constant
+	bmmindexedcontainerproperty.IsImInfrastructure = false
+	//default, no constant
+	bmmindexedcontainerproperty.IsComposition = false
 	return bmmindexedcontainerproperty
 }
 

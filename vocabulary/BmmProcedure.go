@@ -9,23 +9,23 @@ usually called in the form name ({arg:TArg}*) .
 
 // Interface definition
 type IBmmProcedure interface {
-	Signature() IBmmProcedureType
-	// From: BMM_ROUTINE
-	Arity() int
-	// From: BMM_FEATURE
-	// From: BMM_FORMAL_ELEMENT
-	IsBoolean() bool
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	// BMM_FORMAL_ELEMENT
+	Signature() IBmmSignature
+	IsBoolean() bool
+	//BMM_FEATURE
+	//BMM_ROUTINE
+	Arity() int
 }
 
 // Struct definition
 type BmmProcedure struct {
 	// embedded for Inheritance
-	BmmRoutine
-	BmmFeature
-	BmmFormalElement
 	BmmModelElement
+	BmmFormalElement
+	BmmFeature
+	BmmRoutine
 	// Constants
 	// Attributes
 	// Declared or inferred static type of the entity.
@@ -35,7 +35,19 @@ type BmmProcedure struct {
 // CONSTRUCTOR
 func NewBmmProcedure() *BmmProcedure {
 	bmmprocedure := new(BmmProcedure)
-	// Constants
+	//BmmFormalElement
+	//default, no constant
+	bmmprocedure.IsNullable = false
+	//BmmModelElement
+	bmmprocedure.Documentation = make(map[string]any)
+	bmmprocedure.Extensions = make(map[string]any)
+	//BmmFeature
+	bmmprocedure.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	//BmmRoutine
+	bmmprocedure.Parameters = make([]IBmmParameter, 0)
+	bmmprocedure.PreConditions = make([]IBmmAssertion, 0)
+	bmmprocedure.PostConditions = make([]IBmmAssertion, 0)
+
 	return bmmprocedure
 }
 

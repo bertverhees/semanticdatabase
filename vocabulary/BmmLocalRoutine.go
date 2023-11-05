@@ -5,6 +5,7 @@ package vocabulary
 // Interface definition
 type IBmmLocalRoutine interface {
 	// From: BMM_ROUTINE_DEFINITION
+	//BMM_LOCAL_ROUTINE
 }
 
 // Struct definition
@@ -22,7 +23,8 @@ type BmmLocalRoutine struct {
 // CONSTRUCTOR
 func NewBmmLocalRoutine() *BmmLocalRoutine {
 	bmmlocalroutine := new(BmmLocalRoutine)
-	// Constants
+	//BmmLocal
+	bmmlocalroutine.Locals = make([]IBmmLocal, 0)
 	return bmmlocalroutine
 }
 
