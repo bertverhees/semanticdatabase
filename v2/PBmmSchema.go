@@ -13,7 +13,7 @@ type IPBmmSchema interface {
 	Post_state: passed implies state = State_validated_created
 	Implementation of validate_created()
 	*/
-	ValidateCreatedPreState()
+	ValidateCreated()
 	/**
 	Pre_state: state = State_validated_created
 	Post_state: state = State_includes_processed or state = State_includes_pending
@@ -34,13 +34,6 @@ type IPBmmSchema interface {
 	*/
 	CreateBmmModel()
 	CanonicalPackages() IPBmmPackage
-	// From: P_BMM_PACKAGE_CONTAINER
-	// From: BMM_SCHEMA
-	/**
-	Post_state: state = State_includes_processed
-	True when validation may be commenced.
-	*/
-	ReadToValidate() bool
 	/**
 	Identifier of this schema, used for stating inclusions and identifying files. Formed as:
 	{BMM_DEFINITIONS}.create_schema_id ( rm_publisher, schema_name, rm_release)
@@ -213,16 +206,28 @@ func (i *PBmmSchemaBuilder) Build() *PBmmSchema {
 
 // FUNCTIONS
 // Implementation of validate_created()
+/*
+Pre_state: state = State_created
+Post_state: passed implies state = State_validated_created
+*/
 func (p *PBmmSchema) ValidateCreated() {
 	return
 }
 
 // Implementation of load_finalise()
+/*
+Pre_state: state = State_validated_created
+Post_state: state = State_includes_processed or state = State_includes_pending
+*/
 func (p *PBmmSchema) LoadFinalise() {
 	return
 }
 
 // Implementation of merge()
+/*
+Pre_state: state = State_includes_pending
+Pre_other_valid: includes_to_process.has (included_schema.schema_id)
+*/
 func (b *PBmmSchema) Merge(other IPBmmSchema) {
 	return
 }
@@ -233,7 +238,10 @@ func (p *PBmmSchema) Validate() {
 }
 
 // Implementation of create_bmm_model()
-func (p *PBmmSchema) CreateBmmModelPreState() {
+/*
+Pre_state: state = P_BMM_PACKAGE_STATE.State_includes_processed
+*/
+func (p *PBmmSchema) CreateBmmModel() {
 	return
 }
 

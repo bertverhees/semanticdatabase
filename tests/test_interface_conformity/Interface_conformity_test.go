@@ -315,7 +315,7 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		{"BmmActionTable should conform to IBmmStatement", new(vocabulary.BmmActionTable), new(vocabulary.IBmmStatement)},
 		{"BmmActionTable should conform to IBmmStatementItem", new(vocabulary.BmmActionTable), new(vocabulary.IBmmStatementItem)},
 		{"PBmmSchema should conform to IPBmmPackageContainer", new(v2.PBmmSchema), new(v2.IPBmmPackageContainer)},
-		{"PBmmSchema should conform to IBmmSchema", new(v2.PBmmSchema), new(v2.IPBmmSchema)},
+		{"PBmmSchema should conform to IPBmmSchema", new(v2.PBmmSchema), new(v2.IPBmmSchema)},
 		{"PBmmSchema should conform to IBmmSchema", new(v2.PBmmSchema), new(vocabulary.IBmmSchema)},
 		{"PBmmSchema should conform to IBmmModelMetadata", new(v2.PBmmSchema), new(vocabulary.IBmmModelMetadata)},
 		{"PBmmPackage should conform to IPBmmPackageContainer", new(v2.PBmmPackage), new(v2.IPBmmPackageContainer)},
