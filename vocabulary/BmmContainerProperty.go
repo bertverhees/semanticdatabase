@@ -35,6 +35,7 @@ type BmmContainerProperty struct {
 	Cardinality *base.MultiplicityInterval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
 	// Declared or inferred static type of the entity.
 	Type IBmmContainerType `yaml:"type" json:"type" xml:"type"`
+	Name string            `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR

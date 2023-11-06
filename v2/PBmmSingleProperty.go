@@ -33,13 +33,12 @@ type PBmmSingleProperty struct {
 	*/
 	TypeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty vocabulary.IBmmUnitaryProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty vocabulary.IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
 func NewPBmmSingleProperty() *PBmmSingleProperty {
 	pbmmsingleproperty := new(PBmmSingleProperty)
-	// Constants
 	return pbmmsingleproperty
 }
 
@@ -121,7 +120,7 @@ func (i *PBmmSinglePropertyBuilder) SetIsImRuntime(v bool) *PBmmSinglePropertyBu
 
 // From: PBmmProperty
 // BMM_PROPERTY created by create_bmm_property_definition.
-func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v vocabulary.IBmmProperty) *PBmmSinglePropertyBuilder {
+func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v vocabulary.IBmmSimpleType) *PBmmSinglePropertyBuilder {
 	i.pbmmsingleproperty.BmmProperty = v
 	return i
 }

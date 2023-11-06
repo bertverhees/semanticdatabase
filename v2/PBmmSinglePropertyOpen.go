@@ -34,7 +34,7 @@ type PBmmSinglePropertyOpen struct {
 	*/
 	Type string `yaml:"type" json:"type" xml:"type"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty vocabulary.IBmmUnitaryProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty vocabulary.IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -78,7 +78,7 @@ func (i *PBmmSinglePropertyOpenBuilder) SetType(v string) *PBmmSinglePropertyOpe
 }
 
 // BMM_PROPERTY created by create_bmm_property_definition .
-func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v vocabulary.IBmmUnitaryProperty) *PBmmSinglePropertyOpenBuilder {
+func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v vocabulary.IBmmSimpleType) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.BmmProperty = v
 	return i
 }

@@ -33,6 +33,7 @@ type BmmUnitaryProperty struct {
 	// Attributes
 	// Declared or inferred static type of the entity.
 	Type IBmmUnitaryType `yaml:"type" json:"type" xml:"type"`
+	Name string          `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR

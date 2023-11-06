@@ -36,6 +36,7 @@ type BmmIndexedContainerProperty struct {
 	// Attributes
 	// Declared or inferred static type of the entity.
 	Type IBmmIndexedContainerType `yaml:"type" json:"type" xml:"type"`
+	Name string                   `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR

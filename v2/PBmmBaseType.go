@@ -21,41 +21,7 @@ type PBmmBaseType struct {
 }
 
 // CONSTRUCTOR
-func NewPBmmBaseType() *PBmmBaseType {
-	pbmmbasetype := new(PBmmBaseType)
-	// Constants
-	// From: PBmmType
-	return pbmmbasetype
-}
-
-// BUILDER
-type PBmmBaseTypeBuilder struct {
-	pbmmbasetype *PBmmBaseType
-}
-
-func NewPBmmBaseTypeBuilder() *PBmmBaseTypeBuilder {
-	return &PBmmBaseTypeBuilder{
-		pbmmbasetype: NewPBmmBaseType(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-func (i *PBmmBaseTypeBuilder) SetValueConstraint(v string) *PBmmBaseTypeBuilder {
-	i.pbmmbasetype.ValueConstraint = v
-	return i
-}
-
-// //From: PBmmType
-// Result of create_bmm_type() call.
-func (i *PBmmBaseTypeBuilder) SetBmmType(v vocabulary.IBmmType) *PBmmBaseTypeBuilder {
-	i.pbmmbasetype.BmmType = v
-	return i
-}
-
-func (i *PBmmBaseTypeBuilder) Build() *PBmmBaseType {
-	return i.pbmmbasetype
-}
-
+// abstract, no constructor, no builder
 // FUNCTIONS
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.

@@ -8,6 +8,7 @@ import (
 
 // Interface definition
 type IPBmmGenericType interface {
+	//P_BMM_GENERIC_TYPE
 	GenericParameterRefs() []IPBmmType
 	// From: P_BMM_BASE_TYPE
 	// From: P_BMM_TYPE
@@ -43,7 +44,8 @@ type PBmmGenericType struct {
 // CONSTRUCTOR
 func NewPBmmGenericType() *PBmmGenericType {
 	pbmmgenerictype := new(PBmmGenericType)
-	// Constants
+	pbmmgenerictype.GenericParameterDefs = make([]IPBmmType, 0)
+	pbmmgenerictype.GenericParameters = make([]string, 0)
 	return pbmmgenerictype
 }
 

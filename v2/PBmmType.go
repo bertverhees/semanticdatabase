@@ -8,6 +8,7 @@ import (
 
 // Interface definition
 type IPBmmType interface {
+	//P_BMM_TYPE
 	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
 	AsTypeString() string
 }
@@ -22,33 +23,7 @@ type PBmmType struct {
 }
 
 // CONSTRUCTOR
-func NewPBmmType() *PBmmType {
-	pbmmtype := new(PBmmType)
-	return pbmmtype
-}
-
-// BUILDER
-type PBmmTypeBuilder struct {
-	pbmmtype *PBmmType
-}
-
-func NewPBmmTypeBuilder() *PBmmTypeBuilder {
-	return &PBmmTypeBuilder{
-		pbmmtype: NewPBmmType(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// Result of create_bmm_type() call.
-func (i *PBmmTypeBuilder) SetBmmType(v vocabulary.IBmmType) *PBmmTypeBuilder {
-	i.pbmmtype.BmmType = v
-	return i
-}
-
-func (i *PBmmTypeBuilder) Build() *PBmmType {
-	return i.pbmmtype
-}
-
+// abstract, no constructor, no builder
 // FUNCTIONS
 // Create appropriate BMM_XXX object; effected in descendants.
 func (p *PBmmType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {

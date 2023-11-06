@@ -31,6 +31,14 @@ type BmmProperty struct {
 	BmmInstantiableFeature
 	// Constants
 	// Attributes
+	//Name of this property in the model.
+	Name string `yaml:"name" json:"name" xml:"name"`
+	//True if this property is mandatory in its class.
+	IsMandatory bool
+	//True if this property is computed rather than stored in objects of this class.
+	IsComputed bool
+	//Formal type of this property.
+	Type IBmmType
 	// True if this property is marked with info model im_runtime property.
 	IsImRuntime bool `yaml:"isimruntime" json:"isimruntime" xml:"isimruntime"`
 	// True if this property was marked with info model im_infrastructure flag.

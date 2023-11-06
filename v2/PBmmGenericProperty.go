@@ -26,7 +26,7 @@ type PBmmGenericProperty struct {
 	*/
 	TypeDef IPBmmGenericType `yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty vocabulary.IBmmUnitaryProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty vocabulary.IBmmGenericType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -60,7 +60,7 @@ func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGeneric
 }
 
 // BMM_PROPERTY created by create_bmm_property_definition .
-func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v vocabulary.IBmmUnitaryProperty) *PBmmGenericPropertyBuilder {
+func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v vocabulary.IBmmGenericType) *PBmmGenericPropertyBuilder {
 	i.pbmmgenericproperty.BmmProperty = v
 	return i
 }

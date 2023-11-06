@@ -18,7 +18,6 @@ type IPBmmContainerType interface {
 type PBmmContainerType struct {
 	// embedded for Inheritance
 	PBmmType
-	// Constants
 	// Attributes
 	/**
 	The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
@@ -42,8 +41,6 @@ type PBmmContainerType struct {
 // CONSTRUCTOR
 func NewPBmmContainerType() *PBmmContainerType {
 	pbmmcontainertype := new(PBmmContainerType)
-	// Constants
-	// From: PBmmType
 	return pbmmcontainertype
 }
 

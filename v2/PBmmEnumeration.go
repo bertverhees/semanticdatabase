@@ -8,6 +8,7 @@ import (
 
 // Interface definition
 type IPBmmEnumeration interface {
+
 	// From: P_BMM_CLASS
 	IsGeneric() bool
 	CreateBmmClass()
