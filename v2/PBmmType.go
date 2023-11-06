@@ -24,7 +24,6 @@ type PBmmType struct {
 // CONSTRUCTOR
 func NewPBmmType() *PBmmType {
 	pbmmtype := new(PBmmType)
-	// Constants
 	return pbmmtype
 }
 

@@ -16,7 +16,6 @@ type IPBmmGenericParameter interface {
 type PBmmGenericParameter struct {
 	// embedded for Inheritance
 	PBmmModelElement
-	// Constants
 	// Attributes
 	/**
 	Name of the parameter, e.g. 'T' etc. Persisted attribute. Name is limited to 1
@@ -35,8 +34,6 @@ type PBmmGenericParameter struct {
 // CONSTRUCTOR
 func NewPBmmGenericParameter() *PBmmGenericParameter {
 	pbmmgenericparameter := new(PBmmGenericParameter)
-	// Constants
-	// From: PBmmModelElement
 	return pbmmgenericparameter
 }
 

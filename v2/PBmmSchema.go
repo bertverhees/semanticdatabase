@@ -59,7 +59,13 @@ type PBmmSchema struct {
 // CONSTRUCTOR
 func NewPBmmSchema() *PBmmSchema {
 	pbmmschema := new(PBmmSchema)
-	// Constants
+	pbmmschema.PrimitiveTypes = make([]IPBmmClass, 0)
+	pbmmschema.ClassDefinitions = make([]IPBmmClass, 0)
+	//PBmmPackageContainer
+	pbmmschema.Packages = make(map[string]IPBmmPackage)
+	//BmmSchema
+	pbmmschema.Includes = make(map[string]vocabulary.IBmmIncludeSpec)
+	pbmmschema.SchemaContributors = make([]string, 0)
 	return pbmmschema
 }
 
@@ -92,7 +98,7 @@ func (i *PBmmSchemaBuilder) SetClassDefinitions(v []IPBmmClass) *PBmmSchemaBuild
 Package structure as a hierarchy of packages each potentially containing names
 of classes in that package in the original model.
 */
-func (i *PBmmSchemaBuilder) SetPackages(v map[IPBmmPackage]string) *PBmmSchemaBuilder {
+func (i *PBmmSchemaBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmSchemaBuilder {
 	i.pbmmschema.Packages = v
 	return i
 }

@@ -19,7 +19,6 @@ type IPBmmClass interface {
 type PBmmClass struct {
 	// embedded for Inheritance
 	PBmmModelElement
-	// Constants
 	// Attributes
 	// Name of the class. Persisted attribute.
 	Name string `yaml:"name" json:"name" xml:"name"`
@@ -57,14 +56,15 @@ type PBmmClass struct {
 	List of structured inheritance ancestors, used only in the case of generic
 	inheritance. Persisted attribute.
 	*/
-	AncestorDefs []IPBmmGenericType `yaml:"ancestordefs" json:"ancestordefs" xml:"ancestordefs"`
+	//AncestorDefs []IPBmmGenericType `yaml:"ancestordefs" json:"ancestordefs" xml:"ancestordefs"`
 }
 
 // CONSTRUCTOR
 func NewPBmmClass() *PBmmClass {
 	pbmmclass := new(PBmmClass)
-	// Constants
-	// From: PBmmModelElement
+	pbmmclass.Ancestors = make([]string, 0)
+	pbmmclass.Properties = make(map[string]IPBmmProperty)
+	pbmmclass.GenericParameterDefs = make(map[string]IPBmmGenericParameter)
 	return pbmmclass
 }
 
@@ -157,10 +157,10 @@ func (i *PBmmClassBuilder) SetUid(v int) *PBmmClassBuilder {
 List of structured inheritance ancestors, used only in the case of generic
 inheritance. Persisted attribute.
 */
-func (i *PBmmClassBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmClassBuilder {
-	i.pbmmclass.AncestorDefs = v
-	return i
-}
+//func (i *PBmmClassBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmClassBuilder {
+//	i.pbmmclass.AncestorDefs = v
+//	return i
+//}
 
 // //From: PBmmModelElement
 // Optional documentation of this element.

@@ -20,9 +20,8 @@ type IPBmmPackage interface {
 // Struct definition
 type PBmmPackage struct {
 	// embedded for Inheritance
-	PBmmPackageContainer
 	PBmmModelElement
-	// Constants
+	PBmmPackageContainer
 	// Attributes
 	/**
 	Name of the package from schema; this name may be qualified if it is a top-level
@@ -38,7 +37,7 @@ type PBmmPackage struct {
 // CONSTRUCTOR
 func NewPBmmPackage() *PBmmPackage {
 	pbmmpackage := new(PBmmPackage)
-	// Constants
+	pbmmpackage.Classes = make([]string, 0)
 	return pbmmpackage
 }
 
@@ -80,7 +79,7 @@ func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v vocabulary.IBmmPackage) *
 Package structure as a hierarchy of packages each potentially containing names
 of classes in that package in the original model.
 */
-func (i *PBmmPackageBuilder) SetPackages(v map[IPBmmPackage]string) *PBmmPackageBuilder {
+func (i *PBmmPackageBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageBuilder {
 	i.pbmmpackage.Packages = v
 	return i
 }

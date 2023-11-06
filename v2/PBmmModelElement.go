@@ -16,32 +16,4 @@ type PBmmModelElement struct {
 }
 
 // CONSTRUCTOR
-func NewPBmmModelElement() *PBmmModelElement {
-	pbmmmodelelement := new(PBmmModelElement)
-	// Constants
-	return pbmmmodelelement
-}
-
-// BUILDER
-type PBmmModelElementBuilder struct {
-	pbmmmodelelement *PBmmModelElement
-}
-
-func NewPBmmModelElementBuilder() *PBmmModelElementBuilder {
-	return &PBmmModelElementBuilder{
-		pbmmmodelelement: NewPBmmModelElement(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// Optional documentation of this element.
-func (i *PBmmModelElementBuilder) SetDocumentation(v string) *PBmmModelElementBuilder {
-	i.pbmmmodelelement.Documentation = v
-	return i
-}
-
-func (i *PBmmModelElementBuilder) Build() *PBmmModelElement {
-	return i.pbmmmodelelement
-}
-
-//FUNCTIONS
+//abstract, no constructor, no builder

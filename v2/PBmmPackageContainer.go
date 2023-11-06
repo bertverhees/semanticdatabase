@@ -15,13 +15,13 @@ type PBmmPackageContainer struct {
 	Package structure as a hierarchy of packages each potentially containing names
 	of classes in that package in the original model.
 	*/
-	Packages map[IPBmmPackage]string `yaml:"packages" json:"packages" xml:"packages"`
+	Packages map[string]IPBmmPackage `yaml:"packages" json:"packages" xml:"packages"`
 }
 
 // CONSTRUCTOR
 func NewPBmmPackageContainer() *PBmmPackageContainer {
 	pbmmpackagecontainer := new(PBmmPackageContainer)
-	// Constants
+	pbmmpackagecontainer.Packages = make(map[string]IPBmmPackage)
 	return pbmmpackagecontainer
 }
 
@@ -41,7 +41,7 @@ func NewPBmmPackageContainerBuilder() *PBmmPackageContainerBuilder {
 Package structure as a hierarchy of packages each potentially containing names
 of classes in that package in the original model.
 */
-func (i *PBmmPackageContainerBuilder) SetPackages(v map[IPBmmPackage]string) *PBmmPackageContainerBuilder {
+func (i *PBmmPackageContainerBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageContainerBuilder {
 	i.pbmmpackagecontainer.Packages = v
 	return i
 }

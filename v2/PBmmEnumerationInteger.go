@@ -140,10 +140,10 @@ func (i *PBmmEnumerationIntegerBuilder) SetUid(v int) *PBmmEnumerationIntegerBui
 List of structured inheritance ancestors, used only in the case of generic
 inheritance. Persisted attribute.
 */
-func (i *PBmmEnumerationIntegerBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.AncestorDefs = v
-	return i
-}
+//func (i *PBmmEnumerationIntegerBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmEnumerationIntegerBuilder {
+//	i.pbmmenumerationinteger.AncestorDefs = v
+//	return i
+//}
 
 // //From: PBmmModelElement
 // Optional documentation of this element.
