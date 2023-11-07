@@ -1,6 +1,7 @@
 package test_interface_conformity
 
 import (
+	"SemanticDatabase/base"
 	"SemanticDatabase/v2"
 	"SemanticDatabase/vocabulary"
 	"reflect"
@@ -22,7 +23,7 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		c    any
 		i    any
 	}{
-		{"BmmDefinitions should conform to IBasicDefinitions", new(vocabulary.BmmDefinitions), new(vocabulary.IBasicDefinitions)},
+		{"BmmDefinitions should conform to IBasicDefinitions", new(vocabulary.BmmDefinitions), new(base.IBasicDefinitions)},
 		{"BmmSchema should conform to IBmmModelMetadata", new(vocabulary.BmmSchema), new(vocabulary.IBmmModelMetadata)},
 		{"BmmPackageContainer should conform to IBmmModelElement", new(vocabulary.BmmPackageContainer), new(vocabulary.IBmmModelElement)},
 		{"BmmPackage should conform to IBmmPackageContainer", new(vocabulary.BmmPackage), new(vocabulary.IBmmPackageContainer)},

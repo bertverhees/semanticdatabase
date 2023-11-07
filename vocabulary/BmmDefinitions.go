@@ -1,6 +1,9 @@
 package vocabulary
 
-import "strings"
+import (
+	"SemanticDatabase/base"
+	"strings"
+)
 
 // Definitions used by all BMM packages.
 
@@ -61,20 +64,6 @@ const (
 	MetadataSchemaDescription = "schema_description"
 	// Path of schema file.
 	MetadataSchemaPath = "schema_path"
-	// From: BasicDefinitions
-	// Carriage return character.
-	Cr = string(015)
-	// From: BasicDefinitions
-	// Line feed character.
-	Lf = string(012)
-	// From: BasicDefinitions
-	AnyTypeName = "Any"
-	// From: BasicDefinitions
-	RegexAnyPattern = ".*"
-	// From: BasicDefinitions
-	DefaultEncoding = "UTF-8"
-	// From: BasicDefinitions
-	NoneTypeName = "None"
 )
 
 // Interface definition
@@ -88,7 +77,7 @@ type IBmmDefinitions interface {
 // Struct definition
 type BmmDefinitions struct {
 	// embedded for Inheritance
-	BasicDefinitions
+	base.BasicDefinitions
 }
 
 // CONSTRUCTOR
