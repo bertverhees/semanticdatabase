@@ -27,7 +27,7 @@ type BmmModelAccess struct {
 	// List of directories where all the schemas loaded here are found.
 	SchemaDirectories []string `yaml:"schemadirectories" json:"schemadirectories" xml:"schemadirectories"`
 	// All schemas found and loaded from schema_directory . Keyed by schema_id .
-	AllSchemas map[string]vocabulary.IBmmSchemaDescriptor `yaml:"allschemas" json:"allschemas" xml:"allschemas"`
+	AllSchemas map[string]IBmmSchemaDescriptor `yaml:"allschemas" json:"allschemas" xml:"allschemas"`
 	// Top-level (root) models in use, keyed by model_id .
 	BmmModels map[string]vocabulary.IBmmModel `yaml:"bmmmodels" json:"bmmmodels" xml:"bmmmodels"`
 	/**
@@ -43,7 +43,7 @@ type BmmModelAccess struct {
 func NewBmmModelAccess() *BmmModelAccess {
 	bmmmodelaccess := new(BmmModelAccess)
 	bmmmodelaccess.SchemaDirectories = make([]string, 0)
-	bmmmodelaccess.AllSchemas = make(map[string]vocabulary.IBmmSchemaDescriptor)
+	bmmmodelaccess.AllSchemas = make(map[string]IBmmSchemaDescriptor)
 	bmmmodelaccess.BmmModels = make(map[string]vocabulary.IBmmModel)
 	bmmmodelaccess.MatchingBmmModels = make(map[string]vocabulary.IBmmModel)
 	return bmmmodelaccess
@@ -71,7 +71,7 @@ func (i *BmmModelAccessBuilder) SetSchemaDirectories(v []string) *BmmModelAccess
 }
 
 // All schemas found and loaded from schema_directory . Keyed by schema_id .
-func (i *BmmModelAccessBuilder) SetAllSchemas(v map[string]vocabulary.IBmmSchemaDescriptor) *BmmModelAccessBuilder {
+func (i *BmmModelAccessBuilder) SetAllSchemas(v map[string]IBmmSchemaDescriptor) *BmmModelAccessBuilder {
 	i.bmmmodelaccess.AllSchemas = v
 	return i
 }

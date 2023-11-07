@@ -1,6 +1,7 @@
 package v2
 
 import (
+	"SemanticDatabase/model_access"
 	"SemanticDatabase/vocabulary"
 )
 
@@ -47,7 +48,7 @@ type PBmmSchema struct {
 	// embedded for Inheritance
 	PBmmPackageContainer
 	vocabulary.BmmSchema
-	vocabulary.BmmModelMetadata
+	model_access.BmmModelMetadata
 	// Constants
 	// Attributes
 	// Primitive type definitions. Persisted attribute.

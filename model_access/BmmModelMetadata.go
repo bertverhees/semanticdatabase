@@ -1,4 +1,4 @@
-package vocabulary
+package model_access
 
 import "log"
 
@@ -22,7 +22,6 @@ type BmmModelMetadata struct {
 // CONSTRUCTOR
 func NewBmmModelMetadata() *BmmModelMetadata {
 	bmmmodelmetadata := new(BmmModelMetadata)
-	// Constants
 	return bmmmodelmetadata
 }
 

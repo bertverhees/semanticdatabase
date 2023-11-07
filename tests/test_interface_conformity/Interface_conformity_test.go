@@ -2,6 +2,7 @@ package test_interface_conformity
 
 import (
 	"SemanticDatabase/base"
+	"SemanticDatabase/model_access"
 	"SemanticDatabase/v2"
 	"SemanticDatabase/vocabulary"
 	"reflect"
@@ -24,13 +25,13 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		i    any
 	}{
 		{"BmmDefinitions should conform to IBasicDefinitions", new(vocabulary.BmmDefinitions), new(base.IBasicDefinitions)},
-		{"BmmSchema should conform to IBmmModelMetadata", new(vocabulary.BmmSchema), new(vocabulary.IBmmModelMetadata)},
+		{"BmmSchema should conform to IBmmModelMetadata", new(vocabulary.BmmSchema), new(model_access.IBmmModelMetadata)},
 		{"BmmPackageContainer should conform to IBmmModelElement", new(vocabulary.BmmPackageContainer), new(vocabulary.IBmmModelElement)},
 		{"BmmPackage should conform to IBmmPackageContainer", new(vocabulary.BmmPackage), new(vocabulary.IBmmPackageContainer)},
 		{"BmmPackage should conform to IBmmModelElement", new(vocabulary.BmmPackage), new(vocabulary.IBmmModelElement)},
 		{"BmmModel should conform to IBmmPackageContainer", new(vocabulary.BmmModel), new(vocabulary.IBmmPackageContainer)},
 		{"BmmModel should conform to IBmmModelElement", new(vocabulary.BmmModel), new(vocabulary.IBmmModelElement)},
-		{"BmmModel should conform to IBmmModelMetadata", new(vocabulary.BmmModel), new(vocabulary.IBmmModelMetadata)},
+		{"BmmModel should conform to IBmmModelMetadata", new(vocabulary.BmmModel), new(model_access.IBmmModelMetadata)},
 		{"BmmModule should conform to IBmmModelElement", new(vocabulary.BmmModule), new(vocabulary.IBmmModelElement)},
 		{"BmmUnitaryType should conform to IBmmType", new(vocabulary.BmmUnitaryType), new(vocabulary.IBmmType)},
 		{"BmmEffectiveType should conform to IBmmUnitaryType", new(vocabulary.BmmEffectiveType), new(vocabulary.IBmmUnitaryType)},
@@ -318,7 +319,7 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		{"PBmmSchema should conform to IPBmmPackageContainer", new(v2.PBmmSchema), new(v2.IPBmmPackageContainer)},
 		{"PBmmSchema should conform to IPBmmSchema", new(v2.PBmmSchema), new(v2.IPBmmSchema)},
 		{"PBmmSchema should conform to IBmmSchema", new(v2.PBmmSchema), new(vocabulary.IBmmSchema)},
-		{"PBmmSchema should conform to IBmmModelMetadata", new(v2.PBmmSchema), new(vocabulary.IBmmModelMetadata)},
+		{"PBmmSchema should conform to IBmmModelMetadata", new(v2.PBmmSchema), new(model_access.IBmmModelMetadata)},
 		{"PBmmPackage should conform to IPBmmPackageContainer", new(v2.PBmmPackage), new(v2.IPBmmPackageContainer)},
 		{"PBmmPackage should conform to IPBmmModelElement", new(v2.PBmmPackage), new(v2.IPBmmModelElement)},
 		{"PBmmClass should conform to IPBmmModelElement", new(v2.PBmmClass), new(v2.IPBmmModelElement)},

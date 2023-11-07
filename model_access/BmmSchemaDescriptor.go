@@ -1,6 +1,9 @@
-package vocabulary
+package model_access
 
-import "log"
+import (
+	"SemanticDatabase/vocabulary"
+	"log"
+)
 
 /**
 Descriptor for a BMM schema. Contains a meta-data table of attributes obtained
@@ -23,9 +26,9 @@ type BmmSchemaDescriptor struct {
 	// Constants
 	// Attributes
 	// Persistent form of model.
-	BmmSchema IBmmSchema `yaml:"bmmschema" json:"bmmschema" xml:"bmmschema"`
+	BmmSchema vocabulary.IBmmSchema `yaml:"bmmschema" json:"bmmschema" xml:"bmmschema"`
 	// Computable form of model.
-	BmmModel IBmmModel `yaml:"bmmmodel" json:"bmmmodel" xml:"bmmmodel"`
+	BmmModel vocabulary.IBmmModel `yaml:"bmmmodel" json:"bmmmodel" xml:"bmmmodel"`
 	/**
 	Schema id, formed by {BMM_DEFINITIONS}.create_schema_id(
 	meta_data.item({BMM_DEFINITIONS}.Metadata_model_publisher),
@@ -40,13 +43,14 @@ type BmmSchemaDescriptor struct {
 	*/
 	MetaData map[string]string `yaml:"metadata" json:"metadata" xml:"metadata"`
 	// Identifiers of schemas included by this schema.
-	Includes []IBmmIncludeSpec `yaml:"includes" json:"includes" xml:"includes"`
+	Includes []string `yaml:"includes" json:"includes" xml:"includes"`
 }
 
 // CONSTRUCTOR
 func NewBmmSchemaDescriptor() *BmmSchemaDescriptor {
 	bmmschemadescriptor := new(BmmSchemaDescriptor)
-	// Constants
+	bmmschemadescriptor.MetaData = make(map[string]string)
+	bmmschemadescriptor.Includes = make([]string, 0)
 	return bmmschemadescriptor
 }
 
@@ -65,13 +69,13 @@ func NewBmmSchemaDescriptorBuilder() *BmmSchemaDescriptorBuilder {
 
 // BUILDER ATTRIBUTES
 // Persistent form of model.
-func (i *BmmSchemaDescriptorBuilder) SetBmmSchema(v IBmmSchema) *BmmSchemaDescriptorBuilder {
+func (i *BmmSchemaDescriptorBuilder) SetBmmSchema(v vocabulary.IBmmSchema) *BmmSchemaDescriptorBuilder {
 	i.bmmschemadescriptor.BmmSchema = v
 	return i
 }
 
 // Computable form of model.
-func (i *BmmSchemaDescriptorBuilder) SetBmmModel(v IBmmModel) *BmmSchemaDescriptorBuilder {
+func (i *BmmSchemaDescriptorBuilder) SetBmmModel(v vocabulary.IBmmModel) *BmmSchemaDescriptorBuilder {
 	i.bmmschemadescriptor.BmmModel = v
 	return i
 }
@@ -100,7 +104,7 @@ func (i *BmmSchemaDescriptorBuilder) SetMetaData(v map[string]string) *BmmSchema
 }
 
 // Identifiers of schemas included by this schema.
-func (i *BmmSchemaDescriptorBuilder) SetIncludes(v []IBmmIncludeSpec) *BmmSchemaDescriptorBuilder {
+func (i *BmmSchemaDescriptorBuilder) SetIncludes(v []string) *BmmSchemaDescriptorBuilder {
 	i.bmmschemadescriptor.Includes = v
 	return i
 }

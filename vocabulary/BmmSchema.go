@@ -1,6 +1,9 @@
 package vocabulary
 
-import "log"
+import (
+	"SemanticDatabase/model_access"
+	"log"
+)
 
 // Abstract parent of any persistable form of a BMM model, e.g. P_BMM_SCHEMA .
 
@@ -43,7 +46,7 @@ type IBmmSchema interface {
 // Struct definition
 type BmmSchema struct {
 	// embedded for Inheritance
-	BmmModelMetadata
+	model_access.BmmModelMetadata
 	// Constants
 	// Attributes
 	// Version of BMM model, enabling schema evolution reasoning. Persisted attribute.
