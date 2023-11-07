@@ -18,7 +18,7 @@ type IBmmEffectiveType interface {
 	//BMM_UNITARY_TYPE
 	UnitaryType() IBmmUnitaryType //effected
 	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
+	TypeBaseName() string             //abstract
 	EffectiveType() IBmmEffectiveType //effected
 }
 
