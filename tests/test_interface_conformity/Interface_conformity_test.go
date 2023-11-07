@@ -25,7 +25,7 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		i    any
 	}{
 		{"BmmDefinitions should conform to IBasicDefinitions", new(vocabulary.BmmDefinitions), new(base.IBasicDefinitions)},
-		{"BmmSchema should conform to IBmmModelMetadata", new(vocabulary.BmmSchema), new(model_access.IBmmModelMetadata)},
+		{"BmmSchema should conform to IBmmModelMetadata", new(model_access.BmmSchema), new(model_access.IBmmModelMetadata)},
 		{"BmmPackageContainer should conform to IBmmModelElement", new(vocabulary.BmmPackageContainer), new(vocabulary.IBmmModelElement)},
 		{"BmmPackage should conform to IBmmPackageContainer", new(vocabulary.BmmPackage), new(vocabulary.IBmmPackageContainer)},
 		{"BmmPackage should conform to IBmmModelElement", new(vocabulary.BmmPackage), new(vocabulary.IBmmModelElement)},
@@ -318,7 +318,7 @@ func Test_InterfaceConformance_TableDriven(t *testing.T) {
 		{"BmmActionTable should conform to IBmmStatementItem", new(vocabulary.BmmActionTable), new(vocabulary.IBmmStatementItem)},
 		{"PBmmSchema should conform to IPBmmPackageContainer", new(v2.PBmmSchema), new(v2.IPBmmPackageContainer)},
 		{"PBmmSchema should conform to IPBmmSchema", new(v2.PBmmSchema), new(v2.IPBmmSchema)},
-		{"PBmmSchema should conform to IBmmSchema", new(v2.PBmmSchema), new(vocabulary.IBmmSchema)},
+		{"PBmmSchema should conform to IBmmSchema", new(v2.PBmmSchema), new(model_access.IBmmSchema)},
 		{"PBmmSchema should conform to IBmmModelMetadata", new(v2.PBmmSchema), new(model_access.IBmmModelMetadata)},
 		{"PBmmPackage should conform to IPBmmPackageContainer", new(v2.PBmmPackage), new(v2.IPBmmPackageContainer)},
 		{"PBmmPackage should conform to IPBmmModelElement", new(v2.PBmmPackage), new(v2.IPBmmModelElement)},

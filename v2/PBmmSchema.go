@@ -47,7 +47,7 @@ type IPBmmSchema interface {
 type PBmmSchema struct {
 	// embedded for Inheritance
 	PBmmPackageContainer
-	vocabulary.BmmSchema
+	model_access.BmmSchema
 	model_access.BmmModelMetadata
 	// Constants
 	// Attributes

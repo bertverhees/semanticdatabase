@@ -26,7 +26,7 @@ type BmmSchemaDescriptor struct {
 	// Constants
 	// Attributes
 	// Persistent form of model.
-	BmmSchema vocabulary.IBmmSchema `yaml:"bmmschema" json:"bmmschema" xml:"bmmschema"`
+	BmmSchema IBmmSchema `yaml:"bmmschema" json:"bmmschema" xml:"bmmschema"`
 	// Computable form of model.
 	BmmModel vocabulary.IBmmModel `yaml:"bmmmodel" json:"bmmmodel" xml:"bmmmodel"`
 	/**
@@ -69,7 +69,7 @@ func NewBmmSchemaDescriptorBuilder() *BmmSchemaDescriptorBuilder {
 
 // BUILDER ATTRIBUTES
 // Persistent form of model.
-func (i *BmmSchemaDescriptorBuilder) SetBmmSchema(v vocabulary.IBmmSchema) *BmmSchemaDescriptorBuilder {
+func (i *BmmSchemaDescriptorBuilder) SetBmmSchema(v IBmmSchema) *BmmSchemaDescriptorBuilder {
 	i.bmmschemadescriptor.BmmSchema = v
 	return i
 }
