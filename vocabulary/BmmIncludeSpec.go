@@ -8,17 +8,12 @@ type IBmmIncludeSpec interface {
 
 // Struct definition
 type BmmIncludeSpec struct {
-	// embedded for Inheritance
-	// Constants
-	// Attributes
-	// Full identifier of the included schema, e.g. "openehr_primitive_types_1.0.2" .
 	Id string `yaml:"id" json:"id" xml:"id"`
 }
 
 // CONSTRUCTOR
 func NewBmmIncludeSpec() *BmmIncludeSpec {
 	bmmincludespec := new(BmmIncludeSpec)
-	// Constants
 	return bmmincludespec
 }
 
