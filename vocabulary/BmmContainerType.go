@@ -9,20 +9,20 @@ generic type such as List<T> , Set<T> etc.
 // Interface definition
 type IBmmContainerType interface {
 	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_CONTAINERTYPE
 	//TypeName() string
+	TypeSignature() string
 	//IsAbstract() bool
+	//IsPrimitive() bool
 	//FlattenedTypeList() []string
 	//UnitaryType() IBmmUnitaryType
-	//IsPrimitive() bool
 	//EffectiveType() IBmmEffectiveType
+	//BMM_CONTAINERTYPE
+	TypeName() string                 //effected
+	IsAbstract() bool                 //effected
+	FlattenedTypeList() []string      //effected
+	UnitaryType() IBmmUnitaryType     //effected
+	IsPrimitive() bool                //effected
+	EffectiveType() IBmmEffectiveType //effected
 }
 
 // Struct definition

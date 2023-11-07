@@ -9,7 +9,7 @@ type IBmmRoutineType interface {
 	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType
+	UnitaryType() IBmmUnitaryType //abstract
 	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
 	//BMM_UNITARY_TYPE

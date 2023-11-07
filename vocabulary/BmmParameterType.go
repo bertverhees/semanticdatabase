@@ -1,5 +1,10 @@
 package vocabulary
 
+import (
+	"SemanticDatabase/base"
+	"strings"
+)
+
 // Definition of a generic parameter in a class definition of a generic type.
 
 // Interface definition
@@ -9,11 +14,11 @@ type IBmmParameterType interface {
 	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType
+	//UnitaryType() IBmmUnitaryType
 	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
 	//BMM_UNITARY_TYPE
-	//UnitaryType() IBmmUnitaryType
+	UnitaryType() IBmmUnitaryType //effected
 	//BMM_PARAMETER_TYPE
 	FlattenedConformsToType() IBmmEffectiveType
 	//TypeSignature() string
@@ -90,7 +95,13 @@ Result is either conforms_to_type or
 inheritance_precursor.flattened_conforms_to_type .
 */
 func (b *BmmParameterType) FlattenedConformsToType() IBmmEffectiveType {
-	return nil
+	if b.TypeConstraint != nil {
+		return b.TypeConstraint
+	} else if b.InheritancePrecursor != nil {
+		return b.InheritancePrecursor.FlattenedConformsToType()
+	} else {
+		return nil
+	}
 }
 
 /*
@@ -99,7 +110,14 @@ func (b *BmmParameterType) FlattenedConformsToType() IBmmEffectiveType {
 e.g. T:Ordered .
 */
 func (b *BmmParameterType) TypeSignature() string {
-	return ""
+	var sb strings.Builder
+	sb.WriteString(b.Name)
+	conformToType := b.FlattenedConformsToType()
+	if conformToType != nil {
+		sb.WriteString(GenericConstraintDelimiter)
+		sb.WriteString(conformToType.TypeName())
+	}
+	return sb.String()
 }
 
 /*
@@ -122,7 +140,7 @@ func (b *BmmParameterType) IsAbstract() bool {
 
 // (effected) Return name .
 func (b *BmmParameterType) TypeName() string {
-	return ""
+	return b.Name
 }
 
 /*
@@ -130,7 +148,14 @@ func (b *BmmParameterType) TypeName() string {
 (effected) Result is either flattened_conforms_to_type.flattened_type_list or the Any type.
 */
 func (b *BmmParameterType) FlattenedTypeList() []string {
-	return nil
+	r := make([]string, 0)
+	conformToType := b.FlattenedConformsToType()
+	if conformToType != nil {
+		r = append(r, conformToType.FlattenedTypeList()...)
+	} else {
+		r = append(r, base.AnyTypeName)
+	}
+	return r
 }
 
 /*
@@ -139,11 +164,16 @@ func (b *BmmParameterType) FlattenedTypeList() []string {
 or if not set, 'Any' .
 */
 func (b *BmmParameterType) EffectiveType() IBmmEffectiveType {
-	return nil
+	et := b.FlattenedConformsToType()
+	if et != nil {
+		return et
+	} else {
+		return &BmmEffectiveType{}
+	}
 }
 
 // From: BMM_UNITARY_TYPE
 // Result = self.
 func (b *BmmParameterType) UnitaryType() IBmmUnitaryType {
-	return nil
+	return b.BmmUnitaryType.UnitaryType()
 }

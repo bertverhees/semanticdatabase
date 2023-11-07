@@ -11,11 +11,11 @@ type IBmmBuiltinType interface {
 	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType
+	//UnitaryType() IBmmUnitaryType
 	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
 	//BMM_UNITARY_TYPE
-	//UnitaryType() IBmmUnitaryType
+	UnitaryType() IBmmUnitaryType //effected
 	//BMM_EFFECTIVE_TYPE
 	TypeBaseName() string
 	//EffectiveType() IBmmEffectiveType

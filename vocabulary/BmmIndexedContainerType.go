@@ -12,14 +12,14 @@ type IBmmIndexedContainerType interface {
 	TypeSignature() string
 	IsAbstract() bool
 	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType
+	//UnitaryType() IBmmUnitaryType
 	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
 	//BMM_CONTAINERTYPE
 	//TypeName() string
 	//IsAbstract() bool
 	//FlattenedTypeList() []string
-	//UnitaryType() IBmmUnitaryType
+	UnitaryType() IBmmUnitaryType //effected
 	//IsPrimitive() bool
 	//EffectiveType() IBmmEffectiveType
 	//BMM_INDEXED_CONTAINERTYPE
