@@ -1,4 +1,4 @@
-package model_access
+package vocabulary
 
 import "log"
 

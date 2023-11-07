@@ -1,7 +1,5 @@
 package vocabulary
 
-import "SemanticDatabase/model_access"
-
 /**
 Definition of the root of a BMM model (along with what is inherited from
 BMM_SCHEMA_CORE ).
@@ -43,7 +41,7 @@ type BmmModel struct {
 	// embedded for Inheritance
 	BmmModelElement
 	BmmPackageContainer
-	model_access.BmmModelMetadata
+	BmmModelMetadata
 	// Attributes
 	// All classes in this model, keyed by type name.
 	ClassDefinitions map[string]IBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`

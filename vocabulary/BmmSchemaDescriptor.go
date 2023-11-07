@@ -1,7 +1,6 @@
-package model_access
+package vocabulary
 
 import (
-	"SemanticDatabase/vocabulary"
 	"log"
 )
 
@@ -28,7 +27,7 @@ type BmmSchemaDescriptor struct {
 	// Persistent form of model.
 	BmmSchema IBmmSchema `yaml:"bmmschema" json:"bmmschema" xml:"bmmschema"`
 	// Computable form of model.
-	BmmModel vocabulary.IBmmModel `yaml:"bmmmodel" json:"bmmmodel" xml:"bmmmodel"`
+	BmmModel IBmmModel `yaml:"bmmmodel" json:"bmmmodel" xml:"bmmmodel"`
 	/**
 	Schema id, formed by {BMM_DEFINITIONS}.create_schema_id(
 	meta_data.item({BMM_DEFINITIONS}.Metadata_model_publisher),
@@ -75,7 +74,7 @@ func (i *BmmSchemaDescriptorBuilder) SetBmmSchema(v IBmmSchema) *BmmSchemaDescri
 }
 
 // Computable form of model.
-func (i *BmmSchemaDescriptorBuilder) SetBmmModel(v vocabulary.IBmmModel) *BmmSchemaDescriptorBuilder {
+func (i *BmmSchemaDescriptorBuilder) SetBmmModel(v IBmmModel) *BmmSchemaDescriptorBuilder {
 	i.bmmschemadescriptor.BmmModel = v
 	return i
 }
