@@ -10,19 +10,7 @@ are only valid within the scope of a generic class.
 
 // Interface definition
 type IBmmTupleType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
+	IBmmBuiltinType
 	//BMM_BUILTIN_TYPE
 	//IsAbstract() bool
 	//IsPrimitive() bool
@@ -34,12 +22,7 @@ type IBmmTupleType interface {
 
 // Struct definition
 type BmmTupleType struct {
-	// embedded for Inheritance
 	BmmBuiltinType
-	BmmEffectiveType
-	BmmUnitaryType
-	BmmType
-	// Constants
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 	// Attributes

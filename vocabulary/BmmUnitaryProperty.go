@@ -8,29 +8,13 @@ import (
 
 // Interface definition
 type IBmmUnitaryProperty interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
-	//BMM_PROPERTY
-	Existence() *base.MultiplicityInterval[int]
-	DisplayName() string
+	IBmmProperty
 	//BMM_UNITARY_PROPERTY
 }
 
 // Struct definition
 type BmmUnitaryProperty struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
-	BmmInstantiableFeature
 	BmmProperty
-	// Constants
 	// Attributes
 	// Declared or inferred static type of the entity.
 	Type IBmmUnitaryType `yaml:"type" json:"type" xml:"type"`

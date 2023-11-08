@@ -10,14 +10,7 @@ sub-part or an association semantics with respect to the owning class.
 
 // Interface definition
 type IBmmProperty interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
+	IBmmInstantiableFeature
 	//BMM_PROPERTY
 	Existence() *base.MultiplicityInterval[int]
 	DisplayName() string
@@ -25,12 +18,7 @@ type IBmmProperty interface {
 
 // Struct definition
 type BmmProperty struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
 	BmmInstantiableFeature
-	// Constants
 	// Attributes
 	//name of this property in the model.
 	Name string `yaml:"name" json:"name" xml:"name"`

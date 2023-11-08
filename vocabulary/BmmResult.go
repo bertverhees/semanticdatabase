@@ -7,25 +7,13 @@ Automatically declared variable representing result of a Function call
 
 // Interface definition
 type IBmmResult interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_VARIABLE
-	//BMM_WRITEABLE_VARIABLE
+	IBmmWritableVariable
 	//BMM_RESULT
 }
 
 // Struct definition
 type BmmResult struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmVariable
 	BmmWritableVariable
-	// Constants
 	// Attributes
 	// Name of this model element.
 	Name string `yaml:"name" json:"name" xml:"name"`

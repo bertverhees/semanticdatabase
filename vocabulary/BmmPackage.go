@@ -8,7 +8,6 @@ packages and classes. The name may be qualified if it is a top-level package.
 // Interface definition
 type IBmmPackage interface {
 	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
 	IBmmPackageContainer
 	// BMM_PACKAGE
 	RootClasses() []IBmmClass
@@ -18,7 +17,6 @@ type IBmmPackage interface {
 // Struct definition
 type BmmPackage struct {
 	// embedded for Inheritance
-	BmmModelElement
 	BmmPackageContainer
 	// Constants
 	// Attributes

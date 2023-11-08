@@ -4,9 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmFormalElement interface {
-	// From: BMM_MODEL_ELEMENT
 	IBmmModelElement
-
 	// BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
@@ -14,7 +12,6 @@ type IBmmFormalElement interface {
 
 // Struct definition
 type BmmFormalElement struct {
-	// embedded for Inheritance
 	BmmModelElement
 	// Attributes
 	// Declared or inferred static type of the entity.

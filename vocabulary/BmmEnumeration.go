@@ -11,9 +11,6 @@ subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 
 // Interface definition
 type IBmmEnumeration interface {
-	IBmmModelElement
-	IBmmModule
-	IBmmClass
 	IBmmSimpleClass
 	// From: BMM_ENUMERATION
 	NameMap() map[string]string
@@ -21,12 +18,7 @@ type IBmmEnumeration interface {
 
 // Struct definition
 type BmmEnumeration struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmModule
-	BmmClass
 	BmmSimpleClass
-	// Constants
 	// Attributes
 	/**
 	The list of names of the enumeration. If no values are supplied, the integer

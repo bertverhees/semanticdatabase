@@ -8,12 +8,8 @@ BMM_SCHEMA_CORE ).
 // Interface definition
 type IBmmModel interface {
 	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// From: BMM_PACKAGE_CONTAINER
-	PackageAtPath(a_path string) IBmmPackage
-	DoRecursivePackages(action IElProcedureAgent)
-	HasPackagePath(a_path string) bool
+	IBmmPackageContainer
+	IBmmModelMetadata
 	// BMM_MODEL
 	ModelId() string
 	ClassDefinition(a_name string) IBmmClass
@@ -40,7 +36,6 @@ type IBmmModel interface {
 // Struct definition
 type BmmModel struct {
 	// embedded for Inheritance
-	BmmModelElement
 	BmmPackageContainer
 	BmmModelMetadata
 	// Attributes

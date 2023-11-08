@@ -4,11 +4,6 @@ package vocabulary
 
 // Interface definition
 type IBmmFunctionType interface {
-	IBmmType
-	IBmmUnitaryType
-	IBmmEffectiveType
-	IBmmBuiltinType
-	IBmmSignature
 	IBmmRoutineType
 	//BMM_FUNCTION_TYPE
 	GetResultType() IBmmStatusType
@@ -16,12 +11,6 @@ type IBmmFunctionType interface {
 
 // Struct definition
 type BmmFunctionType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
-	BmmBuiltinType
-	BmmSignature
 	BmmRoutineType
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)

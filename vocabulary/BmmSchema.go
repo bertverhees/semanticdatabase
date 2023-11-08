@@ -8,6 +8,7 @@ import (
 
 // Interface definition
 type IBmmSchema interface {
+	IBmmModelMetadata
 	/**
 	Pre_state: state = State_created
 	Post_state: passed implies state = State_validated_created
@@ -44,8 +45,6 @@ type IBmmSchema interface {
 
 // Struct definition
 type BmmSchema struct {
-	// embedded for Inheritance
-
 	BmmModelMetadata
 	// Constants
 	// Attributes

@@ -7,17 +7,12 @@ value objects.
 
 // Interface definition
 type IBmmInstantiableFeature interface {
-	IBmmModelElement
-	IBmmFormalElement
 	IBmmFeature
 	//BMM_INSTANTIABLE_FEATURE
 }
 
 // Struct definition
 type BmmInstantiableFeature struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
 	BmmFeature
 }
 

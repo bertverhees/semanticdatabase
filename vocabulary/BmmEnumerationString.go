@@ -4,10 +4,6 @@ package vocabulary
 
 // Interface definition
 type IBmmEnumerationString interface {
-	IBmmModelElement
-	IBmmModule
-	IBmmClass
-	IBmmSimpleClass
 	IBmmEnumeration
 	// From: BMM_ENUMERATION
 	NameMap() map[string]string
@@ -15,11 +11,6 @@ type IBmmEnumerationString interface {
 
 // Struct definition
 type BmmEnumerationString struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmModule
-	BmmClass
-	BmmSimpleClass
 	BmmEnumeration
 	// Constants
 	// Attributes

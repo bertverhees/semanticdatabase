@@ -7,7 +7,6 @@ type in a generic type declaration.
 
 // Interface definition
 type IBmmEffectiveType interface {
-	IBmmType
 	IBmmUnitaryType
 	//BMM_EFFECTIVE_TYPE
 	TypeBaseName() string             //abstract
@@ -16,8 +15,6 @@ type IBmmEffectiveType interface {
 
 // Struct definition
 type BmmEffectiveType struct {
-	// embedded for Inheritance
-	BmmType
 	BmmUnitaryType
 }
 

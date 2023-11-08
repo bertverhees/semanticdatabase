@@ -4,21 +4,13 @@ package vocabulary
 
 // Interface definition
 type IBmmVariable interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
+	IBmmFormalElement
 	//BMM_VARIABLE
 }
 
 // Struct definition
 type BmmVariable struct {
-	// embedded for Inheritance
-	BmmModelElement
 	BmmFormalElement
-	// Constants
 	// Attributes
 	// Routine within which variable is defined.
 	Scope IBmmRoutine `yaml:"scope" json:"scope" xml:"scope"`

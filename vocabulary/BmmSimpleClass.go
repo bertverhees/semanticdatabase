@@ -7,21 +7,7 @@ Definition of a simple class, i.e. a class that has no generic parameters and is
 
 // Interface definition
 type IBmmSimpleClass interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// From: BMM_MODULE
-	//BMM_CLASS
-	// Type() IBmmModelType redefined
-	AllAncestors() []string
-	AllDescendants() []string
-	Suppliers() []string
-	SuppliersNonPrimitive() []string
-	SupplierClosure() []string
-	PackagePath() string
-	ClassPath() string
-	FlatFeatures()
-	FlatProperties() []IBmmProperty
+	IBmmClass
 	//BMM_SIMPLE_CLASS
 	Type() IBmmSimpleType
 }

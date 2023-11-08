@@ -4,22 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmSimpleType interface {
-	// From: BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
-	//BMM_MODEL_TYPE
-	//TypeBaseName() string
-	//IsPrimitive() bool
+	IBmmModelType
 	//BMM_SIMPLE_TYPE
 	EffectiveBaseClass() IBmmSimpleClass
 	//TypeName() string
@@ -30,10 +15,6 @@ type IBmmSimpleType interface {
 
 // Struct definition
 type BmmSimpleType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
 	BmmModelType
 	// Attributes
 	// Defining class of this type.

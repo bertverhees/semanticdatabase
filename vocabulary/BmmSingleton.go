@@ -4,25 +4,12 @@ package vocabulary
 
 // Interface definition
 type IBmmSingleton interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
-	//BMM_STATIC
+	IBmmStatic
 	//BMM_SINGLETON
 }
 
 // Struct definition
 type BmmSingleton struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
-	BmmInstantiableFeature
 	BmmStatic
 	// Constants
 	// Attributes

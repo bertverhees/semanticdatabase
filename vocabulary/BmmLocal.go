@@ -4,21 +4,13 @@ package vocabulary
 
 // Interface definition
 type IBmmLocal interface {
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmVariable
 	IBmmWritableVariable
 	//BMM_LOCAL
 }
 
 // Struct definition
 type BmmLocal struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmVariable
 	BmmWritableVariable
-	// Constants
 	// Attributes
 }
 

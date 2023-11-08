@@ -4,8 +4,6 @@ package vocabulary
 
 // Interface definition
 type IBmmModelType interface {
-	IBmmType
-	IBmmUnitaryType
 	IBmmEffectiveType
 	//BMM_MODEL_TYPE
 	//TypeBaseName() string
@@ -14,9 +12,6 @@ type IBmmModelType interface {
 
 // Struct definition
 type BmmModelType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
 	BmmEffectiveType
 	// Attributes
 	ValueConstraint IBmmValueSetSpec `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`

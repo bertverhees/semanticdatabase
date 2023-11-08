@@ -8,19 +8,7 @@ constraints in descendants determining the exact form.
 
 // Interface definition
 type IBmmSignature interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
+	IBmmBuiltinType
 	//BMM_BUILTIN_TYPE
 	//IsAbstract() bool
 	//IsPrimitive() bool
@@ -33,10 +21,6 @@ type IBmmSignature interface {
 
 // Struct definition
 type BmmSignature struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
 	BmmBuiltinType
 	// Constants
 	// Base name (built-in).

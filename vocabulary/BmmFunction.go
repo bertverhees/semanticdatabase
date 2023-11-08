@@ -8,21 +8,12 @@ non-state-changing.
 
 // Interface definition
 type IBmmFunction interface {
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmFeature
 	IBmmRoutine
-	Arity() int
 }
 
 // Struct definition
 type BmmFunction struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
 	BmmRoutine
-	// Constants
 	// Attributes
 	/**
 	Optional details enabling a function to be represented as an operator in a

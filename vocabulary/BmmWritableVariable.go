@@ -4,31 +4,13 @@ package vocabulary
 
 // Interface definition
 type IBmmWritableVariable interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	Name() string
-	SetName(name string)
-	Documentation() map[string]any
-	SetDocumentation(v map[string]any)
-	Scope() IBmmModelElement
-	SetScope(v IBmmModelElement)
-	Extensions() map[string]any
-	SetExtensions(v map[string]any)
-
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_VARIABLE
+	IBmmVariable
 	//BMM_WRITEABLE_VARIABLE
 }
 
 // Struct definition
 type BmmWritableVariable struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
 	BmmVariable
-	// Constants
 	// Attributes
 }
 

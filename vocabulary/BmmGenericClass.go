@@ -4,8 +4,6 @@ package vocabulary
 
 // Interface definition
 type IBmmGenericClass interface {
-	IBmmModelElement
-	IBmmModule
 	IBmmClass
 	// BMM_GENERIC_CLASS
 	Type() IBmmGenericType //redefined from class where BMM_MODEL_TYPE
@@ -14,11 +12,7 @@ type IBmmGenericClass interface {
 
 // Struct definition
 type BmmGenericClass struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmModule
 	BmmClass
-	// Constants
 	// Attributes
 	/**
 	List of formal generic parameters, keyed by name. These are defined either

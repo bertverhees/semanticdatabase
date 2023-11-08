@@ -4,19 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmPropertyType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
+	IBmmSignature
 	//BMM_BUILTIN_TYPE
 	//IsAbstract() bool
 	//IsPrimitive() bool
@@ -29,11 +17,6 @@ type IBmmPropertyType interface {
 
 // Struct definition
 type BmmPropertyType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
-	BmmBuiltinType
 	BmmSignature
 	// Attributes
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)

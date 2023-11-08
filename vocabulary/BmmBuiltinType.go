@@ -6,8 +6,6 @@ Parent of built-in types, which are treated as being primitive and non-abstract.
 
 // Interface definition
 type IBmmBuiltinType interface {
-	IBmmType
-	IBmmUnitaryType
 	IBmmEffectiveType
 	//BMM_BUILTIN_TYPE
 	//IsAbstract() bool
@@ -18,9 +16,6 @@ type IBmmBuiltinType interface {
 
 // Struct definition
 type BmmBuiltinType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
 	BmmEffectiveType
 	// Base name (built-in typename).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`

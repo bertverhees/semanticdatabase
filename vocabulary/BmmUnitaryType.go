@@ -7,21 +7,14 @@ that is not a container object.
 
 // Interface definition
 type IBmmUnitaryType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
+	IBmmType
 	EffectiveType() IBmmEffectiveType
 	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
 	UnitaryType() IBmmUnitaryType //effected
 }
 
 // Struct definition
 type BmmUnitaryType struct {
-	// embedded for Inheritance
 	BmmType
 }
 

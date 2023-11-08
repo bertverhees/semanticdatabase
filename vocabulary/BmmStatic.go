@@ -4,23 +4,12 @@ package vocabulary
 
 // Interface definition
 type IBmmStatic interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
+	IBmmInstantiableFeature
 	//BMM_STATIC
 }
 
 // Struct definition
 type BmmStatic struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
 	BmmInstantiableFeature
 	// Attributes
 }

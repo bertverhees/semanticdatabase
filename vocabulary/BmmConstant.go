@@ -8,21 +8,12 @@ value, or may be any expression, including a function call.
 
 // Interface definition
 type IBmmConstant interface {
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmFeature
-	IBmmInstantiableFeature
 	IBmmStatic
 	//BMM_CONSTANT
 }
 
 // Struct definition
 type BmmConstant struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
-	BmmInstantiableFeature
 	BmmStatic
 	// Constants
 	// Attributes

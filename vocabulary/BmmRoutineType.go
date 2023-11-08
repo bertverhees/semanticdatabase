@@ -4,24 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmRoutineType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType //abstract
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	//UnitaryType() IBmmUnitaryType
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
-	//BMM_BUILTIN_TYPE
-	//IsAbstract() bool
-	//IsPrimitive() bool
-	//TypeBaseName() string
-	//TypeName() string
+	IBmmSignature
 	//BMM_SIGNATURE
 	//FlattenedTypeList() []string
 	//BMM_ROUTINE_TYPE
@@ -30,11 +13,6 @@ type IBmmRoutineType interface {
 
 // Struct definition
 type BmmRoutineType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
-	BmmBuiltinType
 	BmmSignature
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`

@@ -4,9 +4,6 @@ package vocabulary
 
 // Interface definition
 type IBmmGenericType interface {
-	IBmmType
-	IBmmUnitaryType
-	IBmmEffectiveType
 	IBmmModelType
 	//BMM_GENERIC_TYPE
 	IsPartiallyClosed() bool
@@ -16,10 +13,6 @@ type IBmmGenericType interface {
 
 // Struct definition
 type BmmGenericType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
 	BmmModelType
 	// Attributes
 	/**

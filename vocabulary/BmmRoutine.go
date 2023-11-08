@@ -4,24 +4,14 @@ package vocabulary
 
 // Interface definition
 type IBmmRoutine interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
+	IBmmFeature
 	//BMM_ROUTINE
 	Arity() int
 }
 
 // Struct definition
 type BmmRoutine struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
 	BmmFeature
-	// Constants
 	// Attributes
 	// Formal parameters of the routine.
 	Parameters []IBmmParameter `yaml:"parameters" json:"parameters" xml:"parameters"`

@@ -7,7 +7,6 @@ manner of a standard Hash table, map or dictionary.
 
 // Interface definition
 type IBmmIndexedContainerType interface {
-	IBmmType
 	IBmmContainerType
 	//BMM_INDEXED_CONTAINERTYPE
 	//TypeName() string
@@ -16,8 +15,6 @@ type IBmmIndexedContainerType interface {
 
 // Struct definition
 type BmmIndexedContainerType struct {
-	// embedded for Inheritance
-	BmmType
 	BmmContainerType
 	// Attributes
 	/**

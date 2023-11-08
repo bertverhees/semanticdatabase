@@ -9,7 +9,6 @@ import (
 
 // Interface definition
 type IBmmParameterType interface {
-	IBmmType
 	IBmmUnitaryType
 	//BMM_PARAMETER_TYPE
 	FlattenedConformsToType() IBmmEffectiveType
@@ -23,8 +22,6 @@ type IBmmParameterType interface {
 
 // Struct definition
 type BmmParameterType struct {
-	// embedded for Inheritance
-	BmmType
 	BmmUnitaryType
 	// Attributes
 	/**

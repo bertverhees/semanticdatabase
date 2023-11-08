@@ -9,11 +9,6 @@ T> etc.
 
 // Interface definition
 type IBmmIndexedContainerProperty interface {
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmFeature
-	IBmmInstantiableFeature
-	IBmmProperty
 	IBmmContainerProperty
 	//BMM_INDEXED_CONTAINER_PROPERTY
 	DisplayName() string //redefined
@@ -21,14 +16,7 @@ type IBmmIndexedContainerProperty interface {
 
 // Struct definition
 type BmmIndexedContainerProperty struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
-	BmmInstantiableFeature
-	BmmProperty
 	BmmContainerProperty
-	// Constants
 	// Attributes
 	// Declared or inferred static type of the entity.
 	Type IBmmIndexedContainerType `yaml:"type" json:"type" xml:"type"`

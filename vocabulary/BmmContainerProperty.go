@@ -8,10 +8,6 @@ import (
 
 // Interface definition
 type IBmmContainerProperty interface {
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmFeature
-	IBmmInstantiableFeature
 	IBmmProperty
 	//BMM_CONTAINER_PROPERTY
 	DisplayName() string //redefined
@@ -19,13 +15,7 @@ type IBmmContainerProperty interface {
 
 // Struct definition
 type BmmContainerProperty struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
-	BmmInstantiableFeature
 	BmmProperty
-	// Constants
 	// Attributes
 	// Cardinality of this container.
 	Cardinality *base.MultiplicityInterval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`

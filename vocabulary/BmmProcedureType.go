@@ -7,11 +7,6 @@ the special Status meta-type
 
 // Interface definition
 type IBmmProcedureType interface {
-	IBmmType
-	IBmmUnitaryType
-	IBmmEffectiveType
-	IBmmBuiltinType
-	IBmmSignature
 	IBmmRoutineType
 	//BMM_PROCEDURE_TYPE
 	GetResultType() IBmmStatusType
@@ -19,12 +14,6 @@ type IBmmProcedureType interface {
 
 // Struct definition
 type BmmProcedureType struct {
-	// embedded for Inheritance
-	BmmType
-	BmmUnitaryType
-	BmmEffectiveType
-	BmmBuiltinType
-	BmmSignature
 	BmmRoutineType
 	// Base name (built-in).
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`

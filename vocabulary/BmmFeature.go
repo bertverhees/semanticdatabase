@@ -4,15 +4,12 @@ package vocabulary
 
 // Interface definition
 type IBmmFeature interface {
-	IBmmModelElement
 	IBmmFormalElement
 	//BMM_FEATURE
 }
 
 // Struct definition
 type BmmFeature struct {
-	// embedded for Inheritance
-	BmmModelElement
 	BmmFormalElement
 	// Constants
 	// Attributes

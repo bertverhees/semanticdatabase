@@ -9,23 +9,12 @@ usually called in the form name ({arg:TArg}*) .
 
 // Interface definition
 type IBmmProcedure interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmFeature
 	IBmmRoutine
-	//BMM_ROUTINE
-	Arity() int
 }
 
 // Struct definition
 type BmmProcedure struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmFeature
 	BmmRoutine
-	// Constants
 	// Attributes
 	// Declared or inferred static type of the entity.
 	Type IBmmStatusType `yaml:"type" json:"type" xml:"type"`

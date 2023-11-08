@@ -11,7 +11,6 @@ type_name() to obtain the qualified type name.
 
 // Interface definition
 type IBmmClass interface {
-	IBmmModelElement
 	IBmmModule
 	//BMM_CLASS
 	//redefined in subclasses Type() IBmmModelType
@@ -28,8 +27,6 @@ type IBmmClass interface {
 
 // Struct definition
 type BmmClass struct {
-	// embedded for Inheritance
-	BmmModelElement
 	BmmModule
 	// Constants
 	// Attributes

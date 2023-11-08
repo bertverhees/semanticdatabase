@@ -7,23 +7,13 @@ variable Self .
 
 // Interface definition
 type IBmmReadonlyVariable interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_VARIABLE
+	IBmmVariable
 	//BMM_READONLY_VARIABLE
 }
 
 // Struct definition
 type BmmReadonlyVariable struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
 	BmmVariable
-	// Constants
 	// Attributes
 }
 
