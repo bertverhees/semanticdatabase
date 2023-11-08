@@ -8,7 +8,8 @@ variable Self .
 // Interface definition
 type IBmmReadonlyVariable interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool

@@ -4,11 +4,8 @@ package vocabulary
 
 // Interface definition
 type IBmmFeature interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
+	IBmmModelElement
+	IBmmFormalElement
 	//BMM_FEATURE
 }
 
@@ -24,7 +21,7 @@ type BmmFeature struct {
 	type, or further constraining of a formal generic parameter.
 	*/
 	IsSynthesisedGeneric bool `yaml:"issynthesisedgeneric" json:"issynthesisedgeneric" xml:"issynthesisedgeneric"`
-	// Extensions to feature-level meta-types.
+	// extensions to feature-level meta-types.
 	FeatureExtensions []IBmmFeatureExtension `yaml:"featureextensions" json:"featureextensions" xml:"featureextensions"`
 	// Group containing this feature.
 	Group IBmmFeatureGroup `yaml:"group" json:"group" xml:"group"`

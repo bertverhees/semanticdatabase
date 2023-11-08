@@ -8,14 +8,11 @@ value, or may be any expression, including a function call.
 
 // Interface definition
 type IBmmConstant interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
-	//BMM_STATIC
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmFeature
+	IBmmInstantiableFeature
+	IBmmStatic
 	//BMM_CONSTANT
 }
 
@@ -40,8 +37,8 @@ func NewBmmConstant() *BmmConstant {
 	//default, no constant
 	bmmconstant.IsNullable = false
 	//BmmModelElement
-	bmmconstant.Documentation = make(map[string]any)
-	bmmconstant.Extensions = make(map[string]any)
+	bmmconstant.documentation = make(map[string]any)
+	bmmconstant.extensions = make(map[string]any)
 	//BmmFeature
 	bmmconstant.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
@@ -78,7 +75,7 @@ func (i *BmmConstantBuilder) SetIsSynthesisedGeneric(v bool) *BmmConstantBuilder
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmConstantBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmConstantBuilder {
 	i.bmmconstant.FeatureExtensions = v
 	return i
@@ -116,9 +113,9 @@ func (i *BmmConstantBuilder) SetIsNullable(v bool) *BmmConstantBuilder {
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmConstantBuilder) SetName(v string) *BmmConstantBuilder {
-	i.bmmconstant.Name = v
+	i.bmmconstant.name = v
 	return i
 }
 
@@ -130,7 +127,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmConstantBuilder) SetDocumentation(v map[string]any) *BmmConstantBuilder {
-	i.bmmconstant.Documentation = v
+	i.bmmconstant.documentation = v
 	return i
 }
 
@@ -140,7 +137,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmConstantBuilder) SetExtensions(v map[string]any) *BmmConstantBuilder {
-	i.bmmconstant.Extensions = v
+	i.bmmconstant.extensions = v
 	return i
 }
 

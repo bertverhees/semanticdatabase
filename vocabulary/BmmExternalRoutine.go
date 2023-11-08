@@ -7,7 +7,7 @@ in an external library to be called.
 
 // Interface definition
 type IBmmExternalRoutine interface {
-	// From: BMM_ROUTINE_DEFINITION
+	IBmmRoutineDefinition
 }
 
 // Struct definition

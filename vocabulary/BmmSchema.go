@@ -63,12 +63,12 @@ type BmmSchema struct {
 	// Current processing state.
 	State BmmSchemaState `yaml:"state" json:"state" xml:"state"`
 	/**
-	Name of this model, if this schema is a model root point. Not set for
+	name of this model, if this schema is a model root point. Not set for
 	sub-schemas that are not considered models on their own.
 	*/
 	ModelName string `yaml:"modelname" json:"modelname" xml:"modelname"`
 	/**
-	Name of model expressed in schema; a 'schema' usually contains all of the
+	name of model expressed in schema; a 'schema' usually contains all of the
 	packages of one 'model' of a publisher. A publisher with more than one model can
 	have multiple schemas.
 	*/

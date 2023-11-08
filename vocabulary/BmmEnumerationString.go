@@ -4,24 +4,11 @@ package vocabulary
 
 // Interface definition
 type IBmmEnumerationString interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_MODULE
-	// From: BMM_CLASS
-	//redefined Type() IBmmModelType
-	AllAncestors() []string
-	AllDescendants() []string
-	Suppliers() []string
-	SuppliersNonPrimitive() []string
-	SupplierClosure() []string
-	PackagePath() string
-	ClassPath() string
-	IsPrimitive() bool
-	IsAbstract() bool
-	FlatFeatures()
-	FlatProperties() []IBmmProperty
-	//BMM_SIMPLE_CLASS
-	Type() IBmmSimpleType
+	IBmmModelElement
+	IBmmModule
+	IBmmClass
+	IBmmSimpleClass
+	IBmmEnumeration
 	// From: BMM_ENUMERATION
 	NameMap() map[string]string
 }
@@ -46,8 +33,8 @@ type BmmEnumerationString struct {
 func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring := new(BmmEnumerationString)
 	//BmmModelElement
-	bmmenumerationstring.Documentation = make(map[string]any)
-	bmmenumerationstring.Extensions = make(map[string]any)
+	bmmenumerationstring.documentation = make(map[string]any)
+	bmmenumerationstring.extensions = make(map[string]any)
 	//BmmModule
 	bmmenumerationstring.Features = make([]IBmmFeature, 0)
 	bmmenumerationstring.FeatureGroups = make([]IBmmFeatureGroup, 0)
@@ -233,14 +220,14 @@ func (i *BmmEnumerationStringBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *Bm
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmEnumerationStringBuilder) SetScope(v IBmmModel) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.BmmModelElement.Scope = v
+	i.bmmenumerationstring.BmmModelElement.scope = v
 	return i
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmEnumerationStringBuilder) SetName(v string) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.Name = v
+	i.bmmenumerationstring.name = v
 	return i
 }
 
@@ -252,7 +239,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmEnumerationStringBuilder) SetDocumentation(v map[string]any) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.Documentation = v
+	i.bmmenumerationstring.documentation = v
 	return i
 }
 
@@ -262,7 +249,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmEnumerationStringBuilder) SetExtensions(v map[string]any) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.Extensions = v
+	i.bmmenumerationstring.extensions = v
 	return i
 }
 

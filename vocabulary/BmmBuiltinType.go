@@ -6,19 +6,9 @@ Parent of built-in types, which are treated as being primitive and non-abstract.
 
 // Interface definition
 type IBmmBuiltinType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
+	IBmmType
+	IBmmUnitaryType
+	IBmmEffectiveType
 	//BMM_BUILTIN_TYPE
 	//IsAbstract() bool
 	//IsPrimitive() bool

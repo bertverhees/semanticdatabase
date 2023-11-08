@@ -7,9 +7,9 @@ representing Integer and value is of type Integer .
 
 // Interface definition
 type IBmmIntegerValue interface {
-	// From: BMM_PRIMITIVE_VALUE
-	// From: BMM_UNITARY_VALUE
-	// From: BMM_LITERAL_VALUE
+	IBmmPrimitiveValue[IBmmSimpleType]
+	IBmmUnitaryValue[IBmmSimpleType]
+	IBmmLiteralValue[IBmmSimpleType]
 }
 
 // Struct definition

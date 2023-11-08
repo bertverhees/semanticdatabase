@@ -66,7 +66,7 @@ func (i *ElReadonlyVariableBuilder) SetIsWritable(v bool) *ElReadonlyVariableBui
 }
 
 // From: ElValueGenerator
-// Name used to represent the reference or other entity.
+// name used to represent the reference or other entity.
 func (i *ElReadonlyVariableBuilder) SetName(v string) *ElReadonlyVariableBuilder {
 	i.elreadonlyvariable.Name = v
 	return i

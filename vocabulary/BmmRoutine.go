@@ -5,7 +5,8 @@ package vocabulary
 // Interface definition
 type IBmmRoutine interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool

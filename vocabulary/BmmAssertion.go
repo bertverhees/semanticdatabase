@@ -8,9 +8,9 @@ settings). May be rendered in syntax as assert condition or similar.
 
 // Interface definition
 type IBmmAssertion interface {
-	// From: BMM_SIMPLE_STATEMENT
-	// From: BMM_STATEMENT
-	// From: BMM_STATEMENT_ITEM
+	IBmmSimpleStatement
+	IBmmStatement
+	IBmmStatementItem
 }
 
 // Struct definition

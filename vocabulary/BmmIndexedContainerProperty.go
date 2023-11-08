@@ -9,16 +9,12 @@ T> etc.
 
 // Interface definition
 type IBmmIndexedContainerProperty interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
-	//BMM_PROPERTY
-	Existence() *base.MultiplicityInterval[int]
-	//BMM_CONTAINER_PROPERTY
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmFeature
+	IBmmInstantiableFeature
+	IBmmProperty
+	IBmmContainerProperty
 	//BMM_INDEXED_CONTAINER_PROPERTY
 	DisplayName() string //redefined
 }
@@ -46,8 +42,8 @@ func NewBmmIndexedContainerProperty() *BmmIndexedContainerProperty {
 	//default, no constant
 	bmmindexedcontainerproperty.IsNullable = false
 	//BmmModelElement
-	bmmindexedcontainerproperty.Documentation = make(map[string]any)
-	bmmindexedcontainerproperty.Extensions = make(map[string]any)
+	bmmindexedcontainerproperty.documentation = make(map[string]any)
+	bmmindexedcontainerproperty.extensions = make(map[string]any)
 	//BmmFeature
 	bmmindexedcontainerproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
@@ -123,7 +119,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetIsSynthesisedGeneric(v bool) *Bm
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmIndexedContainerPropertyBuilder {
 	i.bmmindexedcontainerproperty.FeatureExtensions = v
 	return i
@@ -147,7 +143,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetIsNullable(v bool) *BmmIndexedCo
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmIndexedContainerPropertyBuilder) SetName(v string) *BmmIndexedContainerPropertyBuilder {
 	i.bmmindexedcontainerproperty.Name = v
 	return i
@@ -161,14 +157,14 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation(v map[string]any) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.Documentation = v
+	i.bmmindexedcontainerproperty.documentation = v
 	return i
 }
 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmIndexedContainerPropertyBuilder) SetScope(v IBmmModelElement) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.BmmModelElement.Scope = v
+	i.bmmindexedcontainerproperty.BmmModelElement.scope = v
 	return i
 }
 
@@ -178,7 +174,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetExtensions(v map[string]any) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.Extensions = v
+	i.bmmindexedcontainerproperty.extensions = v
 	return i
 }
 

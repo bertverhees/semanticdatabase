@@ -11,7 +11,8 @@ const PACKAGE_PATH_DELIMITER = "."
 // Interface definition
 type IBmmPackageContainer interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	//BMM_PACKAGE_CONTAINER
 	PackageAtPath(a_path string) IBmmPackage
 	DoRecursivePackages(action IElProcedureAgent)

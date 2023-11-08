@@ -76,7 +76,7 @@ func (i *ElProcedureAgentBuilder) SetOpenArgs(v []string) *ElProcedureAgentBuild
 }
 
 // From: ElAgent
-// Name of the routine being called.
+// name of the routine being called.
 func (i *ElProcedureAgentBuilder) SetName(v string) *ElProcedureAgentBuilder {
 	i.elprocedureagent.ElValueGenerator.Name = v
 	return i

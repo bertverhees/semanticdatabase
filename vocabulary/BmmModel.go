@@ -8,7 +8,8 @@ BMM_SCHEMA_CORE ).
 // Interface definition
 type IBmmModel interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// From: BMM_PACKAGE_CONTAINER
 	PackageAtPath(a_path string) IBmmPackage
 	DoRecursivePackages(action IElProcedureAgent)
@@ -60,8 +61,8 @@ type BmmModel struct {
 func NewBmmModel() *BmmModel {
 	bmmmodel := new(BmmModel)
 	//BmmModelElement
-	bmmmodel.Documentation = make(map[string]any)
-	bmmmodel.Extensions = make(map[string]any)
+	bmmmodel.documentation = make(map[string]any)
+	bmmmodel.extensions = make(map[string]any)
 	//BmmPackageContainer
 	bmmmodel.Packages = make(map[string]IBmmPackage)
 	//BmmModel
@@ -116,14 +117,14 @@ func (i *BmmModelBuilder) SetPackages(v map[string]IBmmPackage) *BmmModelBuilder
 // From: BmmPackageContainer
 // Model element within which a referenceable element is known.
 func (i *BmmModelBuilder) SetScope(v IBmmPackageContainer) *BmmModelBuilder {
-	i.bmmmodel.BmmModelElement.Scope = v
+	i.bmmmodel.BmmModelElement.scope = v
 	return i
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmModelBuilder) SetName(v string) *BmmModelBuilder {
-	i.bmmmodel.Name = v
+	i.bmmmodel.name = v
 	return i
 }
 
@@ -135,7 +136,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmModelBuilder) SetDocumentation(v map[string]any) *BmmModelBuilder {
-	i.bmmmodel.Documentation = v
+	i.bmmmodel.documentation = v
 	return i
 }
 
@@ -145,7 +146,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmModelBuilder) SetExtensions(v map[string]any) *BmmModelBuilder {
-	i.bmmmodel.Extensions = v
+	i.bmmmodel.extensions = v
 	return i
 }
 
@@ -300,7 +301,7 @@ func (b *BmmModel) TypeConformsTo(a_desc_type string, an_anc_type string) bool {
 Generate type substitutions for the supplied type, which may be simple, generic
 (closed, open or partially open), or a container type. In the generic and
 container cases, the result is the permutation of the base class type and type
-substitutions of all generic parameters. Parameters a_type Name of a type.
+substitutions of all generic parameters. Parameters a_type name of a type.
 */
 func (b *BmmModel) Subtypes(a_type string) []string {
 	return nil

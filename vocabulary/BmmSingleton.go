@@ -5,7 +5,8 @@ package vocabulary
 // Interface definition
 type IBmmSingleton interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
@@ -36,8 +37,8 @@ func NewBmmSingleton() *BmmSingleton {
 	//default, no constant
 	bmmsingleton.IsNullable = false
 	//BmmModelElement
-	bmmsingleton.Documentation = make(map[string]any)
-	bmmsingleton.Extensions = make(map[string]any)
+	bmmsingleton.documentation = make(map[string]any)
+	bmmsingleton.extensions = make(map[string]any)
 	//BmmFeature
 	bmmsingleton.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
@@ -75,7 +76,7 @@ func (i *BmmSingletonBuilder) SetIsSynthesisedGeneric(v bool) *BmmSingletonBuild
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmSingletonBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmSingletonBuilder {
 	i.bmmsingleton.FeatureExtensions = v
 	return i
@@ -91,7 +92,7 @@ func (i *BmmSingletonBuilder) SetGroup(v IBmmFeatureGroup) *BmmSingletonBuilder 
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmSingletonBuilder) SetScope(v IBmmClass) *BmmSingletonBuilder {
-	i.bmmsingleton.BmmModelElement.Scope = v
+	i.bmmsingleton.BmmModelElement.scope = v
 	return i
 }
 
@@ -113,9 +114,9 @@ func (i *BmmSingletonBuilder) SetIsNullable(v bool) *BmmSingletonBuilder {
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmSingletonBuilder) SetName(v string) *BmmSingletonBuilder {
-	i.bmmsingleton.Name = v
+	i.bmmsingleton.name = v
 	return i
 }
 
@@ -127,7 +128,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmSingletonBuilder) SetDocumentation(v map[string]any) *BmmSingletonBuilder {
-	i.bmmsingleton.Documentation = v
+	i.bmmsingleton.documentation = v
 	return i
 }
 
@@ -137,7 +138,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmSingletonBuilder) SetExtensions(v map[string]any) *BmmSingletonBuilder {
-	i.bmmsingleton.Extensions = v
+	i.bmmsingleton.extensions = v
 	return i
 }
 

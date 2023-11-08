@@ -84,7 +84,7 @@ func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v vocabulary.IBmmSimpleTy
 }
 
 // From: PBmmProperty
-// Name of this property within its class. Persisted attribute.
+// name of this property within its class. Persisted attribute.
 func (i *PBmmSinglePropertyOpenBuilder) SetName(v string) *PBmmSinglePropertyOpenBuilder {
 	i.pbmmsinglepropertyopen.Name = v
 	return i

@@ -11,22 +11,10 @@ subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
 
 // Interface definition
 type IBmmEnumeration interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_MODULE
-	// From: BMM_CLASS
-	//redefined Type() IBmmModelType
-	AllAncestors() []string
-	AllDescendants() []string
-	Suppliers() []string
-	SuppliersNonPrimitive() []string
-	SupplierClosure() []string
-	PackagePath() string
-	ClassPath() string
-	FlatFeatures()
-	FlatProperties() []IBmmProperty
-	//BMM_SIMPLE_CLASS
-	Type() IBmmSimpleType
+	IBmmModelElement
+	IBmmModule
+	IBmmClass
+	IBmmSimpleClass
 	// From: BMM_ENUMERATION
 	NameMap() map[string]string
 }
@@ -55,8 +43,8 @@ type BmmEnumeration struct {
 func NewBmmEnumeration() *BmmEnumeration {
 	bmmenumeration := new(BmmEnumeration)
 	//BmmModelElement
-	bmmenumeration.Documentation = make(map[string]any)
-	bmmenumeration.Extensions = make(map[string]any)
+	bmmenumeration.documentation = make(map[string]any)
+	bmmenumeration.extensions = make(map[string]any)
 	//BmmModule
 	bmmenumeration.Features = make([]IBmmFeature, 0)
 	bmmenumeration.FeatureGroups = make([]IBmmFeatureGroup, 0)
@@ -240,14 +228,14 @@ func (i *BmmEnumerationBuilder) SetFeatures(v []IBmmFeature) *BmmEnumerationBuil
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmEnumerationBuilder) SetScope(v IBmmModel) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmModelElement.Scope = v
+	i.bmmenumeration.BmmModelElement.scope = v
 	return i
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmEnumerationBuilder) SetName(v string) *BmmEnumerationBuilder {
-	i.bmmenumeration.Name = v
+	i.bmmenumeration.name = v
 	return i
 }
 
@@ -259,7 +247,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmEnumerationBuilder) SetDocumentation(v map[string]any) *BmmEnumerationBuilder {
-	i.bmmenumeration.Documentation = v
+	i.bmmenumeration.documentation = v
 	return i
 }
 
@@ -269,7 +257,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmEnumerationBuilder) SetExtensions(v map[string]any) *BmmEnumerationBuilder {
-	i.bmmenumeration.Extensions = v
+	i.bmmenumeration.extensions = v
 	return i
 }
 

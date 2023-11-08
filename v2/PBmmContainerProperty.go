@@ -74,7 +74,7 @@ func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v vocabulary.IBmmContainer
 }
 
 // //From: PBmmProperty
-// Name of this property within its class. Persisted attribute.
+// name of this property within its class. Persisted attribute.
 func (i *PBmmContainerPropertyBuilder) SetName(v string) *PBmmContainerPropertyBuilder {
 	i.pbmmcontainerproperty.Name = v
 	return i

@@ -70,7 +70,7 @@ func (i *ElPropertyRefBuilder) SetScoper(v IElValueGenerator) *ElPropertyRefBuil
 }
 
 // From: ElValueGenerator
-// Name used to represent the reference or other entity.
+// name used to represent the reference or other entity.
 func (i *ElPropertyRefBuilder) SetName(v string) *ElPropertyRefBuilder {
 	i.elpropertyref.Name = v
 	return i

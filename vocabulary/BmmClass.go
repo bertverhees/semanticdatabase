@@ -11,9 +11,8 @@ type_name() to obtain the qualified type name.
 
 // Interface definition
 type IBmmClass interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_MODULE
+	IBmmModelElement
+	IBmmModule
 	//BMM_CLASS
 	//redefined in subclasses Type() IBmmModelType
 	AllAncestors() []string

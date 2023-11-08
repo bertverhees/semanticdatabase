@@ -6,6 +6,15 @@ package vocabulary
 type IBmmWritableVariable interface {
 	// From: BMM_MODEL_ELEMENT
 	IsRootScope() bool
+	Name() string
+	SetName(name string)
+	Documentation() map[string]any
+	SetDocumentation(v map[string]any)
+	Scope() IBmmModelElement
+	SetScope(v IBmmModelElement)
+	Extensions() map[string]any
+	SetExtensions(v map[string]any)
+
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool

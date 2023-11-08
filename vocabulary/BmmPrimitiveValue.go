@@ -4,6 +4,8 @@ package vocabulary
 
 // Interface definition
 type IBmmPrimitiveValue[T IBmmSimpleType] interface {
+	IBmmUnitaryValue[T]
+	IBmmLiteralValue[T]
 }
 
 // Struct definition

@@ -7,16 +7,8 @@ type in a generic type declaration.
 
 // Interface definition
 type IBmmEffectiveType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	//EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
+	IBmmType
+	IBmmUnitaryType
 	//BMM_EFFECTIVE_TYPE
 	TypeBaseName() string             //abstract
 	EffectiveType() IBmmEffectiveType //effected
@@ -39,7 +31,7 @@ func (b *BmmEffectiveType) EffectiveType() IBmmEffectiveType {
 	return b
 }
 
-// TypeBaseName (effected) Name of base generator type, i.e. excluding any generic parts if present.
+// TypeBaseName (effected) name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmEffectiveType) TypeBaseName() string {
 	return ""
 }

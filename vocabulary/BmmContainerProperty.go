@@ -8,15 +8,11 @@ import (
 
 // Interface definition
 type IBmmContainerProperty interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_INSTANTIABLE_FEATURE
-	//BMM_PROPERTY
-	Existence() *base.MultiplicityInterval[int]
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmFeature
+	IBmmInstantiableFeature
+	IBmmProperty
 	//BMM_CONTAINER_PROPERTY
 	DisplayName() string //redefined
 }
@@ -45,8 +41,8 @@ func NewBmmContainerProperty() *BmmContainerProperty {
 	//default, no constant
 	bmmcontainerproperty.IsNullable = false
 	//BmmModelElement
-	bmmcontainerproperty.Documentation = make(map[string]any)
-	bmmcontainerproperty.Extensions = make(map[string]any)
+	bmmcontainerproperty.documentation = make(map[string]any)
+	bmmcontainerproperty.extensions = make(map[string]any)
 	//BmmFeature
 	bmmcontainerproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
@@ -121,7 +117,7 @@ func (i *BmmContainerPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmContai
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmContainerPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmContainerPropertyBuilder {
 	i.bmmcontainerproperty.FeatureExtensions = v
 	return i
@@ -145,7 +141,7 @@ func (i *BmmContainerPropertyBuilder) SetIsNullable(v bool) *BmmContainerPropert
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmContainerPropertyBuilder) SetName(v string) *BmmContainerPropertyBuilder {
 	i.bmmcontainerproperty.Name = v
 	return i
@@ -159,14 +155,14 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmContainerPropertyBuilder) SetDocumentation(v map[string]any) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.Documentation = v
+	i.bmmcontainerproperty.documentation = v
 	return i
 }
 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmContainerPropertyBuilder) SetScope(v IBmmModelElement) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.BmmModelElement.Scope = v
+	i.bmmcontainerproperty.BmmModelElement.scope = v
 	return i
 }
 
@@ -176,7 +172,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmContainerPropertyBuilder) SetExtensions(v map[string]any) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.Extensions = v
+	i.bmmcontainerproperty.extensions = v
 	return i
 }
 

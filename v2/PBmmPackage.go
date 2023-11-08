@@ -24,7 +24,7 @@ type PBmmPackage struct {
 	PBmmPackageContainer
 	// Attributes
 	/**
-	Name of the package from schema; this name may be qualified if it is a top-level
+	name of the package from schema; this name may be qualified if it is a top-level
 	package within the schema, or unqualified. Persistent attribute.
 	*/
 	Name string `yaml:"name" json:"name" xml:"name"`
@@ -54,7 +54,7 @@ func NewPBmmPackageBuilder() *PBmmPackageBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Name of the package from schema; this name may be qualified if it is a top-level
+name of the package from schema; this name may be qualified if it is a top-level
 package within the schema, or unqualified. Persistent attribute.
 */
 func (i *PBmmPackageBuilder) SetName(v string) *PBmmPackageBuilder {

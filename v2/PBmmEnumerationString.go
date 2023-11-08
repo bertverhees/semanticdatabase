@@ -73,7 +73,7 @@ func (i *PBmmEnumerationStringBuilder) SetItemValues(v []any) *PBmmEnumerationSt
 }
 
 // //From: PBmmClass
-// Name of the class. Persisted attribute.
+// name of the class. Persisted attribute.
 func (i *PBmmEnumerationStringBuilder) SetName(v string) *PBmmEnumerationStringBuilder {
 	i.pbmmenumerationstring.Name = v
 	return i

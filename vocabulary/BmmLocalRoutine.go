@@ -4,7 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmLocalRoutine interface {
-	// From: BMM_ROUTINE_DEFINITION
+	IBmmRoutineDefinition
 	//BMM_LOCAL_ROUTINE
 }
 

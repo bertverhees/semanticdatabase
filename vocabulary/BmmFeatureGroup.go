@@ -44,7 +44,7 @@ func NewBmmFeatureGroupBuilder() *BmmFeatureGroupBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Name of this feature group; defaults to 'feature'.
+// name of this feature group; defaults to 'feature'.
 func (i *BmmFeatureGroupBuilder) SetName(v string) *BmmFeatureGroupBuilder {
 	i.bmmfeaturegroup.Name = v
 	return i

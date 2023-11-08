@@ -21,7 +21,7 @@ type PBmmSimpleType struct {
 	PBmmType
 	// Constants
 	// Attributes
-	// Name of type - must be a simple class name.
+	// name of type - must be a simple class name.
 	Type string `yaml:"type" json:"type" xml:"type"`
 	// Result of create_bmm_type() call.
 	BmmType vocabulary.IBmmSimpleType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
@@ -46,7 +46,7 @@ func NewPBmmSimpleTypeBuilder() *PBmmSimpleTypeBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Name of type - must be a simple class name.
+// name of type - must be a simple class name.
 func (i *PBmmSimpleTypeBuilder) SetType(v string) *PBmmSimpleTypeBuilder {
 	i.pbmmsimpletype.Type = v
 	return i

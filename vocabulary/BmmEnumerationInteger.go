@@ -4,24 +4,11 @@ package vocabulary
 
 // Interface definition
 type IBmmEnumerationInteger interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_MODULE
-	// From: BMM_CLASS
-	//redefined Type() IBmmModelType
-	AllAncestors() []string
-	AllDescendants() []string
-	Suppliers() []string
-	SuppliersNonPrimitive() []string
-	SupplierClosure() []string
-	PackagePath() string
-	ClassPath() string
-	IsPrimitive() bool
-	IsAbstract() bool
-	FlatFeatures()
-	FlatProperties() []IBmmProperty
-	//BMM_SIMPLE_CLASS
-	Type() IBmmSimpleType
+	IBmmModelElement
+	IBmmModule
+	IBmmClass
+	IBmmSimpleClass
+	IBmmEnumeration
 	// From: BMM_ENUMERATION
 	NameMap() map[string]string
 }
@@ -45,8 +32,8 @@ type BmmEnumerationInteger struct {
 func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	bmmenumerationinteger := new(BmmEnumerationInteger)
 	//BmmModelElement
-	bmmenumerationinteger.Documentation = make(map[string]any)
-	bmmenumerationinteger.Extensions = make(map[string]any)
+	bmmenumerationinteger.documentation = make(map[string]any)
+	bmmenumerationinteger.extensions = make(map[string]any)
 	//BmmModule
 	bmmenumerationinteger.Features = make([]IBmmFeature, 0)
 	bmmenumerationinteger.FeatureGroups = make([]IBmmFeatureGroup, 0)
@@ -230,9 +217,9 @@ func (i *BmmEnumerationIntegerBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *B
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmEnumerationIntegerBuilder) SetName(v string) *BmmEnumerationIntegerBuilder {
-	i.bmmenumerationinteger.Name = v
+	i.bmmenumerationinteger.name = v
 	return i
 }
 
@@ -244,14 +231,14 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmEnumerationIntegerBuilder) SetDocumentation(v map[string]any) *BmmEnumerationIntegerBuilder {
-	i.bmmenumerationinteger.Documentation = v
+	i.bmmenumerationinteger.documentation = v
 	return i
 }
 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmEnumerationIntegerBuilder) SetScope(v IBmmModelElement) *BmmEnumerationIntegerBuilder {
-	i.bmmenumerationinteger.BmmModelElement.Scope = v
+	i.bmmenumerationinteger.BmmModelElement.scope = v
 	return i
 }
 
@@ -261,7 +248,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmEnumerationIntegerBuilder) SetExtensions(v map[string]any) *BmmEnumerationIntegerBuilder {
-	i.bmmenumerationinteger.Extensions = v
+	i.bmmenumerationinteger.extensions = v
 	return i
 }
 

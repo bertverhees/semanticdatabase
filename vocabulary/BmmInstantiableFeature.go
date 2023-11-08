@@ -7,12 +7,9 @@ value objects.
 
 // Interface definition
 type IBmmInstantiableFeature interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmFeature
 	//BMM_INSTANTIABLE_FEATURE
 }
 

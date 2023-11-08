@@ -7,7 +7,7 @@ table, Map etc.
 
 // Interface definition
 type IBmmIndexedContainerValue interface {
-	// From: BMM_LITERAL_VALUE
+	IBmmLiteralValue[IBmmType]
 }
 
 // Struct definition

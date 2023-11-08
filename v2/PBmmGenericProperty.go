@@ -66,7 +66,7 @@ func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v vocabulary.IBmmGenericType
 }
 
 // //From: PBmmProperty
-// Name of this property within its class. Persisted attribute.
+// name of this property within its class. Persisted attribute.
 func (i *PBmmGenericPropertyBuilder) SetName(v string) *PBmmGenericPropertyBuilder {
 	i.pbmmgenericproperty.Name = v
 	return i

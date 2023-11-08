@@ -4,8 +4,8 @@ package vocabulary
 
 // Interface definition
 type IBmmActionTable interface {
-	// From: BMM_STATEMENT
-	// From: BMM_STATEMENT_ITEM
+	IBmmStatement
+	IBmmStatementItem
 }
 
 // Struct definition

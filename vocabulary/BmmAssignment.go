@@ -8,9 +8,9 @@ may be understood as an initialisation of an existing meta-model instance.
 
 // Interface definition
 type IBmmAssignment interface {
-	// From: BMM_SIMPLE_STATEMENT
-	// From: BMM_STATEMENT
-	// From: BMM_STATEMENT_ITEM
+	IBmmSimpleStatement
+	IBmmStatement
+	IBmmStatementItem
 }
 
 // Struct definition

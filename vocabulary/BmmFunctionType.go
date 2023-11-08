@@ -4,28 +4,12 @@ package vocabulary
 
 // Interface definition
 type IBmmFunctionType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
-	//BMM_BUILTIN_TYPE
-	//IsAbstract() bool
-	//IsPrimitive() bool
-	//TypeBaseName() string
-	//TypeName() string
-	//BMM_SIGNATURE
-	//FlattenedTypeList() []string
-	//BMM_ROUTINE_TYPE
-	ArgumentTypes() IBmmTupleType
+	IBmmType
+	IBmmUnitaryType
+	IBmmEffectiveType
+	IBmmBuiltinType
+	IBmmSignature
+	IBmmRoutineType
 	//BMM_FUNCTION_TYPE
 	GetResultType() IBmmStatusType
 }

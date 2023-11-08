@@ -4,7 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmIntervalValue interface {
-	// From: BMM_LITERAL_VALUE
+	IBmmLiteralValue[IBmmSimpleType]
 }
 
 // Struct definition

@@ -11,7 +11,8 @@ sub-part or an association semantics with respect to the owning class.
 // Interface definition
 type IBmmProperty interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
@@ -31,7 +32,7 @@ type BmmProperty struct {
 	BmmInstantiableFeature
 	// Constants
 	// Attributes
-	//Name of this property in the model.
+	//name of this property in the model.
 	Name string `yaml:"name" json:"name" xml:"name"`
 	//True if this property is mandatory in its class.
 	IsMandatory bool

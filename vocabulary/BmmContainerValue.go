@@ -7,7 +7,7 @@ array, list or set.
 
 // Interface definition
 type IBmmContainerValue interface {
-	// From: BMM_LITERAL_VALUE
+	IBmmLiteralValue[IBmmContainerType]
 }
 
 // Struct definition

@@ -9,16 +9,8 @@ import (
 
 // Interface definition
 type IBmmParameterType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
+	IBmmType
+	IBmmUnitaryType
 	//BMM_PARAMETER_TYPE
 	FlattenedConformsToType() IBmmEffectiveType
 	//TypeSignature() string
@@ -36,7 +28,7 @@ type BmmParameterType struct {
 	BmmUnitaryType
 	// Attributes
 	/**
-	Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
+	name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
 	upper-case.
 	*/
 	Name string `yaml:"name" json:"name" xml:"name"`
@@ -65,7 +57,7 @@ func NewBmmParameterTypeBuilder() *BmmParameterTypeBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
+name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
 upper-case.
 */
 func (i *BmmParameterTypeBuilder) SetName(v string) *BmmParameterTypeBuilder {

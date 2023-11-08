@@ -69,7 +69,7 @@ func (i *ElTypeRefBuilder) SetIsWritable(v bool) *ElTypeRefBuilder {
 }
 
 // From: ElValueGenerator
-// Name used to represent the reference or other entity.
+// name used to represent the reference or other entity.
 func (i *ElTypeRefBuilder) SetName(v string) *ElTypeRefBuilder {
 	i.eltyperef.Name = v
 	return i

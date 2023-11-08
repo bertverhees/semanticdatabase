@@ -10,11 +10,10 @@ usually called in the form name ({arg:TArg}*) .
 // Interface definition
 type IBmmProcedure interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmFeature
+	IBmmRoutine
 	//BMM_ROUTINE
 	Arity() int
 }
@@ -39,8 +38,8 @@ func NewBmmProcedure() *BmmProcedure {
 	//default, no constant
 	bmmprocedure.IsNullable = false
 	//BmmModelElement
-	bmmprocedure.Documentation = make(map[string]any)
-	bmmprocedure.Extensions = make(map[string]any)
+	bmmprocedure.documentation = make(map[string]any)
+	bmmprocedure.extensions = make(map[string]any)
 	//BmmFeature
 	bmmprocedure.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmRoutine
@@ -116,7 +115,7 @@ func (i *BmmProcedureBuilder) SetIsSynthesisedGeneric(v bool) *BmmProcedureBuild
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmProcedureBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmProcedureBuilder {
 	i.bmmprocedure.FeatureExtensions = v
 	return i
@@ -140,9 +139,9 @@ func (i *BmmProcedureBuilder) SetIsNullable(v bool) *BmmProcedureBuilder {
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmProcedureBuilder) SetName(v string) *BmmProcedureBuilder {
-	i.bmmprocedure.Name = v
+	i.bmmprocedure.name = v
 	return i
 }
 
@@ -154,14 +153,14 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmProcedureBuilder) SetDocumentation(v map[string]any) *BmmProcedureBuilder {
-	i.bmmprocedure.Documentation = v
+	i.bmmprocedure.documentation = v
 	return i
 }
 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmProcedureBuilder) SetScope(v IBmmModelElement) *BmmProcedureBuilder {
-	i.bmmprocedure.BmmModelElement.Scope = v
+	i.bmmprocedure.BmmModelElement.scope = v
 	return i
 }
 
@@ -171,7 +170,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmProcedureBuilder) SetExtensions(v map[string]any) *BmmProcedureBuilder {
-	i.bmmprocedure.Extensions = v
+	i.bmmprocedure.extensions = v
 	return i
 }
 

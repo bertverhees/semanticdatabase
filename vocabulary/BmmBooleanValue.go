@@ -7,9 +7,9 @@ representing Boolean and value is of type Boolean .
 
 // Interface definition
 type IBmmBooleanValue interface {
-	// From: BMM_PRIMITIVE_VALUE
-	// From: BMM_UNITARY_VALUE
-	// From: BMM_LITERAL_VALUE
+	IBmmPrimitiveValue[IBmmSimpleType]
+	IBmmUnitaryValue[IBmmSimpleType]
+	IBmmLiteralValue[IBmmSimpleType]
 }
 
 // Struct definition

@@ -8,7 +8,8 @@ Automatically declared variable representing result of a Function call
 // Interface definition
 type IBmmResult interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
@@ -34,8 +35,8 @@ type BmmResult struct {
 func NewBmmResult() *BmmResult {
 	bmmresult := new(BmmResult)
 	//BmmModelElement
-	bmmresult.Documentation = make(map[string]any)
-	bmmresult.Extensions = make(map[string]any)
+	bmmresult.documentation = make(map[string]any)
+	bmmresult.extensions = make(map[string]any)
 	//BmmFormalElement
 	//default, no constant
 	bmmresult.IsNullable = false
@@ -55,7 +56,7 @@ func NewBmmResultBuilder() *BmmResultBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Name of this model element.
+// name of this model element.
 func (i *BmmResultBuilder) SetName(v string) *BmmResultBuilder {
 	i.bmmresult.Name = v
 	return i
@@ -64,7 +65,7 @@ func (i *BmmResultBuilder) SetName(v string) *BmmResultBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmResultBuilder) SetScope(v IBmmRoutine) *BmmResultBuilder {
-	i.bmmresult.BmmModelElement.Scope = v
+	i.bmmresult.BmmModelElement.scope = v
 	return i
 }
 
@@ -93,7 +94,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmResultBuilder) SetDocumentation(v map[string]any) *BmmResultBuilder {
-	i.bmmresult.Documentation = v
+	i.bmmresult.documentation = v
 	return i
 }
 
@@ -103,7 +104,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmResultBuilder) SetExtensions(v map[string]any) *BmmResultBuilder {
-	i.bmmresult.Extensions = v
+	i.bmmresult.extensions = v
 	return i
 }
 

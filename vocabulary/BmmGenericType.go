@@ -4,22 +4,10 @@ package vocabulary
 
 // Interface definition
 type IBmmGenericType interface {
-	// From: BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
-	//BMM_MODEL_TYPE
-	//TypeBaseName() string
-	//IsPrimitive() bool
+	IBmmType
+	IBmmUnitaryType
+	IBmmEffectiveType
+	IBmmModelType
 	//BMM_GENERIC_TYPE
 	IsPartiallyClosed() bool
 	EffectiveBaseClass() IBmmGenericClass
@@ -142,7 +130,7 @@ func (b *BmmGenericType) IsOpen() bool {
 }
 
 // From: BMM_EFFECTIVE_TYPE
-// Name of base generator type, i.e. excluding any generic parts if present.
+// name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmGenericType) TypeBaseName() string {
 	return ""
 }

@@ -4,13 +4,10 @@ package vocabulary
 
 // Interface definition
 type IBmmLocal interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_VARIABLE
-	//BMM_WRITEABLE_VARIABLE
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmVariable
+	IBmmWritableVariable
 	//BMM_LOCAL
 }
 
@@ -29,8 +26,8 @@ type BmmLocal struct {
 func NewBmmLocal() *BmmLocal {
 	bmmlocal := new(BmmLocal)
 	//BmmModelElement
-	bmmlocal.Documentation = make(map[string]any)
-	bmmlocal.Extensions = make(map[string]any)
+	bmmlocal.documentation = make(map[string]any)
+	bmmlocal.extensions = make(map[string]any)
 	//BmmFormalElement
 	//default, no constant
 	bmmlocal.IsNullable = false
@@ -53,7 +50,7 @@ func NewBmmLocalBuilder() *BmmLocalBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmLocalBuilder) SetScope(v IBmmRoutine) *BmmLocalBuilder {
-	i.bmmlocal.BmmModelElement.Scope = v
+	i.bmmlocal.BmmModelElement.scope = v
 	return i
 }
 
@@ -75,9 +72,9 @@ func (i *BmmLocalBuilder) SetIsNullable(v bool) *BmmLocalBuilder {
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmLocalBuilder) SetName(v string) *BmmLocalBuilder {
-	i.bmmlocal.Name = v
+	i.bmmlocal.name = v
 	return i
 }
 
@@ -89,7 +86,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmLocalBuilder) SetDocumentation(v map[string]any) *BmmLocalBuilder {
-	i.bmmlocal.Documentation = v
+	i.bmmlocal.documentation = v
 	return i
 }
 
@@ -99,7 +96,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmLocalBuilder) SetExtensions(v map[string]any) *BmmLocalBuilder {
-	i.bmmlocal.Extensions = v
+	i.bmmlocal.extensions = v
 	return i
 }
 

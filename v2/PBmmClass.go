@@ -80,7 +80,7 @@ func NewPBmmClassBuilder() *PBmmClassBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Name of the class. Persisted attribute.
+// name of the class. Persisted attribute.
 func (i *PBmmClassBuilder) SetName(v string) *PBmmClassBuilder {
 	i.pbmmclass.Name = v
 	return i

@@ -70,7 +70,7 @@ func (i *PBmmIndexedContainerPropertyBuilder) SetCardinality(v base.Interval[int
 }
 
 // //From: PBmmProperty
-// Name of this property within its class. Persisted attribute.
+// name of this property within its class. Persisted attribute.
 func (i *PBmmIndexedContainerPropertyBuilder) SetName(v string) *PBmmIndexedContainerPropertyBuilder {
 	i.pbmmindexedcontainerproperty.Name = v
 	return i

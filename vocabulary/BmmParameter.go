@@ -5,12 +5,10 @@ package vocabulary
 // Interface definition
 type IBmmParameter interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_VARIABLE
-	//BMM_READONLY_VARIABLE
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmVariable
+	IBmmReadonlyVariable
 	//BMM_PARAMETER
 }
 
@@ -34,8 +32,8 @@ type BmmParameter struct {
 func NewBmmParameter() *BmmParameter {
 	bmmparameter := new(BmmParameter)
 	//BmmModelElement
-	bmmparameter.Documentation = make(map[string]any)
-	bmmparameter.Extensions = make(map[string]any)
+	bmmparameter.documentation = make(map[string]any)
+	bmmparameter.extensions = make(map[string]any)
 	//BmmFormalElement
 	//default, no constant
 	bmmparameter.IsNullable = false
@@ -66,7 +64,7 @@ func (i *BmmParameterBuilder) SetDirection(v BmmParameterDirection) *BmmParamete
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmParameterBuilder) SetScope(v IBmmRoutine) *BmmParameterBuilder {
-	i.bmmparameter.BmmModelElement.Scope = v
+	i.bmmparameter.BmmModelElement.scope = v
 	return i
 }
 
@@ -88,9 +86,9 @@ func (i *BmmParameterBuilder) SetIsNullable(v bool) *BmmParameterBuilder {
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmParameterBuilder) SetName(v string) *BmmParameterBuilder {
-	i.bmmparameter.Name = v
+	i.bmmparameter.name = v
 	return i
 }
 
@@ -102,7 +100,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmParameterBuilder) SetDocumentation(v map[string]any) *BmmParameterBuilder {
-	i.bmmparameter.Documentation = v
+	i.bmmparameter.documentation = v
 	return i
 }
 
@@ -112,7 +110,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmParameterBuilder) SetExtensions(v map[string]any) *BmmParameterBuilder {
-	i.bmmparameter.Extensions = v
+	i.bmmparameter.extensions = v
 	return i
 }
 

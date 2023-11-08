@@ -4,20 +4,9 @@ package vocabulary
 
 // Interface definition
 type IBmmGenericClass interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_MODULE
-	// From: BMM_CLASS
-	// redefined Type() IBmmModelType
-	AllAncestors() []string
-	AllDescendants() []string
-	Suppliers() []string
-	SuppliersNonPrimitive() []string
-	SupplierClosure() []string
-	PackagePath() string
-	ClassPath() string
-	FlatFeatures()
-	FlatProperties() []IBmmProperty
+	IBmmModelElement
+	IBmmModule
+	IBmmClass
 	// BMM_GENERIC_CLASS
 	Type() IBmmGenericType //redefined from class where BMM_MODEL_TYPE
 	GenericParameterConformanceType(a_name string) string
@@ -45,8 +34,8 @@ type BmmGenericClass struct {
 func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass := new(BmmGenericClass)
 	//BmmModelElement
-	bmmgenericclass.Documentation = make(map[string]any)
-	bmmgenericclass.Extensions = make(map[string]any)
+	bmmgenericclass.documentation = make(map[string]any)
+	bmmgenericclass.extensions = make(map[string]any)
 	//BmmModule
 	bmmgenericclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
@@ -221,9 +210,9 @@ func (i *BmmGenericClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmGene
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmGenericClassBuilder) SetName(v string) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Name = v
+	i.bmmgenericclass.name = v
 	return i
 }
 
@@ -235,14 +224,14 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmGenericClassBuilder) SetDocumentation(v map[string]any) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Documentation = v
+	i.bmmgenericclass.documentation = v
 	return i
 }
 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmGenericClassBuilder) SetScope(v IBmmModelElement) *BmmGenericClassBuilder {
-	i.bmmgenericclass.BmmModelElement.Scope = v
+	i.bmmgenericclass.BmmModelElement.scope = v
 	return i
 }
 
@@ -252,7 +241,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmGenericClassBuilder) SetExtensions(v map[string]any) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Extensions = v
+	i.bmmgenericclass.extensions = v
 	return i
 }
 

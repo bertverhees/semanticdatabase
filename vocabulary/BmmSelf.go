@@ -8,7 +8,8 @@ instance. Typically called 'self' or 'this' in programming languages. Read-only.
 // Interface definition
 type IBmmSelf interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// From: BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
@@ -34,8 +35,8 @@ type BmmSelf struct {
 func NewBmmSelf() *BmmSelf {
 	bmmself := new(BmmSelf)
 	//BmmModelElement
-	bmmself.Documentation = make(map[string]any)
-	bmmself.Extensions = make(map[string]any)
+	bmmself.documentation = make(map[string]any)
+	bmmself.extensions = make(map[string]any)
 	//BmmFormalElement
 	//default, no constant
 	bmmself.IsNullable = false
@@ -56,7 +57,7 @@ func NewBmmSelfBuilder() *BmmSelfBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Name of this model element.
+// name of this model element.
 func (i *BmmSelfBuilder) SetName(v string) *BmmSelfBuilder {
 	i.bmmself.Name = v
 	return i
@@ -65,7 +66,7 @@ func (i *BmmSelfBuilder) SetName(v string) *BmmSelfBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmSelfBuilder) SetScope(v IBmmRoutine) *BmmSelfBuilder {
-	i.bmmself.BmmModelElement.Scope = v
+	i.bmmself.BmmModelElement.scope = v
 	return i
 }
 
@@ -94,7 +95,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmSelfBuilder) SetDocumentation(v map[string]any) *BmmSelfBuilder {
-	i.bmmself.Documentation = v
+	i.bmmself.documentation = v
 	return i
 }
 
@@ -104,7 +105,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmSelfBuilder) SetExtensions(v map[string]any) *BmmSelfBuilder {
-	i.bmmself.Extensions = v
+	i.bmmself.extensions = v
 	return i
 }
 

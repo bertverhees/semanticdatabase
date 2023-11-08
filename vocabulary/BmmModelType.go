@@ -4,19 +4,9 @@ package vocabulary
 
 // Interface definition
 type IBmmModelType interface {
-	//BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_UNITARY_TYPE
-	UnitaryType() IBmmUnitaryType //effected
-	//BMM_EFFECTIVE_TYPE
-	TypeBaseName() string
-	//EffectiveType() IBmmEffectiveType
+	IBmmType
+	IBmmUnitaryType
+	IBmmEffectiveType
 	//BMM_MODEL_TYPE
 	//TypeBaseName() string
 	//IsPrimitive() bool
@@ -40,7 +30,7 @@ type BmmModelType struct {
 // FUNCTIONS
 // (effected) Result = base_class.name .
 func (b *BmmModelType) TypeBaseName() string {
-	return b.BaseClass.Name
+	return b.BaseClass.name
 }
 
 // (effected) Result = base_class.is_primitive .

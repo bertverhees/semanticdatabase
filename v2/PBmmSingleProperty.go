@@ -75,7 +75,7 @@ func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePro
 }
 
 // From: PBmmProperty
-// Name of this property within its class. Persisted attribute.
+// name of this property within its class. Persisted attribute.
 func (i *PBmmSinglePropertyBuilder) SetName(v string) *PBmmSinglePropertyBuilder {
 	i.pbmmsingleproperty.Name = v
 	return i

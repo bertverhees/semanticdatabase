@@ -8,13 +8,10 @@ non-state-changing.
 
 // Interface definition
 type IBmmFunction interface {
-	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_FEATURE
-	//BMM_ROUTINE
+	IBmmModelElement
+	IBmmFormalElement
+	IBmmFeature
+	IBmmRoutine
 	Arity() int
 }
 
@@ -43,8 +40,8 @@ func NewBmmFunction() *BmmFunction {
 	//default, no constant
 	bmmfunction.IsNullable = false
 	//BmmModelElement
-	bmmfunction.Documentation = make(map[string]any)
-	bmmfunction.Extensions = make(map[string]any)
+	bmmfunction.documentation = make(map[string]any)
+	bmmfunction.extensions = make(map[string]any)
 	//BmmFeature
 	bmmfunction.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmRoutine
@@ -129,7 +126,7 @@ func (i *BmmFunctionBuilder) SetIsSynthesisedGeneric(v bool) *BmmFunctionBuilder
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmFunctionBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmFunctionBuilder {
 	i.bmmfunction.FeatureExtensions = v
 	return i
@@ -145,7 +142,7 @@ func (i *BmmFunctionBuilder) SetGroup(v IBmmFeatureGroup) *BmmFunctionBuilder {
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmFunctionBuilder) SetScope(v IBmmClass) *BmmFunctionBuilder {
-	i.bmmfunction.BmmModelElement.Scope = v
+	i.bmmfunction.BmmModelElement.scope = v
 	return i
 }
 
@@ -167,9 +164,9 @@ func (i *BmmFunctionBuilder) SetIsNullable(v bool) *BmmFunctionBuilder {
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmFunctionBuilder) SetName(v string) *BmmFunctionBuilder {
-	i.bmmfunction.Name = v
+	i.bmmfunction.name = v
 	return i
 }
 
@@ -181,7 +178,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmFunctionBuilder) SetDocumentation(v map[string]any) *BmmFunctionBuilder {
-	i.bmmfunction.Documentation = v
+	i.bmmfunction.documentation = v
 	return i
 }
 
@@ -191,7 +188,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmFunctionBuilder) SetExtensions(v map[string]any) *BmmFunctionBuilder {
-	i.bmmfunction.Extensions = v
+	i.bmmfunction.extensions = v
 	return i
 }
 

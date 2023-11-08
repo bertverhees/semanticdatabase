@@ -8,7 +8,8 @@ Definition of a simple class, i.e. a class that has no generic parameters and is
 // Interface definition
 type IBmmSimpleClass interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// From: BMM_MODULE
 	//BMM_CLASS
 	// Type() IBmmModelType redefined
@@ -40,8 +41,8 @@ type BmmSimpleClass struct {
 func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass := new(BmmSimpleClass)
 	//BmmModelElement
-	bmmsimpleclass.Documentation = make(map[string]any)
-	bmmsimpleclass.Extensions = make(map[string]any)
+	bmmsimpleclass.documentation = make(map[string]any)
+	bmmsimpleclass.extensions = make(map[string]any)
 	//BmmModule
 	bmmsimpleclass.Features = make([]IBmmFeature, 0)
 	bmmsimpleclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
@@ -181,14 +182,14 @@ func (i *BmmSimpleClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmSimpl
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmSimpleClassBuilder) SetScope(v IBmmModel) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.BmmModelElement.Scope = v
+	i.bmmsimpleclass.BmmModelElement.scope = v
 	return i
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmSimpleClassBuilder) SetName(v string) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Name = v
+	i.bmmsimpleclass.name = v
 	return i
 }
 
@@ -200,7 +201,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmSimpleClassBuilder) SetDocumentation(v map[string]any) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Documentation = v
+	i.bmmsimpleclass.documentation = v
 	return i
 }
 
@@ -210,7 +211,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmSimpleClassBuilder) SetExtensions(v map[string]any) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Extensions = v
+	i.bmmsimpleclass.extensions = v
 	return i
 }
 

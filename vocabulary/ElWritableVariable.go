@@ -66,7 +66,7 @@ func (i *ElWritableVariableBuilder) SetIsWritable(v bool) *ElWritableVariableBui
 }
 
 // From: ElValueGenerator
-// Name used to represent the reference or other entity.
+// name used to represent the reference or other entity.
 func (i *ElWritableVariableBuilder) SetName(v string) *ElWritableVariableBuilder {
 	i.elwritablevariable.Name = v
 	return i

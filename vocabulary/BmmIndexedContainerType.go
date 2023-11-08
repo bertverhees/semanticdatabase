@@ -7,21 +7,8 @@ manner of a standard Hash table, map or dictionary.
 
 // Interface definition
 type IBmmIndexedContainerType interface {
-	// BMM_TYPE
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	//UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-	//BMM_CONTAINERTYPE
-	//TypeName() string
-	//IsAbstract() bool
-	//FlattenedTypeList() []string
-	UnitaryType() IBmmUnitaryType //effected
-	//IsPrimitive() bool
-	//EffectiveType() IBmmEffectiveType
+	IBmmType
+	IBmmContainerType
 	//BMM_INDEXED_CONTAINERTYPE
 	//TypeName() string
 

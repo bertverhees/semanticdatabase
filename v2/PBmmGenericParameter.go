@@ -18,7 +18,7 @@ type PBmmGenericParameter struct {
 	PBmmModelElement
 	// Attributes
 	/**
-	Name of the parameter, e.g. 'T' etc. Persisted attribute. Name is limited to 1
+	name of the parameter, e.g. 'T' etc. Persisted attribute. name is limited to 1
 	character, upper case.
 	*/
 	Name string `yaml:"name" json:"name" xml:"name"`
@@ -50,7 +50,7 @@ func NewPBmmGenericParameterBuilder() *PBmmGenericParameterBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Name of the parameter, e.g. 'T' etc. Persisted attribute. Name is limited to 1
+name of the parameter, e.g. 'T' etc. Persisted attribute. name is limited to 1
 character, upper case.
 */
 func (i *PBmmGenericParameterBuilder) SetName(v string) *PBmmGenericParameterBuilder {

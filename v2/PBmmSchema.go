@@ -138,7 +138,7 @@ func (i *PBmmSchemaBuilder) SetState(v vocabulary.BmmSchemaState) *PBmmSchemaBui
 
 // From: BmmSchema
 /**
-Name of this model, if this schema is a model root point. Not set for
+name of this model, if this schema is a model root point. Not set for
 sub-schemas that are not considered models on their own.
 */
 func (i *PBmmSchemaBuilder) SetModelName(v string) *PBmmSchemaBuilder {
@@ -148,7 +148,7 @@ func (i *PBmmSchemaBuilder) SetModelName(v string) *PBmmSchemaBuilder {
 
 // From: BmmSchema
 /**
-Name of model expressed in schema; a 'schema' usually contains all of the
+name of model expressed in schema; a 'schema' usually contains all of the
 packages of one 'model' of a publisher. A publisher with more than one model can
 have multiple schemas.
 */

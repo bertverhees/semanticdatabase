@@ -8,7 +8,7 @@ structure and contents.
 // Interface definition
 type IBmmModule interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
 }
 
 // Struct definition

@@ -7,10 +7,10 @@ actions are achieved from within a program.
 
 // Interface definition
 type IBmmProcedureCall interface {
-	// From: EL_AGENT_CALL
-	// From: BMM_SIMPLE_STATEMENT
-	// From: BMM_STATEMENT
-	// From: BMM_STATEMENT_ITEM
+	IElAgentCall
+	IBmmSimpleStatement
+	IBmmStatement
+	IBmmStatementItem
 }
 
 // Struct definition

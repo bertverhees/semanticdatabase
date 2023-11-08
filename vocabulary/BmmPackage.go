@@ -8,11 +8,8 @@ packages and classes. The name may be qualified if it is a top-level package.
 // Interface definition
 type IBmmPackage interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
-	// From: BMM_PACKAGE_CONTAINER
-	PackageAtPath(a_path string) IBmmPackage
-	DoRecursivePackages(action IElProcedureAgent)
-	HasPackagePath(a_path string) bool
+	IBmmModelElement
+	IBmmPackageContainer
 	// BMM_PACKAGE
 	RootClasses() []IBmmClass
 	Path() string
@@ -33,8 +30,8 @@ type BmmPackage struct {
 func NewBmmPackage() *BmmPackage {
 	bmmpackage := new(BmmPackage)
 	//BmmModelElement
-	bmmpackage.Documentation = make(map[string]any)
-	bmmpackage.Extensions = make(map[string]any)
+	bmmpackage.documentation = make(map[string]any)
+	bmmpackage.extensions = make(map[string]any)
 	//BmmPackageContainer
 	bmmpackage.Packages = make(map[string]IBmmPackage)
 	//BmmPackage
@@ -71,14 +68,14 @@ func (i *BmmPackageBuilder) SetPackages(v map[string]IBmmPackage) *BmmPackageBui
 // From: BmmPackageContainer
 // Model element within which a referenceable element is known.
 func (i *BmmPackageBuilder) SetScope(v IBmmPackageContainer) *BmmPackageBuilder {
-	i.bmmpackage.BmmModelElement.Scope = v
+	i.bmmpackage.BmmModelElement.scope = v
 	return i
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmPackageBuilder) SetName(v string) *BmmPackageBuilder {
-	i.bmmpackage.Name = v
+	i.bmmpackage.name = v
 	return i
 }
 
@@ -90,7 +87,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmPackageBuilder) SetDocumentation(v map[string]any) *BmmPackageBuilder {
-	i.bmmpackage.Documentation = v
+	i.bmmpackage.documentation = v
 	return i
 }
 
@@ -100,7 +97,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmPackageBuilder) SetExtensions(v map[string]any) *BmmPackageBuilder {
-	i.bmmpackage.Extensions = v
+	i.bmmpackage.extensions = v
 	return i
 }
 

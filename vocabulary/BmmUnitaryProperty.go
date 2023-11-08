@@ -9,7 +9,8 @@ import (
 // Interface definition
 type IBmmUnitaryProperty interface {
 	// From: BMM_MODEL_ELEMENT
-	IsRootScope() bool
+	IBmmModelElement
+
 	// BMM_FORMAL_ELEMENT
 	Signature() IBmmSignature
 	IsBoolean() bool
@@ -43,8 +44,8 @@ func NewBmmUnitaryProperty() *BmmUnitaryProperty {
 	//default, no constant
 	bmmunitaryproperty.IsNullable = false
 	//BmmModelElement
-	bmmunitaryproperty.Documentation = make(map[string]any)
-	bmmunitaryproperty.Extensions = make(map[string]any)
+	bmmunitaryproperty.documentation = make(map[string]any)
+	bmmunitaryproperty.extensions = make(map[string]any)
 	//BmmFeature
 	bmmunitaryproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
@@ -106,7 +107,7 @@ func (i *BmmUnitaryPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmUnitaryP
 }
 
 // From: BmmFeature
-// Extensions to feature-level meta-types.
+// extensions to feature-level meta-types.
 func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmUnitaryPropertyBuilder {
 	i.bmmunitaryproperty.FeatureExtensions = v
 	return i
@@ -122,7 +123,7 @@ func (i *BmmUnitaryPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmUnitaryProp
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmUnitaryPropertyBuilder) SetScope(v IBmmClass) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.BmmModelElement.Scope = v
+	i.bmmunitaryproperty.BmmModelElement.scope = v
 	return i
 }
 
@@ -144,7 +145,7 @@ func (i *BmmUnitaryPropertyBuilder) SetIsNullable(v bool) *BmmUnitaryPropertyBui
 }
 
 // From: BmmModelElement
-// Name of this model element.
+// name of this model element.
 func (i *BmmUnitaryPropertyBuilder) SetName(v string) *BmmUnitaryPropertyBuilder {
 	i.bmmunitaryproperty.Name = v
 	return i
@@ -158,7 +159,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmUnitaryPropertyBuilder) SetDocumentation(v map[string]any) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.Documentation = v
+	i.bmmunitaryproperty.documentation = v
 	return i
 }
 
@@ -168,7 +169,7 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmUnitaryPropertyBuilder) SetExtensions(v map[string]any) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.Extensions = v
+	i.bmmunitaryproperty.extensions = v
 	return i
 }
 

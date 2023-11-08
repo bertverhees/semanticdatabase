@@ -10,13 +10,21 @@ but Types are not, since they are derived from model elements.
 // Interface definition
 type IBmmModelElement interface {
 	IsRootScope() bool
+	Name() string
+	SetName(name string)
+	Documentation() map[string]any
+	SetDocumentation(v map[string]any)
+	Scope() IBmmModelElement
+	SetScope(v IBmmModelElement)
+	Extensions() map[string]any
+	SetExtensions(v map[string]any)
 }
 
 // Struct definition
 type BmmModelElement struct {
 	// Attributes
-	// Name of this model element.
-	Name string `yaml:"name" json:"name" xml:"name"`
+	// name of this model element.
+	name string `yaml:"name" json:"name" xml:"name"`
 	/**
 	Optional documentation of this element, as a keyed list. It is strongly
 	recommended to use the following key /type combinations for the relevant
@@ -28,14 +36,47 @@ type BmmModelElement struct {
 	"references": String
 	Other keys and value types may be freely added.
 	*/
-	Documentation map[string]any `yaml:"documentation" json:"documentation" xml:"documentation"`
+	documentation map[string]any `yaml:"documentation" json:"documentation" xml:"documentation"`
 	// Model element within which an element is declared.
-	Scope IBmmModelElement `yaml:"scope" json:"scope" xml:"scope"`
+	scope IBmmModelElement `yaml:"scope" json:"scope" xml:"scope"`
 	/**
 	Optional meta-data of this element, as a keyed list. May be used to extend the
 	meta-model.
 	*/
-	Extensions map[string]any `yaml:"extensions" json:"extensions" xml:"extensions"`
+	extensions map[string]any `yaml:"extensions" json:"extensions" xml:"extensions"`
+}
+
+// getters/setters
+func (b *BmmModelElement) Name() string {
+	return b.name
+}
+
+func (b *BmmModelElement) SetName(name string) {
+	b.name = name
+}
+
+func (b *BmmModelElement) Documentation() map[string]any {
+	return b.documentation
+}
+
+func (b *BmmModelElement) SetDocumentation(v map[string]any) {
+	b.documentation = v
+}
+
+func (b *BmmModelElement) Scope() IBmmModelElement {
+	return b.scope
+}
+
+func (b *BmmModelElement) SetScope(v IBmmModelElement) {
+	b.scope = v
+}
+
+func (b *BmmModelElement) Extensions() map[string]any {
+	return b.extensions
+}
+
+func (b *BmmModelElement) SetExtensions(v map[string]any) {
+	b.extensions = v
 }
 
 // CONSTRUCTOR

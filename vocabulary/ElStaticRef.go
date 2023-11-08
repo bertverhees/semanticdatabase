@@ -69,7 +69,7 @@ func (i *ElStaticRefBuilder) SetScoper(v IElValueGenerator) *ElStaticRefBuilder 
 }
 
 // From: ElValueGenerator
-// Name used to represent the reference or other entity.
+// name used to represent the reference or other entity.
 func (i *ElStaticRefBuilder) SetName(v string) *ElStaticRefBuilder {
 	i.elstaticref.Name = v
 	return i
