@@ -8,14 +8,12 @@ returns True, the result is the evaluation result of expression .
 
 // Interface definition
 type IElConditionalExpression[T IElTerminal] interface {
-	// From: EL_DECISION_BRANCH
+	IElDecisionBranch[T]
 }
 
 // Struct definition
 type ElConditionalExpression[T IElTerminal] struct {
-	// embedded for Inheritance
 	ElDecisionBranch[T]
-	// Constants
 	// Attributes
 	// Boolean expression defining the condition of this decision branch.
 	Condition IElExpression `yaml:"condition" json:"condition" xml:"condition"`

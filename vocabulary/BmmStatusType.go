@@ -8,7 +8,8 @@ Built-in meta-type representing action status, e.g. result of a call invocation.
 type IBmmStatusType interface {
 	IBmmBuiltinType
 	//BMM_STATUS_TYPE
-	BaseName() string //="status"
+	BaseName() string
+	SetBaseName(baseName string) //="status"
 }
 
 // Struct definition
@@ -16,15 +17,23 @@ type BmmStatusType struct {
 	BmmBuiltinType
 	// Constants
 	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"` // (redefined)
+	baseName string `yaml:"basename" json:"basename" xml:"basename"` // (redefined)
 	// Attributes
+}
+
+func (b *BmmStatusType) BaseName() string {
+	return b.baseName
+}
+
+func (b *BmmStatusType) SetBaseName(baseName string) {
+	b.baseName = baseName
 }
 
 // CONSTRUCTOR
 func NewBmmStatusType() *BmmStatusType {
 	bmmstatustype := new(BmmStatusType)
 	// Base name (built-in).
-	bmmstatustype.BaseName = "Status"
+	bmmstatustype.baseName = "Status"
 	return bmmstatustype
 }
 
@@ -61,7 +70,7 @@ func (b *BmmStatusType) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (redefined) Return base_name .
 func (b *BmmStatusType) TypeBaseName() string {
-	return b.BaseName
+	return b.baseName
 }
 
 // From: BMM_BUILTIN_TYPE

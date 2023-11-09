@@ -89,6 +89,8 @@ type BmmSchema struct {
 
 //FUNCTIONS
 /**
+Pre_state: state = State_created
+Post_state: passed implies state = State_validated_created
 Do some basic validation post initial creation check that package structure is
 regular: only top-level packages can have qualified names no top-level package
 name can be a direct parent or child of another (child package must be declared
@@ -102,6 +104,8 @@ func (b *BmmSchema) ValidateCreated() {
 
 /*
 *
+Pre_state: state = State_validated_created
+Post_state: state = State_includes_processed or state = State_includes_pending
 Finalisation work: convert packages to canonical form, i.e. full hierarchy with
 no packages with names like aa.bb.cc set up include processing list
 */
@@ -112,6 +116,8 @@ func (b *BmmSchema) LoadFinalise() {
 
 /*
 *
+Pre_state: state = State_includes_pending
+Pre_other_valid: includes_to_process.has (included_schema.schema_id)
 Merge in class and package definitions from other , except where the current
 schema already has a definition for the given type or package.
 */
@@ -126,8 +132,9 @@ func (b *BmmSchema) Validate() {
 	return
 }
 
+// Pre_state: state = P_BMM_PACKAGE_STATE.State_includes_processed
 // Populate bmm_model from schema.
-func (b *BmmSchema) CreateBmmModelPreState() {
+func (b *BmmSchema) CreateBmmModel() {
 	log.Fatal("The class BmmSchema is not yet supported")
 	return
 }
