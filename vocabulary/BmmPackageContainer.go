@@ -16,6 +16,10 @@ type IBmmPackageContainer interface {
 	PackageAtPath(a_path string) IBmmPackage
 	DoRecursivePackages(action IElProcedureAgent)
 	HasPackagePath(a_path string) bool
+	Packages() map[string]IBmmPackage
+	SetPackages(packages map[string]IBmmPackage)
+	Scope() IBmmPackageContainer
+	SetScope(scope IBmmPackageContainer)
 }
 
 // Struct definition
@@ -25,9 +29,25 @@ type BmmPackageContainer struct {
 	// Constants
 	// Attributes
 	// Child packages; keys all in upper case for guaranteed matching.
-	Packages map[string]IBmmPackage `yaml:"packages" json:"packages" xml:"packages"`
+	packages map[string]IBmmPackage `yaml:"packages" json:"packages" xml:"packages"`
 	// Model element within which a referenceable element is known.
-	Scope IBmmPackageContainer `yaml:"scope" json:"scope" xml:"scope"`
+	scope IBmmPackageContainer `yaml:"scope" json:"scope" xml:"scope"`
+}
+
+func (b *BmmPackageContainer) Packages() map[string]IBmmPackage {
+	return b.packages
+}
+
+func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) {
+	b.packages = packages
+}
+
+func (b *BmmPackageContainer) Scope() IBmmPackageContainer {
+	return b.scope
+}
+
+func (b *BmmPackageContainer) SetScope(scope IBmmPackageContainer) {
+	b.scope = scope
 }
 
 // CONSTRUCTOR
@@ -47,7 +67,7 @@ on all members of packages.
 */
 func (b *BmmPackageContainer) DoRecursivePackages(action IElProcedureAgent) {
 	log.Fatal("The class BmmPackageContainer is not yet supported")
-	//for _, p := range b.Packages {
+	//for _, p := range b.packages {
 	//	//action.IsCallable()
 	//	p.DoRecursivePackages(action)
 	//}

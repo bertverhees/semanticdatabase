@@ -14,8 +14,8 @@ type IBmmModelElement interface {
 	SetName(name string)
 	Documentation() map[string]any
 	SetDocumentation(v map[string]any)
-	Scope() IBmmModelElement
-	SetScope(v IBmmModelElement)
+	//Scope() IBmmModelElement
+	//SetScope(v IBmmModelElement)
 	Extensions() map[string]any
 	SetExtensions(v map[string]any)
 }

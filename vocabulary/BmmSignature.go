@@ -9,14 +9,8 @@ constraints in descendants determining the exact form.
 // Interface definition
 type IBmmSignature interface {
 	IBmmBuiltinType
-	//BMM_BUILTIN_TYPE
-	//IsAbstract() bool
-	//IsPrimitive() bool
-	//TypeBaseName() string
-	//TypeName() string
 	//BMM_SIGNATURE
-	//FlattenedTypeList() []string
-
+	FlattenedTypeList() []string
 }
 
 // Struct definition

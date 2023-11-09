@@ -11,13 +11,8 @@ are only valid within the scope of a generic class.
 // Interface definition
 type IBmmTupleType interface {
 	IBmmBuiltinType
-	//BMM_BUILTIN_TYPE
-	//IsAbstract() bool
-	//IsPrimitive() bool
-	//TypeBaseName() string
-	//TypeName() string
 	//BMM_TUPLE_TYPE
-	//FlattenedTypeList() []string
+	FlattenedTypeList() []string
 }
 
 // Struct definition

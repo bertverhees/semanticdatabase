@@ -31,7 +31,7 @@ func NewBmmPackage() *BmmPackage {
 	bmmpackage.documentation = make(map[string]any)
 	bmmpackage.extensions = make(map[string]any)
 	//BmmPackageContainer
-	bmmpackage.Packages = make(map[string]IBmmPackage)
+	bmmpackage.packages = make(map[string]IBmmPackage)
 	//BmmPackage
 	bmmpackage.Members = make([]IBmmModule, 0)
 
@@ -59,7 +59,7 @@ func (i *BmmPackageBuilder) SetMembers(v []IBmmModule) *BmmPackageBuilder {
 // From: BmmPackageContainer
 // Child packages; keys all in upper case for guaranteed matching.
 func (i *BmmPackageBuilder) SetPackages(v map[string]IBmmPackage) *BmmPackageBuilder {
-	i.bmmpackage.Packages = v
+	i.bmmpackage.packages = v
 	return i
 }
 
