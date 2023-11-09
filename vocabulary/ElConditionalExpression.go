@@ -7,12 +7,12 @@ returns True, the result is the evaluation result of expression .
 */
 
 // Interface definition
-type IElConditionalExpression[T IBmmSimpleType] interface {
+type IElConditionalExpression[T IElTerminal] interface {
 	// From: EL_DECISION_BRANCH
 }
 
 // Struct definition
-type ElConditionalExpression[T IBmmSimpleType] struct {
+type ElConditionalExpression[T IElTerminal] struct {
 	// embedded for Inheritance
 	ElDecisionBranch[T]
 	// Constants
@@ -22,18 +22,18 @@ type ElConditionalExpression[T IBmmSimpleType] struct {
 }
 
 // CONSTRUCTOR
-func NewElConditionalExpression[T IBmmSimpleType]() *ElConditionalExpression[T] {
+func NewElConditionalExpression[T IElTerminal]() *ElConditionalExpression[T] {
 	elconditionalexpression := new(ElConditionalExpression[T])
 	// Constants
 	return elconditionalexpression
 }
 
 // BUILDER
-type ElConditionalExpressionBuilder[T IBmmSimpleType] struct {
+type ElConditionalExpressionBuilder[T IElTerminal] struct {
 	elconditionalexpression *ElConditionalExpression[T]
 }
 
-func NewElConditionalExpressionBuilder[T IBmmSimpleType]() *ElConditionalExpressionBuilder[T] {
+func NewElConditionalExpressionBuilder[T IElTerminal]() *ElConditionalExpressionBuilder[T] {
 	return &ElConditionalExpressionBuilder[T]{
 		elconditionalexpression: NewElConditionalExpression[T](),
 	}

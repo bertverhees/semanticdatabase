@@ -4,15 +4,12 @@ package vocabulary
 
 // Interface definition
 type IElExpression interface {
-	//EL_EXPRESSION
 	//EvalType() IBmmType //abstract
 	IsBoolean() bool
 }
 
 // Struct definition
 type ElExpression struct {
-	// embedded for Inheritance
-	// Constants
 	// Attributes
 }
 

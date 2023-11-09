@@ -4,25 +4,13 @@ package vocabulary
 
 // Interface definition
 type IElStaticRef interface {
-	// From: EL_EXPRESSION
+	IElFeatureRef
 	EvalType() IBmmType
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
-	//EL_FEATURE_REF
-	Reference() string //redefined
 }
 
 // Struct definition
 type ElStaticRef struct {
-	// embedded for Inheritance
 	ElFeatureRef
-	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Constant definition (within class).
 	Definition IBmmStatic `yaml:"definition" json:"definition" xml:"definition"`

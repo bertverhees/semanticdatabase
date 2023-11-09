@@ -5,15 +5,11 @@ package vocabulary
 // Interface definition
 type IBmmActionTable interface {
 	IBmmStatement
-	IBmmStatementItem
 }
 
 // Struct definition
 type BmmActionTable struct {
-	// embedded for Inheritance
 	BmmStatement
-	BmmStatementItem
-	// Constants
 	// Attributes
 	/**
 	A specialised decision table whose outputs can only be procedure agents. In

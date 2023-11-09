@@ -4,6 +4,7 @@ package vocabulary
 
 // Interface definition
 type IElBooleanExpression interface {
+	IElConstrained
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
@@ -15,10 +16,7 @@ type IElBooleanExpression interface {
 
 // Struct definition
 type ElBooleanExpression struct {
-	// embedded for Inheritance
 	ElConstrained
-	ElExpression
-	// Constants
 	// Attributes
 }
 

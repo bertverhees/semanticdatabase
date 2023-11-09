@@ -8,8 +8,6 @@ type IElTupleItem interface {
 
 // Struct definition
 type ElTupleItem struct {
-	// embedded for Inheritance
-	// Constants
 	// Attributes
 	/**
 	Reference to value entity. If Void, this indicates that the item in this

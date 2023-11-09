@@ -4,21 +4,12 @@ package vocabulary
 
 // Interface definition
 type IElBinaryOperator interface {
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
-	//EL_OPERATOR
-	OperatorDefinition() IBmmOperator
-	EquivalentCall() IElFunctionCall
-	//EL_CONSTRAINED
+	IElOperator
 }
 
 // Struct definition
 type ElBinaryOperator struct {
-	// embedded for Inheritance
 	ElOperator
-	ElExpression
-	// Constants
 	// Attributes
 	// Left operand node.
 	LeftOperand IElExpression `yaml:"leftoperand" json:"leftoperand" xml:"leftoperand"`

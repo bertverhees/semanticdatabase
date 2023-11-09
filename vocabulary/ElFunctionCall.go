@@ -7,27 +7,15 @@ A call made on a closed function agent, returning a result. Equivalent to an
 
 // Interface definition
 type IElFunctionCall interface {
-	// From: EL_EXPRESSION
+	IElFeatureRef
+	IElAgentCall
 	EvalType() IBmmType
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
-	//EL_FEATURE_REF
-	// From: EL_AGENT_CALL
-	Reference() string //redefined
 }
 
 // Struct definition
 type ElFunctionCall struct {
-	// embedded for Inheritance
-	ElFeatureRef
-	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
 	ElAgentCall
-	// Constants
+	ElFeatureRef
 	// Attributes
 	// The function agent being called.
 	Agent IElFunctionAgent `yaml:"agent" json:"agent" xml:"agent"`

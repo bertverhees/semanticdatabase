@@ -4,7 +4,7 @@ package vocabulary
 
 // Interface definition
 type IBmmUnitaryValue[T IBmmUnitaryType] interface {
-	// From: BMM_LITERAL_VALUE
+	IBmmLiteralValue[T]
 }
 
 // Struct definition

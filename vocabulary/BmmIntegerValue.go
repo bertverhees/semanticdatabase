@@ -8,17 +8,11 @@ representing Integer and value is of type Integer .
 // Interface definition
 type IBmmIntegerValue interface {
 	IBmmPrimitiveValue[IBmmSimpleType]
-	IBmmUnitaryValue[IBmmSimpleType]
-	IBmmLiteralValue[IBmmSimpleType]
 }
 
 // Struct definition
 type BmmIntegerValue struct {
-	// embedded for Inheritance
-	BmmPrimitiveValue[IBmmSimpleType]
-	BmmUnitaryValue[IBmmSimpleType]
 	BmmLiteralValue[IBmmSimpleType]
-	// Constants
 	// Attributes
 	// Native Integer value.
 	Value int `yaml:"value" json:"value" xml:"value"`

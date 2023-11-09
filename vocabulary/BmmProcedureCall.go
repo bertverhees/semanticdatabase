@@ -9,18 +9,12 @@ actions are achieved from within a program.
 type IBmmProcedureCall interface {
 	IElAgentCall
 	IBmmSimpleStatement
-	IBmmStatement
-	IBmmStatementItem
 }
 
 // Struct definition
 type BmmProcedureCall struct {
-	// embedded for Inheritance
 	ElAgentCall
 	BmmSimpleStatement
-	BmmStatement
-	BmmStatementItem
-	// Constants
 	// Attributes
 	// The procedure agent being called.
 	Agent IElProcedureAgent `yaml:"agent" json:"agent" xml:"agent"`

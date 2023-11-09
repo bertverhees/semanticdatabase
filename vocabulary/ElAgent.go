@@ -12,27 +12,15 @@ evaluated form) is BMM_SIGNATURE .
 
 // Interface definition
 type IElAgent interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
-	//EL_FEATURE_REF
-	//EL_AGENT
-	//EvalType() IBmmRoutineType //effected //abstract
+	IElFeatureRef
+	//EvalType() IBmmRoutineType //effected //abstract//defined in IElFeatureRef
 	IsCallable() bool
 	Reference() string
 }
 
 // Struct definition
 type ElAgent struct {
-	// embedded for Inheritance
 	ElFeatureRef
-	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Closed arguments of a routine call as a tuple of objects.
 	ClosedArgs IElTuple `yaml:"closedargs" json:"closedargs" xml:"closedargs"`

@@ -4,9 +4,7 @@ package vocabulary
 
 // Interface definition
 type IElOperator interface {
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
+	IElExpression
 	//EL_OPERATOR
 	OperatorDefinition() IBmmOperator
 	EquivalentCall() IElFunctionCall
@@ -14,9 +12,7 @@ type IElOperator interface {
 
 // Struct definition
 type ElOperator struct {
-	// embedded for Inheritance
 	ElExpression
-	// Constants
 	// Attributes
 	/**
 	True if the natural precedence of operators is overridden in the expression
@@ -38,59 +34,7 @@ type ElOperator struct {
 }
 
 // CONSTRUCTOR
-func NewElOperator() *ElOperator {
-	eloperator := new(ElOperator)
-	// Constants
-	return eloperator
-}
-
-// BUILDER
-type ElOperatorBuilder struct {
-	eloperator *ElOperator
-}
-
-func NewElOperatorBuilder() *ElOperatorBuilder {
-	return &ElOperatorBuilder{
-		eloperator: NewElOperator(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-/**
-True if the natural precedence of operators is overridden in the expression
-represented by this node of the expression tree. If True, parentheses should be
-introduced around the totality of the syntax expression corresponding to this
-operator node and its operands.
-*/
-func (i *ElOperatorBuilder) SetPrecedenceOverridden(v bool) *ElOperatorBuilder {
-	i.eloperator.PrecedenceOverridden = v
-	return i
-}
-
-/*
-*
-The symbol actually used in the expression, or intended to be used for
-serialisation. Must be a member of OPERATOR_DEF. symbols .
-*/
-func (i *ElOperatorBuilder) SetSymbol(v string) *ElOperatorBuilder {
-	i.eloperator.Symbol = v
-	return i
-}
-
-/*
-*
-Function call equivalent to this operator expression, inferred by matching
-operator against functions defined in interface of principal operand.
-*/
-func (i *ElOperatorBuilder) SetCall(v IElFunctionCall) *ElOperatorBuilder {
-	i.eloperator.Call = v
-	return i
-}
-
-func (i *ElOperatorBuilder) Build() *ElOperator {
-	return i.eloperator
-}
-
+// abstract, no constructor, no builder
 // FUNCTIONS
 // Operator definition derived from definition.operator_definition() .
 func (e *ElOperator) OperatorDefinition() IBmmOperator {

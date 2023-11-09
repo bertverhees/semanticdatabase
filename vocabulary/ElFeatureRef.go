@@ -7,24 +7,14 @@ qualifier if it is not the currently scoping entity.
 
 // Interface definition
 type IElFeatureRef interface {
-	// From: EL_EXPRESSION
-	//EvalType() IBmmType //abstract
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
+	IElValueGenerator
 	//EL_FEATURE_REF
 	Reference() string //redefined
 }
 
 // Struct definition
 type ElFeatureRef struct {
-	// embedded for Inheritance
 	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Scoping expression, which must be a EL_VALUE_GENERATOR .
 	Scoper IElValueGenerator `yaml:"scoper" json:"scoper" xml:"scoper"`

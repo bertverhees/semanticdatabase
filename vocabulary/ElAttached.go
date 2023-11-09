@@ -7,23 +7,13 @@ if the reference is attached, i.e. non-Void.
 
 // Interface definition
 type IElAttached interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	//EL_SIMPLE
-	//EL_PREDICATE
-	EvalType() IBmmSimpleType
+	IElPredicate
 	//EL_ATTACHED
 }
 
 // Struct definition
 type ElAttached struct {
-	// embedded for Inheritance
 	ElPredicate
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 }
 

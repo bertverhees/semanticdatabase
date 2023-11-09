@@ -8,17 +8,11 @@ representing Boolean and value is of type Boolean .
 // Interface definition
 type IBmmBooleanValue interface {
 	IBmmPrimitiveValue[IBmmSimpleType]
-	IBmmUnitaryValue[IBmmSimpleType]
-	IBmmLiteralValue[IBmmSimpleType]
 }
 
 // Struct definition
 type BmmBooleanValue struct {
-	// embedded for Inheritance
 	BmmPrimitiveValue[IBmmSimpleType]
-	BmmUnitaryValue[IBmmSimpleType]
-	BmmLiteralValue[IBmmSimpleType]
-	// Constants
 	// Attributes
 	// Native Boolean value.
 	Value bool `yaml:"value" json:"value" xml:"value"`

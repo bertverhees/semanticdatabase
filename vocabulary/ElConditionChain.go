@@ -10,7 +10,8 @@ the evaluation result is the result of evaluating the else expression.
 */
 
 // Interface definition
-type IElConditionChain[T IBmmSimpleType] interface {
+type IElConditionChain[T IElTerminal] interface {
+	IElDecisionTable[T]
 	// From: EL_EXPRESSION
 	EvalType() IBmmType
 	IsBoolean() bool
@@ -19,11 +20,8 @@ type IElConditionChain[T IBmmSimpleType] interface {
 }
 
 // Struct definition
-type ElConditionChain[T IBmmSimpleType] struct {
-	// embedded for Inheritance
+type ElConditionChain[T IElTerminal] struct {
 	ElDecisionTable[T]
-	ElTerminal
-	ElExpression
 	// Constants
 	// Attributes
 	/**
@@ -34,18 +32,18 @@ type ElConditionChain[T IBmmSimpleType] struct {
 }
 
 // CONSTRUCTOR
-func NewElConditionChain[T IBmmSimpleType]() *ElConditionChain[T] {
+func NewElConditionChain[T IElTerminal]() *ElConditionChain[T] {
 	elconditionchain := new(ElConditionChain[T])
 	// Constants
 	return elconditionchain
 }
 
 // BUILDER
-type ElConditionChainBuilder[T IBmmSimpleType] struct {
+type ElConditionChainBuilder[T IElTerminal] struct {
 	elconditionchain *ElConditionChain[T]
 }
 
-func NewElConditionChainBuilder[T IBmmSimpleType]() *ElConditionChainBuilder[T] {
+func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
 	return &ElConditionChainBuilder[T]{
 		elconditionchain: NewElConditionChain[T](),
 	}

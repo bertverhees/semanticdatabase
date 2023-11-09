@@ -7,68 +7,25 @@ created.
 */
 
 // Interface definition
-type IElDecisionTable[T IBmmSimpleType] interface {
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
-	//EL_TERMINAL
-	//EL_DECISION_TABLE
+type IElDecisionTable[T IElTerminal] interface {
+	IElTerminal
 }
 
 // Struct definition
-type ElDecisionTable[T IBmmSimpleType] struct {
-	// embedded for Inheritance
+type ElDecisionTable[T IElTerminal] struct {
 	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	/**
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	Items []IElDecisionBranch `yaml:"items" json:"items" xml:"items"`
+	Items []IElTerminal `yaml:"items" json:"items" xml:"items"`
 	// Result expression of conditional, if its condition evaluates to True.
 	Else T `yaml:"else" json:"else" xml:"else"`
 }
 
 // CONSTRUCTOR
-func NewElDecisionTable[T IBmmSimpleType]() *ElDecisionTable[T] {
-	eldecisiontable := new(ElDecisionTable[T])
-	// Constants
-	return eldecisiontable
-}
-
-// BUILDER
-type ElDecisionTableBuilder[T IBmmSimpleType] struct {
-	eldecisiontable *ElDecisionTable[T]
-}
-
-func NewElDecisionTableBuilder[T IBmmSimpleType]() *ElDecisionTableBuilder[T] {
-	return &ElDecisionTableBuilder[T]{
-		eldecisiontable: NewElDecisionTable[T](),
-	}
-}
-
-//BUILDER ATTRIBUTES
-/**
-Members of the chain, equivalent to branches in an if/then/else chain and cases
-in a case statement.
-*/
-func (i *ElDecisionTableBuilder[T]) SetItems(v []IElDecisionBranch) *ElDecisionTableBuilder[T] {
-	i.eldecisiontable.Items = v
-	return i
-}
-
-// Result expression of conditional, if its condition evaluates to True.
-func (i *ElDecisionTableBuilder[T]) SetElse(v T) *ElDecisionTableBuilder[T] {
-	i.eldecisiontable.Else = v
-	return i
-}
-
-func (i *ElDecisionTableBuilder[T]) Build() *ElDecisionTable[T] {
-	return i.eldecisiontable
-}
-
+//abstract, no constructor, no builder
 //FUNCTIONS
 // From: EL_EXPRESSION
 /**

@@ -4,20 +4,12 @@ package vocabulary
 
 // Interface definition
 type IElUnaryOperator interface {
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
-	//EL_OPERATOR
-	OperatorDefinition() IBmmOperator
-	EquivalentCall() IElFunctionCall
+	IElOperator
 }
 
 // Struct definition
 type ElUnaryOperator struct {
-	// embedded for Inheritance
 	ElOperator
-	ElExpression
-	// Constants
 	// Attributes
 	// Operand node.
 	Operand IElExpression `yaml:"operand" json:"operand" xml:"operand"`

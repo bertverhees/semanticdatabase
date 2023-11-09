@@ -9,24 +9,13 @@ constant access.
 
 // Interface definition
 type IElTypeRef interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	//EL_SIMPLE
-	//EL_VALUE_GENERATOR
-	Reference() string
-	//EL_TYPEREF
+	IElValueGenerator
 	EvalType() IBmmType //effected
 }
 
 // Struct definition
 type ElTypeRef struct {
-	// embedded for Inheritance
 	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
 	Type      IBmmType `yaml:"type" json:"type" xml:"type"`

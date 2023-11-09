@@ -7,17 +7,12 @@ procedure call etc.
 
 // Interface definition
 type IBmmSimpleStatement interface {
-	// From: BMM_STATEMENT
-	// From: BMM_STATEMENT_ITEM
+	IBmmStatement
 }
 
 // Struct definition
 type BmmSimpleStatement struct {
-	// embedded for Inheritance
 	BmmStatement
-	BmmStatementItem
-	// Constants
-	// Attributes
 }
 
 // CONSTRUCTOR

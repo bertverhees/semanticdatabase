@@ -12,9 +12,7 @@ type IBmmExternalRoutine interface {
 
 // Struct definition
 type BmmExternalRoutine struct {
-	// embedded for Inheritance
 	BmmRoutineDefinition
-	// Constants
 	// Attributes
 	/**
 	External call general meta-data, including target routine name, type mapping

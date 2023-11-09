@@ -7,21 +7,14 @@ via a BMM_LITERAL_VALUE .
 
 // Interface definition
 type IElLiteral interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	//EL_SIMPLE
+	IElSimple
 	//EL_LITERAL
 	EvalType() IBmmType //effected
 }
 
 // Struct definition
 type ElLiteral struct {
-	// embedded for Inheritance
 	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// The reference item from which the value of this node can be computed.
 	Value IBmmLiteralValue[IBmmType] `yaml:"value" json:"value" xml:"value"`

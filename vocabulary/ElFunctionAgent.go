@@ -4,29 +4,14 @@ package vocabulary
 
 // Interface definition
 type IElFunctionAgent interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
-	//EL_FEATURE_REF
-	//EL_AGENT
-	IsCallable() bool
-	Reference() string
+	IElAgent
 	//EL_FUNCTION_AGENT
 	EvalType() IBmmFunctionType
 }
 
 // Struct definition
 type ElFunctionAgent struct {
-	// embedded for Inheritance
 	ElAgent
-	ElFeatureRef
-	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	/**
 	Reference to definition of a routine for which this is a direct call instance,

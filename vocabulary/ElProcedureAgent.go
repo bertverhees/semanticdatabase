@@ -4,29 +4,14 @@ package vocabulary
 
 // Interface definition
 type IElProcedureAgent interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
-	//EL_FEATURE_REF
-	//EL_AGENT
-	IsCallable() bool
-	Reference() string
+	IElAgent
 	//EL_PROCEDURE_AGENT
 	EvalType() IBmmProcedureType
 }
 
 // Struct definition
 type ElProcedureAgent struct {
-	// embedded for Inheritance
 	ElAgent
-	ElFeatureRef
-	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Reference to definition of routine for which this is a call instance.
 	Definition IBmmProcedure `yaml:"definition" json:"definition" xml:"definition"`

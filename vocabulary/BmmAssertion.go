@@ -9,17 +9,11 @@ settings). May be rendered in syntax as assert condition or similar.
 // Interface definition
 type IBmmAssertion interface {
 	IBmmSimpleStatement
-	IBmmStatement
-	IBmmStatementItem
 }
 
 // Struct definition
 type BmmAssertion struct {
-	// embedded for Inheritance
 	BmmSimpleStatement
-	BmmStatement
-	BmmStatementItem
-	// Constants
 	// Attributes
 	// Boolean-valued expression of the assertion.
 	Expression IElBooleanExpression `yaml:"expression" json:"expression" xml:"expression"`

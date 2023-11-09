@@ -4,55 +4,21 @@ package vocabulary
 
 // Interface definition
 type IElPredicate interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	//EL_SIMPLE
+	IElSimple
 	//EL_PREDICATE
 	EvalType() IBmmSimpleType
 }
 
 // Struct definition
 type ElPredicate struct {
-	// embedded for Inheritance
 	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// The target instance of this predicate.
 	Operand IElValueGenerator `yaml:"operand" json:"operand" xml:"operand"`
 }
 
 // CONSTRUCTOR
-func NewElPredicate() *ElPredicate {
-	elpredicate := new(ElPredicate)
-	// Constants
-	return elpredicate
-}
-
-// BUILDER
-type ElPredicateBuilder struct {
-	elpredicate *ElPredicate
-}
-
-func NewElPredicateBuilder() *ElPredicateBuilder {
-	return &ElPredicateBuilder{
-		elpredicate: NewElPredicate(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// The target instance of this predicate.
-func (i *ElPredicateBuilder) SetOperand(v IElValueGenerator) *ElPredicateBuilder {
-	i.elpredicate.Operand = v
-	return i
-}
-
-func (i *ElPredicateBuilder) Build() *ElPredicate {
-	return i.elpredicate
-}
-
+// abstract, no constructor, no builder
 // FUNCTIONS
 // Return {BMM_MODEL}. boolean_type_definition () .
 func (e *ElPredicate) EvalType() IBmmSimpleType {

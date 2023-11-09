@@ -15,8 +15,6 @@ type IBmmSimpleClass interface {
 // Struct definition
 type BmmSimpleClass struct {
 	// embedded for Inheritance
-	BmmModelElement
-	BmmModule
 	BmmClass
 	// Attributes
 	//Features of this module

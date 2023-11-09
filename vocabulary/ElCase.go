@@ -8,33 +8,31 @@ criterion) and a result, of the generic parameter type T.
 */
 
 // Interface definition
-type IElCase[T constraints.ICObject] interface {
-	// From: EL_DECISION_BRANCH
+type IElCase[T IElTerminal] interface {
+	IElDecisionBranch[T]
 }
 
 // Struct definition
-type ElCase[T constraints.ICObject] struct {
-	// embedded for Inheritance
-	ElDecisionBranch[IBmmSimpleType]
-	// Constants
+type ElCase[T IElTerminal] struct {
+	ElDecisionBranch[T]
 	// Attributes
 	// Constraint on
 	ValueConstraint constraints.ICObject `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 }
 
 // CONSTRUCTOR
-func NewElCase[T constraints.ICObject]() *ElCase[T] {
+func NewElCase[T IElTerminal]() *ElCase[T] {
 	elcase := new(ElCase[T])
 	// Constants
 	return elcase
 }
 
 // BUILDER
-type ElCaseBuilder[T IBmmSimpleType] struct {
+type ElCaseBuilder[T IElTerminal] struct {
 	elcase *ElCase[T]
 }
 
-func NewElCaseBuilder[T IBmmSimpleType]() *ElCaseBuilder[T] {
+func NewElCaseBuilder[T IElTerminal]() *ElCaseBuilder[T] {
 	return &ElCaseBuilder[T]{
 		elcase: NewElCase[T](),
 	}

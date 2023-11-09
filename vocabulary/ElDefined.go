@@ -8,23 +8,13 @@ probably to be removed.
 
 // Interface definition
 type IElDefined interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	//EL_SIMPLE
-	//EL_PREDICATE
-	EvalType() IBmmSimpleType
+	IElPredicate
 	//EL_DEFINED
 }
 
 // Struct definition
 type ElDefined struct {
-	// embedded for Inheritance
 	ElPredicate
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 }
 

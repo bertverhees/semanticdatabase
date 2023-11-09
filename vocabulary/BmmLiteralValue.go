@@ -12,8 +12,6 @@ type IBmmLiteralValue[T IBmmType] interface {
 
 // Struct definition
 type BmmLiteralValue[T IBmmType] struct {
-	// embedded for Inheritance
-	// Constants
 	// Attributes
 	// A serial representation of the value.
 	ValueLiteral string `yaml:"valueliteral" json:"valueliteral" xml:"valueliteral"`

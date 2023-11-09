@@ -9,17 +9,11 @@ may be understood as an initialisation of an existing meta-model instance.
 // Interface definition
 type IBmmAssignment interface {
 	IBmmSimpleStatement
-	IBmmStatement
-	IBmmStatementItem
 }
 
 // Struct definition
 type BmmAssignment struct {
-	// embedded for Inheritance
 	BmmSimpleStatement
-	BmmStatement
-	BmmStatementItem
-	// Constants
 	// Attributes
 	// The target variable on the notional left-hand side of this assignment.
 	Target IElValueGenerator `yaml:"target" json:"target" xml:"target"`

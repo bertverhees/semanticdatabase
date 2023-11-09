@@ -8,8 +8,6 @@ type IBmmStatementItem interface {
 
 // Struct definition
 type BmmStatementItem struct {
-	// embedded for Inheritance
-	// Constants
 	// Attributes
 }
 

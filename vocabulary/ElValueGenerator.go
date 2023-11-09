@@ -4,22 +4,14 @@ package vocabulary
 
 // Interface definition
 type IElValueGenerator interface {
-	// From: EL_EXPRESSION
-	//EvalType() IBmmType //abstract
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	//EL_SIMPLE
+	IElSimple
 	//EL_VALUE_GENERATOR
 	Reference() string
 }
 
 // Struct definition
 type ElValueGenerator struct {
-	// embedded for Inheritance
 	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	IsWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 	// Name used to represent the reference or other entity.

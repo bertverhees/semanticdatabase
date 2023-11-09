@@ -7,18 +7,12 @@ representing String and value is of type String .
 
 // Interface definition
 type IBmmStringValue interface {
-	// From: BMM_PRIMITIVE_VALUE
-	// From: BMM_UNITARY_VALUE
-	// From: BMM_LITERAL_VALUE
+	IBmmPrimitiveValue[IBmmSimpleType]
 }
 
 // Struct definition
 type BmmStringValue struct {
-	// embedded for Inheritance
 	BmmPrimitiveValue[IBmmSimpleType]
-	BmmUnitaryValue[IBmmSimpleType]
-	BmmLiteralValue[IBmmSimpleType]
-	// Constants
 	// Attributes
 	// Native String value.
 	Value string `yaml:"value" json:"value" xml:"value"`

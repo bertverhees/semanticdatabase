@@ -7,50 +7,19 @@ meta-types.
 
 // Interface definition
 type IElConstrained interface {
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
+	IElExpression
 }
 
 // Struct definition
 type ElConstrained struct {
-	// embedded for Inheritance
 	ElExpression
-	// Constants
 	// Attributes
 	// The base expression of this constrained form.
 	BaseExpression IElExpression `yaml:"baseexpression" json:"baseexpression" xml:"baseexpression"`
 }
 
 // CONSTRUCTOR
-func NewElConstrained() *ElConstrained {
-	elconstrained := new(ElConstrained)
-	// Constants
-	return elconstrained
-}
-
-// BUILDER
-type ElConstrainedBuilder struct {
-	elconstrained *ElConstrained
-}
-
-func NewElConstrainedBuilder() *ElConstrainedBuilder {
-	return &ElConstrainedBuilder{
-		elconstrained: NewElConstrained(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// The base expression of this constrained form.
-func (i *ElConstrainedBuilder) SetBaseExpression(v IElExpression) *ElConstrainedBuilder {
-	i.elconstrained.BaseExpression = v
-	return i
-}
-
-func (i *ElConstrainedBuilder) Build() *ElConstrained {
-	return i.elconstrained
-}
-
+//abstract, no constructor, no builder
 //FUNCTIONS
 // From: EL_EXPRESSION
 /**

@@ -4,18 +4,12 @@ package vocabulary
 
 // Interface definition
 type IBmmDeclaration interface {
-	IBmmSimpleStatement
 	IBmmStatement
-	IBmmStatementItem
 }
 
 // Struct definition
 type BmmDeclaration struct {
-	// embedded for Inheritance
-	BmmSimpleStatement
 	BmmStatement
-	BmmStatementItem
-	// Constants
 	// Attributes
 	Name   string              `yaml:"name" json:"name" xml:"name"`
 	Result IElWritableVariable `yaml:"result" json:"result" xml:"result"`

@@ -11,22 +11,13 @@ else expression.
 */
 
 // Interface definition
-type IElCaseTable[T IBmmSimpleType] interface {
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
-	//EL_TERMINAL
-	//EL_DECISION_TABLE
-	//EL_CASE_TABLE
+type IElCaseTable[T IElTerminal] interface {
+	IElDecisionTable[T]
 }
 
 // Struct definition
-type ElCaseTable[T IBmmSimpleType] struct {
-	// embedded for Inheritance
+type ElCaseTable[T IElTerminal] struct {
 	ElDecisionTable[T]
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Expressing generating the input value for the case table.
 	TestValue IElValueGenerator `yaml:"testvalue" json:"testvalue" xml:"testvalue"`
@@ -38,18 +29,18 @@ type ElCaseTable[T IBmmSimpleType] struct {
 }
 
 // CONSTRUCTOR
-func NewElCaseTable[T IBmmSimpleType]() *ElCaseTable[T] {
+func NewElCaseTable[T IElTerminal]() *ElCaseTable[T] {
 	elcasetable := new(ElCaseTable[T])
 	// Constants
 	return elcasetable
 }
 
 // BUILDER
-type ElCaseTableBuilder[T IBmmSimpleType] struct {
+type ElCaseTableBuilder[T IElTerminal] struct {
 	elcasetable *ElCaseTable[T]
 }
 
-func NewElCaseTableBuilder[T IBmmSimpleType]() *ElCaseTableBuilder[T] {
+func NewElCaseTableBuilder[T IElTerminal]() *ElCaseTableBuilder[T] {
 	return &ElCaseTableBuilder[T]{
 		elcasetable: NewElCaseTable[T](),
 	}

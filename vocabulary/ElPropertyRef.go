@@ -4,26 +4,14 @@ package vocabulary
 
 // Interface definition
 type IElPropertyRef interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	// From: EL_TERMINAL
-	// From: EL_SIMPLE
-	// From: EL_VALUE_GENERATOR
-	//EL_FEATURE_REF
-	Reference() string //redefined
+	IElFeatureRef
 	//EL_PROPERTY_REF
 	EvalType() IBmmType //effected
 }
 
 // Struct definition
 type ElPropertyRef struct {
-	// embedded for Inheritance
 	ElFeatureRef
-	ElValueGenerator
-	ElSimple
-	ElTerminal
-	ElExpression
-	// Constants
 	// Attributes
 	// Property definition (within class).
 	Definition IBmmProperty `yaml:"definition" json:"definition" xml:"definition"`

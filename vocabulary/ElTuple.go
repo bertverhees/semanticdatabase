@@ -4,20 +4,13 @@ package vocabulary
 
 // Interface definition
 type IElTuple interface {
-	// From: EL_EXPRESSION
-	IsBoolean() bool
-	//EL_OPERATOR
-	OperatorDefinition() IBmmOperator
-	EquivalentCall() IElFunctionCall
-	//EL_TUPLE
+	IElExpression
 	EvalType() IBmmType
 }
 
 // Struct definition
 type ElTuple struct {
-	// embedded for Inheritance
 	ElExpression
-	// Constants
 	// Attributes
 	/**
 	Items in the tuple, potentially with names. Typical use is to represent an

@@ -5,14 +5,11 @@ package vocabulary
 // Interface definition
 type IBmmPrimitiveValue[T IBmmSimpleType] interface {
 	IBmmUnitaryValue[T]
-	IBmmLiteralValue[T]
 }
 
 // Struct definition
 type BmmPrimitiveValue[T IBmmSimpleType] struct {
 	BmmUnitaryValue[T]
-	BmmLiteralValue[T]
-	// Constants
 	// Attributes
 	// Concrete type of this literal.
 	Type IBmmSimpleType `yaml:"type" json:"type" xml:"type"`
