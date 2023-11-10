@@ -9,6 +9,10 @@ settings). May be rendered in syntax as assert condition or similar.
 // Interface definition
 type IBmmAssertion interface {
 	IBmmSimpleStatement
+	Expression() (IElBooleanExpression, error)
+	SetExpression(expression IElBooleanExpression) error
+	Tag() (string, error)
+	SetTag(tag string) error
 }
 
 // Struct definition
@@ -16,12 +20,30 @@ type BmmAssertion struct {
 	BmmSimpleStatement
 	// Attributes
 	// Boolean-valued expression of the assertion.
-	Expression IElBooleanExpression `yaml:"expression" json:"expression" xml:"expression"`
+	expression IElBooleanExpression `yaml:"expression" json:"expression" xml:"expression"`
 	/**
 	Optional tag, typically used to designate design intention of the assertion,
 	e.g. "Inv_all_members_valid" .
 	*/
-	Tag string `yaml:"tag" json:"tag" xml:"tag"`
+	tag string `yaml:"tag" json:"tag" xml:"tag"`
+}
+
+func (b *BmmAssertion) Expression() (IElBooleanExpression, error) {
+	return b.expression, nil
+}
+
+func (b *BmmAssertion) SetExpression(expression IElBooleanExpression) error {
+	b.expression = expression
+	return nil
+}
+
+func (b *BmmAssertion) Tag() (string, error) {
+	return b.tag, nil
+}
+
+func (b *BmmAssertion) SetTag(tag string) error {
+	b.tag = tag
+	return nil
 }
 
 // CONSTRUCTOR
@@ -44,9 +66,9 @@ func NewBmmAssertionBuilder() *BmmAssertionBuilder {
 
 // BUILDER ATTRIBUTES
 // Boolean-valued expression of the assertion.
-func (i *BmmAssertionBuilder) SetExpression(v IElBooleanExpression) *BmmAssertionBuilder {
-	i.bmmassertion.Expression = v
-	return i
+func (i *BmmAssertionBuilder) SetExpression(v IElBooleanExpression) (*BmmAssertionBuilder,error) {
+	e := i.bmmassertion.SetExpression(v)
+	return i,e
 }
 
 /*
@@ -54,9 +76,9 @@ func (i *BmmAssertionBuilder) SetExpression(v IElBooleanExpression) *BmmAssertio
 Optional tag, typically used to designate design intention of the assertion,
 e.g. "Inv_all_members_valid" .
 */
-func (i *BmmAssertionBuilder) SetTag(v string) *BmmAssertionBuilder {
-	i.bmmassertion.Tag = v
-	return i
+func (i *BmmAssertionBuilder) SetTag(v string) (*BmmAssertionBuilder,error) {
+	e := i.bmmassertion.SetTag(v)
+	return i,e
 }
 
 func (i *BmmAssertionBuilder) Build() *BmmAssertion {

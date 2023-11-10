@@ -1,7 +1,7 @@
 package vocabulary
 
 /**
-Expression entities that are terminals (i.e. leaves) within operator expressions
+expression entities that are terminals (i.e. leaves) within operator expressions
 or tuples.
 */
 
