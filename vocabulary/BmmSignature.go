@@ -10,7 +10,7 @@ constraints in descendants determining the exact form.
 type IBmmSignature interface {
 	IBmmBuiltinType
 	//BMM_SIGNATURE
-	ResultType() (IBmmType, error)
+	ResultType() IBmmType
 	SetResultType(resultType IBmmType) error
 	FlattenedTypeList() []string
 }
@@ -23,8 +23,8 @@ type BmmSignature struct {
 	resultType IBmmType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
 }
 
-func (b *BmmSignature) ResultType() (IBmmType, error) {
-	return b.resultType, nil
+func (b *BmmSignature) ResultType() IBmmType {
+	return b.resultType
 }
 
 func (b *BmmSignature) SetResultType(resultType IBmmType) error {
@@ -56,7 +56,7 @@ func NewBmmSignatureBuilder() *BmmSignatureBuilder {
 // BUILDER ATTRIBUTES
 // Result type of signature.
 func (i *BmmSignatureBuilder) SetResultType(v IBmmType) *BmmSignatureBuilder {
-	i.bmmsignature.resultType = v
+	i.AddError(i.bmmsignature.SetResultType(v))
 	return i
 }
 
@@ -99,8 +99,7 @@ func (b *BmmSignature) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (effected) Return base_name .
 func (b *BmmSignature) TypeBaseName() string {
-	r, _ := b.BaseName()
-	return r
+	return b.BaseName()
 }
 
 // From: BMM_BUILTIN_TYPE

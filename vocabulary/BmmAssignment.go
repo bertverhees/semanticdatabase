@@ -9,9 +9,9 @@ may be understood as an initialisation of an existing meta-model instance.
 // Interface definition
 type IBmmAssignment interface {
 	IBmmSimpleStatement
-	Target() (IElValueGenerator, error)
+	Target() IElValueGenerator
 	SetTarget(target IElValueGenerator) error
-	Source() (IElExpression, error)
+	Source() IElExpression
 	SetSource(source IElExpression) error
 }
 
@@ -25,8 +25,8 @@ type BmmAssignment struct {
 	source IElExpression `yaml:"source" json:"source" xml:"source"`
 }
 
-func (b *BmmAssignment) Target() (IElValueGenerator, error) {
-	return b.target, nil
+func (b *BmmAssignment) Target() IElValueGenerator {
+	return b.target
 }
 
 func (b *BmmAssignment) SetTarget(target IElValueGenerator) error {
@@ -34,8 +34,8 @@ func (b *BmmAssignment) SetTarget(target IElValueGenerator) error {
 	return nil
 }
 
-func (b *BmmAssignment) Source() (IElExpression, error) {
-	return b.source, nil
+func (b *BmmAssignment) Source() IElExpression {
+	return b.source
 }
 
 func (b *BmmAssignment) SetSource(source IElExpression) error {

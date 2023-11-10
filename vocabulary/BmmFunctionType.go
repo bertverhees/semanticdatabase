@@ -5,42 +5,57 @@ package vocabulary
 // Interface definition
 type IBmmFunctionType interface {
 	IBmmRoutineType
-	//BMM_FUNCTION_TYPE
-	GetResultType() IBmmStatusType
+	//ResultType() IBmmStatusType
+	//SetResultType(resultType IBmmStatusType)
 }
 
 // Struct definition
 type BmmFunctionType struct {
 	BmmRoutineType
-	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 	// Attributes
-	ResultType IBmmStatusType
+	resultType IBmmStatusType
+}
+
+func (b *BmmFunctionType) ResultType() IBmmType {
+	return b.resultType
+}
+
+func (b *BmmFunctionType) SetResultType(resultType IBmmType) error {
+	b.resultType = resultType.(IBmmStatusType)
+	return nil
 }
 
 // CONSTRUCTOR
 func NewBmmFunctionType() *BmmFunctionType {
 	bmmfunctiontype := new(BmmFunctionType)
 	// Base name (built-in).
-	bmmfunctiontype.BaseName = "Function"
+	bmmfunctiontype.baseName = "Function"
 	return bmmfunctiontype
 }
 
 // BUILDER
 type BmmFunctionTypeBuilder struct {
 	bmmfunctiontype *BmmFunctionType
+	errors          []error
 }
 
 func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
 	return &BmmFunctionTypeBuilder{
 		bmmfunctiontype: NewBmmFunctionType(),
+		errors:          make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Result type of BmmFunctionType.
-func (i *BmmFunctionTypeBuilder) SetResultType(v IBmmStatusType) *BmmFunctionTypeBuilder {
-	i.bmmfunctiontype.ResultType = v
+
+func (i *BmmFunctionTypeBuilder) SetResultType(v IBmmType) *BmmFunctionTypeBuilder {
+	i.AddError(i.bmmfunctiontype.SetResultType(v))
+	return i
+}
+
+func (i *BmmFunctionTypeBuilder) SetBaseName(v string) *BmmFunctionTypeBuilder {
+	i.AddError(i.bmmfunctiontype.SetBaseName(v))
 	return i
 }
 
@@ -50,8 +65,14 @@ _type of arguments in the signature, if any; represented as a type-tuple (list o
 arbitrary types).
 */
 func (i *BmmFunctionTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmFunctionTypeBuilder {
-	i.bmmfunctiontype.ArgumentTypes = v
+	i.AddError(i.bmmfunctiontype.SetArgumentTypes(v))
 	return i
+}
+
+func (i *BmmFunctionTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmFunctionTypeBuilder) Build() *BmmFunctionType {
@@ -59,15 +80,6 @@ func (i *BmmFunctionTypeBuilder) Build() *BmmFunctionType {
 }
 
 // FUNCTIONS
-// BMM_FUNCTION_TYPE
-func (b *BmmFunctionType) GetResultType() IBmmStatusType {
-	return b.ResultType
-}
-
-// FROM BMM_ROUTINE_TYPE
-func (b *BmmFunctionType) GetArgumentTypes() IBmmTupleType {
-	return b.ArgumentTypes
-}
 
 // From: BMM_SIGNATURE
 /**
@@ -93,7 +105,7 @@ func (b *BmmFunctionType) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (redefined) Return base_name .
 func (b *BmmFunctionType) TypeBaseName() string {
-	return b.BaseName
+	return b.BaseName()
 }
 
 // From: BMM_BUILTIN_TYPE

@@ -5,7 +5,7 @@ package vocabulary
 // Interface definition
 type IBmmActionTable interface {
 	IBmmStatement
-	DecisionTable() (IBmmActionDecisionTable, error)
+	DecisionTable() IBmmActionDecisionTable
 	SetDecisionTable(decisionTable IBmmActionDecisionTable) error
 }
 
@@ -20,8 +20,8 @@ type BmmActionTable struct {
 	decisionTable IBmmActionDecisionTable `yaml:"decisiontable" json:"decisiontable" xml:"decisiontable"`
 }
 
-func (b *BmmActionTable) DecisionTable() (IBmmActionDecisionTable, error) {
-	return b.decisionTable, nil
+func (b *BmmActionTable) DecisionTable() IBmmActionDecisionTable {
+	return b.decisionTable
 }
 
 func (b *BmmActionTable) SetDecisionTable(decisionTable IBmmActionDecisionTable) error {

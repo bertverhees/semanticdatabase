@@ -10,9 +10,9 @@ structure and contents.
 // Interface definition
 type IBmmModule interface {
 	IBmmModelElement
-	FeatureGroups() ([]IBmmFeatureGroup, error)
+	FeatureGroups() []IBmmFeatureGroup
 	SetFeatureGroups(featureGroups []IBmmFeatureGroup) error
-	Features() ([]IBmmFormalElement, error)
+	Features() []IBmmFormalElement
 	SetFeatures(features []IBmmFormalElement) error
 }
 
@@ -30,8 +30,8 @@ type BmmModule struct {
 	scope IBmmModel `yaml:"scope" json:"scope" xml:"scope"` //redefined
 }
 
-func (b *BmmModule) FeatureGroups() ([]IBmmFeatureGroup, error) {
-	return b.featureGroups, nil
+func (b *BmmModule) FeatureGroups() []IBmmFeatureGroup {
+	return b.featureGroups
 }
 
 func (b *BmmModule) SetFeatureGroups(featureGroups []IBmmFeatureGroup) error {
@@ -39,8 +39,8 @@ func (b *BmmModule) SetFeatureGroups(featureGroups []IBmmFeatureGroup) error {
 	return nil
 }
 
-func (b *BmmModule) Features() ([]IBmmFormalElement, error) {
-	return b.features, nil
+func (b *BmmModule) Features() []IBmmFormalElement {
+	return b.features
 }
 
 func (b *BmmModule) SetFeatures(features []IBmmFormalElement) error {
@@ -48,14 +48,14 @@ func (b *BmmModule) SetFeatures(features []IBmmFormalElement) error {
 	return nil
 }
 
-func (b *BmmModule) Scope() (IBmmModelElement, error) {
-	return b.scope, nil
+func (b *BmmModule) Scope() IBmmModelElement {
+	return b.scope
 }
 
 func (b *BmmModule) SetScope(scope IBmmModelElement) error {
 	s, ok := scope.(IBmmModel)
 	if !ok {
-		return errors.New("_type-assertion in BmmModule->SetScope went wrong")
+		return errors.New("_type-assertion to IBmmModel in BmmModule->SetScope went wrong")
 	} else {
 		b.scope = s
 		return nil

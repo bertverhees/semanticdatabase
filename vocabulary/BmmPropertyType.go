@@ -82,8 +82,7 @@ func (b *BmmPropertyType) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (redefined) Return base_name .
 func (b *BmmPropertyType) TypeBaseName() string {
-	r, _ := b.BaseName()
-	return r
+	return b.BaseName()
 }
 
 // From: BMM_BUILTIN_TYPE

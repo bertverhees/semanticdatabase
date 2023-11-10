@@ -17,7 +17,7 @@ type IBmmPackageContainer interface {
 	PackageAtPath(a_path string) IBmmPackage
 	DoRecursivePackages(action IElProcedureAgent)
 	HasPackagePath(a_path string) bool
-	Packages() (map[string]IBmmPackage, error)
+	Packages() map[string]IBmmPackage
 	SetPackages(packages map[string]IBmmPackage) error
 }
 
@@ -33,8 +33,8 @@ type BmmPackageContainer struct {
 	scope IBmmPackageContainer `yaml:"scope" json:"scope" xml:"scope"`
 }
 
-func (b *BmmPackageContainer) Packages() (map[string]IBmmPackage, error) {
-	return b.packages, nil
+func (b *BmmPackageContainer) Packages() map[string]IBmmPackage {
+	return b.packages
 }
 
 func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) error {
@@ -42,8 +42,8 @@ func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) error
 	return nil
 }
 
-func (b *BmmPackageContainer) Scope() (IBmmModelElement, error) {
-	return b.scope, nil
+func (b *BmmPackageContainer) Scope() IBmmModelElement {
+	return b.scope
 }
 
 func (b *BmmPackageContainer) SetScope(scope IBmmModelElement) error {

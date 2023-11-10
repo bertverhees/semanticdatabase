@@ -5,41 +5,48 @@ package vocabulary
 // Interface definition
 type IBmmRoutineType interface {
 	IBmmSignature
-	//BMM_SIGNATURE
-	//FlattenedTypeList() []string
-	//BMM_ROUTINE_TYPE
-	GetArgumentTypes() IBmmTupleType
+	ArgumentTypes() IBmmTupleType
+	SetArgumentTypes(argumentTypes IBmmTupleType) error
 }
 
 // Struct definition
 type BmmRoutineType struct {
 	BmmSignature
-	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes
 	/**
 	_type of arguments in the signature, if any; represented as a type-tuple (list of
 	arbitrary types).
 	*/
-	ArgumentTypes IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
+	argumentTypes IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
+}
+
+func (b *BmmRoutineType) ArgumentTypes() IBmmTupleType {
+	return b.argumentTypes
+}
+
+func (b *BmmRoutineType) SetArgumentTypes(argumentTypes IBmmTupleType) error {
+	b.argumentTypes = argumentTypes
+	return nil
 }
 
 // CONSTRUCTOR
 func NewBmmRoutineType() *BmmRoutineType {
 	bmmroutinetype := new(BmmRoutineType)
 	// Base name (built-in).
-	bmmroutinetype.BaseName = "Routine"
+	bmmroutinetype.baseName = "Routine"
 	return bmmroutinetype
 }
 
 // BUILDER
 type BmmRoutineTypeBuilder struct {
 	bmmroutinetype *BmmRoutineType
+	errors         []error
 }
 
 func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
 	return &BmmRoutineTypeBuilder{
 		bmmroutinetype: NewBmmRoutineType(),
+		errors:         make([]error, 0),
 	}
 }
 
@@ -49,15 +56,26 @@ _type of arguments in the signature, if any; represented as a type-tuple (list o
 arbitrary types).
 */
 func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTypeBuilder {
-	i.bmmroutinetype.ArgumentTypes = v
+	i.AddError(i.bmmroutinetype.SetArgumentTypes(v))
 	return i
 }
 
 // From: BmmSignature
 // Result type of signature.
 func (i *BmmRoutineTypeBuilder) SetResultType(v IBmmType) *BmmRoutineTypeBuilder {
-	i.bmmroutinetype.resultType = v
+	i.AddError(i.bmmroutinetype.SetResultType(v))
 	return i
+}
+
+func (i *BmmRoutineTypeBuilder) SetBaseName(v string) *BmmRoutineTypeBuilder {
+	i.AddError(i.bmmroutinetype.SetBaseName(v))
+	return i
+}
+
+func (i *BmmRoutineTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
@@ -65,11 +83,6 @@ func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
 }
 
 // FUNCTIONS
-// FROM BMM_ROUTINE_TYPE
-func (b *BmmRoutineType) GetArgumentTypes() IBmmTupleType {
-	return b.ArgumentTypes
-}
-
 // From: BMM_SIGNATURE
 /**
 Return the logical set (i.e. unique items) consisting of
@@ -94,7 +107,7 @@ func (b *BmmRoutineType) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (redefined) Return base_name .
 func (b *BmmRoutineType) TypeBaseName() string {
-	return b.BaseName
+	return b.BaseName()
 }
 
 // From: BMM_BUILTIN_TYPE

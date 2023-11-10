@@ -10,13 +10,13 @@ but Types are not, since they are derived from model elements.
 // Interface definition
 type IBmmModelElement interface {
 	IsRootScope() bool
-	Name() (string, error)
+	Name() string
 	SetName(name string) error
-	Documentation() (map[string]any, error)
+	Documentation() map[string]any
 	SetDocumentation(v map[string]any) error
-	Scope() (IBmmModelElement, error)
+	Scope() IBmmModelElement
 	SetScope(v IBmmModelElement) error
-	Extensions() (map[string]any, error)
+	Extensions() map[string]any
 	SetExtensions(v map[string]any) error
 }
 
@@ -47,8 +47,8 @@ type BmmModelElement struct {
 }
 
 // getters/setters
-func (b *BmmModelElement) Name() (string, error) {
-	return b.name, nil
+func (b *BmmModelElement) Name() string {
+	return b.name
 }
 
 func (b *BmmModelElement) SetName(name string) error {
@@ -56,8 +56,8 @@ func (b *BmmModelElement) SetName(name string) error {
 	return nil
 }
 
-func (b *BmmModelElement) Documentation() (map[string]any, error) {
-	return b.documentation, nil
+func (b *BmmModelElement) Documentation() map[string]any {
+	return b.documentation
 }
 
 func (b *BmmModelElement) SetDocumentation(v map[string]any) error {
@@ -65,8 +65,8 @@ func (b *BmmModelElement) SetDocumentation(v map[string]any) error {
 	return nil
 }
 
-func (b *BmmModelElement) Scope() (IBmmModelElement, error) {
-	return b.scope, nil
+func (b *BmmModelElement) Scope() IBmmModelElement {
+	return b.scope
 }
 
 func (b *BmmModelElement) SetScope(v IBmmModelElement) error {
@@ -74,8 +74,8 @@ func (b *BmmModelElement) SetScope(v IBmmModelElement) error {
 	return nil
 }
 
-func (b *BmmModelElement) Extensions() (map[string]any, error) {
-	return b.extensions, nil
+func (b *BmmModelElement) Extensions() map[string]any {
+	return b.extensions
 }
 
 func (b *BmmModelElement) SetExtensions(v map[string]any) error {

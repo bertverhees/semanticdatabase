@@ -13,7 +13,7 @@ type IBmmTupleType interface {
 	IBmmBuiltinType
 	//BMM_TUPLE_TYPE
 	FlattenedTypeList() []string
-	ItemTypes() (map[string]IBmmType, error)
+	ItemTypes() map[string]IBmmType
 	SetItemTypes(itemTypes map[string]IBmmType) error
 }
 
@@ -25,8 +25,8 @@ type BmmTupleType struct {
 	itemTypes map[string]IBmmType `yaml:"itemtypes" json:"itemtypes" xml:"itemtypes"`
 }
 
-func (b *BmmTupleType) ItemTypes() (map[string]IBmmType, error) {
-	return b.itemTypes, nil
+func (b *BmmTupleType) ItemTypes() map[string]IBmmType {
+	return b.itemTypes
 }
 
 func (b *BmmTupleType) SetItemTypes(itemTypes map[string]IBmmType) error {

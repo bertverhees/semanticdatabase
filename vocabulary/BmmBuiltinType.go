@@ -12,7 +12,7 @@ type IBmmBuiltinType interface {
 	IsPrimitive() bool
 	TypeBaseName() string
 	TypeName() string
-	BaseName() (string, error)
+	BaseName() string
 	SetBaseName(baseName string) error
 }
 
@@ -24,8 +24,8 @@ type BmmBuiltinType struct {
 	// Attributes
 }
 
-func (b *BmmBuiltinType) BaseName() (string, error) {
-	return b.baseName, nil
+func (b *BmmBuiltinType) BaseName() string {
+	return b.baseName
 }
 
 func (b *BmmBuiltinType) SetBaseName(baseName string) error {

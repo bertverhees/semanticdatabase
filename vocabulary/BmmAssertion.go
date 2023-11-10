@@ -9,9 +9,9 @@ settings). May be rendered in syntax as assert condition or similar.
 // Interface definition
 type IBmmAssertion interface {
 	IBmmSimpleStatement
-	Expression() (IElBooleanExpression, error)
+	Expression() IElBooleanExpression
 	SetExpression(expression IElBooleanExpression) error
-	Tag() (string, error)
+	Tag() string
 	SetTag(tag string) error
 }
 
@@ -28,8 +28,8 @@ type BmmAssertion struct {
 	tag string `yaml:"tag" json:"tag" xml:"tag"`
 }
 
-func (b *BmmAssertion) Expression() (IElBooleanExpression, error) {
-	return b.expression, nil
+func (b *BmmAssertion) Expression() IElBooleanExpression {
+	return b.expression
 }
 
 func (b *BmmAssertion) SetExpression(expression IElBooleanExpression) error {
@@ -37,8 +37,8 @@ func (b *BmmAssertion) SetExpression(expression IElBooleanExpression) error {
 	return nil
 }
 
-func (b *BmmAssertion) Tag() (string, error) {
-	return b.tag, nil
+func (b *BmmAssertion) Tag() string {
+	return b.tag
 }
 
 func (b *BmmAssertion) SetTag(tag string) error {
