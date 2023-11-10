@@ -10,6 +10,8 @@ constraints in descendants determining the exact form.
 type IBmmSignature interface {
 	IBmmBuiltinType
 	//BMM_SIGNATURE
+	ResultType() (IBmmType, error)
+	SetResultType(resultType IBmmType) error
 	FlattenedTypeList() []string
 }
 
@@ -18,7 +20,16 @@ type BmmSignature struct {
 	BmmBuiltinType
 	// Attributes
 	// Result type of signature.
-	ResultType IBmmType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
+	resultType IBmmType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
+}
+
+func (b *BmmSignature) ResultType() (IBmmType, error) {
+	return b.resultType, nil
+}
+
+func (b *BmmSignature) SetResultType(resultType IBmmType) error {
+	b.resultType = resultType
+	return nil
 }
 
 // CONSTRUCTOR
@@ -32,19 +43,32 @@ func NewBmmSignature() *BmmSignature {
 // BUILDER
 type BmmSignatureBuilder struct {
 	bmmsignature *BmmSignature
+	errors       []error
 }
 
 func NewBmmSignatureBuilder() *BmmSignatureBuilder {
 	return &BmmSignatureBuilder{
 		bmmsignature: NewBmmSignature(),
+		errors:       make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Result type of signature.
 func (i *BmmSignatureBuilder) SetResultType(v IBmmType) *BmmSignatureBuilder {
-	i.bmmsignature.ResultType = v
+	i.bmmsignature.resultType = v
 	return i
+}
+
+func (i *BmmSignatureBuilder) SetBaseName(v string) *BmmSignatureBuilder {
+	i.AddError(i.bmmsignature.SetBaseName(v))
+	return i
+}
+
+func (i *BmmSignatureBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmSignatureBuilder) Build() *BmmSignature {
@@ -75,7 +99,8 @@ func (b *BmmSignature) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (effected) Return base_name .
 func (b *BmmSignature) TypeBaseName() string {
-	return b.BaseName
+	r, _ := b.BaseName()
+	return r
 }
 
 // From: BMM_BUILTIN_TYPE

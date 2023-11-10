@@ -63,6 +63,11 @@ func (i *BmmTupleTypeBuilder) SetItemTypes(v map[string]IBmmType) *BmmTupleTypeB
 	return i
 }
 
+func (i *BmmTupleTypeBuilder) SetBaseName(v string) *BmmTupleTypeBuilder {
+	i.AddError(i.bmmtupletype.SetBaseName(v))
+	return i
+}
+
 func (i *BmmTupleTypeBuilder) AddError(e error) {
 	if e != nil {
 		i.errors = append(i.errors, e)

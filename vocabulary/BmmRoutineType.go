@@ -56,7 +56,7 @@ func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTyp
 // From: BmmSignature
 // Result type of signature.
 func (i *BmmRoutineTypeBuilder) SetResultType(v IBmmType) *BmmRoutineTypeBuilder {
-	i.bmmroutinetype.ResultType = v
+	i.bmmroutinetype.resultType = v
 	return i
 }
 

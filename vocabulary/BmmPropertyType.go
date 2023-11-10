@@ -5,21 +5,12 @@ package vocabulary
 // Interface definition
 type IBmmPropertyType interface {
 	IBmmSignature
-	//BMM_BUILTIN_TYPE
-	//IsAbstract() bool
-	//IsPrimitive() bool
-	//TypeBaseName() string
-	//TypeName() string
-	//BMM_SIGNATURE
-	//FlattenedTypeList() []string
 	//BMM_PROPERTY_TYPE
 }
 
 // Struct definition
 type BmmPropertyType struct {
 	BmmSignature
-	// Attributes
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 }
 
 // CONSTRUCTOR
@@ -33,11 +24,13 @@ func NewBmmPropertyType() *BmmPropertyType {
 // BUILDER
 type BmmPropertyTypeBuilder struct {
 	bmmpropertytype *BmmPropertyType
+	errors          []error
 }
 
 func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
 	return &BmmPropertyTypeBuilder{
 		bmmpropertytype: NewBmmPropertyType(),
+		errors:          make([]error, 0),
 	}
 }
 
@@ -45,8 +38,19 @@ func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
 // From: BmmSignature
 // Result type of signature.
 func (i *BmmPropertyTypeBuilder) SetResultType(v IBmmType) *BmmPropertyTypeBuilder {
-	i.bmmpropertytype.ResultType = v
+	i.AddError(i.bmmpropertytype.SetResultType(v))
 	return i
+}
+
+func (i *BmmPropertyTypeBuilder) SetBaseName(v string) *BmmPropertyTypeBuilder {
+	i.AddError(i.bmmpropertytype.SetBaseName(v))
+	return i
+}
+
+func (i *BmmPropertyTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmPropertyTypeBuilder) Build() *BmmPropertyType {
@@ -78,7 +82,8 @@ func (b *BmmPropertyType) IsPrimitive() bool {
 // From: BMM_BUILTIN_TYPE
 // (redefined) Return base_name .
 func (b *BmmPropertyType) TypeBaseName() string {
-	return b.BaseName
+	r, _ := b.BaseName()
+	return r
 }
 
 // From: BMM_BUILTIN_TYPE
