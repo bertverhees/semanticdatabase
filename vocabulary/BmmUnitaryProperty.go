@@ -17,8 +17,8 @@ type BmmUnitaryProperty struct {
 	BmmProperty
 	// Attributes
 	// Declared or inferred static type of the entity.
-	Type IBmmUnitaryType `yaml:"type" json:"type" xml:"type"`
-	Name string          `yaml:"name" json:"name" xml:"name"`
+	_type IBmmUnitaryType `yaml:"type" json:"type" xml:"type"`
+	name  string          `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -31,15 +31,15 @@ func NewBmmUnitaryProperty() *BmmUnitaryProperty {
 	bmmunitaryproperty.documentation = make(map[string]any)
 	bmmunitaryproperty.extensions = make(map[string]any)
 	//BmmFeature
-	bmmunitaryproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	bmmunitaryproperty.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
 	//BmmProperty
 	//default, no constant
-	bmmunitaryproperty.IsImRuntime = false
+	bmmunitaryproperty.isImRuntime = false
 	//default, no constant
-	bmmunitaryproperty.IsImInfrastructure = false
+	bmmunitaryproperty.isImInfrastructure = false
 	//default, no constant
-	bmmunitaryproperty.IsComposition = false
+	bmmunitaryproperty.isComposition = false
 	return bmmunitaryproperty
 }
 
@@ -57,14 +57,14 @@ func NewBmmUnitaryPropertyBuilder() *BmmUnitaryPropertyBuilder {
 // From: BmmProperty
 // True if this property is marked with info model im_runtime property.
 func (i *BmmUnitaryPropertyBuilder) SetIsImRuntime(v bool) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.IsImRuntime = v
+	i.bmmunitaryproperty.isImRuntime = v
 	return i
 }
 
 // From: BmmProperty
 // True if this property was marked with info model im_infrastructure flag.
 func (i *BmmUnitaryPropertyBuilder) SetIsImInfrastructure(v bool) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.IsImInfrastructure = v
+	i.bmmunitaryproperty.isImInfrastructure = v
 	return i
 }
 
@@ -76,7 +76,7 @@ properties without associations) and also 'cascade-delete' semantics in ER
 schemas.
 */
 func (i *BmmUnitaryPropertyBuilder) SetIsComposition(v bool) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.IsComposition = v
+	i.bmmunitaryproperty.isComposition = v
 	return i
 }
 
@@ -86,21 +86,21 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmUnitaryPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.IsSynthesisedGeneric = v
+	i.bmmunitaryproperty.isSynthesisedGeneric = v
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.FeatureExtensions = v
+	i.bmmunitaryproperty.featureExtensions = v
 	return i
 }
 
 // From: BmmFeature
-// Group containing this feature.
+// group containing this feature.
 func (i *BmmUnitaryPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.Group = v
+	i.bmmunitaryproperty.group = v
 	return i
 }
 
@@ -114,7 +114,7 @@ func (i *BmmUnitaryPropertyBuilder) SetScope(v IBmmClass) *BmmUnitaryPropertyBui
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmUnitaryPropertyBuilder) SetType(v IBmmType) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.Type = v
+	i.bmmunitaryproperty._type = v
 	return i
 }
 
@@ -131,7 +131,7 @@ func (i *BmmUnitaryPropertyBuilder) SetIsNullable(v bool) *BmmUnitaryPropertyBui
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmUnitaryPropertyBuilder) SetName(v string) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.Name = v
+	i.bmmunitaryproperty.name = v
 	return i
 }
 
@@ -169,7 +169,7 @@ func (b *BmmUnitaryProperty) Existence() *base.MultiplicityInterval[int] {
 }
 
 // From: BMM_PROPERTY
-// Name of this property to display in UI.
+// name of this property to display in UI.
 func (b *BmmUnitaryProperty) DisplayName() string {
 	return ""
 }

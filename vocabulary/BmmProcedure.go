@@ -30,7 +30,7 @@ func NewBmmProcedure() *BmmProcedure {
 	bmmprocedure.documentation = make(map[string]any)
 	bmmprocedure.extensions = make(map[string]any)
 	//BmmFeature
-	bmmprocedure.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	bmmprocedure.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmRoutine
 	bmmprocedure.Parameters = make([]IBmmParameter, 0)
 	bmmprocedure.PreConditions = make([]IBmmAssertion, 0)
@@ -99,21 +99,21 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmProcedureBuilder) SetIsSynthesisedGeneric(v bool) *BmmProcedureBuilder {
-	i.bmmprocedure.IsSynthesisedGeneric = v
+	i.bmmprocedure.isSynthesisedGeneric = v
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmProcedureBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmProcedureBuilder {
-	i.bmmprocedure.FeatureExtensions = v
+	i.bmmprocedure.featureExtensions = v
 	return i
 }
 
 // From: BmmFeature
-// Group containing this feature.
+// group containing this feature.
 func (i *BmmProcedureBuilder) SetGroup(v IBmmFeatureGroup) *BmmProcedureBuilder {
-	i.bmmprocedure.Group = v
+	i.bmmprocedure.group = v
 	return i
 }
 

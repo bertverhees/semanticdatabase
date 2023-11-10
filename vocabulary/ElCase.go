@@ -48,7 +48,7 @@ func (i *ElCaseBuilder[T]) SetValueConstraint(v constraints.ICObject) *ElCaseBui
 // From: ElDecisionBranch
 // Result expression of conditional, if its condition evaluates to True.
 func (i *ElCaseBuilder[T]) SetResult(v T) *ElCaseBuilder[T] {
-	i.elcase.Result = v
+	i.elcase.result = v
 	return i
 }
 

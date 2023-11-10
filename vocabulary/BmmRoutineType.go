@@ -18,7 +18,7 @@ type BmmRoutineType struct {
 	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes
 	/**
-	Type of arguments in the signature, if any; represented as a type-tuple (list of
+	_type of arguments in the signature, if any; represented as a type-tuple (list of
 	arbitrary types).
 	*/
 	ArgumentTypes IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
@@ -45,7 +45,7 @@ func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Type of arguments in the signature, if any; represented as a type-tuple (list of
+_type of arguments in the signature, if any; represented as a type-tuple (list of
 arbitrary types).
 */
 func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTypeBuilder {

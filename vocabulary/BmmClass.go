@@ -13,7 +13,7 @@ type_name() to obtain the qualified type name.
 type IBmmClass interface {
 	IBmmModule
 	//BMM_CLASS
-	//redefined in subclasses Type() IBmmModelType
+	//redefined in subclasses _type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -80,8 +80,8 @@ type BmmClass struct {
 	type.
 	*/
 	Converters map[string]IBmmProcedure `yaml:"converters" json:"converters" xml:"converters"`
-	// Features of this module.
-	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	// features of this module.
+	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR

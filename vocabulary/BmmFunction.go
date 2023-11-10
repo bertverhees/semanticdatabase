@@ -34,7 +34,7 @@ func NewBmmFunction() *BmmFunction {
 	bmmfunction.documentation = make(map[string]any)
 	bmmfunction.extensions = make(map[string]any)
 	//BmmFeature
-	bmmfunction.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	bmmfunction.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmRoutine
 	bmmfunction.Parameters = make([]IBmmParameter, 0)
 	bmmfunction.PreConditions = make([]IBmmAssertion, 0)
@@ -112,21 +112,21 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmFunctionBuilder) SetIsSynthesisedGeneric(v bool) *BmmFunctionBuilder {
-	i.bmmfunction.IsSynthesisedGeneric = v
+	i.bmmfunction.isSynthesisedGeneric = v
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmFunctionBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmFunctionBuilder {
-	i.bmmfunction.FeatureExtensions = v
+	i.bmmfunction.featureExtensions = v
 	return i
 }
 
 // From: BmmFeature
-// Group containing this feature.
+// group containing this feature.
 func (i *BmmFunctionBuilder) SetGroup(v IBmmFeatureGroup) *BmmFunctionBuilder {
-	i.bmmfunction.Group = v
+	i.bmmfunction.group = v
 	return i
 }
 

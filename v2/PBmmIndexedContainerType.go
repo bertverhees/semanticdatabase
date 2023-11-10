@@ -67,7 +67,7 @@ func (i *PBmmIndexedContainerTypeBuilder) SetContainerType(v string) *PBmmIndexe
 
 // //From: PBmmContainerType
 /**
-Type definition of type , if not a simple String type reference. Persisted
+_type definition of type , if not a simple String type reference. Persisted
 attribute.
 */
 func (i *PBmmIndexedContainerTypeBuilder) SetTypeDef(v IPBmmBaseType) *PBmmIndexedContainerTypeBuilder {

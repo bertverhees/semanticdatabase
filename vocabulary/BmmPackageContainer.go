@@ -1,6 +1,7 @@
 package vocabulary
 
 import (
+	"errors"
 	"log"
 )
 
@@ -16,10 +17,8 @@ type IBmmPackageContainer interface {
 	PackageAtPath(a_path string) IBmmPackage
 	DoRecursivePackages(action IElProcedureAgent)
 	HasPackagePath(a_path string) bool
-	Packages() map[string]IBmmPackage
-	SetPackages(packages map[string]IBmmPackage)
-	Scope() IBmmPackageContainer
-	SetScope(scope IBmmPackageContainer)
+	Packages() (map[string]IBmmPackage, error)
+	SetPackages(packages map[string]IBmmPackage) error
 }
 
 // Struct definition
@@ -34,20 +33,27 @@ type BmmPackageContainer struct {
 	scope IBmmPackageContainer `yaml:"scope" json:"scope" xml:"scope"`
 }
 
-func (b *BmmPackageContainer) Packages() map[string]IBmmPackage {
-	return b.packages
+func (b *BmmPackageContainer) Packages() (map[string]IBmmPackage, error) {
+	return b.packages, nil
 }
 
-func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) {
+func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) error {
 	b.packages = packages
+	return nil
 }
 
-func (b *BmmPackageContainer) Scope() IBmmPackageContainer {
-	return b.scope
+func (b *BmmPackageContainer) Scope() (IBmmModelElement, error) {
+	return b.scope, nil
 }
 
-func (b *BmmPackageContainer) SetScope(scope IBmmPackageContainer) {
-	b.scope = scope
+func (b *BmmPackageContainer) SetScope(scope IBmmModelElement) error {
+	s, ok := scope.(IBmmPackageContainer)
+	if !ok {
+		return errors.New("_type-assertion in BmmPackageContainer->SetScope went wrong")
+	} else {
+		b.scope = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR

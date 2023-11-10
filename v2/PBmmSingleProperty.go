@@ -28,7 +28,7 @@ type PBmmSingleProperty struct {
 	*/
 	Type string `yaml:"type" json:"type" xml:"type"`
 	/**
-	Type definition of this property computed from type for later use in
+	_type definition of this property computed from type for later use in
 	bmm_property .
 	*/
 	TypeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
@@ -66,7 +66,7 @@ func (i *PBmmSinglePropertyBuilder) SetType(v string) *PBmmSinglePropertyBuilder
 
 /*
 *
-Type definition of this property computed from type for later use in
+_type definition of this property computed from type for later use in
 bmm_property .
 */
 func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePropertyBuilder {

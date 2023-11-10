@@ -17,11 +17,11 @@ type IBmmContainerProperty interface {
 type BmmContainerProperty struct {
 	BmmProperty
 	// Attributes
-	// Cardinality of this container.
-	Cardinality *base.MultiplicityInterval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
+	// cardinality of this container.
+	cardinality *base.MultiplicityInterval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
 	// Declared or inferred static type of the entity.
-	Type IBmmContainerType `yaml:"type" json:"type" xml:"type"`
-	Name string            `yaml:"name" json:"name" xml:"name"`
+	_type IBmmContainerType `yaml:"type" json:"type" xml:"type"`
+	name  string            `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -34,15 +34,15 @@ func NewBmmContainerProperty() *BmmContainerProperty {
 	bmmcontainerproperty.documentation = make(map[string]any)
 	bmmcontainerproperty.extensions = make(map[string]any)
 	//BmmFeature
-	bmmcontainerproperty.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	bmmcontainerproperty.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
 	//BmmProperty
 	//default, no constant
-	bmmcontainerproperty.IsImRuntime = false
+	bmmcontainerproperty.isImRuntime = false
 	//default, no constant
-	bmmcontainerproperty.IsImInfrastructure = false
+	bmmcontainerproperty.isImInfrastructure = false
 	//default, no constant
-	bmmcontainerproperty.IsComposition = false
+	bmmcontainerproperty.isComposition = false
 	return bmmcontainerproperty
 }
 
@@ -58,29 +58,29 @@ func NewBmmContainerPropertyBuilder() *BmmContainerPropertyBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Cardinality of this container.
+// cardinality of this container.
 func (i *BmmContainerPropertyBuilder) SetCardinality(v *base.MultiplicityInterval[int]) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.Cardinality = v
+	i.bmmcontainerproperty.cardinality = v
 	return i
 }
 
 // Declared or inferred static type of the entity.
 func (i *BmmContainerPropertyBuilder) SetType(v IBmmContainerType) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.Type = v
+	i.bmmcontainerproperty._type = v
 	return i
 }
 
 // From: BmmProperty
 // True if this property is marked with info model im_runtime property.
 func (i *BmmContainerPropertyBuilder) SetIsImRuntime(v bool) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.IsImRuntime = v
+	i.bmmcontainerproperty.isImRuntime = v
 	return i
 }
 
 // From: BmmProperty
 // True if this property was marked with info model im_infrastructure flag.
 func (i *BmmContainerPropertyBuilder) SetIsImInfrastructure(v bool) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.IsImInfrastructure = v
+	i.bmmcontainerproperty.isImInfrastructure = v
 	return i
 }
 
@@ -92,7 +92,7 @@ properties without associations) and also 'cascade-delete' semantics in ER
 schemas.
 */
 func (i *BmmContainerPropertyBuilder) SetIsComposition(v bool) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.IsComposition = v
+	i.bmmcontainerproperty.isComposition = v
 	return i
 }
 
@@ -102,21 +102,21 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmContainerPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.IsSynthesisedGeneric = v
+	i.bmmcontainerproperty.isSynthesisedGeneric = v
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmContainerPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.FeatureExtensions = v
+	i.bmmcontainerproperty.featureExtensions = v
 	return i
 }
 
 // From: BmmFeature
-// Group containing this feature.
+// group containing this feature.
 func (i *BmmContainerPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.Group = v
+	i.bmmcontainerproperty.group = v
 	return i
 }
 
@@ -133,7 +133,7 @@ func (i *BmmContainerPropertyBuilder) SetIsNullable(v bool) *BmmContainerPropert
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmContainerPropertyBuilder) SetName(v string) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.Name = v
+	i.bmmcontainerproperty.name = v
 	return i
 }
 
@@ -177,7 +177,7 @@ func (b *BmmContainerProperty) Existence() *base.MultiplicityInterval[int] {
 }
 
 // From: BMM_PROPERTY
-// Name of this property to display in UI.
+// name of this property to display in UI.
 func (b *BmmContainerProperty) DisplayName() string {
 	return ""
 }

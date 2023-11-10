@@ -27,8 +27,8 @@ type BmmSelf struct {
 	BmmReadonlyVariable
 	// Constants
 	// Attributes
-	// Name of this model element.
-	Name string `yaml:"name" json:"name" xml:"name"`
+	// name of this model element.
+	name string `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -41,7 +41,7 @@ func NewBmmSelf() *BmmSelf {
 	//default, no constant
 	bmmself.IsNullable = false
 	//default, no constant
-	bmmself.Name = "Self"
+	bmmself.name = "Self"
 	return bmmself
 }
 
@@ -59,7 +59,7 @@ func NewBmmSelfBuilder() *BmmSelfBuilder {
 // BUILDER ATTRIBUTES
 // name of this model element.
 func (i *BmmSelfBuilder) SetName(v string) *BmmSelfBuilder {
-	i.bmmself.Name = v
+	i.bmmself.name = v
 	return i
 }
 

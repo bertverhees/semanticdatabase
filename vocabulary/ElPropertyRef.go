@@ -70,7 +70,7 @@ func (i *ElPropertyRefBuilder) Build() *ElPropertyRef {
 
 //FUNCTIONS
 /**
-Type definition (i.e. BMM meta-type definition object) of the constant, property
+_type definition (i.e. BMM meta-type definition object) of the constant, property
 or variable, inferred by inspection of the current scoping instance. Return
 definition.type .
 */

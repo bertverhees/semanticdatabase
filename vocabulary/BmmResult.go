@@ -15,8 +15,8 @@ type IBmmResult interface {
 type BmmResult struct {
 	BmmWritableVariable
 	// Attributes
-	// Name of this model element.
-	Name string `yaml:"name" json:"name" xml:"name"`
+	// name of this model element.
+	name string `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -46,7 +46,7 @@ func NewBmmResultBuilder() *BmmResultBuilder {
 // BUILDER ATTRIBUTES
 // name of this model element.
 func (i *BmmResultBuilder) SetName(v string) *BmmResultBuilder {
-	i.bmmresult.Name = v
+	i.bmmresult.name = v
 	return i
 }
 

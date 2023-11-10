@@ -52,7 +52,7 @@ func (i *BmmProcedureTypeBuilder) SetResultType(v IBmmStatusType) *BmmProcedureT
 
 // From: BmmRoutineType
 /**
-Type of arguments in the signature, if any; represented as a type-tuple (list of
+_type of arguments in the signature, if any; represented as a type-tuple (list of
 arbitrary types).
 */
 func (i *BmmProcedureTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmProcedureTypeBuilder {

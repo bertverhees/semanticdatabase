@@ -34,14 +34,14 @@ func (b *BmmModelType) IsPrimitive() bool {
 }
 
 // From: BMM_TYPE
-// Type with any container abstracted away; may be a formal generic type.
+// _type with any container abstracted away; may be a formal generic type.
 func (b *BmmModelType) UnitaryType() IBmmUnitaryType {
 	return b.BmmEffectiveType.UnitaryType()
 }
 
 // From: BMM_TYPE
 /**
-Type with any container abstracted away, and any formal parameter replaced by
+_type with any container abstracted away, and any formal parameter replaced by
 its effective constraint type.
 */
 func (b *BmmModelType) EffectiveType() IBmmEffectiveType {

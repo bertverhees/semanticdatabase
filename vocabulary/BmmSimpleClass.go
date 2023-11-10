@@ -17,8 +17,8 @@ type BmmSimpleClass struct {
 	// embedded for Inheritance
 	BmmClass
 	// Attributes
-	//Features of this module
-	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	//features of this module
+	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
@@ -28,11 +28,11 @@ func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass.documentation = make(map[string]any)
 	bmmsimpleclass.extensions = make(map[string]any)
 	//BmmModule
-	bmmsimpleclass.Features = make([]IBmmFeature, 0)
-	bmmsimpleclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	bmmsimpleclass.features = make([]IBmmFeature, 0)
+	bmmsimpleclass.featureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
 	bmmsimpleclass.Ancestors = make(map[string]IBmmModelType)
-	bmmsimpleclass.Features = make([]IBmmFeature, 0)
+	bmmsimpleclass.features = make([]IBmmFeature, 0)
 	bmmsimpleclass.Properties = make(map[string]IBmmProperty)
 	bmmsimpleclass.ImmediateDescendants = make([]IBmmClass, 0)
 	bmmsimpleclass.StaticProperties = make(map[string]IBmmStatic)
@@ -159,7 +159,7 @@ func (i *BmmSimpleClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmSi
 // From: BmmModule
 // List of feature groups in this class.
 func (i *BmmSimpleClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.FeatureGroups = v
+	i.bmmsimpleclass.featureGroups = v
 	return i
 }
 

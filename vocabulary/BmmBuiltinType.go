@@ -85,7 +85,7 @@ func (b *BmmBuiltinType) TypeSignature() string {
 }
 
 // From: BMM_TYPE
-// Type with any container abstracted away; may be a formal generic type.
+// _type with any container abstracted away; may be a formal generic type.
 func (b *BmmBuiltinType) UnitaryType() IBmmUnitaryType {
 	return nil
 }

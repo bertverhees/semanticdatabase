@@ -31,7 +31,7 @@ func NewBmmConstant() *BmmConstant {
 	bmmconstant.documentation = make(map[string]any)
 	bmmconstant.extensions = make(map[string]any)
 	//BmmFeature
-	bmmconstant.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	bmmconstant.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
 	//BmmStatic
 	return bmmconstant
@@ -61,28 +61,28 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmConstantBuilder) SetIsSynthesisedGeneric(v bool) *BmmConstantBuilder {
-	i.bmmconstant.IsSynthesisedGeneric = v
+	i.bmmconstant.isSynthesisedGeneric = v
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmConstantBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmConstantBuilder {
-	i.bmmconstant.FeatureExtensions = v
+	i.bmmconstant.featureExtensions = v
 	return i
 }
 
 // From: BmmFeature
-// Group containing this feature.
+// group containing this feature.
 func (i *BmmConstantBuilder) SetGroup(v IBmmFeatureGroup) *BmmConstantBuilder {
-	i.bmmconstant.Group = v
+	i.bmmconstant.group = v
 	return i
 }
 
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmConstantBuilder) SetScope(v IBmmClass) *BmmConstantBuilder {
-	i.bmmconstant.BmmFeature.Scope = v
+	i.bmmconstant.BmmFeature.scope = v
 	return i
 }
 

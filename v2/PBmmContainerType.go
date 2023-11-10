@@ -25,7 +25,7 @@ type PBmmContainerType struct {
 	*/
 	ContainerType string `yaml:"containertype" json:"containertype" xml:"containertype"`
 	/**
-	Type definition of type , if not a simple String type reference. Persisted
+	_type definition of type , if not a simple String type reference. Persisted
 	attribute.
 	*/
 	TypeDef IPBmmBaseType `yaml:"typedef" json:"typedef" xml:"typedef"`
@@ -67,7 +67,7 @@ func (i *PBmmContainerTypeBuilder) SetContainerType(v string) *PBmmContainerType
 
 /*
 *
-Type definition of type , if not a simple String type reference. Persisted
+_type definition of type , if not a simple String type reference. Persisted
 attribute.
 */
 func (i *PBmmContainerTypeBuilder) SetTypeDef(v IPBmmBaseType) *PBmmContainerTypeBuilder {

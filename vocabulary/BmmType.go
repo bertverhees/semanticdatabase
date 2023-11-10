@@ -55,14 +55,14 @@ func (b *BmmType) IsPrimitive() bool {
 	return false
 }
 
-// abstract,  Type with any container abstracted away; may be a formal generic type.
+// abstract,  _type with any container abstracted away; may be a formal generic type.
 func (b *BmmType) UnitaryType() IBmmUnitaryType {
 	return nil
 }
 
 /*
 *
-abstract, Type with any container abstracted away, and any formal parameter replaced by
+abstract, _type with any container abstracted away, and any formal parameter replaced by
 its effective constraint type.
 */
 func (b *BmmType) EffectiveType() IBmmEffectiveType {

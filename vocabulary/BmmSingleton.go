@@ -27,7 +27,7 @@ func NewBmmSingleton() *BmmSingleton {
 	bmmsingleton.documentation = make(map[string]any)
 	bmmsingleton.extensions = make(map[string]any)
 	//BmmFeature
-	bmmsingleton.FeatureExtensions = make([]IBmmFeatureExtension, 0)
+	bmmsingleton.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
 	//BmmStatic
 
@@ -58,21 +58,21 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmSingletonBuilder) SetIsSynthesisedGeneric(v bool) *BmmSingletonBuilder {
-	i.bmmsingleton.IsSynthesisedGeneric = v
+	i.bmmsingleton.isSynthesisedGeneric = v
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmSingletonBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmSingletonBuilder {
-	i.bmmsingleton.FeatureExtensions = v
+	i.bmmsingleton.featureExtensions = v
 	return i
 }
 
 // From: BmmFeature
-// Group containing this feature.
+// group containing this feature.
 func (i *BmmSingletonBuilder) SetGroup(v IBmmFeatureGroup) *BmmSingletonBuilder {
-	i.bmmsingleton.Group = v
+	i.bmmsingleton.group = v
 	return i
 }
 

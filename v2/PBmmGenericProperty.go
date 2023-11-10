@@ -21,7 +21,7 @@ type PBmmGenericProperty struct {
 	// Constants
 	// Attributes
 	/**
-	Type definition of this property, if not a simple String type reference.
+	_type definition of this property, if not a simple String type reference.
 	Persistent attribute.
 	*/
 	TypeDef IPBmmGenericType `yaml:"typedef" json:"typedef" xml:"typedef"`
@@ -51,7 +51,7 @@ func NewPBmmGenericPropertyBuilder() *PBmmGenericPropertyBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Type definition of this property, if not a simple String type reference.
+_type definition of this property, if not a simple String type reference.
 Persistent attribute.
 */
 func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGenericPropertyBuilder {

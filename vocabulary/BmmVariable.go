@@ -13,7 +13,7 @@ type BmmVariable struct {
 	BmmFormalElement
 	// Attributes
 	// Routine within which variable is defined.
-	Scope IBmmRoutine `yaml:"scope" json:"scope" xml:"scope"`
+	scope IBmmRoutine `yaml:"scope" json:"scope" xml:"scope"`
 }
 
 // CONSTRUCTOR

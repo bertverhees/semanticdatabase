@@ -1,6 +1,6 @@
 package vocabulary
 
-// Type reference to a single type i.e. not generic or container type.
+// _type reference to a single type i.e. not generic or container type.
 
 // Interface definition
 type IBmmSimpleType interface {
@@ -100,14 +100,14 @@ func (b *BmmSimpleType) IsPrimitive() bool {
 }
 
 // From: BMM_TYPE
-// Type with any container abstracted away; may be a formal generic type.
+// _type with any container abstracted away; may be a formal generic type.
 func (b *BmmSimpleType) UnitaryType() IBmmUnitaryType {
 	return nil
 }
 
 // From: BMM_TYPE
 /**
-Type with any container abstracted away, and any formal parameter replaced by
+_type with any container abstracted away, and any formal parameter replaced by
 its effective constraint type.
 */
 func (b *BmmSimpleType) EffectiveType() IBmmEffectiveType {

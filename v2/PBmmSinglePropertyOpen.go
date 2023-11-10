@@ -22,12 +22,12 @@ type PBmmSinglePropertyOpen struct {
 	// Constants
 	// Attributes
 	/**
-	Type definition of this property computed from type for later use in
+	_type definition of this property computed from type for later use in
 	bmm_property .
 	*/
 	TypeRef IPBmmOpenType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	/**
-	Type definition of this property, if a simple String type reference. Really we
+	_type definition of this property, if a simple String type reference. Really we
 	should use type_def to be regular in the schema, but that makes the schema more
 	wordy and less clear. So we use this persisted String value, and compute the
 	type_def on the fly. Persisted attribute.
@@ -57,7 +57,7 @@ func NewPBmmSinglePropertyOpenBuilder() *PBmmSinglePropertyOpenBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Type definition of this property computed from type for later use in
+_type definition of this property computed from type for later use in
 bmm_property .
 */
 func (i *PBmmSinglePropertyOpenBuilder) SetTypeRef(v IPBmmOpenType) *PBmmSinglePropertyOpenBuilder {
@@ -67,7 +67,7 @@ func (i *PBmmSinglePropertyOpenBuilder) SetTypeRef(v IPBmmOpenType) *PBmmSingleP
 
 /*
 *
-Type definition of this property, if a simple String type reference. Really we
+_type definition of this property, if a simple String type reference. Really we
 should use type_def to be regular in the schema, but that makes the schema more
 wordy and less clear. So we use this persisted String value, and compute the
 type_def on the fly. Persisted attribute.

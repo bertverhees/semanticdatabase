@@ -41,7 +41,7 @@ func NewElTypeRefBuilder() *ElTypeRefBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
+// _type, directly from the name of the reference, e.g. {SOME_TYPE} .
 func (i *ElTypeRefBuilder) SetType(v IBmmType) *ElTypeRefBuilder {
 	i.eltyperef.Type = v
 	return i

@@ -20,8 +20,8 @@ type BmmGenericClass struct {
 	generic.
 	*/
 	GenericParameters map[string]IBmmParameterType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
-	//Features of this module
-	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	//features of this module
+	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
@@ -31,9 +31,9 @@ func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass.documentation = make(map[string]any)
 	bmmgenericclass.extensions = make(map[string]any)
 	//BmmModule
-	bmmgenericclass.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	bmmgenericclass.featureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
-	bmmgenericclass.Features = make([]IBmmFeature, 0)
+	bmmgenericclass.features = make([]IBmmFeature, 0)
 	bmmgenericclass.Ancestors = make(map[string]IBmmModelType)
 	bmmgenericclass.Properties = make(map[string]IBmmProperty)
 	bmmgenericclass.ImmediateDescendants = make([]IBmmClass, 0)
@@ -190,16 +190,16 @@ func (i *BmmGenericClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmG
 }
 
 // From: BmmClass
-// Features of this module.
+// features of this module.
 func (i *BmmGenericClassBuilder) SetFeatures(v []IBmmFeature) *BmmGenericClassBuilder {
-	i.bmmgenericclass.BmmClass.Features = v
+	i.bmmgenericclass.BmmClass.features = v
 	return i
 }
 
 // From: BmmModule
 // List of feature groups in this class.
 func (i *BmmGenericClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmGenericClassBuilder {
-	i.bmmgenericclass.FeatureGroups = v
+	i.bmmgenericclass.featureGroups = v
 	return i
 }
 

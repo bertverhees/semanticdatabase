@@ -38,7 +38,7 @@ type PBmmProperty struct {
 	*/
 	IsImRuntime bool `yaml:"isimruntime" json:"isimruntime" xml:"isimruntime"`
 	/**
-	Type definition of this property, if not a simple String type reference.
+	_type definition of this property, if not a simple String type reference.
 	Persisted attribute.
 	*/
 	TypeDef IPBmmType `yaml:"typedef" json:"typedef" xml:"typedef"`

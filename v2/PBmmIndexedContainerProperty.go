@@ -20,7 +20,7 @@ type PBmmIndexedContainerProperty struct {
 	// Constants
 	// Attributes
 	/**
-	Type definition of this property, if not a simple String type reference.
+	_type definition of this property, if not a simple String type reference.
 	Persistent attribute.
 	*/
 	TypeDef IPBmmIndexedContainerType `yaml:"typedef" json:"typedef" xml:"typedef"`
@@ -48,7 +48,7 @@ func NewPBmmIndexedContainerPropertyBuilder() *PBmmIndexedContainerPropertyBuild
 
 //BUILDER ATTRIBUTES
 /**
-Type definition of this property, if not a simple String type reference.
+_type definition of this property, if not a simple String type reference.
 Persistent attribute.
 */
 func (i *PBmmIndexedContainerPropertyBuilder) SetTypeDef(v IPBmmIndexedContainerType) *PBmmIndexedContainerPropertyBuilder {
@@ -63,7 +63,7 @@ func (i *PBmmIndexedContainerPropertyBuilder) SetBmmProperty(v IPBmmIndexedConta
 }
 
 // //From: PBmmContainerProperty
-// Cardinality of this property in its class. Persistent attribute.
+// cardinality of this property in its class. Persistent attribute.
 func (i *PBmmIndexedContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBmmIndexedContainerPropertyBuilder {
 	i.pbmmindexedcontainerproperty.Cardinality = v
 	return i

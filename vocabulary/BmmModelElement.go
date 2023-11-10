@@ -10,14 +10,14 @@ but Types are not, since they are derived from model elements.
 // Interface definition
 type IBmmModelElement interface {
 	IsRootScope() bool
-	Name() string
-	SetName(name string)
-	Documentation() map[string]any
-	SetDocumentation(v map[string]any)
-	//Scope() IBmmModelElement
-	//SetScope(v IBmmModelElement)
-	Extensions() map[string]any
-	SetExtensions(v map[string]any)
+	Name() (string, error)
+	SetName(name string) error
+	Documentation() (map[string]any, error)
+	SetDocumentation(v map[string]any) error
+	Scope() (IBmmModelElement, error)
+	SetScope(v IBmmModelElement) error
+	Extensions() (map[string]any, error)
+	SetExtensions(v map[string]any) error
 }
 
 // Struct definition
@@ -47,36 +47,40 @@ type BmmModelElement struct {
 }
 
 // getters/setters
-func (b *BmmModelElement) Name() string {
-	return b.name
+func (b *BmmModelElement) Name() (string, error) {
+	return b.name, nil
 }
 
-func (b *BmmModelElement) SetName(name string) {
+func (b *BmmModelElement) SetName(name string) error {
 	b.name = name
+	return nil
 }
 
-func (b *BmmModelElement) Documentation() map[string]any {
-	return b.documentation
+func (b *BmmModelElement) Documentation() (map[string]any, error) {
+	return b.documentation, nil
 }
 
-func (b *BmmModelElement) SetDocumentation(v map[string]any) {
+func (b *BmmModelElement) SetDocumentation(v map[string]any) error {
 	b.documentation = v
+	return nil
 }
 
-func (b *BmmModelElement) Scope() IBmmModelElement {
-	return b.scope
+func (b *BmmModelElement) Scope() (IBmmModelElement, error) {
+	return b.scope, nil
 }
 
-func (b *BmmModelElement) SetScope(v IBmmModelElement) {
+func (b *BmmModelElement) SetScope(v IBmmModelElement) error {
 	b.scope = v
+	return nil
 }
 
-func (b *BmmModelElement) Extensions() map[string]any {
-	return b.extensions
+func (b *BmmModelElement) Extensions() (map[string]any, error) {
+	return b.extensions, nil
 }
 
-func (b *BmmModelElement) SetExtensions(v map[string]any) {
+func (b *BmmModelElement) SetExtensions(v map[string]any) error {
 	b.extensions = v
+	return nil
 }
 
 // CONSTRUCTOR

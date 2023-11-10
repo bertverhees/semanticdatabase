@@ -15,7 +15,7 @@ type ElDecisionBranch[T IElTerminal] struct {
 	// Constants
 	// Attributes
 	// Result expression of conditional, if its condition evaluates to True.
-	Result T `yaml:"result" json:"result" xml:"result"`
+	result T `yaml:"result" json:"result" xml:"result"`
 }
 
 // CONSTRUCTOR

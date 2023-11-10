@@ -47,7 +47,7 @@ func (i *ElConditionalExpressionBuilder[T]) SetCondition(v IElExpression) *ElCon
 // From: ElDecisionBranch
 // Result expression of conditional, if its condition evaluates to True.
 func (i *ElConditionalExpressionBuilder[T]) SetResult(v T) *ElConditionalExpressionBuilder[T] {
-	i.elconditionalexpression.Result = v
+	i.elconditionalexpression.result = v
 	return i
 }
 

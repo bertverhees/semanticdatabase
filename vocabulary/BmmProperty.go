@@ -21,24 +21,24 @@ type BmmProperty struct {
 	BmmInstantiableFeature
 	// Attributes
 	//name of this property in the model.
-	Name string `yaml:"name" json:"name" xml:"name"`
+	name string `yaml:"name" json:"name" xml:"name"`
 	//True if this property is mandatory in its class.
-	IsMandatory bool
+	isMandatory bool
 	//True if this property is computed rather than stored in objects of this class.
-	IsComputed bool
+	isComputed bool
 	//Formal type of this property.
-	Type IBmmType
+	_type IBmmType
 	// True if this property is marked with info model im_runtime property.
-	IsImRuntime bool `yaml:"isimruntime" json:"isimruntime" xml:"isimruntime"`
+	isImRuntime bool `yaml:"isimruntime" json:"isimruntime" xml:"isimruntime"`
 	// True if this property was marked with info model im_infrastructure flag.
-	IsImInfrastructure bool `yaml:"isiminfrastructure" json:"isiminfrastructure" xml:"isiminfrastructure"`
+	isImInfrastructure bool `yaml:"isiminfrastructure" json:"isiminfrastructure" xml:"isiminfrastructure"`
 	/**
 	True if this property instance is a compositional sub-part of the owning class
 	instance. Equivalent to 'composition' in UML associations (but missing from UML
 	properties without associations) and also 'cascade-delete' semantics in ER
 	schemas.
 	*/
-	IsComposition bool `yaml:"iscomposition" json:"iscomposition" xml:"iscomposition"`
+	isComposition bool `yaml:"iscomposition" json:"iscomposition" xml:"iscomposition"`
 }
 
 // CONSTRUCTOR
@@ -50,7 +50,7 @@ func (b *BmmProperty) Existence() *base.MultiplicityInterval[int] {
 	return nil
 }
 
-// Name of this property to display in UI.
+// name of this property to display in UI.
 func (b *BmmProperty) DisplayName() string {
 	return ""
 }

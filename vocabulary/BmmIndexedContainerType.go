@@ -18,7 +18,7 @@ type BmmIndexedContainerType struct {
 	BmmContainerType
 	// Attributes
 	/**
-	Type of the element index, typically String or Integer , but may be a numeric
+	_type of the element index, typically String or Integer , but may be a numeric
 	type or indeed any type from which a hash value can be derived.
 	*/
 	IndexType IBmmSimpleType `yaml:"indextype" json:"indextype" xml:"indextype"`
@@ -43,7 +43,7 @@ func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Type of the element index, typically String or Integer , but may be a numeric
+_type of the element index, typically String or Integer , but may be a numeric
 type or indeed any type from which a hash value can be derived.
 */
 func (i *BmmIndexedContainerTypeBuilder) SetIndexType(v IBmmSimpleType) *BmmIndexedContainerTypeBuilder {

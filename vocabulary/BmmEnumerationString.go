@@ -16,8 +16,8 @@ type BmmEnumerationString struct {
 	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
 	ItemValues []IBmmStringValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
-	//Features of this module.
-	Features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	//features of this module.
+	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 // CONSTRUCTOR
@@ -27,10 +27,10 @@ func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring.documentation = make(map[string]any)
 	bmmenumerationstring.extensions = make(map[string]any)
 	//BmmModule
-	bmmenumerationstring.Features = make([]IBmmFeature, 0)
-	bmmenumerationstring.FeatureGroups = make([]IBmmFeatureGroup, 0)
+	bmmenumerationstring.features = make([]IBmmFeature, 0)
+	bmmenumerationstring.featureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
-	bmmenumerationstring.BmmClass.Features = make([]IBmmFeature, 0)
+	bmmenumerationstring.BmmClass.features = make([]IBmmFeature, 0)
 	bmmenumerationstring.Ancestors = make(map[string]IBmmModelType)
 	bmmenumerationstring.Properties = make(map[string]IBmmProperty)
 	bmmenumerationstring.ImmediateDescendants = make([]IBmmClass, 0)
@@ -195,16 +195,16 @@ func (i *BmmEnumerationStringBuilder) SetConverters(v map[string]IBmmProcedure) 
 }
 
 // From: BmmClass
-// Features of this module.
+// 1features of this module.
 func (i *BmmEnumerationStringBuilder) SetFeatures(v []IBmmFeature) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.BmmClass.Features = v
+	i.bmmenumerationstring.BmmClass.features = v
 	return i
 }
 
 // From: BmmModule
 // List of feature groups in this class.
 func (i *BmmEnumerationStringBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnumerationStringBuilder {
-	i.bmmenumerationstring.FeatureGroups = v
+	i.bmmenumerationstring.featureGroups = v
 	return i
 }
 
