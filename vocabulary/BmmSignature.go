@@ -16,9 +16,6 @@ type IBmmSignature interface {
 // Struct definition
 type BmmSignature struct {
 	BmmBuiltinType
-	// Constants
-	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes
 	// Result type of signature.
 	ResultType IBmmType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
@@ -28,7 +25,7 @@ type BmmSignature struct {
 func NewBmmSignature() *BmmSignature {
 	bmmsignature := new(BmmSignature)
 	// Base name (built-in).
-	bmmsignature.BaseName = "Signature"
+	bmmsignature.baseName = "Signature"
 	return bmmsignature
 }
 

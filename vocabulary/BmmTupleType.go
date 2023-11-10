@@ -13,42 +13,60 @@ type IBmmTupleType interface {
 	IBmmBuiltinType
 	//BMM_TUPLE_TYPE
 	FlattenedTypeList() []string
+	ItemTypes() (map[string]IBmmType, error)
+	SetItemTypes(itemTypes map[string]IBmmType) error
 }
 
 // Struct definition
 type BmmTupleType struct {
 	BmmBuiltinType
-	// Base name (built-in).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"` //(redefined)
 	// Attributes
 	// List of types of the items of the tuple, keyed by purpose in the tuple.
-	ItemTypes map[string]IBmmType `yaml:"itemtypes" json:"itemtypes" xml:"itemtypes"`
+	itemTypes map[string]IBmmType `yaml:"itemtypes" json:"itemtypes" xml:"itemtypes"`
+}
+
+func (b *BmmTupleType) ItemTypes() (map[string]IBmmType, error) {
+	return b.itemTypes, nil
+}
+
+func (b *BmmTupleType) SetItemTypes(itemTypes map[string]IBmmType) error {
+	b.itemTypes = itemTypes
+	return nil
 }
 
 // CONSTRUCTOR
 func NewBmmTupleType() *BmmTupleType {
 	bmmtupletype := new(BmmTupleType)
 	// Base name (built-in).
-	bmmtupletype.BaseName = "Tuple"
+	bmmtupletype.baseName = "Tuple"
+	bmmtupletype.itemTypes = make(map[string]IBmmType)
 	return bmmtupletype
 }
 
 // BUILDER
 type BmmTupleTypeBuilder struct {
 	bmmtupletype *BmmTupleType
+	errors       []error
 }
 
 func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
 	return &BmmTupleTypeBuilder{
 		bmmtupletype: NewBmmTupleType(),
+		errors:       make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // List of types of the items of the tuple, keyed by purpose in the tuple.
 func (i *BmmTupleTypeBuilder) SetItemTypes(v map[string]IBmmType) *BmmTupleTypeBuilder {
-	i.bmmtupletype.ItemTypes = v
+	i.AddError(i.bmmtupletype.SetItemTypes(v))
 	return i
+}
+
+func (i *BmmTupleTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmTupleTypeBuilder) Build() *BmmTupleType {
