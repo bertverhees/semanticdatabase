@@ -53,25 +53,32 @@ func NewBmmAssignment() *BmmAssignment {
 // BUILDER
 type BmmAssignmentBuilder struct {
 	bmmassignment *BmmAssignment
+	errors        []error
 }
 
 func NewBmmAssignmentBuilder() *BmmAssignmentBuilder {
 	return &BmmAssignmentBuilder{
 		bmmassignment: NewBmmAssignment(),
+		errors:        make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // The target variable on the notional left-hand side of this assignment.
-func (i *BmmAssignmentBuilder) SetTarget(v IElValueGenerator) (*BmmAssignmentBuilder, error) {
-	e := i.bmmassignment.SetTarget(v)
-	return i, e
+func (i *BmmAssignmentBuilder) SetTarget(v IElValueGenerator) *BmmAssignmentBuilder {
+	i.AddError(i.bmmassignment.SetTarget(v))
+	return i
 }
 
 // source right hand side) of the assignment.
-func (i *BmmAssignmentBuilder) SetSource(v IElExpression) (*BmmAssignmentBuilder, error) {
-	e := i.bmmassignment.SetSource(v)
-	return i, e
+func (i *BmmAssignmentBuilder) SetSource(v IElExpression) *BmmAssignmentBuilder {
+	i.AddError(i.bmmassignment.SetSource(v))
+	return i
+}
+func (i *BmmAssignmentBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmAssignmentBuilder) Build() *BmmAssignment {

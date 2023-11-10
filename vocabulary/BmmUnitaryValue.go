@@ -54,7 +54,7 @@ func (i *BmmUnitaryValueBuilder[T]) SetValue(v any) *BmmUnitaryValueBuilder[T] {
 // From: BmmLiteralValue
 /**
 Optional specification of formalism of the value_literal attribute for complex
-values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmUnitaryValueBuilder[T]) SetSyntax(v string) *BmmUnitaryValueBuilder[T] {

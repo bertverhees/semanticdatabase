@@ -22,7 +22,7 @@ type BmmLiteralValue[T IBmmType] struct {
 	Value any `yaml:"value" json:"value" xml:"value"`
 	/**
 	Optional specification of formalism of the value_literal attribute for complex
-	values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+	values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 	value agreed by the user community. If not set, json is assumed.
 	*/
 	Syntax string `yaml:"syntax" json:"syntax" xml:"syntax"`
@@ -68,7 +68,7 @@ func (i *BmmLiteralValueBuilder[T]) SetValue(v any) *BmmLiteralValueBuilder[T] {
 /*
 *
 Optional specification of formalism of the value_literal attribute for complex
-values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmLiteralValueBuilder[T]) SetSyntax(v string) *BmmLiteralValueBuilder[T] {

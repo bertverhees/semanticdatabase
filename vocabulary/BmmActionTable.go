@@ -39,11 +39,13 @@ func NewBmmActionTable() *BmmActionTable {
 // BUILDER
 type BmmActionTableBuilder struct {
 	bmmactiontable *BmmActionTable
+	errors         []error
 }
 
 func NewBmmActionTableBuilder() *BmmActionTableBuilder {
 	return &BmmActionTableBuilder{
 		bmmactiontable: NewBmmActionTable(),
+		errors:         make([]error, 0),
 	}
 }
 
@@ -52,9 +54,14 @@ func NewBmmActionTableBuilder() *BmmActionTableBuilder {
 A specialised decision table whose outputs can only be procedure agents. In
 execution, the matched agent will be invoked.
 */
-func (i *BmmActionTableBuilder) SetDecisionTable(v IBmmActionDecisionTable) (*BmmActionTableBuilder, error) {
-	e := i.bmmactiontable.SetDecisionTable(v)
-	return i, e
+func (i *BmmActionTableBuilder) SetDecisionTable(v IBmmActionDecisionTable) *BmmActionTableBuilder {
+	i.AddError(i.bmmactiontable.SetDecisionTable(v))
+	return i
+}
+func (i *BmmActionTableBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmActionTableBuilder) Build() *BmmActionTable {

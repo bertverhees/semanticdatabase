@@ -15,7 +15,16 @@ type BmmBooleanValue struct {
 	BmmPrimitiveValue[IBmmSimpleType]
 	// Attributes
 	// Native Boolean value.
-	Value bool `yaml:"value" json:"value" xml:"value"`
+	value bool `yaml:"value" json:"value" xml:"value"`
+}
+
+func (b *BmmBooleanValue) Value() (bool, error) {
+	return b.value, nil
+}
+
+func (b *BmmBooleanValue) SetValue(value bool) error {
+	b.value = value
+	return nil
 }
 
 // CONSTRUCTOR
@@ -28,18 +37,20 @@ func NewBmmBooleanValue() *BmmBooleanValue {
 // BUILDER
 type BmmBooleanValueBuilder struct {
 	bmmbooleanvalue *BmmBooleanValue
+	errors          []error
 }
 
 func NewBmmBooleanValueBuilder() *BmmBooleanValueBuilder {
 	return &BmmBooleanValueBuilder{
 		bmmbooleanvalue: NewBmmBooleanValue(),
+		errors:          make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Native Boolean value.
 func (i *BmmBooleanValueBuilder) SetValue(v bool) *BmmBooleanValueBuilder {
-	i.bmmbooleanvalue.Value = v
+	i.AddError(i.bmmbooleanvalue.SetValue(v))
 	return i
 }
 
@@ -53,13 +64,20 @@ func (i *BmmBooleanValueBuilder) SetValueLiteral(v string) *BmmBooleanValueBuild
 // From: BmmLiteralValue
 /**
 Optional specification of formalism of the value_literal attribute for complex
-values. Value may be any of json | json5 | yawl | xml | odin | rdf or another
+values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmBooleanValueBuilder) SetSyntax(v string) *BmmBooleanValueBuilder {
 	i.bmmbooleanvalue.Syntax = v
 	return i
 }
+
+func (i *BmmBooleanValueBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
+
 func (i *BmmBooleanValueBuilder) Build() *BmmBooleanValue {
 	return i.bmmbooleanvalue
 }

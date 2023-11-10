@@ -56,19 +56,21 @@ func NewBmmAssertion() *BmmAssertion {
 // BUILDER
 type BmmAssertionBuilder struct {
 	bmmassertion *BmmAssertion
+	errors       []error
 }
 
 func NewBmmAssertionBuilder() *BmmAssertionBuilder {
 	return &BmmAssertionBuilder{
 		bmmassertion: NewBmmAssertion(),
+		errors:       make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Boolean-valued expression of the assertion.
-func (i *BmmAssertionBuilder) SetExpression(v IElBooleanExpression) (*BmmAssertionBuilder,error) {
-	e := i.bmmassertion.SetExpression(v)
-	return i,e
+func (i *BmmAssertionBuilder) SetExpression(v IElBooleanExpression) *BmmAssertionBuilder {
+	i.AddError(i.bmmassertion.SetExpression(v))
+	return i
 }
 
 /*
@@ -76,9 +78,14 @@ func (i *BmmAssertionBuilder) SetExpression(v IElBooleanExpression) (*BmmAsserti
 Optional tag, typically used to designate design intention of the assertion,
 e.g. "Inv_all_members_valid" .
 */
-func (i *BmmAssertionBuilder) SetTag(v string) (*BmmAssertionBuilder,error) {
-	e := i.bmmassertion.SetTag(v)
-	return i,e
+func (i *BmmAssertionBuilder) SetTag(v string) *BmmAssertionBuilder {
+	i.AddError(i.bmmassertion.SetTag(v))
+	return i
+}
+func (i *BmmAssertionBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmAssertionBuilder) Build() *BmmAssertion {

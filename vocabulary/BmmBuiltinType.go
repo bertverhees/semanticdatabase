@@ -12,40 +12,29 @@ type IBmmBuiltinType interface {
 	IsPrimitive() bool
 	TypeBaseName() string
 	TypeName() string
+	BaseName() (string, error)
+	SetBaseName(baseName string) error
 }
 
 // Struct definition
 type BmmBuiltinType struct {
 	BmmEffectiveType
 	// Base name (built-in typename).
-	BaseName string `yaml:"basename" json:"basename" xml:"basename"`
+	baseName string `yaml:"basename" json:"basename" xml:"basename"`
 	// Attributes
 }
 
+func (b *BmmBuiltinType) BaseName() (string, error) {
+	return b.baseName, nil
+}
+
+func (b *BmmBuiltinType) SetBaseName(baseName string) error {
+	b.baseName = baseName
+	return nil
+}
+
 // CONSTRUCTOR
-func NewBmmBuiltinType() *BmmBuiltinType {
-	bmmbuiltintype := new(BmmBuiltinType)
-	// Base name (built-in typename).
-	bmmbuiltintype.BaseName = "Builtin"
-	return bmmbuiltintype
-}
-
-// BUILDER
-type BmmBuiltinTypeBuilder struct {
-	bmmbuiltintype *BmmBuiltinType
-}
-
-func NewBmmBuiltinTypeBuilder() *BmmBuiltinTypeBuilder {
-	return &BmmBuiltinTypeBuilder{
-		bmmbuiltintype: NewBmmBuiltinType(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *BmmBuiltinTypeBuilder) Build() *BmmBuiltinType {
-	return i.bmmbuiltintype
-}
+//abstract no constructor no builder
 
 // FUNCTIONS
 // (effected) Return False.
@@ -60,12 +49,12 @@ func (b *BmmBuiltinType) IsPrimitive() bool {
 
 // (effected) Return base_name .
 func (b *BmmBuiltinType) TypeBaseName() string {
-	return b.BaseName
+	return b.baseName
 }
 
 // (effected) Return base_name .
 func (b *BmmBuiltinType) TypeName() string {
-	return b.BaseName
+	return b.baseName
 }
 
 // From: BMM_EFFECTIVE_TYPE

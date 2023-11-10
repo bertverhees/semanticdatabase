@@ -325,7 +325,7 @@ func (b *BmmEnumerationString) IsPrimitive() bool {
 
 // From: BMM_CLASS
 /**
-True if this class is abstract in its model. Value provided from an underlying
+True if this class is abstract in its model. value provided from an underlying
 data property set at creation or construction time.
 */
 func (b *BmmEnumerationString) IsAbstract() bool {
