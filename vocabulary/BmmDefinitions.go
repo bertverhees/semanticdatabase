@@ -76,7 +76,6 @@ type IBmmDefinitions interface {
 
 // Struct definition
 type BmmDefinitions struct {
-	// embedded for Inheritance
 	base.BasicDefinitions
 }
 
