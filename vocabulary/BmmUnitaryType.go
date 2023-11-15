@@ -8,8 +8,6 @@ that is not a container object.
 // Interface definition
 type IBmmUnitaryType interface {
 	IBmmType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
 	UnitaryType() IBmmUnitaryType //effected
 }
 

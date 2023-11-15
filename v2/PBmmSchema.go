@@ -72,11 +72,13 @@ func NewPBmmSchema() *PBmmSchema {
 // BUILDER
 type PBmmSchemaBuilder struct {
 	pbmmschema *PBmmSchema
+	errors     []error
 }
 
 func NewPBmmSchemaBuilder() *PBmmSchemaBuilder {
 	return &PBmmSchemaBuilder{
 		pbmmschema: NewPBmmSchema(),
+		errors:     make([]error, 0),
 	}
 }
 
@@ -195,15 +197,21 @@ func (i *PBmmSchemaBuilder) SetSchemaContributors(v []string) *PBmmSchemaBuilder
 // From: BmmModelMetadata
 // Publisher of model expressed in the schema.
 func (i *PBmmSchemaBuilder) SetRmPublisher(v string) *PBmmSchemaBuilder {
-	i.pbmmschema.RmPublisher = v
+	i.AddError(i.pbmmschema.SetRmPublisher(v))
 	return i
 }
 
 // From: BmmModelMetadata
 // Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
 func (i *PBmmSchemaBuilder) SetRmRelease(v string) *PBmmSchemaBuilder {
-	i.pbmmschema.RmRelease = v
+	i.AddError(i.pbmmschema.SetRmRelease(v))
 	return i
+}
+
+func (i *PBmmSchemaBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *PBmmSchemaBuilder) Build() *PBmmSchema {

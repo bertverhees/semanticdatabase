@@ -28,11 +28,38 @@ type BmmParameterType struct {
 	name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
 	upper-case.
 	*/
-	Name string `yaml:"name" json:"name" xml:"name"`
+	name string `yaml:"name" json:"name" xml:"name"`
 	// Optional conformance constraint that must be the name of a defined type.
-	TypeConstraint IBmmEffectiveType `yaml:"typeconstraint" json:"typeconstraint" xml:"typeconstraint"`
+	typeConstraint IBmmEffectiveType `yaml:"typeconstraint" json:"typeconstraint" xml:"typeconstraint"`
 	// If set, is the corresponding generic parameter definition in an ancestor class.
-	InheritancePrecursor IBmmParameterType `yaml:"inheritanceprecursor" json:"inheritanceprecursor" xml:"inheritanceprecursor"`
+	inheritancePrecursor IBmmParameterType `yaml:"inheritanceprecursor" json:"inheritanceprecursor" xml:"inheritanceprecursor"`
+}
+
+func (b *BmmParameterType) Name() string {
+	return b.name
+}
+
+func (b *BmmParameterType) SetName(name string) error {
+	b.name = name
+	return nil
+}
+
+func (b *BmmParameterType) TypeConstraint() IBmmEffectiveType {
+	return b.typeConstraint
+}
+
+func (b *BmmParameterType) SetTypeConstraint(typeConstraint IBmmEffectiveType) error {
+	b.typeConstraint = typeConstraint
+	return nil
+}
+
+func (b *BmmParameterType) InheritancePrecursor() IBmmParameterType {
+	return b.inheritancePrecursor
+}
+
+func (b *BmmParameterType) SetInheritancePrecursor(inheritancePrecursor IBmmParameterType) error {
+	b.inheritancePrecursor = inheritancePrecursor
+	return nil
 }
 
 // CONSTRUCTOR
@@ -44,11 +71,13 @@ func NewBmmParameterType() *BmmParameterType {
 // BUILDER
 type BmmParameterTypeBuilder struct {
 	bmmparametertype *BmmParameterType
+	errors           []error
 }
 
 func NewBmmParameterTypeBuilder() *BmmParameterTypeBuilder {
 	return &BmmParameterTypeBuilder{
 		bmmparametertype: NewBmmParameterType(),
+		errors:           make([]error, 0),
 	}
 }
 
@@ -58,20 +87,26 @@ name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
 upper-case.
 */
 func (i *BmmParameterTypeBuilder) SetName(v string) *BmmParameterTypeBuilder {
-	i.bmmparametertype.Name = v
+	i.AddError(i.bmmparametertype.SetName(v))
 	return i
 }
 
 // Optional conformance constraint that must be the name of a defined type.
 func (i *BmmParameterTypeBuilder) SetTypeConstraint(v IBmmEffectiveType) *BmmParameterTypeBuilder {
-	i.bmmparametertype.TypeConstraint = v
+	i.AddError(i.bmmparametertype.SetTypeConstraint(v))
 	return i
 }
 
 // If set, is the corresponding generic parameter definition in an ancestor class.
 func (i *BmmParameterTypeBuilder) SetInheritancePrecursor(v IBmmParameterType) *BmmParameterTypeBuilder {
-	i.bmmparametertype.InheritancePrecursor = v
+	i.AddError(i.bmmparametertype.SetInheritancePrecursor(v))
 	return i
+}
+
+func (i *BmmParameterTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmParameterTypeBuilder) Build() *BmmParameterType {
@@ -85,9 +120,9 @@ inheritance_precursor.flattened_conforms_to_type .
 */
 func (b *BmmParameterType) FlattenedConformsToType() IBmmEffectiveType {
 	if b.TypeConstraint != nil {
-		return b.TypeConstraint
-	} else if b.InheritancePrecursor != nil {
-		return b.InheritancePrecursor.FlattenedConformsToType()
+		return b.TypeConstraint()
+	} else if b.InheritancePrecursor() != nil {
+		return b.InheritancePrecursor().FlattenedConformsToType()
 	} else {
 		return nil
 	}
@@ -100,7 +135,7 @@ e.g. T:Ordered .
 */
 func (b *BmmParameterType) TypeSignature() string {
 	var sb strings.Builder
-	sb.WriteString(b.Name)
+	sb.WriteString(b.Name())
 	conformToType := b.FlattenedConformsToType()
 	if conformToType != nil {
 		sb.WriteString(GenericConstraintDelimiter)
@@ -129,7 +164,7 @@ func (b *BmmParameterType) IsAbstract() bool {
 
 // (effected) Return name .
 func (b *BmmParameterType) TypeName() string {
-	return b.Name
+	return b.Name()
 }
 
 /*

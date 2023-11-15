@@ -32,10 +32,3 @@ func (b *BmmEffectiveType) EffectiveType() IBmmEffectiveType {
 func (b *BmmEffectiveType) TypeBaseName() string {
 	return ""
 }
-
-// UnitaryType
-// Returns the effective unitary type, i.e. abstracting away any containers. (in fact, the pure BmmType)
-// (effected) Result = self.
-func (b *BmmEffectiveType) UnitaryType() IBmmUnitaryType {
-	return b.BmmUnitaryType.UnitaryType()
-}
