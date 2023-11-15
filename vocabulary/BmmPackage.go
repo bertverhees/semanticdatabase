@@ -118,36 +118,3 @@ func (b *BmmPackage) RootClasses() []IBmmClass {
 func (b *BmmPackage) Path() string {
 	return ""
 }
-
-// From: BMM_PACKAGE_CONTAINER
-// Package at the path a_path .
-func (b *BmmPackage) PackageAtPath(a_path string) IBmmPackage {
-	return nil
-}
-
-// From: BMM_PACKAGE_CONTAINER
-/**
-Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
-on all members of packages.
-*/
-func (b *BmmPackage) DoRecursivePackages(action IElProcedureAgent) {
-	return
-}
-
-// From: BMM_PACKAGE_CONTAINER
-/**
-True if there is a package at the path a_path ; paths are delimited with
-delimiter {BMM_DEFINITIONS} Package_name_delimiter .
-*/
-func (b *BmmPackage) HasPackagePath(a_path string) bool {
-	return false
-}
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmPackage) IsRootScope() bool {
-	return false
-}
