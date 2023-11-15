@@ -40,15 +40,42 @@ type BmmModel struct {
 	BmmModelMetadata
 	// Attributes
 	// All classes in this model, keyed by type name.
-	ClassDefinitions map[string]IBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
+	classDefinitions map[string]IBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
 	/**
 	List of other models 'used' (i.e. 'imported' by this model). Classes in the
 	current model may refer to classes in a used model by specifying the other
 	class’s scope meta-attribute.
 	*/
-	UsedModels []IBmmModel `yaml:"usedmodels" json:"usedmodels" xml:"usedmodels"`
+	usedModels []IBmmModel `yaml:"usedmodels" json:"usedmodels" xml:"usedmodels"`
 	// All classes in this model, keyed by type name.
-	Modules map[string]IBmmModule `yaml:"modules" json:"modules" xml:"modules"`
+	modules map[string]IBmmModule `yaml:"modules" json:"modules" xml:"modules"`
+}
+
+func (b *BmmModel) ClassDefinitions() map[string]IBmmClass {
+	return b.classDefinitions
+}
+
+func (b *BmmModel) SetClassDefinitions(classDefinitions map[string]IBmmClass) error {
+	b.classDefinitions = classDefinitions
+	return nil
+}
+
+func (b *BmmModel) UsedModels() []IBmmModel {
+	return b.usedModels
+}
+
+func (b *BmmModel) SetUsedModels(usedModels []IBmmModel) error {
+	b.usedModels = usedModels
+	return nil
+}
+
+func (b *BmmModel) Modules() map[string]IBmmModule {
+	return b.modules
+}
+
+func (b *BmmModel) SetModules(modules map[string]IBmmModule) error {
+	b.modules = modules
+	return nil
 }
 
 // CONSTRUCTOR
@@ -61,8 +88,9 @@ func NewBmmModel() *BmmModel {
 	//BmmPackageContainer
 	bmmmodel.packages = make(map[string]IBmmPackage)
 	//BmmModel
-	bmmmodel.UsedModels = make([]IBmmModel, 0)
-	bmmmodel.Modules = make(map[string]IBmmModule)
+	bmmmodel.classDefinitions = make(map[string]IBmmClass)
+	bmmmodel.usedModels = make([]IBmmModel, 0)
+	bmmmodel.modules = make(map[string]IBmmModule)
 
 	return bmmmodel
 }
@@ -70,18 +98,20 @@ func NewBmmModel() *BmmModel {
 // BUILDER
 type BmmModelBuilder struct {
 	bmmmodel *BmmModel
+	errors   []error
 }
 
 func NewBmmModelBuilder() *BmmModelBuilder {
 	return &BmmModelBuilder{
 		bmmmodel: NewBmmModel(),
+		errors:   make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // All classes in this model, keyed by type name.
 func (i *BmmModelBuilder) SetClassDefinitions(v map[string]IBmmClass) *BmmModelBuilder {
-	i.bmmmodel.ClassDefinitions = v
+	i.AddError(i.bmmmodel.SetClassDefinitions(v))
 	return i
 }
 
@@ -92,34 +122,34 @@ current model may refer to classes in a used model by specifying the other
 class’s scope meta-attribute.
 */
 func (i *BmmModelBuilder) SetUsedModels(v []IBmmModel) *BmmModelBuilder {
-	i.bmmmodel.UsedModels = v
+	i.AddError(i.bmmmodel.SetUsedModels(v))
 	return i
 }
 
 // All classes in this model, keyed by type name.
 func (i *BmmModelBuilder) SetModules(v map[string]IBmmModule) *BmmModelBuilder {
-	i.bmmmodel.Modules = v
+	i.AddError(i.bmmmodel.SetModules(v))
 	return i
 }
 
 // From: BmmPackageContainer
 // Child packages; keys all in upper case for guaranteed matching.
 func (i *BmmModelBuilder) SetPackages(v map[string]IBmmPackage) *BmmModelBuilder {
-	i.bmmmodel.packages = v
+	i.AddError(i.bmmmodel.SetPackages(v))
 	return i
 }
 
 // From: BmmPackageContainer
 // Model element within which a referenceable element is known.
 func (i *BmmModelBuilder) SetScope(v IBmmPackageContainer) *BmmModelBuilder {
-	i.bmmmodel.BmmModelElement.scope = v
+	i.AddError(i.bmmmodel.SetScope(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmModelBuilder) SetName(v string) *BmmModelBuilder {
-	i.bmmmodel.name = v
+	i.AddError(i.bmmmodel.SetName(v))
 	return i
 }
 
@@ -131,7 +161,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmModelBuilder) SetDocumentation(v map[string]any) *BmmModelBuilder {
-	i.bmmmodel.documentation = v
+	i.AddError(i.bmmmodel.SetDocumentation(v))
 	return i
 }
 
@@ -141,22 +171,28 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmModelBuilder) SetExtensions(v map[string]any) *BmmModelBuilder {
-	i.bmmmodel.extensions = v
+	i.AddError(i.bmmmodel.SetExtensions(v))
 	return i
 }
 
 // From: BmmModelMetadata
 // Publisher of model expressed in the schema.
 func (i *BmmModelBuilder) SetRmPublisher(v string) *BmmModelBuilder {
-	i.bmmmodel.RmPublisher = v
+	i.AddError(i.bmmmodel.SetRmPublisher(v))
 	return i
 }
 
 // From: BmmModelMetadata
 // Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
 func (i *BmmModelBuilder) SetRmRelease(v string) *BmmModelBuilder {
-	i.bmmmodel.RmRelease = v
+	i.AddError(i.bmmmodel.SetRmRelease(v))
 	return i
+}
+
+func (i *BmmModelBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmModelBuilder) Build() *BmmModel {
@@ -319,37 +355,4 @@ func (b *BmmModel) AnyTypeDefinition() IBmmSimpleType {
 // BMM_SIMPLE_TYPE instance for the Boolean type.
 func (b *BmmModel) BooleanTypeDefinition() IBmmSimpleType {
 	return nil
-}
-
-// From: BMM_PACKAGE_CONTAINER
-// Package at the path a_path .
-func (b *BmmModel) PackageAtPath(a_path string) IBmmPackage {
-	return nil
-}
-
-// From: BMM_PACKAGE_CONTAINER
-/**
-Recursively execute action , which is a procedure taking a BMM_PACKAGE argument,
-on all members of packages.
-*/
-func (b *BmmModel) DoRecursivePackages(action IElProcedureAgent) {
-	return
-}
-
-// From: BMM_PACKAGE_CONTAINER
-/**
-True if there is a package at the path a_path ; paths are delimited with
-delimiter {BMM_DEFINITIONS} Package_name_delimiter .
-*/
-func (b *BmmModel) HasPackagePath(a_path string) bool {
-	return false
-}
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmModel) IsRootScope() bool {
-	return false
 }
