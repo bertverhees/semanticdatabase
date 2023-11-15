@@ -66,11 +66,3 @@ func (b *BmmModule) SetScope(scope IBmmModelElement) error {
 //Abstract, no constructor, no builder
 
 //FUNCTIONS
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmModule) IsRootScope() bool {
-	return false
-}
