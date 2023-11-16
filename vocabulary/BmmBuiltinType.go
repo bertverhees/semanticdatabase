@@ -49,38 +49,10 @@ func (b *BmmBuiltinType) IsPrimitive() bool {
 
 // (effected) Return base_name .
 func (b *BmmBuiltinType) TypeBaseName() string {
-	return b.baseName
+	return b.BaseName()
 }
 
 // (effected) Return base_name .
 func (b *BmmBuiltinType) TypeName() string {
-	return b.baseName
-}
-
-// From: BMM_EFFECTIVE_TYPE
-// Result = self.
-func (b *BmmBuiltinType) EffectiveType() IBmmEffectiveType {
-	return nil
-}
-
-// From: BMM_TYPE
-/**
-Signature form of the type name, which for generics includes generic parameter
-constrainer types E.g. Interval<T:Ordered> . Defaults to the value of
-type_name() .
-*/
-func (b *BmmBuiltinType) TypeSignature() string {
-	return ""
-}
-
-// From: BMM_TYPE
-// _type with any container abstracted away; may be a formal generic type.
-func (b *BmmBuiltinType) UnitaryType() IBmmUnitaryType {
-	return nil
-}
-
-// From: BMM_TYPE
-// Completely flattened list of type names, flattening out all generic parameters.
-func (b *BmmBuiltinType) FlattenedTypeList() []string {
-	return nil
+	return b.BaseName()
 }
