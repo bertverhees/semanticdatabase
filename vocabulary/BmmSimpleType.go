@@ -18,7 +18,8 @@ type BmmSimpleType struct {
 	BmmModelType
 	// Attributes
 	// Defining class of this type.
-	BaseClass IBmmSimpleClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+	//getter and setter in parent
+	baseClass IBmmSimpleClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
 }
 
 // CONSTRUCTOR
@@ -31,25 +32,33 @@ func NewBmmSimpleType() *BmmSimpleType {
 // BUILDER
 type BmmSimpleTypeBuilder struct {
 	bmmsimpletype *BmmSimpleType
+	errors        []error
 }
 
 func NewBmmSimpleTypeBuilder() *BmmSimpleTypeBuilder {
 	return &BmmSimpleTypeBuilder{
 		bmmsimpletype: NewBmmSimpleType(),
+		errors:        make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Defining class of this type.
 func (i *BmmSimpleTypeBuilder) SetBaseClass(v IBmmSimpleClass) *BmmSimpleTypeBuilder {
-	i.bmmsimpletype.BaseClass = v
+	i.AddError(i.bmmsimpletype.SetBaseClass(v))
 	return i
 }
 
 // From: BmmModelType
 func (i *BmmSimpleTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmSimpleTypeBuilder {
-	i.bmmsimpletype.ValueConstraint = v
+	i.AddError(i.bmmsimpletype.SetValueConstraint(v))
 	return i
+}
+
+func (i *BmmSimpleTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
@@ -74,42 +83,5 @@ func (b *BmmSimpleType) FlattenedTypeList() []string {
 
 // Main design class for this type, from which properties etc can be extracted.
 func (b *BmmSimpleType) EffectiveBaseClass() IBmmSimpleClass {
-	return nil
-}
-
-// From: BMM_MODEL_TYPE
-// Result = base_class.name .
-func (b *BmmSimpleType) TypeBaseName() string {
-	return ""
-}
-
-// From: BMM_TYPE
-/**
-Signature form of the type name, which for generics includes generic parameter
-constrainer types E.g. Interval<T:Ordered> . Defaults to the value of
-type_name() .
-*/
-func (b *BmmSimpleType) TypeSignature() string {
-	return ""
-}
-
-// From: BMM_TYPE
-// If True, indicates that a type based solely on primitive classes.
-func (b *BmmSimpleType) IsPrimitive() bool {
-	return false
-}
-
-// From: BMM_TYPE
-// _type with any container abstracted away; may be a formal generic type.
-func (b *BmmSimpleType) UnitaryType() IBmmUnitaryType {
-	return nil
-}
-
-// From: BMM_TYPE
-/**
-_type with any container abstracted away, and any formal parameter replaced by
-its effective constraint type.
-*/
-func (b *BmmSimpleType) EffectiveType() IBmmEffectiveType {
 	return nil
 }

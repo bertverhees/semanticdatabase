@@ -6,6 +6,10 @@ package vocabulary
 type IBmmModelType interface {
 	IBmmEffectiveType
 	//BMM_MODEL_TYPE
+	BaseClass() IBmmClass
+	SetBaseClass(baseClass IBmmClass) error
+	ValueConstraint() IBmmValueSetSpec
+	SetValueConstraint(valueConstraint IBmmValueSetSpec) error
 	//TypeBaseName() string
 	//IsPrimitive() bool
 }
@@ -14,9 +18,27 @@ type IBmmModelType interface {
 type BmmModelType struct {
 	BmmEffectiveType
 	// Attributes
-	ValueConstraint IBmmValueSetSpec `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
+	valueConstraint IBmmValueSetSpec `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 	// Base class of this type.
-	BaseClass BmmClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+	baseClass IBmmClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+}
+
+func (b *BmmModelType) BaseClass() IBmmClass {
+	return b.baseClass
+}
+
+func (b *BmmModelType) SetBaseClass(baseClass IBmmClass) error {
+	b.baseClass = baseClass
+	return nil
+}
+
+func (b *BmmModelType) ValueConstraint() IBmmValueSetSpec {
+	return b.valueConstraint
+}
+
+func (b *BmmModelType) SetValueConstraint(valueConstraint IBmmValueSetSpec) error {
+	b.valueConstraint = valueConstraint
+	return nil
 }
 
 // CONSTRUCTOR
@@ -25,25 +47,10 @@ type BmmModelType struct {
 // FUNCTIONS
 // (effected) Result = base_class.name .
 func (b *BmmModelType) TypeBaseName() string {
-	return b.BaseClass.name
+	return b.baseClass.Name()
 }
 
 // (effected) Result = base_class.is_primitive .
 func (b *BmmModelType) IsPrimitive() bool {
-	return b.BaseClass.IsPrimitive
-}
-
-// From: BMM_TYPE
-// _type with any container abstracted away; may be a formal generic type.
-func (b *BmmModelType) UnitaryType() IBmmUnitaryType {
-	return b.BmmEffectiveType.UnitaryType()
-}
-
-// From: BMM_TYPE
-/**
-_type with any container abstracted away, and any formal parameter replaced by
-its effective constraint type.
-*/
-func (b *BmmModelType) EffectiveType() IBmmEffectiveType {
-	return b.BmmEffectiveType.EffectiveType()
+	return b.BaseClass().IsPrimitive()
 }

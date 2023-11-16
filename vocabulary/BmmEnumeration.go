@@ -163,7 +163,7 @@ system, i.e. any typically built-in or standard library type such as String ,
 Date , Hash<K,V> etc.
 */
 func (i *BmmEnumerationBuilder) SetIsPrimitive(v bool) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmClass.IsPrimitive = v
+	i.bmmenumeration.BmmClass.SetIsPrimitive(v)
 	return i
 }
 

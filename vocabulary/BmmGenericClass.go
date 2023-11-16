@@ -149,7 +149,7 @@ system, i.e. any typically built-in or standard library type such as String ,
 Date , Hash<K,V> etc.
 */
 func (i *BmmGenericClassBuilder) SetIsPrimitive(v bool) *BmmGenericClassBuilder {
-	i.bmmgenericclass.IsPrimitive = v
+	i.bmmgenericclass.SetIsPrimitive(v)
 	return i
 }
 

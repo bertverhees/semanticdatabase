@@ -23,6 +23,7 @@ type IBmmClass interface {
 	ClassPath() string
 	FlatFeatures()
 	FlatProperties() []IBmmProperty
+	IsPrimitive() bool
 }
 
 // Struct definition
@@ -63,7 +64,7 @@ type BmmClass struct {
 	system, i.e. any typically built-in or standard library type such as String ,
 	Date , Hash<K,V> etc.
 	*/
-	IsPrimitive bool `yaml:"isprimitive" json:"isprimitive" xml:"isprimitive"`
+	isPrimitive bool `yaml:"isprimitive" json:"isprimitive" xml:"isprimitive"`
 	/**
 	True if this class is marked as abstract, i.e. direct instances cannot be
 	created from its direct type.
@@ -82,6 +83,15 @@ type BmmClass struct {
 	Converters map[string]IBmmProcedure `yaml:"converters" json:"converters" xml:"converters"`
 	// features of this module.
 	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+}
+
+func (b *BmmClass) IsPrimitive() bool {
+	return b.isPrimitive
+}
+
+func (b *BmmClass) SetIsPrimitive(isPrimitive bool) error {
+	b.isPrimitive = isPrimitive
+	return nil
 }
 
 // CONSTRUCTOR

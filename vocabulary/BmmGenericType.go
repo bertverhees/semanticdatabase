@@ -20,16 +20,25 @@ type BmmGenericType struct {
 	the order of the owning class’s formal generic parameter declarations, and the
 	types may be defined types or formal parameter types.
 	*/
-	GenericParameters []IBmmUnitaryType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
+	genericParameters []IBmmUnitaryType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
 	// Defining generic class of this type.
-	BaseClass IBmmGenericClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+	baseClass IBmmGenericClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+}
+
+func (b *BmmGenericType) GenericParameters() []IBmmUnitaryType {
+	return b.genericParameters
+}
+
+func (b *BmmGenericType) SetGenericParameters(genericParameters []IBmmUnitaryType) error {
+	b.genericParameters = genericParameters
+	return nil
 }
 
 // CONSTRUCTOR
 func NewBmmGenericType() *BmmGenericType {
 	bmmgenerictype := new(BmmGenericType)
 	//BMM_GENERIC_TYPE
-	bmmgenerictype.GenericParameters = make([]IBmmUnitaryType, 0)
+	bmmgenerictype.genericParameters = make([]IBmmUnitaryType, 0)
 	// (redefined) BaseClass IBmmGenericType
 	return bmmgenerictype
 }
@@ -37,11 +46,13 @@ func NewBmmGenericType() *BmmGenericType {
 // BUILDER
 type BmmGenericTypeBuilder struct {
 	bmmgenerictype *BmmGenericType
+	errors         []error
 }
 
 func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
 	return &BmmGenericTypeBuilder{
 		bmmgenerictype: NewBmmGenericType(),
+		errors:         make([]error, 0),
 	}
 }
 
@@ -52,21 +63,28 @@ the order of the owning class’s formal generic parameter declarations, and the
 types may be defined types or formal parameter types.
 */
 func (i *BmmGenericTypeBuilder) SetGenericParameters(v []IBmmUnitaryType) *BmmGenericTypeBuilder {
-	i.bmmgenerictype.GenericParameters = v
+	i.AddError(i.bmmgenerictype.SetGenericParameters(v))
 	return i
 }
 
 // Defining generic class of this type.
 func (i *BmmGenericTypeBuilder) SetBaseClass(v IBmmGenericClass) *BmmGenericTypeBuilder {
-	i.bmmgenerictype.BaseClass = v
+	i.AddError(i.bmmgenerictype.SetBaseClass(v))
 	return i
 }
 
 // From: BmmModelType
 func (i *BmmGenericTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmGenericTypeBuilder {
-	i.bmmgenerictype.ValueConstraint = v
+	i.AddError(i.bmmgenerictype.SetValueConstraint(v))
 	return i
 }
+
+func (i *BmmGenericTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
+
 func (i *BmmGenericTypeBuilder) Build() *BmmGenericType {
 	return i.bmmgenerictype
 }
@@ -120,31 +138,4 @@ in this type.
 */
 func (b *BmmGenericType) IsOpen() bool {
 	return false
-}
-
-// From: BMM_EFFECTIVE_TYPE
-// name of base generator type, i.e. excluding any generic parts if present.
-func (b *BmmGenericType) TypeBaseName() string {
-	return ""
-}
-
-// From: BMM_TYPE
-// If True, indicates that a type based solely on primitive classes.
-func (b *BmmGenericType) IsPrimitive() bool {
-	return false
-}
-
-// From: BMM_TYPE
-// _type with any container abstracted away; may be a formal generic type.
-func (b *BmmGenericType) UnitaryType() IBmmUnitaryType {
-	return nil
-}
-
-// From: BMM_TYPE
-/**
-_type with any container abstracted away, and any formal parameter replaced by
-its effective constraint type.
-*/
-func (b *BmmGenericType) EffectiveType() IBmmEffectiveType {
-	return nil
 }
