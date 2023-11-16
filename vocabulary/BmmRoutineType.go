@@ -17,14 +17,14 @@ type BmmRoutineType struct {
 	_type of arguments in the signature, if any; represented as a type-tuple (list of
 	arbitrary types).
 	*/
-	argumentTypes IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
+	argumentTypes []IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
 }
 
-func (b *BmmRoutineType) ArgumentTypes() IBmmTupleType {
+func (b *BmmRoutineType) ArgumentTypes() []IBmmTupleType {
 	return b.argumentTypes
 }
 
-func (b *BmmRoutineType) SetArgumentTypes(argumentTypes IBmmTupleType) error {
+func (b *BmmRoutineType) SetArgumentTypes(argumentTypes []IBmmTupleType) error {
 	b.argumentTypes = argumentTypes
 	return nil
 }
@@ -55,7 +55,7 @@ func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
 _type of arguments in the signature, if any; represented as a type-tuple (list of
 arbitrary types).
 */
-func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTypeBuilder {
+func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v []IBmmTupleType) *BmmRoutineTypeBuilder {
 	i.AddError(i.bmmroutinetype.SetArgumentTypes(v))
 	return i
 }
@@ -80,60 +80,4 @@ func (i *BmmRoutineTypeBuilder) AddError(e error) {
 
 func (i *BmmRoutineTypeBuilder) Build() *BmmRoutineType {
 	return i.bmmroutinetype
-}
-
-// FUNCTIONS
-// From: BMM_SIGNATURE
-/**
-Return the logical set (i.e. unique items) consisting of
-argument_types.flattened_type_list () and result_type.flattened_type_list () .
-*/
-func (b *BmmRoutineType) FlattenedTypeList() []string {
-	return nil
-}
-
-// From: BMM_BUILTIN_TYPE
-// Return False.
-func (b *BmmRoutineType) IsAbstract() bool {
-	return false
-}
-
-// From: BMM_BUILTIN_TYPE
-// Return True.
-func (b *BmmRoutineType) IsPrimitive() bool {
-	return false
-}
-
-// From: BMM_BUILTIN_TYPE
-// (redefined) Return base_name .
-func (b *BmmRoutineType) TypeBaseName() string {
-	return b.BaseName()
-}
-
-// From: BMM_BUILTIN_TYPE
-// Return base_name .
-func (b *BmmRoutineType) TypeName() string {
-	return ""
-}
-
-// From: BMM_EFFECTIVE_TYPE
-// Result = self.
-func (b *BmmRoutineType) EffectiveType() IBmmEffectiveType {
-	return nil
-}
-
-// From: BMM_UNITARY_TYPE
-// Result = self.
-func (b *BmmRoutineType) UnitaryType() IBmmUnitaryType {
-	return nil
-}
-
-// From: BMM_TYPE
-/**
-Signature form of the type name, which for generics includes generic parameter
-constrainer types E.g. Interval<T:Ordered> . Defaults to the value of
-type_name() .
-*/
-func (b *BmmRoutineType) TypeSignature() string {
-	return ""
 }
