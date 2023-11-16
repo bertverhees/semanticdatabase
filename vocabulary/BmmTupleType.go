@@ -58,6 +58,7 @@ func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
 
 // BUILDER ATTRIBUTES
 // List of types of the items of the tuple, keyed by purpose in the tuple.
+
 func (i *BmmTupleTypeBuilder) SetItemTypes(v map[string]IBmmType) *BmmTupleTypeBuilder {
 	i.AddError(i.bmmtupletype.SetItemTypes(v))
 	return i
