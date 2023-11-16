@@ -37,11 +37,6 @@ func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
 }
 
 // BUILDER ATTRIBUTES
-func (i *BmmStatusTypeBuilder) SetBaseName(v string) *BmmStatusTypeBuilder {
-	i.AddError(i.bmmstatustype.SetBaseName(v))
-	return i
-}
-
 func (i *BmmStatusTypeBuilder) AddError(e error) {
 	if e != nil {
 		i.errors = append(i.errors, e)

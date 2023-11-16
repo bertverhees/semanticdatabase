@@ -60,11 +60,6 @@ func (i *BmmSignatureBuilder) SetResultType(v IBmmType) *BmmSignatureBuilder {
 	return i
 }
 
-func (i *BmmSignatureBuilder) SetBaseName(v string) *BmmSignatureBuilder {
-	i.AddError(i.bmmsignature.SetBaseName(v))
-	return i
-}
-
 func (i *BmmSignatureBuilder) AddError(e error) {
 	if e != nil {
 		i.errors = append(i.errors, e)

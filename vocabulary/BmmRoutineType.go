@@ -17,14 +17,14 @@ type BmmRoutineType struct {
 	_type of arguments in the signature, if any; represented as a type-tuple (list of
 	arbitrary types).
 	*/
-	argumentTypes []IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
+	argumentTypes IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
 }
 
-func (b *BmmRoutineType) ArgumentTypes() []IBmmTupleType {
+func (b *BmmRoutineType) ArgumentTypes() IBmmTupleType {
 	return b.argumentTypes
 }
 
-func (b *BmmRoutineType) SetArgumentTypes(argumentTypes []IBmmTupleType) error {
+func (b *BmmRoutineType) SetArgumentTypes(argumentTypes IBmmTupleType) error {
 	b.argumentTypes = argumentTypes
 	return nil
 }
@@ -55,7 +55,7 @@ func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
 _type of arguments in the signature, if any; represented as a type-tuple (list of
 arbitrary types).
 */
-func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v []IBmmTupleType) *BmmRoutineTypeBuilder {
+func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTypeBuilder {
 	i.AddError(i.bmmroutinetype.SetArgumentTypes(v))
 	return i
 }
@@ -64,11 +64,6 @@ func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v []IBmmTupleType) *BmmRoutineT
 // Result type of signature.
 func (i *BmmRoutineTypeBuilder) SetResultType(v IBmmType) *BmmRoutineTypeBuilder {
 	i.AddError(i.bmmroutinetype.SetResultType(v))
-	return i
-}
-
-func (i *BmmRoutineTypeBuilder) SetBaseName(v string) *BmmRoutineTypeBuilder {
-	i.AddError(i.bmmroutinetype.SetBaseName(v))
 	return i
 }
 

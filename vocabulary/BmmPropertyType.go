@@ -42,11 +42,6 @@ func (i *BmmPropertyTypeBuilder) SetResultType(v IBmmType) *BmmPropertyTypeBuild
 	return i
 }
 
-func (i *BmmPropertyTypeBuilder) SetBaseName(v string) *BmmPropertyTypeBuilder {
-	i.AddError(i.bmmpropertytype.SetBaseName(v))
-	return i
-}
-
 func (i *BmmPropertyTypeBuilder) AddError(e error) {
 	if e != nil {
 		i.errors = append(i.errors, e)

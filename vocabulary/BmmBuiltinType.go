@@ -13,7 +13,6 @@ type IBmmBuiltinType interface {
 	TypeBaseName() string
 	TypeName() string
 	BaseName() string
-	SetBaseName(baseName string) error
 }
 
 // Struct definition
@@ -26,11 +25,6 @@ type BmmBuiltinType struct {
 
 func (b *BmmBuiltinType) BaseName() string {
 	return b.baseName
-}
-
-func (b *BmmBuiltinType) SetBaseName(baseName string) error {
-	b.baseName = baseName
-	return nil
 }
 
 // CONSTRUCTOR
