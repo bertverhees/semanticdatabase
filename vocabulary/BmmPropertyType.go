@@ -17,7 +17,7 @@ type BmmPropertyType struct {
 func NewBmmPropertyType() *BmmPropertyType {
 	bmmpropertytype := new(BmmPropertyType)
 	// Base name (built-in).
-	bmmpropertytype.BmmBuiltinType.baseName = "Property"
+	bmmpropertytype.baseName = "Property"
 	return bmmpropertytype
 }
 
