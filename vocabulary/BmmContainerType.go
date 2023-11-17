@@ -10,6 +10,14 @@ generic type such as List<T> , Set<T> etc.
 type IBmmContainerType interface {
 	IBmmType
 	//BMM_CONTAINERTYPE
+	ContainerClass() IBmmGenericClass
+	SetContainerClass(containerClass IBmmGenericClass) error
+	ItemType() IBmmUnitaryType
+	SetItemType(itemType IBmmUnitaryType) error
+	IsOrdered() bool
+	SetIsOrdered(isOrdered bool) error
+	IsUnique() bool
+	SetIsUnique(isUnique bool) error
 }
 
 // Struct definition

@@ -9,8 +9,8 @@ manner of a standard Hash table, map or dictionary.
 type IBmmIndexedContainerType interface {
 	IBmmContainerType
 	//BMM_INDEXED_CONTAINERTYPE
-	//TypeName() string
-
+	IndexType() IBmmSimpleType
+	SetIndexType(indexType IBmmSimpleType) error
 }
 
 // Struct definition
@@ -21,7 +21,16 @@ type BmmIndexedContainerType struct {
 	_type of the element index, typically String or Integer , but may be a numeric
 	type or indeed any type from which a hash value can be derived.
 	*/
-	IndexType IBmmSimpleType `yaml:"indextype" json:"indextype" xml:"indextype"`
+	indexType IBmmSimpleType `yaml:"indextype" json:"indextype" xml:"indextype"`
+}
+
+func (b *BmmIndexedContainerType) IndexType() IBmmSimpleType {
+	return b.indexType
+}
+
+func (b *BmmIndexedContainerType) SetIndexType(indexType IBmmSimpleType) error {
+	b.indexType = indexType
+	return nil
 }
 
 // CONSTRUCTOR
@@ -33,11 +42,13 @@ func NewBmmIndexedContainerType() *BmmIndexedContainerType {
 // BUILDER
 type BmmIndexedContainerTypeBuilder struct {
 	bmmindexedcontainertype *BmmIndexedContainerType
+	errors                  []error
 }
 
 func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
 	return &BmmIndexedContainerTypeBuilder{
 		bmmindexedcontainertype: NewBmmIndexedContainerType(),
+		errors:                  make([]error, 0),
 	}
 }
 
@@ -47,21 +58,21 @@ _type of the element index, typically String or Integer , but may be a numeric
 type or indeed any type from which a hash value can be derived.
 */
 func (i *BmmIndexedContainerTypeBuilder) SetIndexType(v IBmmSimpleType) *BmmIndexedContainerTypeBuilder {
-	i.bmmindexedcontainertype.IndexType = v
+	i.AddError(i.bmmindexedcontainertype.SetIndexType(v))
 	return i
 }
 
 // From: BmmContainerType
 // The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 func (i *BmmIndexedContainerTypeBuilder) SetContainerClass(v IBmmGenericClass) *BmmIndexedContainerTypeBuilder {
-	i.bmmindexedcontainertype.ContainerClass = v
+	i.AddError(i.bmmindexedcontainertype.SetContainerClass(v))
 	return i
 }
 
 // From: BmmContainerType
 // The container item type.
 func (i *BmmIndexedContainerTypeBuilder) SetItemType(v IBmmUnitaryType) *BmmIndexedContainerTypeBuilder {
-	i.bmmindexedcontainertype.ItemType = v
+	i.AddError(i.bmmindexedcontainertype.SetItemType(v))
 	return i
 }
 
@@ -72,7 +83,7 @@ significant and must be preserved, e.g. across sessions, serialisation,
 deserialisation etc. Otherwise known as 'list' semantics.
 */
 func (i *BmmIndexedContainerTypeBuilder) SetIsOrdered(v bool) *BmmIndexedContainerTypeBuilder {
-	i.bmmindexedcontainertype.IsOrdered = v
+	i.AddError(i.bmmindexedcontainertype.SetIsOrdered(v))
 	return i
 }
 
@@ -82,8 +93,13 @@ True indicates that only unique instances of items in the container are allowed.
 Otherwise known as 'set' semantics.
 */
 func (i *BmmIndexedContainerTypeBuilder) SetIsUnique(v bool) *BmmIndexedContainerTypeBuilder {
-	i.bmmindexedcontainertype.IsUnique = v
+	i.AddError(i.bmmindexedcontainertype.SetIsUnique(v))
 	return i
+}
+func (i *BmmIndexedContainerTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmIndexedContainerTypeBuilder) Build() *BmmIndexedContainerType {
