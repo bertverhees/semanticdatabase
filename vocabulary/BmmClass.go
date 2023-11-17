@@ -320,12 +320,3 @@ name.
 func (b *BmmClass) FlatProperties() []IBmmProperty {
 	return nil
 }
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmClass) IsRootScope() bool {
-	return false
-}
