@@ -3,47 +3,49 @@ package vocabulary
 // Meta-type for literals whose concrete type is a primitive type.
 
 // Interface definition
-type IBmmPrimitiveValue[T IBmmSimpleType] interface {
-	IBmmUnitaryValue[T]
+type IBmmPrimitiveValue interface {
+	IBmmUnitaryValue[IBmmSimpleType]
 }
 
 // Struct definition
-type BmmPrimitiveValue[T IBmmSimpleType] struct {
-	BmmUnitaryValue[T]
+type BmmPrimitiveValue struct {
+	BmmUnitaryValue[IBmmSimpleType]
 	// Attributes
 	// Concrete type of this literal.
 	Type IBmmSimpleType `yaml:"type" json:"type" xml:"type"`
 }
 
 // CONSTRUCTOR
-func NewBmmPrimitiveValue[T IBmmSimpleType]() *BmmPrimitiveValue[T] {
-	bmmprimitivevalue := new(BmmPrimitiveValue[T])
+func NewBmmPrimitiveValue() *BmmPrimitiveValue {
+	bmmprimitivevalue := new(BmmPrimitiveValue)
 	// Constants
 	return bmmprimitivevalue
 }
 
 // BUILDER
-type BmmPrimitiveValueBuilder[T IBmmSimpleType] struct {
-	bmmprimitivevalue *BmmPrimitiveValue[T]
+type BmmPrimitiveValueBuilder struct {
+	bmmprimitivevalue *BmmPrimitiveValue
+	errors            []error
 }
 
-func NewBmmPrimitiveValueBuilder[T IBmmSimpleType]() *BmmPrimitiveValueBuilder[T] {
-	return &BmmPrimitiveValueBuilder[T]{
-		bmmprimitivevalue: NewBmmPrimitiveValue[T](),
+func NewBmmPrimitiveValueBuilder() *BmmPrimitiveValueBuilder {
+	return &BmmPrimitiveValueBuilder{
+		bmmprimitivevalue: NewBmmPrimitiveValue(),
+		errors:            make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Concrete type of this literal.
-func (i *BmmPrimitiveValueBuilder[T]) SetType(v IBmmSimpleType) *BmmPrimitiveValueBuilder[T] {
-	i.bmmprimitivevalue.Type = v
+func (i *BmmPrimitiveValueBuilder) SetType(v IBmmSimpleType) *BmmPrimitiveValueBuilder {
+	i.AddError(i.bmmprimitivevalue.SetType(v))
 	return i
 }
 
 // From: BmmLiteralValue
 // A serial representation of the value.
-func (i *BmmPrimitiveValueBuilder[T]) SetValueLiteral(v string) *BmmPrimitiveValueBuilder[T] {
-	i.bmmprimitivevalue.ValueLiteral = v
+func (i *BmmPrimitiveValueBuilder) SetValueLiteral(v string) *BmmPrimitiveValueBuilder {
+	i.AddError(i.bmmprimitivevalue.SetValueLiteral(v))
 	return i
 }
 
@@ -52,8 +54,8 @@ func (i *BmmPrimitiveValueBuilder[T]) SetValueLiteral(v string) *BmmPrimitiveVal
 A native representation of the value, possibly derived by deserialising
 value_literal .
 */
-func (i *BmmPrimitiveValueBuilder[T]) SetValue(v any) *BmmPrimitiveValueBuilder[T] {
-	i.bmmprimitivevalue.Value = v
+func (i *BmmPrimitiveValueBuilder) SetValue(v any) *BmmPrimitiveValueBuilder {
+	i.AddError(i.bmmprimitivevalue.SetValue(v))
 	return i
 }
 
@@ -63,12 +65,17 @@ Optional specification of formalism of the value_literal attribute for complex
 values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
-func (i *BmmPrimitiveValueBuilder[T]) SetSyntax(v string) *BmmPrimitiveValueBuilder[T] {
-	i.bmmprimitivevalue.Syntax = v
+func (i *BmmPrimitiveValueBuilder) SetSyntax(v string) *BmmPrimitiveValueBuilder {
+	i.AddError(i.bmmprimitivevalue.SetSyntax(v))
 	return i
 }
+func (i *BmmPrimitiveValueBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
 
-func (i *BmmPrimitiveValueBuilder[T]) Build() *BmmPrimitiveValue[T] {
+func (i *BmmPrimitiveValueBuilder) Build() *BmmPrimitiveValue {
 	return i.bmmprimitivevalue
 }
 

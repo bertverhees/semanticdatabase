@@ -4,12 +4,12 @@ package vocabulary
 
 // Interface definition
 type IBmmIntervalValue interface {
-	IBmmLiteralValue[IBmmSimpleType]
+	IBmmLiteralValue[IBmmGenericType]
 }
 
 // Struct definition
 type BmmIntervalValue struct {
-	BmmLiteralValue[IBmmSimpleType]
+	BmmLiteralValue[IBmmGenericType]
 	// Attributes
 }
 
@@ -23,11 +23,13 @@ func NewBmmIntervalValue() *BmmIntervalValue {
 // BUILDER
 type BmmIntervalValueBuilder struct {
 	bmmintervalvalue *BmmIntervalValue
+	errors           []error
 }
 
 func NewBmmIntervalValueBuilder() *BmmIntervalValueBuilder {
 	return &BmmIntervalValueBuilder{
 		bmmintervalvalue: NewBmmIntervalValue(),
+		errors:           make([]error, 0),
 	}
 }
 
@@ -35,7 +37,7 @@ func NewBmmIntervalValueBuilder() *BmmIntervalValueBuilder {
 // From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmIntervalValueBuilder) SetValueLiteral(v string) *BmmIntervalValueBuilder {
-	i.bmmintervalvalue.ValueLiteral = v
+	i.AddError(i.bmmintervalvalue.SetValueLiteral(v))
 	return i
 }
 
@@ -45,7 +47,7 @@ A native representation of the value, possibly derived by deserialising
 value_literal .
 */
 func (i *BmmIntervalValueBuilder) SetValue(v any) *BmmIntervalValueBuilder {
-	i.bmmintervalvalue.Value = v
+	i.AddError(i.bmmintervalvalue.SetValue(v))
 	return i
 }
 
@@ -56,15 +58,21 @@ values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmIntervalValueBuilder) SetSyntax(v string) *BmmIntervalValueBuilder {
-	i.bmmintervalvalue.Syntax = v
+	i.AddError(i.bmmintervalvalue.SetSyntax(v))
 	return i
 }
 
 // From: BmmLiteralValue
 // Concrete type of this literal.
-func (i *BmmIntervalValueBuilder) SetType(v IBmmSimpleType) *BmmIntervalValueBuilder {
-	i.bmmintervalvalue.Type = v
+func (i *BmmIntervalValueBuilder) SetType(v IBmmGenericType) *BmmIntervalValueBuilder {
+	i.AddError(i.bmmintervalvalue.SetType(v))
 	return i
+}
+
+func (i *BmmIntervalValueBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmIntervalValueBuilder) Build() *BmmIntervalValue {

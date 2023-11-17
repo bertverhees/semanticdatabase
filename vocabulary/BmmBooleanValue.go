@@ -7,12 +7,12 @@ representing Boolean and value is of type Boolean .
 
 // Interface definition
 type IBmmBooleanValue interface {
-	IBmmPrimitiveValue[IBmmSimpleType]
+	IBmmPrimitiveValue
 }
 
 // Struct definition
 type BmmBooleanValue struct {
-	BmmPrimitiveValue[IBmmSimpleType]
+	BmmPrimitiveValue
 	// Attributes
 	// Native Boolean value.
 	value bool `yaml:"value" json:"value" xml:"value"`
@@ -57,7 +57,7 @@ func (i *BmmBooleanValueBuilder) SetValue(v bool) *BmmBooleanValueBuilder {
 // From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmBooleanValueBuilder) SetValueLiteral(v string) *BmmBooleanValueBuilder {
-	i.bmmbooleanvalue.ValueLiteral = v
+	i.bmmbooleanvalue.valueLiteral = v
 	return i
 }
 
@@ -68,7 +68,7 @@ values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmBooleanValueBuilder) SetSyntax(v string) *BmmBooleanValueBuilder {
-	i.bmmbooleanvalue.Syntax = v
+	i.bmmbooleanvalue.syntax = v
 	return i
 }
 

@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 /**
 Meta-type corresponding a class definition in an object model. Inheritance is
 specified by the ancestors attribute, which contains a list of types rather than
@@ -236,6 +238,19 @@ func (b *BmmClass) IsPrimitive() bool {
 
 func (b *BmmClass) SetIsPrimitive(isPrimitive bool) error {
 	b.isPrimitive = isPrimitive
+	return nil
+}
+
+func (b *BmmClass) SetFeatures(features []IBmmFormalElement) error {
+	b.features = make([]IBmmFeature, 0)
+	for _, s := range features {
+		s, ok := s.(IBmmFeature)
+		if !ok {
+			return errors.New("_type-assertion in BmmClass->SetFeatures went wrong")
+		} else {
+			b.features = append(b.features, s)
+		}
+	}
 	return nil
 }
 

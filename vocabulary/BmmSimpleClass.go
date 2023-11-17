@@ -31,16 +31,16 @@ func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass.features = make([]IBmmFeature, 0)
 	bmmsimpleclass.featureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
-	bmmsimpleclass.Ancestors = make(map[string]IBmmModelType)
+	bmmsimpleclass.ancestors = make(map[string]IBmmModelType)
 	bmmsimpleclass.features = make([]IBmmFeature, 0)
-	bmmsimpleclass.Properties = make(map[string]IBmmProperty)
-	bmmsimpleclass.ImmediateDescendants = make([]IBmmClass, 0)
-	bmmsimpleclass.StaticProperties = make(map[string]IBmmStatic)
-	bmmsimpleclass.Functions = make(map[string]IBmmFunction)
-	bmmsimpleclass.Procedures = make(map[string]IBmmProcedure)
-	bmmsimpleclass.Invariants = make([]IBmmAssertion, 0)
-	bmmsimpleclass.Creators = make(map[string]IBmmProcedure)
-	bmmsimpleclass.Converters = make(map[string]IBmmProcedure)
+	bmmsimpleclass.properties = make(map[string]IBmmProperty)
+	bmmsimpleclass.immediateDescendants = make([]IBmmClass, 0)
+	bmmsimpleclass.staticProperties = make(map[string]IBmmStatic)
+	bmmsimpleclass.functions = make(map[string]IBmmFunction)
+	bmmsimpleclass.procedures = make(map[string]IBmmProcedure)
+	bmmsimpleclass.invariants = make([]IBmmAssertion, 0)
+	bmmsimpleclass.creators = make(map[string]IBmmProcedure)
+	bmmsimpleclass.converters = make(map[string]IBmmProcedure)
 
 	return bmmsimpleclass
 }
@@ -60,21 +60,21 @@ func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
 // From: BmmClass
 // List of immediate inheritance parents.
 func (i *BmmSimpleClassBuilder) SetAncestors(v map[string]IBmmModelType) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Ancestors = v
+	i.bmmsimpleclass.ancestors = v
 	return i
 }
 
 // From: BmmClass
 // Package this class belongs to.
 func (i *BmmSimpleClassBuilder) SetPackage(v IBmmPackage) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Package = v
+	i.bmmsimpleclass._package = v
 	return i
 }
 
 // From: BmmClass
 // Properties defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Properties = v
+	i.bmmsimpleclass.properties = v
 	return i
 }
 
@@ -85,7 +85,7 @@ determine which original schema file to open for a given class for manual
 editing.
 */
 func (i *BmmSimpleClassBuilder) SetSourceSchemaId(v string) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.SourceSchemaId = v
+	i.bmmsimpleclass.sourceSchemaId = v
 	return i
 }
 
@@ -95,7 +95,7 @@ List of computed references to base classes of immediate inheritance
 descendants, derived when members of ancestors are attached at creation time.
 */
 func (i *BmmSimpleClassBuilder) SetImmediateDescendants(v []IBmmClass) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.ImmediateDescendants = v
+	i.bmmsimpleclass.immediateDescendants = v
 	return i
 }
 
@@ -105,34 +105,34 @@ True if this definition overrides a class of the same name in an included
 schema.
 */
 func (i *BmmSimpleClassBuilder) SetIsOverride(v bool) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.IsOverride = v
+	i.bmmsimpleclass.isOverride = v
 	return i
 }
 
 // From: BmmClass
 // Static properties defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.StaticProperties = v
+	i.bmmsimpleclass.staticProperties = v
 	return i
 }
 
 // From: BmmClass
 // Functions defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetFunctions(v map[string]IBmmFunction) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Functions = v
+	i.bmmsimpleclass.functions = v
 	return i
 }
 
 // From: BmmClass
 // Procedures defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Procedures = v
+	i.bmmsimpleclass.procedures = v
 	return i
 }
 
 // From: BmmClass
 func (i *BmmSimpleClassBuilder) SetInvariants(v []IBmmAssertion) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Invariants = v
+	i.bmmsimpleclass.invariants = v
 	return i
 }
 
@@ -142,7 +142,7 @@ Subset of procedures that may be used to initialise a new instance of an object,
 and whose execution will guarantee that class invariants are satisfied.
 */
 func (i *BmmSimpleClassBuilder) SetCreators(v map[string]IBmmProcedure) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Creators = v
+	i.bmmsimpleclass.creators = v
 	return i
 }
 
@@ -152,7 +152,7 @@ Subset of creators that create a new instance from a single argument of another
 type.
 */
 func (i *BmmSimpleClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.Converters = v
+	i.bmmsimpleclass.converters = v
 	return i
 }
 
@@ -166,7 +166,7 @@ func (i *BmmSimpleClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmSimpl
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmSimpleClassBuilder) SetScope(v IBmmModel) *BmmSimpleClassBuilder {
-	i.bmmsimpleclass.BmmModelElement.scope = v
+	i.bmmsimpleclass.scope = v
 	return i
 }
 

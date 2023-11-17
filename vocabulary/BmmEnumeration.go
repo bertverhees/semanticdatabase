@@ -24,11 +24,27 @@ type BmmEnumeration struct {
 	The list of names of the enumeration. If no values are supplied, the integer
 	values 0, 1, 2, …​ are assumed.
 	*/
-	ItemNames []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
+	itemNames []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
 	// Optional list of specific values. Must be 1:1 with item_names list.
-	ItemValues []IBmmPrimitiveValue[IBmmSimpleType] `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
-	//features of this module
-	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	itemValues []IBmmPrimitiveValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+}
+
+func (b *BmmEnumeration) ItemNames() []string {
+	return b.itemNames
+}
+
+func (b *BmmEnumeration) SetItemNames(itemNames []string) error {
+	b.itemNames = itemNames
+	return nil
+}
+
+func (b *BmmEnumeration) ItemValues() []IBmmPrimitiveValue {
+	return b.itemValues
+}
+
+func (b *BmmEnumeration) SetItemValues(itemValues []IBmmPrimitiveValue) error {
+	b.itemValues = itemValues
+	return nil
 }
 
 // CONSTRUCTOR
@@ -42,17 +58,17 @@ func NewBmmEnumeration() *BmmEnumeration {
 	bmmenumeration.featureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
 	bmmenumeration.BmmClass.features = make([]IBmmFeature, 0)
-	bmmenumeration.Ancestors = make(map[string]IBmmModelType)
-	bmmenumeration.Properties = make(map[string]IBmmProperty)
-	bmmenumeration.ImmediateDescendants = make([]IBmmClass, 0)
-	bmmenumeration.StaticProperties = make(map[string]IBmmStatic)
-	bmmenumeration.Functions = make(map[string]IBmmFunction)
-	bmmenumeration.Procedures = make(map[string]IBmmProcedure)
-	bmmenumeration.Invariants = make([]IBmmAssertion, 0)
-	bmmenumeration.Creators = make(map[string]IBmmProcedure)
-	bmmenumeration.Converters = make(map[string]IBmmProcedure)
+	bmmenumeration.ancestors = make(map[string]IBmmModelType)
+	bmmenumeration.properties = make(map[string]IBmmProperty)
+	bmmenumeration.immediateDescendants = make([]IBmmClass, 0)
+	bmmenumeration.staticProperties = make(map[string]IBmmStatic)
+	bmmenumeration.functions = make(map[string]IBmmFunction)
+	bmmenumeration.procedures = make(map[string]IBmmProcedure)
+	bmmenumeration.invariants = make([]IBmmAssertion, 0)
+	bmmenumeration.creators = make(map[string]IBmmProcedure)
+	bmmenumeration.converters = make(map[string]IBmmProcedure)
 	//BmmEnumeration
-	bmmenumeration.ItemValues = make([]IBmmPrimitiveValue[IBmmSimpleType], 0)
+	bmmenumeration.itemValues = make([]IBmmPrimitiveValue, 0)
 	return bmmenumeration
 }
 
@@ -73,34 +89,34 @@ The list of names of the enumeration. If no values are supplied, the integer
 values 0, 1, 2, …​ are assumed.
 */
 func (i *BmmEnumerationBuilder) SetItemNames(v []string) *BmmEnumerationBuilder {
-	i.bmmenumeration.ItemNames = v
+	i.bmmenumeration.itemNames = v
 	return i
 }
 
 // Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationBuilder) SetItemValues(v []IBmmPrimitiveValue[IBmmSimpleType]) *BmmEnumerationBuilder {
-	i.bmmenumeration.ItemValues = v
+func (i *BmmEnumerationBuilder) SetItemValues(v []IBmmPrimitiveValue) *BmmEnumerationBuilder {
+	i.bmmenumeration.itemValues = v
 	return i
 }
 
 // From: BmmClass
 // List of immediate inheritance parents.
 func (i *BmmEnumerationBuilder) SetAncestors(v map[string]IBmmModelType) *BmmEnumerationBuilder {
-	i.bmmenumeration.Ancestors = v
+	i.bmmenumeration.ancestors = v
 	return i
 }
 
 // From: BmmClass
 // Package this class belongs to.
 func (i *BmmEnumerationBuilder) SetPackage(v IBmmPackage) *BmmEnumerationBuilder {
-	i.bmmenumeration.Package = v
+	i.bmmenumeration._package = v
 	return i
 }
 
 // From: BmmClass
 // Properties defined in this class (subset of features ).
 func (i *BmmEnumerationBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationBuilder {
-	i.bmmenumeration.Properties = v
+	i.bmmenumeration.properties = v
 	return i
 }
 
@@ -111,7 +127,7 @@ determine which original schema file to open for a given class for manual
 editing.
 */
 func (i *BmmEnumerationBuilder) SetSourceSchemaId(v string) *BmmEnumerationBuilder {
-	i.bmmenumeration.SourceSchemaId = v
+	i.bmmenumeration.sourceSchemaId = v
 	return i
 }
 
@@ -121,7 +137,7 @@ List of computed references to base classes of immediate inheritance
 descendants, derived when members of ancestors are attached at creation time.
 */
 func (i *BmmEnumerationBuilder) SetImmediateDescendants(v []IBmmClass) *BmmEnumerationBuilder {
-	i.bmmenumeration.ImmediateDescendants = v
+	i.bmmenumeration.immediateDescendants = v
 	return i
 }
 
@@ -131,28 +147,28 @@ True if this definition overrides a class of the same name in an included
 schema.
 */
 func (i *BmmEnumerationBuilder) SetIsOverride(v bool) *BmmEnumerationBuilder {
-	i.bmmenumeration.IsOverride = v
+	i.bmmenumeration.isOverride = v
 	return i
 }
 
 // From: BmmClass
 // Static properties defined in this class (subset of features ).
 func (i *BmmEnumerationBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmEnumerationBuilder {
-	i.bmmenumeration.StaticProperties = v
+	i.bmmenumeration.staticProperties = v
 	return i
 }
 
 // From: BmmClass
 // Functions defined in this class (subset of features ).
 func (i *BmmEnumerationBuilder) SetFunctions(v map[string]IBmmFunction) *BmmEnumerationBuilder {
-	i.bmmenumeration.Functions = v
+	i.bmmenumeration.functions = v
 	return i
 }
 
 // From: BmmClass
 // Procedures defined in this class (subset of features ).
 func (i *BmmEnumerationBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmEnumerationBuilder {
-	i.bmmenumeration.Procedures = v
+	i.bmmenumeration.procedures = v
 	return i
 }
 
@@ -163,7 +179,7 @@ system, i.e. any typically built-in or standard library type such as String ,
 Date , Hash<K,V> etc.
 */
 func (i *BmmEnumerationBuilder) SetIsPrimitive(v bool) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmClass.SetIsPrimitive(v)
+	i.bmmenumeration.SetIsPrimitive(v)
 	return i
 }
 
@@ -173,13 +189,13 @@ True if this class is marked as abstract, i.e. direct instances cannot be
 created from its direct type.
 */
 func (i *BmmEnumerationBuilder) SetIsAbstract(v bool) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmClass.IsAbstract = v
+	i.bmmenumeration.isAbstract = v
 	return i
 }
 
 // From: BmmClass
 func (i *BmmEnumerationBuilder) SetInvariants(v []IBmmAssertion) *BmmEnumerationBuilder {
-	i.bmmenumeration.Invariants = v
+	i.bmmenumeration.invariants = v
 	return i
 }
 
@@ -189,7 +205,7 @@ Subset of procedures that may be used to initialise a new instance of an object,
 and whose execution will guarantee that class invariants are satisfied.
 */
 func (i *BmmEnumerationBuilder) SetCreators(v map[string]IBmmProcedure) *BmmEnumerationBuilder {
-	i.bmmenumeration.Creators = v
+	i.bmmenumeration.creators = v
 	return i
 }
 
@@ -199,7 +215,7 @@ Subset of creators that create a new instance from a single argument of another
 type.
 */
 func (i *BmmEnumerationBuilder) SetConverters(v map[string]IBmmProcedure) *BmmEnumerationBuilder {
-	i.bmmenumeration.Converters = v
+	i.bmmenumeration.converters = v
 	return i
 }
 
@@ -213,14 +229,14 @@ func (i *BmmEnumerationBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnume
 // From: BmmModule
 // features of this module.
 func (i *BmmEnumerationBuilder) SetFeatures(v []IBmmFeature) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmClass.features = v
+	i.bmmenumeration.features = v
 	return i
 }
 
 // From: BmmModule
 // Model within which module is defined.
 func (i *BmmEnumerationBuilder) SetScope(v IBmmModel) *BmmEnumerationBuilder {
-	i.bmmenumeration.BmmModelElement.scope = v
+	i.bmmenumeration.scope = v
 	return i
 }
 

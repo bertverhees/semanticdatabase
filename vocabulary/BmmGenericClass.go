@@ -8,6 +8,8 @@ type IBmmGenericClass interface {
 	// BMM_GENERIC_CLASS
 	Type() IBmmGenericType //redefined from class where BMM_MODEL_TYPE
 	GenericParameterConformanceType(a_name string) string
+	GenericParameters() map[string]IBmmParameterType
+	SetGenericParameters(genericParameters map[string]IBmmParameterType) error
 }
 
 // Struct definition
@@ -19,9 +21,16 @@ type BmmGenericClass struct {
 	directly on this class or by the inclusion of an ancestor class which is
 	generic.
 	*/
-	GenericParameters map[string]IBmmParameterType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
-	//features of this module
-	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	genericParameters map[string]IBmmParameterType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
+}
+
+func (b *BmmGenericClass) GenericParameters() map[string]IBmmParameterType {
+	return b.genericParameters
+}
+
+func (b *BmmGenericClass) SetGenericParameters(genericParameters map[string]IBmmParameterType) error {
+	b.genericParameters = genericParameters
+	return nil
 }
 
 // CONSTRUCTOR
@@ -34,15 +43,15 @@ func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass.featureGroups = make([]IBmmFeatureGroup, 0)
 	//BmmClass
 	bmmgenericclass.features = make([]IBmmFeature, 0)
-	bmmgenericclass.Ancestors = make(map[string]IBmmModelType)
-	bmmgenericclass.Properties = make(map[string]IBmmProperty)
-	bmmgenericclass.ImmediateDescendants = make([]IBmmClass, 0)
-	bmmgenericclass.StaticProperties = make(map[string]IBmmStatic)
-	bmmgenericclass.Functions = make(map[string]IBmmFunction)
-	bmmgenericclass.Procedures = make(map[string]IBmmProcedure)
-	bmmgenericclass.Invariants = make([]IBmmAssertion, 0)
-	bmmgenericclass.Creators = make(map[string]IBmmProcedure)
-	bmmgenericclass.Converters = make(map[string]IBmmProcedure)
+	bmmgenericclass.ancestors = make(map[string]IBmmModelType)
+	bmmgenericclass.properties = make(map[string]IBmmProperty)
+	bmmgenericclass.immediateDescendants = make([]IBmmClass, 0)
+	bmmgenericclass.staticProperties = make(map[string]IBmmStatic)
+	bmmgenericclass.functions = make(map[string]IBmmFunction)
+	bmmgenericclass.procedures = make(map[string]IBmmProcedure)
+	bmmgenericclass.invariants = make([]IBmmAssertion, 0)
+	bmmgenericclass.creators = make(map[string]IBmmProcedure)
+	bmmgenericclass.converters = make(map[string]IBmmProcedure)
 
 	return bmmgenericclass
 }
@@ -50,11 +59,13 @@ func NewBmmGenericClass() *BmmGenericClass {
 // BUILDER
 type BmmGenericClassBuilder struct {
 	bmmgenericclass *BmmGenericClass
+	errors          []error
 }
 
 func NewBmmGenericClassBuilder() *BmmGenericClassBuilder {
 	return &BmmGenericClassBuilder{
 		bmmgenericclass: NewBmmGenericClass(),
+		errors:          make([]error, 0),
 	}
 }
 
@@ -65,28 +76,28 @@ directly on this class or by the inclusion of an ancestor class which is
 generic.
 */
 func (i *BmmGenericClassBuilder) SetGenericParameters(v map[string]IBmmParameterType) *BmmGenericClassBuilder {
-	i.bmmgenericclass.GenericParameters = v
+	i.AddError(i.bmmgenericclass.SetGenericParameters(v))
 	return i
 }
 
 // From: BmmClass
 // List of immediate inheritance parents.
 func (i *BmmGenericClassBuilder) SetAncestors(v map[string]IBmmModelType) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Ancestors = v
+	i.AddError(i.bmmgenericclass.SetAncestors(v))
 	return i
 }
 
 // From: BmmClass
 // Package this class belongs to.
 func (i *BmmGenericClassBuilder) SetPackage(v IBmmPackage) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Package = v
+	i.AddError(i.bmmgenericclass.SetPackage(v))
 	return i
 }
 
 // From: BmmClass
 // Properties defined in this class (subset of features ).
 func (i *BmmGenericClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Properties = v
+	i.AddError(i.bmmgenericclass.SetProperties(v))
 	return i
 }
 
@@ -97,7 +108,7 @@ determine which original schema file to open for a given class for manual
 editing.
 */
 func (i *BmmGenericClassBuilder) SetSourceSchemaId(v string) *BmmGenericClassBuilder {
-	i.bmmgenericclass.SourceSchemaId = v
+	i.AddError(i.bmmgenericclass.SetSourceSchemaId(v))
 	return i
 }
 
@@ -107,7 +118,7 @@ List of computed references to base classes of immediate inheritance
 descendants, derived when members of ancestors are attached at creation time.
 */
 func (i *BmmGenericClassBuilder) SetImmediateDescendants(v []IBmmClass) *BmmGenericClassBuilder {
-	i.bmmgenericclass.ImmediateDescendants = v
+	i.AddError(i.bmmgenericclass.SetImmediateDescendants(v))
 	return i
 }
 
@@ -117,28 +128,28 @@ True if this definition overrides a class of the same name in an included
 schema.
 */
 func (i *BmmGenericClassBuilder) SetIsOverride(v bool) *BmmGenericClassBuilder {
-	i.bmmgenericclass.IsOverride = v
+	i.AddError(i.bmmgenericclass.SetIsOverride(v))
 	return i
 }
 
 // From: BmmClass
 // Static properties defined in this class (subset of features ).
 func (i *BmmGenericClassBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmGenericClassBuilder {
-	i.bmmgenericclass.StaticProperties = v
+	i.AddError(i.bmmgenericclass.SetStaticProperties(v))
 	return i
 }
 
 // From: BmmClass
 // Functions defined in this class (subset of features ).
 func (i *BmmGenericClassBuilder) SetFunctions(v map[string]IBmmFunction) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Functions = v
+	i.AddError(i.bmmgenericclass.SetFunctions(v))
 	return i
 }
 
 // From: BmmClass
 // Procedures defined in this class (subset of features ).
 func (i *BmmGenericClassBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Procedures = v
+	i.AddError(i.bmmgenericclass.SetProcedures(v))
 	return i
 }
 
@@ -149,7 +160,7 @@ system, i.e. any typically built-in or standard library type such as String ,
 Date , Hash<K,V> etc.
 */
 func (i *BmmGenericClassBuilder) SetIsPrimitive(v bool) *BmmGenericClassBuilder {
-	i.bmmgenericclass.SetIsPrimitive(v)
+	i.AddError(i.bmmgenericclass.SetIsPrimitive(v))
 	return i
 }
 
@@ -159,13 +170,13 @@ True if this class is marked as abstract, i.e. direct instances cannot be
 created from its direct type.
 */
 func (i *BmmGenericClassBuilder) SetIsAbstract(v bool) *BmmGenericClassBuilder {
-	i.bmmgenericclass.IsAbstract = v
+	i.AddError(i.bmmgenericclass.SetIsAbstract(v))
 	return i
 }
 
 // From: BmmClass
 func (i *BmmGenericClassBuilder) SetInvariants(v []IBmmAssertion) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Invariants = v
+	i.AddError(i.bmmgenericclass.SetInvariants(v))
 	return i
 }
 
@@ -175,7 +186,7 @@ Subset of procedures that may be used to initialise a new instance of an object,
 and whose execution will guarantee that class invariants are satisfied.
 */
 func (i *BmmGenericClassBuilder) SetCreators(v map[string]IBmmProcedure) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Creators = v
+	i.AddError(i.bmmgenericclass.SetCreators(v))
 	return i
 }
 
@@ -185,28 +196,28 @@ Subset of creators that create a new instance from a single argument of another
 type.
 */
 func (i *BmmGenericClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmGenericClassBuilder {
-	i.bmmgenericclass.Converters = v
+	i.AddError(i.bmmgenericclass.SetConverters(v))
 	return i
 }
 
 // From: BmmClass
 // features of this module.
-func (i *BmmGenericClassBuilder) SetFeatures(v []IBmmFeature) *BmmGenericClassBuilder {
-	i.bmmgenericclass.BmmClass.features = v
+func (i *BmmGenericClassBuilder) SetFeatures(v []IBmmFormalElement) *BmmGenericClassBuilder {
+	i.AddError(i.bmmgenericclass.SetFeatures(v))
 	return i
 }
 
 // From: BmmModule
 // List of feature groups in this class.
 func (i *BmmGenericClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmGenericClassBuilder {
-	i.bmmgenericclass.featureGroups = v
+	i.AddError(i.bmmgenericclass.SetFeatureGroups(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmGenericClassBuilder) SetName(v string) *BmmGenericClassBuilder {
-	i.bmmgenericclass.name = v
+	i.AddError(i.bmmgenericclass.SetName(v))
 	return i
 }
 
@@ -218,14 +229,14 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmGenericClassBuilder) SetDocumentation(v map[string]any) *BmmGenericClassBuilder {
-	i.bmmgenericclass.documentation = v
+	i.AddError(i.bmmgenericclass.SetDocumentation(v))
 	return i
 }
 
 // From: BmmModelElement
 // Model element within which an element is declared.
 func (i *BmmGenericClassBuilder) SetScope(v IBmmModelElement) *BmmGenericClassBuilder {
-	i.bmmgenericclass.BmmModelElement.scope = v
+	i.AddError(i.bmmgenericclass.SetScope(v))
 	return i
 }
 
@@ -235,8 +246,14 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmGenericClassBuilder) SetExtensions(v map[string]any) *BmmGenericClassBuilder {
-	i.bmmgenericclass.extensions = v
+	i.AddError(i.bmmgenericclass.SetExtensions(v))
 	return i
+}
+
+func (i *BmmGenericClassBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmGenericClassBuilder) Build() *BmmGenericClass {

@@ -7,13 +7,13 @@ table, Map etc.
 
 // Interface definition
 type IBmmIndexedContainerValue interface {
-	IBmmLiteralValue[IBmmType]
+	IBmmLiteralValue[IBmmIndexedContainerType]
 }
 
 // Struct definition
 type BmmIndexedContainerValue struct {
 	// embedded for Inheritance
-	BmmLiteralValue[IBmmType]
+	BmmLiteralValue[IBmmIndexedContainerType]
 	// Constants
 	// Attributes
 }
@@ -28,11 +28,13 @@ func NewBmmIndexedContainerValue() *BmmIndexedContainerValue {
 // BUILDER
 type BmmIndexedContainerValueBuilder struct {
 	bmmindexedcontainervalue *BmmIndexedContainerValue
+	errors                   []error
 }
 
 func NewBmmIndexedContainerValueBuilder() *BmmIndexedContainerValueBuilder {
 	return &BmmIndexedContainerValueBuilder{
 		bmmindexedcontainervalue: NewBmmIndexedContainerValue(),
+		errors:                   make([]error, 0),
 	}
 }
 
@@ -40,7 +42,7 @@ func NewBmmIndexedContainerValueBuilder() *BmmIndexedContainerValueBuilder {
 // From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmIndexedContainerValueBuilder) SetValueLiteral(v string) *BmmIndexedContainerValueBuilder {
-	i.bmmindexedcontainervalue.ValueLiteral = v
+	i.AddError(i.bmmindexedcontainervalue.SetValueLiteral(v))
 	return i
 }
 
@@ -50,7 +52,7 @@ A native representation of the value, possibly derived by deserialising
 value_literal .
 */
 func (i *BmmIndexedContainerValueBuilder) SetValue(v any) *BmmIndexedContainerValueBuilder {
-	i.bmmindexedcontainervalue.Value = v
+	i.AddError(i.bmmindexedcontainervalue.SetValue(v))
 	return i
 }
 
@@ -61,15 +63,21 @@ values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmIndexedContainerValueBuilder) SetSyntax(v string) *BmmIndexedContainerValueBuilder {
-	i.bmmindexedcontainervalue.Syntax = v
+	i.AddError(i.bmmindexedcontainervalue.SetSyntax(v))
 	return i
 }
 
 // From: BmmPrimitiveValue
 // Concrete type of this literal.
-func (i *BmmIndexedContainerValueBuilder) SetType(v IBmmSimpleType) *BmmIndexedContainerValueBuilder {
-	i.bmmindexedcontainervalue.Type = v
+func (i *BmmIndexedContainerValueBuilder) SetType(v IBmmIndexedContainerType) *BmmIndexedContainerValueBuilder {
+	i.AddError(i.bmmindexedcontainervalue.SetType(v))
 	return i
+}
+
+func (i *BmmIndexedContainerValueBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmIndexedContainerValueBuilder) Build() *BmmIndexedContainerValue {

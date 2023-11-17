@@ -7,12 +7,12 @@ representing String and value is of type String .
 
 // Interface definition
 type IBmmStringValue interface {
-	IBmmPrimitiveValue[IBmmSimpleType]
+	IBmmPrimitiveValue
 }
 
 // Struct definition
 type BmmStringValue struct {
-	BmmPrimitiveValue[IBmmSimpleType]
+	BmmPrimitiveValue
 	// Attributes
 	// Native String value.
 	Value string `yaml:"value" json:"value" xml:"value"`
@@ -53,7 +53,7 @@ func (i *BmmStringValueBuilder) SetType(v IBmmSimpleType) *BmmStringValueBuilder
 // From: BmmLiteralValue
 // A serial representation of the value.
 func (i *BmmStringValueBuilder) SetValueLiteral(v string) *BmmStringValueBuilder {
-	i.bmmstringvalue.ValueLiteral = v
+	i.bmmstringvalue.valueLiteral = v
 	return i
 }
 
@@ -64,7 +64,7 @@ values. value may be any of json | json5 | yawl | xml | odin | rdf or another
 value agreed by the user community. If not set, json is assumed.
 */
 func (i *BmmStringValueBuilder) SetSyntax(v string) *BmmStringValueBuilder {
-	i.bmmstringvalue.Syntax = v
+	i.bmmstringvalue.syntax = v
 	return i
 }
 
