@@ -10,12 +10,6 @@ generic type such as List<T> , Set<T> etc.
 type IBmmContainerType interface {
 	IBmmType
 	//BMM_CONTAINERTYPE
-	TypeName() string                 //effected
-	IsAbstract() bool                 //effected
-	FlattenedTypeList() []string      //effected
-	UnitaryType() IBmmUnitaryType     //effected
-	IsPrimitive() bool                //effected
-	EffectiveType() IBmmEffectiveType //effected
 }
 
 // Struct definition
@@ -25,27 +19,63 @@ type BmmContainerType struct {
 	// Constants
 	// Attributes
 	// The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
-	ContainerClass IBmmGenericClass `yaml:"containerclass" json:"containerclass" xml:"containerclass"`
+	containerClass IBmmGenericClass `yaml:"containerclass" json:"containerclass" xml:"containerclass"`
 	// The container item type.
-	ItemType IBmmUnitaryType `yaml:"itemtype" json:"itemtype" xml:"itemtype"`
+	itemType IBmmUnitaryType `yaml:"itemtype" json:"itemtype" xml:"itemtype"`
 	/**
 	True indicates that order of the items in the container attribute is considered
 	significant and must be preserved, e.g. across sessions, serialisation,
 	deserialisation etc. Otherwise known as 'list' semantics.
 	*/
-	IsOrdered bool `yaml:"isordered" json:"isordered" xml:"isordered"`
+	isOrdered bool `yaml:"isordered" json:"isordered" xml:"isordered"`
 	/**
 	True indicates that only unique instances of items in the container are allowed.
 	Otherwise known as 'set' semantics.
 	*/
-	IsUnique bool `yaml:"isunique" json:"isunique" xml:"isunique"`
+	isUnique bool `yaml:"isunique" json:"isunique" xml:"isunique"`
+}
+
+func (b *BmmContainerType) ContainerClass() IBmmGenericClass {
+	return b.containerClass
+}
+
+func (b *BmmContainerType) SetContainerClass(containerClass IBmmGenericClass) error {
+	b.containerClass = containerClass
+	return nil
+}
+
+func (b *BmmContainerType) ItemType() IBmmUnitaryType {
+	return b.itemType
+}
+
+func (b *BmmContainerType) SetItemType(itemType IBmmUnitaryType) error {
+	b.itemType = itemType
+	return nil
+}
+
+func (b *BmmContainerType) IsOrdered() bool {
+	return b.isOrdered
+}
+
+func (b *BmmContainerType) SetIsOrdered(isOrdered bool) error {
+	b.isOrdered = isOrdered
+	return nil
+}
+
+func (b *BmmContainerType) IsUnique() bool {
+	return b.isUnique
+}
+
+func (b *BmmContainerType) SetIsUnique(isUnique bool) error {
+	b.isUnique = isUnique
+	return nil
 }
 
 // CONSTRUCTOR
 func NewBmmContainerType() *BmmContainerType {
 	bmmcontainertype := new(BmmContainerType)
-	bmmcontainertype.IsOrdered = true
-	bmmcontainertype.IsUnique = false
+	bmmcontainertype.isOrdered = true
+	bmmcontainertype.isUnique = false
 	// Constants
 	return bmmcontainertype
 }
@@ -53,24 +83,26 @@ func NewBmmContainerType() *BmmContainerType {
 // BUILDER
 type BmmContainerTypeBuilder struct {
 	bmmcontainertype *BmmContainerType
+	errors           []error
 }
 
 func NewBmmContainerTypeBuilder() *BmmContainerTypeBuilder {
 	return &BmmContainerTypeBuilder{
 		bmmcontainertype: NewBmmContainerType(),
+		errors:           make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 func (i *BmmContainerTypeBuilder) SetContainerClass(v IBmmGenericClass) *BmmContainerTypeBuilder {
-	i.bmmcontainertype.ContainerClass = v
+	i.AddError(i.bmmcontainertype.SetContainerClass(v))
 	return i
 }
 
 // The container item type.
 func (i *BmmContainerTypeBuilder) SetItemType(v IBmmUnitaryType) *BmmContainerTypeBuilder {
-	i.bmmcontainertype.ItemType = v
+	i.AddError(i.bmmcontainertype.SetItemType(v))
 	return i
 }
 
@@ -81,7 +113,7 @@ significant and must be preserved, e.g. across sessions, serialisation,
 deserialisation etc. Otherwise known as 'list' semantics.
 */
 func (i *BmmContainerTypeBuilder) SetIsOrdered(v bool) *BmmContainerTypeBuilder {
-	i.bmmcontainertype.IsOrdered = v
+	i.AddError(i.bmmcontainertype.SetIsOrdered(v))
 	return i
 }
 
@@ -91,8 +123,14 @@ True indicates that only unique instances of items in the container are allowed.
 Otherwise known as 'set' semantics.
 */
 func (i *BmmContainerTypeBuilder) SetIsUnique(v bool) *BmmContainerTypeBuilder {
-	i.bmmcontainertype.IsUnique = v
+	i.AddError(i.bmmcontainertype.SetIsUnique(v))
 	return i
+}
+
+func (i *BmmContainerTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmContainerTypeBuilder) Build() *BmmContainerType {
