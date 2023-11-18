@@ -18,15 +18,6 @@ type BmmBooleanValue struct {
 	value bool `yaml:"value" json:"value" xml:"value"`
 }
 
-func (b *BmmBooleanValue) Value() bool {
-	return b.value
-}
-
-func (b *BmmBooleanValue) SetValue(value bool) error {
-	b.value = value
-	return nil
-}
-
 // CONSTRUCTOR
 func NewBmmBooleanValue() *BmmBooleanValue {
 	bmmbooleanvalue := new(BmmBooleanValue)

@@ -16,7 +16,7 @@ type IBmmLiteralValue[T IBmmType] interface {
 	SetValue(value any) error
 	Value() any
 	SetValueLiteral(valueLiteral string) error
-	ValueLiteral()
+	ValueLiteral() string
 }
 
 // Struct definition

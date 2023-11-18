@@ -59,60 +59,59 @@ type IBmmClass interface {
 // Struct definition
 type BmmClass struct {
 	BmmModule
-	// Constants
 	// Attributes
 	// List of immediate inheritance parents.
-	ancestors map[string]IBmmModelType `yaml:"ancestors" json:"ancestors" xml:"ancestors"`
+	ancestors map[string]IBmmModelType ////`yaml:"ancestors" json:"ancestors" xml:"ancestors"`
 	// Package this class belongs to.
-	_package IBmmPackage `yaml:"package" json:"package" xml:"package"`
+	_package IBmmPackage //`yaml:"package" json:"package" xml:"package"`
 	// Properties defined in this class (subset of features ).
-	properties map[string]IBmmProperty `yaml:"properties" json:"properties" xml:"properties"`
+	properties map[string]IBmmProperty //`yaml:"properties" json:"properties" xml:"properties"`
 	/**
 	Reference to original source schema defining this class. Useful for UI tools to
 	determine which original schema file to open for a given class for manual
 	editing.
 	*/
-	sourceSchemaId string `yaml:"sourceschemaid" json:"sourceschemaid" xml:"sourceschemaid"`
+	sourceSchemaId string //`yaml:"sourceschemaid" json:"sourceschemaid" xml:"sourceschemaid"`
 	/**
 	List of computed references to base classes of immediate inheritance
 	descendants, derived when members of ancestors are attached at creation time.
 	*/
-	immediateDescendants []IBmmClass `yaml:"immediatedescendants" json:"immediatedescendants" xml:"immediatedescendants"`
+	immediateDescendants []IBmmClass //`yaml:"immediatedescendants" json:"immediatedescendants" xml:"immediatedescendants"`
 	/**
 	True if this definition overrides a class of the same name in an included
 	schema.
 	*/
-	isOverride bool `yaml:"isoverride" json:"isoverride" xml:"isoverride"`
+	isOverride bool //`yaml:"isoverride" json:"isoverride" xml:"isoverride"`
 	// Static properties defined in this class (subset of features ).
-	staticProperties map[string]IBmmStatic `yaml:"staticproperties" json:"staticproperties" xml:"staticproperties"`
+	staticProperties map[string]IBmmStatic //`yaml:"staticproperties" json:"staticproperties" xml:"staticproperties"`
 	// Functions defined in this class (subset of features ).
-	functions map[string]IBmmFunction `yaml:"functions" json:"functions" xml:"functions"`
+	functions map[string]IBmmFunction //`yaml:"functions" json:"functions" xml:"functions"`
 	// Procedures defined in this class (subset of features ).
-	procedures map[string]IBmmProcedure `yaml:"procedures" json:"procedures" xml:"procedures"`
+	procedures map[string]IBmmProcedure //`yaml:"procedures" json:"procedures" xml:"procedures"`
 	/**
 	True if this class represents a type considered to be primitive in the type
 	system, i.e. any typically built-in or standard library type such as String ,
 	Date , Hash<K,V> etc.
 	*/
-	isPrimitive bool `yaml:"isprimitive" json:"isprimitive" xml:"isprimitive"`
+	isPrimitive bool //`yaml:"isprimitive" json:"isprimitive" xml:"isprimitive"`
 	/**
 	True if this class is marked as abstract, i.e. direct instances cannot be
 	created from its direct type.
 	*/
-	isAbstract bool            `yaml:"isabstract" json:"isabstract" xml:"isabstract"`
-	invariants []IBmmAssertion `yaml:"invariants" json:"invariants" xml:"invariants"`
+	isAbstract bool            //`yaml:"isabstract" json:"isabstract" xml:"isabstract"`
+	invariants []IBmmAssertion //`yaml:"invariants" json:"invariants" xml:"invariants"`
 	/**
 	Subset of procedures that may be used to initialise a new instance of an object,
 	and whose execution will guarantee that class invariants are satisfied.
 	*/
-	creators map[string]IBmmProcedure `yaml:"creators" json:"creators" xml:"creators"`
+	creators map[string]IBmmProcedure //`yaml:"creators" json:"creators" xml:"creators"`
 	/**
 	Subset of creators that create a new instance from a single argument of another
 	type.
 	*/
-	converters map[string]IBmmProcedure `yaml:"converters" json:"converters" xml:"converters"`
+	converters map[string]IBmmProcedure //`yaml:"converters" json:"converters" xml:"converters"`
 	// features of this module.
-	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
+	features []IBmmFeature //`yaml:"features" json:"features" xml:"features"` //redefined
 }
 
 func (b *BmmClass) Package() IBmmPackage {

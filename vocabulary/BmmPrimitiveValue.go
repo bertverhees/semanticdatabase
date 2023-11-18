@@ -12,7 +12,7 @@ type BmmPrimitiveValue struct {
 	BmmUnitaryValue[IBmmSimpleType]
 	// Attributes
 	// Concrete type of this literal.
-	Type IBmmSimpleType `yaml:"type" json:"type" xml:"type"`
+	_type IBmmSimpleType `yaml:"type" json:"type" xml:"type"`
 }
 
 // CONSTRUCTOR
