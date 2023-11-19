@@ -1,15 +1,13 @@
 package vocabulary
 
+import "errors"
+
 // Integer-based enumeration meta-type.
 
 // Interface definition
 type IBmmEnumerationInteger interface {
 	IBmmEnumeration
 	// From: BMM_ENUMERATION
-	NameMap() map[string]string
-	//IBmmEnumerationInteger
-	ItemValues() []IBmmIntegerValue
-	SetItemValues(itemValues []IBmmIntegerValue) error
 }
 
 // Struct definition
@@ -18,17 +16,6 @@ type BmmEnumerationInteger struct {
 	// Attributes
 	// Optional list of specific values. Must be 1:1 with item_names list.
 	itemValues []IBmmIntegerValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
-	//features of this module
-	features []IBmmFeature `yaml:"features" json:"features" xml:"features"` //redefined
-}
-
-func (b *BmmEnumerationInteger) ItemValues() []IBmmIntegerValue {
-	return b.itemValues
-}
-
-func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmIntegerValue) error {
-	b.itemValues = itemValues
-	return nil
 }
 
 // CONSTRUCTOR
@@ -57,6 +44,19 @@ func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	return bmmenumerationinteger
 }
 
+func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmFormalElement) error {
+	b.itemValues = make([]IBmmIntegerValue, 0)
+	for _, s := range itemValues {
+		s, ok := s.(IBmmIntegerValue)
+		if !ok {
+			return errors.New("_type-assertion in BmmEnumerationInteger->SetItemValues went wrong")
+		} else {
+			b.itemValues = append(b.itemValues, s)
+		}
+	}
+	return nil
+}
+
 // BUILDER
 type BmmEnumerationIntegerBuilder struct {
 	bmmenumerationinteger *BmmEnumerationInteger
@@ -72,7 +72,7 @@ func NewBmmEnumerationIntegerBuilder() *BmmEnumerationIntegerBuilder {
 
 // BUILDER ATTRIBUTES
 // Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationIntegerBuilder) SetItemValues(v []IBmmIntegerValue) *BmmEnumerationIntegerBuilder {
+func (i *BmmEnumerationIntegerBuilder) SetItemValues(v []IBmmFormalElement) *BmmEnumerationIntegerBuilder {
 	i.AddError(i.bmmenumerationinteger.SetItemValues(v))
 	return i
 }
@@ -268,118 +268,3 @@ func (i *BmmEnumerationIntegerBuilder) Build() *BmmEnumerationInteger {
 }
 
 // FUNCTIONS
-// From: BMM_ENUMERATION
-// Map of item_names to item_values (stringified).
-func (b *BmmEnumerationInteger) NameMap() map[string]string {
-	return nil
-}
-
-// From: BMM_CLASS
-/**
-Generate a type object that represents the type for which this class is the
-definer.
-*/
-func (b *BmmEnumerationInteger) Type() IBmmSimpleType {
-	return nil
-}
-
-// From: BMM_CLASS
-// List of all inheritance parent class names, recursively.
-func (b *BmmEnumerationInteger) AllAncestors() []string {
-	return nil
-}
-
-// From: BMM_CLASS
-// Compute all descendants by following immediate_descendants .
-func (b *BmmEnumerationInteger) AllDescendants() []string {
-	return nil
-}
-
-// From: BMM_CLASS
-/**
-List of names of immediate supplier classes, including concrete generic
-parameters, concrete descendants of abstract statically defined types, and
-inherited suppliers. (Where generics are unconstrained, no class name is added,
-since logically it would be Any and this can always be assumed anyway). This
-list includes primitive types.
-*/
-func (b *BmmEnumerationInteger) Suppliers() []string {
-	return nil
-}
-
-// From: BMM_CLASS
-// Same as suppliers minus primitive types, as defined in input schema.
-func (b *BmmEnumerationInteger) SuppliersNonPrimitive() []string {
-	return nil
-}
-
-// From: BMM_CLASS
-/**
-List of names of all classes in full supplier closure, including concrete
-generic parameters; (where generics are unconstrained, no class name is added,
-since logically it would be Any and this can always be assumed anyway). This
-list includes primitive types.
-*/
-func (b *BmmEnumerationInteger) SupplierClosure() []string {
-	return nil
-}
-
-// From: BMM_CLASS
-// Fully qualified package name, of form: package.package .
-func (b *BmmEnumerationInteger) PackagePath() string {
-	return ""
-}
-
-// From: BMM_CLASS
-/**
-Fully qualified class name, of form: package.package.CLASS with package path in
-lower-case and class in original case.
-*/
-func (b *BmmEnumerationInteger) ClassPath() string {
-	return ""
-}
-
-// From: BMM_CLASS
-/**
-True if this class is designated a primitive type within the overall type system
-of the schema. Set from schema.
-*/
-func (b *BmmEnumerationInteger) IsPrimitive() bool {
-	return false
-}
-
-// From: BMM_CLASS
-/**
-True if this class is abstract in its model. value provided from an underlying
-data property set at creation or construction time.
-*/
-func (b *BmmEnumerationInteger) IsAbstract() bool {
-	return false
-}
-
-// From: BMM_CLASS
-/**
-Consolidated list of all feature definitions from this class and all inheritance
-ancestors.
-*/
-func (b *BmmEnumerationInteger) FlatFeatures() {
-	return
-}
-
-// From: BMM_CLASS
-/**
-List of all properties due to current and ancestor classes, keyed by property
-name.
-*/
-func (b *BmmEnumerationInteger) FlatProperties() []IBmmProperty {
-	return nil
-}
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmEnumerationInteger) IsRootScope() bool {
-	return false
-}
