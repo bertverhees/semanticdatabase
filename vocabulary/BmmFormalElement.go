@@ -6,6 +6,10 @@ package vocabulary
 type IBmmFormalElement interface {
 	IBmmModelElement
 	// BMM_FORMAL_ELEMENT
+	Type() IBmmType
+	SetType(_type IBmmType) error
+	IsNullable() bool
+	SetIsNullable(isNullable bool) error
 	Signature() IBmmSignature
 	IsBoolean() bool
 }
@@ -15,12 +19,30 @@ type BmmFormalElement struct {
 	BmmModelElement
 	// Attributes
 	// Declared or inferred static type of the entity.
-	Type IBmmType `yaml:"type" json:"type" xml:"type"`
+	_type IBmmType `yaml:"type" json:"type" xml:"type"`
 	/**
 	True if this element can be null (Void) at execution time. May be interpreted as
 	optionality in subtypes..
 	*/
-	IsNullable bool `yaml:"isnullable" json:"isnullable" xml:"isnullable"`
+	isNullable bool `yaml:"isnullable" json:"isnullable" xml:"isnullable"`
+}
+
+func (b *BmmFormalElement) Type() IBmmType {
+	return b._type
+}
+
+func (b *BmmFormalElement) SetType(_type IBmmType) error {
+	b._type = _type
+	return nil
+}
+
+func (b *BmmFormalElement) IsNullable() bool {
+	return b.isNullable
+}
+
+func (b *BmmFormalElement) SetIsNullable(isNullable bool) error {
+	b.isNullable = isNullable
+	return nil
 }
 
 // CONSTRUCTOR
