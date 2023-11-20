@@ -1,11 +1,19 @@
 package vocabulary
 
+import "errors"
+
 // A module-scoped formal element.
 
 // Interface definition
 type IBmmFeature interface {
 	IBmmFormalElement
 	//BMM_FEATURE
+	IsSynthesisedGeneric() bool
+	SetIsSynthesisedGeneric(isSynthesisedGeneric bool) error
+	FeatureExtensions() []IBmmFeatureExtension
+	SetFeatureExtensions(featureExtensions []IBmmFeatureExtension) error
+	Group() IBmmFeatureGroup
+	SetGroup(group IBmmFeatureGroup) error
 }
 
 // Struct definition
@@ -26,33 +34,43 @@ type BmmFeature struct {
 	scope IBmmClass `yaml:"scope" json:"scope" xml:"scope"`
 }
 
-// CONSTRUCTOR
-// abstract, no constructor or builder
-//FUNCTIONS
-// From: BMM_FORMAL_ELEMENT
-/**
-Formal signature of this element, in the form: name [arg1_name: T_arg1,
-…​][:T_value] Specific implementations in descendants.
-*/
-func (b *BmmFeature) Signature() IBmmSignature {
+func (b *BmmFeature) IsSynthesisedGeneric() bool {
+	return b.isSynthesisedGeneric
+}
+
+func (b *BmmFeature) SetIsSynthesisedGeneric(isSynthesisedGeneric bool) error {
+	b.isSynthesisedGeneric = isSynthesisedGeneric
 	return nil
 }
 
-// From: BMM_FORMAL_ELEMENT
-/**
-Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
-True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-'Boolean' ).
-*/
-func (b *BmmFeature) IsBoolean() bool {
-	return false
+func (b *BmmFeature) FeatureExtensions() []IBmmFeatureExtension {
+	return b.featureExtensions
 }
 
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmFeature) IsRootScope() bool {
-	return false
+func (b *BmmFeature) SetFeatureExtensions(featureExtensions []IBmmFeatureExtension) error {
+	b.featureExtensions = featureExtensions
+	return nil
 }
+
+func (b *BmmFeature) Group() IBmmFeatureGroup {
+	return b.group
+}
+
+func (b *BmmFeature) SetGroup(group IBmmFeatureGroup) error {
+	b.group = group
+	return nil
+}
+
+func (b *BmmFeature) SetScope(v IBmmModelElement) error {
+	s, ok := v.(IBmmClass)
+	if !ok {
+		return errors.New("_type-assertion to IBmmClass in BmmFeature->SetScope went wrong")
+	} else {
+		b.scope = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+// abstract, no constructor or builder
+//FUNCTIONS

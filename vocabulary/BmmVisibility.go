@@ -1,8 +1,8 @@
 package vocabulary
 
 /**
-	Abstract parent of visibility representation. TODO: define schemes; probably
-	need to support C++/Java scheme as well as better type-based schemes.
+Abstract parent of visibility representation. TODO: define schemes; probably
+need to support C++/Java scheme as well as better type-based schemes.
 */
 
 // Interface definition
@@ -16,27 +16,35 @@ type BmmVisibility struct {
 	// Attributes
 }
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 func NewBmmVisibility() *BmmVisibility {
 	bmmvisibility := new(BmmVisibility)
 	// Constants
 	return bmmvisibility
 }
-//BUILDER
+
+// BUILDER
 type BmmVisibilityBuilder struct {
 	bmmvisibility *BmmVisibility
+	errors        []error
 }
 
 func NewBmmVisibilityBuilder() *BmmVisibilityBuilder {
-	 return &BmmVisibilityBuilder {
-		bmmvisibility : NewBmmVisibility(),
+	return &BmmVisibilityBuilder{
+		bmmvisibility: NewBmmVisibility(),
+		errors:        make([]error, 0),
 	}
 }
 
-//BUILDER ATTRIBUTES
+// BUILDER ATTRIBUTES
+func (i *BmmVisibilityBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
 
 func (i *BmmVisibilityBuilder) Build() *BmmVisibility {
-	 return i.bmmvisibility
+	return i.bmmvisibility
 }
 
 //FUNCTIONS
