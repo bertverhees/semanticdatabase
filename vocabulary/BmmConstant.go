@@ -10,6 +10,8 @@ value, or may be any expression, including a function call.
 type IBmmConstant interface {
 	IBmmStatic
 	//BMM_CONSTANT
+	Generator() IBmmLiteralValue[IBmmSimpleType]
+	SetGenerator(generator IBmmLiteralValue[IBmmSimpleType]) error
 }
 
 // Struct definition
@@ -18,7 +20,16 @@ type BmmConstant struct {
 	// Constants
 	// Attributes
 	// Literal value of the constant.
-	Generator IBmmLiteralValue[IBmmSimpleType] `yaml:"generator" json:"generator" xml:"generator"`
+	generator IBmmLiteralValue[IBmmSimpleType] `yaml:"generator" json:"generator" xml:"generator"`
+}
+
+func (b *BmmConstant) Generator() IBmmLiteralValue[IBmmSimpleType] {
+	return b.generator
+}
+
+func (b *BmmConstant) SetGenerator(generator IBmmLiteralValue[IBmmSimpleType]) error {
+	b.generator = generator
+	return nil
 }
 
 // CONSTRUCTOR
@@ -26,7 +37,7 @@ func NewBmmConstant() *BmmConstant {
 	bmmconstant := new(BmmConstant)
 	//BmmFormalElement
 	//default, no constant
-	bmmconstant.IsNullable = false
+	bmmconstant.isNullable = false
 	//BmmModelElement
 	bmmconstant.documentation = make(map[string]any)
 	bmmconstant.extensions = make(map[string]any)
@@ -40,18 +51,20 @@ func NewBmmConstant() *BmmConstant {
 // BUILDER
 type BmmConstantBuilder struct {
 	bmmconstant *BmmConstant
+	errors      []error
 }
 
 func NewBmmConstantBuilder() *BmmConstantBuilder {
 	return &BmmConstantBuilder{
 		bmmconstant: NewBmmConstant(),
+		errors:      make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Literal value of the constant.
 func (i *BmmConstantBuilder) SetGenerator(v IBmmLiteralValue[IBmmSimpleType]) *BmmConstantBuilder {
-	i.bmmconstant.Generator = v
+	i.AddError(i.bmmconstant.SetGenerator(v))
 	return i
 }
 
@@ -61,35 +74,35 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmConstantBuilder) SetIsSynthesisedGeneric(v bool) *BmmConstantBuilder {
-	i.bmmconstant.isSynthesisedGeneric = v
+	i.AddError(i.bmmconstant.SetIsSynthesisedGeneric(v))
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmConstantBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmConstantBuilder {
-	i.bmmconstant.featureExtensions = v
+	i.AddError(i.bmmconstant.SetFeatureExtensions(v))
 	return i
 }
 
 // From: BmmFeature
 // group containing this feature.
 func (i *BmmConstantBuilder) SetGroup(v IBmmFeatureGroup) *BmmConstantBuilder {
-	i.bmmconstant.group = v
+	i.AddError(i.bmmconstant.SetGroup(v))
 	return i
 }
 
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmConstantBuilder) SetScope(v IBmmClass) *BmmConstantBuilder {
-	i.bmmconstant.BmmFeature.scope = v
+	i.AddError(i.bmmconstant.BmmFeature.SetScope(v))
 	return i
 }
 
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmConstantBuilder) SetType(v IBmmType) *BmmConstantBuilder {
-	i.bmmconstant.Type = v
+	i.AddError(i.bmmconstant.SetType(v))
 	return i
 }
 
@@ -99,14 +112,14 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmConstantBuilder) SetIsNullable(v bool) *BmmConstantBuilder {
-	i.bmmconstant.IsNullable = v
+	i.AddError(i.bmmconstant.SetIsNullable(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmConstantBuilder) SetName(v string) *BmmConstantBuilder {
-	i.bmmconstant.name = v
+	i.AddError(i.bmmconstant.SetName(v))
 	return i
 }
 
@@ -118,7 +131,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmConstantBuilder) SetDocumentation(v map[string]any) *BmmConstantBuilder {
-	i.bmmconstant.documentation = v
+	i.AddError(i.bmmconstant.SetDocumentation(v))
 	return i
 }
 
@@ -128,8 +141,14 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmConstantBuilder) SetExtensions(v map[string]any) *BmmConstantBuilder {
-	i.bmmconstant.extensions = v
+	i.AddError(i.bmmconstant.SetExtensions(v))
 	return i
+}
+
+func (i *BmmConstantBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmConstantBuilder) Build() *BmmConstant {

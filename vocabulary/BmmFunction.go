@@ -29,7 +29,7 @@ func NewBmmFunction() *BmmFunction {
 	bmmfunction := new(BmmFunction)
 	//BmmFormalElement
 	//default, no constant
-	bmmfunction.IsNullable = false
+	bmmfunction.isNullable = false
 	//BmmModelElement
 	bmmfunction.documentation = make(map[string]any)
 	bmmfunction.extensions = make(map[string]any)
@@ -140,7 +140,7 @@ func (i *BmmFunctionBuilder) SetScope(v IBmmClass) *BmmFunctionBuilder {
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmFunctionBuilder) SetType(v IBmmType) *BmmFunctionBuilder {
-	i.bmmfunction.Type = v
+	i.bmmfunction._type = v
 	return i
 }
 
@@ -150,7 +150,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmFunctionBuilder) SetIsNullable(v bool) *BmmFunctionBuilder {
-	i.bmmfunction.IsNullable = v
+	i.bmmfunction.isNullable = v
 	return i
 }
 

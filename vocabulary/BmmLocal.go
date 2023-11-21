@@ -22,7 +22,7 @@ func NewBmmLocal() *BmmLocal {
 	bmmlocal.extensions = make(map[string]any)
 	//BmmFormalElement
 	//default, no constant
-	bmmlocal.IsNullable = false
+	bmmlocal.isNullable = false
 
 	return bmmlocal
 }
@@ -49,7 +49,7 @@ func (i *BmmLocalBuilder) SetScope(v IBmmRoutine) *BmmLocalBuilder {
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmLocalBuilder) SetType(v IBmmType) *BmmLocalBuilder {
-	i.bmmlocal.Type = v
+	i.bmmlocal._type = v
 	return i
 }
 
@@ -59,7 +59,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmLocalBuilder) SetIsNullable(v bool) *BmmLocalBuilder {
-	i.bmmlocal.IsNullable = v
+	i.bmmlocal.isNullable = v
 	return i
 }
 

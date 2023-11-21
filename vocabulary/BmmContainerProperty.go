@@ -29,7 +29,7 @@ func NewBmmContainerProperty() *BmmContainerProperty {
 	bmmcontainerproperty := new(BmmContainerProperty)
 	//BmmFormalElement
 	//default, no constant
-	bmmcontainerproperty.IsNullable = false
+	bmmcontainerproperty.isNullable = false
 	//BmmModelElement
 	bmmcontainerproperty.documentation = make(map[string]any)
 	bmmcontainerproperty.extensions = make(map[string]any)
@@ -126,7 +126,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmContainerPropertyBuilder) SetIsNullable(v bool) *BmmContainerPropertyBuilder {
-	i.bmmcontainerproperty.IsNullable = v
+	i.bmmcontainerproperty.isNullable = v
 	return i
 }
 

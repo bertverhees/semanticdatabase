@@ -17,7 +17,7 @@ type BmmProcedure struct {
 	BmmRoutine
 	// Attributes
 	// Declared or inferred static type of the entity.
-	Type IBmmStatusType `yaml:"type" json:"type" xml:"type"`
+	_type IBmmStatusType `yaml:"type" json:"type" xml:"type"`
 }
 
 // CONSTRUCTOR
@@ -25,7 +25,7 @@ func NewBmmProcedure() *BmmProcedure {
 	bmmprocedure := new(BmmProcedure)
 	//BmmFormalElement
 	//default, no constant
-	bmmprocedure.IsNullable = false
+	bmmprocedure.isNullable = false
 	//BmmModelElement
 	bmmprocedure.documentation = make(map[string]any)
 	bmmprocedure.extensions = make(map[string]any)
@@ -53,7 +53,7 @@ func NewBmmProcedureBuilder() *BmmProcedureBuilder {
 // BUILDER ATTRIBUTES
 // Declared or inferred static type of the entity.
 func (i *BmmProcedureBuilder) SetType(v IBmmStatusType) *BmmProcedureBuilder {
-	i.bmmprocedure.Type = v
+	i.bmmprocedure._type = v
 	return i
 }
 
@@ -123,7 +123,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmProcedureBuilder) SetIsNullable(v bool) *BmmProcedureBuilder {
-	i.bmmprocedure.IsNullable = v
+	i.bmmprocedure.isNullable = v
 	return i
 }
 

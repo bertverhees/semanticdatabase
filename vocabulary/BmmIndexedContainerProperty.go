@@ -28,7 +28,7 @@ func NewBmmIndexedContainerProperty() *BmmIndexedContainerProperty {
 	bmmindexedcontainerproperty := new(BmmIndexedContainerProperty)
 	//BmmFormalElement
 	//default, no constant
-	bmmindexedcontainerproperty.IsNullable = false
+	bmmindexedcontainerproperty.isNullable = false
 	//BmmModelElement
 	bmmindexedcontainerproperty.documentation = make(map[string]any)
 	bmmindexedcontainerproperty.extensions = make(map[string]any)
@@ -126,7 +126,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetIsNullable(v bool) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.IsNullable = v
+	i.bmmindexedcontainerproperty.isNullable = v
 	return i
 }
 

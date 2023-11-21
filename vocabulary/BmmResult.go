@@ -27,7 +27,7 @@ func NewBmmResult() *BmmResult {
 	bmmresult.extensions = make(map[string]any)
 	//BmmFormalElement
 	//default, no constant
-	bmmresult.IsNullable = false
+	bmmresult.isNullable = false
 
 	return bmmresult
 }
@@ -60,7 +60,7 @@ func (i *BmmResultBuilder) SetScope(v IBmmRoutine) *BmmResultBuilder {
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
 func (i *BmmResultBuilder) SetType(v IBmmType) *BmmResultBuilder {
-	i.bmmresult.Type = v
+	i.bmmresult._type = v
 	return i
 }
 
@@ -70,7 +70,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmResultBuilder) SetIsNullable(v bool) *BmmResultBuilder {
-	i.bmmresult.IsNullable = v
+	i.bmmresult.isNullable = v
 	return i
 }
 

@@ -18,7 +18,7 @@ type BmmEnumerationString struct {
 	itemValues []IBmmStringValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 }
 
-func (b *BmmEnumerationString) SetItemValues(itemValues []IBmmFormalElement) error {
+func (b *BmmEnumerationString) SetItemValues(itemValues []IBmmPrimitiveValue) error {
 	b.itemValues = make([]IBmmStringValue, 0)
 	for _, s := range itemValues {
 		s, ok := s.(IBmmStringValue)
@@ -71,7 +71,7 @@ func NewBmmEnumerationStringBuilder() *BmmEnumerationStringBuilder {
 
 // BUILDER ATTRIBUTES
 // Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationStringBuilder) SetItemValues(v []IBmmFormalElement) *BmmEnumerationStringBuilder {
+func (i *BmmEnumerationStringBuilder) SetItemValues(v []IBmmPrimitiveValue) *BmmEnumerationStringBuilder {
 	i.AddError(i.bmmenumerationstring.SetItemValues(v))
 	return i
 }

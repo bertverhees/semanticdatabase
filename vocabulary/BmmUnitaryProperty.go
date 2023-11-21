@@ -26,7 +26,7 @@ func NewBmmUnitaryProperty() *BmmUnitaryProperty {
 	bmmunitaryproperty := new(BmmUnitaryProperty)
 	//BmmFormalElement
 	//default, no constant
-	bmmunitaryproperty.IsNullable = false
+	bmmunitaryproperty.isNullable = false
 	//BmmModelElement
 	bmmunitaryproperty.documentation = make(map[string]any)
 	bmmunitaryproperty.extensions = make(map[string]any)
@@ -124,7 +124,7 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmUnitaryPropertyBuilder) SetIsNullable(v bool) *BmmUnitaryPropertyBuilder {
-	i.bmmunitaryproperty.IsNullable = v
+	i.bmmunitaryproperty.isNullable = v
 	return i
 }
 

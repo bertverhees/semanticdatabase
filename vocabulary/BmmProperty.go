@@ -12,6 +12,12 @@ sub-part or an association semantics with respect to the owning class.
 type IBmmProperty interface {
 	IBmmInstantiableFeature
 	//BMM_PROPERTY
+	IsImRuntime() bool
+	SetIsImRuntime(isImRuntime bool) error
+	IsImInfrastructure() bool
+	SetIsImInfrastructure(isImInfrastructure bool) error
+	IsComposition() bool
+	SetIsComposition(isComposition bool) error
 	Existence() *base.MultiplicityInterval[int]
 	DisplayName() string
 }
@@ -20,14 +26,6 @@ type IBmmProperty interface {
 type BmmProperty struct {
 	BmmInstantiableFeature
 	// Attributes
-	//name of this property in the model.
-	name string `yaml:"name" json:"name" xml:"name"`
-	//True if this property is mandatory in its class.
-	isMandatory bool
-	//True if this property is computed rather than stored in objects of this class.
-	isComputed bool
-	//Formal type of this property.
-	_type IBmmType
 	// True if this property is marked with info model im_runtime property.
 	isImRuntime bool `yaml:"isimruntime" json:"isimruntime" xml:"isimruntime"`
 	// True if this property was marked with info model im_infrastructure flag.
@@ -39,6 +37,33 @@ type BmmProperty struct {
 	schemas.
 	*/
 	isComposition bool `yaml:"iscomposition" json:"iscomposition" xml:"iscomposition"`
+}
+
+func (b *BmmProperty) IsImRuntime() bool {
+	return b.isImRuntime
+}
+
+func (b *BmmProperty) SetIsImRuntime(isImRuntime bool) error {
+	b.isImRuntime = isImRuntime
+	return nil
+}
+
+func (b *BmmProperty) IsImInfrastructure() bool {
+	return b.isImInfrastructure
+}
+
+func (b *BmmProperty) SetIsImInfrastructure(isImInfrastructure bool) error {
+	b.isImInfrastructure = isImInfrastructure
+	return nil
+}
+
+func (b *BmmProperty) IsComposition() bool {
+	return b.isComposition
+}
+
+func (b *BmmProperty) SetIsComposition(isComposition bool) error {
+	b.isComposition = isComposition
+	return nil
 }
 
 // CONSTRUCTOR
@@ -53,32 +78,4 @@ func (b *BmmProperty) Existence() *base.MultiplicityInterval[int] {
 // name of this property to display in UI.
 func (b *BmmProperty) DisplayName() string {
 	return ""
-}
-
-// From: BMM_FORMAL_ELEMENT
-/**
-Formal signature of this element, in the form: name [arg1_name: T_arg1,
-…​][:T_value] Specific implementations in descendants.
-*/
-func (b *BmmProperty) Signature() IBmmSignature {
-	return nil
-}
-
-// From: BMM_FORMAL_ELEMENT
-/**
-Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
-True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-'Boolean' ).
-*/
-func (b *BmmProperty) IsBoolean() bool {
-	return false
-}
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : Result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmProperty) IsRootScope() bool {
-	return false
 }

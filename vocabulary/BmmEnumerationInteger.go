@@ -44,7 +44,7 @@ func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	return bmmenumerationinteger
 }
 
-func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmFormalElement) error {
+func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmPrimitiveValue) error {
 	b.itemValues = make([]IBmmIntegerValue, 0)
 	for _, s := range itemValues {
 		s, ok := s.(IBmmIntegerValue)
@@ -72,7 +72,7 @@ func NewBmmEnumerationIntegerBuilder() *BmmEnumerationIntegerBuilder {
 
 // BUILDER ATTRIBUTES
 // Optional list of specific values. Must be 1:1 with item_names list.
-func (i *BmmEnumerationIntegerBuilder) SetItemValues(v []IBmmFormalElement) *BmmEnumerationIntegerBuilder {
+func (i *BmmEnumerationIntegerBuilder) SetItemValues(v []IBmmPrimitiveValue) *BmmEnumerationIntegerBuilder {
 	i.AddError(i.bmmenumerationinteger.SetItemValues(v))
 	return i
 }
