@@ -1,6 +1,9 @@
 package vocabulary
 
-import "SemanticDatabase/base"
+import (
+	"SemanticDatabase/base"
+	"errors"
+)
 
 /**
 Meta-type of for properties of linear container type, such as Hash<Index_type,
@@ -20,7 +23,16 @@ type BmmIndexedContainerProperty struct {
 	// Attributes
 	// Declared or inferred static type of the entity.
 	_type IBmmIndexedContainerType `yaml:"type" json:"type" xml:"type"`
-	name  string                   `yaml:"name" json:"name" xml:"name"`
+}
+
+func (b *BmmIndexedContainerProperty) SetType(_type IBmmType) error {
+	s, ok := _type.(IBmmIndexedContainerType)
+	if !ok {
+		return errors.New("type-assertion in BmmIndexedContainerType->SetType went wrong")
+	} else {
+		b._type = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
@@ -48,39 +60,41 @@ func NewBmmIndexedContainerProperty() *BmmIndexedContainerProperty {
 // BUILDER
 type BmmIndexedContainerPropertyBuilder struct {
 	bmmindexedcontainerproperty *BmmIndexedContainerProperty
+	errors                      []error
 }
 
 func NewBmmIndexedContainerPropertyBuilder() *BmmIndexedContainerPropertyBuilder {
 	return &BmmIndexedContainerPropertyBuilder{
 		bmmindexedcontainerproperty: NewBmmIndexedContainerProperty(),
+		errors:                      make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
-// Declared or inferred static type of the entity.
-func (i *BmmIndexedContainerPropertyBuilder) SetType(v IBmmIndexedContainerType) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty._type = v
+// BUILDER ATTRIBUTES
+// cardinality of this container.
+func (i *BmmIndexedContainerPropertyBuilder) SetCardinality(v *base.MultiplicityInterval[int]) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.bmmindexedcontainerproperty.SetCardinality(v))
 	return i
 }
 
-// From: BmmContainerProperty
-// cardinality of this container.
-func (i *BmmIndexedContainerPropertyBuilder) SetCardinality(v *base.MultiplicityInterval[int]) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.cardinality = v
+// Declared or inferred static type of the entity.
+func (i *BmmIndexedContainerPropertyBuilder) SetType(v IBmmContainerType) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.bmmindexedcontainerproperty.SetType(v))
 	return i
 }
 
 // From: BmmProperty
 // True if this property is marked with info model im_runtime property.
 func (i *BmmIndexedContainerPropertyBuilder) SetIsImRuntime(v bool) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.isImRuntime = v
+	i.AddError(i.bmmindexedcontainerproperty.SetIsImRuntime(v))
 	return i
 }
 
 // From: BmmProperty
 // True if this property was marked with info model im_infrastructure flag.
 func (i *BmmIndexedContainerPropertyBuilder) SetIsImInfrastructure(v bool) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.isImInfrastructure = v
+	i.AddError(i.bmmindexedcontainerproperty.SetIsImInfrastructure(v))
 	return i
 }
 
@@ -92,7 +106,7 @@ properties without associations) and also 'cascade-delete' semantics in ER
 schemas.
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetIsComposition(v bool) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.isComposition = v
+	i.AddError(i.bmmindexedcontainerproperty.SetIsComposition(v))
 	return i
 }
 
@@ -102,21 +116,28 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.isSynthesisedGeneric = v
+	i.AddError(i.bmmindexedcontainerproperty.SetIsSynthesisedGeneric(v))
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.featureExtensions = v
+	i.AddError(i.bmmindexedcontainerproperty.SetFeatureExtensions(v))
 	return i
 }
 
 // From: BmmFeature
 // group containing this feature.
 func (i *BmmIndexedContainerPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.group = v
+	i.AddError(i.bmmindexedcontainerproperty.SetGroup(v))
+	return i
+}
+
+// From: BmmFeature
+// Model element within which an element is declared.
+func (i *BmmIndexedContainerPropertyBuilder) SetScope(v IBmmClass) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.bmmindexedcontainerproperty.SetScope(v))
 	return i
 }
 
@@ -126,14 +147,14 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetIsNullable(v bool) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.isNullable = v
+	i.AddError(i.bmmindexedcontainerproperty.SetIsNullable(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmIndexedContainerPropertyBuilder) SetName(v string) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.name = v
+	i.AddError(i.bmmindexedcontainerproperty.SetName(v))
 	return i
 }
 
@@ -145,14 +166,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation(v map[string]any) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.documentation = v
-	return i
-}
-
-// From: BmmModelElement
-// Model element within which an element is declared.
-func (i *BmmIndexedContainerPropertyBuilder) SetScope(v IBmmModelElement) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.BmmModelElement.scope = v
+	i.AddError(i.bmmindexedcontainerproperty.SetDocumentation(v))
 	return i
 }
 
@@ -162,8 +176,14 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmIndexedContainerPropertyBuilder) SetExtensions(v map[string]any) *BmmIndexedContainerPropertyBuilder {
-	i.bmmindexedcontainerproperty.extensions = v
+	i.AddError(i.bmmindexedcontainerproperty.SetExtensions(v))
 	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmIndexedContainerPropertyBuilder) Build() *BmmIndexedContainerProperty {
