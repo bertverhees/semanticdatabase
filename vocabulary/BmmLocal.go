@@ -30,11 +30,13 @@ func NewBmmLocal() *BmmLocal {
 // BUILDER
 type BmmLocalBuilder struct {
 	bmmlocal *BmmLocal
+	errors   []error
 }
 
 func NewBmmLocalBuilder() *BmmLocalBuilder {
 	return &BmmLocalBuilder{
 		bmmlocal: NewBmmLocal(),
+		errors:   make([]error, 0),
 	}
 }
 
@@ -42,14 +44,7 @@ func NewBmmLocalBuilder() *BmmLocalBuilder {
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmLocalBuilder) SetScope(v IBmmRoutine) *BmmLocalBuilder {
-	i.bmmlocal.BmmModelElement.scope = v
-	return i
-}
-
-// From: BmmFormalElement
-// Declared or inferred static type of the entity.
-func (i *BmmLocalBuilder) SetType(v IBmmType) *BmmLocalBuilder {
-	i.bmmlocal._type = v
+	i.AddError(i.bmmlocal.SetScope(v))
 	return i
 }
 
@@ -59,14 +54,14 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmLocalBuilder) SetIsNullable(v bool) *BmmLocalBuilder {
-	i.bmmlocal.isNullable = v
+	i.AddError(i.bmmlocal.SetIsNullable(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmLocalBuilder) SetName(v string) *BmmLocalBuilder {
-	i.bmmlocal.name = v
+	i.AddError(i.bmmlocal.SetName(v))
 	return i
 }
 
@@ -78,7 +73,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmLocalBuilder) SetDocumentation(v map[string]any) *BmmLocalBuilder {
-	i.bmmlocal.documentation = v
+	i.AddError(i.bmmlocal.SetDocumentation(v))
 	return i
 }
 
@@ -88,8 +83,14 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmLocalBuilder) SetExtensions(v map[string]any) *BmmLocalBuilder {
-	i.bmmlocal.extensions = v
+	i.AddError(i.bmmlocal.SetExtensions(v))
 	return i
+}
+
+func (i *BmmLocalBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmLocalBuilder) Build() *BmmLocal {
@@ -97,30 +98,3 @@ func (i *BmmLocalBuilder) Build() *BmmLocal {
 }
 
 //FUNCTIONS
-// From: BMM_FORMAL_ELEMENT
-/**
-Formal signature of this element, in the form: name [arg1_name: T_arg1,
-…​][:T_value] Specific implementations in descendants.
-*/
-func (b *BmmLocal) Signature() IBmmSignature {
-	return nil
-}
-
-// From: BMM_FORMAL_ELEMENT
-/**
-Post_result : result = type().equal( {BMM_MODEL}.boolean_type_definition()).
-True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-'Boolean' ).
-*/
-func (b *BmmLocal) IsBoolean() bool {
-	return false
-}
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmLocal) IsRootScope() bool {
-	return false
-}

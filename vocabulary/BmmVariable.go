@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 // A routine-scoped formal element.
 
 // Interface definition
@@ -16,34 +18,17 @@ type BmmVariable struct {
 	scope IBmmRoutine `yaml:"scope" json:"scope" xml:"scope"`
 }
 
+func (b *BmmVariable) SetScope(scope IBmmModelElement) error {
+	s, ok := scope.(IBmmRoutine)
+	if !ok {
+		return errors.New("_type-assertion in BmmVariable->SetScope went wrong")
+	} else {
+		b.scope = s
+		return nil
+	}
+}
+
 // CONSTRUCTOR
 // abstract, no constructor, no builder
 
 //FUNCTIONS
-// From: BMM_FORMAL_ELEMENT
-/**
-Formal signature of this element, in the form: name [arg1_name: T_arg1,
-…​][:T_value] Specific implementations in descendants.
-*/
-func (b *BmmVariable) Signature() IBmmSignature {
-	return nil
-}
-
-// From: BMM_FORMAL_ELEMENT
-/**
-Post_result : result = type().equal( {BMM_MODEL}.boolean_type_definition()).
-True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
-'Boolean' ).
-*/
-func (b *BmmVariable) IsBoolean() bool {
-	return false
-}
-
-// From: BMM_MODEL_ELEMENT
-/**
-Post_result : result = (scope = self). True if this model element is the root of
-a model structure hierarchy.
-*/
-func (b *BmmVariable) IsRootScope() bool {
-	return false
-}
