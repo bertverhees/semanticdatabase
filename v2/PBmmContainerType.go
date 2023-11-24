@@ -34,7 +34,7 @@ type PBmmContainerType struct {
 	BMM_GENERIC_TYPE . Persisted attribute.
 	*/
 	Type string `yaml:"type" json:"type" xml:"type"`
-	// Result of create_bmm_type() call.
+	// result of create_bmm_type() call.
 	BmmType vocabulary.IBmmContainerType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
@@ -85,7 +85,7 @@ func (i *PBmmContainerTypeBuilder) SetType(v string) *PBmmContainerTypeBuilder {
 	return i
 }
 
-// Result of create_bmm_type() call.
+// result of create_bmm_type() call.
 func (i *PBmmContainerTypeBuilder) SetBmmType(v vocabulary.IBmmContainerType) *PBmmContainerTypeBuilder {
 	i.pbmmcontainertype.BmmType = v
 	return i

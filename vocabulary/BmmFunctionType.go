@@ -49,7 +49,7 @@ func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Result type of BmmFunctionType.
+// result type of BmmFunctionType.
 /**
 _type of arguments in the signature, if any; represented as a type-tuple (list of
 arbitrary types).

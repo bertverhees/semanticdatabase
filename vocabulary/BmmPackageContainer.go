@@ -98,7 +98,7 @@ func (b *BmmPackageContainer) HasPackagePath(a_path string) bool {
 
 // From: BMM_MODEL_ELEMENT
 /**
-Post_result : Result = (scope = self). True if this model element is the root of
+Post_result : result = (scope = self). True if this model element is the root of
 a model structure hierarchy.
 */
 func (b *BmmPackageContainer) IsRootScope() bool {

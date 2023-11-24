@@ -92,7 +92,7 @@ func (i *ElFunctionAgentBuilder) Build() *ElFunctionAgent {
 
 //FUNCTIONS
 /**
-Post_result : Result = definition.signature. Eval type is the signature
+Post_result : result = definition.signature. Eval type is the signature
 corresponding to the (remaining) open arguments and return type, if any.
 */
 func (e *ElFunctionAgent) EvalType() IBmmFunctionType {
@@ -100,7 +100,7 @@ func (e *ElFunctionAgent) EvalType() IBmmFunctionType {
 }
 
 // From: EL_AGENT
-// Post_result_validity : Result = open_arguments = Void
+// Post_result_validity : result = open_arguments = Void
 // True if there are no open arguments.
 func (e *ElFunctionAgent) IsCallable() bool {
 	return false
@@ -114,7 +114,7 @@ func (e *ElFunctionAgent) Reference() string {
 
 // From: EL_EXPRESSION
 /**
-Post_result : Result = eval_type().equal(
+Post_result : result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */

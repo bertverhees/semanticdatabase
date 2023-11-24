@@ -159,7 +159,7 @@ func (i *PBmmEnumerationIntegerBuilder) Build() *PBmmEnumerationInteger {
 //FUNCTIONS
 // From: P_BMM_CLASS
 /**
-Post : Result := generic_parameter_defs /= Void. True if this class is a generic
+Post : result := generic_parameter_defs /= Void. True if this class is a generic
 class.
 */
 func (p *PBmmEnumerationInteger) IsGeneric() bool {

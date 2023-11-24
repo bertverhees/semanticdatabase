@@ -20,7 +20,7 @@ type ElDecisionTable[T IElTerminal] struct {
 	in a case statement.
 	*/
 	Items []IElTerminal `yaml:"items" json:"items" xml:"items"`
-	// Result expression of conditional, if its condition evaluates to True.
+	// result expression of conditional, if its condition evaluates to True.
 	Else T `yaml:"else" json:"else" xml:"else"`
 }
 
@@ -38,7 +38,7 @@ func (e *ElDecisionTable[T]) EvalType() IBmmType {
 
 // From: EL_EXPRESSION
 /**
-Post_result : Result = eval_type().equal(
+Post_result : result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */

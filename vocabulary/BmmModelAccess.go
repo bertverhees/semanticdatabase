@@ -135,7 +135,7 @@ func (b *BmmModelAccess) BmmModel(a_model_key string) IBmmModel {
 *
 True if a model for a model_key is available. A model key is a model_id or any
 shorter form e.g. model id minus the version. If a shorter key is used, the
-Result s True if a BMM_MODEL with any version exists.
+result s True if a BMM_MODEL with any version exists.
 */
 func (b *BmmModelAccess) HasBmmModel(a_model_key string) bool {
 	log.Fatal("The class BmmModelAccess is not yet supported")

@@ -88,7 +88,7 @@ func (b *BmmModelElement) SetExtensions(v map[string]any) error {
 
 //FUNCTIONS
 /**
-Post_result : Result = (scope = self). True if this model element is the root of
+Post_result : result = (scope = self). True if this model element is the root of
 a model structure hierarchy.
 */
 func (b *BmmModelElement) IsRootScope() bool {

@@ -108,13 +108,13 @@ func (b *BmmTupleType) TypeName() string {
 }
 
 // From: BMM_EFFECTIVE_TYPE
-// Result = self.
+// result = self.
 func (b *BmmTupleType) EffectiveType() IBmmEffectiveType {
 	return nil
 }
 
 // From: BMM_UNITARY_TYPE
-// Result = self.
+// result = self.
 func (b *BmmTupleType) UnitaryType() IBmmUnitaryType {
 	return nil
 }

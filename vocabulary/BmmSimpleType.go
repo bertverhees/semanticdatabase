@@ -66,17 +66,17 @@ func (i *BmmSimpleTypeBuilder) Build() *BmmSimpleType {
 }
 
 // FUNCTIONS
-// (effected) Result is base_class.name .
+// (effected) result is base_class.name .
 func (b *BmmSimpleType) TypeName() string {
 	return ""
 }
 
-// (effected) Result is base_class.is_abstract .
+// (effected) result is base_class.is_abstract .
 func (b *BmmSimpleType) IsAbstract() bool {
 	return false
 }
 
-// (effected) Result is base_class.name .
+// (effected) result is base_class.name .
 func (b *BmmSimpleType) FlattenedTypeList() []string {
 	return nil
 }

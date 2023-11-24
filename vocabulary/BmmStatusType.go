@@ -73,13 +73,13 @@ func (b *BmmStatusType) TypeName() string {
 }
 
 // From: BMM_EFFECTIVE_TYPE
-// Result = self.
+// result = self.
 func (b *BmmStatusType) EffectiveType() IBmmEffectiveType {
 	return nil
 }
 
 // From: BMM_UNITARY_TYPE
-// Result = self.
+// result = self.
 func (b *BmmStatusType) UnitaryType() IBmmUnitaryType {
 	return nil
 }

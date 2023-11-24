@@ -18,7 +18,7 @@ type PBmmType struct {
 	// embedded for Inheritance
 	// Constants
 	// Attributes
-	// Result of create_bmm_type() call.
+	// result of create_bmm_type() call.
 	BmmType vocabulary.IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 

@@ -23,7 +23,7 @@ type BmmEffectiveType struct {
 
 // EffectiveType
 // Return the effective conformance type, taking into account formal parameter types.
-// (effected) Result = self.
+// (effected) result = self.
 func (b *BmmEffectiveType) EffectiveType() IBmmEffectiveType {
 	return b
 }

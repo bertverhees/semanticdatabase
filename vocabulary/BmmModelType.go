@@ -45,12 +45,12 @@ func (b *BmmModelType) SetValueConstraint(valueConstraint IBmmValueSetSpec) erro
 // is abstract, no constructor, no builder
 
 // FUNCTIONS
-// (effected) Result = base_class.name .
+// (effected) result = base_class.name .
 func (b *BmmModelType) TypeBaseName() string {
 	return b.baseClass.Name()
 }
 
-// (effected) Result = base_class.is_primitive .
+// (effected) result = base_class.is_primitive .
 func (b *BmmModelType) IsPrimitive() bool {
 	return b.BaseClass().IsPrimitive()
 }

@@ -64,7 +64,7 @@ func (i *ElCaseTableBuilder[T]) SetItems(v []IElCase[T]) *ElCaseTableBuilder[T] 
 }
 
 // From: ElDecisionTable
-// Result expression of conditional, if its condition evaluates to True.
+// result expression of conditional, if its condition evaluates to True.
 func (i *ElCaseTableBuilder[T]) SetElse(v T) *ElCaseTableBuilder[T] {
 	i.elcasetable.Else = v
 	return i
@@ -86,7 +86,7 @@ func (e *ElCaseTable[T]) EvalType() IBmmType {
 
 // From: EL_EXPRESSION
 /**
-Post_result : Result = eval_type().equal(
+Post_result : result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */

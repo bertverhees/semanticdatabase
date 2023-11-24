@@ -9,6 +9,10 @@ non-state-changing.
 // Interface definition
 type IBmmFunction interface {
 	IBmmRoutine
+	OperatorDefinition() IBmmOperator
+	SetOperatorDefinition(operatorDefinition IBmmOperator) error
+	Result() IBmmResult
+	SetResult(result IBmmResult) error
 }
 
 // Struct definition
@@ -19,9 +23,27 @@ type BmmFunction struct {
 	Optional details enabling a function to be represented as an operator in a
 	syntactic representation.
 	*/
-	OperatorDefinition IBmmOperator `yaml:"operatordefinition" json:"operatordefinition" xml:"operatordefinition"`
-	// Automatically created Result variable, usable in body and post-condition.
-	Result IBmmResult `yaml:"result" json:"result" xml:"result"`
+	operatorDefinition IBmmOperator `yaml:"operatordefinition" json:"operatordefinition" xml:"operatordefinition"`
+	// Automatically created result variable, usable in body and post-condition.
+	result IBmmResult `yaml:"result" json:"result" xml:"result"`
+}
+
+func (b *BmmFunction) OperatorDefinition() IBmmOperator {
+	return b.operatorDefinition
+}
+
+func (b *BmmFunction) SetOperatorDefinition(operatorDefinition IBmmOperator) error {
+	b.operatorDefinition = operatorDefinition
+	return nil
+}
+
+func (b *BmmFunction) Result() IBmmResult {
+	return b.result
+}
+
+func (b *BmmFunction) SetResult(result IBmmResult) error {
+	b.result = result
+	return nil
 }
 
 // CONSTRUCTOR
@@ -36,9 +58,9 @@ func NewBmmFunction() *BmmFunction {
 	//BmmFeature
 	bmmfunction.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmRoutine
-	bmmfunction.Parameters = make([]IBmmParameter, 0)
-	bmmfunction.PreConditions = make([]IBmmAssertion, 0)
-	bmmfunction.PostConditions = make([]IBmmAssertion, 0)
+	bmmfunction.parameters = make([]IBmmParameter, 0)
+	bmmfunction.preConditions = make([]IBmmAssertion, 0)
+	bmmfunction.postConditions = make([]IBmmAssertion, 0)
 
 	return bmmfunction
 }
@@ -46,11 +68,13 @@ func NewBmmFunction() *BmmFunction {
 // BUILDER
 type BmmFunctionBuilder struct {
 	bmmfunction *BmmFunction
+	errors      []error
 }
 
 func NewBmmFunctionBuilder() *BmmFunctionBuilder {
 	return &BmmFunctionBuilder{
 		bmmfunction: NewBmmFunction(),
+		errors:      make([]error, 0),
 	}
 }
 
@@ -60,20 +84,20 @@ Optional details enabling a function to be represented as an operator in a
 syntactic representation.
 */
 func (i *BmmFunctionBuilder) SetOperatorDefinition(v IBmmOperator) *BmmFunctionBuilder {
-	i.bmmfunction.OperatorDefinition = v
+	i.AddError(i.bmmfunction.SetOperatorDefinition(v))
 	return i
 }
 
-// Automatically created Result variable, usable in body and post-condition.
+// Automatically created result variable, usable in body and post-condition.
 func (i *BmmFunctionBuilder) SetResult(v IBmmResult) *BmmFunctionBuilder {
-	i.bmmfunction.Result = v
+	i.AddError(i.bmmfunction.SetResult(v))
 	return i
 }
 
 // From: BmmRoutine
 // Formal parameters of the routine.
 func (i *BmmFunctionBuilder) SetParameters(v []IBmmParameter) *BmmFunctionBuilder {
-	i.bmmfunction.Parameters = v
+	i.AddError(i.bmmfunction.SetParameters(v))
 	return i
 }
 
@@ -84,7 +108,7 @@ correctly, May be used to generate exceptions if included in run-time build. A
 False pre-condition implies an error in the passed parameters.
 */
 func (i *BmmFunctionBuilder) SetPreConditions(v []IBmmAssertion) *BmmFunctionBuilder {
-	i.bmmfunction.BmmRoutine.PreConditions = v
+	i.AddError(i.bmmfunction.SetPreConditions(v))
 	return i
 }
 
@@ -95,14 +119,14 @@ May be used to generate exceptions if included in run-time build. A False
 post-condition implies an error (i.e. bug) in routine code.
 */
 func (i *BmmFunctionBuilder) SetPostConditions(v []IBmmAssertion) *BmmFunctionBuilder {
-	i.bmmfunction.BmmRoutine.PostConditions = v
+	i.AddError(i.bmmfunction.SetPostConditions(v))
 	return i
 }
 
 // From: BmmRoutine
 // Body of a routine, i.e. executable program.
 func (i *BmmFunctionBuilder) SetDefinition(v IBmmRoutineDefinition) *BmmFunctionBuilder {
-	i.bmmfunction.BmmRoutine.Definition = v
+	i.AddError(i.bmmfunction.SetDefinition(v))
 	return i
 }
 
@@ -112,35 +136,28 @@ True if this feature was synthesised due to generic substitution in an inherited
 type, or further constraining of a formal generic parameter.
 */
 func (i *BmmFunctionBuilder) SetIsSynthesisedGeneric(v bool) *BmmFunctionBuilder {
-	i.bmmfunction.isSynthesisedGeneric = v
+	i.AddError(i.bmmfunction.SetIsSynthesisedGeneric(v))
 	return i
 }
 
 // From: BmmFeature
 // extensions to feature-level meta-types.
 func (i *BmmFunctionBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmFunctionBuilder {
-	i.bmmfunction.featureExtensions = v
+	i.AddError(i.bmmfunction.SetFeatureExtensions(v))
 	return i
 }
 
 // From: BmmFeature
 // group containing this feature.
 func (i *BmmFunctionBuilder) SetGroup(v IBmmFeatureGroup) *BmmFunctionBuilder {
-	i.bmmfunction.group = v
+	i.AddError(i.bmmfunction.SetGroup(v))
 	return i
 }
 
 // From: BmmFeature
 // Model element within which an element is declared.
 func (i *BmmFunctionBuilder) SetScope(v IBmmClass) *BmmFunctionBuilder {
-	i.bmmfunction.BmmModelElement.scope = v
-	return i
-}
-
-// From: BmmFormalElement
-// Declared or inferred static type of the entity.
-func (i *BmmFunctionBuilder) SetType(v IBmmType) *BmmFunctionBuilder {
-	i.bmmfunction._type = v
+	i.AddError(i.bmmfunction.SetScope(v))
 	return i
 }
 
@@ -150,14 +167,14 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmFunctionBuilder) SetIsNullable(v bool) *BmmFunctionBuilder {
-	i.bmmfunction.isNullable = v
+	i.AddError(i.bmmfunction.SetIsNullable(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmFunctionBuilder) SetName(v string) *BmmFunctionBuilder {
-	i.bmmfunction.name = v
+	i.AddError(i.bmmfunction.SetName(v))
 	return i
 }
 
@@ -169,7 +186,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmFunctionBuilder) SetDocumentation(v map[string]any) *BmmFunctionBuilder {
-	i.bmmfunction.documentation = v
+	i.AddError(i.bmmfunction.SetDocumentation(v))
 	return i
 }
 
@@ -179,8 +196,14 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmFunctionBuilder) SetExtensions(v map[string]any) *BmmFunctionBuilder {
-	i.bmmfunction.extensions = v
+	i.AddError(i.bmmfunction.SetExtensions(v))
 	return i
+}
+
+func (i *BmmFunctionBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmFunctionBuilder) Build() *BmmFunction {
@@ -205,7 +228,7 @@ func (b *BmmFunction) Signature() IBmmSignature {
 
 // From: BMM_FORMAL_ELEMENT
 /**
-Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
+Post_result : result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 'Boolean' ).
 */
@@ -215,7 +238,7 @@ func (b *BmmFunction) IsBoolean() bool {
 
 // From: BMM_MODEL_ELEMENT
 /**
-Post_result : Result = (scope = self). True if this model element is the root of
+Post_result : result = (scope = self). True if this model element is the root of
 a model structure hierarchy.
 */
 func (b *BmmFunction) IsRootScope() bool {

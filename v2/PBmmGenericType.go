@@ -37,7 +37,7 @@ type PBmmGenericType struct {
 	declarations. Persistent attribute.
 	*/
 	GenericParameters []string `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
-	// Result of create_bmm_type() call.
+	// result of create_bmm_type() call.
 	BmmType vocabulary.IBmmGenericType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
@@ -89,7 +89,7 @@ func (i *PBmmGenericTypeBuilder) SetGenericParameters(v []string) *PBmmGenericTy
 	return i
 }
 
-// Result of create_bmm_type() call.
+// result of create_bmm_type() call.
 func (i *PBmmGenericTypeBuilder) SetBmmType(v vocabulary.IBmmGenericType) *PBmmGenericTypeBuilder {
 	i.pbmmgenerictype.BmmType = v
 	return i

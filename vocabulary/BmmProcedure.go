@@ -32,9 +32,9 @@ func NewBmmProcedure() *BmmProcedure {
 	//BmmFeature
 	bmmprocedure.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmRoutine
-	bmmprocedure.Parameters = make([]IBmmParameter, 0)
-	bmmprocedure.PreConditions = make([]IBmmAssertion, 0)
-	bmmprocedure.PostConditions = make([]IBmmAssertion, 0)
+	bmmprocedure.parameters = make([]IBmmParameter, 0)
+	bmmprocedure.preConditions = make([]IBmmAssertion, 0)
+	bmmprocedure.postConditions = make([]IBmmAssertion, 0)
 
 	return bmmprocedure
 }
@@ -60,7 +60,7 @@ func (i *BmmProcedureBuilder) SetType(v IBmmStatusType) *BmmProcedureBuilder {
 // From: BmmRoutine
 // Formal parameters of the routine.
 func (i *BmmProcedureBuilder) SetParameters(v []IBmmParameter) *BmmProcedureBuilder {
-	i.bmmprocedure.Parameters = v
+	i.bmmprocedure.parameters = v
 	return i
 }
 
@@ -71,7 +71,7 @@ correctly, May be used to generate exceptions if included in run-time build. A
 False pre-condition implies an error in the passed parameters.
 */
 func (i *BmmProcedureBuilder) SetPreConditions(v []IBmmAssertion) *BmmProcedureBuilder {
-	i.bmmprocedure.PreConditions = v
+	i.bmmprocedure.preConditions = v
 	return i
 }
 
@@ -82,14 +82,14 @@ May be used to generate exceptions if included in run-time build. A False
 post-condition implies an error (i.e. bug) in routine code.
 */
 func (i *BmmProcedureBuilder) SetPostConditions(v []IBmmAssertion) *BmmProcedureBuilder {
-	i.bmmprocedure.PostConditions = v
+	i.bmmprocedure.postConditions = v
 	return i
 }
 
 // From: BmmRoutine
 // Body of a routine, i.e. executable program.
 func (i *BmmProcedureBuilder) SetDefinition(v IBmmRoutineDefinition) *BmmProcedureBuilder {
-	i.bmmprocedure.Definition = v
+	i.bmmprocedure.definition = v
 	return i
 }
 
@@ -184,7 +184,7 @@ func (b *BmmProcedure) Signature() IBmmSignature {
 
 // From: BMM_FORMAL_ELEMENT
 /**
-Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
+Post_result : result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 'Boolean' ).
 */
@@ -194,7 +194,7 @@ func (b *BmmProcedure) IsBoolean() bool {
 
 // From: BMM_MODEL_ELEMENT
 /**
-Post_result : Result = (scope = self). True if this model element is the root of
+Post_result : result = (scope = self). True if this model element is the root of
 a model structure hierarchy.
 */
 func (b *BmmProcedure) IsRootScope() bool {

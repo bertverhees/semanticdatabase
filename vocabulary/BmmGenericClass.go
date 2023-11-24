@@ -1,6 +1,6 @@
 package vocabulary
 
-// Definition of a generic class in an object model.
+// definition of a generic class in an object model.
 
 // Interface definition
 type IBmmGenericClass interface {
@@ -263,8 +263,8 @@ func (i *BmmGenericClassBuilder) Build() *BmmGenericClass {
 /*
 *
 For a generic class, type to which generic parameter a_name conforms e.g. if
-this class is Interval <T:Comparable> then the Result will be the single type
-Comparable . For an unconstrained type T , the Result will be Any .
+this class is Interval <T:Comparable> then the result will be the single type
+Comparable . For an unconstrained type T , the result will be Any .
 */
 func (b *BmmGenericClass) GenericParameterConformanceType(a_name string) string {
 	return ""
@@ -355,7 +355,7 @@ func (b *BmmGenericClass) FlatProperties() []IBmmProperty {
 
 // From: BMM_MODEL_ELEMENT
 /**
-Post_result : Result = (scope = self). True if this model element is the root of
+Post_result : result = (scope = self). True if this model element is the root of
 a model structure hierarchy.
 */
 func (b *BmmGenericClass) IsRootScope() bool {

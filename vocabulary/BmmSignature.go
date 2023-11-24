@@ -19,7 +19,7 @@ type IBmmSignature interface {
 type BmmSignature struct {
 	BmmBuiltinType
 	// Attributes
-	// Result type of signature.
+	// result type of signature.
 	resultType IBmmType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
 }
 
@@ -54,7 +54,7 @@ func NewBmmSignatureBuilder() *BmmSignatureBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Result type of signature.
+// result type of signature.
 func (i *BmmSignatureBuilder) SetResultType(v IBmmType) *BmmSignatureBuilder {
 	i.AddError(i.bmmsignature.SetResultType(v))
 	return i

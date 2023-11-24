@@ -14,7 +14,7 @@ type ElDecisionBranch[T IElTerminal] struct {
 	// embedded for Inheritance
 	// Constants
 	// Attributes
-	// Result expression of conditional, if its condition evaluates to True.
+	// result expression of conditional, if its condition evaluates to True.
 	result T `yaml:"result" json:"result" xml:"result"`
 }
 

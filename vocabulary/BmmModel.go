@@ -1,7 +1,7 @@
 package vocabulary
 
 /**
-Definition of the root of a BMM model (along with what is inherited from
+definition of the root of a BMM model (along with what is inherited from
 BMM_SCHEMA_CORE ).
 */
 
@@ -332,7 +332,7 @@ func (b *BmmModel) TypeConformsTo(a_desc_type string, an_anc_type string) bool {
 Generate type substitutions for the supplied type, which may be simple, generic
 (closed, open or partially open), or a container type. In the generic and
 container cases, the result is the permutation of the base class type and type
-substitutions of all generic parameters. Parameters a_type name of a type.
+substitutions of all generic parameters. parameters a_type name of a type.
 */
 func (b *BmmModel) Subtypes(a_type string) []string {
 	return nil

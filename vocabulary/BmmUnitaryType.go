@@ -21,7 +21,7 @@ type BmmUnitaryType struct {
 
 // UnitaryType
 // Returns the effective unitary type, i.e. abstracting away any containers. (in fact, the pure BmmType)
-// (effected) Result = self.
+// (effected) result = self.
 func (b *BmmUnitaryType) UnitaryType() IBmmUnitaryType {
 	return b
 }

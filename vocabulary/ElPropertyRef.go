@@ -89,7 +89,7 @@ func (e *ElPropertyRef) Reference() string {
 
 // From: EL_EXPRESSION
 /**
-Post_result : Result = eval_type().equal(
+Post_result : result = eval_type().equal(
 {BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
 (i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
 */

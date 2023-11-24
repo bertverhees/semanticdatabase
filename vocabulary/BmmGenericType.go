@@ -114,7 +114,7 @@ func (b *BmmGenericType) IsAbstract() bool {
 
 /*
 *
-(effected) Result is base_class.name followed by names of all generic parameter type names,
+(effected) result is base_class.name followed by names of all generic parameter type names,
 which may be open or closed.
 */
 func (b *BmmGenericType) FlattenedTypeList() []string {

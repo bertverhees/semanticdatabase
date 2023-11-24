@@ -36,7 +36,7 @@ func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
 
 // BUILDER ATTRIBUTES
 // From: BmmSignature
-// Result type of signature.
+// result type of signature.
 func (i *BmmPropertyTypeBuilder) SetResultType(v IBmmType) *BmmPropertyTypeBuilder {
 	i.AddError(i.bmmpropertytype.SetResultType(v))
 	return i
@@ -87,13 +87,13 @@ func (b *BmmPropertyType) TypeName() string {
 }
 
 // From: BMM_EFFECTIVE_TYPE
-// Result = self.
+// result = self.
 func (b *BmmPropertyType) EffectiveType() IBmmEffectiveType {
 	return nil
 }
 
 // From: BMM_UNITARY_TYPE
-// Result = self.
+// result = self.
 func (b *BmmPropertyType) UnitaryType() IBmmUnitaryType {
 	return nil
 }

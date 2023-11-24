@@ -23,7 +23,7 @@ type PBmmOpenType struct {
 	// Attributes
 	// Simple type parameter as a single letter like 'T', 'G' etc.
 	Type string `yaml:"type" json:"type" xml:"type"`
-	// Result of create_bmm_type() call.
+	// result of create_bmm_type() call.
 	BmmType vocabulary.IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
@@ -52,7 +52,7 @@ func (i *PBmmOpenTypeBuilder) SetType(v string) *PBmmOpenTypeBuilder {
 	return i
 }
 
-// Result of create_bmm_type() call.
+// result of create_bmm_type() call.
 func (i *PBmmOpenTypeBuilder) SetBmmType(v vocabulary.IBmmType) *PBmmOpenTypeBuilder {
 	i.pbmmopentype.BmmType = v
 	return i

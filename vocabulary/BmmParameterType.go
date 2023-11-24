@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// Definition of a generic parameter in a class definition of a generic type.
+// definition of a generic parameter in a class definition of a generic type.
 
 // Interface definition
 type IBmmParameterType interface {
@@ -115,7 +115,7 @@ func (i *BmmParameterTypeBuilder) Build() *BmmParameterType {
 
 //FUNCTIONS
 /**
-Result is either conforms_to_type or
+result is either conforms_to_type or
 inheritance_precursor.flattened_conforms_to_type .
 */
 func (b *BmmParameterType) FlattenedConformsToType() IBmmEffectiveType {
@@ -146,7 +146,7 @@ func (b *BmmParameterType) TypeSignature() string {
 
 /*
 *
-(effected) Result = False - generic parameters are understood by definition to be
+(effected) result = False - generic parameters are understood by definition to be
 non-primitive.
 */
 func (b *BmmParameterType) IsPrimitive() bool {
@@ -155,7 +155,7 @@ func (b *BmmParameterType) IsPrimitive() bool {
 
 /*
 *
-(effected) Result = False - generic parameters are understood by definition to be
+(effected) result = False - generic parameters are understood by definition to be
 non-abstract.
 */
 func (b *BmmParameterType) IsAbstract() bool {
@@ -169,7 +169,7 @@ func (b *BmmParameterType) TypeName() string {
 
 /*
 *
-(effected) Result is either flattened_conforms_to_type.flattened_type_list or the Any type.
+(effected) result is either flattened_conforms_to_type.flattened_type_list or the Any type.
 */
 func (b *BmmParameterType) FlattenedTypeList() []string {
 	r := make([]string, 0)
@@ -197,7 +197,7 @@ func (b *BmmParameterType) EffectiveType() IBmmEffectiveType {
 }
 
 // From: BMM_UNITARY_TYPE
-// Result = self.
+// result = self.
 func (b *BmmParameterType) UnitaryType() IBmmUnitaryType {
 	return b.BmmUnitaryType.UnitaryType()
 }

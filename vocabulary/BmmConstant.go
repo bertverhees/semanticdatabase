@@ -167,7 +167,7 @@ func (b *BmmConstant) Signature() IBmmSignature {
 
 // From: BMM_FORMAL_ELEMENT
 /**
-Post_result : Result = type().equal( {BMM_MODEL}.boolean_type_definition()).
+Post_result : result = type().equal( {BMM_MODEL}.boolean_type_definition()).
 True if type is notionally Boolean (i.e. a BMM_SIMPLE_TYPE with type_name() =
 'Boolean' ).
 */
@@ -177,7 +177,7 @@ func (b *BmmConstant) IsBoolean() bool {
 
 // From: BMM_MODEL_ELEMENT
 /**
-Post_result : Result = (scope = self). True if this model element is the root of
+Post_result : result = (scope = self). True if this model element is the root of
 a model structure hierarchy.
 */
 func (b *BmmConstant) IsRootScope() bool {

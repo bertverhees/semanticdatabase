@@ -3,7 +3,7 @@ package v2
 import "SemanticDatabase/vocabulary"
 
 /**
-Definition of persistent form of BMM_CLASS for serialisation to ODIN, JSON, XML
+definition of persistent form of BMM_CLASS for serialisation to ODIN, JSON, XML
 etc.
 */
 
@@ -175,7 +175,7 @@ func (i *PBmmClassBuilder) Build() *PBmmClass {
 
 //FUNCTIONS
 /**
-Post : Result := generic_parameter_defs /= Void. True if this class is a generic
+Post : result := generic_parameter_defs /= Void. True if this class is a generic
 class.
 */
 func (p *PBmmClass) IsGeneric() bool {

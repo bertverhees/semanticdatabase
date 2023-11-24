@@ -19,7 +19,7 @@ type IBmmProcedureType interface {
 type BmmProcedureType struct {
 	BmmRoutineType
 	// Attributes
-	// Result type of a procedure.
+	// result type of a procedure.
 	resultType IBmmStatusType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
 }
 
@@ -60,7 +60,7 @@ func NewBmmProcedureTypeBuilder() *BmmProcedureTypeBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Result type of a procedure.
+// result type of a procedure.
 func (i *BmmProcedureTypeBuilder) SetResultType(v IBmmStatusType) *BmmProcedureTypeBuilder {
 	i.AddError(i.bmmproceduretype.SetResultType(v))
 	return i

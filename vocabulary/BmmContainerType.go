@@ -151,7 +151,7 @@ func (b *BmmContainerType) TypeName() string {
 	return ""
 }
 
-// (effected) Post_is_abstract : Result = container_type.is_abstract
+// (effected) Post_is_abstract : result = container_type.is_abstract
 // True if the container class is abstract.
 func (b *BmmContainerType) IsAbstract() bool {
 	return false
@@ -160,7 +160,7 @@ func (b *BmmContainerType) IsAbstract() bool {
 /*
 *
 (effected)
-String> Post_result : Result = item_type.flattened_type_list. Flattened list of
+String> Post_result : result = item_type.flattened_type_list. Flattened list of
 type names of item_type , i.e. item_type.flattened_type_list () .
 */
 func (b *BmmContainerType) FlattenedTypeList() []string {
@@ -172,7 +172,7 @@ func (b *BmmContainerType) UnitaryType() IBmmUnitaryType {
 	return nil
 }
 
-// (effected) Post_result : Result = item_type.is_primitive. True if item_type is primitive.
+// (effected) Post_result : result = item_type.is_primitive. True if item_type is primitive.
 func (b *BmmContainerType) IsPrimitive() bool {
 	return false
 }
