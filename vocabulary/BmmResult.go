@@ -14,9 +14,6 @@ type IBmmResult interface {
 // Struct definition
 type BmmResult struct {
 	BmmWritableVariable
-	// Attributes
-	// name of this model element.
-	name string `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -62,6 +59,12 @@ optionality in subtypes..
 */
 func (i *BmmResultBuilder) SetIsNullable(v bool) *BmmResultBuilder {
 	i.AddError(i.bmmresult.SetIsNullable(v))
+	return i
+}
+
+// Declared or inferred static type of the entity.
+func (i *BmmResultBuilder) SetType(v IBmmType) *BmmResultBuilder {
+	i.AddError(i.bmmresult.SetType(v))
 	return i
 }
 

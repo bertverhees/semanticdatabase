@@ -171,6 +171,12 @@ func (i *BmmFunctionBuilder) SetIsNullable(v bool) *BmmFunctionBuilder {
 	return i
 }
 
+// Declared or inferred static type of the entity.
+func (i *BmmFunctionBuilder) SetType(v IBmmType) *BmmFunctionBuilder {
+	i.AddError(i.bmmfunction.SetType(v))
+	return i
+}
+
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmFunctionBuilder) SetName(v string) *BmmFunctionBuilder {

@@ -4,20 +4,15 @@ package vocabulary
 
 // Interface definition
 type IBmmParameter interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-	IBmmFormalElement
-	IBmmVariable
 	IBmmReadonlyVariable
 	//BMM_PARAMETER
+	Direction() BmmParameterDirection
+	SetDirection(direction BmmParameterDirection) error
 }
 
 // Struct definition
 type BmmParameter struct {
 	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmVariable
 	BmmReadonlyVariable
 	// Constants
 	// Attributes
@@ -25,7 +20,16 @@ type BmmParameter struct {
 	Optional read/write direction of the parameter. If none-supplied, the parameter
 	is treated as in , i.e. readable.
 	*/
-	Direction BmmParameterDirection `yaml:"direction" json:"direction" xml:"direction"`
+	direction BmmParameterDirection `yaml:"direction" json:"direction" xml:"direction"`
+}
+
+func (b *BmmParameter) Direction() BmmParameterDirection {
+	return b.direction
+}
+
+func (b *BmmParameter) SetDirection(direction BmmParameterDirection) error {
+	b.direction = direction
+	return nil
 }
 
 // CONSTRUCTOR
@@ -43,11 +47,13 @@ func NewBmmParameter() *BmmParameter {
 // BUILDER
 type BmmParameterBuilder struct {
 	bmmparameter *BmmParameter
+	errors       []error
 }
 
 func NewBmmParameterBuilder() *BmmParameterBuilder {
 	return &BmmParameterBuilder{
 		bmmparameter: NewBmmParameter(),
+		errors:       make([]error, 0),
 	}
 }
 
@@ -57,21 +63,14 @@ Optional read/write direction of the parameter. If none-supplied, the parameter
 is treated as in , i.e. readable.
 */
 func (i *BmmParameterBuilder) SetDirection(v BmmParameterDirection) *BmmParameterBuilder {
-	i.bmmparameter.Direction = v
+	i.AddError(i.bmmparameter.SetDirection(v))
 	return i
 }
 
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmParameterBuilder) SetScope(v IBmmRoutine) *BmmParameterBuilder {
-	i.bmmparameter.BmmModelElement.scope = v
-	return i
-}
-
-// From: BmmFormalElement
-// Declared or inferred static type of the entity.
-func (i *BmmParameterBuilder) SetType(v IBmmType) *BmmParameterBuilder {
-	i.bmmparameter._type = v
+	i.AddError(i.bmmparameter.SetScope(v))
 	return i
 }
 
@@ -81,14 +80,14 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmParameterBuilder) SetIsNullable(v bool) *BmmParameterBuilder {
-	i.bmmparameter.isNullable = v
+	i.AddError(i.bmmparameter.SetIsNullable(v))
 	return i
 }
 
 // From: BmmModelElement
 // name of this model element.
 func (i *BmmParameterBuilder) SetName(v string) *BmmParameterBuilder {
-	i.bmmparameter.name = v
+	i.AddError(i.bmmparameter.SetName(v))
 	return i
 }
 
@@ -100,7 +99,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmParameterBuilder) SetDocumentation(v map[string]any) *BmmParameterBuilder {
-	i.bmmparameter.documentation = v
+	i.AddError(i.bmmparameter.SetDocumentation(v))
 	return i
 }
 
@@ -110,8 +109,21 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmParameterBuilder) SetExtensions(v map[string]any) *BmmParameterBuilder {
-	i.bmmparameter.extensions = v
+	i.AddError(i.bmmparameter.SetExtensions(v))
 	return i
+}
+
+// From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmParameterBuilder) SetType(v IBmmType) *BmmParameterBuilder {
+	i.AddError(i.bmmparameter.SetType(v))
+	return i
+}
+
+func (i *BmmParameterBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmParameterBuilder) Build() *BmmParameter {

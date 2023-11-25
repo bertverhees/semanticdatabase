@@ -7,28 +7,17 @@ instance. Typically called 'self' or 'this' in programming languages. Read-only.
 
 // Interface definition
 type IBmmSelf interface {
-	// From: BMM_MODEL_ELEMENT
-	IBmmModelElement
-
-	// From: BMM_FORMAL_ELEMENT
-	Signature() IBmmSignature
-	IsBoolean() bool
-	//BMM_VARIABLE
 	//BMM_READONLY_VARIABLE
+	IBmmReadonlyVariable
 	//BMM_SELF
 }
 
 // Struct definition
 type BmmSelf struct {
-	// embedded for Inheritance
-	BmmModelElement
-	BmmFormalElement
-	BmmVariable
 	BmmReadonlyVariable
 	// Constants
 	// Attributes
 	// name of this model element.
-	name string `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -48,32 +37,21 @@ func NewBmmSelf() *BmmSelf {
 // BUILDER
 type BmmSelfBuilder struct {
 	bmmself *BmmSelf
+	errors  []error
 }
 
 func NewBmmSelfBuilder() *BmmSelfBuilder {
 	return &BmmSelfBuilder{
 		bmmself: NewBmmSelf(),
+		errors:  make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
-// name of this model element.
-func (i *BmmSelfBuilder) SetName(v string) *BmmSelfBuilder {
-	i.bmmself.name = v
-	return i
-}
-
 // From: BmmVariable
 // Routine within which variable is defined.
 func (i *BmmSelfBuilder) SetScope(v IBmmRoutine) *BmmSelfBuilder {
-	i.bmmself.BmmModelElement.scope = v
-	return i
-}
-
-// From: BmmFormalElement
-// Declared or inferred static type of the entity.
-func (i *BmmSelfBuilder) SetType(v IBmmType) *BmmSelfBuilder {
-	i.bmmself._type = v
+	i.AddError(i.bmmself.SetScope(v))
 	return i
 }
 
@@ -83,7 +61,14 @@ True if this element can be null (Void) at execution time. May be interpreted as
 optionality in subtypes..
 */
 func (i *BmmSelfBuilder) SetIsNullable(v bool) *BmmSelfBuilder {
-	i.bmmself.isNullable = v
+	i.AddError(i.bmmself.SetIsNullable(v))
+	return i
+}
+
+// From: BmmModelElement
+// name of this model element.
+func (i *BmmSelfBuilder) SetName(v string) *BmmSelfBuilder {
+	i.AddError(i.bmmself.SetName(v))
 	return i
 }
 
@@ -95,7 +80,7 @@ purposes: "purpose": String "keywords": List<String> "use": String "misuse":
 String "references": String Other keys and value types may be freely added.
 */
 func (i *BmmSelfBuilder) SetDocumentation(v map[string]any) *BmmSelfBuilder {
-	i.bmmself.documentation = v
+	i.AddError(i.bmmself.SetDocumentation(v))
 	return i
 }
 
@@ -105,8 +90,21 @@ Optional meta-data of this element, as a keyed list. May be used to extend the
 meta-model.
 */
 func (i *BmmSelfBuilder) SetExtensions(v map[string]any) *BmmSelfBuilder {
-	i.bmmself.extensions = v
+	i.AddError(i.bmmself.SetExtensions(v))
 	return i
+}
+
+// From: BmmFormalElement
+// Declared or inferred static type of the entity.
+func (i *BmmSelfBuilder) SetType(v IBmmType) *BmmSelfBuilder {
+	i.AddError(i.bmmself.SetType(v))
+	return i
+}
+
+func (i *BmmSelfBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmSelfBuilder) Build() *BmmSelf {

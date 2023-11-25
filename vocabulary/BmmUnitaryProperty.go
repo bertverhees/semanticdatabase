@@ -123,7 +123,7 @@ func (i *BmmUnitaryPropertyBuilder) SetScope(v IBmmClass) *BmmUnitaryPropertyBui
 
 // From: BmmFormalElement
 // Declared or inferred static type of the entity.
-func (i *BmmUnitaryPropertyBuilder) SetType(v IBmmType) *BmmUnitaryPropertyBuilder {
+func (i *BmmUnitaryPropertyBuilder) SetType(v IBmmUnitaryType) *BmmUnitaryPropertyBuilder {
 	i.AddError(i.bmmunitaryproperty.SetType(v))
 	return i
 }

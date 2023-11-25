@@ -79,7 +79,7 @@ func (i *BmmIndexedContainerPropertyBuilder) SetCardinality(v *base.Multiplicity
 }
 
 // Declared or inferred static type of the entity.
-func (i *BmmIndexedContainerPropertyBuilder) SetType(v IBmmContainerType) *BmmIndexedContainerPropertyBuilder {
+func (i *BmmIndexedContainerPropertyBuilder) SetType(v IBmmIndexedContainerType) *BmmIndexedContainerPropertyBuilder {
 	i.AddError(i.bmmindexedcontainerproperty.SetType(v))
 	return i
 }
