@@ -35,7 +35,7 @@ type BmmRoutine struct {
 	post-condition implies an error (i.e. bug) in routine code.
 	*/
 	postConditions []IBmmAssertion `yaml:"postconditions" json:"postconditions" xml:"postconditions"`
-	// Body of a routine, i.e. executable program.
+	// body of a routine, i.e. executable program.
 	definition IBmmRoutineDefinition `yaml:"definition" json:"definition" xml:"definition"`
 }
 

@@ -101,7 +101,7 @@ func (i *BmmProcedureBuilder) SetPostConditions(v []IBmmAssertion) *BmmProcedure
 }
 
 // From: BmmRoutine
-// Body of a routine, i.e. executable program.
+// body of a routine, i.e. executable program.
 func (i *BmmProcedureBuilder) SetDefinition(v IBmmRoutineDefinition) *BmmProcedureBuilder {
 	i.AddError(i.bmmprocedure.SetDefinition(v))
 	return i
