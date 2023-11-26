@@ -64,7 +64,7 @@ func (i *ElFunctionCallBuilder) SetScoper(v IElValueGenerator) *ElFunctionCallBu
 // From: ElValueGenerator
 // name used to represent the reference or other entity.
 func (i *ElFunctionCallBuilder) SetName(v string) *ElFunctionCallBuilder {
-	i.elfunctioncall.Name = v
+	i.elfunctioncall.name = v
 	return i
 }
 

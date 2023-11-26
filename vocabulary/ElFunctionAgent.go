@@ -69,13 +69,13 @@ func (i *ElFunctionAgentBuilder) SetOpenArgs(v []string) *ElFunctionAgentBuilder
 // From: ElAgent
 // name of the routine being called.
 func (i *ElFunctionAgentBuilder) SetName(v string) *ElFunctionAgentBuilder {
-	i.elfunctionagent.ElValueGenerator.Name = v
+	i.elfunctionagent.ElValueGenerator.name = v
 	return i
 }
 
 // From: ElAgent
 func (i *ElFunctionAgentBuilder) SetIsWritable(v bool) *ElFunctionAgentBuilder {
-	i.elfunctionagent.ElValueGenerator.IsWritable = v
+	i.elfunctionagent.ElValueGenerator.isWritable = v
 	return i
 }
 

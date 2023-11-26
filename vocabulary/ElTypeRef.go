@@ -10,16 +10,38 @@ constant access.
 // Interface definition
 type IElTypeRef interface {
 	IElValueGenerator
-	EvalType() IBmmType //effected
+	EvalType() IBmmType
+	Type() IBmmType
+	SetType(_type IBmmType) error
+	IsMutable() bool
+	SetIsMutable(isMutable bool) error //effected
 }
 
 // Struct definition
 type ElTypeRef struct {
 	ElValueGenerator
 	// Attributes
-	// Type, directly from the name of the reference, e.g. {SOME_TYPE} .
-	Type      IBmmType `yaml:"type" json:"type" xml:"type"`
-	IsMutable bool     `yaml:"ismutable" json:"ismutable" xml:"ismutable"`
+	// _type, directly from the name of the reference, e.g. {SOME_TYPE} .
+	_type     IBmmType `yaml:"type" json:"type" xml:"type"`
+	isMutable bool     `yaml:"ismutable" json:"ismutable" xml:"ismutable"`
+}
+
+func (e *ElTypeRef) Type() IBmmType {
+	return e._type
+}
+
+func (e *ElTypeRef) SetType(_type IBmmType) error {
+	e._type = _type
+	return nil
+}
+
+func (e *ElTypeRef) IsMutable() bool {
+	return e.isMutable
+}
+
+func (e *ElTypeRef) SetIsMutable(isMutable bool) error {
+	e.isMutable = isMutable
+	return nil
 }
 
 // CONSTRUCTOR
@@ -32,36 +54,44 @@ func NewElTypeRef() *ElTypeRef {
 // BUILDER
 type ElTypeRefBuilder struct {
 	eltyperef *ElTypeRef
+	errors    []error
 }
 
 func NewElTypeRefBuilder() *ElTypeRefBuilder {
 	return &ElTypeRefBuilder{
 		eltyperef: NewElTypeRef(),
+		errors:    make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // _type, directly from the name of the reference, e.g. {SOME_TYPE} .
 func (i *ElTypeRefBuilder) SetType(v IBmmType) *ElTypeRefBuilder {
-	i.eltyperef.Type = v
+	i.AddError(i.eltyperef.SetType(v))
 	return i
 }
 func (i *ElTypeRefBuilder) SetIsMutable(v bool) *ElTypeRefBuilder {
-	i.eltyperef.IsMutable = v
+	i.AddError(i.eltyperef.SetIsMutable(v))
 	return i
 }
 
 // From: ElValueGenerator
 func (i *ElTypeRefBuilder) SetIsWritable(v bool) *ElTypeRefBuilder {
-	i.eltyperef.IsWritable = v
+	i.AddError(i.eltyperef.SetIsWritable(v))
 	return i
 }
 
 // From: ElValueGenerator
 // name used to represent the reference or other entity.
 func (i *ElTypeRefBuilder) SetName(v string) *ElTypeRefBuilder {
-	i.eltyperef.Name = v
+	i.AddError(i.eltyperef.SetName(v))
 	return i
+}
+
+func (i *ElTypeRefBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElTypeRefBuilder) Build() *ElTypeRef {
