@@ -14,8 +14,6 @@ type IBmmBooleanValue interface {
 type BmmBooleanValue struct {
 	BmmPrimitiveValue
 	// Attributes
-	// Native Boolean value.
-	value bool `yaml:"value" json:"value" xml:"value"`
 }
 
 // CONSTRUCTOR

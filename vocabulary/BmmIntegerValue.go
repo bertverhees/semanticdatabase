@@ -14,8 +14,6 @@ type IBmmIntegerValue interface {
 type BmmIntegerValue struct {
 	BmmPrimitiveValue
 	// Attributes
-	// Native Integer value.
-	value int `yaml:"value" json:"value" xml:"value"`
 }
 
 // CONSTRUCTOR
