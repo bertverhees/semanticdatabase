@@ -4,14 +4,14 @@ Release 0.0.1
 
 # An other way of modeling
 
-# The vocabulaire
+# The vocabulary
 
 First you agree on the vocabulaire in which to model, for that purpose is the module Vocabulaire in this project.
 It allows to define words (in classes) and define the meanings in properties and relations.
 
-The target is to have a fail-safe vocabulaire class-system, a way to store and open a vocabulaire, and a primitive gui to define a new  or to open/change an existing vocabulaire
+The target is to have a fail-safe vocabulaire class-system, a way to store and open a vocabulary, and a primitive gui to define a new  or to open/change an existing vocabulary
 
-# The model which uses the vocabulaire
+# The model which uses the vocabulary
 
 I come back to this when my code arrives this point
 
