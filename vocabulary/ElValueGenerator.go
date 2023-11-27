@@ -7,10 +7,9 @@ type IElValueGenerator interface {
 	IElSimple
 	//EL_VALUE_GENERATOR
 	Reference() string
-	IsWritable() bool
-	SetIsWritable(isWritable bool) error
 	Name() string
 	SetName(name string) error
+	IsWritable() bool
 }
 
 // Struct definition
@@ -22,15 +21,6 @@ type ElValueGenerator struct {
 	name string `yaml:"name" json:"name" xml:"name"`
 }
 
-func (e *ElValueGenerator) IsWritable() bool {
-	return e.isWritable
-}
-
-func (e *ElValueGenerator) SetIsWritable(isWritable bool) error {
-	e.isWritable = isWritable
-	return nil
-}
-
 func (e *ElValueGenerator) Name() string {
 	return e.name
 }
@@ -38,6 +28,10 @@ func (e *ElValueGenerator) Name() string {
 func (e *ElValueGenerator) SetName(name string) error {
 	e.name = name
 	return nil
+}
+
+func (e *ElValueGenerator) IsWritable() bool {
+	return e.isWritable
 }
 
 // CONSTRUCTOR

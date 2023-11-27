@@ -20,17 +20,17 @@ type ElOperator struct {
 	introduced around the totality of the syntax expression corresponding to this
 	operator node and its operands.
 	*/
-	PrecedenceOverridden bool `yaml:"precedenceoverridden" json:"precedenceoverridden" xml:"precedenceoverridden"`
+	precedenceOverridden bool `yaml:"precedenceoverridden" json:"precedenceoverridden" xml:"precedenceoverridden"`
 	/**
 	The symbol actually used in the expression, or intended to be used for
 	serialisation. Must be a member of OPERATOR_DEF. symbols .
 	*/
-	Symbol string `yaml:"symbol" json:"symbol" xml:"symbol"`
+	symbol string `yaml:"symbol" json:"symbol" xml:"symbol"`
 	/**
 	Function call equivalent to this operator expression, inferred by matching
 	operator against functions defined in interface of principal operand.
 	*/
-	Call IElFunctionCall `yaml:"call" json:"call" xml:"call"`
+	call IElFunctionCall `yaml:"call" json:"call" xml:"call"`
 }
 
 // CONSTRUCTOR

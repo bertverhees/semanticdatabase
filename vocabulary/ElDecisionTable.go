@@ -19,9 +19,9 @@ type ElDecisionTable[T IElTerminal] struct {
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	Items []IElTerminal `yaml:"items" json:"items" xml:"items"`
+	items []IElTerminal `yaml:"items" json:"items" xml:"items"`
 	// result expression of conditional, if its condition evaluates to True.
-	Else T `yaml:"else" json:"else" xml:"else"`
+	_else T `yaml:"else" json:"else" xml:"else"`
 }
 
 // CONSTRUCTOR

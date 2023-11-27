@@ -14,9 +14,9 @@ type ElPropertyRef struct {
 	ElFeatureRef
 	// Attributes
 	// Property definition (within class).
-	Definition IBmmProperty `yaml:"definition" json:"definition" xml:"definition"`
+	definition IBmmProperty `yaml:"definition" json:"definition" xml:"definition"`
 	// Defined to return True.
-	IsWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+	isWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
 // CONSTRUCTOR
@@ -40,20 +40,20 @@ func NewElPropertyRefBuilder() *ElPropertyRefBuilder {
 // BUILDER ATTRIBUTES
 // Property definition (within class).
 func (i *ElPropertyRefBuilder) SetDefinition(v IBmmProperty) *ElPropertyRefBuilder {
-	i.elpropertyref.Definition = v
+	i.elpropertyref.definition = v
 	return i
 }
 
 // Defined to return True.
 func (i *ElPropertyRefBuilder) SetIsWritable(v bool) *ElPropertyRefBuilder {
-	i.elpropertyref.IsWritable = v
+	i.elpropertyref.isWritable = v
 	return i
 }
 
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElPropertyRefBuilder) SetScoper(v IElValueGenerator) *ElPropertyRefBuilder {
-	i.elpropertyref.Scoper = v
+	i.elpropertyref.scoper = v
 	return i
 }
 

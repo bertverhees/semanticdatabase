@@ -17,7 +17,7 @@ type ElCase[T IElTerminal] struct {
 	ElDecisionBranch[T]
 	// Attributes
 	// Constraint on
-	ValueConstraint constraints.ICObject `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
+	valueConstraint constraints.ICObject `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 }
 
 // CONSTRUCTOR
@@ -41,7 +41,7 @@ func NewElCaseBuilder[T IElTerminal]() *ElCaseBuilder[T] {
 // BUILDER ATTRIBUTES
 // Constraint on
 func (i *ElCaseBuilder[T]) SetValueConstraint(v constraints.ICObject) *ElCaseBuilder[T] {
-	i.elcase.ValueConstraint = v
+	i.elcase.valueConstraint = v
 	return i
 }
 

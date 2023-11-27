@@ -13,9 +13,9 @@ type ElStaticRef struct {
 	ElFeatureRef
 	// Attributes
 	// Constant definition (within class).
-	Definition IBmmStatic `yaml:"definition" json:"definition" xml:"definition"`
+	definition IBmmStatic `yaml:"definition" json:"definition" xml:"definition"`
 	// Defined to return False.
-	IsWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+	isWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
 // CONSTRUCTOR
@@ -39,20 +39,20 @@ func NewElStaticRefBuilder() *ElStaticRefBuilder {
 // BUILDER ATTRIBUTES
 // Constant definition (within class).
 func (i *ElStaticRefBuilder) SetDefinition(v IBmmStatic) *ElStaticRefBuilder {
-	i.elstaticref.Definition = v
+	i.elstaticref.definition = v
 	return i
 }
 
 // Defined to return False.
 func (i *ElStaticRefBuilder) SetIsWritable(v bool) *ElStaticRefBuilder {
-	i.elstaticref.IsWritable = v
+	i.elstaticref.isWritable = v
 	return i
 }
 
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElStaticRefBuilder) SetScoper(v IElValueGenerator) *ElStaticRefBuilder {
-	i.elstaticref.Scoper = v
+	i.elstaticref.scoper = v
 	return i
 }
 

@@ -17,7 +17,7 @@ type ElFeatureRef struct {
 	ElValueGenerator
 	// Attributes
 	// Scoping expression, which must be a EL_VALUE_GENERATOR .
-	Scoper IElValueGenerator `yaml:"scoper" json:"scoper" xml:"scoper"`
+	scoper IElValueGenerator `yaml:"scoper" json:"scoper" xml:"scoper"`
 }
 
 // CONSTRUCTOR

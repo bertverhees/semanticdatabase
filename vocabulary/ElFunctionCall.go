@@ -18,9 +18,9 @@ type ElFunctionCall struct {
 	ElFeatureRef
 	// Attributes
 	// The function agent being called.
-	Agent IElFunctionAgent `yaml:"agent" json:"agent" xml:"agent"`
+	agent IElFunctionAgent `yaml:"agent" json:"agent" xml:"agent"`
 	// Defined to return False.
-	IsWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+	isWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
 // CONSTRUCTOR
@@ -44,20 +44,20 @@ func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
 // BUILDER ATTRIBUTES
 // The function agent being called.
 func (i *ElFunctionCallBuilder) SetAgent(v IElFunctionAgent) *ElFunctionCallBuilder {
-	i.elfunctioncall.Agent = v
+	i.elfunctioncall.agent = v
 	return i
 }
 
 // Defined to return False.
 func (i *ElFunctionCallBuilder) SetIsWritable(v bool) *ElFunctionCallBuilder {
-	i.elfunctioncall.IsWritable = v
+	i.elfunctioncall.isWritable = v
 	return i
 }
 
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElFunctionCallBuilder) SetScoper(v IElValueGenerator) *ElFunctionCallBuilder {
-	i.elfunctioncall.Scoper = v
+	i.elfunctioncall.scoper = v
 	return i
 }
 

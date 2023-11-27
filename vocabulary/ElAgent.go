@@ -23,18 +23,18 @@ type ElAgent struct {
 	ElFeatureRef
 	// Attributes
 	// Closed arguments of a routine call as a tuple of objects.
-	ClosedArgs IElTuple `yaml:"closedargs" json:"closedargs" xml:"closedargs"`
+	closedArgs IElTuple `yaml:"closedargs" json:"closedargs" xml:"closedargs"`
 	/**
 	Optional list of names of open arguments of the call. If not provided, and the
 	name refers to a routine with more arguments than supplied in closed_args , the
 	missing arguments are inferred from the definition .
 	*/
-	OpenArgs []string `yaml:"openargs" json:"openargs" xml:"openargs"`
+	openArgs []string `yaml:"openargs" json:"openargs" xml:"openargs"`
 	// Reference to definition of a routine for which this is an agent, if one exists.
-	Definition IBmmRoutine `yaml:"definition" json:"definition" xml:"definition"`
-	// Name of the routine being called.
-	Name       string `yaml:"name" json:"name" xml:"name"`
-	IsWritable bool   `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+	definition IBmmRoutine `yaml:"definition" json:"definition" xml:"definition"`
+	// name of the routine being called.
+	name       string `yaml:"name" json:"name" xml:"name"`
+	isWritable bool   `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
 }
 
 // CONSTRUCTOR

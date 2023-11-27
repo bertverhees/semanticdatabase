@@ -14,7 +14,7 @@ type ElProcedureAgent struct {
 	ElAgent
 	// Attributes
 	// Reference to definition of routine for which this is a call instance.
-	Definition IBmmProcedure `yaml:"definition" json:"definition" xml:"definition"`
+	definition IBmmProcedure `yaml:"definition" json:"definition" xml:"definition"`
 }
 
 // CONSTRUCTOR
@@ -38,14 +38,14 @@ func NewElProcedureAgentBuilder() *ElProcedureAgentBuilder {
 // BUILDER ATTRIBUTES
 // Reference to definition of routine for which this is a call instance.
 func (i *ElProcedureAgentBuilder) SetDefinition(v IBmmProcedure) *ElProcedureAgentBuilder {
-	i.elprocedureagent.Definition = v
+	i.elprocedureagent.definition = v
 	return i
 }
 
 // From: ElAgent
 // Closed arguments of a routine call as a tuple of objects.
 func (i *ElProcedureAgentBuilder) SetClosedArgs(v IElTuple) *ElProcedureAgentBuilder {
-	i.elprocedureagent.ClosedArgs = v
+	i.elprocedureagent.closedArgs = v
 	return i
 }
 
@@ -56,7 +56,7 @@ name refers to a routine with more arguments than supplied in closed_args , the
 missing arguments are inferred from the definition .
 */
 func (i *ElProcedureAgentBuilder) SetOpenArgs(v []string) *ElProcedureAgentBuilder {
-	i.elprocedureagent.OpenArgs = v
+	i.elprocedureagent.openArgs = v
 	return i
 }
 
@@ -76,7 +76,7 @@ func (i *ElProcedureAgentBuilder) SetIsWritable(v bool) *ElProcedureAgentBuilder
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElProcedureAgentBuilder) SetScoper(v IElValueGenerator) *ElProcedureAgentBuilder {
-	i.elprocedureagent.Scoper = v
+	i.elprocedureagent.scoper = v
 	return i
 }
 

@@ -12,9 +12,9 @@ type ElBinaryOperator struct {
 	ElOperator
 	// Attributes
 	// Left operand node.
-	LeftOperand IElExpression `yaml:"leftoperand" json:"leftoperand" xml:"leftoperand"`
+	leftOperand IElExpression `yaml:"leftoperand" json:"leftoperand" xml:"leftoperand"`
 	// Right operand node.
-	RightOperand IElExpression `yaml:"rightoperand" json:"rightoperand" xml:"rightoperand"`
+	rightOperand IElExpression `yaml:"rightoperand" json:"rightoperand" xml:"rightoperand"`
 }
 
 // CONSTRUCTOR
@@ -38,13 +38,13 @@ func NewElBinaryOperatorBuilder() *ElBinaryOperatorBuilder {
 // BUILDER ATTRIBUTES
 // Left operand node.
 func (i *ElBinaryOperatorBuilder) SetLeftOperand(v IElExpression) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.LeftOperand = v
+	i.elbinaryoperator.leftOperand = v
 	return i
 }
 
 // Right operand node.
 func (i *ElBinaryOperatorBuilder) SetRightOperand(v IElExpression) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.RightOperand = v
+	i.elbinaryoperator.rightOperand = v
 	return i
 }
 
@@ -56,7 +56,7 @@ introduced around the totality of the syntax expression corresponding to this
 operator node and its operands.
 */
 func (i *ElBinaryOperatorBuilder) SetPrecedenceOverridden(v bool) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.PrecedenceOverridden = v
+	i.elbinaryoperator.precedenceOverridden = v
 	return i
 }
 
@@ -66,7 +66,7 @@ The symbol actually used in the expression, or intended to be used for
 serialisation. Must be a member of OPERATOR_DEF. symbols .
 */
 func (i *ElBinaryOperatorBuilder) SetSymbol(v string) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.Symbol = v
+	i.elbinaryoperator.symbol = v
 	return i
 }
 
@@ -76,7 +76,7 @@ Function call equivalent to this operator expression, inferred by matching
 operator against functions defined in interface of principal operand.
 */
 func (i *ElBinaryOperatorBuilder) SetCall(v IElFunctionCall) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.Call = v
+	i.elbinaryoperator.call = v
 	return i
 }
 

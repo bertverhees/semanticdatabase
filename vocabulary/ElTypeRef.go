@@ -76,12 +76,6 @@ func (i *ElTypeRefBuilder) SetIsMutable(v bool) *ElTypeRefBuilder {
 }
 
 // From: ElValueGenerator
-func (i *ElTypeRefBuilder) SetIsWritable(v bool) *ElTypeRefBuilder {
-	i.AddError(i.eltyperef.SetIsWritable(v))
-	return i
-}
-
-// From: ElValueGenerator
 // name used to represent the reference or other entity.
 func (i *ElTypeRefBuilder) SetName(v string) *ElTypeRefBuilder {
 	i.AddError(i.eltyperef.SetName(v))

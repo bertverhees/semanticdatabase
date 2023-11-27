@@ -10,7 +10,7 @@ type IElAgentCall interface {
 type ElAgentCall struct {
 	// Attributes
 	// The agent being called.
-	Agent IElAgent `yaml:"agent" json:"agent" xml:"agent"`
+	agent IElAgent `yaml:"agent" json:"agent" xml:"agent"`
 }
 
 // CONSTRUCTOR

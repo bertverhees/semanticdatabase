@@ -40,7 +40,7 @@ func NewElDefinedBuilder() *ElDefinedBuilder {
 // From: ElPredicate
 // The target instance of this predicate.
 func (i *ElDefinedBuilder) SetOperand(v IElValueGenerator) *ElDefinedBuilder {
-	i.eldefined.Operand = v
+	i.eldefined.operand = v
 	return i
 }
 

@@ -16,7 +16,7 @@ type ElConditionalExpression[T IElTerminal] struct {
 	ElDecisionBranch[T]
 	// Attributes
 	// Boolean expression defining the condition of this decision branch.
-	Condition IElExpression `yaml:"condition" json:"condition" xml:"condition"`
+	condition IElExpression `yaml:"condition" json:"condition" xml:"condition"`
 }
 
 // CONSTRUCTOR
@@ -40,7 +40,7 @@ func NewElConditionalExpressionBuilder[T IElTerminal]() *ElConditionalExpression
 // BUILDER ATTRIBUTES
 // Boolean expression defining the condition of this decision branch.
 func (i *ElConditionalExpressionBuilder[T]) SetCondition(v IElExpression) *ElConditionalExpressionBuilder[T] {
-	i.elconditionalexpression.Condition = v
+	i.elconditionalexpression.condition = v
 	return i
 }
 

@@ -13,9 +13,9 @@ type ElTupleItem struct {
 	Reference to value entity. If Void, this indicates that the item in this
 	position is Void, e.g. within a routine call parameter list.
 	*/
-	Item IElExpression `yaml:"item" json:"item" xml:"item"`
+	item IElExpression `yaml:"item" json:"item" xml:"item"`
 	// Optional name of tuple item.
-	Name string `yaml:"name" json:"name" xml:"name"`
+	name string `yaml:"name" json:"name" xml:"name"`
 }
 
 // CONSTRUCTOR
@@ -42,13 +42,13 @@ Reference to value entity. If Void, this indicates that the item in this
 position is Void, e.g. within a routine call parameter list.
 */
 func (i *ElTupleItemBuilder) SetItem(v IElExpression) *ElTupleItemBuilder {
-	i.eltupleitem.Item = v
+	i.eltupleitem.item = v
 	return i
 }
 
 // Optional name of tuple item.
 func (i *ElTupleItemBuilder) SetName(v string) *ElTupleItemBuilder {
-	i.eltupleitem.Name = v
+	i.eltupleitem.name = v
 	return i
 }
 

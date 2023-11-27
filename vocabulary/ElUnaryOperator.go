@@ -11,8 +11,8 @@ type IElUnaryOperator interface {
 type ElUnaryOperator struct {
 	ElOperator
 	// Attributes
-	// Operand node.
-	Operand IElExpression `yaml:"operand" json:"operand" xml:"operand"`
+	// operand node.
+	operand IElExpression `yaml:"operand" json:"operand" xml:"operand"`
 }
 
 // CONSTRUCTOR
@@ -34,9 +34,9 @@ func NewElUnaryOperatorBuilder() *ElUnaryOperatorBuilder {
 }
 
 // BUILDER ATTRIBUTES
-// Operand node.
+// operand node.
 func (i *ElUnaryOperatorBuilder) SetOperand(v IElExpression) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.Operand = v
+	i.elunaryoperator.operand = v
 	return i
 }
 
@@ -48,7 +48,7 @@ introduced around the totality of the syntax expression corresponding to this
 operator node and its operands.
 */
 func (i *ElUnaryOperatorBuilder) SetPrecedenceOverridden(v bool) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.PrecedenceOverridden = v
+	i.elunaryoperator.precedenceOverridden = v
 	return i
 }
 
@@ -58,7 +58,7 @@ The symbol actually used in the expression, or intended to be used for
 serialisation. Must be a member of OPERATOR_DEF. symbols .
 */
 func (i *ElUnaryOperatorBuilder) SetSymbol(v string) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.Symbol = v
+	i.elunaryoperator.symbol = v
 	return i
 }
 
@@ -68,7 +68,7 @@ Function call equivalent to this operator expression, inferred by matching
 operator against functions defined in interface of principal operand.
 */
 func (i *ElUnaryOperatorBuilder) SetCall(v IElFunctionCall) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.Call = v
+	i.elunaryoperator.call = v
 	return i
 }
 

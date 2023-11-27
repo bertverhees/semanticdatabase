@@ -20,12 +20,12 @@ type ElCaseTable[T IElTerminal] struct {
 	ElDecisionTable[T]
 	// Attributes
 	// Expressing generating the input value for the case table.
-	TestValue IElValueGenerator `yaml:"testvalue" json:"testvalue" xml:"testvalue"`
+	testValue IElValueGenerator `yaml:"testvalue" json:"testvalue" xml:"testvalue"`
 	/**
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	Items []IElCase[T] `yaml:"items" json:"items" xml:"items"`
+	items []IElCase[T] `yaml:"items" json:"items" xml:"items"`
 }
 
 // CONSTRUCTOR
@@ -49,7 +49,7 @@ func NewElCaseTableBuilder[T IElTerminal]() *ElCaseTableBuilder[T] {
 // BUILDER ATTRIBUTES
 // Expressing generating the input value for the case table.
 func (i *ElCaseTableBuilder[T]) SetTestValue(v IElValueGenerator) *ElCaseTableBuilder[T] {
-	i.elcasetable.TestValue = v
+	i.elcasetable.testValue = v
 	return i
 }
 
@@ -59,14 +59,14 @@ Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
 func (i *ElCaseTableBuilder[T]) SetItems(v []IElCase[T]) *ElCaseTableBuilder[T] {
-	i.elcasetable.Items = v
+	i.elcasetable.items = v
 	return i
 }
 
 // From: ElDecisionTable
 // result expression of conditional, if its condition evaluates to True.
 func (i *ElCaseTableBuilder[T]) SetElse(v T) *ElCaseTableBuilder[T] {
-	i.elcasetable.Else = v
+	i.elcasetable._else = v
 	return i
 }
 

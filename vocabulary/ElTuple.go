@@ -13,12 +13,12 @@ type ElTuple struct {
 	ElExpression
 	// Attributes
 	/**
-	Items in the tuple, potentially with names. Typical use is to represent an
+	items in the tuple, potentially with names. Typical use is to represent an
 	argument list to routine call.
 	*/
-	Items []IElTupleItem `yaml:"items" json:"items" xml:"items"`
+	items []IElTupleItem `yaml:"items" json:"items" xml:"items"`
 	// Static type inferred from literal value.
-	Type IBmmTupleType `yaml:"type" json:"type" xml:"type"`
+	_type IBmmTupleType `yaml:"type" json:"type" xml:"type"`
 }
 
 // CONSTRUCTOR
@@ -41,17 +41,17 @@ func NewElTupleBuilder() *ElTupleBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-Items in the tuple, potentially with names. Typical use is to represent an
+items in the tuple, potentially with names. Typical use is to represent an
 argument list to routine call.
 */
 func (i *ElTupleBuilder) SetItems(v []IElTupleItem) *ElTupleBuilder {
-	i.eltuple.Items = v
+	i.eltuple.items = v
 	return i
 }
 
 // Static type inferred from literal value.
 func (i *ElTupleBuilder) SetType(v IBmmTupleType) *ElTupleBuilder {
-	i.eltuple.Type = v
+	i.eltuple._type = v
 	return i
 }
 

@@ -14,7 +14,7 @@ type ElPredicate struct {
 	ElSimple
 	// Attributes
 	// The target instance of this predicate.
-	Operand IElValueGenerator `yaml:"operand" json:"operand" xml:"operand"`
+	operand IElValueGenerator `yaml:"operand" json:"operand" xml:"operand"`
 }
 
 // CONSTRUCTOR

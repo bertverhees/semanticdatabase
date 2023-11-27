@@ -39,7 +39,7 @@ func NewElAttachedBuilder() *ElAttachedBuilder {
 // From: ElPredicate
 // The target instance of this predicate.
 func (i *ElAttachedBuilder) SetOperand(v IElValueGenerator) *ElAttachedBuilder {
-	i.elattached.Operand = v
+	i.elattached.operand = v
 	return i
 }
 

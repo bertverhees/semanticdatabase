@@ -15,7 +15,7 @@ type ElConstrained struct {
 	ElExpression
 	// Attributes
 	// The base expression of this constrained form.
-	BaseExpression IElExpression `yaml:"baseexpression" json:"baseexpression" xml:"baseexpression"`
+	baseExpression IElExpression `yaml:"baseexpression" json:"baseexpression" xml:"baseexpression"`
 }
 
 // CONSTRUCTOR

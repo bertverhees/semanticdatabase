@@ -28,7 +28,7 @@ type ElConditionChain[T IElTerminal] struct {
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	Items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
+	items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
 }
 
 // CONSTRUCTOR
@@ -55,14 +55,14 @@ Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
 func (i *ElConditionChainBuilder[T]) SetItems(v []IElConditionalExpression[T]) *ElConditionChainBuilder[T] {
-	i.elconditionchain.Items = v
+	i.elconditionchain.items = v
 	return i
 }
 
 // From: ElDecisionTable
 // result expression of conditional, if its condition evaluates to True.
 func (i *ElConditionChainBuilder[T]) SetElse(v T) *ElConditionChainBuilder[T] {
-	i.elconditionchain.Else = v
+	i.elconditionchain._else = v
 	return i
 }
 

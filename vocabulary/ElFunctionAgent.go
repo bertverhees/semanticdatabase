@@ -17,7 +17,7 @@ type ElFunctionAgent struct {
 	Reference to definition of a routine for which this is a direct call instance,
 	if one exists.
 	*/
-	Definition IBmmFunction `yaml:"definition" json:"definition" xml:"definition"`
+	definition IBmmFunction `yaml:"definition" json:"definition" xml:"definition"`
 }
 
 // CONSTRUCTOR
@@ -44,14 +44,14 @@ Reference to definition of a routine for which this is a direct call instance,
 if one exists.
 */
 func (i *ElFunctionAgentBuilder) SetDefinition(v IBmmFunction) *ElFunctionAgentBuilder {
-	i.elfunctionagent.Definition = v
+	i.elfunctionagent.definition = v
 	return i
 }
 
 // From: ElAgent
 // Closed arguments of a routine call as a tuple of objects.
 func (i *ElFunctionAgentBuilder) SetClosedArgs(v IElTuple) *ElFunctionAgentBuilder {
-	i.elfunctionagent.ClosedArgs = v
+	i.elfunctionagent.closedArgs = v
 	return i
 }
 
@@ -62,7 +62,7 @@ name refers to a routine with more arguments than supplied in closed_args , the
 missing arguments are inferred from the definition .
 */
 func (i *ElFunctionAgentBuilder) SetOpenArgs(v []string) *ElFunctionAgentBuilder {
-	i.elfunctionagent.OpenArgs = v
+	i.elfunctionagent.openArgs = v
 	return i
 }
 
@@ -82,7 +82,7 @@ func (i *ElFunctionAgentBuilder) SetIsWritable(v bool) *ElFunctionAgentBuilder {
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElFunctionAgentBuilder) SetScoper(v IElValueGenerator) *ElFunctionAgentBuilder {
-	i.elfunctionagent.Scoper = v
+	i.elfunctionagent.scoper = v
 	return i
 }
 

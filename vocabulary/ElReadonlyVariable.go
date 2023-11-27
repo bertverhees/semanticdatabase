@@ -9,6 +9,8 @@ variable 'Self'.
 type IElReadonlyVariable interface {
 	IElVariable
 	//EL_READONLY_VARIABLE
+	Definition() IBmmReadonlyVariable
+	SetDefinition(definition IBmmReadonlyVariable) error
 }
 
 // Struct definition
@@ -16,14 +18,22 @@ type ElReadonlyVariable struct {
 	ElVariable
 	// Attributes
 	// Variable definition to which this reference refers.
-	Definition IBmmReadonlyVariable `yaml:"definition" json:"definition" xml:"definition"`
-	// Defined to return False in all cases.
-	IsWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+	definition IBmmReadonlyVariable `yaml:"definition" json:"definition" xml:"definition"`
+}
+
+func (e *ElReadonlyVariable) Definition() IBmmReadonlyVariable {
+	return e.definition
+}
+
+func (e *ElReadonlyVariable) SetDefinition(definition IBmmReadonlyVariable) error {
+	e.definition = definition
+	return nil
 }
 
 // CONSTRUCTOR
 func NewElReadonlyVariable() *ElReadonlyVariable {
 	elreadonlyvariable := new(ElReadonlyVariable)
+	elreadonlyvariable.isWritable = false
 	// Constants
 	return elreadonlyvariable
 }
@@ -31,32 +41,34 @@ func NewElReadonlyVariable() *ElReadonlyVariable {
 // BUILDER
 type ElReadonlyVariableBuilder struct {
 	elreadonlyvariable *ElReadonlyVariable
+	errors             []error
 }
 
 func NewElReadonlyVariableBuilder() *ElReadonlyVariableBuilder {
 	return &ElReadonlyVariableBuilder{
 		elreadonlyvariable: NewElReadonlyVariable(),
+		errors:             make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Variable definition to which this reference refers.
-func (i *ElReadonlyVariableBuilder) SetDefinition(v IBmmReadonlyVariable) *ElReadonlyVariableBuilder {
-	i.elreadonlyvariable.Definition = v
-	return i
-}
-
-// Defined to return False in all cases.
-func (i *ElReadonlyVariableBuilder) SetIsWritable(v bool) *ElReadonlyVariableBuilder {
-	i.elreadonlyvariable.IsWritable = v
+func (i *ElReadonlyVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElReadonlyVariableBuilder {
+	i.AddError(i.elreadonlyvariable.SetDefinition(v))
 	return i
 }
 
 // From: ElValueGenerator
 // name used to represent the reference or other entity.
 func (i *ElReadonlyVariableBuilder) SetName(v string) *ElReadonlyVariableBuilder {
-	i.elreadonlyvariable.name = v
+	i.AddError(i.elreadonlyvariable.SetName(v))
 	return i
+}
+
+func (i *ElReadonlyVariableBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElReadonlyVariableBuilder) Build() *ElReadonlyVariable {
@@ -64,30 +76,3 @@ func (i *ElReadonlyVariableBuilder) Build() *ElReadonlyVariable {
 }
 
 //FUNCTIONS
-// From: EL_VALUE_GENERATOR
-/**
-Generated full reference name, based on constituent parts of the entity. Default
-version outputs name field.
-*/
-func (e *ElReadonlyVariable) Reference() string {
-	return ""
-}
-
-// From: EL_EXPRESSION
-/**
-Meta-type of expression entity used in type-checking and evaluation. Effected in
-descendants.
-*/
-func (e *ElReadonlyVariable) EvalType() IBmmType {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElReadonlyVariable) IsBoolean() bool {
-	return false
-}
