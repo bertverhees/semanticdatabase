@@ -9,7 +9,7 @@ Release 0.0.1
 First you agree on the vocabulaire in which to model, for that purpose is the module Vocabulaire in this project.
 It allows to define words (in classes) and define the meanings in properties and relations.
 
-The target is to have a fail-safe vocabulaire class-system, a way to store and open a definition, and a primitive gui to define a new  or to open/change an existing definition
+The target is to have a fail-safe vocabulaire class-system, a way to store and open a vocabulaire, and a primitive gui to define a new  or to open/change an existing vocabulaire
 
 # The model which uses the vocabulaire
 
