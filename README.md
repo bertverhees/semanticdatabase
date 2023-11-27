@@ -2,7 +2,7 @@
 
 Release 0.0.1
 
-# A new way of modeling
+# An other way of modeling
 
 # The vocabulaire
 
