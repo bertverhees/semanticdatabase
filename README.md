@@ -9,11 +9,11 @@ Release 0.0.1
 First you agree on the vocabulaire in which to model, for that purpose is the module Vocabulaire in this project.
 It allows to define words (in classes) and define the meanings in properties and relations.
 
-The target is to have a fail-safe vocabulaire class-system, a way to store and open a vocabulary, and a primitive gui to define a new  or to open/change an existing vocabulary
+The target is to have a fail-safe vocabulary class-system, which serves a way to create, store and open a vocabulary, and gives API to a primitive gui/editor to define new  or to open/change existing vocabularies
 
-# The model which uses the vocabulary
+# The model to use the created vocabulary functionality
 
-I come back to this when my code arrives this point
+I come back to this when my code arrives this point. Check in later!
 
 # OpenEhr
 
