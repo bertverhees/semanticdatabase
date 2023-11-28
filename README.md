@@ -6,7 +6,7 @@ Release 0.0.1
 
 ## The vocabulary
 
-First you agree on the vocabulaire in which to model, for that purpose is the module Vocabulaire in this project.
+When modeling you need to agree on the vocabulary in which to model, for that purpose is the module Vocabulary in this project.
 It allows to define words (in classes) and define the meanings in properties and relations.
 
 The target is to have a fail-safe vocabulary class-system, which serves a way to create, store and open a vocabulary, and gives API to a primitive gui/editor to define new  or to open/change existing vocabularies
