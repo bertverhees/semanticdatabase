@@ -6,6 +6,8 @@ package vocabulary
 type IElStaticRef interface {
 	IElFeatureRef
 	EvalType() IBmmType
+	Definition() IBmmStatic
+	SetDefinition(definition IBmmStatic) error
 }
 
 // Struct definition
@@ -14,13 +16,21 @@ type ElStaticRef struct {
 	// Attributes
 	// Constant definition (within class).
 	definition IBmmStatic `yaml:"definition" json:"definition" xml:"definition"`
-	// Defined to return False.
-	isWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+}
+
+func (e *ElStaticRef) Definition() IBmmStatic {
+	return e.definition
+}
+
+func (e *ElStaticRef) SetDefinition(definition IBmmStatic) error {
+	e.definition = definition
+	return nil
 }
 
 // CONSTRUCTOR
 func NewElStaticRef() *ElStaticRef {
 	elstaticref := new(ElStaticRef)
+	elstaticref.isWritable = false
 	// Constants
 	return elstaticref
 }
@@ -28,39 +38,44 @@ func NewElStaticRef() *ElStaticRef {
 // BUILDER
 type ElStaticRefBuilder struct {
 	elstaticref *ElStaticRef
+	errors      []error
 }
 
 func NewElStaticRefBuilder() *ElStaticRefBuilder {
 	return &ElStaticRefBuilder{
 		elstaticref: NewElStaticRef(),
+		errors:      make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Constant definition (within class).
-func (i *ElStaticRefBuilder) SetDefinition(v IBmmStatic) *ElStaticRefBuilder {
-	i.elstaticref.definition = v
+func (i *ElStaticRefBuilder) SetDefinition(v IBmmProperty) *ElStaticRefBuilder {
+	i.AddError(i.elstaticref.SetDefinition(v))
 	return i
 }
 
-// Defined to return False.
-func (i *ElStaticRefBuilder) SetIsWritable(v bool) *ElStaticRefBuilder {
-	i.elstaticref.isWritable = v
-	return i
-}
+// Defined to return True.
+//func (i *ElPropertyRefBuilder) SetIsWritable(v bool) *ElPropertyRefBuilder {
 
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElStaticRefBuilder) SetScoper(v IElValueGenerator) *ElStaticRefBuilder {
-	i.elstaticref.scoper = v
+	i.AddError(i.elstaticref.SetScoper(v))
 	return i
 }
 
 // From: ElValueGenerator
 // name used to represent the reference or other entity.
 func (i *ElStaticRefBuilder) SetName(v string) *ElStaticRefBuilder {
-	i.elstaticref.name = v
+	i.AddError(i.elstaticref.SetName(v))
 	return i
+}
+
+func (i *ElStaticRefBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElStaticRefBuilder) Build() *ElStaticRef {

@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 /**
 A call made on a closed function agent, returning a result. Equivalent to an
 'application' of a function in Lambda calculus.
@@ -17,10 +19,16 @@ type ElFunctionCall struct {
 	ElAgentCall
 	ElFeatureRef
 	// Attributes
-	// The function agent being called.
-	agent IElFunctionAgent `yaml:"agent" json:"agent" xml:"agent"`
-	// Defined to return False.
-	isWritable bool `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+}
+
+func (e *ElFunctionCall) SetAgent(agent IElFunctionAgent) error {
+	s, ok := agent.(IElFunctionAgent)
+	if !ok {
+		return errors.New("_type-assertion in ElFunctionCall->SetAgent went wrong")
+	} else {
+		e.agent = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR

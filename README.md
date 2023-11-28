@@ -11,7 +11,7 @@ It allows to define words (in classes) and define the meanings in properties and
 
 The target is to have a fail-safe vocabulary class-system, which serves a way to create, store and open a vocabulary, and gives API to a primitive gui/editor to define new  or to open/change existing vocabularies
 
-## The model to use the created vocabulary functionality
+## Use the created vocabulary
 
 I come back to this when my code arrives this point. Check in later!
 
