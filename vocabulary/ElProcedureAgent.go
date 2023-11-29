@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 // An agent whose signature is of a procedure, i.e. has no result type.
 
 // Interface definition
@@ -13,39 +15,53 @@ type IElProcedureAgent interface {
 type ElProcedureAgent struct {
 	ElAgent
 	// Attributes
-	// Reference to definition of routine for which this is a call instance.
-	definition IBmmProcedure `yaml:"definition" json:"definition" xml:"definition"`
+}
+
+func (e *ElProcedureAgent) SetDefinition(definition IBmmRoutine) error {
+	s, ok := definition.(IBmmProcedure)
+	if !ok {
+		return errors.New("_type-assertion in ElProcedureAgent->SetDefinition went wrong")
+	} else {
+		e.definition = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
 func NewElProcedureAgent() *ElProcedureAgent {
 	elprocedureagent := new(ElProcedureAgent)
-	// Constants
+	elprocedureagent.openArgs = make([]string, 0)
+	elprocedureagent.isWritable = false
 	return elprocedureagent
 }
 
 // BUILDER
 type ElProcedureAgentBuilder struct {
 	elprocedureagent *ElProcedureAgent
+	errors           []error
 }
 
 func NewElProcedureAgentBuilder() *ElProcedureAgentBuilder {
 	return &ElProcedureAgentBuilder{
 		elprocedureagent: NewElProcedureAgent(),
+		errors:           make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
-// Reference to definition of routine for which this is a call instance.
-func (i *ElProcedureAgentBuilder) SetDefinition(v IBmmProcedure) *ElProcedureAgentBuilder {
-	i.elprocedureagent.definition = v
+/**
+Reference to definition of a routine for which this is a direct call instance,
+if one exists.
+*/
+func (i *ElProcedureAgentBuilder) SetDefinition(v IBmmFunction) *ElProcedureAgentBuilder {
+	i.AddError(i.elprocedureagent.SetDefinition(v))
 	return i
 }
 
 // From: ElAgent
 // Closed arguments of a routine call as a tuple of objects.
 func (i *ElProcedureAgentBuilder) SetClosedArgs(v IElTuple) *ElProcedureAgentBuilder {
-	i.elprocedureagent.closedArgs = v
+	i.AddError(i.elprocedureagent.SetClosedArgs(v))
 	return i
 }
 
@@ -56,28 +72,28 @@ name refers to a routine with more arguments than supplied in closed_args , the
 missing arguments are inferred from the definition .
 */
 func (i *ElProcedureAgentBuilder) SetOpenArgs(v []string) *ElProcedureAgentBuilder {
-	i.elprocedureagent.openArgs = v
+	i.AddError(i.elprocedureagent.SetOpenArgs(v))
 	return i
 }
 
 // From: ElAgent
 // name of the routine being called.
 func (i *ElProcedureAgentBuilder) SetName(v string) *ElProcedureAgentBuilder {
-	i.elprocedureagent.ElValueGenerator.name = v
-	return i
-}
-
-// From: ElAgent
-func (i *ElProcedureAgentBuilder) SetIsWritable(v bool) *ElProcedureAgentBuilder {
-	i.elprocedureagent.ElValueGenerator.isWritable = v
+	i.AddError(i.elprocedureagent.SetName(v))
 	return i
 }
 
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElProcedureAgentBuilder) SetScoper(v IElValueGenerator) *ElProcedureAgentBuilder {
-	i.elprocedureagent.scoper = v
+	i.AddError(i.elprocedureagent.SetScoper(v))
 	return i
+}
+
+func (i *ElProcedureAgentBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElProcedureAgentBuilder) Build() *ElProcedureAgent {

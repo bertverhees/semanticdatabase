@@ -1,28 +1,36 @@
 package vocabulary
 
+import "errors"
+
 // An agent whose signature is of a function, i.e. has a result type.
 
 // Interface definition
 type IElFunctionAgent interface {
 	IElAgent
 	//EL_FUNCTION_AGENT
-	EvalType() IBmmFunctionType
 }
 
 // Struct definition
 type ElFunctionAgent struct {
 	ElAgent
 	// Attributes
-	/**
-	Reference to definition of a routine for which this is a direct call instance,
-	if one exists.
-	*/
-	definition IBmmFunction `yaml:"definition" json:"definition" xml:"definition"`
+}
+
+func (e *ElFunctionAgent) SetDefinition(definition IBmmRoutine) error {
+	s, ok := definition.(IBmmFunction)
+	if !ok {
+		return errors.New("_type-assertion in ElFunctionAgent->SetDefinition went wrong")
+	} else {
+		e.definition = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
 func NewElFunctionAgent() *ElFunctionAgent {
 	elfunctionagent := new(ElFunctionAgent)
+	elfunctionagent.openArgs = make([]string, 0)
+	elfunctionagent.isWritable = false
 	// Constants
 	return elfunctionagent
 }
@@ -30,11 +38,13 @@ func NewElFunctionAgent() *ElFunctionAgent {
 // BUILDER
 type ElFunctionAgentBuilder struct {
 	elfunctionagent *ElFunctionAgent
+	errors          []error
 }
 
 func NewElFunctionAgentBuilder() *ElFunctionAgentBuilder {
 	return &ElFunctionAgentBuilder{
 		elfunctionagent: NewElFunctionAgent(),
+		errors:          make([]error, 0),
 	}
 }
 
@@ -44,14 +54,14 @@ Reference to definition of a routine for which this is a direct call instance,
 if one exists.
 */
 func (i *ElFunctionAgentBuilder) SetDefinition(v IBmmFunction) *ElFunctionAgentBuilder {
-	i.elfunctionagent.definition = v
+	i.AddError(i.elfunctionagent.SetDefinition(v))
 	return i
 }
 
 // From: ElAgent
 // Closed arguments of a routine call as a tuple of objects.
 func (i *ElFunctionAgentBuilder) SetClosedArgs(v IElTuple) *ElFunctionAgentBuilder {
-	i.elfunctionagent.closedArgs = v
+	i.AddError(i.elfunctionagent.SetClosedArgs(v))
 	return i
 }
 
@@ -62,28 +72,28 @@ name refers to a routine with more arguments than supplied in closed_args , the
 missing arguments are inferred from the definition .
 */
 func (i *ElFunctionAgentBuilder) SetOpenArgs(v []string) *ElFunctionAgentBuilder {
-	i.elfunctionagent.openArgs = v
+	i.AddError(i.elfunctionagent.SetOpenArgs(v))
 	return i
 }
 
 // From: ElAgent
 // name of the routine being called.
 func (i *ElFunctionAgentBuilder) SetName(v string) *ElFunctionAgentBuilder {
-	i.elfunctionagent.ElValueGenerator.name = v
-	return i
-}
-
-// From: ElAgent
-func (i *ElFunctionAgentBuilder) SetIsWritable(v bool) *ElFunctionAgentBuilder {
-	i.elfunctionagent.ElValueGenerator.isWritable = v
+	i.AddError(i.elfunctionagent.SetName(v))
 	return i
 }
 
 // From: ElFeatureRef
 // Scoping expression, which must be a EL_VALUE_GENERATOR .
 func (i *ElFunctionAgentBuilder) SetScoper(v IElValueGenerator) *ElFunctionAgentBuilder {
-	i.elfunctionagent.scoper = v
+	i.AddError(i.elfunctionagent.SetScoper(v))
 	return i
+}
+
+func (i *ElFunctionAgentBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElFunctionAgentBuilder) Build() *ElFunctionAgent {
@@ -91,33 +101,3 @@ func (i *ElFunctionAgentBuilder) Build() *ElFunctionAgent {
 }
 
 //FUNCTIONS
-/**
-Post_result : result = definition.signature. Eval type is the signature
-corresponding to the (remaining) open arguments and return type, if any.
-*/
-func (e *ElFunctionAgent) EvalType() IBmmFunctionType {
-	return nil
-}
-
-// From: EL_AGENT
-// Post_result_validity : result = open_arguments = Void
-// True if there are no open arguments.
-func (e *ElFunctionAgent) IsCallable() bool {
-	return false
-}
-
-// From: EL_AGENT
-// Generated full reference name, including scoping elements.
-func (e *ElFunctionAgent) Reference() string {
-	return ""
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElFunctionAgent) IsBoolean() bool {
-	return false
-}

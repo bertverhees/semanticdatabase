@@ -16,6 +16,12 @@ type IElAgent interface {
 	//EvalType() IBmmRoutineType //effected //abstract//defined in IElFeatureRef
 	IsCallable() bool
 	Reference() string
+	ClosedArgs() IElTuple
+	SetClosedArgs(closedArgs IElTuple) error
+	OpenArgs()
+	SetOpenArgs(openArgs []string) error
+	Definition() IBmmRoutine
+	SetDefinition(definition IBmmRoutine) error
 }
 
 // Struct definition
@@ -32,22 +38,39 @@ type ElAgent struct {
 	openArgs []string `yaml:"openargs" json:"openargs" xml:"openargs"`
 	// Reference to definition of a routine for which this is an agent, if one exists.
 	definition IBmmRoutine `yaml:"definition" json:"definition" xml:"definition"`
-	// name of the routine being called.
-	name       string `yaml:"name" json:"name" xml:"name"`
-	isWritable bool   `yaml:"iswritable" json:"iswritable" xml:"iswritable"`
+}
+
+func (e *ElAgent) ClosedArgs() IElTuple {
+	return e.closedArgs
+}
+
+func (e *ElAgent) SetClosedArgs(closedArgs IElTuple) error {
+	e.closedArgs = closedArgs
+	return nil
+}
+
+func (e *ElAgent) OpenArgs() []string {
+	return e.openArgs
+}
+
+func (e *ElAgent) SetOpenArgs(openArgs []string) error {
+	e.openArgs = openArgs
+	return nil
+}
+
+func (e *ElAgent) Definition() IBmmRoutine {
+	return e.definition
+}
+
+func (e *ElAgent) SetDefinition(definition IBmmRoutine) error {
+	e.definition = definition
+	return nil
 }
 
 // CONSTRUCTOR
 //abstract, no constructor, no builder
 
 //FUNCTIONS
-/**
-Post_result : result = definition.signature. Eval type is the signature
-corresponding to the (remaining) open arguments and return type, if any.
-*/
-func (e *ElAgent) EvalType() IBmmRoutineType {
-	return nil
-}
 
 // Post_result_validity : result = open_arguments = Void
 // True if there are no open arguments.
@@ -58,14 +81,4 @@ func (e *ElAgent) IsCallable() bool {
 // Generated full reference name, including scoping elements.
 func (e *ElAgent) Reference() string {
 	return ""
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElAgent) IsBoolean() bool {
-	return false
 }

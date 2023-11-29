@@ -27,11 +27,13 @@ func NewElAttached() *ElAttached {
 // BUILDER
 type ElAttachedBuilder struct {
 	elattached *ElAttached
+	errors     []error
 }
 
 func NewElAttachedBuilder() *ElAttachedBuilder {
 	return &ElAttachedBuilder{
 		elattached: NewElAttached(),
+		errors:     make([]error, 0),
 	}
 }
 
@@ -39,8 +41,14 @@ func NewElAttachedBuilder() *ElAttachedBuilder {
 // From: ElPredicate
 // The target instance of this predicate.
 func (i *ElAttachedBuilder) SetOperand(v IElValueGenerator) *ElAttachedBuilder {
-	i.elattached.operand = v
+	i.AddError(i.elattached.SetOperand(v))
 	return i
+}
+
+func (i *ElAttachedBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElAttachedBuilder) Build() *ElAttached {
@@ -48,18 +56,3 @@ func (i *ElAttachedBuilder) Build() *ElAttached {
 }
 
 // FUNCTIONS
-// From: EL_PREDICATE
-// Return {BMM_MODEL}. boolean_type_definition () .
-func (e *ElAttached) EvalType() IBmmSimpleType {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElAttached) IsBoolean() bool {
-	return false
-}

@@ -28,11 +28,13 @@ func NewElDefined() *ElDefined {
 // BUILDER
 type ElDefinedBuilder struct {
 	eldefined *ElDefined
+	errors    []error
 }
 
 func NewElDefinedBuilder() *ElDefinedBuilder {
 	return &ElDefinedBuilder{
 		eldefined: NewElDefined(),
+		errors:    make([]error, 0),
 	}
 }
 
@@ -40,8 +42,14 @@ func NewElDefinedBuilder() *ElDefinedBuilder {
 // From: ElPredicate
 // The target instance of this predicate.
 func (i *ElDefinedBuilder) SetOperand(v IElValueGenerator) *ElDefinedBuilder {
-	i.eldefined.operand = v
+	i.AddError(i.eldefined.SetOperand(v))
 	return i
+}
+
+func (i *ElDefinedBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElDefinedBuilder) Build() *ElDefined {
@@ -49,18 +57,3 @@ func (i *ElDefinedBuilder) Build() *ElDefined {
 }
 
 // FUNCTIONS
-// From: EL_PREDICATE
-// Return {BMM_MODEL}. boolean_type_definition () .
-func (e *ElDefined) EvalType() IBmmSimpleType {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElDefined) IsBoolean() bool {
-	return false
-}

@@ -7,6 +7,8 @@ type IElPredicate interface {
 	IElSimple
 	//EL_PREDICATE
 	EvalType() IBmmSimpleType
+	Operand() IElValueGenerator
+	SetOperand(operand IElValueGenerator) error
 }
 
 // Struct definition
@@ -15,6 +17,15 @@ type ElPredicate struct {
 	// Attributes
 	// The target instance of this predicate.
 	operand IElValueGenerator `yaml:"operand" json:"operand" xml:"operand"`
+}
+
+func (e *ElPredicate) Operand() IElValueGenerator {
+	return e.operand
+}
+
+func (e *ElPredicate) SetOperand(operand IElValueGenerator) error {
+	e.operand = operand
+	return nil
 }
 
 // CONSTRUCTOR

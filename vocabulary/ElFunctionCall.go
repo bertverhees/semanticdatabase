@@ -41,11 +41,13 @@ func NewElFunctionCall() *ElFunctionCall {
 // BUILDER
 type ElFunctionCallBuilder struct {
 	elfunctioncall *ElFunctionCall
+	errors           []error
 }
 
 func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
 	return &ElFunctionCallBuilder{
 		elfunctioncall: NewElFunctionCall(),
+		errors:           make([]error, 0),
 	}
 }
 
@@ -74,6 +76,12 @@ func (i *ElFunctionCallBuilder) SetScoper(v IElValueGenerator) *ElFunctionCallBu
 func (i *ElFunctionCallBuilder) SetName(v string) *ElFunctionCallBuilder {
 	i.elfunctioncall.name = v
 	return i
+}
+
+func (i *ElFunctionCallBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElFunctionCallBuilder) Build() *ElFunctionCall {
