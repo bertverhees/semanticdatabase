@@ -9,6 +9,10 @@ created.
 // Interface definition
 type IElDecisionTable[T IElTerminal] interface {
 	IElTerminal
+	Items() []IElTerminal
+	SetItems(items []IElTerminal) error
+	Else()
+	SetElse(_else T) error
 }
 
 // Struct definition
@@ -24,24 +28,24 @@ type ElDecisionTable[T IElTerminal] struct {
 	_else T `yaml:"else" json:"else" xml:"else"`
 }
 
-// CONSTRUCTOR
-//abstract, no constructor, no builder
-//FUNCTIONS
-// From: EL_EXPRESSION
-/**
-Meta-type of expression entity used in type-checking and evaluation. Effected in
-descendants.
-*/
-func (e *ElDecisionTable[T]) EvalType() IBmmType {
+func (e *ElDecisionTable[T]) Items() []IElTerminal {
+	return e.items
+}
+
+func (e *ElDecisionTable[T]) SetItems(items []IElTerminal) error {
+	e.items = items
 	return nil
 }
 
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElDecisionTable[T]) IsBoolean() bool {
-	return false
+func (e *ElDecisionTable[T]) Else() T {
+	return e._else
 }
+
+func (e *ElDecisionTable[T]) SetElse(_else T) error {
+	e._else = _else
+	return nil
+}
+
+// CONSTRUCTOR
+//abstract, no constructor, no builder
+//FUNCTIONS

@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 /**
 Compound expression consisting of a chain of condition-gated expressions, and an
 ungated else member that as a whole, represents an if/then/elseif/else chains.
@@ -12,11 +14,6 @@ the evaluation result is the result of evaluating the else expression.
 // Interface definition
 type IElConditionChain[T IElTerminal] interface {
 	IElDecisionTable[T]
-	// From: EL_EXPRESSION
-	EvalType() IBmmType
-	IsBoolean() bool
-	//EL_TERMINAL
-	//EL_DECISION_TABLE
 }
 
 // Struct definition
@@ -31,6 +28,19 @@ type ElConditionChain[T IElTerminal] struct {
 	items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
 }
 
+func (e *ElConditionChain[T]) SetItems(items []IElTerminal) error {
+	e.items = make([]IElConditionalExpression[T], 0)
+	for _, s := range items {
+		s, ok := s.(IElConditionalExpression[T])
+		if !ok {
+			return errors.New("_type-assertion in ElConditionChain[T]->SetItems went wrong")
+		} else {
+			e.items = append(e.items, s)
+		}
+	}
+	return nil
+}
+
 // CONSTRUCTOR
 func NewElConditionChain[T IElTerminal]() *ElConditionChain[T] {
 	elconditionchain := new(ElConditionChain[T])
@@ -41,11 +51,13 @@ func NewElConditionChain[T IElTerminal]() *ElConditionChain[T] {
 // BUILDER
 type ElConditionChainBuilder[T IElTerminal] struct {
 	elconditionchain *ElConditionChain[T]
+	errors           []error
 }
 
 func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
 	return &ElConditionChainBuilder[T]{
 		elconditionchain: NewElConditionChain[T](),
+		errors:           make([]error, 0),
 	}
 }
 
@@ -54,8 +66,8 @@ func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
 Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
-func (i *ElConditionChainBuilder[T]) SetItems(v []IElConditionalExpression[T]) *ElConditionChainBuilder[T] {
-	i.elconditionchain.items = v
+func (i *ElConditionChainBuilder[T]) SetItems(v []IElTerminal) *ElConditionChainBuilder[T] {
+	i.AddError(i.elconditionchain.SetItems(v))
 	return i
 }
 
@@ -64,6 +76,12 @@ func (i *ElConditionChainBuilder[T]) SetItems(v []IElConditionalExpression[T]) *
 func (i *ElConditionChainBuilder[T]) SetElse(v T) *ElConditionChainBuilder[T] {
 	i.elconditionchain._else = v
 	return i
+}
+
+func (i *ElConditionChainBuilder[T]) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElConditionChainBuilder[T]) Build() *ElConditionChain[T] {
