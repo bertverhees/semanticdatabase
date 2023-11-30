@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 /**
 A call made on a closed procedure agent. The method in BMM via which external
 actions are achieved from within a program.
@@ -17,7 +19,17 @@ type BmmProcedureCall struct {
 	BmmSimpleStatement
 	// Attributes
 	// The procedure agent being called.
-	Agent IElProcedureAgent `yaml:"agent" json:"agent" xml:"agent"`
+	agent IElProcedureAgent `yaml:"agent" json:"agent" xml:"agent"`
+}
+
+func (e *BmmProcedureCall) SetAgent(agent IElAgent) error {
+	s, ok := agent.(IElProcedureAgent)
+	if !ok {
+		return errors.New("_type-assertion in BmmProcedureCall->SetAgent went wrong")
+	} else {
+		e.agent = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
@@ -41,7 +53,7 @@ func NewBmmProcedureCallBuilder() *BmmProcedureCallBuilder {
 // BUILDER ATTRIBUTES
 // The procedure agent being called.
 func (i *BmmProcedureCallBuilder) SetAgent(v IElProcedureAgent) *BmmProcedureCallBuilder {
-	i.bmmprocedurecall.Agent = v
+	i.bmmprocedurecall.agent = v
 	return i
 }
 

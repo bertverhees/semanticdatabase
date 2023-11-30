@@ -25,11 +25,11 @@ type ElConditionChain[T IElTerminal] struct {
 	Members of the chain, equivalent to branches in an if/then/else chain and cases
 	in a case statement.
 	*/
-	items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
+	//items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
 }
 
-func (e *ElConditionChain[T]) SetItems(items []IElTerminal) error {
-	e.items = make([]IElConditionalExpression[T], 0)
+func (e *ElConditionChain[T]) SetItems(items []IElDecisionBranch[T]) error {
+	e.items = make([]IElDecisionBranch[T], 0)
 	for _, s := range items {
 		s, ok := s.(IElConditionalExpression[T])
 		if !ok {
@@ -66,7 +66,7 @@ func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
 Members of the chain, equivalent to branches in an if/then/else chain and cases
 in a case statement.
 */
-func (i *ElConditionChainBuilder[T]) SetItems(v []IElTerminal) *ElConditionChainBuilder[T] {
+func (i *ElConditionChainBuilder[T]) SetItems(v []IElDecisionBranch[T]) *ElConditionChainBuilder[T] {
 	i.AddError(i.elconditionchain.SetItems(v))
 	return i
 }
@@ -74,7 +74,7 @@ func (i *ElConditionChainBuilder[T]) SetItems(v []IElTerminal) *ElConditionChain
 // From: ElDecisionTable
 // result expression of conditional, if its condition evaluates to True.
 func (i *ElConditionChainBuilder[T]) SetElse(v T) *ElConditionChainBuilder[T] {
-	i.elconditionchain._else = v
+	i.AddError(i.elconditionchain.SetElse(v))
 	return i
 }
 

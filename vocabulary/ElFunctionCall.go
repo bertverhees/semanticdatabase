@@ -21,7 +21,7 @@ type ElFunctionCall struct {
 	// Attributes
 }
 
-func (e *ElFunctionCall) SetAgent(agent IElFunctionAgent) error {
+func (e *ElFunctionCall) SetAgent(agent IElAgent) error {
 	s, ok := agent.(IElFunctionAgent)
 	if !ok {
 		return errors.New("_type-assertion in ElFunctionCall->SetAgent went wrong")
@@ -41,13 +41,13 @@ func NewElFunctionCall() *ElFunctionCall {
 // BUILDER
 type ElFunctionCallBuilder struct {
 	elfunctioncall *ElFunctionCall
-	errors           []error
+	errors         []error
 }
 
 func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
 	return &ElFunctionCallBuilder{
 		elfunctioncall: NewElFunctionCall(),
-		errors:           make([]error, 0),
+		errors:         make([]error, 0),
 	}
 }
 

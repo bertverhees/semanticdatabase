@@ -18,7 +18,7 @@ type IElAgent interface {
 	Reference() string
 	ClosedArgs() IElTuple
 	SetClosedArgs(closedArgs IElTuple) error
-	OpenArgs()
+	OpenArgs() []string
 	SetOpenArgs(openArgs []string) error
 	Definition() IBmmRoutine
 	SetDefinition(definition IBmmRoutine) error
