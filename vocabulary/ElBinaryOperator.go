@@ -5,6 +5,10 @@ package vocabulary
 // Interface definition
 type IElBinaryOperator interface {
 	IElOperator
+	LeftOperand() IElExpression
+	SetLeftOperand(leftOperand IElExpression) error
+	RightOperand() IElExpression
+	SetRightOperand(rightOperand IElExpression) error
 }
 
 // Struct definition
@@ -17,6 +21,24 @@ type ElBinaryOperator struct {
 	rightOperand IElExpression `yaml:"rightoperand" json:"rightoperand" xml:"rightoperand"`
 }
 
+func (e *ElBinaryOperator) LeftOperand() IElExpression {
+	return e.leftOperand
+}
+
+func (e *ElBinaryOperator) SetLeftOperand(leftOperand IElExpression) error {
+	e.leftOperand = leftOperand
+	return nil
+}
+
+func (e *ElBinaryOperator) RightOperand() IElExpression {
+	return e.rightOperand
+}
+
+func (e *ElBinaryOperator) SetRightOperand(rightOperand IElExpression) error {
+	e.rightOperand = rightOperand
+	return nil
+}
+
 // CONSTRUCTOR
 func NewElBinaryOperator() *ElBinaryOperator {
 	elbinaryoperator := new(ElBinaryOperator)
@@ -27,24 +49,26 @@ func NewElBinaryOperator() *ElBinaryOperator {
 // BUILDER
 type ElBinaryOperatorBuilder struct {
 	elbinaryoperator *ElBinaryOperator
+	errors           []error
 }
 
 func NewElBinaryOperatorBuilder() *ElBinaryOperatorBuilder {
 	return &ElBinaryOperatorBuilder{
 		elbinaryoperator: NewElBinaryOperator(),
+		errors:           make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // Left operand node.
 func (i *ElBinaryOperatorBuilder) SetLeftOperand(v IElExpression) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.leftOperand = v
+	i.AddError(i.elbinaryoperator.SetLeftOperand(v))
 	return i
 }
 
 // Right operand node.
 func (i *ElBinaryOperatorBuilder) SetRightOperand(v IElExpression) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.rightOperand = v
+	i.AddError(i.elbinaryoperator.SetRightOperand(v))
 	return i
 }
 
@@ -56,7 +80,7 @@ introduced around the totality of the syntax expression corresponding to this
 operator node and its operands.
 */
 func (i *ElBinaryOperatorBuilder) SetPrecedenceOverridden(v bool) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.precedenceOverridden = v
+	i.AddError(i.elbinaryoperator.SetPrecedenceOverridden(v))
 	return i
 }
 
@@ -66,7 +90,7 @@ The symbol actually used in the expression, or intended to be used for
 serialisation. Must be a member of OPERATOR_DEF. symbols .
 */
 func (i *ElBinaryOperatorBuilder) SetSymbol(v string) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.symbol = v
+	i.AddError(i.elbinaryoperator.SetSymbol(v))
 	return i
 }
 
@@ -76,8 +100,14 @@ Function call equivalent to this operator expression, inferred by matching
 operator against functions defined in interface of principal operand.
 */
 func (i *ElBinaryOperatorBuilder) SetCall(v IElFunctionCall) *ElBinaryOperatorBuilder {
-	i.elbinaryoperator.call = v
+	i.AddError(i.elbinaryoperator.SetCall(v))
 	return i
+}
+
+func (i *ElBinaryOperatorBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElBinaryOperatorBuilder) Build() *ElBinaryOperator {

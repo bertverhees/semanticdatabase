@@ -24,11 +24,13 @@ func NewElBooleanExpression() *ElBooleanExpression {
 // BUILDER
 type ElBooleanExpressionBuilder struct {
 	elbooleanexpression *ElBooleanExpression
+	errors              []error
 }
 
 func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
 	return &ElBooleanExpressionBuilder{
 		elbooleanexpression: NewElBooleanExpression(),
+		errors:              make([]error, 0),
 	}
 }
 
@@ -36,8 +38,14 @@ func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
 // From: ElConstrained
 // The base expression of this constrained form.
 func (i *ElBooleanExpressionBuilder) SetBaseExpression(v IElExpression) *ElBooleanExpressionBuilder {
-	i.elbooleanexpression.baseExpression = v
+	i.AddError(i.elbooleanexpression.SetBaseExpression(v))
 	return i
+}
+
+func (i *ElBooleanExpressionBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElBooleanExpressionBuilder) Build() *ElBooleanExpression {

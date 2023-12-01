@@ -8,6 +8,12 @@ type IElOperator interface {
 	//EL_OPERATOR
 	OperatorDefinition() IBmmOperator
 	EquivalentCall() IElFunctionCall
+	PrecedenceOverridden() bool
+	SetPrecedenceOverridden(precedenceOverridden bool) error
+	Symbol() string
+	SetSymbol(symbol string) error
+	Call() IElFunctionCall
+	SetCall(call IElFunctionCall) error
 }
 
 // Struct definition
@@ -33,6 +39,33 @@ type ElOperator struct {
 	call IElFunctionCall `yaml:"call" json:"call" xml:"call"`
 }
 
+func (e *ElOperator) PrecedenceOverridden() bool {
+	return e.precedenceOverridden
+}
+
+func (e *ElOperator) SetPrecedenceOverridden(precedenceOverridden bool) error {
+	e.precedenceOverridden = precedenceOverridden
+	return nil
+}
+
+func (e *ElOperator) Symbol() string {
+	return e.symbol
+}
+
+func (e *ElOperator) SetSymbol(symbol string) error {
+	e.symbol = symbol
+	return nil
+}
+
+func (e *ElOperator) Call() IElFunctionCall {
+	return e.call
+}
+
+func (e *ElOperator) SetCall(call IElFunctionCall) error {
+	e.call = call
+	return nil
+}
+
 // CONSTRUCTOR
 // abstract, no constructor, no builder
 // FUNCTIONS
@@ -44,23 +77,4 @@ func (e *ElOperator) OperatorDefinition() IBmmOperator {
 // Function call equivalent to this operator.
 func (e *ElOperator) EquivalentCall() IElFunctionCall {
 	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Meta-type of expression entity used in type-checking and evaluation. Effected in
-descendants.
-*/
-func (e *ElOperator) EvalType() IBmmType {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElOperator) IsBoolean() bool {
-	return false
 }

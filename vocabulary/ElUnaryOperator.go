@@ -5,6 +5,8 @@ package vocabulary
 // Interface definition
 type IElUnaryOperator interface {
 	IElOperator
+	Operand() IElExpression
+	SetOperand(operand IElExpression) error
 }
 
 // Struct definition
@@ -13,6 +15,15 @@ type ElUnaryOperator struct {
 	// Attributes
 	// operand node.
 	operand IElExpression `yaml:"operand" json:"operand" xml:"operand"`
+}
+
+func (e *ElUnaryOperator) Operand() IElExpression {
+	return e.operand
+}
+
+func (e *ElUnaryOperator) SetOperand(operand IElExpression) error {
+	e.operand = operand
+	return nil
 }
 
 // CONSTRUCTOR
@@ -25,18 +36,20 @@ func NewElUnaryOperator() *ElUnaryOperator {
 // BUILDER
 type ElUnaryOperatorBuilder struct {
 	elunaryoperator *ElUnaryOperator
+	errors          []error
 }
 
 func NewElUnaryOperatorBuilder() *ElUnaryOperatorBuilder {
 	return &ElUnaryOperatorBuilder{
 		elunaryoperator: NewElUnaryOperator(),
+		errors:          make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // operand node.
 func (i *ElUnaryOperatorBuilder) SetOperand(v IElExpression) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.operand = v
+	i.AddError(i.elunaryoperator.SetOperand(v))
 	return i
 }
 
@@ -48,7 +61,7 @@ introduced around the totality of the syntax expression corresponding to this
 operator node and its operands.
 */
 func (i *ElUnaryOperatorBuilder) SetPrecedenceOverridden(v bool) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.precedenceOverridden = v
+	i.AddError(i.elunaryoperator.SetPrecedenceOverridden(v))
 	return i
 }
 
@@ -58,7 +71,7 @@ The symbol actually used in the expression, or intended to be used for
 serialisation. Must be a member of OPERATOR_DEF. symbols .
 */
 func (i *ElUnaryOperatorBuilder) SetSymbol(v string) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.symbol = v
+	i.AddError(i.elunaryoperator.SetSymbol(v))
 	return i
 }
 
@@ -68,8 +81,14 @@ Function call equivalent to this operator expression, inferred by matching
 operator against functions defined in interface of principal operand.
 */
 func (i *ElUnaryOperatorBuilder) SetCall(v IElFunctionCall) *ElUnaryOperatorBuilder {
-	i.elunaryoperator.call = v
+	i.AddError(i.elunaryoperator.SetCall(v))
 	return i
+}
+
+func (i *ElUnaryOperatorBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElUnaryOperatorBuilder) Build() *ElUnaryOperator {
@@ -77,33 +96,3 @@ func (i *ElUnaryOperatorBuilder) Build() *ElUnaryOperator {
 }
 
 // FUNCTIONS
-// From: EL_OPERATOR
-// Operator definition derived from definition.operator_definition() .
-func (e *ElUnaryOperator) OperatorDefinition() IBmmOperator {
-	return nil
-}
-
-// From: EL_OPERATOR
-// Function call equivalent to this operator.
-func (e *ElUnaryOperator) EquivalentCall() IElFunctionCall {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Meta-type of expression entity used in type-checking and evaluation. Effected in
-descendants.
-*/
-func (e *ElUnaryOperator) EvalType() IBmmType {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElUnaryOperator) IsBoolean() bool {
-	return false
-}

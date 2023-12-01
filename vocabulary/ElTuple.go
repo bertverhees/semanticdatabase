@@ -5,7 +5,10 @@ package vocabulary
 // Interface definition
 type IElTuple interface {
 	IElExpression
-	EvalType() IBmmType
+	Items() []IElTupleItem
+	SetItems(items []IElTupleItem) error
+	Type() IBmmTupleType
+	SetType(_type IBmmTupleType) error
 }
 
 // Struct definition
@@ -21,9 +24,28 @@ type ElTuple struct {
 	_type IBmmTupleType `yaml:"type" json:"type" xml:"type"`
 }
 
+func (e *ElTuple) Items() []IElTupleItem {
+	return e.items
+}
+
+func (e *ElTuple) SetItems(items []IElTupleItem) error {
+	e.items = items
+	return nil
+}
+
+func (e *ElTuple) Type() IBmmTupleType {
+	return e._type
+}
+
+func (e *ElTuple) SetType(_type IBmmTupleType) error {
+	e._type = _type
+	return nil
+}
+
 // CONSTRUCTOR
 func NewElTuple() *ElTuple {
 	eltuple := new(ElTuple)
+	eltuple.items = make([]IElTupleItem, 0)
 	// Constants
 	return eltuple
 }
@@ -31,11 +53,13 @@ func NewElTuple() *ElTuple {
 // BUILDER
 type ElTupleBuilder struct {
 	eltuple *ElTuple
+	errors  []error
 }
 
 func NewElTupleBuilder() *ElTupleBuilder {
 	return &ElTupleBuilder{
 		eltuple: NewElTuple(),
+		errors:  make([]error, 0),
 	}
 }
 
@@ -45,14 +69,20 @@ items in the tuple, potentially with names. Typical use is to represent an
 argument list to routine call.
 */
 func (i *ElTupleBuilder) SetItems(v []IElTupleItem) *ElTupleBuilder {
-	i.eltuple.items = v
+	i.AddError(i.eltuple.SetItems(v))
 	return i
 }
 
 // Static type inferred from literal value.
 func (i *ElTupleBuilder) SetType(v IBmmTupleType) *ElTupleBuilder {
-	i.eltuple._type = v
+	i.AddError(i.eltuple.SetType(v))
 	return i
+}
+
+func (i *ElTupleBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *ElTupleBuilder) Build() *ElTuple {
@@ -60,17 +90,3 @@ func (i *ElTupleBuilder) Build() *ElTuple {
 }
 
 // FUNCTIONS
-// Return type .
-func (e *ElTuple) EvalType() IBmmType {
-	return nil
-}
-
-// From: EL_EXPRESSION
-/**
-Post_result : result = eval_type().equal(
-{BMM_MODEL}.boolean_type_definition()). True if eval_type is notionally Boolean
-(i.e. a BMM_SIMPLE_TYPE with type_name() = Boolean ).
-*/
-func (e *ElTuple) IsBoolean() bool {
-	return false
-}
