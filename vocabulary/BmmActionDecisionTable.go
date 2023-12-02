@@ -26,15 +26,23 @@ func NewBmmActionDecisionTable() *BmmActionDecisionTable {
 // BUILDER
 type BmmActionDecisionTableBuilder struct {
 	bmmactiondecisiontable *BmmActionDecisionTable
+	errors                 []error
 }
 
 func NewBmmActionDecisionTableBuilder() *BmmActionDecisionTableBuilder {
 	return &BmmActionDecisionTableBuilder{
 		bmmactiondecisiontable: NewBmmActionDecisionTable(),
+		errors:                 make([]error, 0),
 	}
 }
 
 //BUILDER ATTRIBUTES
+
+func (i *BmmActionDecisionTableBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
 
 func (i *BmmActionDecisionTableBuilder) Build() *BmmActionDecisionTable {
 	return i.bmmactiondecisiontable

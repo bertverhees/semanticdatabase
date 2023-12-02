@@ -16,27 +16,4 @@ type BmmSimpleStatement struct {
 }
 
 // CONSTRUCTOR
-func NewBmmSimpleStatement() *BmmSimpleStatement {
-	bmmsimplestatement := new(BmmSimpleStatement)
-	// Constants
-	return bmmsimplestatement
-}
-
-// BUILDER
-type BmmSimpleStatementBuilder struct {
-	bmmsimplestatement *BmmSimpleStatement
-}
-
-func NewBmmSimpleStatementBuilder() *BmmSimpleStatementBuilder {
-	return &BmmSimpleStatementBuilder{
-		bmmsimplestatement: NewBmmSimpleStatement(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *BmmSimpleStatementBuilder) Build() *BmmSimpleStatement {
-	return i.bmmsimplestatement
-}
-
-//FUNCTIONS
+//abstract, no builder, no constructor

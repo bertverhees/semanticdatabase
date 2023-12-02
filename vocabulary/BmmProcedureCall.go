@@ -42,19 +42,27 @@ func NewBmmProcedureCall() *BmmProcedureCall {
 // BUILDER
 type BmmProcedureCallBuilder struct {
 	bmmprocedurecall *BmmProcedureCall
+	errors           []error
 }
 
 func NewBmmProcedureCallBuilder() *BmmProcedureCallBuilder {
 	return &BmmProcedureCallBuilder{
 		bmmprocedurecall: NewBmmProcedureCall(),
+		errors:           make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // The procedure agent being called.
 func (i *BmmProcedureCallBuilder) SetAgent(v IElProcedureAgent) *BmmProcedureCallBuilder {
-	i.bmmprocedurecall.agent = v
+	i.AddError(i.bmmprocedurecall.SetAgent(v))
 	return i
+}
+
+func (i *BmmProcedureCallBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *BmmProcedureCallBuilder) Build() *BmmProcedureCall {

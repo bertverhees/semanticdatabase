@@ -8,6 +8,8 @@ same name. May be used to establish scope in specific languages.
 // Interface definition
 type IBmmStatementBlock interface {
 	IBmmStatementItem
+	Items() []IBmmStatementItem
+	SetItems(items []IBmmStatementItem) error
 }
 
 // Struct definition
@@ -15,36 +17,17 @@ type BmmStatementBlock struct {
 	BmmStatementItem
 	// Attributes
 	// Child blocks of the current block.
-	Items []IBmmStatementItem `yaml:"items" json:"items" xml:"items"`
+	items []IBmmStatementItem `yaml:"items" json:"items" xml:"items"`
+}
+
+func (b *BmmStatementBlock) Items() []IBmmStatementItem {
+	return b.items
+}
+
+func (b *BmmStatementBlock) SetItems(items []IBmmStatementItem) error {
+	b.items = items
+	return nil
 }
 
 // CONSTRUCTOR
-func NewBmmStatementBlock() *BmmStatementBlock {
-	bmmstatementblock := new(BmmStatementBlock)
-	// Constants
-	return bmmstatementblock
-}
-
-// BUILDER
-type BmmStatementBlockBuilder struct {
-	bmmstatementblock *BmmStatementBlock
-}
-
-func NewBmmStatementBlockBuilder() *BmmStatementBlockBuilder {
-	return &BmmStatementBlockBuilder{
-		bmmstatementblock: NewBmmStatementBlock(),
-	}
-}
-
-// BUILDER ATTRIBUTES
-// Child blocks of the current block.
-func (i *BmmStatementBlockBuilder) SetItems(v []IBmmStatementItem) *BmmStatementBlockBuilder {
-	i.bmmstatementblock.Items = v
-	return i
-}
-
-func (i *BmmStatementBlockBuilder) Build() *BmmStatementBlock {
-	return i.bmmstatementblock
-}
-
-//FUNCTIONS
+//abstract, no builder, no constructor

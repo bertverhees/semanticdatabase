@@ -19,20 +19,4 @@ func NewBmmStatementItem() *BmmStatementItem {
 }
 
 // BUILDER
-type BmmStatementItemBuilder struct {
-	bmmstatementitem *BmmStatementItem
-}
-
-func NewBmmStatementItemBuilder() *BmmStatementItemBuilder {
-	return &BmmStatementItemBuilder{
-		bmmstatementitem: NewBmmStatementItem(),
-	}
-}
-
-//BUILDER ATTRIBUTES
-
-func (i *BmmStatementItemBuilder) Build() *BmmStatementItem {
-	return i.bmmstatementitem
-}
-
-//FUNCTIONS
+//abstract, no builder, no constructor
