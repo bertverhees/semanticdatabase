@@ -13,24 +13,32 @@ type BmmFeatureExtension struct {
 
 // CONSTRUCTOR
 func NewBmmFeatureExtension() *BmmFeatureExtension {
-	BmmFeatureExtension := new(BmmFeatureExtension)
+	bmmFeatureExtension := new(BmmFeatureExtension)
 	// Constants
-	return BmmFeatureExtension
+	return bmmFeatureExtension
 }
 
 // BUILDER
 type BmmFeatureExtensionBuilder struct {
-	BmmFeatureExtension *BmmFeatureExtension
+	bmmFeatureExtension *BmmFeatureExtension
+	errors              []error
 }
 
 func NewBmmFeatureExtensionBuilder() *BmmFeatureExtensionBuilder {
 	return &BmmFeatureExtensionBuilder{
-		BmmFeatureExtension: NewBmmFeatureExtension(),
+		bmmFeatureExtension: NewBmmFeatureExtension(),
+		errors:              make([]error, 0),
 	}
 }
 
 //BUILDER ATTRIBUTES
 
+func (i *BmmFeatureExtensionBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
+
 func (i *BmmFeatureExtensionBuilder) Build() *BmmFeatureExtension {
-	return i.BmmFeatureExtension
+	return i.bmmFeatureExtension
 }
