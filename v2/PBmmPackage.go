@@ -80,14 +80,14 @@ Package structure as a hierarchy of packages each potentially containing names
 of classes in that package in the original model.
 */
 func (i *PBmmPackageBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageBuilder {
-	i.pbmmpackage.Packages = v
+	i.pbmmpackage.packages = v
 	return i
 }
 
 // From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmPackageBuilder) SetDocumentation(v string) *PBmmPackageBuilder {
-	i.pbmmpackage.Documentation = v
+	i.pbmmpackage.documentation = v
 	return i
 }
 

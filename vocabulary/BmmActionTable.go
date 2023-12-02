@@ -58,6 +58,7 @@ func (i *BmmActionTableBuilder) SetDecisionTable(v IBmmActionDecisionTable) *Bmm
 	i.AddError(i.bmmactiontable.SetDecisionTable(v))
 	return i
 }
+
 func (i *BmmActionTableBuilder) AddError(e error) {
 	if e != nil {
 		i.errors = append(i.errors, e)

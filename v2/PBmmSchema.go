@@ -8,6 +8,8 @@ import (
 
 // Interface definition
 type IPBmmSchema interface {
+	IPBmmPackageContainer
+	vocabulary.IBmmSchema
 	/**
 	Pre_state: state = State_created
 	Post_state: passed implies state = State_validated_created
@@ -40,6 +42,10 @@ type IPBmmSchema interface {
 	E.g. "openehr_rm_ehr_1.0.4".
 	*/
 	SchemaId() string
+	PrimitiveTypes() []IPBmmClass
+	SetPrimitiveTypes(primitiveTypes []IPBmmClass) error
+	ClassDefinitions() []IPBmmClass
+	SetClassDefinitions(classDefinitions []IPBmmClass) error
 }
 
 // Struct definition
@@ -47,22 +53,38 @@ type PBmmSchema struct {
 	// embedded for Inheritance
 	PBmmPackageContainer
 	vocabulary.BmmSchema
-	vocabulary.BmmModelMetadata
-	// Constants
 	// Attributes
 	// Primitive type definitions. Persisted attribute.
-	PrimitiveTypes []IPBmmClass `yaml:"primitivetypes" json:"primitivetypes" xml:"primitivetypes"`
+	primitiveTypes []IPBmmClass `yaml:"primitivetypes" json:"primitivetypes" xml:"primitivetypes"`
 	// Class definitions. Persisted attribute.
-	ClassDefinitions []IPBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
+	classDefinitions []IPBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
+}
+
+func (p *PBmmSchema) PrimitiveTypes() []IPBmmClass {
+	return p.primitiveTypes
+}
+
+func (p *PBmmSchema) SetPrimitiveTypes(primitiveTypes []IPBmmClass) error {
+	p.primitiveTypes = primitiveTypes
+	return nil
+}
+
+func (p *PBmmSchema) ClassDefinitions() []IPBmmClass {
+	return p.classDefinitions
+}
+
+func (p *PBmmSchema) SetClassDefinitions(classDefinitions []IPBmmClass) error {
+	p.classDefinitions = classDefinitions
+	return nil
 }
 
 // CONSTRUCTOR
 func NewPBmmSchema() *PBmmSchema {
 	pbmmschema := new(PBmmSchema)
-	pbmmschema.PrimitiveTypes = make([]IPBmmClass, 0)
-	pbmmschema.ClassDefinitions = make([]IPBmmClass, 0)
+	pbmmschema.primitiveTypes = make([]IPBmmClass, 0)
+	pbmmschema.classDefinitions = make([]IPBmmClass, 0)
 	//PBmmPackageContainer
-	pbmmschema.Packages = make(map[string]IPBmmPackage)
+	pbmmschema.packages = make(map[string]IPBmmPackage)
 	//BmmSchema
 	pbmmschema.Includes = make(map[string]vocabulary.IBmmIncludeSpec)
 	pbmmschema.SchemaContributors = make([]string, 0)
@@ -85,13 +107,13 @@ func NewPBmmSchemaBuilder() *PBmmSchemaBuilder {
 // BUILDER ATTRIBUTES
 // Primitive type definitions. Persisted attribute.
 func (i *PBmmSchemaBuilder) SetPrimitiveTypes(v []IPBmmClass) *PBmmSchemaBuilder {
-	i.pbmmschema.PrimitiveTypes = v
+	i.AddError(i.pbmmschema.SetPrimitiveTypes(v))
 	return i
 }
 
 // Class definitions. Persisted attribute.
 func (i *PBmmSchemaBuilder) SetClassDefinitions(v []IPBmmClass) *PBmmSchemaBuilder {
-	i.pbmmschema.ClassDefinitions = v
+	i.AddError(i.pbmmschema.SetClassDefinitions(v))
 	return i
 }
 
@@ -101,7 +123,7 @@ Package structure as a hierarchy of packages each potentially containing names
 of classes in that package in the original model.
 */
 func (i *PBmmSchemaBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmSchemaBuilder {
-	i.pbmmschema.Packages = v
+	i.AddError(i.pbmmschema.SetPackages(v))
 	return i
 }
 

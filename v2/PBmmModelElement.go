@@ -4,6 +4,8 @@ package v2
 
 // Interface definition
 type IPBmmModelElement interface {
+	Documentation() string
+	SetDocumentation(documentation string) error
 }
 
 // Struct definition
@@ -12,7 +14,16 @@ type PBmmModelElement struct {
 	// Constants
 	// Attributes
 	// Optional documentation of this element.
-	Documentation string `yaml:"documentation" json:"documentation" xml:"documentation"`
+	documentation string `yaml:"documentation" json:"documentation" xml:"documentation"`
+}
+
+func (P *PBmmModelElement) Documentation() string {
+	return P.documentation
+}
+
+func (P *PBmmModelElement) SetDocumentation(documentation string) error {
+	P.documentation = documentation
+	return nil
 }
 
 // CONSTRUCTOR
