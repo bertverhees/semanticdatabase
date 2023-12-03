@@ -127,7 +127,7 @@ func Test_Without_Running() {
 	var _ vocabulary.IBmmRoutineType = new(vocabulary.BmmFunctionType)
 	var _ vocabulary.IBmmPropertyType = new(vocabulary.BmmPropertyType)
 	var _ vocabulary.IBmmTupleType = new(vocabulary.BmmTupleType)
-	//Classes
+	//classes
 	var _ vocabulary.IBmmClass = new(vocabulary.BmmClass)
 	var _ vocabulary.IBmmClass = new(vocabulary.BmmGenericClass)
 	var _ vocabulary.IBmmClass = new(vocabulary.BmmSimpleClass)

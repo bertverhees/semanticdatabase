@@ -10,8 +10,8 @@ const (
 	State_created BmmSchemaState = iota
 	// Initial validation pass after instantiation.
 	State_validated_created
-	// State of schema processing if there are still included schemas to process.
+	// state of schema processing if there are still included schemas to process.
 	State_includes_pending
-	// State when all included schemas have been processed.
+	// state when all included schemas have been processed.
 	State_includes_processed
 )

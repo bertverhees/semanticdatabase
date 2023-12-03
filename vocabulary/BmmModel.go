@@ -42,7 +42,7 @@ type BmmModel struct {
 	// All classes in this model, keyed by type name.
 	classDefinitions map[string]IBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
 	/**
-	List of other models 'used' (i.e. 'imported' by this model). Classes in the
+	List of other models 'used' (i.e. 'imported' by this model). classes in the
 	current model may refer to classes in a used model by specifying the other
 	class’s scope meta-attribute.
 	*/
@@ -87,7 +87,7 @@ func NewBmmModel() *BmmModel {
 	bmmmodel.extensions = make(map[string]any)
 	//BmmPackageContainer
 	bmmmodel.packages = make(map[string]IBmmPackage)
-	//BmmModel
+	//bmmModel
 	bmmmodel.classDefinitions = make(map[string]IBmmClass)
 	bmmmodel.usedModels = make([]IBmmModel, 0)
 	bmmmodel.modules = make(map[string]IBmmModule)
@@ -117,7 +117,7 @@ func (i *BmmModelBuilder) SetClassDefinitions(v map[string]IBmmClass) *BmmModelB
 
 /*
 *
-List of other models 'used' (i.e. 'imported' by this model). Classes in the
+List of other models 'used' (i.e. 'imported' by this model). classes in the
 current model may refer to classes in a used model by specifying the other
 class’s scope meta-attribute.
 */

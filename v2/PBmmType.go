@@ -11,6 +11,8 @@ type IPBmmType interface {
 	//P_BMM_TYPE
 	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
 	AsTypeString() string
+	BmmType() vocabulary.IBmmType
+	SetBmmType(bmmType vocabulary.IBmmType) error
 }
 
 // Struct definition
@@ -19,7 +21,16 @@ type PBmmType struct {
 	// Constants
 	// Attributes
 	// result of create_bmm_type() call.
-	BmmType vocabulary.IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	bmmType vocabulary.IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+}
+
+func (p *PBmmType) BmmType() vocabulary.IBmmType {
+	return p.bmmType
+}
+
+func (p *PBmmType) SetBmmType(bmmType vocabulary.IBmmType) error {
+	p.bmmType = bmmType
+	return nil
 }
 
 // CONSTRUCTOR
