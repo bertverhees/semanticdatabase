@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_ENUMERATION attributes.
 
@@ -12,7 +8,7 @@ type IPBmmEnumeration interface {
 	// From: P_BMM_CLASS
 	IsGeneric() bool
 	CreateBmmClass()
-	PopulateBmmClass(a_bmm_schema vocabulary.IBmmModel)
+	PopulateBmmClass(a_bmm_schema IBmmModel)
 	// From: P_BMM_MODEL_ELEMENT
 }
 
@@ -23,13 +19,13 @@ type PBmmEnumeration struct {
 	PBmmModelElement
 	// Constants
 	// Attributes
-	ItemNames  []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
-	ItemValues []any    `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	itemNames  []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
+	itemValues []any    `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
 	/**
 	BMM_CLASS object build by create_bmm_class_definition and
 	populate_bmm_class_definition .
 	*/
-	BmmClass vocabulary.IBmmEnumeration `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+	bmmClass IBmmEnumeration `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
 }
 
 // CONSTRUCTOR
@@ -54,11 +50,11 @@ func NewPBmmEnumerationBuilder() *PBmmEnumerationBuilder {
 
 // BUILDER ATTRIBUTES
 func (i *PBmmEnumerationBuilder) SetItemNames(v []string) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.ItemNames = v
+	i.pbmmenumeration.itemNames = v
 	return i
 }
 func (i *PBmmEnumerationBuilder) SetItemValues(v []any) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.ItemValues = v
+	i.pbmmenumeration.itemValues = v
 	return i
 }
 
@@ -67,15 +63,15 @@ func (i *PBmmEnumerationBuilder) SetItemValues(v []any) *PBmmEnumerationBuilder 
 BMM_CLASS object build by create_bmm_class_definition and
 populate_bmm_class_definition .
 */
-func (i *PBmmEnumerationBuilder) SetBmmClass(v vocabulary.IBmmEnumeration) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.BmmClass = v
+func (i *PBmmEnumerationBuilder) SetBmmClass(v IBmmEnumeration) *PBmmEnumerationBuilder {
+	i.pbmmenumeration.bmmClass = v
 	return i
 }
 
 // //From: PBmmClass
 // name of the class. Persisted attribute.
 func (i *PBmmEnumerationBuilder) SetName(v string) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.Name = v
+	i.pbmmenumeration.name = v
 	return i
 }
 
@@ -85,31 +81,31 @@ List of immediate inheritance parents. If there are generic ancestors, use
 ancestor_defs instead. Persisted attribute.
 */
 func (i *PBmmEnumerationBuilder) SetAncestors(v []string) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.Ancestors = v
+	i.pbmmenumeration.ancestors = v
 	return i
 }
 
 // List of attributes defined in this class. Persistent attribute.
 func (i *PBmmEnumerationBuilder) SetProperties(v map[string]IPBmmProperty) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.Properties = v
+	i.pbmmenumeration.properties = v
 	return i
 }
 
 // True if this is an abstract type. Persisted attribute.
 func (i *PBmmEnumerationBuilder) SetIsAbstract(v bool) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.IsAbstract = v
+	i.pbmmenumeration.isAbstract = v
 	return i
 }
 
 // True if this class definition overrides one found in an included schema.
 func (i *PBmmEnumerationBuilder) SetIsOverride(v bool) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.IsOverride = v
+	i.pbmmenumeration.isOverride = v
 	return i
 }
 
 // List of generic parameter definitions. Persisted attribute.
 func (i *PBmmEnumerationBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericParameter) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.GenericParameterDefs = v
+	i.pbmmenumeration.genericParameterDefs = v
 	return i
 }
 
@@ -121,7 +117,7 @@ containing a given class (i.e. taking into account that a class may be in any of
 the schemas in a schema inclusion hierarchy).
 */
 func (i *PBmmEnumerationBuilder) SetSourceSchemaId(v string) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.SourceSchemaId = v
+	i.pbmmenumeration.sourceSchemaId = v
 	return i
 }
 
@@ -131,7 +127,7 @@ Unique id generated for later comparison during merging, in order to detect if
 two classes are the same. Assigned in post-load processing.
 */
 func (i *PBmmEnumerationBuilder) SetUid(v int) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.Uid = v
+	i.pbmmenumeration.uid = v
 	return i
 }
 
@@ -148,7 +144,7 @@ inheritance. Persisted attribute.
 // //From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmEnumerationBuilder) SetDocumentation(v string) *PBmmEnumerationBuilder {
-	i.pbmmenumeration.Documentation = v
+	i.pbmmenumeration.documentation = v
 	return i
 }
 
@@ -174,6 +170,6 @@ func (p *PBmmEnumeration) CreateBmmClass() {
 
 // From: P_BMM_CLASS
 // Add remaining model elements from Current to bmm_class_definition .
-func (p *PBmmEnumeration) PopulateBmmClass(a_bmm_schema vocabulary.IBmmModel) {
+func (p *PBmmEnumeration) PopulateBmmClass(a_bmm_schema IBmmModel) {
 	return
 }

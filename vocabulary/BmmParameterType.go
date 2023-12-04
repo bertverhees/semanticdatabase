@@ -14,7 +14,7 @@ type IBmmParameterType interface {
 	FlattenedConformsToType() IBmmEffectiveType
 	//TypeSignature() string
 	//IsPrimitive() bool
-	//IsAbstract() bool
+	//isAbstract() bool
 	//TypeName() string
 	//FlattenedTypeList() []string
 	//EffectiveType() IBmmEffectiveType

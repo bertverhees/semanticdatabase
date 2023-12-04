@@ -40,7 +40,7 @@ func NewBmmEnumerationString() *BmmEnumerationString {
 	//BmmModule
 	bmmenumerationstring.features = make([]IBmmFeature, 0)
 	bmmenumerationstring.featureGroups = make([]IBmmFeatureGroup, 0)
-	//BmmClass
+	//bmmClass
 	bmmenumerationstring.ancestors = make(map[string]IBmmModelType)
 	bmmenumerationstring.properties = make(map[string]IBmmProperty)
 	bmmenumerationstring.immediateDescendants = make([]IBmmClass, 0)
@@ -101,7 +101,7 @@ func (i *BmmEnumerationStringBuilder) SetPackage(v IBmmPackage) *BmmEnumerationS
 }
 
 // From: BmmClass
-// Properties defined in this class (subset of features ).
+// properties defined in this class (subset of features ).
 func (i *BmmEnumerationStringBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationStringBuilder {
 	i.AddError(i.bmmenumerationstring.SetProperties(v))
 	return i

@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_SIMPLE_TYPE .
 
@@ -10,7 +6,7 @@ import (
 type IPBmmSimpleType interface {
 	// From: P_BMM_BASE_TYPE
 	// From: P_BMM_TYPE
-	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
 	AsTypeString() string
 }
 
@@ -22,9 +18,9 @@ type PBmmSimpleType struct {
 	// Constants
 	// Attributes
 	// name of type - must be a simple class name.
-	Type string `yaml:"type" json:"type" xml:"type"`
+	_type string `yaml:"type" json:"type" xml:"type"`
 	// result of create_bmm_type() call.
-	BmmType vocabulary.IBmmSimpleType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	bmmType IBmmSimpleType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 // CONSTRUCTOR
@@ -48,13 +44,13 @@ func NewPBmmSimpleTypeBuilder() *PBmmSimpleTypeBuilder {
 // BUILDER ATTRIBUTES
 // name of type - must be a simple class name.
 func (i *PBmmSimpleTypeBuilder) SetType(v string) *PBmmSimpleTypeBuilder {
-	i.pbmmsimpletype.Type = v
+	i.pbmmsimpletype._type = v
 	return i
 }
 
 // result of create_bmm_type() call.
-func (i *PBmmSimpleTypeBuilder) SetBmmType(v vocabulary.IBmmSimpleType) *PBmmSimpleTypeBuilder {
-	i.pbmmsimpletype.BmmType = v
+func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmSimpleType) *PBmmSimpleTypeBuilder {
+	i.pbmmsimpletype.bmmType = v
 	return i
 }
 
@@ -71,7 +67,7 @@ func (i *PBmmSimpleTypeBuilder) Build() *PBmmSimpleType {
 // FUNCTIONS
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmSimpleType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmSimpleType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }
 

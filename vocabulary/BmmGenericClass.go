@@ -41,7 +41,7 @@ func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass.extensions = make(map[string]any)
 	//BmmModule
 	bmmgenericclass.featureGroups = make([]IBmmFeatureGroup, 0)
-	//BmmClass
+	//bmmClass
 	bmmgenericclass.features = make([]IBmmFeature, 0)
 	bmmgenericclass.ancestors = make(map[string]IBmmModelType)
 	bmmgenericclass.properties = make(map[string]IBmmProperty)
@@ -95,7 +95,7 @@ func (i *BmmGenericClassBuilder) SetPackage(v IBmmPackage) *BmmGenericClassBuild
 }
 
 // From: BmmClass
-// Properties defined in this class (subset of features ).
+// properties defined in this class (subset of features ).
 func (i *BmmGenericClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmGenericClassBuilder {
 	i.AddError(i.bmmgenericclass.SetProperties(v))
 	return i

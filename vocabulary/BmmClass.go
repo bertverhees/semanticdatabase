@@ -245,7 +245,7 @@ func (b *BmmClass) SetFeatures(features []IBmmFormalElement) error {
 	for _, s := range features {
 		s, ok := s.(IBmmFeature)
 		if !ok {
-			return errors.New("_type-assertion in BmmClass->SetFeatures went wrong")
+			return errors.New("_type-assertion in bmmClass->SetFeatures went wrong")
 		} else {
 			b.features = append(b.features, s)
 		}

@@ -1,7 +1,6 @@
 package vocabulary
 
 import (
-	v2 "SemanticDatabase/v2"
 	"log"
 )
 
@@ -9,7 +8,7 @@ import (
 
 // Interface definition
 type IBmmSchema interface {
-	v2.IPBmmPackageContainer
+	IPBmmPackageContainer
 	IBmmModelMetadata
 	/**
 	Pre_state: state = State_created
@@ -69,7 +68,7 @@ type IBmmSchema interface {
 
 // Struct definition
 type BmmSchema struct {
-	v2.PBmmPackageContainer
+	PBmmPackageContainer
 	BmmModelMetadata
 	// Constants
 	// Attributes

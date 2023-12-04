@@ -1,4 +1,4 @@
-package v2
+package vocabulary
 
 // Persisted form of a model component that contains packages.
 

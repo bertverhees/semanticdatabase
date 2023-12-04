@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 /**
 Persisted form of a package as a tree structure whose nodes can contain more
@@ -19,8 +15,8 @@ type IPBmmPackage interface {
 	SetName(name string) error
 	Classes() []string
 	SetClasses(classes []string) error
-	BmmPackageDefinition() vocabulary.IBmmPackage
-	SetBmmPackageDefinition(bmmPackageDefinition vocabulary.IBmmPackage) error
+	BmmPackageDefinition() IBmmPackage
+	SetBmmPackageDefinition(bmmPackageDefinition IBmmPackage) error
 }
 
 // Struct definition
@@ -37,7 +33,7 @@ type PBmmPackage struct {
 	// List of classes in this package. Persistent attribute.
 	classes []string `yaml:"classes" json:"classes" xml:"classes"`
 	// BMM_PACKAGE created by create_bmm_package_definition .
-	bmmPackageDefinition vocabulary.IBmmPackage `yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
+	bmmPackageDefinition IBmmPackage `yaml:"bmmpackagedefinition" json:"bmmpackagedefinition" xml:"bmmpackagedefinition"`
 }
 
 func (p *PBmmPackage) Name() string {
@@ -58,11 +54,11 @@ func (p *PBmmPackage) SetClasses(classes []string) error {
 	return nil
 }
 
-func (p *PBmmPackage) BmmPackageDefinition() vocabulary.IBmmPackage {
+func (p *PBmmPackage) BmmPackageDefinition() IBmmPackage {
 	return p.bmmPackageDefinition
 }
 
-func (p *PBmmPackage) SetBmmPackageDefinition(bmmPackageDefinition vocabulary.IBmmPackage) error {
+func (p *PBmmPackage) SetBmmPackageDefinition(bmmPackageDefinition IBmmPackage) error {
 	p.bmmPackageDefinition = bmmPackageDefinition
 	return nil
 }
@@ -104,7 +100,7 @@ func (i *PBmmPackageBuilder) SetClasses(v []string) *PBmmPackageBuilder {
 }
 
 // BMM_PACKAGE created by create_bmm_package_definition .
-func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v vocabulary.IBmmPackage) *PBmmPackageBuilder {
+func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v IBmmPackage) *PBmmPackageBuilder {
 	i.AddError(i.pbmmpackage.SetBmmPackageDefinition(v))
 	return i
 }

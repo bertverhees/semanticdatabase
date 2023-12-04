@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_CONTAINER_TYPE .
 
@@ -10,7 +6,7 @@ import (
 type IPBmmContainerType interface {
 	TypeRef() IPBmmBaseType
 	// From: P_BMM_TYPE
-	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
 	AsTypeString() string
 }
 
@@ -23,19 +19,19 @@ type PBmmContainerType struct {
 	The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 	Persisted attribute.
 	*/
-	ContainerType string `yaml:"containertype" json:"containertype" xml:"containertype"`
+	containerType string `yaml:"containertype" json:"containertype" xml:"containertype"`
 	/**
 	_type definition of type , if not a simple String type reference. Persisted
 	attribute.
 	*/
-	TypeDef IPBmmBaseType `yaml:"typedef" json:"typedef" xml:"typedef"`
+	typeDef IPBmmBaseType `yaml:"typedef" json:"typedef" xml:"typedef"`
 	/**
 	The target type; this converts to the first parameter in generic_parameters in
 	BMM_GENERIC_TYPE . Persisted attribute.
 	*/
-	Type string `yaml:"type" json:"type" xml:"type"`
+	_type string `yaml:"type" json:"type" xml:"type"`
 	// result of create_bmm_type() call.
-	BmmType vocabulary.IBmmContainerType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	bmmType IBmmContainerType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 // CONSTRUCTOR
@@ -61,7 +57,7 @@ The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
 Persisted attribute.
 */
 func (i *PBmmContainerTypeBuilder) SetContainerType(v string) *PBmmContainerTypeBuilder {
-	i.pbmmcontainertype.ContainerType = v
+	i.pbmmcontainertype.containerType = v
 	return i
 }
 
@@ -71,7 +67,7 @@ _type definition of type , if not a simple String type reference. Persisted
 attribute.
 */
 func (i *PBmmContainerTypeBuilder) SetTypeDef(v IPBmmBaseType) *PBmmContainerTypeBuilder {
-	i.pbmmcontainertype.TypeDef = v
+	i.pbmmcontainertype.typeDef = v
 	return i
 }
 
@@ -81,13 +77,13 @@ The target type; this converts to the first parameter in generic_parameters in
 BMM_GENERIC_TYPE . Persisted attribute.
 */
 func (i *PBmmContainerTypeBuilder) SetType(v string) *PBmmContainerTypeBuilder {
-	i.pbmmcontainertype.Type = v
+	i.pbmmcontainertype._type = v
 	return i
 }
 
 // result of create_bmm_type() call.
-func (i *PBmmContainerTypeBuilder) SetBmmType(v vocabulary.IBmmContainerType) *PBmmContainerTypeBuilder {
-	i.pbmmcontainertype.BmmType = v
+func (i *PBmmContainerTypeBuilder) SetBmmType(v IBmmContainerType) *PBmmContainerTypeBuilder {
+	i.pbmmcontainertype.bmmType = v
 	return i
 }
 func (i *PBmmContainerTypeBuilder) Build() *PBmmContainerType {
@@ -105,7 +101,7 @@ func (p *PBmmContainerType) TypeRef() IPBmmBaseType {
 
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmContainerType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmContainerType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }
 

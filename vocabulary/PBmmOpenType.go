@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_PARAMETER_TYPE .
 
@@ -10,7 +6,7 @@ import (
 type IPBmmOpenType interface {
 	// From: P_BMM_BASE_TYPE
 	// From: P_BMM_TYPE
-	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
 	AsTypeString() string
 }
 
@@ -22,9 +18,9 @@ type PBmmOpenType struct {
 	// Constants
 	// Attributes
 	// Simple type parameter as a single letter like 'T', 'G' etc.
-	Type string `yaml:"type" json:"type" xml:"type"`
+	_type string `yaml:"type" json:"type" xml:"type"`
 	// result of create_bmm_type() call.
-	BmmType vocabulary.IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	bmmType IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 // CONSTRUCTOR
@@ -48,13 +44,13 @@ func NewPBmmOpenTypeBuilder() *PBmmOpenTypeBuilder {
 // BUILDER ATTRIBUTES
 // Simple type parameter as a single letter like 'T', 'G' etc.
 func (i *PBmmOpenTypeBuilder) SetType(v string) *PBmmOpenTypeBuilder {
-	i.pbmmopentype.Type = v
+	i.pbmmopentype._type = v
 	return i
 }
 
 // result of create_bmm_type() call.
-func (i *PBmmOpenTypeBuilder) SetBmmType(v vocabulary.IBmmType) *PBmmOpenTypeBuilder {
-	i.pbmmopentype.BmmType = v
+func (i *PBmmOpenTypeBuilder) SetBmmType(v IBmmType) *PBmmOpenTypeBuilder {
+	i.pbmmopentype.bmmType = v
 	return i
 }
 
@@ -71,7 +67,7 @@ func (i *PBmmOpenTypeBuilder) Build() *PBmmOpenType {
 // FUNCTIONS
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmOpenType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmOpenType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }
 

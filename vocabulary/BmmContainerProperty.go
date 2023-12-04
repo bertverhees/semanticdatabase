@@ -57,7 +57,7 @@ func NewBmmContainerProperty() *BmmContainerProperty {
 	//BmmFeature
 	bmmcontainerproperty.featureExtensions = make([]IBmmFeatureExtension, 0)
 	//BmmInstantiableFeature
-	//BmmProperty
+	//bmmProperty
 	//default, no constant
 	bmmcontainerproperty.isImRuntime = false
 	//default, no constant

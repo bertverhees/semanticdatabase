@@ -1,13 +1,11 @@
-package v2
-
-import "SemanticDatabase/vocabulary"
+package vocabulary
 
 // Persistent form of BMM_PROPER_TYPE .
 
 // Interface definition
 type IPBmmBaseType interface {
 	// From: P_BMM_TYPE
-	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
 	AsTypeString() string
 }
 
@@ -25,7 +23,7 @@ type PBmmBaseType struct {
 // FUNCTIONS
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmBaseType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmBaseType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }
 

@@ -1,18 +1,14 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_TYPE .
 
 // Interface definition
 type IPBmmType interface {
 	//P_BMM_TYPE
-	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
 	AsTypeString() string
-	BmmType() vocabulary.IBmmType
-	SetBmmType(bmmType vocabulary.IBmmType) error
+	BmmType() IBmmType
+	SetBmmType(bmmType IBmmType) error
 }
 
 // Struct definition
@@ -21,14 +17,14 @@ type PBmmType struct {
 	// Constants
 	// Attributes
 	// result of create_bmm_type() call.
-	bmmType vocabulary.IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	bmmType IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
-func (p *PBmmType) BmmType() vocabulary.IBmmType {
+func (p *PBmmType) BmmType() IBmmType {
 	return p.bmmType
 }
 
-func (p *PBmmType) SetBmmType(bmmType vocabulary.IBmmType) error {
+func (p *PBmmType) SetBmmType(bmmType IBmmType) error {
 	p.bmmType = bmmType
 	return nil
 }
@@ -37,7 +33,7 @@ func (p *PBmmType) SetBmmType(bmmType vocabulary.IBmmType) error {
 // abstract, no constructor, no builder
 // FUNCTIONS
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }
 

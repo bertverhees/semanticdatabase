@@ -1,15 +1,11 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_GENERIC_PROPERTY .
 
 // Interface definition
 type IPBmmGenericProperty interface {
 	// From: P_BMM_PROPERTY
-	CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
 	// From: P_BMM_MODEL_ELEMENT
 }
 
@@ -26,7 +22,7 @@ type PBmmGenericProperty struct {
 	*/
 	TypeDef IPBmmGenericType `yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty vocabulary.IBmmGenericType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty IBmmGenericType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -60,7 +56,7 @@ func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGeneric
 }
 
 // BMM_PROPERTY created by create_bmm_property_definition .
-func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v vocabulary.IBmmGenericType) *PBmmGenericPropertyBuilder {
+func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v IBmmGenericType) *PBmmGenericPropertyBuilder {
 	i.pbmmgenericproperty.BmmProperty = v
 	return i
 }
@@ -68,13 +64,13 @@ func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v vocabulary.IBmmGenericType
 // //From: PBmmProperty
 // name of this property within its class. Persisted attribute.
 func (i *PBmmGenericPropertyBuilder) SetName(v string) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.Name = v
+	i.pbmmgenericproperty.name = v
 	return i
 }
 
 // True if this property is mandatory in its class. Persisted attribute.
 func (i *PBmmGenericPropertyBuilder) SetIsMandatory(v bool) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.IsMandatory = v
+	i.pbmmgenericproperty.isMandatory = v
 	return i
 }
 
@@ -84,7 +80,7 @@ True if this property is computed rather than stored in objects of this class.
 Persisted Attribute.
 */
 func (i *PBmmGenericPropertyBuilder) SetIsComputed(v bool) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.IsComputed = v
+	i.pbmmgenericproperty.isComputed = v
 	return i
 }
 
@@ -94,7 +90,7 @@ True if this property is info model 'infrastructure' rather than 'data'.
 Persisted attribute.
 */
 func (i *PBmmGenericPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.IsImInfrastructure = v
+	i.pbmmgenericproperty.isImInfrastructure = v
 	return i
 }
 
@@ -104,14 +100,14 @@ True if this property is info model 'runtime' settable property. Persisted
 attribute.
 */
 func (i *PBmmGenericPropertyBuilder) SetIsImRuntime(v bool) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.IsImRuntime = v
+	i.pbmmgenericproperty.isImRuntime = v
 	return i
 }
 
 // //From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmGenericPropertyBuilder) SetDocumentation(v string) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.Documentation = v
+	i.pbmmgenericproperty.documentation = v
 	return i
 }
 
@@ -122,6 +118,6 @@ func (i *PBmmGenericPropertyBuilder) Build() *PBmmGenericProperty {
 // FUNCTIONS
 // From: P_BMM_PROPERTY
 // Create bmm_property_definition from P_BMM_XX parts.
-func (p *PBmmGenericProperty) CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmGenericProperty) CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }

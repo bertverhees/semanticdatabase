@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_SINGLE_PROPERTY .
 
@@ -10,7 +6,7 @@ import (
 type IPBmmSingleProperty interface {
 	TypeDef() IPBmmSimpleType
 	// From: P_BMM_PROPERTY
-	CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
 	// From: P_BMM_MODEL_ELEMENT
 }
 
@@ -33,7 +29,7 @@ type PBmmSingleProperty struct {
 	*/
 	TypeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty vocabulary.IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	BmmProperty IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -77,14 +73,14 @@ func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePro
 // From: PBmmProperty
 // name of this property within its class. Persisted attribute.
 func (i *PBmmSinglePropertyBuilder) SetName(v string) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.Name = v
+	i.pbmmsingleproperty.name = v
 	return i
 }
 
 // From: PBmmProperty
 // True if this property is mandatory in its class. Persisted attribute.
 func (i *PBmmSinglePropertyBuilder) SetIsMandatory(v bool) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.IsMandatory = v
+	i.pbmmsingleproperty.isMandatory = v
 	return i
 }
 
@@ -94,7 +90,7 @@ True if this property is computed rather than stored in objects of this class.
 Persisted Attribute.
 */
 func (i *PBmmSinglePropertyBuilder) SetIsComputed(v bool) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.IsComputed = v
+	i.pbmmsingleproperty.isComputed = v
 	return i
 }
 
@@ -104,7 +100,7 @@ True if this property is info model 'infrastructure' rather than 'data'.
 Persisted attribute.
 */
 func (i *PBmmSinglePropertyBuilder) SetIsImInfrastructure(v bool) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.IsImInfrastructure = v
+	i.pbmmsingleproperty.isImInfrastructure = v
 	return i
 }
 
@@ -114,13 +110,13 @@ True if this property is info model 'runtime' settable property. Persisted
 attribute.
 */
 func (i *PBmmSinglePropertyBuilder) SetIsImRuntime(v bool) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.IsImRuntime = v
+	i.pbmmsingleproperty.isImRuntime = v
 	return i
 }
 
 // From: PBmmProperty
 // BMM_PROPERTY created by create_bmm_property_definition.
-func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v vocabulary.IBmmSimpleType) *PBmmSinglePropertyBuilder {
+func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v IBmmSimpleType) *PBmmSinglePropertyBuilder {
 	i.pbmmsingleproperty.BmmProperty = v
 	return i
 }
@@ -128,7 +124,7 @@ func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v vocabulary.IBmmSimpleType) 
 // From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmSinglePropertyBuilder) SetDocumentation(v string) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.Documentation = v
+	i.pbmmsingleproperty.documentation = v
 	return i
 }
 
@@ -144,6 +140,6 @@ func (p *PBmmSingleProperty) TypeDef() IPBmmSimpleType {
 
 // From: P_BMM_PROPERTY
 // Create bmm_property_definition from P_BMM_XX parts.
-func (p *PBmmSingleProperty) CreateBmmProperty(a_bmm_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmSingleProperty) CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }

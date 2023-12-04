@@ -1,8 +1,4 @@
-package v2
-
-import (
-	"SemanticDatabase/vocabulary"
-)
+package vocabulary
 
 // Persistent form of BMM_GENERIC_TYPE .
 
@@ -12,7 +8,7 @@ type IPBmmGenericType interface {
 	GenericParameterRefs() []IPBmmType
 	// From: P_BMM_BASE_TYPE
 	// From: P_BMM_TYPE
-	CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass)
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
 	AsTypeString() string
 }
 
@@ -24,28 +20,28 @@ type PBmmGenericType struct {
 	// Constants
 	// Attributes
 	// Root type of this generic type, e.g. Interval in Interval<Integer> .
-	RootType string `yaml:"roottype" json:"roottype" xml:"roottype"`
+	rootType string `yaml:"roottype" json:"roottype" xml:"roottype"`
 	/**
 	Generic parameters of the root_type in this type specifier if non-simple types.
 	The order must match the order of the owning class’s formal generic parameter
 	declarations. Persistent attribute.
 	*/
-	GenericParameterDefs []IPBmmType `yaml:"genericparameterdefs" json:"genericparameterdefs" xml:"genericparameterdefs"`
+	genericParameterDefs []IPBmmType `yaml:"genericparameterdefs" json:"genericparameterdefs" xml:"genericparameterdefs"`
 	/**
 	Generic parameters of the root_type in this type specifier, if simple types. The
 	order must match the order of the owning class’s formal generic parameter
 	declarations. Persistent attribute.
 	*/
-	GenericParameters []string `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
+	genericParameters []string `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
 	// result of create_bmm_type() call.
-	BmmType vocabulary.IBmmGenericType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+	bmmType IBmmGenericType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
 }
 
 // CONSTRUCTOR
 func NewPBmmGenericType() *PBmmGenericType {
 	pbmmgenerictype := new(PBmmGenericType)
-	pbmmgenerictype.GenericParameterDefs = make([]IPBmmType, 0)
-	pbmmgenerictype.GenericParameters = make([]string, 0)
+	pbmmgenerictype.genericParameterDefs = make([]IPBmmType, 0)
+	pbmmgenerictype.genericParameters = make([]string, 0)
 	return pbmmgenerictype
 }
 
@@ -63,7 +59,7 @@ func NewPBmmGenericTypeBuilder() *PBmmGenericTypeBuilder {
 // BUILDER ATTRIBUTES
 // Root type of this generic type, e.g. Interval in Interval<Integer> .
 func (i *PBmmGenericTypeBuilder) SetRootType(v string) *PBmmGenericTypeBuilder {
-	i.pbmmgenerictype.RootType = v
+	i.pbmmgenerictype.rootType = v
 	return i
 }
 
@@ -74,7 +70,7 @@ The order must match the order of the owning class’s formal generic parameter
 declarations. Persistent attribute.
 */
 func (i *PBmmGenericTypeBuilder) SetGenericParameterDefs(v []IPBmmType) *PBmmGenericTypeBuilder {
-	i.pbmmgenerictype.GenericParameterDefs = v
+	i.pbmmgenerictype.genericParameterDefs = v
 	return i
 }
 
@@ -85,13 +81,13 @@ order must match the order of the owning class’s formal generic parameter
 declarations. Persistent attribute.
 */
 func (i *PBmmGenericTypeBuilder) SetGenericParameters(v []string) *PBmmGenericTypeBuilder {
-	i.pbmmgenerictype.GenericParameters = v
+	i.pbmmgenerictype.genericParameters = v
 	return i
 }
 
 // result of create_bmm_type() call.
-func (i *PBmmGenericTypeBuilder) SetBmmType(v vocabulary.IBmmGenericType) *PBmmGenericTypeBuilder {
-	i.pbmmgenerictype.BmmType = v
+func (i *PBmmGenericTypeBuilder) SetBmmType(v IBmmGenericType) *PBmmGenericTypeBuilder {
+	i.pbmmgenerictype.bmmType = v
 	return i
 }
 
@@ -116,7 +112,7 @@ func (p *PBmmGenericType) GenericParameterRefs() []IPBmmType {
 
 // From: P_BMM_TYPE
 // Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmGenericType) CreateBmmType(a_schema vocabulary.IBmmModel, a_class_def vocabulary.IBmmClass) {
+func (p *PBmmGenericType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
 	return
 }
 

@@ -8,7 +8,7 @@ type IBmmSimpleType interface {
 	//BMM_SIMPLE_TYPE
 	EffectiveBaseClass() IBmmSimpleClass
 	//TypeName() string
-	//IsAbstract() bool
+	//isAbstract() bool
 	//FlattenedTypeList() []string
 
 }

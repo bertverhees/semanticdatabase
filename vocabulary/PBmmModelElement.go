@@ -1,4 +1,4 @@
-package v2
+package vocabulary
 
 // Persistent form of BMM_MODEL_ELEMENT .
 

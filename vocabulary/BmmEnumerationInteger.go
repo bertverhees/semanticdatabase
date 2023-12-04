@@ -27,7 +27,7 @@ func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	//BmmModule
 	bmmenumerationinteger.features = make([]IBmmFeature, 0)
 	bmmenumerationinteger.featureGroups = make([]IBmmFeatureGroup, 0)
-	//BmmClass
+	//bmmClass
 	bmmenumerationinteger.BmmClass.features = make([]IBmmFeature, 0)
 	bmmenumerationinteger.ancestors = make(map[string]IBmmModelType)
 	bmmenumerationinteger.properties = make(map[string]IBmmProperty)
@@ -102,7 +102,7 @@ func (i *BmmEnumerationIntegerBuilder) SetPackage(v IBmmPackage) *BmmEnumeration
 }
 
 // From: BmmClass
-// Properties defined in this class (subset of features ).
+// properties defined in this class (subset of features ).
 func (i *BmmEnumerationIntegerBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationIntegerBuilder {
 	i.AddError(i.bmmenumerationinteger.SetProperties(v))
 	return i

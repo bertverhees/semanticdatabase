@@ -30,7 +30,7 @@ func NewBmmSimpleClass() *BmmSimpleClass {
 	//BmmModule
 	bmmsimpleclass.features = make([]IBmmFeature, 0)
 	bmmsimpleclass.featureGroups = make([]IBmmFeatureGroup, 0)
-	//BmmClass
+	//bmmClass
 	bmmsimpleclass.ancestors = make(map[string]IBmmModelType)
 	bmmsimpleclass.features = make([]IBmmFeature, 0)
 	bmmsimpleclass.properties = make(map[string]IBmmProperty)
@@ -76,7 +76,7 @@ func (i *BmmSimpleClassBuilder) SetPackage(v IBmmPackage) *BmmSimpleClassBuilder
 }
 
 // From: BmmClass
-// Properties defined in this class (subset of features ).
+// properties defined in this class (subset of features ).
 func (i *BmmSimpleClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmSimpleClassBuilder {
 	i.AddError(i.bmmsimpleclass.SetProperties(v))
 	return i
