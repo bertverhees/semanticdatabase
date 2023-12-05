@@ -93,7 +93,7 @@ func (i *PBmmGenericTypeBuilder) SetBmmType(v IBmmGenericType) *PBmmGenericTypeB
 
 // //From: PBmmBaseType
 func (i *PBmmGenericTypeBuilder) SetValueConstraint(v string) *PBmmGenericTypeBuilder {
-	i.pbmmgenerictype.ValueConstraint = v
+	i.pbmmgenerictype.valueConstraint = v
 	return i
 }
 

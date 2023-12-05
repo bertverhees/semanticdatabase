@@ -18,15 +18,15 @@ type PBmmContainerProperty struct {
 	PBmmModelElement
 	// Constants
 	// Attributes
-	// Cardinality of this property in its class. Persistent attribute.
-	Cardinality base.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
+	// cardinality of this property in its class. Persistent attribute.
+	cardinality base.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
 	/**
 	_type definition of this property, if not a simple String type reference.
 	Persistent attribute.
 	*/
-	TypeDef IPBmmContainerType `yaml:"typedef" json:"typedef" xml:"typedef"`
+	typeDef IPBmmContainerType `yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property .
-	BmmProperty IBmmContainerProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	bmmProperty IBmmContainerProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -54,7 +54,7 @@ func NewPBmmContainerPropertyBuilder() *PBmmContainerPropertyBuilder {
 // BUILDER ATTRIBUTES
 // cardinality of this property in its class. Persistent attribute.
 func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.Cardinality = v
+	i.pbmmcontainerproperty.cardinality = v
 	return i
 }
 
@@ -64,13 +64,13 @@ _type definition of this property, if not a simple String type reference.
 Persistent attribute.
 */
 func (i *PBmmContainerPropertyBuilder) SetTypeDef(v IPBmmContainerType) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.TypeDef = v
+	i.pbmmcontainerproperty.typeDef = v
 	return i
 }
 
 // BMM_PROPERTY created by create_bmm_property .
 func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v IBmmContainerProperty) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.BmmProperty = v
+	i.pbmmcontainerproperty.bmmProperty = v
 	return i
 }
 

@@ -4,7 +4,7 @@ package vocabulary
 
 // Interface definition
 type IPBmmSinglePropertyOpen interface {
-	TypeDef() IPBmmOpenType
+	TypeDef() IPBmmType
 	// From: P_BMM_PROPERTY
 	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
 	// From: P_BMM_MODEL_ELEMENT
@@ -21,16 +21,16 @@ type PBmmSinglePropertyOpen struct {
 	_type definition of this property computed from type for later use in
 	bmm_property .
 	*/
-	TypeRef IPBmmOpenType `yaml:"typeref" json:"typeref" xml:"typeref"`
+	typeRef IPBmmOpenType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	/**
 	_type definition of this property, if a simple String type reference. Really we
 	should use type_def to be regular in the schema, but that makes the schema more
 	wordy and less clear. So we use this persisted String value, and compute the
 	type_def on the fly. Persisted attribute.
 	*/
-	Type string `yaml:"type" json:"type" xml:"type"`
+	_type string `yaml:"type" json:"type" xml:"type"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	bmmProperty IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -57,7 +57,7 @@ _type definition of this property computed from type for later use in
 bmm_property .
 */
 func (i *PBmmSinglePropertyOpenBuilder) SetTypeRef(v IPBmmOpenType) *PBmmSinglePropertyOpenBuilder {
-	i.pbmmsinglepropertyopen.TypeRef = v
+	i.pbmmsinglepropertyopen.typeRef = v
 	return i
 }
 
@@ -69,13 +69,13 @@ wordy and less clear. So we use this persisted String value, and compute the
 type_def on the fly. Persisted attribute.
 */
 func (i *PBmmSinglePropertyOpenBuilder) SetType(v string) *PBmmSinglePropertyOpenBuilder {
-	i.pbmmsinglepropertyopen.Type = v
+	i.pbmmsinglepropertyopen._type = v
 	return i
 }
 
 // BMM_PROPERTY created by create_bmm_property_definition .
 func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v IBmmSimpleType) *PBmmSinglePropertyOpenBuilder {
-	i.pbmmsinglepropertyopen.BmmProperty = v
+	i.pbmmsinglepropertyopen.bmmProperty = v
 	return i
 }
 
@@ -136,7 +136,7 @@ func (i *PBmmSinglePropertyOpenBuilder) Build() *PBmmSinglePropertyOpen {
 
 // FUNCTIONS
 // Generate type_ref from type and save.
-func (p *PBmmSinglePropertyOpen) TypeDef() IPBmmOpenType {
+func (p *PBmmSinglePropertyOpen) TypeDef() IPBmmType {
 	return nil
 }
 

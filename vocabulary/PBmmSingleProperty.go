@@ -4,7 +4,7 @@ package vocabulary
 
 // Interface definition
 type IPBmmSingleProperty interface {
-	TypeDef() IPBmmSimpleType
+	TypeDef() IPBmmType
 	// From: P_BMM_PROPERTY
 	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
 	// From: P_BMM_MODEL_ELEMENT
@@ -22,14 +22,14 @@ type PBmmSingleProperty struct {
 	the type is a container or generic, then type_ref will hold the type definition.
 	The resulting type is generated in type_def.
 	*/
-	Type string `yaml:"type" json:"type" xml:"type"`
+	_type string `yaml:"type" json:"type" xml:"type"`
 	/**
 	_type definition of this property computed from type for later use in
 	bmm_property .
 	*/
-	TypeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
+	typeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	bmmProperty IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -56,7 +56,7 @@ the type is a container or generic, then type_ref will hold the type definition.
 The resulting type is generated in type_def.
 */
 func (i *PBmmSinglePropertyBuilder) SetType(v string) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.Type = v
+	i.pbmmsingleproperty._type = v
 	return i
 }
 
@@ -66,7 +66,7 @@ _type definition of this property computed from type for later use in
 bmm_property .
 */
 func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.TypeRef = v
+	i.pbmmsingleproperty.typeRef = v
 	return i
 }
 
@@ -117,7 +117,7 @@ func (i *PBmmSinglePropertyBuilder) SetIsImRuntime(v bool) *PBmmSinglePropertyBu
 // From: PBmmProperty
 // BMM_PROPERTY created by create_bmm_property_definition.
 func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v IBmmSimpleType) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.BmmProperty = v
+	i.pbmmsingleproperty.bmmProperty = v
 	return i
 }
 
@@ -134,7 +134,7 @@ func (i *PBmmSinglePropertyBuilder) Build() *PBmmSingleProperty {
 
 // FUNCTIONS
 // Generate type_ref from type and save.
-func (p *PBmmSingleProperty) TypeDef() IPBmmSimpleType {
+func (p *PBmmSingleProperty) TypeDef() IPBmmType {
 	return nil
 }
 

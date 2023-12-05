@@ -20,9 +20,9 @@ type PBmmGenericProperty struct {
 	_type definition of this property, if not a simple String type reference.
 	Persistent attribute.
 	*/
-	TypeDef IPBmmGenericType `yaml:"typedef" json:"typedef" xml:"typedef"`
+	typeDef IPBmmGenericType `yaml:"typedef" json:"typedef" xml:"typedef"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	BmmProperty IBmmGenericType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	bmmProperty IBmmGenericType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 // CONSTRUCTOR
@@ -51,13 +51,13 @@ _type definition of this property, if not a simple String type reference.
 Persistent attribute.
 */
 func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.TypeDef = v
+	i.pbmmgenericproperty.typeDef = v
 	return i
 }
 
 // BMM_PROPERTY created by create_bmm_property_definition .
 func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v IBmmGenericType) *PBmmGenericPropertyBuilder {
-	i.pbmmgenericproperty.BmmProperty = v
+	i.pbmmgenericproperty.bmmProperty = v
 	return i
 }
 

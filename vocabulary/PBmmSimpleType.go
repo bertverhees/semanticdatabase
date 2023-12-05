@@ -1,26 +1,44 @@
 package vocabulary
 
+import "errors"
+
 // Persistent form of BMM_SIMPLE_TYPE .
 
 // Interface definition
 type IPBmmSimpleType interface {
-	// From: P_BMM_BASE_TYPE
-	// From: P_BMM_TYPE
-	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
-	AsTypeString() string
+	IPBmmBaseType
+	Type() string
+	SetType(_type string) error
 }
 
 // Struct definition
 type PBmmSimpleType struct {
 	// embedded for Inheritance
 	PBmmBaseType
-	PBmmType
-	// Constants
 	// Attributes
 	// name of type - must be a simple class name.
 	_type string `yaml:"type" json:"type" xml:"type"`
 	// result of create_bmm_type() call.
 	bmmType IBmmSimpleType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+}
+
+func (p *PBmmSimpleType) Type() string {
+	return p._type
+}
+
+func (p *PBmmSimpleType) SetType(_type string) error {
+	p._type = _type
+	return nil
+}
+
+func (p *PBmmSimpleType) SetBmmType(bmmType IBmmType) error {
+	s, ok := bmmType.(IBmmSimpleType)
+	if !ok {
+		return errors.New("_type-assertion to IBmmSimpleType in PBmmSimpleType->SetBmmType went wrong")
+	} else {
+		p.bmmType = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
@@ -33,31 +51,39 @@ func NewPBmmSimpleType() *PBmmSimpleType {
 // BUILDER
 type PBmmSimpleTypeBuilder struct {
 	pbmmsimpletype *PBmmSimpleType
+	errors         []error
 }
 
 func NewPBmmSimpleTypeBuilder() *PBmmSimpleTypeBuilder {
 	return &PBmmSimpleTypeBuilder{
 		pbmmsimpletype: NewPBmmSimpleType(),
+		errors:         make([]error, 0),
 	}
 }
 
 // BUILDER ATTRIBUTES
 // name of type - must be a simple class name.
 func (i *PBmmSimpleTypeBuilder) SetType(v string) *PBmmSimpleTypeBuilder {
-	i.pbmmsimpletype._type = v
+	i.AddError(i.pbmmsimpletype.SetType(v))
 	return i
 }
 
 // result of create_bmm_type() call.
-func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmSimpleType) *PBmmSimpleTypeBuilder {
-	i.pbmmsimpletype.bmmType = v
+func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmType) *PBmmSimpleTypeBuilder {
+	i.AddError(i.pbmmsimpletype.SetBmmType(v))
 	return i
 }
 
 // From: PBmmBaseType
 func (i *PBmmSimpleTypeBuilder) SetValueConstraint(v string) *PBmmSimpleTypeBuilder {
-	i.pbmmsimpletype.ValueConstraint = v
+	i.AddError(i.pbmmsimpletype.SetValueConstraint(v))
 	return i
+}
+
+func (i *PBmmSimpleTypeBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
 }
 
 func (i *PBmmSimpleTypeBuilder) Build() *PBmmSimpleType {
@@ -65,14 +91,3 @@ func (i *PBmmSimpleTypeBuilder) Build() *PBmmSimpleType {
 }
 
 // FUNCTIONS
-// From: P_BMM_TYPE
-// Create appropriate BMM_XXX object; effected in descendants.
-func (p *PBmmSimpleType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
-	return
-}
-
-// From: P_BMM_TYPE
-// Formal name of the type for display.
-func (p *PBmmSimpleType) AsTypeString() string {
-	return ""
-}
