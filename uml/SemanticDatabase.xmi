@@ -6332,5 +6332,77 @@
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
+    <packagedElement xsi:type="uml:Class" xmi:id="_p_FKkHWTEDykzPkJYMEaug" name="PBmmBaseType">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_p_FKkHWTEDykzPkJYMEaug0" source="genmymodel">
+          <details xmi:id="_p_FKkHWTEDykzPkJYMEaug00" key="uuid" value="_p_FKkHWTEDykzPkJYMEaug"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <generalization xmi:id="_wwChAHWTEDykzPkJYMEaug" general="_29GfUHQWEDyKMOsto269uw" specific="_p_FKkHWTEDykzPkJYMEaug">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_wwChAHWTEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_wwChAHWTEDykzPkJYMEaug00" key="uuid" value="_wwChAHWTEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </generalization>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Class" xmi:id="_tMVwwHWTEDykzPkJYMEaug" name="PBmmSimpleType">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_tMVwwHWTEDykzPkJYMEaug0" source="genmymodel">
+          <details xmi:id="_tMVwwHWTEDykzPkJYMEaug00" key="uuid" value="_tMVwwHWTEDykzPkJYMEaug"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <generalization xmi:id="_xbbAUHWTEDykzPkJYMEaug" general="_p_FKkHWTEDykzPkJYMEaug" specific="_tMVwwHWTEDykzPkJYMEaug">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_xbbAUHWTEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_xbbAUHWTEDykzPkJYMEaug00" key="uuid" value="_xbbAUHWTEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </generalization>
+      <ownedAttribute xmi:id="_ycjtMHWTEDykzPkJYMEaug" name="type" visibility="public">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_ycjtMHWTEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_ycjtMHWTEDykzPkJYMEaug00" key="uuid" value="_ycjtMHWTEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <type xsi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#//String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_0KpmsHWTEDykzPkJYMEaug" name="bmmType" visibility="public" type="_t4BMZoVfEe6PvatxaaIQBg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_0KpmsHWTEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_0KpmsHWTEDykzPkJYMEaug00" key="uuid" value="_0KpmsHWTEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Class" xmi:id="_bFUZoHWWEDykzPkJYMEaug" name="PBmmOpenType">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_bFUZoHWWEDykzPkJYMEaug0" source="genmymodel">
+          <details xmi:id="_bFUZoHWWEDykzPkJYMEaug00" key="uuid" value="_bFUZoHWWEDykzPkJYMEaug"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <generalization xmi:id="_d9030HWWEDykzPkJYMEaug" general="_p_FKkHWTEDykzPkJYMEaug" specific="_bFUZoHWWEDykzPkJYMEaug">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_d9030HWWEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_d9030HWWEDykzPkJYMEaug00" key="uuid" value="_d9030HWWEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </generalization>
+      <ownedAttribute xmi:id="_euKvoHWWEDykzPkJYMEaug" name="type" visibility="public">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_euKvoHWWEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_euKvoHWWEDykzPkJYMEaug00" key="uuid" value="_euKvoHWWEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <type xsi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#//String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_gYEssHWWEDykzPkJYMEaug" name="bmmType" visibility="public" type="_t3_XiIVfEe6PvatxaaIQBg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_gYEssHWWEDykzPkJYMEaug0" source="genmymodel">
+            <details xmi:id="_gYEssHWWEDykzPkJYMEaug00" key="uuid" value="_gYEssHWWEDykzPkJYMEaug"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </ownedAttribute>
+    </packagedElement>
   </uml:Model>
 </xmi:XMI>
