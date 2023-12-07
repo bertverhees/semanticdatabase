@@ -1,7 +1,8 @@
 package vocabulary
 
 import (
-	"SemanticDatabase/base"
+	"errors"
+	"semanticdatabase/base"
 )
 
 // Persistent form of BMM_CONTAINER_PROPERTY .
@@ -29,6 +30,34 @@ type PBmmContainerProperty struct {
 	bmmProperty IBmmContainerProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
+func (p *PBmmContainerProperty) Cardinality() base.Interval[int] {
+	return p.cardinality
+}
+
+func (p *PBmmContainerProperty) SetCardinality(cardinality base.Interval[int]) error {
+	p.cardinality = cardinality
+	return nil
+}
+func (p *PBmmContainerProperty) SetTypeDef(typeDef IPBmmType) error {
+	s, ok := typeDef.(IPBmmContainerType)
+	if !ok {
+		return errors.New("_type-assertion to IPBmmContainerType in PBmmContainerProperty->SetTypeDef went wrong")
+	} else {
+		p.typeDef = s
+		return nil
+	}
+}
+
+func (p *PBmmContainerProperty) SetBmmProperty(bmmType IBmmProperty) error {
+	s, ok := bmmType.(IBmmContainerProperty)
+	if !ok {
+		return errors.New("_type-assertion to IBmmContainerProperty in PBmmContainerProperty->SetBmmProperty went wrong")
+	} else {
+		p.bmmProperty = s
+		return nil
+	}
+}
+
 // CONSTRUCTOR
 func NewPBmmContainerProperty() *PBmmContainerProperty {
 	pbmmcontainerproperty := new(PBmmContainerProperty)
@@ -54,7 +83,7 @@ func NewPBmmContainerPropertyBuilder() *PBmmContainerPropertyBuilder {
 // BUILDER ATTRIBUTES
 // cardinality of this property in its class. Persistent attribute.
 func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.cardinality = v
+	i.AddError(i.pbmmcontainerproperty.SetCardinality(v))
 	return i
 }
 
@@ -64,26 +93,26 @@ _type definition of this property, if not a simple String type reference.
 Persistent attribute.
 */
 func (i *PBmmContainerPropertyBuilder) SetTypeDef(v IPBmmContainerType) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.typeDef = v
+	i.AddError(i.pbmmcontainerproperty.SetTypeDef(v))
 	return i
 }
 
 // BMM_PROPERTY created by create_bmm_property .
 func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v IBmmContainerProperty) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.bmmProperty = v
+	i.AddError(i.pbmmcontainerproperty.SetBmmProperty(v))
 	return i
 }
 
 // //From: PBmmProperty
 // name of this property within its class. Persisted attribute.
 func (i *PBmmContainerPropertyBuilder) SetName(v string) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.name = v
+	i.AddError(i.pbmmcontainerproperty.SetName(v))
 	return i
 }
 
 // True if this property is mandatory in its class. Persisted attribute.
 func (i *PBmmContainerPropertyBuilder) SetIsMandatory(v bool) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.isMandatory = v
+	i.AddError(i.pbmmcontainerproperty.SetIsMandatory(v))
 	return i
 }
 
@@ -93,7 +122,7 @@ True if this property is computed rather than stored in objects of this class.
 Persisted Attribute.
 */
 func (i *PBmmContainerPropertyBuilder) SetIsComputed(v bool) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.isComputed = v
+	i.AddError(i.pbmmcontainerproperty.SetIsComputed(v))
 	return i
 }
 
@@ -103,7 +132,7 @@ True if this property is info model 'infrastructure' rather than 'data'.
 Persisted attribute.
 */
 func (i *PBmmContainerPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.isImInfrastructure = v
+	i.AddError(i.pbmmcontainerproperty.SetIsImInfrastructure(v))
 	return i
 }
 
@@ -113,14 +142,14 @@ True if this property is info model 'runtime' settable property. Persisted
 attribute.
 */
 func (i *PBmmContainerPropertyBuilder) SetIsImRuntime(v bool) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.isImRuntime = v
+	i.AddError(i.pbmmcontainerproperty.SetIsImRuntime(v))
 	return i
 }
 
 // //From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmContainerPropertyBuilder) SetDocumentation(v string) *PBmmContainerPropertyBuilder {
-	i.pbmmcontainerproperty.SetDocumentation(v)
+	i.AddError(i.pbmmcontainerproperty.SetDocumentation(v))
 	return i
 }
 

@@ -1,8 +1,8 @@
 package test_interface_conformity
 
 import (
-	"SemanticDatabase/base"
-	"SemanticDatabase/vocabulary"
+	"semanticdatabase/base"
+	"semanticdatabase/vocabulary"
 )
 
 func Test_Without_Running() {

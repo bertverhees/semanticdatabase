@@ -1,5 +1,7 @@
 package vocabulary
 
+import "errors"
+
 // Persistent form of BMM_SINGLE_PROPERTY .
 
 // Interface definition
@@ -30,7 +32,7 @@ type PBmmSingleProperty struct {
 	*/
 	typeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
 	// BMM_PROPERTY created by create_bmm_property_definition .
-	bmmProperty IBmmSimpleType `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+	bmmProperty IBmmProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
 func (p *PBmmSingleProperty) Type() string {
@@ -49,6 +51,16 @@ func (p *PBmmSingleProperty) TypeRef() IPBmmSimpleType {
 func (p *PBmmSingleProperty) SetTypeRef(typeRef IPBmmSimpleType) error {
 	p.typeRef = typeRef
 	return nil
+}
+
+func (p *PBmmSingleProperty) SetBmmProperty(bmmType IBmmProperty) error {
+	s, ok := bmmType.(IBmmProperty)
+	if !ok {
+		return errors.New("_type-assertion to IBmmProperty in PBmmSingleProperty->SetBmmProperty went wrong")
+	} else {
+		p.bmmProperty = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
@@ -143,14 +155,14 @@ func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePr
 }
 
 func (i *PBmmSinglePropertyBuilder) SetTypeDef(v IPBmmType) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.SetTypeDef(v)
+	i.AddError(i.pbmmsingleproperty.SetTypeDef(v))
 	return i
 }
 
 // From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmSinglePropertyBuilder) SetDocumentation(v string) *PBmmSinglePropertyBuilder {
-	i.pbmmsingleproperty.SetDocumentation(v)
+	i.AddError(i.pbmmsingleproperty.SetDocumentation(v))
 	return i
 }
 
@@ -168,10 +180,4 @@ func (i *PBmmSinglePropertyBuilder) Build() *PBmmSingleProperty {
 // Generate type_ref from type and save.
 func (p *PBmmSingleProperty) TypeDef() IPBmmType {
 	return nil
-}
-
-// From: P_BMM_PROPERTY
-// Create bmm_property_definition from P_BMM_XX parts.
-func (p *PBmmSingleProperty) CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass) {
-	return
 }

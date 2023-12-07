@@ -1,6 +1,6 @@
 package vocabulary
 
-import "SemanticDatabase/aom/constraints"
+import "semanticdatabase/aom/constraints"
 
 /**
 One branch of a Case table, consisting of a value constraint (the match

@@ -1,4 +1,4 @@
-module SemanticDatabase
+module semanticdatabase
 
 go 1.21.3
 

@@ -1,8 +1,8 @@
 package base
 
 import (
-	"SemanticDatabase/generics"
 	"errors"
+	"github.com/verhees/semanticdatabase/generics"
 )
 
 type Interval[T generics.Number] struct {

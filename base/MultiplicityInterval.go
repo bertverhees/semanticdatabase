@@ -1,6 +1,6 @@
 package base
 
-import "SemanticDatabase/generics"
+import "semanticdatabase/generics"
 
 type MultiplicityInterval[T generics.Number] struct {
 	ProperInterval[T]
