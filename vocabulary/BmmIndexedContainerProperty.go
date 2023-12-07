@@ -1,8 +1,8 @@
 package vocabulary
 
 import (
-	"SemanticDatabase/base"
 	"errors"
+	"semanticdatabase/base"
 )
 
 /**

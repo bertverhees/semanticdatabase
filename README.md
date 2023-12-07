@@ -1,4 +1,4 @@
-# Semanticdatabase
+# semanticdatabase
 
 Release 0.0.1
 

@@ -1,6 +1,6 @@
 package vocabulary
 
-import "SemanticDatabase/base"
+import "semanticdatabase/base"
 
 /**
 Meta-type of a writable property definition within a class definition of an

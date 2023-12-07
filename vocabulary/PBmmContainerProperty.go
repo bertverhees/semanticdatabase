@@ -9,6 +9,7 @@ import (
 
 // Interface definition
 type IPBmmContainerProperty interface {
+	IPBmmProperty
 	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
 }
 
@@ -16,8 +17,6 @@ type IPBmmContainerProperty interface {
 type PBmmContainerProperty struct {
 	// embedded for Inheritance
 	PBmmProperty
-	PBmmModelElement
-	// Constants
 	// Attributes
 	// cardinality of this property in its class. Persistent attribute.
 	cardinality base.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`

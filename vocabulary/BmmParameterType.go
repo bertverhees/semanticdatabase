@@ -1,7 +1,7 @@
 package vocabulary
 
 import (
-	"SemanticDatabase/base"
+	"semanticdatabase/base"
 	"strings"
 )
 
