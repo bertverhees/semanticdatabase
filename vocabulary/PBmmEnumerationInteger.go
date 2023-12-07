@@ -1,30 +1,34 @@
 package vocabulary
 
+import "errors"
+
 // Persistent form of an instance of BMM_ENUMERATION_INTEGER .
 
 // Interface definition
 type IPBmmEnumerationInteger interface {
-	// From: P_BMM_ENUMERATION
-	// From: P_BMM_CLASS
-	IsGeneric() bool
-	CreateBmmClass()
-	PopulateBmmClass(a_bmm_schema IBmmModel)
-	// From: P_BMM_MODEL_ELEMENT
+	IPBmmEnumeration
 }
 
 // Struct definition
 type PBmmEnumerationInteger struct {
 	// embedded for Inheritance
 	PBmmEnumeration
-	PBmmClass
-	PBmmModelElement
-	// Constants
 	// Attributes
 	/**
 	BMM_CLASS object build by create_bmm_class_definition and
 	populate_bmm_class_definition .
 	*/
 	bmmClass IBmmEnumerationInteger `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+}
+
+func (b *PBmmEnumerationInteger) SetBmmClass(bmmClass IBmmClass) error {
+	s, ok := bmmClass.(IBmmEnumerationInteger)
+	if !ok {
+		return errors.New("type-assertion  for IBmmEnumerationInteger in PBmmEnumerationInteger->SetBmmClass went wrong")
+	} else {
+		b.bmmClass = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
@@ -40,11 +44,13 @@ func NewPBmmEnumerationInteger() *PBmmEnumerationInteger {
 // BUILDER
 type PBmmEnumerationIntegerBuilder struct {
 	pbmmenumerationinteger *PBmmEnumerationInteger
+	errors          []error
 }
 
 func NewPBmmEnumerationIntegerBuilder() *PBmmEnumerationIntegerBuilder {
 	return &PBmmEnumerationIntegerBuilder{
 		pbmmenumerationinteger: NewPBmmEnumerationInteger(),
+		errors:          make([]error, 0),
 	}
 }
 
@@ -148,28 +154,14 @@ func (i *PBmmEnumerationIntegerBuilder) SetDocumentation(v string) *PBmmEnumerat
 	return i
 }
 
+func (i *PBmmEnumerationIntegerBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
+
 func (i *PBmmEnumerationIntegerBuilder) Build() *PBmmEnumerationInteger {
 	return i.pbmmenumerationinteger
 }
 
 //FUNCTIONS
-// From: P_BMM_CLASS
-/**
-Post : result := generic_parameter_defs /= Void. True if this class is a generic
-class.
-*/
-func (p *PBmmEnumerationInteger) IsGeneric() bool {
-	return false
-}
-
-// From: P_BMM_CLASS
-// Create bmm_class_definition .
-func (p *PBmmEnumerationInteger) CreateBmmClass() {
-	return
-}
-
-// From: P_BMM_CLASS
-// Add remaining model elements from Current to bmm_class_definition .
-func (p *PBmmEnumerationInteger) PopulateBmmClass(a_bmm_schema IBmmModel) {
-	return
-}

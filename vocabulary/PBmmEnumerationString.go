@@ -1,30 +1,34 @@
 package vocabulary
 
+import "errors"
+
 // Persistent form of BMM_ENUMERATION_STRING .
 
 // Interface definition
 type IPBmmEnumerationString interface {
-	// From: P_BMM_ENUMERATION
-	// From: P_BMM_CLASS
-	IsGeneric() bool
-	CreateBmmClass()
-	PopulateBmmClass(a_bmm_schema IBmmModel)
-	// From: P_BMM_MODEL_ELEMENT
+	IPBmmEnumeration
 }
 
 // Struct definition
 type PBmmEnumerationString struct {
 	// embedded for Inheritance
 	PBmmEnumeration
-	PBmmClass
-	PBmmModelElement
-	// Constants
 	// Attributes
 	/**
 	BMM_CLASS object build by create_bmm_class_definition and
 	populate_bmm_class_definition .
 	*/
 	bmmClass IBmmEnumerationString `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+}
+
+func (b *PBmmEnumerationString) SetBmmClass(bmmClass IBmmClass) error {
+	s, ok := bmmClass.(IBmmEnumerationString)
+	if !ok {
+		return errors.New("type-assertion  for IBmmEnumerationString in PBmmEnumerationString->SetBmmClass went wrong")
+	} else {
+		b.bmmClass = s
+		return nil
+	}
 }
 
 // CONSTRUCTOR
@@ -40,11 +44,13 @@ func NewPBmmEnumerationString() *PBmmEnumerationString {
 // BUILDER
 type PBmmEnumerationStringBuilder struct {
 	pbmmenumerationstring *PBmmEnumerationString
+	errors                []error
 }
 
 func NewPBmmEnumerationStringBuilder() *PBmmEnumerationStringBuilder {
 	return &PBmmEnumerationStringBuilder{
 		pbmmenumerationstring: NewPBmmEnumerationString(),
+		errors:                make([]error, 0),
 	}
 }
 
@@ -136,8 +142,8 @@ func (i *PBmmEnumerationStringBuilder) SetUid(v int) *PBmmEnumerationStringBuild
 List of structured inheritance ancestors, used only in the case of generic
 inheritance. Persisted attribute.
 */
-//func (i *PBmmEnumerationStringBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmEnumerationStringBuilder {
-//	i.pbmmenumerationstring.AncestorDefs = v
+//func (i *PBmmEnumerationIntegerBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmEnumerationIntegerBuilder {
+//	i.pbmmenumerationinteger.AncestorDefs = v
 //	return i
 //}
 
@@ -148,28 +154,14 @@ func (i *PBmmEnumerationStringBuilder) SetDocumentation(v string) *PBmmEnumerati
 	return i
 }
 
+func (i *PBmmEnumerationStringBuilder) AddError(e error) {
+	if e != nil {
+		i.errors = append(i.errors, e)
+	}
+}
+
 func (i *PBmmEnumerationStringBuilder) Build() *PBmmEnumerationString {
 	return i.pbmmenumerationstring
 }
 
 //FUNCTIONS
-// From: P_BMM_CLASS
-/**
-Post : result := generic_parameter_defs /= Void. True if this class is a generic
-class.
-*/
-func (p *PBmmEnumerationString) IsGeneric() bool {
-	return false
-}
-
-// From: P_BMM_CLASS
-// Create bmm_class_definition .
-func (p *PBmmEnumerationString) CreateBmmClass() {
-	return
-}
-
-// From: P_BMM_CLASS
-// Add remaining model elements from Current to bmm_class_definition .
-func (p *PBmmEnumerationString) PopulateBmmClass(a_bmm_schema IBmmModel) {
-	return
-}
