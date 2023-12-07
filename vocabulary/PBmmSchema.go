@@ -81,7 +81,7 @@ func NewPBmmSchema() *PBmmSchema {
 	pbmmschema.classDefinitions = make([]IPBmmClass, 0)
 	//PBmmPackageContainer
 	pbmmschema.packages = make(map[string]IPBmmPackage)
-	//BmmSchema
+	//bmmSchema
 	_ = pbmmschema.SetIncludes(make(map[string]IBmmIncludeSpec))
 	_ = pbmmschema.SetSchemaContributors(make([]string, 0))
 	return pbmmschema

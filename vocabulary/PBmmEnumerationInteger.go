@@ -44,13 +44,13 @@ func NewPBmmEnumerationInteger() *PBmmEnumerationInteger {
 // BUILDER
 type PBmmEnumerationIntegerBuilder struct {
 	pbmmenumerationinteger *PBmmEnumerationInteger
-	errors          []error
+	errors                 []error
 }
 
 func NewPBmmEnumerationIntegerBuilder() *PBmmEnumerationIntegerBuilder {
 	return &PBmmEnumerationIntegerBuilder{
 		pbmmenumerationinteger: NewPBmmEnumerationInteger(),
-		errors:          make([]error, 0),
+		errors:                 make([]error, 0),
 	}
 }
 
@@ -60,24 +60,24 @@ BMM_CLASS object build by create_bmm_class_definition and
 populate_bmm_class_definition .
 */
 func (i *PBmmEnumerationIntegerBuilder) SetBmmClass(v IBmmEnumerationInteger) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.bmmClass = v
+	i.AddError(i.pbmmenumerationinteger.SetBmmClass(v))
 	return i
 }
 
 // //From: PBmmEnumeration
 func (i *PBmmEnumerationIntegerBuilder) SetItemNames(v []string) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.itemNames = v
+	i.AddError(i.pbmmenumerationinteger.SetItemNames(v))
 	return i
 }
 func (i *PBmmEnumerationIntegerBuilder) SetItemValues(v []any) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.itemValues = v
+	i.AddError(i.pbmmenumerationinteger.SetItemValues(v))
 	return i
 }
 
 // //From: PBmmClass
 // name of the class. Persisted attribute.
 func (i *PBmmEnumerationIntegerBuilder) SetName(v string) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.name = v
+	i.AddError(i.pbmmenumerationinteger.SetName(v))
 	return i
 }
 
@@ -87,31 +87,31 @@ List of immediate inheritance parents. If there are generic ancestors, use
 ancestor_defs instead. Persisted attribute.
 */
 func (i *PBmmEnumerationIntegerBuilder) SetAncestors(v []string) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.ancestors = v
+	i.AddError(i.pbmmenumerationinteger.SetAncestors(v))
 	return i
 }
 
 // List of attributes defined in this class. Persistent attribute.
 func (i *PBmmEnumerationIntegerBuilder) SetProperties(v map[string]IPBmmProperty) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.properties = v
+	i.AddError(i.pbmmenumerationinteger.SetProperties(v))
 	return i
 }
 
 // True if this is an abstract type. Persisted attribute.
 func (i *PBmmEnumerationIntegerBuilder) SetIsAbstract(v bool) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.isAbstract = v
+	i.AddError(i.pbmmenumerationinteger.SetIsAbstract(v))
 	return i
 }
 
 // True if this class definition overrides one found in an included schema.
 func (i *PBmmEnumerationIntegerBuilder) SetIsOverride(v bool) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.isOverride = v
+	i.AddError(i.pbmmenumerationinteger.SetIsOverride(v))
 	return i
 }
 
 // List of generic parameter definitions. Persisted attribute.
 func (i *PBmmEnumerationIntegerBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericParameter) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.genericParameterDefs = v
+	i.AddError(i.pbmmenumerationinteger.SetGenericParameterDefs(v))
 	return i
 }
 
@@ -123,7 +123,7 @@ containing a given class (i.e. taking into account that a class may be in any of
 the schemas in a schema inclusion hierarchy).
 */
 func (i *PBmmEnumerationIntegerBuilder) SetSourceSchemaId(v string) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.sourceSchemaId = v
+	i.AddError(i.pbmmenumerationinteger.SetSourceSchemaId(v))
 	return i
 }
 
@@ -133,7 +133,7 @@ Unique id generated for later comparison during merging, in order to detect if
 two classes are the same. Assigned in post-load processing.
 */
 func (i *PBmmEnumerationIntegerBuilder) SetUid(v int) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.uid = v
+	i.AddError(i.pbmmenumerationinteger.SetUid(v))
 	return i
 }
 
@@ -150,7 +150,7 @@ inheritance. Persisted attribute.
 // //From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmEnumerationIntegerBuilder) SetDocumentation(v string) *PBmmEnumerationIntegerBuilder {
-	i.pbmmenumerationinteger.documentation = v
+	i.AddError(i.pbmmenumerationinteger.SetDocumentation(v))
 	return i
 }
 
