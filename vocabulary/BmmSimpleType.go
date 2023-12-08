@@ -3,15 +3,6 @@ package vocabulary
 // _type reference to a single type i.e. not generic or container type.
 
 // Interface definition
-type IBmmSimpleType interface {
-	IBmmModelType
-	//BMM_SIMPLE_TYPE
-	EffectiveBaseClass() IBmmSimpleClass
-	//TypeName() string
-	//isAbstract() bool
-	//FlattenedTypeList() []string
-
-}
 
 // Struct definition
 type BmmSimpleType struct {

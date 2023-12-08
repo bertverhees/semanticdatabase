@@ -5,9 +5,6 @@ Built-in meta-type representing action status, e.g. result of a call invocation.
 */
 
 // Interface definition
-type IBmmStatusType interface {
-	IBmmBuiltinType
-}
 
 // Struct definition
 type BmmStatusType struct {

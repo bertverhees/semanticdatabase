@@ -3,11 +3,6 @@ package vocabulary
 // Meta-type for routine objects.
 
 // Interface definition
-type IBmmRoutineType interface {
-	IBmmSignature
-	ArgumentTypes() IBmmTupleType
-	SetArgumentTypes(argumentTypes IBmmTupleType) error
-}
 
 // Struct definition
 type BmmRoutineType struct {

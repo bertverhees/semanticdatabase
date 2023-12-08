@@ -6,12 +6,6 @@ manner of a standard Hash table, map or dictionary.
 */
 
 // Interface definition
-type IBmmIndexedContainerType interface {
-	IBmmContainerType
-	//BMM_INDEXED_CONTAINERTYPE
-	IndexType() IBmmSimpleType
-	SetIndexType(indexType IBmmSimpleType) error
-}
 
 // Struct definition
 type BmmIndexedContainerType struct {

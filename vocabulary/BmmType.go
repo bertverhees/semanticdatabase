@@ -8,15 +8,6 @@ may include generic parameters that might or might not be bound. See subtypes.
 */
 
 // Interface definition
-type IBmmType interface {
-	TypeName() string
-	TypeSignature() string
-	IsAbstract() bool
-	IsPrimitive() bool
-	UnitaryType() IBmmUnitaryType
-	EffectiveType() IBmmEffectiveType
-	FlattenedTypeList() []string
-}
 
 // Struct definition
 type BmmType struct {

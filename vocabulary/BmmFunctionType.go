@@ -5,11 +5,6 @@ import "errors"
 // Meta-type for function object signatures.
 
 // Interface definition
-type IBmmFunctionType interface {
-	IBmmRoutineType
-	//ResultType() IBmmStatusType
-	//SetResultType(resultType IBmmStatusType)
-}
 
 // Struct definition
 type BmmFunctionType struct {

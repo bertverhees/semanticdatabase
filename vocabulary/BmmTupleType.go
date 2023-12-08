@@ -9,13 +9,6 @@ are only valid within the scope of a generic class.
 */
 
 // Interface definition
-type IBmmTupleType interface {
-	IBmmBuiltinType
-	//BMM_TUPLE_TYPE
-	FlattenedTypeList() []string
-	ItemTypes() map[string]IBmmType
-	SetItemTypes(itemTypes map[string]IBmmType) error
-}
 
 // Struct definition
 type BmmTupleType struct {

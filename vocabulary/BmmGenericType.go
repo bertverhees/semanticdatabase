@@ -3,13 +3,6 @@ package vocabulary
 // Meta-type based on a non-container generic class, e.g. Packet<Header> .
 
 // Interface definition
-type IBmmGenericType interface {
-	IBmmModelType
-	//BMM_GENERIC_TYPE
-	IsPartiallyClosed() bool
-	EffectiveBaseClass() IBmmGenericClass
-	IsOpen() bool
-}
 
 // Struct definition
 type BmmGenericType struct {

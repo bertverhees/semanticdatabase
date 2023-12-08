@@ -5,15 +5,6 @@ Parent of built-in types, which are treated as being primitive and non-abstract.
 */
 
 // Interface definition
-type IBmmBuiltinType interface {
-	IBmmEffectiveType
-	//BMM_BUILTIN_TYPE
-	IsAbstract() bool
-	IsPrimitive() bool
-	TypeBaseName() string
-	TypeName() string
-	BaseName() string
-}
 
 // Struct definition
 type BmmBuiltinType struct {

@@ -8,12 +8,6 @@ the special Status meta-type
 */
 
 // Interface definition
-type IBmmProcedureType interface {
-	IBmmRoutineType
-	//BMM_PROCEDURE_TYPE
-	//ResultType() IBmmStatusType
-	//SetResultType(resultType IBmmStatusType)
-}
 
 // Struct definition
 type BmmProcedureType struct {

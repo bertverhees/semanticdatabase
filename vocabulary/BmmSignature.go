@@ -7,13 +7,6 @@ constraints in descendants determining the exact form.
 */
 
 // Interface definition
-type IBmmSignature interface {
-	IBmmBuiltinType
-	//BMM_SIGNATURE
-	ResultType() IBmmType
-	SetResultType(resultType IBmmType) error
-	FlattenedTypeList() []string
-}
 
 // Struct definition
 type BmmSignature struct {

@@ -3,10 +3,6 @@ package vocabulary
 // Meta-type for property and variable signatures.
 
 // Interface definition
-type IBmmPropertyType interface {
-	IBmmSignature
-	//BMM_PROPERTY_TYPE
-}
 
 // Struct definition
 type BmmPropertyType struct {

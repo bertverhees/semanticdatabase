@@ -6,10 +6,6 @@ that is not a container object.
 */
 
 // Interface definition
-type IBmmUnitaryType interface {
-	IBmmType
-	UnitaryType() IBmmUnitaryType //effected
-}
 
 // Struct definition
 type BmmUnitaryType struct {

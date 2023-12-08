@@ -8,17 +8,7 @@ import (
 // definition of a generic parameter in a class definition of a generic type.
 
 // Interface definition
-type IBmmParameterType interface {
-	IBmmUnitaryType
-	//BMM_PARAMETER_TYPE
-	FlattenedConformsToType() IBmmEffectiveType
-	//TypeSignature() string
-	//IsPrimitive() bool
-	//isAbstract() bool
-	//TypeName() string
-	//FlattenedTypeList() []string
-	//EffectiveType() IBmmEffectiveType
-}
+
 
 // Struct definition
 type BmmParameterType struct {

@@ -3,16 +3,6 @@ package vocabulary
 // A type that is defined by a class (or classes) in the model.
 
 // Interface definition
-type IBmmModelType interface {
-	IBmmEffectiveType
-	//BMM_MODEL_TYPE
-	BaseClass() IBmmClass
-	SetBaseClass(baseClass IBmmClass) error
-	ValueConstraint() IBmmValueSetSpec
-	SetValueConstraint(valueConstraint IBmmValueSetSpec) error
-	//TypeBaseName() string
-	//IsPrimitive() bool
-}
 
 // Struct definition
 type BmmModelType struct {
