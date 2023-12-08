@@ -116,6 +116,7 @@ func (i *BmmSchemaDescriptorBuilder) Build() (*BmmSchemaDescriptor, []error) {
 }
 
 type BmmModelMetadataBuilder struct {
+	Builder
 	bmmmodelmetadata *BmmModelMetadata
 	errors           []error
 }
@@ -139,12 +140,6 @@ func (i *BmmModelMetadataBuilder) SetRmPublisher(v string) *BmmModelMetadataBuil
 func (i *BmmModelMetadataBuilder) SetRmRelease(v string) *BmmModelMetadataBuilder {
 	i.AddError(i.bmmmodelmetadata.SetRmRelease(v))
 	return i
-}
-
-func (i *BmmModelMetadataBuilder) AddError(e error) {
-	if e != nil {
-		i.errors = append(i.errors, e)
-	}
 }
 
 func (i *BmmModelMetadataBuilder) Build() (*BmmModelMetadata, []error) {

@@ -58,3 +58,5 @@ const (
 	// Path of schema file.
 	MetadataSchemaPath = "schema_path"
 )
+
+const PACKAGE_PATH_DELIMITER = "."

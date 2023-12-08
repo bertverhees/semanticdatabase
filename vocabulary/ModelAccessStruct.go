@@ -285,6 +285,7 @@ func NewBmmModelMetadata() *BmmModelMetadata {
 	return bmmmodelmetadata
 }
 
+
 /*--------------------------- BmmSchema ----------------------*/
 // Abstract parent of any persistable form of a BMM model, e.g. P_BMM_SCHEMA .
 type BmmSchema struct {
