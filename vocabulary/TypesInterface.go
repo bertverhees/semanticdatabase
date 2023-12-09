@@ -24,10 +24,20 @@ type IBmmEffectiveType interface {
 type IBmmParameterType interface {
 	IBmmUnitaryType
 	FlattenedConformsToType() IBmmEffectiveType
+	//--------------------
+	Name() string
+	SetName(name string) error
+	TypeConstraint() IBmmEffectiveType
+	SetTypeConstraint(typeConstraint IBmmEffectiveType) error
+	InheritancePrecursor() IBmmParameterType
+	SetInheritancePrecursor(inheritancePrecursor IBmmParameterType) error
 }
 
 type IBmmModelType interface {
 	IBmmEffectiveType
+	TypeBaseName() string
+	IsPrimitive() bool
+	//-------------------
 	BaseClass() IBmmClass
 	SetBaseClass(baseClass IBmmClass) error
 	ValueConstraint() IBmmValueSetSpec

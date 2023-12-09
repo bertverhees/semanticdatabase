@@ -1,5 +1,10 @@
 package vocabulary
 
+import (
+	"semanticdatabase/base"
+	"strings"
+)
+
 /* ----------------------- BmmType -------------------------------*/
 /**
 Abstract idea of specifying a type in some context. This is not the same as
@@ -102,4 +107,219 @@ func (b *BmmEffectiveType) EffectiveType() IBmmEffectiveType {
 // TypeBaseName (effected) name of base generator type, i.e. excluding any generic parts if present.
 func (b *BmmEffectiveType) TypeBaseName() string {
 	return ""
+}
+
+/* -------------------- BmmParameterType ------------------------------*/
+// definition of a generic parameter in a class definition of a generic type.
+type BmmParameterType struct {
+	BmmUnitaryType
+	// Attributes
+	/**
+	name of the parameter, e.g. 'T' etc. The name is limited to 1 character and
+	upper-case.
+	*/
+	name string `yaml:"name" json:"name" xml:"name"`
+	// Optional conformance constraint that must be the name of a defined type.
+	typeConstraint IBmmEffectiveType `yaml:"typeconstraint" json:"typeconstraint" xml:"typeconstraint"`
+	// If set, is the corresponding generic parameter definition in an ancestor class.
+	inheritancePrecursor IBmmParameterType `yaml:"inheritanceprecursor" json:"inheritanceprecursor" xml:"inheritanceprecursor"`
+}
+
+func (b *BmmParameterType) Name() string {
+	return b.name
+}
+
+func (b *BmmParameterType) SetName(name string) error {
+	b.name = name
+	return nil
+}
+
+func (b *BmmParameterType) TypeConstraint() IBmmEffectiveType {
+	return b.typeConstraint
+}
+
+func (b *BmmParameterType) SetTypeConstraint(typeConstraint IBmmEffectiveType) error {
+	b.typeConstraint = typeConstraint
+	return nil
+}
+
+func (b *BmmParameterType) InheritancePrecursor() IBmmParameterType {
+	return b.inheritancePrecursor
+}
+
+func (b *BmmParameterType) SetInheritancePrecursor(inheritancePrecursor IBmmParameterType) error {
+	b.inheritancePrecursor = inheritancePrecursor
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmParameterType() *BmmParameterType {
+	bmmparametertype := new(BmmParameterType)
+	return bmmparametertype
+}
+
+//FUNCTIONS
+/**
+result is either conforms_to_type or
+inheritance_precursor.flattened_conforms_to_type .
+*/
+func (b *BmmParameterType) FlattenedConformsToType() IBmmEffectiveType {
+	if b.TypeConstraint != nil {
+		return b.TypeConstraint()
+	} else if b.InheritancePrecursor() != nil {
+		return b.InheritancePrecursor().FlattenedConformsToType()
+	} else {
+		return nil
+	}
+}
+
+/*
+*
+(redefined) Signature form of the open type, including constrainer type if there is one,
+e.g. T:Ordered .
+*/
+func (b *BmmParameterType) TypeSignature() string {
+	var sb strings.Builder
+	sb.WriteString(b.Name())
+	conformToType := b.FlattenedConformsToType()
+	if conformToType != nil {
+		sb.WriteString(GenericConstraintDelimiter)
+		sb.WriteString(conformToType.TypeName())
+	}
+	return sb.String()
+}
+
+/*
+*
+(effected) result = False - generic parameters are understood by definition to be
+non-primitive.
+*/
+func (b *BmmParameterType) IsPrimitive() bool {
+	return false
+}
+
+/*
+*
+(effected) result = False - generic parameters are understood by definition to be
+non-abstract.
+*/
+func (b *BmmParameterType) IsAbstract() bool {
+	return false
+}
+
+// (effected) Return name .
+func (b *BmmParameterType) TypeName() string {
+	return b.Name()
+}
+
+/*
+*
+(effected) result is either flattened_conforms_to_type.flattened_type_list or the Any type.
+*/
+func (b *BmmParameterType) FlattenedTypeList() []string {
+	r := make([]string, 0)
+	conformToType := b.FlattenedConformsToType()
+	if conformToType != nil {
+		r = append(r, conformToType.FlattenedTypeList()...)
+	} else {
+		r = append(r, base.AnyTypeName)
+	}
+	return r
+}
+
+/*
+*
+(effected) Generate ultimate conformance type, which is either flattened_conforms_to_type
+or if not set, 'Any' .
+*/
+func (b *BmmParameterType) EffectiveType() IBmmEffectiveType {
+	et := b.FlattenedConformsToType()
+	if et != nil {
+		return et
+	} else {
+		return &BmmEffectiveType{}
+	}
+}
+
+// From: BMM_UNITARY_TYPE
+// result = self.
+func (b *BmmParameterType) UnitaryType() IBmmUnitaryType {
+	return b.BmmUnitaryType.UnitaryType()
+}
+
+/* -------------------- BmmModelType ------------------------------*/
+// A type that is defined by a class (or classes) in the model.
+type BmmModelType struct {
+	BmmEffectiveType
+	// Attributes
+	valueConstraint IBmmValueSetSpec `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
+	// Base class of this type.
+	baseClass IBmmClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+}
+
+func (b *BmmModelType) BaseClass() IBmmClass {
+	return b.baseClass
+}
+
+func (b *BmmModelType) SetBaseClass(baseClass IBmmClass) error {
+	b.baseClass = baseClass
+	return nil
+}
+
+func (b *BmmModelType) ValueConstraint() IBmmValueSetSpec {
+	return b.valueConstraint
+}
+
+func (b *BmmModelType) SetValueConstraint(valueConstraint IBmmValueSetSpec) error {
+	b.valueConstraint = valueConstraint
+	return nil
+}
+
+// CONSTRUCTOR
+// is abstract, no constructor, no builder
+
+// FUNCTIONS
+// (effected) result = base_class.name .
+func (b *BmmModelType) TypeBaseName() string {
+	return b.baseClass.Name()
+}
+
+// (effected) result = base_class.is_primitive .
+func (b *BmmModelType) IsPrimitive() bool {
+	return b.BaseClass().IsPrimitive()
+}
+
+/* -------------------- BmmModelType ------------------------------*/
+//_type reference to a single type i.e. not generic or container type
+type BmmSimpleType struct {
+	BmmModelType
+	baseClass IBmmSimpleClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+}
+
+// CONSTRUCTOR
+func NewBmmSimpleType() *BmmSimpleType {
+	bmmsimpletype := new(BmmSimpleType)
+	// BaseClass IBmmSimpleType (redefined)
+	return bmmsimpletype
+}
+
+// FUNCTIONS
+// (effected) result is base_class.name .
+func (b *BmmSimpleType) TypeName() string {
+	return ""
+}
+
+// (effected) result is base_class.is_abstract .
+func (b *BmmSimpleType) IsAbstract() bool {
+	return false
+}
+
+// (effected) result is base_class.name .
+func (b *BmmSimpleType) FlattenedTypeList() []string {
+	return nil
+}
+
+// Main design class for this type, from which properties etc can be extracted.
+func (b *BmmSimpleType) EffectiveBaseClass() IBmmSimpleClass {
+	return nil
 }
