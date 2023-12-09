@@ -1,13 +1,8 @@
 package vocabulary
 
 type Builder struct {
-	errors          []error
-}
-
-func NewBuilder() *Builder {
-	return &Builder{
-		errors:                 make([]error, 0),
-	}
+	errors []error
+	object any
 }
 
 func (i *Builder) AddError(e error) {
@@ -15,4 +10,3 @@ func (i *Builder) AddError(e error) {
 		i.errors = append(i.errors, e)
 	}
 }
-
