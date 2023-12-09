@@ -91,3 +91,34 @@ func (i *BmmSimpleTypeBuilder) Build() (*BmmSimpleType, []error) {
 		return i.object.(*BmmSimpleType), nil
 	}
 }
+
+/*======================= BmmGenericTypeBuilder ===========================*/
+type BmmGenericTypeBuilder struct {
+	BmmModelTypeBuilder
+}
+
+func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
+	builder := &BmmGenericTypeBuilder{}
+	builder.object = NewBmmGenericType()
+	builder.errors = make([]error, 0)
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+Generic parameters of the root_type in this type specifier. The order must match
+the order of the owning class’s formal generic parameter declarations, and the
+types may be defined types or formal parameter types.
+*/
+func (i *BmmGenericTypeBuilder) SetGenericParameters(v []IBmmUnitaryType) *BmmGenericTypeBuilder {
+	i.AddError(i.object.(*BmmGenericType).SetGenericParameters(v))
+	return i
+}
+
+func (i *BmmGenericTypeBuilder) Build() (*BmmGenericType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmGenericType), nil
+	}
+}

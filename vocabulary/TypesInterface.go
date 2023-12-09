@@ -54,6 +54,9 @@ type IBmmGenericType interface {
 	IsPartiallyClosed() bool
 	EffectiveBaseClass() IBmmGenericClass
 	IsOpen() bool
+	//---------------------
+	GenericParameters() []IBmmUnitaryType
+	SetGenericParameters(genericParameters []IBmmUnitaryType) error
 }
 
 type IBmmBuiltinType interface {

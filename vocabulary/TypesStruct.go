@@ -1,6 +1,7 @@
 package vocabulary
 
 import (
+	"errors"
 	"semanticdatabase/base"
 	"strings"
 )
@@ -322,4 +323,97 @@ func (b *BmmSimpleType) FlattenedTypeList() []string {
 // Main design class for this type, from which properties etc can be extracted.
 func (b *BmmSimpleType) EffectiveBaseClass() IBmmSimpleClass {
 	return nil
+}
+
+/* -------------------- BmmGenericType ------------------------------*/
+// Meta-type based on a non-container generic class, e.g. Packet<Header> .
+type BmmGenericType struct {
+	BmmModelType
+	// Attributes
+	/**
+	Generic parameters of the root_type in this type specifier. The order must match
+	the order of the owning class’s formal generic parameter declarations, and the
+	types may be defined types or formal parameter types.
+	*/
+	genericParameters []IBmmUnitaryType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
+	// Defining generic class of this type.
+	baseClass IBmmGenericClass `yaml:"baseclass" json:"baseclass" xml:"baseclass"`
+}
+
+func NewBmmGenericType() *BmmGenericType {
+	bmmgenerictype := new(BmmGenericType)
+	//BMM_GENERIC_TYPE
+	bmmgenerictype.genericParameters = make([]IBmmUnitaryType, 0)
+	// (redefined) BaseClass IBmmGenericType
+	return bmmgenerictype
+}
+
+func (b *BmmGenericType) GenericParameters() []IBmmUnitaryType {
+	return b.genericParameters
+}
+
+func (b *BmmGenericType) SetGenericParameters(genericParameters []IBmmUnitaryType) error {
+	b.genericParameters = genericParameters
+	return nil
+}
+
+func (b *BmmGenericType) SetBaseClass(baseClass IBmmClass) error {
+	s, ok := baseClass.(IBmmGenericClass)
+	if !ok {
+		return errors.New("_type-assertion to IBmmPackageContainer in BmmPackageContainer->SetScope went wrong")
+	} else {
+		b.baseClass = s
+		return nil
+	}
+}
+
+//FUNCTIONS
+/**
+(effected) Return the full name of the type including generic parameters, e.g.
+DV_INTERVAL<T> , TABLE<List<THING>,String> .
+*/
+func (b *BmmGenericType) TypeName() string {
+	return ""
+}
+
+/*
+*
+(effected) Signature form of the type, which for generics includes generic parameter
+constrainer types E.g. Interval<T:Ordered> .
+*/
+func (b *BmmGenericType) TypeSignature() string {
+	return ""
+}
+
+// (effected) True if base_class.is_abstract or if any (non-open) parameter type is abstract.
+func (b *BmmGenericType) IsAbstract() bool {
+	return false
+}
+
+/*
+*
+(effected) result is base_class.name followed by names of all generic parameter type names,
+which may be open or closed.
+*/
+func (b *BmmGenericType) FlattenedTypeList() []string {
+	return nil
+}
+
+// Returns True if there is any substituted generic parameter.
+func (b *BmmGenericType) IsPartiallyClosed() bool {
+	return false
+}
+
+// Effective underlying class for this type, abstracting away any container type.
+func (b *BmmGenericType) EffectiveBaseClass() IBmmGenericClass {
+	return nil
+}
+
+/*
+*
+True if all generic parameters from ancestor generic types have been substituted
+in this type.
+*/
+func (b *BmmGenericType) IsOpen() bool {
+	return false
 }
