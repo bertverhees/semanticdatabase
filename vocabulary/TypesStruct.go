@@ -410,10 +410,29 @@ func (b *BmmGenericType) EffectiveBaseClass() IBmmGenericClass {
 }
 
 /*
-*
 True if all generic parameters from ancestor generic types have been substituted
 in this type.
 */
 func (b *BmmGenericType) IsOpen() bool {
 	return false
+}
+
+/* -------------------- BmmBuiltinType ------------------------------*/
+/*
+Parent of built-in types, which are treated as being primitive and non-abstract.
+*/
+type BmmBuiltinType struct {
+	BmmEffectiveType
+	// Base name (built-in typename).
+	baseName string `yaml:"basename" json:"basename" xml:"basename"`
+	// Attributes
+}
+
+func (b *BmmBuiltinType) SetBaseName(baseName string) error {
+	b.baseName = baseName
+	return nil
+}
+
+func (b *BmmBuiltinType) BaseName() string {
+	return b.baseName
 }

@@ -61,6 +61,9 @@ type IBmmGenericType interface {
 
 type IBmmBuiltinType interface {
 	IBmmEffectiveType
+	//--------------------
+	SetBaseName(baseName string) error
+	BaseName() string
 }
 
 type IBmmTupleType interface {

@@ -122,3 +122,13 @@ func (i *BmmGenericTypeBuilder) Build() (*BmmGenericType, []error) {
 		return i.object.(*BmmGenericType), nil
 	}
 }
+
+/*======================= BmmBuiltinTypeBuilder ===========================*/
+type BmmBuiltinTypeBuilder struct {
+	BmmEffectiveTypeBuilder
+}
+
+func (i *BmmBuiltinTypeBuilder) SetBaseName(v string) *BmmBuiltinTypeBuilder {
+	i.AddError(i.object.(*BmmBuiltinType).SetBaseName(v))
+	return i
+}
