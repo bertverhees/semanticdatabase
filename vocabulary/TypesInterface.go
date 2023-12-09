@@ -68,6 +68,10 @@ type IBmmBuiltinType interface {
 
 type IBmmTupleType interface {
 	IBmmBuiltinType
+	FlattenedTypeList() []string
+	//----------------
+	ItemTypes() map[string]IBmmType
+	SetItemTypes(itemTypes map[string]IBmmType) error
 }
 
 type IBmmSignature interface {

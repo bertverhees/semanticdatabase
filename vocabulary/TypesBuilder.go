@@ -132,3 +132,31 @@ func (i *BmmBuiltinTypeBuilder) SetBaseName(v string) *BmmBuiltinTypeBuilder {
 	i.AddError(i.object.(*BmmBuiltinType).SetBaseName(v))
 	return i
 }
+
+/*======================= BmmTupleTypeBuilder ===========================*/
+type BmmTupleTypeBuilder struct {
+	BmmBuiltinTypeBuilder
+}
+
+func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
+	builder := &BmmTupleTypeBuilder{}
+	builder.object = NewBmmTupleType()
+	builder.errors = make([]error, 0)
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// List of types of the items of the tuple, keyed by purpose in the tuple.
+
+func (i *BmmTupleTypeBuilder) SetItemTypes(v map[string]IBmmType) *BmmTupleTypeBuilder {
+	i.AddError(i.object.(*BmmTupleType).SetItemTypes(v))
+	return i
+}
+
+func (i *BmmTupleTypeBuilder) Build()  (*BmmTupleType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmTupleType), nil
+	}
+}
