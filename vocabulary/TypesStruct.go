@@ -360,7 +360,7 @@ func (b *BmmGenericType) SetGenericParameters(genericParameters []IBmmUnitaryTyp
 func (b *BmmGenericType) SetBaseClass(baseClass IBmmClass) error {
 	s, ok := baseClass.(IBmmGenericClass)
 	if !ok {
-		return errors.New("_type-assertion to IBmmPackageContainer in BmmPackageContainer->SetScope went wrong")
+		return errors.New("_type-assertion to IBmmGenericClass in BmmGenericType->SetBaseClass went wrong")
 	} else {
 		b.baseClass = s
 		return nil
