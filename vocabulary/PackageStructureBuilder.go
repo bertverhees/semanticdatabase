@@ -7,7 +7,6 @@ type BmmDefinitionsBuilder struct {
 func NewBmmDefinitionsBuilder() *BmmDefinitionsBuilder {
 	builder := &BmmDefinitionsBuilder{}
 	builder.object = NewBmmDefinitions()
-	builder.errors = make([]error, 0)
 	return builder
 }
 

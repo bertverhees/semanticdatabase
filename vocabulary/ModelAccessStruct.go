@@ -1,6 +1,9 @@
 package vocabulary
 
-import "log"
+import (
+	"errors"
+	"log"
+)
 
 /*---------------------- BmmModelAccess ----------------*/
 /**
@@ -167,6 +170,9 @@ func (b *BmmSchemaDescriptor) SchemaId() string {
 }
 
 func (b *BmmSchemaDescriptor) SetSchemaId(schemaId string) error {
+	if schemaId == "" {
+		return errors.New("SchemaId may not be set empty")
+	}
 	b.schemaId = schemaId
 	return nil
 }
@@ -176,6 +182,9 @@ func (b *BmmSchemaDescriptor) MetaData() map[string]string {
 }
 
 func (b *BmmSchemaDescriptor) SetMetaData(metaData map[string]string) error {
+	if metaData == nil || len(metaData) == 0 {
+		return errors.New("metaData may not be set nil or empty")
+	}
 	b.metaData = metaData
 	return nil
 }
@@ -266,6 +275,9 @@ func (b *BmmModelMetadata) RmPublisher() string {
 }
 
 func (b *BmmModelMetadata) SetRmPublisher(rmPublisher string) error {
+	if rmPublisher == "" {
+		return errors.New("rmPublisher may not be set empty")
+	}
 	b.rmPublisher = rmPublisher
 	return nil
 }
@@ -275,6 +287,9 @@ func (b *BmmModelMetadata) RmRelease() string {
 }
 
 func (b *BmmModelMetadata) SetRmRelease(rmRelease string) error {
+	if rmRelease == "" {
+		return errors.New("rmRelease may not be set empty")
+	}
 	b.rmRelease = rmRelease
 	return nil
 }
@@ -284,7 +299,6 @@ func NewBmmModelMetadata() *BmmModelMetadata {
 	bmmmodelmetadata := new(BmmModelMetadata)
 	return bmmmodelmetadata
 }
-
 
 /*--------------------------- BmmSchema ----------------------*/
 // Abstract parent of any persistable form of a BMM model, e.g. P_BMM_SCHEMA .
@@ -333,6 +347,9 @@ func (b *BmmSchema) BmmVersion() string {
 }
 
 func (b *BmmSchema) SetBmmVersion(bmmVersion string) error {
+	if bmmVersion == "" {
+		return errors.New("bmmVersion may not be set empty")
+	}
 	b.bmmVersion = bmmVersion
 	return nil
 }
@@ -378,6 +395,9 @@ func (b *BmmSchema) SchemaName() string {
 }
 
 func (b *BmmSchema) SetSchemaName(schemaName string) error {
+	if schemaName == "" {
+		return errors.New("schemaName may not be set empty")
+	}
 	b.schemaName = schemaName
 	return nil
 }
@@ -387,6 +407,9 @@ func (b *BmmSchema) SchemaRevision() string {
 }
 
 func (b *BmmSchema) SetSchemaRevision(schemaRevision string) error {
+	if schemaRevision == "" {
+		return errors.New("schemaRevision may not be set empty")
+	}
 	b.schemaRevision = schemaRevision
 	return nil
 }
@@ -396,6 +419,9 @@ func (b *BmmSchema) SchemaLifecycleState() string {
 }
 
 func (b *BmmSchema) SetSchemaLifecycleState(schemaLifecycleState string) error {
+	if schemaLifecycleState == "" {
+		return errors.New("schemaLifecycleState may not be set empty")
+	}
 	b.schemaLifecycleState = schemaLifecycleState
 	return nil
 }
@@ -405,6 +431,9 @@ func (b *BmmSchema) SchemaAuthor() string {
 }
 
 func (b *BmmSchema) SetSchemaAuthor(schemaAuthor string) error {
+	if schemaAuthor == "" {
+		return errors.New("schemaAuthor may not be set empty")
+	}
 	b.schemaAuthor = schemaAuthor
 	return nil
 }
@@ -414,6 +443,9 @@ func (b *BmmSchema) SchemaDescription() string {
 }
 
 func (b *BmmSchema) SetSchemaDescription(schemaDescription string) error {
+	if schemaDescription == "" {
+		return errors.New("schemaDescription may not be set empty")
+	}
 	b.schemaDescription = schemaDescription
 	return nil
 }
@@ -536,6 +568,9 @@ func (b *BmmIncludeSpec) Id() string {
 }
 
 func (b *BmmIncludeSpec) SetId(id string) error {
+	if id == "" {
+		return errors.New("id may not be set empty")
+	}
 	b.id = id
 	return nil
 }

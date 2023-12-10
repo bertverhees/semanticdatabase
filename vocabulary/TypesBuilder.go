@@ -23,7 +23,6 @@ type BmmParameterTypeBuilder struct {
 func NewBmmParameterTypeBuilder() *BmmParameterTypeBuilder {
 	builder := &BmmParameterTypeBuilder{}
 	builder.object = NewBmmParameterType()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -80,7 +79,6 @@ type BmmSimpleTypeBuilder struct {
 func NewBmmSimpleTypeBuilder() *BmmSimpleTypeBuilder {
 	builder := &BmmSimpleTypeBuilder{}
 	builder.object = NewBmmSimpleType()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -100,7 +98,6 @@ type BmmGenericTypeBuilder struct {
 func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
 	builder := &BmmGenericTypeBuilder{}
 	builder.object = NewBmmGenericType()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -141,7 +138,6 @@ type BmmTupleTypeBuilder struct {
 func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
 	builder := &BmmTupleTypeBuilder{}
 	builder.object = NewBmmTupleType()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -153,10 +149,35 @@ func (i *BmmTupleTypeBuilder) SetItemTypes(v map[string]IBmmType) *BmmTupleTypeB
 	return i
 }
 
-func (i *BmmTupleTypeBuilder) Build()  (*BmmTupleType, []error) {
+func (i *BmmTupleTypeBuilder) Build() (*BmmTupleType, []error) {
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmTupleType), nil
+	}
+}
+
+type BmmSignatureBuilder struct {
+	BmmBuiltinTypeBuilder
+}
+
+func NewBmmSignatureBuilder() *BmmSignatureBuilder {
+	builder := &BmmSignatureBuilder{}
+	builder.object = NewBmmSignature()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// result type of signature.
+func (i *BmmSignatureBuilder) SetResultType(v IBmmType) *BmmSignatureBuilder {
+	i.AddError(i.object.(*BmmSignature).SetResultType(v))
+	return i
+}
+
+func (i *BmmSignatureBuilder) Build() (*BmmSignature, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmSignature), nil
 	}
 }

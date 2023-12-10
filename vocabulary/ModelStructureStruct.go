@@ -43,6 +43,9 @@ func (b *BmmModelElement) Name() string {
 }
 
 func (b *BmmModelElement) SetName(name string) error {
+	if name == "" {
+		return errors.New("name may not be set empty")
+	}
 	b.name = name
 	return nil
 }
@@ -60,8 +63,11 @@ func (b *BmmModelElement) Scope() IBmmModelElement {
 	return b.scope
 }
 
-func (b *BmmModelElement) SetScope(v IBmmModelElement) error {
-	b.scope = v
+func (b *BmmModelElement) SetScope(scope IBmmModelElement) error {
+	if scope == nil {
+		return errors.New("scope may not be set to nil")
+	}
+	b.scope = scope
 	return nil
 }
 
@@ -109,6 +115,9 @@ func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) error
 }
 
 func (b *BmmPackageContainer) SetScope(scope IBmmModelElement) error {
+	if scope == nil {
+		return errors.New("scope may not be set to nil")
+	}
 	s, ok := scope.(IBmmPackageContainer)
 	if !ok {
 		return errors.New("_type-assertion to IBmmPackageContainer in BmmPackageContainer->SetScope went wrong")
@@ -472,6 +481,9 @@ func (b *BmmModule) SetFeatures(features []IBmmFormalElement) error {
 }
 
 func (b *BmmModule) SetScope(scope IBmmModelElement) error {
+	if scope == nil {
+		return errors.New("scope may not be set to nil")
+	}
 	s, ok := scope.(IBmmModel)
 	if !ok {
 		return errors.New("_type-assertion in BmmModule->SetScope went wrong")

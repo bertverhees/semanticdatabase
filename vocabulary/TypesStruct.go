@@ -469,3 +469,33 @@ func NewBmmTupleType() *BmmTupleType {
 	bmmtupletype.itemTypes = make(map[string]IBmmType)
 	return bmmtupletype
 }
+
+/* -------------------- BmmSignature ------------------------------*/
+/**
+Built-in meta-type that expresses the type structure of any referenceable
+element of a model. Consists of potential arguments and result , with
+constraints in descendants determining the exact form.
+*/
+type BmmSignature struct {
+	BmmBuiltinType
+	// Attributes
+	// result type of signature.
+	resultType IBmmType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
+}
+
+func (b *BmmSignature) ResultType() IBmmType {
+	return b.resultType
+}
+
+func (b *BmmSignature) SetResultType(resultType IBmmType) error {
+	b.resultType = resultType
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmSignature() *BmmSignature {
+	bmmsignature := new(BmmSignature)
+	// Base name (built-in).
+	bmmsignature.baseName = "Signature"
+	return bmmsignature
+}

@@ -7,7 +7,6 @@ type BmmModelAccessBuilder struct {
 func NewBmmModelAccessBuilder() *BmmModelAccessBuilder {
 	builder := &BmmModelAccessBuilder{}
 	builder.object = NewBmmModelAccess()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -57,7 +56,6 @@ type BmmSchemaDescriptorBuilder struct {
 func NewBmmSchemaDescriptorBuilder() *BmmSchemaDescriptorBuilder {
 	builder := &BmmSchemaDescriptorBuilder{}
 	builder.object = NewBmmSchemaDescriptor()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -118,7 +116,6 @@ type BmmModelMetadataBuilder struct {
 func NewBmmModelMetadataBuilder() *BmmModelMetadataBuilder {
 	builder := &BmmModelMetadataBuilder{}
 	builder.object = NewBmmModelMetadata()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -150,7 +147,6 @@ type BmmIncludeSpecBuilder struct {
 func NewBmmIncludeSpecBuilder() *BmmIncludeSpecBuilder {
 	builder := &BmmIncludeSpecBuilder{}
 	builder.object = NewBmmIncludeSpec()
-	builder.errors = make([]error, 0)
 	return builder
 }
 

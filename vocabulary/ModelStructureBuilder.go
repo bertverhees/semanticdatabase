@@ -64,7 +64,6 @@ type BmmPackageBuilder struct {
 func NewBmmPackageBuilder() *BmmPackageBuilder {
 	builder := &BmmPackageBuilder{}
 	builder.object = NewBmmPackage()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
@@ -92,7 +91,6 @@ type BmmModelBuilder struct {
 func NewBmmModelBuilder() *BmmModelBuilder {
 	builder := &BmmModelBuilder{}
 	builder.object = NewBmmModel()
-	builder.errors = make([]error, 0)
 	return builder
 }
 
