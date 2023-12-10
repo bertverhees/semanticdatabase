@@ -499,3 +499,16 @@ func NewBmmSignature() *BmmSignature {
 	bmmsignature.baseName = "Signature"
 	return bmmsignature
 }
+
+/* -------------------- BmmSignature ------------------------------*/
+// Meta-type for property and variable signatures.
+type BmmPropertyType struct {
+	BmmSignature
+}
+
+func NewBmmPropertyType() *BmmPropertyType {
+	bmmpropertytype := new(BmmPropertyType)
+	// Base name (built-in).
+	bmmpropertytype.baseName = "Property"
+	return bmmpropertytype
+}

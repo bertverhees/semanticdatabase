@@ -181,3 +181,22 @@ func (i *BmmSignatureBuilder) Build() (*BmmSignature, []error) {
 		return i.object.(*BmmSignature), nil
 	}
 }
+
+/*======================= BmmPropertyTypeBuilder ===========================*/
+type BmmPropertyTypeBuilder struct {
+	BmmSignatureBuilder
+}
+
+func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
+	builder := &BmmPropertyTypeBuilder{}
+	builder.object = NewBmmPropertyType()
+	return builder
+}
+
+func (i *BmmPropertyTypeBuilder) Build() (*BmmPropertyType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmPropertyType), nil
+	}
+}
