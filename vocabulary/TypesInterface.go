@@ -104,8 +104,19 @@ type IBmmStatusType interface {
 
 type IBmmContainerType interface {
 	IBmmType
+	//------------------
+	ContainerClass() IBmmGenericClass
+	SetContainerClass(containerClass IBmmGenericClass) error
+	ItemType() IBmmUnitaryType
+	SetItemType(itemType IBmmUnitaryType) error
+	IsOrdered() bool
+	SetIsOrdered(isOrdered bool) error
+	IsUnique() bool
+	SetIsUnique(isUnique bool) error
 }
 
 type IBmmIndexedContainerType interface {
 	IBmmContainerType
+	IndexType() IBmmSimpleType
+	SetIndexType(indexType IBmmSimpleType) error
 }

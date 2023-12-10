@@ -248,3 +248,121 @@ func (i *BmmFunctionTypeBuilder) Build() (*BmmFunctionType, []error) {
 		return i.object.(*BmmFunctionType), nil
 	}
 }
+
+/*======================= BmmProcedureTypeBuilder ===========================*/
+type BmmProcedureTypeBuilder struct {
+	BmmRoutineTypeBuilder
+}
+
+func NewBmmProcedureTypeBuilder() *BmmProcedureTypeBuilder {
+	builder := &BmmProcedureTypeBuilder{}
+	builder.object = NewBmmProcedureType()
+	return builder
+}
+
+func (i *BmmProcedureTypeBuilder) Build() (*BmmProcedureType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmProcedureType), nil
+	}
+}
+
+/*======================= BmmStatusTypeBuilder ===========================*/
+type BmmStatusTypeBuilder struct {
+	BmmBuiltinTypeBuilder
+}
+
+func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
+	builder := &BmmStatusTypeBuilder{}
+	builder.object = NewBmmStatusType()
+	return builder
+}
+
+func (i *BmmStatusTypeBuilder) Build() (*BmmStatusType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmStatusType), nil
+	}
+}
+
+/*======================= BmmContainerTypeBuilder ===========================*/
+type BmmContainerTypeBuilder struct {
+	BmmTypeBuilder
+}
+
+func NewBmmContainerTypeBuilder() *BmmContainerTypeBuilder {
+	builder := &BmmContainerTypeBuilder{}
+	builder.object = NewBmmContainerType()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+func (i *BmmContainerTypeBuilder) SetContainerClass(v IBmmGenericClass) *BmmContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetContainerClass(v))
+	return i
+}
+
+// The container item type.
+func (i *BmmContainerTypeBuilder) SetItemType(v IBmmUnitaryType) *BmmContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetItemType(v))
+	return i
+}
+
+/*
+True indicates that order of the items in the container attribute is considered
+significant and must be preserved, e.g. across sessions, serialisation,
+deserialisation etc. Otherwise known as 'list' semantics.
+*/
+func (i *BmmContainerTypeBuilder) SetIsOrdered(v bool) *BmmContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetIsOrdered(v))
+	return i
+}
+
+/*
+True indicates that only unique instances of items in the container are allowed.
+Otherwise known as 'set' semantics.
+*/
+func (i *BmmContainerTypeBuilder) SetIsUnique(v bool) *BmmContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetIsUnique(v))
+	return i
+}
+
+func (i *BmmContainerTypeBuilder) Build() (*BmmContainerType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmContainerType), nil
+	}
+}
+
+/*======================= BmmIndexedContainerTypeBuilder ===========================*/
+type BmmIndexedContainerTypeBuilder struct {
+	BmmContainerTypeBuilder
+}
+
+func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
+	builder := &BmmIndexedContainerTypeBuilder{}
+	builder.object = NewBmmIndexedContainerType()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+_type of the element index, typically String or Integer , but may be a numeric
+type or indeed any type from which a hash value can be derived.
+*/
+func (i *BmmIndexedContainerTypeBuilder) SetIndexType(v IBmmSimpleType) *BmmIndexedContainerTypeBuilder {
+	i.AddError(i.object.(*BmmIndexedContainerType).SetIndexType(v))
+	return i
+}
+
+func (i *BmmIndexedContainerTypeBuilder) Build() (*BmmIndexedContainerType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmIndexedContainerType), nil
+	}
+}

@@ -554,3 +554,155 @@ func NewBmmFunctionType() *BmmFunctionType {
 	bmmfunctiontype.baseName = "Function"
 	return bmmfunctiontype
 }
+
+/* -------------------- BmmProcedureType ------------------------------*/
+/**
+Form of routine specific to procedure object signatures, with result_type being
+the special Status meta-type
+*/
+type BmmProcedureType struct {
+	BmmRoutineType
+	// Attributes
+	// result type of a procedure.
+	resultType IBmmStatusType `yaml:"resulttype" json:"resulttype" xml:"resulttype"`
+}
+
+func (b *BmmProcedureType) SetResultType(resultType IBmmType) error {
+	s, ok := resultType.(IBmmStatusType)
+	if !ok {
+		return errors.New("type-assertion to IBmmStatusType in BmmProcedureType->SetResultType went wrong")
+	} else {
+		b.resultType = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewBmmProcedureType() *BmmProcedureType {
+	bmmproceduretype := new(BmmProcedureType)
+	// Constants
+	// Base name (built-in).
+	bmmproceduretype.baseName = "Procedure"
+	return bmmproceduretype
+}
+
+/* -------------------- BmmProcedureType ------------------------------*/
+/**
+Built-in meta-type representing action status, e.g. result of a call invocation.
+*/
+type BmmStatusType struct {
+	BmmBuiltinType
+}
+
+// CONSTRUCTOR
+func NewBmmStatusType() *BmmStatusType {
+	bmmstatustype := new(BmmStatusType)
+	// Base name (built-in).
+	bmmstatustype.baseName = "Status"
+	return bmmstatustype
+}
+
+/* -------------------- BmmContainerType ------------------------------*/
+/**
+Meta-type that specifies linear containers with a generic parameter
+corresponding to the type of contained item, and whose container type is a
+generic type such as List<T> , Set<T> etc.
+*/
+type BmmContainerType struct {
+	// embedded for Inheritance
+	BmmType
+	// Constants
+	// Attributes
+	// The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+	containerClass IBmmGenericClass `yaml:"containerclass" json:"containerclass" xml:"containerclass"`
+	// The container item type.
+	itemType IBmmUnitaryType `yaml:"itemtype" json:"itemtype" xml:"itemtype"`
+	/**
+	True indicates that order of the items in the container attribute is considered
+	significant and must be preserved, e.g. across sessions, serialisation,
+	deserialisation etc. Otherwise known as 'list' semantics.
+	*/
+	isOrdered bool `yaml:"isordered" json:"isordered" xml:"isordered"`
+	/**
+	True indicates that only unique instances of items in the container are allowed.
+	Otherwise known as 'set' semantics.
+	*/
+	isUnique bool `yaml:"isunique" json:"isunique" xml:"isunique"`
+}
+
+func (b *BmmContainerType) ContainerClass() IBmmGenericClass {
+	return b.containerClass
+}
+
+func (b *BmmContainerType) SetContainerClass(containerClass IBmmGenericClass) error {
+	b.containerClass = containerClass
+	return nil
+}
+
+func (b *BmmContainerType) ItemType() IBmmUnitaryType {
+	return b.itemType
+}
+
+func (b *BmmContainerType) SetItemType(itemType IBmmUnitaryType) error {
+	b.itemType = itemType
+	return nil
+}
+
+func (b *BmmContainerType) IsOrdered() bool {
+	return b.isOrdered
+}
+
+func (b *BmmContainerType) SetIsOrdered(isOrdered bool) error {
+	b.isOrdered = isOrdered
+	return nil
+}
+
+func (b *BmmContainerType) IsUnique() bool {
+	return b.isUnique
+}
+
+func (b *BmmContainerType) SetIsUnique(isUnique bool) error {
+	b.isUnique = isUnique
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmContainerType() *BmmContainerType {
+	bmmcontainertype := new(BmmContainerType)
+	bmmcontainertype.isOrdered = true
+	bmmcontainertype.isUnique = false
+	// Constants
+	return bmmcontainertype
+}
+
+
+/* -------------------- BmmIndexedContainerType ------------------------------*/
+/**
+Meta-type of linear container type that indexes the contained items in the
+manner of a standard Hash table, map or dictionary.
+*/
+type BmmIndexedContainerType struct {
+	BmmContainerType
+	// Attributes
+	/**
+	_type of the element index, typically String or Integer , but may be a numeric
+	type or indeed any type from which a hash value can be derived.
+	*/
+	indexType IBmmSimpleType `yaml:"indextype" json:"indextype" xml:"indextype"`
+}
+
+func (b *BmmIndexedContainerType) IndexType() IBmmSimpleType {
+	return b.indexType
+}
+
+func (b *BmmIndexedContainerType) SetIndexType(indexType IBmmSimpleType) error {
+	b.indexType = indexType
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmIndexedContainerType() *BmmIndexedContainerType {
+	bmmindexedcontainertype := new(BmmIndexedContainerType)
+	return bmmindexedcontainertype
+}
+
