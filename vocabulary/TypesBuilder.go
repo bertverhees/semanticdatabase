@@ -229,3 +229,22 @@ func (i *BmmRoutineTypeBuilder) Build() (*BmmRoutineType, []error) {
 		return i.object.(*BmmRoutineType), nil
 	}
 }
+
+/*======================= BmmFunctionTypeBuilder ===========================*/
+type BmmFunctionTypeBuilder struct {
+	BmmRoutineTypeBuilder
+}
+
+func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
+	builder := &BmmFunctionTypeBuilder{}
+	builder.object = NewBmmFunctionType()
+	return builder
+}
+
+func (i *BmmFunctionTypeBuilder) Build() (*BmmFunctionType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmFunctionType), nil
+	}
+}

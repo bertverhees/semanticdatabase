@@ -540,3 +540,17 @@ func NewBmmRoutineType() *BmmRoutineType {
 	bmmroutinetype.baseName = "Routine"
 	return bmmroutinetype
 }
+
+/* -------------------- BmmFunctionType ------------------------------*/
+// Meta-type for function object signatures.
+type BmmFunctionType struct {
+	BmmRoutineType
+}
+
+// CONSTRUCTOR
+func NewBmmFunctionType() *BmmFunctionType {
+	bmmfunctiontype := new(BmmFunctionType)
+	// Base name (built-in).
+	bmmfunctiontype.baseName = "Function"
+	return bmmfunctiontype
+}
