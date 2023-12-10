@@ -512,3 +512,31 @@ func NewBmmPropertyType() *BmmPropertyType {
 	bmmpropertytype.baseName = "Property"
 	return bmmpropertytype
 }
+
+/* -------------------- BmmRoutineType ------------------------------*/
+// Meta-type for routine objects.
+type BmmRoutineType struct {
+	BmmSignature
+	/**
+	_type of arguments in the signature, if any; represented as a type-tuple (list of
+	arbitrary types).
+	*/
+	argumentTypes IBmmTupleType `yaml:"argumenttypes" json:"argumenttypes" xml:"argumenttypes"`
+}
+
+func (b *BmmRoutineType) ArgumentTypes() IBmmTupleType {
+	return b.argumentTypes
+}
+
+func (b *BmmRoutineType) SetArgumentTypes(argumentTypes IBmmTupleType) error {
+	b.argumentTypes = argumentTypes
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmRoutineType() *BmmRoutineType {
+	bmmroutinetype := new(BmmRoutineType)
+	// Base name (built-in).
+	bmmroutinetype.baseName = "Routine"
+	return bmmroutinetype
+}

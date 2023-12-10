@@ -76,6 +76,8 @@ type IBmmTupleType interface {
 
 type IBmmSignature interface {
 	IBmmBuiltinType
+	ResultType() IBmmType
+	SetResultType(resultType IBmmType) error
 }
 
 type IBmmPropertyType interface {
@@ -84,6 +86,8 @@ type IBmmPropertyType interface {
 
 type IBmmRoutineType interface {
 	IBmmSignature
+	ArgumentTypes() IBmmTupleType
+	SetArgumentTypes(argumentTypes IBmmTupleType) error
 }
 
 type IBmmFunctionType interface {

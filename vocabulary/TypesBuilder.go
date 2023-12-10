@@ -200,3 +200,32 @@ func (i *BmmPropertyTypeBuilder) Build() (*BmmPropertyType, []error) {
 		return i.object.(*BmmPropertyType), nil
 	}
 }
+
+/*======================= BmmRoutineTypeBuilder ===========================*/
+type BmmRoutineTypeBuilder struct {
+	BmmSignatureBuilder
+}
+
+func NewBmmRoutineTypeBuilder() *BmmRoutineTypeBuilder {
+	builder := &BmmRoutineTypeBuilder{}
+	builder.object = NewBmmRoutineType()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+_type of arguments in the signature, if any; represented as a type-tuple (list of
+arbitrary types).
+*/
+func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTypeBuilder {
+	i.AddError(i.object.(*BmmRoutineType).SetArgumentTypes(v))
+	return i
+}
+
+func (i *BmmRoutineTypeBuilder) Build() (*BmmRoutineType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmRoutineType), nil
+	}
+}
