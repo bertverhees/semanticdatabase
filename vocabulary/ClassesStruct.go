@@ -2,61 +2,16 @@ package vocabulary
 
 import "errors"
 
+/*=============================== BmmClass ==============================*/
 /**
 Meta-type corresponding a class definition in an object model. Inheritance is
 specified by the ancestors attribute, which contains a list of types rather than
 classes. Inheritance is thus understood in BMM as a stated relationship between
-classes. The equivalent relationship between types is conformance. Note unlike
-UML, the name is just the root name, even if the class is generic. Use
+classes. The equivalent relationship between types is conformance.
+
+Note: unlike UML, the name is just the root name, even if the class is generic. Use
 type_name() to obtain the qualified type name.
 */
-
-// Interface definition
-type IBmmClass interface {
-	IBmmModule
-	//BMM_CLASS
-	//redefined in subclasses _type() IBmmModelType
-	Package() IBmmPackage
-	SetPackage(_package IBmmPackage) error
-	Properties() map[string]IBmmProperty
-	SetProperties(properties map[string]IBmmProperty) error
-	SourceSchemaId() string
-	SetSourceSchemaId(sourceSchemaId string) error
-	ImmediateDescendants() []IBmmClass
-	SetImmediateDescendants(immediateDescendants []IBmmClass) error
-	IsOverride() bool
-	SetIsOverride(isOverride bool) error
-	StaticProperties() map[string]IBmmStatic
-	SetStaticProperties(staticProperties map[string]IBmmStatic) error
-	Functions() map[string]IBmmFunction
-	SetFunctions(functions map[string]IBmmFunction) error
-	Procedures() map[string]IBmmProcedure
-	SetProcedures(procedures map[string]IBmmProcedure) error
-	IsAbstract() bool
-	SetIsAbstract(isAbstract bool) error
-	Invariants() []IBmmAssertion
-	SetInvariants(invariants []IBmmAssertion) error
-	Creators() map[string]IBmmProcedure
-	SetCreators(creators map[string]IBmmProcedure) error
-	Converters() map[string]IBmmProcedure
-	SetConverters(converters map[string]IBmmProcedure) error
-	Ancestors() map[string]IBmmModelType
-	SetAncestors(ancestors map[string]IBmmModelType) error
-	IsPrimitive() bool
-	SetIsPrimitive(isPrimitive bool) error
-
-	AllAncestors() []string
-	AllDescendants() []string
-	Suppliers() []string
-	SuppliersNonPrimitive() []string
-	SupplierClosure() []string
-	PackagePath() string
-	ClassPath() string
-	FlatFeatures()
-	FlatProperties() []IBmmProperty
-}
-
-// Struct definition
 type BmmClass struct {
 	BmmModule
 	// Attributes
@@ -119,6 +74,9 @@ func (b *BmmClass) Package() IBmmPackage {
 }
 
 func (b *BmmClass) SetPackage(_package IBmmPackage) error {
+	if _package == nil {
+		return errors.New("_package may not be set to nil")
+	}
 	b._package = _package
 	return nil
 }
@@ -137,6 +95,9 @@ func (b *BmmClass) SourceSchemaId() string {
 }
 
 func (b *BmmClass) SetSourceSchemaId(sourceSchemaId string) error {
+	if sourceSchemaId == "" {
+		return errors.New("sourceSchemaId may not be set to empty string")
+	}
 	b.sourceSchemaId = sourceSchemaId
 	return nil
 }
@@ -255,7 +216,6 @@ func (b *BmmClass) SetFeatures(features []IBmmFormalElement) error {
 
 // CONSTRUCTOR
 // abstract no constructor, no builder
-
 //FUNCTIONS
 /**
 Generate a type object that represents the type for which this class is the
@@ -334,3 +294,48 @@ name.
 func (b *BmmClass) FlatProperties() []IBmmProperty {
 	return nil
 }
+
+/* ---------------------- BmmSimpleClass ----------------------------------*/
+/**
+definition of a simple class, i.e. a class that has no generic parameters and is
+1:1 with the type it generates.
+*/
+
+type BmmSimpleClass struct {
+	// embedded for Inheritance
+	BmmClass
+}
+
+// CONSTRUCTOR
+func NewBmmSimpleClass() *BmmSimpleClass {
+	bmmsimpleclass := new(BmmSimpleClass)
+	//BmmModelElement
+	bmmsimpleclass.documentation = make(map[string]any)
+	bmmsimpleclass.extensions = make(map[string]any)
+	//BmmModule
+	bmmsimpleclass.features = make([]IBmmFeature, 0)
+	bmmsimpleclass.featureGroups = make([]IBmmFeatureGroup, 0)
+	//bmmClass
+	bmmsimpleclass.ancestors = make(map[string]IBmmModelType)
+	bmmsimpleclass.features = make([]IBmmFeature, 0)
+	bmmsimpleclass.properties = make(map[string]IBmmProperty)
+	bmmsimpleclass.immediateDescendants = make([]IBmmClass, 0)
+	bmmsimpleclass.staticProperties = make(map[string]IBmmStatic)
+	bmmsimpleclass.functions = make(map[string]IBmmFunction)
+	bmmsimpleclass.procedures = make(map[string]IBmmProcedure)
+	bmmsimpleclass.invariants = make([]IBmmAssertion, 0)
+	bmmsimpleclass.creators = make(map[string]IBmmProcedure)
+	bmmsimpleclass.converters = make(map[string]IBmmProcedure)
+
+	return bmmsimpleclass
+}
+
+//FUNCTIONS
+/**
+Generate a type object that represents the type of this class. Can only be an
+instance of BMM_SIMPLE_TYPE or a descendant.
+*/
+func (b *BmmSimpleClass) Type() IBmmSimpleType {
+	return nil
+}
+

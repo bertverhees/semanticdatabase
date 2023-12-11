@@ -133,3 +133,22 @@ func (i *BmmModelBuilder) Build() (*BmmModel, []error) {
 		return i.object.(*BmmModel), nil
 	}
 }
+
+/*========================BmmModelBuilder===========================*/
+type BmmModuleBuilder struct {
+	BmmModelElementBuilder
+}
+
+// BUILDER ATTRIBUTES
+// BMMModelElement
+// From: BmmModelElement
+// name of this model element.
+func (i *BmmModuleBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmModuleBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
+	return i
+}
+
+func (i *BmmModuleBuilder) SetFeatures(v []IBmmFormalElement) *BmmModuleBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}

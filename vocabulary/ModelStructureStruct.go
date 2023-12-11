@@ -486,7 +486,7 @@ func (b *BmmModule) SetScope(scope IBmmModelElement) error {
 	}
 	s, ok := scope.(IBmmModel)
 	if !ok {
-		return errors.New("_type-assertion in BmmModule->SetScope went wrong")
+		return errors.New("_type-assertion to IBmmModel in BmmModule->SetScope went wrong")
 	} else {
 		b.scope = s
 		return nil
