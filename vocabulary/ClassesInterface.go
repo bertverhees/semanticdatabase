@@ -51,3 +51,10 @@ type IBmmSimpleClass interface {
 	IBmmClass
 }
 
+/* =========================== BmmGenericClass ==========================*/
+type IBmmGenericClass interface {
+	IBmmClass
+	GenericParameterConformanceType(a_name string) string
+	GenericParameters() map[string]IBmmParameterType
+	SetGenericParameters(genericParameters map[string]IBmmParameterType) error
+}

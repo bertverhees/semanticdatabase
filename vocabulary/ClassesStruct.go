@@ -339,3 +339,67 @@ func (b *BmmSimpleClass) Type() IBmmSimpleType {
 	return nil
 }
 
+// ----------------------------* BmmGenericClass -----------------------------*/
+// definition of a generic class in an object model.
+type BmmGenericClass struct {
+	BmmClass
+	// Attributes
+	/**
+	List of formal generic parameters, keyed by name. These are defined either
+	directly on this class or by the inclusion of an ancestor class which is
+	generic.
+	*/
+	genericParameters map[string]IBmmParameterType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
+}
+
+func (b *BmmGenericClass) GenericParameters() map[string]IBmmParameterType {
+	return b.genericParameters
+}
+
+func (b *BmmGenericClass) SetGenericParameters(genericParameters map[string]IBmmParameterType) error {
+	b.genericParameters = genericParameters
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmGenericClass() *BmmGenericClass {
+	bmmgenericclass := new(BmmGenericClass)
+	//BmmModelElement
+	bmmgenericclass.documentation = make(map[string]any)
+	bmmgenericclass.extensions = make(map[string]any)
+	//BmmModule
+	bmmgenericclass.featureGroups = make([]IBmmFeatureGroup, 0)
+	//bmmClass
+	bmmgenericclass.features = make([]IBmmFeature, 0)
+	bmmgenericclass.ancestors = make(map[string]IBmmModelType)
+	bmmgenericclass.properties = make(map[string]IBmmProperty)
+	bmmgenericclass.immediateDescendants = make([]IBmmClass, 0)
+	bmmgenericclass.staticProperties = make(map[string]IBmmStatic)
+	bmmgenericclass.functions = make(map[string]IBmmFunction)
+	bmmgenericclass.procedures = make(map[string]IBmmProcedure)
+	bmmgenericclass.invariants = make([]IBmmAssertion, 0)
+	bmmgenericclass.creators = make(map[string]IBmmProcedure)
+	bmmgenericclass.converters = make(map[string]IBmmProcedure)
+
+	return bmmgenericclass
+}
+
+// Add suppliers from generic parameters.
+func (b *BmmGenericClass) Suppliers() []string {
+	return make([]string, 0)
+}
+
+/* Generate a fully open BMM_GENERIC_TYPE instance that corresponds to this class definition */
+func (b *BmmGenericClass) Type() IBmmGenericType {
+	return nil
+}
+
+/*
+*
+For a generic class, type to which generic parameter a_name conforms e.g. if
+this class is Interval <T:Comparable> then the result will be the single type
+Comparable . For an unconstrained type T , the result will be Any .
+*/
+func (b *BmmGenericClass) GenericParameterConformanceType(a_name string) string {
+	return ""
+}

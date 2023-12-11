@@ -93,3 +93,33 @@ func (i *BmmSimpleClassBuilder) Build() (*BmmSimpleClass, []error) {
 		return i.object.(*BmmSimpleClass), nil
 	}
 }
+
+/* ============================= BmmGenericClass ============================ */
+type BmmGenericClassBuilder struct {
+	BmmClassBuilder
+}
+
+func NewBmmGenericClassBuilder() *BmmGenericClassBuilder {
+	builder := &BmmGenericClassBuilder{}
+	builder.object = NewBmmGenericClass()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+List of formal generic parameters, keyed by name. These are defined either
+directly on this class or by the inclusion of an ancestor class which is
+generic.
+*/
+func (i *BmmGenericClassBuilder) SetGenericParameters(v map[string]IBmmParameterType) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmGenericClass).SetGenericParameters(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) Build() (*BmmGenericClass, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmGenericClass), nil
+	}
+}
