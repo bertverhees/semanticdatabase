@@ -30,7 +30,8 @@ func (b *BmmDefinitions) AnyClass() IBmmSimpleClass {
 
 // Built-in type definition corresponding to the top `Any' type.
 func (b *BmmDefinitions) AnyType() IBmmSimpleType {
-	return NewBmmSimpleTypeBuilder().SetBaseClass(b.AnyClass()).Build()
+	//r, _ := NewBmmSimpleTypeBuilder().SetBaseClass(b.AnyClass()).Build()
+	return nil
 }
 
 /*

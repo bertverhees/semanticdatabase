@@ -335,9 +335,9 @@ func NewBmmSimpleClass() *BmmSimpleClass {
 Generate a type object that represents the type of this class. Can only be an
 instance of BMM_SIMPLE_TYPE or a descendant.
 */
-func (b *BmmSimpleClass) Type() IBmmSimpleType {
-	return nil
-}
+//func (b *BmmSimpleClass) Type() IBmmSimpleType {
+//	return nil
+//}
 
 // ----------------------------* BmmGenericClass -----------------------------*/
 // definition of a generic class in an object model.
@@ -385,14 +385,14 @@ func NewBmmGenericClass() *BmmGenericClass {
 }
 
 // Add suppliers from generic parameters.
-func (b *BmmGenericClass) Suppliers() []string {
-	return make([]string, 0)
-}
+//func (b *BmmGenericClass) Suppliers() []string {
+//	return make([]string, 0)
+//}
 
 /* Generate a fully open BMM_GENERIC_TYPE instance that corresponds to this class definition */
-func (b *BmmGenericClass) Type() IBmmGenericType {
-	return nil
-}
+//func (b *BmmGenericClass) Type() IBmmGenericType {
+//	return nil
+//}
 
 /*
 *
@@ -402,4 +402,215 @@ Comparable . For an unconstrained type T , the result will be Any .
 */
 func (b *BmmGenericClass) GenericParameterConformanceType(a_name string) string {
 	return ""
+}
+
+// ----------------------------* BmmEnumeration -----------------------------*/
+/**
+definition of an enumeration class, understood as a class whose value range is
+constrained extensionally, i.e. by an explicit enumeration of named singleton
+instances. Only one inheritance ancestor is allowed in order to provide the base
+type to which the range constraint is applied. The common notion of a set of
+literals with no explicit defined values is represented as the degenerate
+subtype BMM_ENUMERATION_INTEGER , whose values are 0, 1, …​
+*/
+type BmmEnumeration struct {
+	BmmSimpleClass
+	// Attributes
+	/**
+	The list of names of the enumeration. If no values are supplied, the integer
+	values 0, 1, 2, …​ are assumed.
+	*/
+	itemNames []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
+	// Optional list of specific values. Must be 1:1 with item_names list.
+	itemValues []IBmmPrimitiveValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+}
+
+func (b *BmmEnumeration) ItemNames() []string {
+	return b.itemNames
+}
+
+func (b *BmmEnumeration) SetItemNames(itemNames []string) error {
+	b.itemNames = itemNames
+	return nil
+}
+
+func (b *BmmEnumeration) ItemValues() []IBmmPrimitiveValue {
+	return b.itemValues
+}
+
+func (b *BmmEnumeration) SetItemValues(itemValues []IBmmPrimitiveValue) error {
+	b.itemValues = itemValues
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmEnumeration() *BmmEnumeration {
+	bmmenumeration := new(BmmEnumeration)
+	//BmmModelElement
+	bmmenumeration.documentation = make(map[string]any)
+	bmmenumeration.extensions = make(map[string]any)
+	//BmmModule
+	bmmenumeration.features = make([]IBmmFeature, 0)
+	bmmenumeration.featureGroups = make([]IBmmFeatureGroup, 0)
+	//bmmClass
+	bmmenumeration.ancestors = make(map[string]IBmmModelType)
+	bmmenumeration.properties = make(map[string]IBmmProperty)
+	bmmenumeration.immediateDescendants = make([]IBmmClass, 0)
+	bmmenumeration.staticProperties = make(map[string]IBmmStatic)
+	bmmenumeration.functions = make(map[string]IBmmFunction)
+	bmmenumeration.procedures = make(map[string]IBmmProcedure)
+	bmmenumeration.invariants = make([]IBmmAssertion, 0)
+	bmmenumeration.creators = make(map[string]IBmmProcedure)
+	bmmenumeration.converters = make(map[string]IBmmProcedure)
+	//BmmEnumeration
+	bmmenumeration.itemValues = make([]IBmmPrimitiveValue, 0)
+	return bmmenumeration
+}
+
+// FUNCTIONS
+// Map of item_names to item_values (stringified).
+func (b *BmmEnumeration) NameMap() map[string]string {
+	return nil
+}
+
+// ----------------------------* BmmEnumerationString -----------------------------*/
+// String-based enumeration meta-type.
+type BmmEnumerationString struct {
+	BmmEnumeration
+	// Constants
+	// Attributes
+	// Optional list of specific values. Must be 1:1 with item_names list.
+	itemValues []IBmmStringValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+}
+
+func (b *BmmEnumerationString) SetItemValues(itemValues []IBmmPrimitiveValue) error {
+	b.itemValues = make([]IBmmStringValue, 0)
+	for _, s := range itemValues {
+		s, ok := s.(IBmmStringValue)
+		if !ok {
+			return errors.New("_type-assertion in BmmEnumerationString->SetItemValues went wrong")
+		} else {
+			b.itemValues = append(b.itemValues, s)
+		}
+	}
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmEnumerationString() *BmmEnumerationString {
+	bmmenumerationstring := new(BmmEnumerationString)
+	//BmmModelElement
+	bmmenumerationstring.documentation = make(map[string]any)
+	bmmenumerationstring.extensions = make(map[string]any)
+	//BmmModule
+	bmmenumerationstring.features = make([]IBmmFeature, 0)
+	bmmenumerationstring.featureGroups = make([]IBmmFeatureGroup, 0)
+	//bmmClass
+	bmmenumerationstring.ancestors = make(map[string]IBmmModelType)
+	bmmenumerationstring.properties = make(map[string]IBmmProperty)
+	bmmenumerationstring.immediateDescendants = make([]IBmmClass, 0)
+	bmmenumerationstring.staticProperties = make(map[string]IBmmStatic)
+	bmmenumerationstring.functions = make(map[string]IBmmFunction)
+	bmmenumerationstring.procedures = make(map[string]IBmmProcedure)
+	bmmenumerationstring.invariants = make([]IBmmAssertion, 0)
+	bmmenumerationstring.creators = make(map[string]IBmmProcedure)
+	bmmenumerationstring.converters = make(map[string]IBmmProcedure)
+	//BmmEnumeration
+	bmmenumerationstring.itemValues = make([]IBmmStringValue, 0)
+
+	return bmmenumerationstring
+}
+
+// ----------------------------* BmmEnumerationInteger -----------------------------*/
+// String-based enumeration meta-type.
+type BmmEnumerationInteger struct {
+	BmmEnumeration
+	// Attributes
+	// Optional list of specific values. Must be 1:1 with item_names list.
+	itemValues []IBmmIntegerValue `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+}
+
+// CONSTRUCTOR
+func NewBmmEnumerationInteger() *BmmEnumerationInteger {
+	bmmenumerationinteger := new(BmmEnumerationInteger)
+	//BmmModelElement
+	bmmenumerationinteger.documentation = make(map[string]any)
+	bmmenumerationinteger.extensions = make(map[string]any)
+	//BmmModule
+	bmmenumerationinteger.features = make([]IBmmFeature, 0)
+	bmmenumerationinteger.featureGroups = make([]IBmmFeatureGroup, 0)
+	//bmmClass
+	bmmenumerationinteger.BmmClass.features = make([]IBmmFeature, 0)
+	bmmenumerationinteger.ancestors = make(map[string]IBmmModelType)
+	bmmenumerationinteger.properties = make(map[string]IBmmProperty)
+	bmmenumerationinteger.immediateDescendants = make([]IBmmClass, 0)
+	bmmenumerationinteger.staticProperties = make(map[string]IBmmStatic)
+	bmmenumerationinteger.functions = make(map[string]IBmmFunction)
+	bmmenumerationinteger.procedures = make(map[string]IBmmProcedure)
+	bmmenumerationinteger.invariants = make([]IBmmAssertion, 0)
+	bmmenumerationinteger.creators = make(map[string]IBmmProcedure)
+	bmmenumerationinteger.converters = make(map[string]IBmmProcedure)
+	//BmmEnumeration
+	bmmenumerationinteger.itemValues = make([]IBmmIntegerValue, 0)
+
+	return bmmenumerationinteger
+}
+
+func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmPrimitiveValue) error {
+	b.itemValues = make([]IBmmIntegerValue, 0)
+	for _, s := range itemValues {
+		s, ok := s.(IBmmIntegerValue)
+		if !ok {
+			return errors.New("_type-assertion to IBmmIntegerValue in BmmEnumerationInteger->SetItemValues went wrong")
+		} else {
+			b.itemValues = append(b.itemValues, s)
+		}
+	}
+	return nil
+}
+
+// ----------------------------* BmmValueSetSpec -----------------------------*/
+/**
+definition of a range-constrained class whose value range is defined by
+reference to a 'value set' within an external resource, e.g. a reference data
+service.
+*/
+type BmmValueSetSpec struct {
+	// Attributes
+	/**
+	Identifier of a resource (typically available as a service) that contains legal
+	values of a specific type. This is typically a URI but need not be.
+	*/
+	resourceId string `yaml:"resourceid" json:"resourceid" xml:"resourceid"`
+	/**
+	Identifier of a value set within the resource identified by resource_id , which
+	specifies the set of legal values of a type. This might be a URI, but need not
+	be.
+	*/
+	valueSetId string `yaml:"valuesetid" json:"valuesetid" xml:"valuesetid"`
+}
+
+func (b *BmmValueSetSpec) ResourceId() string {
+	return b.resourceId
+}
+
+func (b *BmmValueSetSpec) SetResourceId(resourceId string) error {
+	b.resourceId = resourceId
+	return nil
+}
+
+func (b *BmmValueSetSpec) ValueSetId() string {
+	return b.valueSetId
+}
+
+func (b *BmmValueSetSpec) SetValueSetId(valueSetId string) error {
+	b.valueSetId = valueSetId
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmValueSetSpec() *BmmValueSetSpec {
+	bmmvaluesetspec := new(BmmValueSetSpec)
+	// Constants
+	return bmmvaluesetspec
 }

@@ -34,7 +34,7 @@ type IBmmClass interface {
 	Converters() map[string]IBmmProcedure
 	SetConverters(converters map[string]IBmmProcedure) error
 
-	Type() BmmModelType
+	Type() IBmmModelType
 	AllAncestors() []string
 	AllDescendants() []string
 	Suppliers() []string
@@ -57,4 +57,33 @@ type IBmmGenericClass interface {
 	GenericParameterConformanceType(a_name string) string
 	GenericParameters() map[string]IBmmParameterType
 	SetGenericParameters(genericParameters map[string]IBmmParameterType) error
+}
+
+/* =========================== BmmEnumeration ==========================*/
+type IBmmEnumeration interface {
+	IBmmSimpleClass
+	// From: BMM_ENUMERATION
+	NameMap() map[string]string
+	ItemNames() []string
+	SetItemNames(itemNames []string) error
+	ItemValues() []IBmmPrimitiveValue
+	SetItemValues(itemValues []IBmmPrimitiveValue) error
+}
+
+/* =========================== BmmEnumerationString ==========================*/
+type IBmmEnumerationString interface {
+	IBmmEnumeration
+}
+
+/* =========================== BmmEnumerationInteger ==========================*/
+type IBmmEnumerationInteger interface {
+	IBmmEnumeration
+}
+
+/* =========================== BmmValueSetSpec ==========================*/
+type IBmmValueSetSpec interface {
+	ResourceId() string
+	SetResourceId(resourceId string) error
+	ValueSetId() string
+	SetValueSetId(valueSetId string) error
 }
