@@ -72,7 +72,7 @@ func (e *ElValueGenerator) IsWritable() bool {
 	return e.isWritable
 }
 
-func (e *ElValueGenerator) SetIsWritable(isWritable bool)error {
+func (e *ElValueGenerator) SetIsWritable(isWritable bool) error {
 	e.isWritable = isWritable
 	return nil
 }
@@ -90,6 +90,52 @@ func (e *ElValueGenerator) Reference() string {
 }
 
 /* ======================= ElTypeRef ==================== */
+/**
+Meta-type for reference to a non-abstract type as an object. Assumed to be
+accessible at run-time. Typically represented syntactically as TypeName or
+{TypeName} . May be used as a value, or as the qualifier for a function or
+constant access.
+*/
+type ElTypeRef struct {
+	ElValueGenerator
+	// Attributes
+	// _type, directly from the name of the reference, e.g. {SOME_TYPE} .
+	_type     IBmmType `yaml:"type" json:"type" xml:"type"`
+	isMutable bool     `yaml:"ismutable" json:"ismutable" xml:"ismutable"`
+}
+
+func (e *ElTypeRef) Type() IBmmType {
+	return e._type
+}
+
+func (e *ElTypeRef) SetType(_type IBmmType) error {
+	if _type == nil {
+		return errors.New("The Type attribute from Typeref may not be set to nil")
+	}
+	e._type = _type
+	return nil
+}
+
+func (e *ElTypeRef) IsMutable() bool {
+	return e.isMutable
+}
+
+func (e *ElTypeRef) SetIsMutable(isMutable bool) error {
+	e.isMutable = isMutable
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElTypeRef() *ElTypeRef {
+	eltyperef := new(ElTypeRef)
+	// Constants
+	return eltyperef
+}
+
+func (e *ElTypeRef) EvalType() IBmmType {
+	return nil
+}
+
 /* ======================= ElLiteral ==================== */
 /* ======================= ElVariable ==================== */
 /* ======================= ElWritableVariable ==================== */

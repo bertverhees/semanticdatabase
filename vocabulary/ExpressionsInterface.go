@@ -29,6 +29,16 @@ type IElValueGenerator interface {
 }
 
 /* ======================= ElTypeRef ==================== */
+type IElTypeRef interface {
+	IElValueGenerator
+	EvalType() IBmmType
+	//--------------------
+	Type() IBmmType
+	SetType(_type IBmmType) error
+	IsMutable() bool
+	SetIsMutable(isMutable bool) error //effected
+}
+
 /* ======================= ElLiteral ==================== */
 /* ======================= ElVariable ==================== */
 /* ======================= ElWritableVariable ==================== */

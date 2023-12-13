@@ -31,6 +31,35 @@ func (i *ElValueGeneratorBuilder) SetName(v string) *ElValueGeneratorBuilder {
 }
 
 /* ======================= ElTypeRef ==================== */
+type ElTypeRefBuilder struct {
+	ElValueGeneratorBuilder
+}
+
+func NewElTypeRefBuilder() *ElTypeRefBuilder {
+	builder := &ElTypeRefBuilder{}
+	builder.object = NewElTypeRef()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// _type, directly from the name of the reference, e.g. {SOME_TYPE} .
+func (i *ElTypeRefBuilder) SetType(v IBmmType) *ElTypeRefBuilder {
+	i.AddError(i.object.(*ElTypeRef).SetType(v))
+	return i
+}
+func (i *ElTypeRefBuilder) SetIsMutable(v bool) *ElTypeRefBuilder {
+	i.AddError(i.object.(*ElTypeRef).SetIsMutable(v))
+	return i
+}
+
+func (i *ElTypeRefBuilder) Build() (*ElTypeRef, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElTypeRef), nil
+	}
+}
+
 /* ======================= ElLiteral ==================== */
 /* ======================= ElVariable ==================== */
 /* ======================= ElWritableVariable ==================== */
