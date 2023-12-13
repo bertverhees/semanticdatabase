@@ -61,7 +61,36 @@ func (i *ElTypeRefBuilder) Build() (*ElTypeRef, []error) {
 }
 
 /* ======================= ElLiteral ==================== */
+type ElLiteralBuilder struct {
+	ElSimpleBuilder
+}
+
+func NewElLiteralBuilder() *ElLiteralBuilder {
+	builder := &ElLiteralBuilder{}
+	builder.object = NewElLiteral()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// The reference item from which the value of this node can be computed.
+func (i *ElLiteralBuilder) SetValue(v IBmmLiteralValue[IBmmType]) *ElLiteralBuilder {
+	i.AddError(i.object.(*ElLiteral).SetValue(v))
+	return i
+}
+
+func (i *ElLiteralBuilder) Build() (*ElLiteral, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElLiteral), nil
+	}
+}
+
 /* ======================= ElVariable ==================== */
+type ElVariableBuilder struct {
+	ElValueGeneratorBuilder
+}
+
 /* ======================= ElWritableVariable ==================== */
 /* ======================= ElReadonlyVariable ==================== */
 /* ======================= ElFeatureRef ==================== */

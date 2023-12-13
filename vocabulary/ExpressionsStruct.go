@@ -137,7 +137,46 @@ func (e *ElTypeRef) EvalType() IBmmType {
 }
 
 /* ======================= ElLiteral ==================== */
+/**
+Literal value of any type known in the model, including primitive types. Defined
+via a BMM_LITERAL_VALUE .
+*/
+type ElLiteral struct {
+	ElSimple
+	// Attributes
+	// The reference item from which the value of this node can be computed.
+	value IBmmLiteralValue[IBmmType] `yaml:"value" json:"value" xml:"value"`
+}
+
+func (e *ElLiteral) Value() IBmmLiteralValue[IBmmType] {
+	return e.value
+}
+
+func (e *ElLiteral) SetValue(value IBmmLiteralValue[IBmmType]) error {
+	e.value = value
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElLiteral() *ElLiteral {
+	elliteral := new(ElLiteral)
+	// Constants
+	return elliteral
+}
+
+// FUNCTIONS
+// Return value.type .
+func (e *ElLiteral) EvalType() IBmmType {
+	return nil
+}
+
 /* ======================= ElVariable ==================== */
+// Abstract meta-type of any kind of symbolic variable.
+type ElVariable struct {
+	ElValueGenerator
+	// Attributes
+}
+
 /* ======================= ElWritableVariable ==================== */
 /* ======================= ElReadonlyVariable ==================== */
 /* ======================= ElFeatureRef ==================== */

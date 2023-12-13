@@ -40,7 +40,21 @@ type IElTypeRef interface {
 }
 
 /* ======================= ElLiteral ==================== */
+type IElLiteral interface {
+	IElSimple
+	//EL_LITERAL
+	EvalType() IBmmType
+	//effected
+	Value() IBmmLiteralValue[IBmmType]
+	SetValue(value IBmmLiteralValue[IBmmType]) error
+}
+
 /* ======================= ElVariable ==================== */
+type IElVariable interface {
+	IElValueGenerator
+	//EL_VARIABLE
+}
+
 /* ======================= ElWritableVariable ==================== */
 /* ======================= ElReadonlyVariable ==================== */
 /* ======================= ElFeatureRef ==================== */
