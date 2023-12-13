@@ -1,9 +1,33 @@
 package vocabulary
 
 /* ======================= ElExpression ==================== */
+type IElExpression interface {
+	EvalType() IBmmType //abstract
+	IsBoolean() bool
+}
+
 /* ======================= ElTerminal ==================== */
+type IElTerminal interface {
+	IElExpression
+}
+
 /* ======================= ElSimple ==================== */
+type IElSimple interface {
+	IElTerminal
+}
+
 /* ======================= ElValueGenerator ==================== */
+type IElValueGenerator interface {
+	IElSimple
+	//EL_VALUE_GENERATOR
+	Reference() string
+	//---------------------
+	Name() string
+	SetName(name string) error
+	IsWritable() bool
+	SetIsWritable(isWritable bool) error
+}
+
 /* ======================= ElTypeRef ==================== */
 /* ======================= ElLiteral ==================== */
 /* ======================= ElVariable ==================== */
