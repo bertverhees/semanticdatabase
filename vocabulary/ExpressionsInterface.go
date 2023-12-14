@@ -56,10 +56,47 @@ type IElVariable interface {
 }
 
 /* ======================= ElWritableVariable ==================== */
+type IElWritableVariable interface {
+	IElVariable
+	//EL_WRITEABLE_VARIABLE
+	Definition() IBmmWritableVariable
+	SetDefinition(definition IBmmWritableVariable) error
+}
+
 /* ======================= ElReadonlyVariable ==================== */
+type IElReadonlyVariable interface {
+	IElVariable
+	//EL_READONLY_VARIABLE
+	Definition() IBmmReadonlyVariable
+	SetDefinition(definition IBmmReadonlyVariable) error
+}
+
 /* ======================= ElFeatureRef ==================== */
+type IElFeatureRef interface {
+	IElValueGenerator
+	//EL_FEATURE_REF
+	Reference() string //redefined
+	Scoper() IElValueGenerator
+	SetScoper(scoper IElValueGenerator) error
+}
+
 /* ======================= ElPropertyRef ==================== */
+type IElPropertyRef interface {
+	IElFeatureRef
+	//EL_PROPERTY_REF
+	EvalType() IBmmType //effected
+	Definition() IBmmProperty
+	SetDefinition(definition IBmmProperty) error
+}
+
 /* ======================= ElStaticRef ==================== */
+type IElStaticRef interface {
+	IElFeatureRef
+	EvalType() IBmmType
+	Definition() IBmmStatic
+	SetDefinition(definition IBmmStatic) error
+}
+
 /* ======================= ElAgentCall ==================== */
 /* ======================= ElFunctionCall ==================== */
 /* ======================= ElAgent ==================== */

@@ -178,10 +178,152 @@ type ElVariable struct {
 }
 
 /* ======================= ElWritableVariable ==================== */
+/**
+Meta-type of writable variables, including routine locals and the special
+variable 'result'.
+*/
+type ElWritableVariable struct {
+	ElVariable
+	// Attributes
+	// Variable definition to which this reference refers.
+	definition IBmmWritableVariable `yaml:"definition" json:"definition" xml:"definition"`
+}
+
+func (e *ElWritableVariable) Definition() IBmmWritableVariable {
+	return e.definition
+}
+
+func (e *ElWritableVariable) SetDefinition(definition IBmmWritableVariable) error {
+	e.definition = definition
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElWritableVariable() *ElWritableVariable {
+	elwritablevariable := new(ElWritableVariable)
+	elwritablevariable.isWritable = true
+	// Constants
+	return elwritablevariable
+}
+
 /* ======================= ElReadonlyVariable ==================== */
+type ElReadonlyVariable struct {
+	ElVariable
+	// Attributes
+	// Variable definition to which this reference refers.
+	definition IBmmReadonlyVariable `yaml:"definition" json:"definition" xml:"definition"`
+}
+
+func (e *ElReadonlyVariable) Definition() IBmmReadonlyVariable {
+	return e.definition
+}
+
+func (e *ElReadonlyVariable) SetDefinition(definition IBmmReadonlyVariable) error {
+	e.definition = definition
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElReadonlyVariable() *ElReadonlyVariable {
+	elreadonlyvariable := new(ElReadonlyVariable)
+	elreadonlyvariable.isWritable = false
+	// Constants
+	return elreadonlyvariable
+}
+
 /* ======================= ElFeatureRef ==================== */
+/**
+A reference that is scoped by a containing entity and requires a context
+qualifier if it is not the currently scoping entity.
+*/
+type ElFeatureRef struct {
+	ElValueGenerator
+	// Attributes
+	// Scoping expression, which must be a EL_VALUE_GENERATOR .
+	scoper IElValueGenerator `yaml:"scoper" json:"scoper" xml:"scoper"`
+}
+
+func (e *ElFeatureRef) Scoper() IElValueGenerator {
+	return e.scoper
+}
+
+func (e *ElFeatureRef) SetScoper(scoper IElValueGenerator) error {
+	e.scoper = scoper
+	return nil
+}
+
+// CONSTRUCTOR
+//abstract, no constructor, no builder
+//FUNCTIONS
+/**
+Generated full reference name, consisting of scoping elements and name
+concatenated using dot notation.
+*/
+func (e *ElFeatureRef) Reference() string {
+	return ""
+}
+
 /* ======================= ElPropertyRef ==================== */
+type ElPropertyRef struct {
+	ElFeatureRef
+	// Attributes
+	// Property definition (within class).
+	definition IBmmProperty `yaml:"definition" json:"definition" xml:"definition"`
+	// Defined to return True.
+}
+
+func (e *ElPropertyRef) Definition() IBmmProperty {
+	return e.definition
+}
+
+func (e *ElPropertyRef) SetDefinition(definition IBmmProperty) error {
+	e.definition = definition
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElPropertyRef() *ElPropertyRef {
+	elpropertyref := new(ElPropertyRef)
+	elpropertyref.isWritable = true
+	return elpropertyref
+}
+
+//FUNCTIONS
+/**
+_type definition (i.e. BMM meta-type definition object) of the constant, property
+or variable, inferred by inspection of the current scoping instance. Return
+definition.type .
+*/
+func (e *ElPropertyRef) EvalType() IBmmType {
+	return nil
+}
+
 /* ======================= ElStaticRef ==================== */
+// Reference to a writable property, either a constant or computed.
+type ElStaticRef struct {
+	ElFeatureRef
+	// Attributes
+	// Constant definition (within class).
+	definition IBmmStatic `yaml:"definition" json:"definition" xml:"definition"`
+}
+
+func (e *ElStaticRef) Definition() IBmmStatic {
+	return e.definition
+}
+
+func (e *ElStaticRef) SetDefinition(definition IBmmStatic) error {
+	e.definition = definition
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElStaticRef() *ElStaticRef {
+	elstaticref := new(ElStaticRef)
+	elstaticref.isWritable = false
+	// Constants
+	return elstaticref
+}
+
 /* ======================= ElAgentCall ==================== */
 /* ======================= ElFunctionCall ==================== */
 /* ======================= ElAgent ==================== */

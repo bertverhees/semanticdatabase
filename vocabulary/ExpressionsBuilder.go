@@ -92,10 +92,118 @@ type ElVariableBuilder struct {
 }
 
 /* ======================= ElWritableVariable ==================== */
+type ElWritableVariableBuilder struct {
+	ElVariableBuilder
+}
+
+func NewElWritableVariableBuilder() *ElWritableVariableBuilder {
+	builder := &ElWritableVariableBuilder{}
+	builder.object = NewElWritableVariable()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Variable definition to which this reference refers.
+func (i *ElWritableVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElWritableVariableBuilder {
+	i.AddError(i.object.(*ElWritableVariable).SetDefinition(v))
+	return i
+}
+func (i *ElWritableVariableBuilder) Build() (*ElWritableVariable, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElWritableVariable), nil
+	}
+}
+
 /* ======================= ElReadonlyVariable ==================== */
+type ElReadonlyVariableBuilder struct {
+	ElVariableBuilder
+}
+
+func NewElReadonlyVariableBuilder() *ElReadonlyVariableBuilder {
+	builder := &ElReadonlyVariableBuilder{}
+	builder.object = NewElReadonlyVariable()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Variable definition to which this reference refers.
+func (i *ElReadonlyVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElReadonlyVariableBuilder {
+	i.AddError(i.object.(*ElReadonlyVariable).SetDefinition(v))
+	return i
+}
+
+func (i *ElReadonlyVariableBuilder) Build() (*ElReadonlyVariable, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElReadonlyVariable), nil
+	}
+}
+
 /* ======================= ElFeatureRef ==================== */
+type ElFeatureRefBuilder struct {
+	ElValueGeneratorBuilder
+}
+
+func (i *ElFeatureRefBuilder) SetScoper(v IElValueGenerator) *ElFeatureRefBuilder {
+	i.AddError(i.object.(*ElFeatureRef).SetScoper(v))
+	return i
+}
+
 /* ======================= ElPropertyRef ==================== */
+type ElPropertyRefBuilder struct {
+	ElFeatureRefBuilder
+}
+
+func NewElPropertyRefBuilder() *ElPropertyRefBuilder {
+	builder := &ElPropertyRefBuilder{}
+	builder.object = NewElPropertyRef()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Property definition (within class).
+func (i *ElPropertyRefBuilder) SetDefinition(v IBmmProperty) *ElPropertyRefBuilder {
+	i.AddError(i.object.(*ElPropertyRef).SetDefinition(v))
+	return i
+}
+
+func (i *ElPropertyRefBuilder) Build() (*ElPropertyRef, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElPropertyRef), nil
+	}
+}
+
 /* ======================= ElStaticRef ==================== */
+type ElStaticRefBuilder struct {
+	ElFeatureRefBuilder
+}
+
+func NewElStaticRefBuilder() *ElStaticRefBuilder {
+	builder := &ElStaticRefBuilder{}
+	builder.object = NewElStaticRef()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Constant definition (within class).
+func (i *ElStaticRefBuilder) SetDefinition(v IBmmProperty) *ElStaticRefBuilder {
+	i.AddError(i.object.(*ElStaticRef).SetDefinition(v))
+	return i
+}
+
+func (i *ElStaticRefBuilder) Build() (*ElStaticRef, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElStaticRef), nil
+	}
+}
+
 /* ======================= ElAgentCall ==================== */
 /* ======================= ElFunctionCall ==================== */
 /* ======================= ElAgent ==================== */
