@@ -38,8 +38,10 @@ to in writing, software distributed under the License is distributed
 on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
+
  ======================================================================
  ======================================================================
+
 GNU GENERAL PUBLIC LICENSE
 Version 2, June 1991
 Copyright (C) 1989, 1991 Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
@@ -208,8 +210,10 @@ necessary. Here is a sample; alter the names:
  This General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library,
  you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use
  the GNU Lesser General Public License instead of this License.
+
 ======================================================================
 ======================================================================
+
 The Universal FOSS Exception, Version 1.0
 In addition to the rights set forth in the other license(s) included in the distribution for this software, data, and/or documentation (collectively the “Software”, and such licenses collectively with this additional
 permission the “Software License”), the copyright holders wish to facilitate interoperability with other software, data, and/or documentation distributed with complete corresponding source under a license that
@@ -229,7 +233,9 @@ For avoidance of doubt, a license which is OSI-approved or categorized by the FS
 previously been so approved or categorized as free, even if now deprecated or otherwise no longer recognized as approved or free. Nothing in this additional permission grants any right to distribute any
 portion of the Software on terms other than those of the Software License or grants any additional permission of any kind for use or distribution of the Software in conjunction with software other than
 Other FOSS.
+
 ======================================================================
 ======================================================================
+
 Licenses for Third-Party Components
 # Todo
