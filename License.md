@@ -16,8 +16,9 @@ link the program and your derivative works with the separately licensed software
 with the program.
 Without limiting the foregoing grant of rights under the GPLv2 and additional permission as to separately
 licensed software, this Connector is also subject to the Universal FOSS Exception, version 1.0, a copy
-of which is reproduced below and can also be found along with its FAQ at http://oss.oracle.com/
-licenses/universal-foss-exception.
+of which is reproduced below and can also be found along with its FAQ at 
+http://oss.oracle.com/licenses/universal-foss-exception.
+
 Copyright (c) 2023, Bert Verhees
 
 Election of GPLv2
