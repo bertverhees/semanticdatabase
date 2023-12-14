@@ -25,5 +25,4 @@ https://www.openehr.org/
 This readme will be expanded later.
 
 # License
-The code is to be used under restrictions and liberties of GPL-3.0, see license-file.
-Also it is available under proprietary license (contact me for more information).
+The code is to be used under restrictions and liberties of GPL-2.0, see license-file.
