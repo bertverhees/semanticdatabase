@@ -6,7 +6,6 @@ package vocabulary
 type IElPredicate interface {
 	IElSimple
 	//EL_PREDICATE
-	EvalType() IBmmSimpleType
 	Operand() IElValueGenerator
 	SetOperand(operand IElValueGenerator) error
 }
@@ -32,9 +31,9 @@ func (e *ElPredicate) SetOperand(operand IElValueGenerator) error {
 // abstract, no constructor, no builder
 // FUNCTIONS
 // Return {BMM_MODEL}. boolean_type_definition () .
-func (e *ElPredicate) EvalType() IBmmSimpleType {
-	return nil
-}
+//func (e *ElPredicate) EvalType() IBmmSimpleType {
+//	return nil
+//}
 
 // From: EL_EXPRESSION
 /**

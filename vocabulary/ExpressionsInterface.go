@@ -104,7 +104,26 @@ type IElAgentCall interface {
 }
 
 /* ======================= ElFunctionCall ==================== */
+type IElFunctionCall interface {
+	IElFeatureRef
+	IElAgentCall
+	EvalType() IBmmType
+}
+
 /* ======================= ElAgent ==================== */
+type IElAgent interface {
+	IElFeatureRef
+	//EvalType() IBmmRoutineType //effected //abstract//defined in IElFeatureRef
+	IsCallable() bool
+	Reference() string
+	ClosedArgs() IElTuple
+	SetClosedArgs(closedArgs IElTuple) error
+	OpenArgs() []string
+	SetOpenArgs(openArgs []string) error
+	Definition() IBmmRoutine
+	SetDefinition(definition IBmmRoutine) error
+}
+
 /* ======================= ElFunctionAgent ==================== */
 /* ======================= ElProcedureAgent ==================== */
 /* ======================= ElPredicate ==================== */

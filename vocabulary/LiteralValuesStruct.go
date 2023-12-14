@@ -62,9 +62,6 @@ func (b *BmmLiteralValue[T]) Type() T {
 }
 
 func (b *BmmLiteralValue[T]) SetType(_type T) error {
-	if _type == nil {
-		return errors.New("Type may not be set to empty in BmmLiteralValue")
-	}
 	b._type = _type
 	return nil
 }

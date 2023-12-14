@@ -8,7 +8,6 @@ import "errors"
 type IElProcedureAgent interface {
 	IElAgent
 	//EL_PROCEDURE_AGENT
-	EvalType() IBmmProcedureType
 }
 
 // Struct definition
@@ -105,9 +104,9 @@ func (i *ElProcedureAgentBuilder) Build() *ElProcedureAgent {
 Post_result : result = definition.signature. Eval type is the signature
 corresponding to the (remaining) open arguments and return type, if any.
 */
-func (e *ElProcedureAgent) EvalType() IBmmProcedureType {
-	return nil
-}
+//func (e *ElProcedureAgent) EvalType() IBmmProcedureType {
+//	return nil
+//}
 
 // From: EL_AGENT
 //

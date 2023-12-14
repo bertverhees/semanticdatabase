@@ -215,7 +215,50 @@ func (i *ElFeatureRefBuilder) SetAgent(v IElAgent) *ElFeatureRefBuilder {
 }
 
 /* ======================= ElFunctionCall ==================== */
+type ElFunctionCallBuilder struct {
+	ElFeatureRefBuilder
+	ElAgentCallBuilder
+}
+
+func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
+	builder := &ElFunctionCallBuilder{}
+	builder.object = NewElFunctionCall()
+	return builder
+}
+
+func (i *ElFunctionCallBuilder) SetAgent(v IElFunctionAgent) *ElFunctionCallBuilder {
+	i.AddError(i.object.(*ElFunctionCall).SetAgent(v))
+	return i
+}
+
+func (i *ElFunctionCallBuilder) Build() (*ElFunctionCall, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElFunctionCall), nil
+	}
+}
+
 /* ======================= ElAgent ==================== */
+type ElAgentBuilder struct {
+	ElFeatureRefBuilder
+}
+
+func (i *ElAgentBuilder) SetClosedArgs(v IElTuple) *ElAgentBuilder {
+	i.AddError(i.object.(*ElAgent).SetClosedArgs(v))
+	return i
+}
+
+func (i *ElAgentBuilder) SetOpenArgs(v []string) *ElAgentBuilder {
+	i.AddError(i.object.(*ElAgent).SetOpenArgs(v))
+	return i
+}
+
+func (i *ElAgentBuilder) SetDefinition(v IBmmRoutine) *ElAgentBuilder {
+	i.AddError(i.object.(*ElAgent).SetDefinition(v))
+	return i
+}
+
 /* ======================= ElFunctionAgent ==================== */
 /* ======================= ElProcedureAgent ==================== */
 /* ======================= ElPredicate ==================== */

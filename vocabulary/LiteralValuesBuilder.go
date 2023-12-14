@@ -178,7 +178,7 @@ func (i *BmmBooleanValueBuilder) Build() (*BmmBooleanValue, []error) {
 
 /* ========================= BmmIntervalValue ========================*/
 type BmmIntervalValueBuilder[T generics.Number] struct {
-	BmmLiteralValueBuilder[T]
+	Builder
 }
 
 func NewBmmIntervalValueBuilder[T generics.Number]() *BmmIntervalValueBuilder[T] {
