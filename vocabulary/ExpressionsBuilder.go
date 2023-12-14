@@ -205,6 +205,15 @@ func (i *ElStaticRefBuilder) Build() (*ElStaticRef, []error) {
 }
 
 /* ======================= ElAgentCall ==================== */
+type ElAgentCallBuilder struct {
+	Builder
+}
+
+func (i *ElFeatureRefBuilder) SetAgent(v IElAgent) *ElFeatureRefBuilder {
+	i.AddError(i.object.(*ElAgentCall).SetAgent(v))
+	return i
+}
+
 /* ======================= ElFunctionCall ==================== */
 /* ======================= ElAgent ==================== */
 /* ======================= ElFunctionAgent ==================== */

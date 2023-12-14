@@ -98,6 +98,11 @@ type IElStaticRef interface {
 }
 
 /* ======================= ElAgentCall ==================== */
+type IElAgentCall interface {
+	Agent() IElAgent
+	SetAgent(agent IElAgent) error
+}
+
 /* ======================= ElFunctionCall ==================== */
 /* ======================= ElAgent ==================== */
 /* ======================= ElFunctionAgent ==================== */

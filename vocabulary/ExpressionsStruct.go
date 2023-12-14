@@ -302,7 +302,6 @@ func (e *ElPropertyRef) EvalType() IBmmType {
 // Reference to a writable property, either a constant or computed.
 type ElStaticRef struct {
 	ElFeatureRef
-	// Attributes
 	// Constant definition (within class).
 	definition IBmmStatic `yaml:"definition" json:"definition" xml:"definition"`
 }
@@ -325,6 +324,22 @@ func NewElStaticRef() *ElStaticRef {
 }
 
 /* ======================= ElAgentCall ==================== */
+// A call made to a 'closed' agent, i.e. one with no remaining open arguments.
+type ElAgentCall struct {
+	// Attributes
+	// The agent being called.
+	agent IElAgent `yaml:"agent" json:"agent" xml:"agent"`
+}
+
+func (e *ElAgentCall) Agent() IElAgent {
+	return e.agent
+}
+
+func (e *ElAgentCall) SetAgent(agent IElAgent) error {
+	e.agent = agent
+	return nil
+}
+
 /* ======================= ElFunctionCall ==================== */
 /* ======================= ElAgent ==================== */
 /* ======================= ElFunctionAgent ==================== */
