@@ -24,7 +24,7 @@ type PBmmEnumerationString struct {
 func (b *PBmmEnumerationString) SetBmmClass(bmmClass IBmmClass) error {
 	s, ok := bmmClass.(IBmmEnumerationString)
 	if !ok {
-		return errors.New("type-assertion  for IBmmEnumerationString in PBmmEnumerationString->SetBmmClass went wrong")
+		return errors.New("type-assertion  for IBmmEnumerationString in PBmmEnumerationString->SetBmmClass failed")
 	} else {
 		b.bmmClass = s
 		return nil

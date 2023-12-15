@@ -111,7 +111,7 @@ func (b *BmmFeature) SetGroup(group IBmmFeatureGroup) error {
 func (b *BmmFeature) SetScope(v IBmmModelElement) error {
 	s, ok := v.(IBmmClass)
 	if !ok {
-		return errors.New("_type-assertion to IBmmClass in BmmFeature->SetScope went wrong")
+		return errors.New("_type-assertion to IBmmClass in BmmFeature->SetScope failed")
 	} else {
 		b.scope = s
 		return nil
@@ -370,7 +370,7 @@ type BmmUnitaryProperty struct {
 func (b *BmmUnitaryProperty) SetType(_type IBmmType) error {
 	s, ok := _type.(IBmmUnitaryType)
 	if !ok {
-		return errors.New("type-assertion in BmmUnitaryProperty->SetType went wrong")
+		return errors.New("type-assertion in BmmUnitaryProperty->SetType failed")
 	} else {
 		b._type = s
 		return nil
@@ -422,7 +422,7 @@ func (b *BmmContainerProperty) SetCardinality(cardinality *base.MultiplicityInte
 func (b *BmmContainerProperty) SetType(_type IBmmType) error {
 	s, ok := _type.(IBmmContainerType)
 	if !ok {
-		return errors.New("type-assertion in BmmContainerProperty->SetType went wrong")
+		return errors.New("type-assertion in BmmContainerProperty->SetType failed")
 	} else {
 		b._type = s
 		return nil
@@ -470,7 +470,7 @@ type BmmIndexedContainerProperty struct {
 func (b *BmmIndexedContainerProperty) SetType(_type IBmmType) error {
 	s, ok := _type.(IBmmIndexedContainerType)
 	if !ok {
-		return errors.New("type-assertion to IBmmIndexedContainerType in BmmIndexedContainerProperty->SetType went wrong")
+		return errors.New("type-assertion to IBmmIndexedContainerType in BmmIndexedContainerProperty->SetType failed")
 	} else {
 		b._type = s
 		return nil
@@ -709,7 +709,7 @@ type BmmProcedure struct {
 func (b *BmmProcedure) SetType(_type IBmmType) error {
 	s, ok := _type.(IBmmStatusType)
 	if !ok {
-		return errors.New("_type-assertion in BmmProcedure->SetType went wrong")
+		return errors.New("_type-assertion in BmmProcedure->SetType failed")
 	} else {
 		b._type = s
 		return nil
@@ -759,7 +759,7 @@ func (b *BmmVariable) SetScope(scope IBmmModelElement) error {
 	}
 	s, ok := scope.(IBmmRoutine)
 	if !ok {
-		return errors.New("_type-assertion in BmmVariable->SetScope went wrong")
+		return errors.New("_type-assertion in BmmVariable->SetScope failed")
 	} else {
 		b.scope = s
 		return nil

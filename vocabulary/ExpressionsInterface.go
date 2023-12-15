@@ -125,10 +125,35 @@ type IElAgent interface {
 }
 
 /* ======================= ElFunctionAgent ==================== */
+type IElFunctionAgent interface {
+	IElAgent
+}
+
 /* ======================= ElProcedureAgent ==================== */
+type IElProcedureAgent interface {
+	IElAgent
+}
+
 /* ======================= ElPredicate ==================== */
+type IElPredicate interface {
+	IElSimple
+	//EL_PREDICATE
+	Operand() IElValueGenerator
+	SetOperand(operand IElValueGenerator) error
+}
+
 /* ======================= ElDefined ==================== */
+type IElDefined interface {
+	IElPredicate
+	//EL_DEFINED
+}
+
 /* ======================= ElAttached ==================== */
+type IElAttached interface {
+	IElPredicate
+	//EL_DEFINED
+}
+
 /* ======================= ElDecisionTable ==================== */
 /* ======================= ElDecisionBranch ==================== */
 /* ======================= ElConditionChain ==================== */

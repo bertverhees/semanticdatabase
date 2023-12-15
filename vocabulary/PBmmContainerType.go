@@ -68,7 +68,7 @@ func (p *PBmmContainerType) SetType(_type string) error {
 func (p *PBmmContainerType) SetBmmType(bmmType IBmmType) error {
 	s, ok := bmmType.(IBmmContainerType)
 	if !ok {
-		return errors.New("_type-assertion to IBmmContainerType in PBmmContainerType->SetBmmType went wrong")
+		return errors.New("_type-assertion to IBmmContainerType in PBmmContainerType->SetBmmType failed")
 	} else {
 		p.bmmType = s
 		return nil

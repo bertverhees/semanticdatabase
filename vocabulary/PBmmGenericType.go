@@ -66,7 +66,7 @@ func (p *PBmmGenericType) SetGenericParameters(genericParameters []string) error
 func (p *PBmmGenericType) SetBmmType(bmmType IBmmType) error {
 	s, ok := bmmType.(IBmmGenericType)
 	if !ok {
-		return errors.New("_type-assertion to IBmmGenericType in PBmmGenericType->SetBmmType went wrong")
+		return errors.New("_type-assertion to IBmmGenericType in PBmmGenericType->SetBmmType failed")
 	} else {
 		p.bmmType = s
 		return nil

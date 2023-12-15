@@ -120,7 +120,7 @@ func (b *BmmPackageContainer) SetScope(scope IBmmModelElement) error {
 	}
 	s, ok := scope.(IBmmPackageContainer)
 	if !ok {
-		return errors.New("_type-assertion to IBmmPackageContainer in BmmPackageContainer->SetScope went wrong")
+		return errors.New("_type-assertion to IBmmPackageContainer in BmmPackageContainer->SetScope failed")
 	} else {
 		b.scope = s
 		return nil
@@ -486,7 +486,7 @@ func (b *BmmModule) SetScope(scope IBmmModelElement) error {
 	}
 	s, ok := scope.(IBmmModel)
 	if !ok {
-		return errors.New("_type-assertion to IBmmModel in BmmModule->SetScope went wrong")
+		return errors.New("_type-assertion to IBmmModel in BmmModule->SetScope failed")
 	} else {
 		b.scope = s
 		return nil

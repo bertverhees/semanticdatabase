@@ -360,7 +360,7 @@ func (b *BmmGenericType) SetGenericParameters(genericParameters []IBmmUnitaryTyp
 func (b *BmmGenericType) SetBaseClass(baseClass IBmmClass) error {
 	s, ok := baseClass.(IBmmGenericClass)
 	if !ok {
-		return errors.New("_type-assertion to IBmmGenericClass in BmmGenericType->SetBaseClass went wrong")
+		return errors.New("_type-assertion to IBmmGenericClass in BmmGenericType->SetBaseClass failed")
 	} else {
 		b.baseClass = s
 		return nil
@@ -570,7 +570,7 @@ type BmmProcedureType struct {
 func (b *BmmProcedureType) SetResultType(resultType IBmmType) error {
 	s, ok := resultType.(IBmmStatusType)
 	if !ok {
-		return errors.New("type-assertion to IBmmStatusType in BmmProcedureType->SetResultType went wrong")
+		return errors.New("type-assertion to IBmmStatusType in BmmProcedureType->SetResultType failed")
 	} else {
 		b.resultType = s
 		return nil
@@ -675,7 +675,6 @@ func NewBmmContainerType() *BmmContainerType {
 	return bmmcontainertype
 }
 
-
 /* -------------------- BmmIndexedContainerType ------------------------------*/
 /**
 Meta-type of linear container type that indexes the contained items in the
@@ -705,4 +704,3 @@ func NewBmmIndexedContainerType() *BmmIndexedContainerType {
 	bmmindexedcontainertype := new(BmmIndexedContainerType)
 	return bmmindexedcontainertype
 }
-

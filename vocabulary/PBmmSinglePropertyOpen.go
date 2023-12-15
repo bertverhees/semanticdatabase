@@ -56,7 +56,7 @@ func (p *PBmmSinglePropertyOpen) SetType(_type string) error {
 func (p *PBmmSinglePropertyOpen) SetBmmProperty(bmmType IBmmProperty) error {
 	s, ok := bmmType.(IBmmProperty)
 	if !ok {
-		return errors.New("_type-assertion to IBmmProperty in PBmmSinglePropertyOpen->SetBmmProperty went wrong")
+		return errors.New("_type-assertion to IBmmProperty in PBmmSinglePropertyOpen->SetBmmProperty failed")
 	} else {
 		p.bmmProperty = s
 		return nil

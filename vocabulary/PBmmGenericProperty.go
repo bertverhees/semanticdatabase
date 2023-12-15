@@ -27,7 +27,7 @@ type PBmmGenericProperty struct {
 func (p *PBmmGenericProperty) SetTypeDef(typeDef IPBmmType) error {
 	s, ok := typeDef.(IPBmmGenericType)
 	if !ok {
-		return errors.New("_type-assertion to IPBmmGenericType in PBmmSinglePropertyOpen->SetTypeDef went wrong")
+		return errors.New("_type-assertion to IPBmmGenericType in PBmmSinglePropertyOpen->SetTypeDef failed")
 	} else {
 		p.typeDef = s
 		return nil
@@ -37,7 +37,7 @@ func (p *PBmmGenericProperty) SetTypeDef(typeDef IPBmmType) error {
 func (p *PBmmGenericProperty) SetBmmProperty(bmmType IBmmProperty) error {
 	s, ok := bmmType.(IBmmProperty)
 	if !ok {
-		return errors.New("_type-assertion to IBmmProperty in PBmmGenericProperty->SetBmmProperty went wrong")
+		return errors.New("_type-assertion to IBmmProperty in PBmmGenericProperty->SetBmmProperty failed")
 	} else {
 		p.bmmProperty = s
 		return nil

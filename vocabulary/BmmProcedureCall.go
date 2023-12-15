@@ -25,7 +25,7 @@ type BmmProcedureCall struct {
 func (e *BmmProcedureCall) SetAgent(agent IElAgent) error {
 	s, ok := agent.(IElProcedureAgent)
 	if !ok {
-		return errors.New("_type-assertion in BmmProcedureCall->SetAgent went wrong")
+		return errors.New("_type-assertion in BmmProcedureCall->SetAgent failed")
 	} else {
 		e.agent = s
 		return nil

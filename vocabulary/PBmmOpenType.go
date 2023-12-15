@@ -35,7 +35,7 @@ func (p *PBmmOpenType) SetType(_type string) error {
 func (p *PBmmOpenType) SetBmmType(bmmType IBmmType) error {
 	s, ok := bmmType.(IBmmUnitaryType)
 	if !ok {
-		return errors.New("_type-assertion to IBmmUnitaryType in PBmmOpenType->SetBmmType went wrong")
+		return errors.New("_type-assertion to IBmmUnitaryType in PBmmOpenType->SetBmmType failed")
 	} else {
 		p.bmmType = s
 		return nil

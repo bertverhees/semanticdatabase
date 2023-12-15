@@ -40,7 +40,7 @@ func (p *PBmmContainerProperty) SetCardinality(cardinality base.Interval[int]) e
 func (p *PBmmContainerProperty) SetTypeDef(typeDef IPBmmType) error {
 	s, ok := typeDef.(IPBmmContainerType)
 	if !ok {
-		return errors.New("_type-assertion to IPBmmContainerType in PBmmContainerProperty->SetTypeDef went wrong")
+		return errors.New("_type-assertion to IPBmmContainerType in PBmmContainerProperty->SetTypeDef failed")
 	} else {
 		p.typeDef = s
 		return nil
@@ -50,7 +50,7 @@ func (p *PBmmContainerProperty) SetTypeDef(typeDef IPBmmType) error {
 func (p *PBmmContainerProperty) SetBmmProperty(bmmType IBmmProperty) error {
 	s, ok := bmmType.(IBmmContainerProperty)
 	if !ok {
-		return errors.New("_type-assertion to IBmmContainerProperty in PBmmContainerProperty->SetBmmProperty went wrong")
+		return errors.New("_type-assertion to IBmmContainerProperty in PBmmContainerProperty->SetBmmProperty failed")
 	} else {
 		p.bmmProperty = s
 		return nil

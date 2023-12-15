@@ -354,7 +354,7 @@ type ElFunctionCall struct {
 func (e *ElFunctionCall) SetAgent(agent IElAgent) error {
 	s, ok := agent.(IElFunctionAgent)
 	if !ok {
-		return errors.New("_type-assertion to IElFunctionAgent in ElFunctionCall->SetAgent went wrong")
+		return errors.New("_type-assertion to IElFunctionAgent in ElFunctionCall->SetAgent failed")
 	} else {
 		e.agent = s
 		return nil
@@ -436,11 +436,127 @@ func (e *ElAgent) Reference() string {
 	return ""
 }
 
+func (e *ElAgent) EvalType() IBmmType {
+	//IBmmRoutineType
+	return nil
+}
+
 /* ======================= ElFunctionAgent ==================== */
+// An agent whose signature is of a function, i.e. has a result type.
+type ElFunctionAgent struct {
+	ElAgent
+	// Attributes
+}
+
+func (e *ElFunctionAgent) SetDefinition(definition IBmmRoutine) error {
+	s, ok := definition.(IBmmFunction)
+	if !ok {
+		return errors.New("_type-assertion to IBmmFunction in ElFunctionAgent->SetDefinition failed")
+	} else {
+		e.definition = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewElFunctionAgent() *ElFunctionAgent {
+	elfunctionagent := new(ElFunctionAgent)
+	elfunctionagent.openArgs = make([]string, 0)
+	elfunctionagent.isWritable = false
+	// Constants
+	return elfunctionagent
+}
+
+func (e *ElFunctionAgent) EvalType() IBmmType {
+	//IBmmFunctionType
+	return nil
+}
+
 /* ======================= ElProcedureAgent ==================== */
+// An agent whose signature is of a procedure, i.e. has no result type.
+type ElProcedureAgent struct {
+	ElAgent
+	// Attributes
+}
+
+func (e *ElProcedureAgent) SetDefinition(definition IBmmRoutine) error {
+	s, ok := definition.(IBmmProcedure)
+	if !ok {
+		return errors.New("_type-assertion to IBmmProcedure in ElProcedureAgent->SetDefinition failed")
+	} else {
+		e.definition = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewElProcedureAgent() *ElProcedureAgent {
+	elprocedureagent := new(ElProcedureAgent)
+	elprocedureagent.openArgs = make([]string, 0)
+	elprocedureagent.isWritable = false
+	return elprocedureagent
+}
+
+func (e *ElProcedureAgent) EvalType() IBmmType {
+	//IBmmProcedureType
+	return nil
+}
+
 /* ======================= ElPredicate ==================== */
+type ElPredicate struct {
+	ElSimple
+	// Attributes
+	// The target instance of this predicate.
+	operand IElValueGenerator `yaml:"operand" json:"operand" xml:"operand"`
+}
+
+func (e *ElPredicate) Operand() IElValueGenerator {
+	return e.operand
+}
+
+func (e *ElPredicate) SetOperand(operand IElValueGenerator) error {
+	e.operand = operand
+	return nil
+}
+
+// Return {BMM_MODEL}.boolean_type_definition().
+func (e *ElPredicate) EvalType() IBmmType {
+	//IBmmSimpleType
+	return nil
+}
+
 /* ======================= ElDefined ==================== */
+/**
+A predicate taking one external variable reference argument, that returns true
+if the reference is resolvable, i.e. the external value is obtainable. Note
+probably to be removed.
+*/
+type ElDefined struct {
+	ElPredicate
+	// Attributes
+}
+
+// CONSTRUCTOR
+func NewElDefined() *ElDefined {
+	eldefined := new(ElDefined)
+	return eldefined
+}
+
 /* ======================= ElAttached ==================== */
+/*
+A predicate on any object reference (including function call) that returns True if the reference is attached, i.e. non-Void.
+*/
+type ElAttached struct {
+	ElPredicate
+	// Attributes
+}
+
+// CONSTRUCTOR
+func NewElAttached() *ElAttached {
+	eldefined := new(ElAttached)
+	return eldefined
+}
+
 /* ======================= ElDecisionTable ==================== */
 /* ======================= ElDecisionBranch ==================== */
 /* ======================= ElConditionChain ==================== */
@@ -450,6 +566,10 @@ func (e *ElAgent) Reference() string {
 /* ======================= ElUnaryOperator ==================== */
 /* ======================= ElBinaryOperator ==================== */
 /* ======================= ElTuple ==================== */
+func (e *ElTuple) EvalType() IBmmType {
+	return nil
+}
+
 /* ======================= ElTupleItem ==================== */
 /* ======================= ElConstrained ==================== */
 /* ======================= ElBooleanExpression ==================== */

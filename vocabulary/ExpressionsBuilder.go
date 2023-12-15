@@ -260,10 +260,110 @@ func (i *ElAgentBuilder) SetDefinition(v IBmmRoutine) *ElAgentBuilder {
 }
 
 /* ======================= ElFunctionAgent ==================== */
+type ElFunctionAgentBuilder struct {
+	ElAgentBuilder
+}
+
+func NewElFunctionAgentBuilder() *ElFunctionAgentBuilder {
+	builder := &ElFunctionAgentBuilder{}
+	builder.object = NewElFunctionAgent()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+Reference to definition of a routine for which this is a direct call instance,
+if one exists.
+*/
+func (i *ElFunctionAgentBuilder) SetDefinition(v IBmmFunction) *ElFunctionAgentBuilder {
+	i.AddError(i.object.(*ElFunctionAgent).SetDefinition(v))
+	return i
+}
+
+func (i *ElFunctionAgentBuilder) Build() (*ElFunctionAgent, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElFunctionAgent), nil
+	}
+}
+
 /* ======================= ElProcedureAgent ==================== */
+type ElProcedureAgentBuilder struct {
+	ElAgentBuilder
+}
+
+func NewElProcedureAgentBuilder() *ElProcedureAgentBuilder {
+	builder := &ElProcedureAgentBuilder{}
+	builder.object = NewElProcedureAgent()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+Reference to definition of a routine for which this is a direct call instance,
+if one exists.
+*/
+func (i *ElProcedureAgentBuilder) SetDefinition(v IBmmProcedure) *ElProcedureAgentBuilder {
+	i.AddError(i.object.(*ElProcedureAgent).SetDefinition(v))
+	return i
+}
+
+func (i *ElProcedureAgentBuilder) Build() (*ElProcedureAgent, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElProcedureAgent), nil
+	}
+}
+
 /* ======================= ElPredicate ==================== */
+type ElPredicateBuilder struct {
+	ElFeatureRefBuilder
+}
+
+func (i *ElPredicateBuilder) SetOperand(v IElValueGenerator) *ElPredicateBuilder {
+	i.AddError(i.object.(*ElPredicate).SetOperand(v))
+	return i
+}
+
 /* ======================= ElDefined ==================== */
+type ElDefinedBuilder struct {
+	ElPredicateBuilder
+}
+
+func NewElDefinedBuilder() *ElDefinedBuilder {
+	builder := &ElDefinedBuilder{}
+	builder.object = NewElDefined()
+	return builder
+}
+
+func (i *ElDefinedBuilder) Build() (*ElDefined, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElDefined), nil
+	}
+}
+
 /* ======================= ElAttached ==================== */
+type ElAttachedBuilder struct {
+	ElPredicateBuilder
+}
+
+func NewElAttachedBuilder() *ElAttachedBuilder {
+	builder := &ElAttachedBuilder{}
+	builder.object = NewElAttached()
+	return builder
+}
+
+func (i *ElAttachedBuilder) Build() (*ElAttached, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElAttached), nil
+	}
+}
 /* ======================= ElDecisionTable ==================== */
 /* ======================= ElDecisionBranch ==================== */
 /* ======================= ElConditionChain ==================== */

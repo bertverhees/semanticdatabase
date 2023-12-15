@@ -206,7 +206,7 @@ func (b *BmmClass) SetFeatures(features []IBmmFormalElement) error {
 	for _, s := range features {
 		s, ok := s.(IBmmFeature)
 		if !ok {
-			return errors.New("_type-assertion in bmmClass->SetFeatures went wrong")
+			return errors.New("_type-assertion in bmmClass->SetFeatures failed")
 		} else {
 			b.features = append(b.features, s)
 		}
@@ -488,7 +488,7 @@ func (b *BmmEnumerationString) SetItemValues(itemValues []IBmmPrimitiveValue) er
 	for _, s := range itemValues {
 		s, ok := s.(IBmmStringValue)
 		if !ok {
-			return errors.New("_type-assertion in BmmEnumerationString->SetItemValues went wrong")
+			return errors.New("_type-assertion in BmmEnumerationString->SetItemValues failed")
 		} else {
 			b.itemValues = append(b.itemValues, s)
 		}
@@ -561,7 +561,7 @@ func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmPrimitiveValue) e
 	for _, s := range itemValues {
 		s, ok := s.(IBmmIntegerValue)
 		if !ok {
-			return errors.New("_type-assertion to IBmmIntegerValue in BmmEnumerationInteger->SetItemValues went wrong")
+			return errors.New("_type-assertion to IBmmIntegerValue in BmmEnumerationInteger->SetItemValues failed")
 		} else {
 			b.itemValues = append(b.itemValues, s)
 		}

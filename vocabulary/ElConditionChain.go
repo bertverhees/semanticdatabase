@@ -33,7 +33,7 @@ func (e *ElConditionChain[T]) SetItems(items []IElDecisionBranch[T]) error {
 	for _, s := range items {
 		s, ok := s.(IElConditionalExpression[T])
 		if !ok {
-			return errors.New("_type-assertion in ElConditionChain[T]->SetItems went wrong")
+			return errors.New("_type-assertion in ElConditionChain[T]->SetItems failed")
 		} else {
 			e.items = append(e.items, s)
 		}

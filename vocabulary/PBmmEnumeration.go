@@ -45,7 +45,7 @@ func (p *PBmmEnumeration) SetItemValues(itemValues []any) error {
 func (b *PBmmEnumeration) SetBmmClass(bmmClass IBmmClass) error {
 	s, ok := bmmClass.(IBmmEnumeration)
 	if !ok {
-		return errors.New("type-assertion  for IBmmEnumeration in PBmmEnumeration->SetBmmClass went wrong")
+		return errors.New("type-assertion  for IBmmEnumeration in PBmmEnumeration->SetBmmClass failed")
 	} else {
 		b.bmmClass = s
 		return nil
