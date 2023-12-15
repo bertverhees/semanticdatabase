@@ -503,9 +503,179 @@ func (i *ElCaseBuilder[T]) Build() (*ElCase[T], []error) {
 	}
 }
 
+/* ======================= ElOperator ==================== */
+type ElOperatorBuilder struct {
+	ElExpressionBuilder
+}
+
+func (i *ElOperatorBuilder) SetPrecedenceOverridden(v bool) *ElOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetPrecedenceOverridden(v))
+	return i
+}
+
+func (i *ElOperatorBuilder) SetSymbol(v string) *ElOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetSymbol(v))
+	return i
+}
+
+func (i *ElOperatorBuilder) SetCall(v IElFunctionCall) *ElOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetCall(v))
+	return i
+}
+
 /* ======================= ElUnaryOperator ==================== */
+type ElUnaryOperatorBuilder struct {
+	ElOperatorBuilder
+}
+
+func NewElUnaryOperatorBuilder() *ElUnaryOperatorBuilder {
+	builder := &ElUnaryOperatorBuilder{}
+	builder.object = NewElUnaryOperator()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// operand node.
+func (i *ElUnaryOperatorBuilder) SetOperand(v IElExpression) *ElUnaryOperatorBuilder {
+	i.AddError(i.object.(*ElUnaryOperator).SetOperand(v))
+	return i
+}
+
+func (i *ElUnaryOperatorBuilder) Build() (*ElUnaryOperator, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElUnaryOperator), nil
+	}
+}
+
 /* ======================= ElBinaryOperator ==================== */
+type ElBinaryOperatorBuilder struct {
+	ElOperatorBuilder
+}
+
+func NewElBinaryOperatorBuilder() *ElBinaryOperatorBuilder {
+	builder := &ElBinaryOperatorBuilder{}
+	builder.object = NewElBinaryOperator()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Left operand node.
+func (i *ElBinaryOperatorBuilder) SetLeftOperand(v IElExpression) *ElBinaryOperatorBuilder {
+	i.AddError(i.object.(*ElBinaryOperator).SetLeftOperand(v))
+	return i
+}
+
+// Right operand node.
+func (i *ElBinaryOperatorBuilder) SetRightOperand(v IElExpression) *ElBinaryOperatorBuilder {
+	i.AddError(i.object.(*ElBinaryOperator).SetRightOperand(v))
+	return i
+}
+
+func (i *ElBinaryOperatorBuilder) Build() (*ElBinaryOperator, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElBinaryOperator), nil
+	}
+}
+
 /* ======================= ElTuple ==================== */
+type ElTupleBuilder struct {
+	ElExpressionBuilder
+}
+
+func NewElTupleBuilder() *ElTupleBuilder {
+	builder := &ElTupleBuilder{}
+	builder.object = NewElTuple()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+items in the tuple, potentially with names. Typical use is to represent an
+argument list to routine call.
+*/
+func (i *ElTupleBuilder) SetItems(v []IElTupleItem) *ElTupleBuilder {
+	i.AddError(i.object.(*ElTuple).SetItems(v))
+	return i
+}
+
+// Static type inferred from literal value.
+func (i *ElTupleBuilder) SetType(v IBmmTupleType) *ElTupleBuilder {
+	i.AddError(i.object.(*ElTuple).SetType(v))
+	return i
+}
+
+func (i *ElTupleBuilder) Build() (*ElTuple, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElTuple), nil
+	}
+}
+
 /* ======================= ElTupleItem ==================== */
+type ElTupleItemBuilder struct {
+	Builder
+}
+
+func NewElTupleItemBuilder() *ElTupleItemBuilder {
+	builder := &ElTupleItemBuilder{}
+	builder.object = NewElTupleItem()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+Reference to value entity. If Void, this indicates that the item in this
+position is Void, e.g. within a routine call parameter list.
+*/
+func (i *ElTupleItemBuilder) SetItem(v IElExpression) *ElTupleItemBuilder {
+	i.AddError(i.object.(*ElTupleItem).SetItem(v))
+	return i
+}
+
+// Optional name of tuple item.
+func (i *ElTupleItemBuilder) SetName(v string) *ElTupleItemBuilder {
+	i.AddError(i.object.(*ElTupleItem).SetName(v))
+	return i
+}
+
+func (i *ElTupleItemBuilder) Build() (*ElTupleItem, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElTupleItem), nil
+	}
+}
+
 /* ======================= ElConstrained ==================== */
+type ElConstrainedBuilder struct {
+	ElExpressionBuilder
+}
+
+func (i *ElConstrainedBuilder) SetBaseExpression(v IElExpression) *ElConstrainedBuilder {
+	i.AddError(i.object.(*ElConstrained).SetBaseExpression(v))
+	return i
+}
+
 /* ======================= ElBooleanExpression ==================== */
+type ElBooleanExpressionBuilder struct {
+	ElConstrainedBuilder
+}
+
+func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
+	builder := &ElBooleanExpressionBuilder{}
+	builder.object = NewElBooleanExpression()
+	return builder
+}
+
+func (i *ElBooleanExpressionBuilder) Build() (*ElBooleanExpression, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElBooleanExpression), nil
+	}
+}

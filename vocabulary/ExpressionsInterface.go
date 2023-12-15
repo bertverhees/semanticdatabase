@@ -197,9 +197,62 @@ type IElCase[T IElTerminal] interface {
 	SetValueConstraint(valueConstraint constraints.ICObject) error
 }
 
+/* ======================= ElOperator ==================== */
+type IElOperator interface {
+	IElExpression
+	//EL_OPERATOR
+	OperatorDefinition() IBmmOperator
+	EquivalentCall() IElFunctionCall
+	//--------------------------
+	PrecedenceOverridden() bool
+	SetPrecedenceOverridden(precedenceOverridden bool) error
+	Symbol() string
+	SetSymbol(symbol string) error
+	Call() IElFunctionCall
+	SetCall(call IElFunctionCall) error
+}
+
 /* ======================= ElUnaryOperator ==================== */
+type IElUnaryOperator interface {
+	IElOperator
+	Operand() IElExpression
+	SetOperand(operand IElExpression) error
+}
+
 /* ======================= ElBinaryOperator ==================== */
+type IElBinaryOperator interface {
+	IElOperator
+	LeftOperand() IElExpression
+	SetLeftOperand(leftOperand IElExpression) error
+	RightOperand() IElExpression
+	SetRightOperand(rightOperand IElExpression) error
+}
+
 /* ======================= ElTuple ==================== */
+type IElTuple interface {
+	IElExpression
+	Items() []IElTupleItem
+	SetItems(items []IElTupleItem) error
+	Type() IBmmTupleType
+	SetType(_type IBmmTupleType) error
+}
+
 /* ======================= ElTupleItem ==================== */
+type IElTupleItem interface {
+	Item() IElExpression
+	SetItem(item IElExpression) error
+	Name() string
+	SetName(name string) error
+}
+
 /* ======================= ElConstrained ==================== */
+type IElConstrained interface {
+	IElExpression
+	BaseExpression() IElExpression
+	SetBaseExpression(baseExpression IElExpression) error
+}
+
 /* ======================= ElBooleanExpression ==================== */
+type IElBooleanExpression interface {
+	IElConstrained
+}

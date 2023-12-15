@@ -750,13 +750,236 @@ func NewElCase[T IElTerminal]() *ElCase[T] {
 	return elcase
 }
 
+/* ======================= ElOperator ==================== */
+// Abstract parent of operator types.
+type ElOperator struct {
+	ElExpression
+	// Attributes
+	/**
+	True if the natural precedence of operators is overridden in the expression
+	represented by this node of the expression tree. If True, parentheses should be
+	introduced around the totality of the syntax expression corresponding to this
+	operator node and its operands.
+	*/
+	precedenceOverridden bool `yaml:"precedenceoverridden" json:"precedenceoverridden" xml:"precedenceoverridden"`
+	/**
+	The symbol actually used in the expression, or intended to be used for
+	serialisation. Must be a member of OPERATOR_DEF. symbols .
+	*/
+	symbol string `yaml:"symbol" json:"symbol" xml:"symbol"`
+	/**
+	Function call equivalent to this operator expression, inferred by matching
+	operator against functions defined in interface of principal operand.
+	*/
+	call IElFunctionCall `yaml:"call" json:"call" xml:"call"`
+}
+
+func (e *ElOperator) PrecedenceOverridden() bool {
+	return e.precedenceOverridden
+}
+
+func (e *ElOperator) SetPrecedenceOverridden(precedenceOverridden bool) error {
+	e.precedenceOverridden = precedenceOverridden
+	return nil
+}
+
+func (e *ElOperator) Symbol() string {
+	return e.symbol
+}
+
+func (e *ElOperator) SetSymbol(symbol string) error {
+	e.symbol = symbol
+	return nil
+}
+
+func (e *ElOperator) Call() IElFunctionCall {
+	return e.call
+}
+
+func (e *ElOperator) SetCall(call IElFunctionCall) error {
+	e.call = call
+	return nil
+}
+
+// CONSTRUCTOR
+// abstract, no constructor, no builder
+// FUNCTIONS
+// Operator definition derived from definition.operator_definition() .
+func (e *ElOperator) OperatorDefinition() IBmmOperator {
+	return nil
+}
+
+// Function call equivalent to this operator.
+func (e *ElOperator) EquivalentCall() IElFunctionCall {
+	return nil
+}
+
 /* ======================= ElUnaryOperator ==================== */
+// Unary operator expression node.
+type ElUnaryOperator struct {
+	ElOperator
+	// operand node.
+	operand IElExpression `yaml:"operand" json:"operand" xml:"operand"`
+}
+
+func (e *ElUnaryOperator) Operand() IElExpression {
+	return e.operand
+}
+
+func (e *ElUnaryOperator) SetOperand(operand IElExpression) error {
+	e.operand = operand
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElUnaryOperator() *ElUnaryOperator {
+	elunaryoperator := new(ElUnaryOperator)
+	return elunaryoperator
+}
+
 /* ======================= ElBinaryOperator ==================== */
+type ElBinaryOperator struct {
+	ElOperator
+	// Attributes
+	// Left operand node.
+	leftOperand IElExpression `yaml:"leftoperand" json:"leftoperand" xml:"leftoperand"`
+	// Right operand node.
+	rightOperand IElExpression `yaml:"rightoperand" json:"rightoperand" xml:"rightoperand"`
+}
+
+func (e *ElBinaryOperator) LeftOperand() IElExpression {
+	return e.leftOperand
+}
+
+func (e *ElBinaryOperator) SetLeftOperand(leftOperand IElExpression) error {
+	e.leftOperand = leftOperand
+	return nil
+}
+
+func (e *ElBinaryOperator) RightOperand() IElExpression {
+	return e.rightOperand
+}
+
+func (e *ElBinaryOperator) SetRightOperand(rightOperand IElExpression) error {
+	e.rightOperand = rightOperand
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElBinaryOperator() *ElBinaryOperator {
+	elbinaryoperator := new(ElBinaryOperator)
+	return elbinaryoperator
+}
+
 /* ======================= ElTuple ==================== */
+// Defines an array of optionally named items each of any type.
+type ElTuple struct {
+	ElExpression
+	// Attributes
+	/**
+	items in the tuple, potentially with names. Typical use is to represent an
+	argument list to routine call.
+	*/
+	items []IElTupleItem `yaml:"items" json:"items" xml:"items"`
+	// Static type inferred from literal value.
+	_type IBmmTupleType `yaml:"type" json:"type" xml:"type"`
+}
+
+func (e *ElTuple) Items() []IElTupleItem {
+	return e.items
+}
+
+func (e *ElTuple) SetItems(items []IElTupleItem) error {
+	e.items = items
+	return nil
+}
+
+func (e *ElTuple) Type() IBmmTupleType {
+	return e._type
+}
+
+func (e *ElTuple) SetType(_type IBmmTupleType) error {
+	e._type = _type
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElTuple() *ElTuple {
+	eltuple := new(ElTuple)
+	eltuple.items = make([]IElTupleItem, 0)
+	return eltuple
+}
+
 func (e *ElTuple) EvalType() IBmmType {
 	return nil
 }
 
 /* ======================= ElTupleItem ==================== */
+// A single tuple item, with an optional name.
+type ElTupleItem struct {
+	// Attributes
+	/**
+	Reference to value entity. If Void, this indicates that the item in this
+	position is Void, e.g. within a routine call parameter list.
+	*/
+	item IElExpression `yaml:"item" json:"item" xml:"item"`
+	// Optional name of tuple item.
+	name string `yaml:"name" json:"name" xml:"name"`
+}
+
+func (e *ElTupleItem) Item() IElExpression {
+	return e.item
+}
+
+func (e *ElTupleItem) SetItem(item IElExpression) error {
+	e.item = item
+	return nil
+}
+
+func (e *ElTupleItem) Name() string {
+	return e.name
+}
+
+func (e *ElTupleItem) SetName(name string) error {
+	e.name = name
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElTupleItem() *ElTupleItem {
+	eltupleitem := new(ElTupleItem)
+	return eltupleitem
+}
+
 /* ======================= ElConstrained ==================== */
+/**
+Abstract parent for second-order constrained forms of first-order expression
+meta-types.
+*/
+type ElConstrained struct {
+	ElExpression
+	// Attributes
+	// The base expression of this constrained form.
+	baseExpression IElExpression `yaml:"baseexpression" json:"baseexpression" xml:"baseexpression"`
+}
+
+func (e *ElConstrained) BaseExpression() IElExpression {
+	return e.baseExpression
+}
+
+func (e *ElConstrained) SetBaseExpression(baseExpression IElExpression) error {
+	e.baseExpression = baseExpression
+	return nil
+}
+
 /* ======================= ElBooleanExpression ==================== */
+// Boolean-returning expression.
+type ElBooleanExpression struct {
+	ElConstrained
+}
+
+// CONSTRUCTOR
+func NewElBooleanExpression() *ElBooleanExpression {
+	elbooleanexpression := new(ElBooleanExpression)
+	return elbooleanexpression
+}
