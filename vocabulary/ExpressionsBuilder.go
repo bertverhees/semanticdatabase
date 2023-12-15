@@ -364,10 +364,80 @@ func (i *ElAttachedBuilder) Build() (*ElAttached, []error) {
 		return i.object.(*ElAttached), nil
 	}
 }
+
 /* ======================= ElDecisionTable ==================== */
+type ElDecisionTableBuilder[T IElTerminal] struct {
+	ElTerminalBuilder
+}
+
+func (i *ElDecisionTableBuilder[T]) SetItems(v []IElDecisionBranch[T]) *ElDecisionTableBuilder[T] {
+	i.AddError(i.object.(*ElDecisionTable[T]).SetItems(v))
+	return i
+}
+
+func (i *ElDecisionTableBuilder[T]) SetElse(v T) *ElDecisionTableBuilder[T] {
+	i.AddError(i.object.(*ElDecisionTable[T]).SetElse(v))
+	return i
+}
+
 /* ======================= ElDecisionBranch ==================== */
+type ElDecisionBranchBuilder[T IElTerminal] struct {
+	ElTerminalBuilder
+}
+
+func (i *ElDecisionBranchBuilder[T]) SetResult(v T) *ElDecisionBranchBuilder[T] {
+	i.AddError(i.object.(*ElDecisionBranch[T]).SetResult(v))
+	return i
+}
+
 /* ======================= ElConditionChain ==================== */
+type ElConditionChainBuilder[T IElTerminal] struct {
+	ElDecisionTableBuilder[T]
+}
+
+func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
+	builder := &ElConditionChainBuilder[T]{}
+	builder.object = NewElConditionChain[T]()
+	return builder
+}
+
+func (i *ElConditionChainBuilder[T]) SetItems(v []IElDecisionBranch[T]) *ElConditionChainBuilder[T] {
+	i.AddError(i.object.(*ElConditionChain[T]).SetItems(v))
+	return i
+}
+
+func (i *ElConditionChainBuilder[T]) Build() (*ElConditionChain[T], []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElConditionChain[T]), nil
+	}
+}
+
 /* ======================= ElConditionalExpression ==================== */
+type ElConditionalExpressionBuilder[T IElTerminal] struct {
+	ElDecisionTableBuilder[T]
+}
+
+func NewElConditionalExpressionBuilder[T IElTerminal]() *ElConditionalExpressionBuilder[T] {
+	builder := &ElConditionalExpressionBuilder[T]{}
+	builder.object = NewElConditionalExpression[T]()
+	return builder
+}
+
+func (i *ElConditionalExpressionBuilder[T]) SetCondition(v IElExpression) *ElConditionalExpressionBuilder[T] {
+	i.AddError(i.object.(*ElConditionalExpression[T]).SetCondition(v))
+	return i
+}
+
+func (i *ElConditionalExpressionBuilder[T]) Build() (*ElConditionalExpression[T], []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElConditionalExpression[T]), nil
+	}
+}
+
 /* ======================= ElCaseTable ==================== */
 /* ======================= ElCase ==================== */
 /* ======================= ElUnaryOperator ==================== */

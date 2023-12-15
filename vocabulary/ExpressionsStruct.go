@@ -558,9 +558,131 @@ func NewElAttached() *ElAttached {
 }
 
 /* ======================= ElDecisionTable ==================== */
+/*
+Meta-type for decision tables. Generic on the meta-type of the result attribute of the branches,
+to allow specialised forms of if/else and case structures to be created.
+*/
+type ElDecisionTable[T IElTerminal] struct {
+	ElTerminal
+	// Attributes
+	/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+	*/
+	items []IElDecisionBranch[T] `yaml:"items" json:"items" xml:"items"`
+	// result expression of conditional, if its condition evaluates to True.
+	_else T `yaml:"else" json:"else" xml:"else"`
+}
+
+func (e *ElDecisionTable[T]) Items() []IElDecisionBranch[T] {
+	return e.items
+}
+
+func (e *ElDecisionTable[T]) SetItems(items []IElDecisionBranch[T]) error {
+	e.items = items
+	return nil
+}
+
+func (e *ElDecisionTable[T]) Else() T {
+	return e._else
+}
+
+func (e *ElDecisionTable[T]) SetElse(_else T) error {
+	e._else = _else
+	return nil
+}
+
 /* ======================= ElDecisionBranch ==================== */
+/*
+Abstract parent of meta-types representing a branch of some kind of decision structure.
+Defines result as being of the generic type T.
+*/
+type ElDecisionBranch[T IElTerminal] struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
+	// result expression of conditional, if its condition evaluates to True.
+	result T `yaml:"result" json:"result" xml:"result"`
+}
+
+func (e *ElDecisionBranch[T]) Result() T {
+	return e.result
+}
+
+func (e *ElDecisionBranch[T]) SetResult(result T) error {
+	e.result = result
+	return nil
+}
+
 /* ======================= ElConditionChain ==================== */
+/**
+Compound expression consisting of a chain of condition-gated expressions, and an
+ungated else member that as a whole, represents an if/then/elseif/else chains.
+Evaluated by iterating through items and for each one, evaluating its condition
+, which if True, causes the evaluation result of the chain to be that item’s
+result evaluation result. If no member of items has a True-returning condition ,
+the evaluation result is the result of evaluating the else expression.
+*/
+type ElConditionChain[T IElTerminal] struct {
+	ElDecisionTable[T]
+	// Constants
+	// Attributes
+	/**
+	Members of the chain, equivalent to branches in an if/then/else chain and cases
+	in a case statement.
+	*/
+	items []IElConditionalExpression[T] `yaml:"items" json:"items" xml:"items"`
+}
+
+func (e *ElConditionChain[T]) SetItems(items []IElDecisionBranch[T]) error {
+	e.items = make([]IElConditionalExpression[T], 0)
+	for _, s := range items {
+		s, ok := s.(IElConditionalExpression[T])
+		if !ok {
+			return errors.New("_type-assertion to IElConditionalExpression[T] in ElConditionChain[T]->SetItems failed")
+		} else {
+			e.items = append(e.items, s)
+		}
+	}
+	return nil
+}
+
+func NewElConditionChain[T IElTerminal]() *ElConditionChain[T] {
+	elconditionchain := new(ElConditionChain[T])
+	elconditionchain.items = make([]IElConditionalExpression[T], 0)
+	// Constants
+	return elconditionchain
+}
+
 /* ======================= ElConditionalExpression ==================== */
+/**
+Conditional structure used in condition chain expressions. Evaluated by
+evaluating its condition , which is a Boolean-returning expression, and if this
+returns True, the result is the evaluation result of expression .
+*/
+type ElConditionalExpression[T IElTerminal] struct {
+	ElDecisionBranch[T]
+	// Attributes
+	// Boolean expression defining the condition of this decision branch.
+	condition IElExpression `yaml:"condition" json:"condition" xml:"condition"`
+}
+
+func (e *ElConditionalExpression[T]) Condition() IElExpression {
+	return e.condition
+}
+
+func (e *ElConditionalExpression[T]) SetCondition(condition IElExpression) error {
+	e.condition = condition
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElConditionalExpression[T IElTerminal]() *ElConditionalExpression[T] {
+	elconditionalexpression := new(ElConditionalExpression[T])
+	// Constants
+	return elconditionalexpression
+}
+
 /* ======================= ElCaseTable ==================== */
 /* ======================= ElCase ==================== */
 /* ======================= ElUnaryOperator ==================== */

@@ -155,9 +155,32 @@ type IElAttached interface {
 }
 
 /* ======================= ElDecisionTable ==================== */
+type IElDecisionTable[T IElTerminal] interface {
+	IElTerminal
+	Items() []IElDecisionBranch[T]
+	SetItems(items []IElDecisionBranch[T]) error
+	Else() T
+	SetElse(_else T) error
+}
+
 /* ======================= ElDecisionBranch ==================== */
+type IElDecisionBranch[T IElTerminal] interface {
+	Result() T
+	SetResult(result T) error
+}
+
 /* ======================= ElConditionChain ==================== */
+type IElConditionChain[T IElTerminal] interface {
+	IElDecisionTable[T]
+}
+
 /* ======================= ElConditionalExpression ==================== */
+type IElConditionalExpression[T IElTerminal] interface {
+	IElDecisionBranch[T]
+	Condition() IElExpression
+	SetCondition(condition IElExpression) error
+}
+
 /* ======================= ElCaseTable ==================== */
 /* ======================= ElCase ==================== */
 /* ======================= ElUnaryOperator ==================== */
