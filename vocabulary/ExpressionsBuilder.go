@@ -1,5 +1,7 @@
 package vocabulary
 
+import "semanticdatabase/aom/constraints"
+
 /* ======================= ElExpression ==================== */
 type ElExpressionBuilder struct {
 	Builder
@@ -439,7 +441,68 @@ func (i *ElConditionalExpressionBuilder[T]) Build() (*ElConditionalExpression[T]
 }
 
 /* ======================= ElCaseTable ==================== */
+// BUILDER
+type ElCaseTableBuilder[T IElTerminal] struct {
+	ElDecisionTableBuilder[T]
+}
+
+func NewElCaseTableBuilder[T IElTerminal]() *ElCaseTableBuilder[T] {
+	builder := &ElCaseTableBuilder[T]{}
+	builder.object = NewElCaseTable[T]()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Expressing generating the input value for the case table.
+func (i *ElCaseTableBuilder[T]) SetTestValue(v IElValueGenerator) *ElCaseTableBuilder[T] {
+	i.AddError(i.object.(*ElCaseTable[T]).SetTestValue(v))
+	return i
+}
+
+/*
+*
+Members of the chain, equivalent to branches in an if/then/else chain and cases
+in a case statement.
+*/
+func (i *ElCaseTableBuilder[T]) SetItems(v []IElDecisionBranch[T]) *ElCaseTableBuilder[T] {
+	i.AddError(i.object.(*ElCaseTable[T]).SetItems(v))
+	return i
+}
+
+func (i *ElCaseTableBuilder[T]) Build() (*ElCaseTable[T], []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElCaseTable[T]), nil
+	}
+}
+
 /* ======================= ElCase ==================== */
+type ElCaseBuilder[T IElTerminal] struct {
+	ElDecisionBranchBuilder[T]
+}
+
+func NewElCaseBuilder[T IElTerminal]() *ElCaseBuilder[T] {
+	builder := &ElCaseBuilder[T]{}
+	builder.object = NewElCase[T]()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Constraint on
+func (i *ElCaseBuilder[T]) SetValueConstraint(v constraints.ICObject) *ElCaseBuilder[T] {
+	i.AddError(i.object.(*ElCase[T]).SetValueConstraint(v))
+	return i
+}
+
+func (i *ElCaseBuilder[T]) Build() (*ElCase[T], []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*ElCase[T]), nil
+	}
+}
+
 /* ======================= ElUnaryOperator ==================== */
 /* ======================= ElBinaryOperator ==================== */
 /* ======================= ElTuple ==================== */

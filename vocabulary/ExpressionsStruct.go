@@ -1,6 +1,9 @@
 package vocabulary
 
-import "errors"
+import (
+	"errors"
+	"semanticdatabase/aom/constraints"
+)
 
 /* ======================= ElExpression ==================== */
 // Abstract parent of all typed expression meta-types.
@@ -684,7 +687,69 @@ func NewElConditionalExpression[T IElTerminal]() *ElConditionalExpression[T] {
 }
 
 /* ======================= ElCaseTable ==================== */
+type ElCaseTable[T IElTerminal] struct {
+	ElDecisionTable[T]
+	// Attributes
+	// Expressing generating the input value for the case table.
+	testValue IElValueGenerator `yaml:"testvalue" json:"testvalue" xml:"testvalue"`
+}
+
+func (e *ElCaseTable[T]) TestValue() IElValueGenerator {
+	return e.testValue
+}
+
+func (e *ElCaseTable[T]) SetTestValue(testValue IElValueGenerator) error {
+	e.testValue = testValue
+	return nil
+}
+
+func (e *ElCaseTable[T]) SetItems(items []IElDecisionBranch[T]) error {
+	e.items = make([]IElDecisionBranch[T], 0)
+	for _, s := range items {
+		s, ok := s.(IElCase[T])
+		if !ok {
+			return errors.New("_type-assertion to IElCase[T] in ElCaseTable[T]->SetItems failed")
+		} else {
+			e.items = append(e.items, s)
+		}
+	}
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElCaseTable[T IElTerminal]() *ElCaseTable[T] {
+	elcasetable := new(ElCaseTable[T])
+	elcasetable.items = make([]IElDecisionBranch[T], 0)
+	return elcasetable
+}
+
 /* ======================= ElCase ==================== */
+/**
+One branch of a Case table, consisting of a value constraint (the match
+criterion) and a result, of the generic parameter type T.
+*/
+type ElCase[T IElTerminal] struct {
+	ElDecisionBranch[T]
+	// Attributes
+	// Constraint on
+	valueConstraint constraints.ICObject `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
+}
+
+func (e *ElCase[T]) ValueConstraint() constraints.ICObject {
+	return e.valueConstraint
+}
+
+func (e *ElCase[T]) SetValueConstraint(valueConstraint constraints.ICObject) error {
+	e.valueConstraint = valueConstraint
+	return nil
+}
+
+// CONSTRUCTOR
+func NewElCase[T IElTerminal]() *ElCase[T] {
+	elcase := new(ElCase[T])
+	return elcase
+}
+
 /* ======================= ElUnaryOperator ==================== */
 /* ======================= ElBinaryOperator ==================== */
 /* ======================= ElTuple ==================== */

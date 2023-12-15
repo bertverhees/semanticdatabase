@@ -1,5 +1,7 @@
 package vocabulary
 
+import "semanticdatabase/aom/constraints"
+
 /* ======================= ElExpression ==================== */
 type IElExpression interface {
 	EvalType() IBmmType //abstract
@@ -182,7 +184,19 @@ type IElConditionalExpression[T IElTerminal] interface {
 }
 
 /* ======================= ElCaseTable ==================== */
+type IElCaseTable[T IElTerminal] interface {
+	IElDecisionTable[T]
+	TestValue() IElValueGenerator
+	SetTestValue(testValue IElValueGenerator) error
+}
+
 /* ======================= ElCase ==================== */
+type IElCase[T IElTerminal] interface {
+	IElDecisionBranch[T]
+	ValueConstraint() constraints.ICObject
+	SetValueConstraint(valueConstraint constraints.ICObject) error
+}
+
 /* ======================= ElUnaryOperator ==================== */
 /* ======================= ElBinaryOperator ==================== */
 /* ======================= ElTuple ==================== */
