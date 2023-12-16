@@ -86,6 +86,18 @@ func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
 	return builder
 }
 
+/*********************************/
+func (i *BmmSimpleClassBuilder) SetName(v string) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmSimpleClass).SetName(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetPackage(v IBmmPackage) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmSimpleClass).SetPackage(v))
+	return i
+}
+
+/*********************************/
 func (i *BmmSimpleClassBuilder) Build() (*BmmSimpleClass, []error) {
 	if len(i.errors) > 0 {
 		return nil, i.errors

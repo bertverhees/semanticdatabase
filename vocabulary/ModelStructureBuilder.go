@@ -67,6 +67,13 @@ func NewBmmPackageBuilder() *BmmPackageBuilder {
 	return builder
 }
 
+/*********************************/
+func (i *BmmPackageBuilder) SetName(v string) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmPackage).SetName(v))
+	return i
+}
+
+/*********************************/
 // BUILDER ATTRIBUTES
 // Member modules in this package.
 func (i *BmmPackageBuilder) SetMembers(v []IBmmModule) *BmmPackageBuilder {

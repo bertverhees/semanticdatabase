@@ -968,6 +968,9 @@ func (e *ElConstrained) BaseExpression() IElExpression {
 }
 
 func (e *ElConstrained) SetBaseExpression(baseExpression IElExpression) error {
+	if baseExpression == nil {
+		return errors.New("BaseExpression may not be set to null")
+	}
 	e.baseExpression = baseExpression
 	return nil
 }
