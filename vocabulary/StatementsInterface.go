@@ -22,7 +22,25 @@ type IBmmSimpleStatement interface {
 }
 
 /* ================ BmmDeclaration =========================== */
+type IBmmDeclaration interface {
+	IBmmSimpleStatement
+	Name() string
+	SetName(name string) error
+	Result() IElWritableVariable
+	SetResult(result IElWritableVariable) error
+	Type() IBmmType
+	SetType(_type IBmmType) error
+}
+
 /* ================ BmmAssignment =========================== */
+type IBmmAssignment interface {
+	IBmmSimpleStatement
+	Target() IElValueGenerator
+	SetTarget(target IElValueGenerator) error
+	Source() IElExpression
+	SetSource(source IElExpression) error
+}
+
 /* ================ BmmProcedureCall =========================== */
 /* ================ BmmAssertion =========================== */
 /* ================ BmmActionTable =========================== */
