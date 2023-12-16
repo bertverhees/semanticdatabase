@@ -1011,3 +1011,17 @@ func NewBmmExternalRoutine() *BmmExternalRoutine {
 	bmmexternalroutine.argumentMapping = make(map[string]string)
 	return bmmexternalroutine
 }
+
+/* ------------------- BmmFeatureExtension ---------------------- */
+type BmmFeatureExtension struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
+}
+
+// CONSTRUCTOR
+func NewBmmFeatureExtension() *BmmFeatureExtension {
+	bmmFeatureExtension := new(BmmFeatureExtension)
+	// Constants
+	return bmmFeatureExtension
+}

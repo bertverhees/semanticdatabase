@@ -215,3 +215,7 @@ type IBmmExternalRoutine interface {
 	ArgumentMapping() map[string]string
 	SetArgumentMapping(argumentMapping map[string]string) error
 }
+
+/* --------------------- BmmFeatureExtension --------------------*/
+type IBmmFeatureExtension interface {
+}

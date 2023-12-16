@@ -586,3 +586,22 @@ func (i *BmmExternalRoutineBuilder) Build() (*BmmExternalRoutine, []error) {
 		return i.object.(*BmmExternalRoutine), nil
 	}
 }
+
+/* ------------------- BmmFeatureExtension ---------------------- */
+type BmmFeatureExtensionBuilder struct {
+	Builder
+}
+
+func NewBmmFeatureExtensionBuilder() *BmmFeatureExtensionBuilder {
+	builder := &BmmFeatureExtensionBuilder{}
+	builder.object = NewBmmFeatureExtension()
+	return builder
+}
+
+func (i *BmmFeatureExtensionBuilder) Build() (*BmmFeatureExtension, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*BmmFeatureExtension), nil
+	}
+}

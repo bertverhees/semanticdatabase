@@ -161,6 +161,122 @@ func NewBmmAssignment() *BmmAssignment {
 }
 
 /* ================ BmmProcedureCall =========================== */
+/**
+A call made on a closed procedure agent. The method in BMM via which external
+actions are achieved from within a program.
+*/
+type BmmProcedureCall struct {
+	ElAgentCall
+	BmmSimpleStatement
+	// Attributes
+	// The procedure agent being called.
+	agent IElProcedureAgent `yaml:"agent" json:"agent" xml:"agent"`
+}
+
+func (e *BmmProcedureCall) SetAgent(agent IElAgent) error {
+	if agent == nil {
+		return errors.New("Agent in BmmProcedureCall may not be set to null")
+	}
+	s, ok := agent.(IElProcedureAgent)
+	if !ok {
+		return errors.New("_type-assertion in BmmProcedureCall->SetAgent failed")
+	} else {
+		e.agent = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewBmmProcedureCall() *BmmProcedureCall {
+	bmmprocedurecall := new(BmmProcedureCall)
+	// Constants
+	return bmmprocedurecall
+}
+
 /* ================ BmmAssertion =========================== */
+type BmmAssertion struct {
+	BmmSimpleStatement
+	// Attributes
+	// Boolean-valued expression of the assertion.
+	expression IElBooleanExpression `yaml:"expression" json:"expression" xml:"expression"`
+	/**
+	Optional tag, typically used to designate design intention of the assertion,
+	e.g. "Inv_all_members_valid" .
+	*/
+	tag string `yaml:"tag" json:"tag" xml:"tag"`
+}
+
+func (b *BmmAssertion) Expression() IElBooleanExpression {
+	return b.expression
+}
+
+func (b *BmmAssertion) SetExpression(expression IElBooleanExpression) error {
+	if expression == nil {
+		return errors.New("Expression in BmmAssertion may not be set to null")
+	}
+	b.expression = expression
+	return nil
+}
+
+func (b *BmmAssertion) Tag() string {
+	return b.tag
+}
+
+func (b *BmmAssertion) SetTag(tag string) error {
+	b.tag = tag
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmAssertion() *BmmAssertion {
+	bmmassertion := new(BmmAssertion)
+	return bmmassertion
+}
+
 /* ================ BmmActionTable =========================== */
+// Multi-branch conditional statement structure
+type BmmActionTable struct {
+	BmmStatement
+	// Attributes
+	/**
+	A specialised decision table whose outputs can only be procedure agents. In
+	execution, the matched agent will be invoked.
+	*/
+	decisionTable IBmmActionDecisionTable `yaml:"decisiontable" json:"decisiontable" xml:"decisiontable"`
+}
+
+func (b *BmmActionTable) DecisionTable() IBmmActionDecisionTable {
+	return b.decisionTable
+}
+
+func (b *BmmActionTable) SetDecisionTable(decisionTable IBmmActionDecisionTable) error {
+	if decisionTable == nil {
+		return errors.New("decisionTable in BmmActionTable may not be set to null")
+	}
+	b.decisionTable = decisionTable
+	return nil
+}
+
+// CONSTRUCTOR
+func NewBmmActionTable() *BmmActionTable {
+	bmmactiontable := new(BmmActionTable)
+	// Constants
+	return bmmactiontable
+}
+
 /* ================ BmmActionDecisionTable =========================== */
+/*
+Specialised form of Decision Table that allows only procedure call agents (lambdas) as the result of branches.
+*/
+type BmmActionDecisionTable struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
+}
+
+// CONSTRUCTOR
+func NewBmmActionDecisionTable() *BmmActionDecisionTable {
+	bmmactiondecisiontable := new(BmmActionDecisionTable)
+	// Constants
+	return bmmactiondecisiontable
+}

@@ -42,6 +42,27 @@ type IBmmAssignment interface {
 }
 
 /* ================ BmmProcedureCall =========================== */
+type IBmmProcedureCall interface {
+	IElAgentCall
+	IBmmSimpleStatement
+}
+
 /* ================ BmmAssertion =========================== */
+type IBmmAssertion interface {
+	IBmmSimpleStatement
+	Expression() IElBooleanExpression
+	SetExpression(expression IElBooleanExpression) error
+	Tag() string
+	SetTag(tag string) error
+}
+
 /* ================ BmmActionTable =========================== */
+type IBmmActionTable interface {
+	IBmmStatement
+	DecisionTable() IBmmActionDecisionTable
+	SetDecisionTable(decisionTable IBmmActionDecisionTable) error
+}
+
 /* ================ BmmActionDecisionTable =========================== */
+type IBmmActionDecisionTable interface {
+}
