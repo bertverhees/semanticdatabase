@@ -186,6 +186,64 @@ func (i *PBmmSchemaBuilder) Build() (*PBmmSchema, []error) {
 }
 
 /* ============================= PBmmPackage =====================================*/
+type PBmmPackageBuilder struct {
+	PBmmPackageContainerBuilder
+	PBmmModelElementBuilder
+}
+
+func NewPBmmPackageBuilder() *PBmmPackageBuilder {
+	builder := &PBmmPackageBuilder{}
+	builder.object = NewPBmmPackage()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+name of the package from schema; this name may be qualified if it is a top-level
+package within the schema, or unqualified. Persistent attribute.
+*/
+func (i *PBmmPackageBuilder) SetName(v string) *PBmmPackageBuilder {
+	i.AddError(i.object.(*PBmmPackage).SetName(v))
+	return i
+}
+
+// List of classes in this package. Persistent attribute.
+func (i *PBmmPackageBuilder) SetClasses(v []string) *PBmmPackageBuilder {
+	i.AddError(i.object.(*PBmmPackage).SetClasses(v))
+	return i
+}
+
+// BMM_PACKAGE created by create_bmm_package_definition .
+func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v IBmmPackage) *PBmmPackageBuilder {
+	i.AddError(i.object.(*PBmmPackage).SetBmmPackageDefinition(v))
+	return i
+}
+
+// From: PBmmPackageContainer
+/**
+Package structure as a hierarchy of packages each potentially containing names
+of classes in that package in the original model.
+*/
+func (i *PBmmPackageBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageBuilder {
+	i.AddError(i.object.(*PBmmPackage).SetPackages(v))
+	return i
+}
+
+// From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmPackageBuilder) SetDocumentation(v string) *PBmmPackageBuilder {
+	i.AddError(i.object.(*PBmmPackage).SetDocumentation(v))
+	return i
+}
+
+func (i *PBmmPackageBuilder) Build() (*PBmmPackage, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmPackage), nil
+	}
+}
+
 /* ============================= PBmmType =====================================*/
 /* ============================= PBmmClass =====================================*/
 /* ============================= PBmmGenericParameter =====================================*/

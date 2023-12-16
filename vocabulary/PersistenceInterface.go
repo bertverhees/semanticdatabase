@@ -55,6 +55,19 @@ type IPBmmSchema interface {
 }
 
 /* ============================= PBmmPackage =====================================*/
+type IPBmmPackage interface {
+	IPBmmModelElement
+	IPBmmPackageContainer
+	Merge(other IPBmmPackage)
+	CreateBmmPackageDefinition()
+	Name() string
+	SetName(name string) error
+	Classes() []string
+	SetClasses(classes []string) error
+	BmmPackageDefinition() IBmmPackage
+	SetBmmPackageDefinition(bmmPackageDefinition IBmmPackage) error
+}
+
 /* ============================= PBmmType =====================================*/
 /* ============================= PBmmClass =====================================*/
 /* ============================= PBmmGenericParameter =====================================*/
