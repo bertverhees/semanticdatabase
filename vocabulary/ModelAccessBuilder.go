@@ -49,6 +49,67 @@ func (i *BmmModelAccessBuilder) Build() (*BmmModelAccess, []error) {
 	}
 }
 
+/* ======================== BmmSchema =====================================*/
+type BmmSchemaBuilder struct {
+	BmmModelMetadataBuilder
+}
+
+func (i *BmmSchemaBuilder) SetBmmVersion(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetBmmVersion(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetIncludes(v map[string]IBmmIncludeSpec) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetIncludes(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetBmmModel(v IBmmModel) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetBmmModel(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetState(v BmmSchemaState) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetState(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetModelName(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetModelName(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetSchemaName(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetSchemaName(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetSchemaRevision(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetSchemaRevision(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetSchemaLifecycleState(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetSchemaLifecycleState(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetSchemaAuthor(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetSchemaAuthor(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetSchemaDescription(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetSchemaDescription(v))
+	return i
+}
+
+func (i *BmmSchemaBuilder) SetSchemaContributors(v []string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmSchema).SetSchemaContributors(v))
+	return i
+}
+
+/* ======================== BmmSchemaDescriptor =====================================*/
 type BmmSchemaDescriptorBuilder struct {
 	Builder
 }
