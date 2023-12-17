@@ -564,8 +564,88 @@ func (p *PBmmProperty) CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBm
 }
 
 /* ============================= PBmmBaseType =====================================*/
+// Persistent form of BMM_PROPER_TYPE.
+type PBmmBaseType struct {
+	// embedded for Inheritance
+	PBmmType
+}
+
 /* ============================= PBmmSimpleType =====================================*/
+// Persistent form of BMM_SIMPLE_TYPE
+type PBmmSimpleType struct {
+	// embedded for Inheritance
+	PBmmBaseType
+	// Attributes
+	// name of type - must be a simple class name.
+	_type string `yaml:"type" json:"type" xml:"type"`
+	// result of create_bmm_type() call.
+	bmmType IBmmSimpleType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+}
+
+func (p *PBmmSimpleType) Type() string {
+	return p._type
+}
+
+func (p *PBmmSimpleType) SetType(_type string) error {
+	p._type = _type
+	return nil
+}
+
+func (p *PBmmSimpleType) SetBmmType(bmmType IBmmType) error {
+	s, ok := bmmType.(IBmmSimpleType)
+	if !ok {
+		return errors.New("_type-assertion to IBmmSimpleType in PBmmSimpleType->SetBmmType failed")
+	} else {
+		p.bmmType = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmSimpleType() *PBmmSimpleType {
+	pbmmsimpletype := new(PBmmSimpleType)
+	// Constants
+	return pbmmsimpletype
+}
+
 /* ============================= PBmmOpenType =====================================*/
+// Persistent form of BMM_PARAMETER_TYPE .
+type PBmmOpenType struct {
+	// embedded for Inheritance
+	PBmmBaseType
+	// Constants
+	// Attributes
+	_type string `yaml:"type" json:"type" xml:"type"`
+	// result of create_bmm_type() call.
+	bmmType IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+}
+
+func (p *PBmmOpenType) Type() string {
+	return p._type
+}
+
+func (p *PBmmOpenType) SetType(_type string) error {
+	p._type = _type
+	return nil
+}
+
+func (p *PBmmOpenType) SetBmmType(bmmType IBmmType) error {
+	s, ok := bmmType.(IBmmUnitaryType)
+	if !ok {
+		return errors.New("_type-assertion to IBmmUnitaryType in PBmmOpenType->SetBmmType failed")
+	} else {
+		p.bmmType = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmOpenType() *PBmmOpenType {
+	pbmmopentype := new(PBmmOpenType)
+	// Constants
+	return pbmmopentype
+}
+
 /* ============================= PBmmGenericType =====================================*/
 /* ============================= PBmmContainerType =====================================*/
 /* ============================= PBmmSingleProperty =====================================*/

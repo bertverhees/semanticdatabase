@@ -449,8 +449,74 @@ func (i *PBmmPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmPropertyBuilde
 }
 
 /* ============================= PBmmBaseType =====================================*/
+type PBmmBaseTypeBuilder struct {
+	PBmmTypeBuilder
+}
+
 /* ============================= PBmmSimpleType =====================================*/
+type PBmmSimpleTypeBuilder struct {
+	PBmmBaseTypeBuilder
+}
+
+func NewPBmmSimpleTypeBuilder() *PBmmSimpleTypeBuilder {
+	builder := &PBmmSimpleTypeBuilder{}
+	builder.object = NewPBmmSimpleType()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// name of type - must be a simple class name.
+func (i *PBmmSimpleTypeBuilder) SetType(v string) *PBmmSimpleTypeBuilder {
+	i.AddError(i.object.(*PBmmSimpleType).SetType(v))
+	return i
+}
+
+// result of create_bmm_type() call.
+func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmType) *PBmmSimpleTypeBuilder {
+	i.AddError(i.object.(*PBmmSimpleType).SetBmmType(v))
+	return i
+}
+
+func (i *PBmmSimpleTypeBuilder) Build() (*PBmmSimpleType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmSimpleType), nil
+	}
+}
+
 /* ============================= PBmmOpenType =====================================*/
+type PBmmOpenTypeBuilder struct {
+	PBmmBaseTypeBuilder
+}
+
+func NewPBmmOpenTypeBuilder() *PBmmOpenTypeBuilder {
+	builder := &PBmmOpenTypeBuilder{}
+	builder.object = NewPBmmOpenType()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Simple type parameter as a single letter like 'T', 'G' etc.
+func (i *PBmmOpenTypeBuilder) SetType(v string) *PBmmOpenTypeBuilder {
+	i.AddError(i.object.(*PBmmOpenType).SetType(v))
+	return i
+}
+
+// result of create_bmm_type() call.
+func (i *PBmmOpenTypeBuilder) SetBmmType(v IBmmType) *PBmmOpenTypeBuilder {
+	i.AddError(i.object.(*PBmmOpenType).SetBmmType(v))
+	return i
+}
+
+func (i *PBmmOpenTypeBuilder) Build() (*PBmmOpenType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmOpenType), nil
+	}
+}
+
 /* ============================= PBmmGenericType =====================================*/
 /* ============================= PBmmContainerType =====================================*/
 /* ============================= PBmmSingleProperty =====================================*/
