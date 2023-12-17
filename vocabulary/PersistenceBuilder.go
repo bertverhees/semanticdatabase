@@ -409,6 +409,45 @@ func (i *PBmmGenericParameterBuilder) Build() (*PBmmGenericParameter, []error) {
 }
 
 /* ============================= PBmmProperty =====================================*/
+type PBmmPropertyBuilder struct {
+	PBmmModelElementBuilder
+}
+
+func (i *PBmmPropertyBuilder) SetName(v string) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetName(v))
+	return i
+}
+
+func (i *PBmmPropertyBuilder) SetIsMandatory(v bool) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsMandatory(v))
+	return i
+}
+
+func (i *PBmmPropertyBuilder) SetIsComputed(v bool) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsComputed(v))
+	return i
+}
+
+func (i *PBmmPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *PBmmPropertyBuilder) SetIsImRuntime(v bool) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *PBmmPropertyBuilder) SetTypeDef(v IPBmmType) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetTypeDef(v))
+	return i
+}
+
+func (i *PBmmPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetBmmProperty(v))
+	return i
+}
+
 /* ============================= PBmmBaseType =====================================*/
 /* ============================= PBmmSimpleType =====================================*/
 /* ============================= PBmmOpenType =====================================*/

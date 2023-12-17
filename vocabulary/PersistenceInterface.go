@@ -117,6 +117,25 @@ type IPBmmGenericParameter interface {
 }
 
 /* ============================= PBmmProperty =====================================*/
+type IPBmmProperty interface {
+	IPBmmModelElement
+	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
+	Name() string
+	SetName(name string) error
+	IsMandatory() bool
+	SetIsMandatory(isMandatory bool) error
+	IsComputed() bool
+	SetIsComputed(isComputed bool) error
+	IsImInfrastructure() bool
+	SetIsImInfrastructure(isImInfrastructure bool) error
+	IsImRuntime() bool
+	SetIsImRuntime(isImRuntime bool) error
+	TypeDef() IPBmmType
+	SetTypeDef(typeDef IPBmmType) error
+	BmmProperty() IBmmProperty
+	SetBmmProperty(bmmProperty IBmmProperty) error
+}
+
 /* ============================= PBmmBaseType =====================================*/
 /* ============================= PBmmSimpleType =====================================*/
 /* ============================= PBmmOpenType =====================================*/
