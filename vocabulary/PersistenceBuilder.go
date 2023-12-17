@@ -572,6 +572,60 @@ func (i *PBmmGenericTypeBuilder) Build() (*PBmmGenericType, []error) {
 }
 
 /* ============================= PBmmContainerType =====================================*/
+type PBmmContainerTypeBuilder struct {
+	PBmmTypeBuilder
+}
+
+func NewPBmmContainerTypeBuilder() *PBmmContainerTypeBuilder {
+	builder := &PBmmContainerTypeBuilder{}
+	builder.object = NewPBmmContainerType()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+Persisted attribute.
+*/
+func (i *PBmmContainerTypeBuilder) SetContainerType(v string) *PBmmContainerTypeBuilder {
+	i.AddError(i.object.(*PBmmContainerType).SetContainerType(v))
+	return i
+}
+
+/*
+*
+_type definition of type , if not a simple String type reference. Persisted
+attribute.
+*/
+func (i *PBmmContainerTypeBuilder) SetTypeDef(v IPBmmBaseType) *PBmmContainerTypeBuilder {
+	i.AddError(i.object.(*PBmmContainerType).SetTypeDef(v))
+	return i
+}
+
+/*
+*
+The target type; this converts to the first parameter in generic_parameters in
+BMM_GENERIC_TYPE . Persisted attribute.
+*/
+func (i *PBmmContainerTypeBuilder) SetType(v string) *PBmmContainerTypeBuilder {
+	i.AddError(i.object.(*PBmmContainerType).SetType(v))
+	return i
+}
+
+// result of create_bmm_type() call.
+func (i *PBmmContainerTypeBuilder) SetBmmType(v IBmmContainerType) *PBmmContainerTypeBuilder {
+	i.AddError(i.object.(*PBmmContainerType).SetBmmType(v))
+	return i
+}
+
+func (i *PBmmContainerTypeBuilder) Build() (*PBmmContainerType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmContainerType), nil
+	}
+}
+
 /* ============================= PBmmSingleProperty =====================================*/
 /* ============================= PBmmSinglePropertyOpen =====================================*/
 /* ============================= PBmmGenericProperty =====================================*/

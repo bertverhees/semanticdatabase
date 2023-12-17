@@ -726,6 +726,80 @@ func (p *PBmmGenericType) GenericParameterRefs() []IPBmmType {
 }
 
 /* ============================= PBmmContainerType =====================================*/
+// Persistent form of BMM_CONTAINER_TYPE
+type PBmmContainerType struct {
+	// embedded for Inheritance
+	PBmmType
+	// Attributes
+	/**
+	The type of the container. This converts to the root_type in BMM_GENERIC_TYPE .
+	Persisted attribute.
+	*/
+	containerType string `yaml:"containertype" json:"containertype" xml:"containertype"`
+	/**
+	_type definition of type , if not a simple String type reference. Persisted
+	attribute.
+	*/
+	typeDef IPBmmBaseType `yaml:"typedef" json:"typedef" xml:"typedef"`
+	/**
+	The target type; this converts to the first parameter in generic_parameters in
+	BMM_GENERIC_TYPE . Persisted attribute.
+	*/
+	_type string `yaml:"type" json:"type" xml:"type"`
+}
+
+func (p *PBmmContainerType) ContainerType() string {
+	return p.containerType
+}
+
+func (p *PBmmContainerType) SetContainerType(containerType string) error {
+	p.containerType = containerType
+	return nil
+}
+
+func (p *PBmmContainerType) TypeDef() IPBmmBaseType {
+	return p.typeDef
+}
+
+func (p *PBmmContainerType) SetTypeDef(typeDef IPBmmBaseType) error {
+	p.typeDef = typeDef
+	return nil
+}
+
+func (p *PBmmContainerType) Type() string {
+	return p._type
+}
+
+func (p *PBmmContainerType) SetType(_type string) error {
+	p._type = _type
+	return nil
+}
+
+func (p *PBmmContainerType) SetBmmType(bmmType IBmmType) error {
+	s, ok := bmmType.(IBmmContainerType)
+	if !ok {
+		return errors.New("_type-assertion to IBmmContainerType in PBmmContainerType->SetBmmType failed")
+	} else {
+		p.bmmType = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmContainerType() *PBmmContainerType {
+	pbmmcontainertype := new(PBmmContainerType)
+	return pbmmcontainertype
+}
+
+//FUNCTIONS
+/**
+The target type; this converts to the first parameter in generic_parameters in
+BMM_GENERIC_TYPE . Persisted attribute.
+*/
+//func (p *PBmmContainerType) TypeRef() IPBmmBaseType {
+//	return nil
+//}
+
 /* ============================= PBmmSingleProperty =====================================*/
 /* ============================= PBmmSinglePropertyOpen =====================================*/
 /* ============================= PBmmGenericProperty =====================================*/
