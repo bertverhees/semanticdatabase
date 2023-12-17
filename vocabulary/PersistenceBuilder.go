@@ -193,7 +193,7 @@ type PBmmPackageBuilder struct {
 
 func NewPBmmPackageBuilder() *PBmmPackageBuilder {
 	builder := &PBmmPackageBuilder{}
-	builder.object = NewPBmmPackage()
+	builder.PBmmPackageContainerBuilder.object = NewPBmmPackage()
 	return builder
 }
 
@@ -203,19 +203,19 @@ name of the package from schema; this name may be qualified if it is a top-level
 package within the schema, or unqualified. Persistent attribute.
 */
 func (i *PBmmPackageBuilder) SetName(v string) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetName(v))
+	i.PBmmPackageContainerBuilder.AddError(i.PBmmPackageContainerBuilder.object.(*PBmmPackage).SetName(v))
 	return i
 }
 
 // List of classes in this package. Persistent attribute.
 func (i *PBmmPackageBuilder) SetClasses(v []string) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetClasses(v))
+	i.PBmmPackageContainerBuilder.AddError(i.PBmmPackageContainerBuilder.object.(*PBmmPackage).SetClasses(v))
 	return i
 }
 
 // BMM_PACKAGE created by create_bmm_package_definition .
 func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v IBmmPackage) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetBmmPackageDefinition(v))
+	i.PBmmPackageContainerBuilder.AddError(i.PBmmPackageContainerBuilder.object.(*PBmmPackage).SetBmmPackageDefinition(v))
 	return i
 }
 
@@ -225,22 +225,22 @@ Package structure as a hierarchy of packages each potentially containing names
 of classes in that package in the original model.
 */
 func (i *PBmmPackageBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetPackages(v))
+	i.PBmmPackageContainerBuilder.AddError(i.PBmmPackageContainerBuilder.object.(*PBmmPackage).SetPackages(v))
 	return i
 }
 
 // From: PBmmModelElement
 // Optional documentation of this element.
 func (i *PBmmPackageBuilder) SetDocumentation(v string) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetDocumentation(v))
+	i.PBmmPackageContainerBuilder.AddError(i.PBmmPackageContainerBuilder.object.(*PBmmPackage).SetDocumentation(v))
 	return i
 }
 
 func (i *PBmmPackageBuilder) Build() (*PBmmPackage, []error) {
-	if len(i.errors) > 0 {
-		return nil, i.errors
+	if len(i.PBmmPackageContainerBuilder.errors) > 0 {
+		return nil, i.PBmmPackageContainerBuilder.errors
 	} else {
-		return i.object.(*PBmmPackage), nil
+		return i.PBmmPackageContainerBuilder.object.(*PBmmPackage), nil
 	}
 }
 
@@ -518,6 +518,59 @@ func (i *PBmmOpenTypeBuilder) Build() (*PBmmOpenType, []error) {
 }
 
 /* ============================= PBmmGenericType =====================================*/
+type PBmmGenericTypeBuilder struct {
+	PBmmBaseTypeBuilder
+}
+
+func NewPBmmGenericTypeBuilder() *PBmmGenericTypeBuilder {
+	builder := &PBmmGenericTypeBuilder{}
+	builder.object = NewPBmmGenericType()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// Root type of this generic type, e.g. Interval in Interval<Integer> .
+func (i *PBmmGenericTypeBuilder) SetRootType(v string) *PBmmGenericTypeBuilder {
+	i.AddError(i.object.(*PBmmGenericType).SetRootType(v))
+	return i
+}
+
+/*
+*
+Generic parameters of the root_type in this type specifier if non-simple types.
+The order must match the order of the owning class’s formal generic parameter
+declarations. Persistent attribute.
+*/
+func (i *PBmmGenericTypeBuilder) SetGenericParameterDefs(v []IPBmmType) *PBmmGenericTypeBuilder {
+	i.AddError(i.object.(*PBmmGenericType).SetGenericParameterDefs(v))
+	return i
+}
+
+/*
+*
+Generic parameters of the root_type in this type specifier, if simple types. The
+order must match the order of the owning class’s formal generic parameter
+declarations. Persistent attribute.
+*/
+func (i *PBmmGenericTypeBuilder) SetGenericParameters(v []string) *PBmmGenericTypeBuilder {
+	i.AddError(i.object.(*PBmmGenericType).SetGenericParameters(v))
+	return i
+}
+
+// result of create_bmm_type() call.
+func (i *PBmmGenericTypeBuilder) SetBmmType(v IBmmGenericType) *PBmmGenericTypeBuilder {
+	i.AddError(i.object.(*PBmmGenericType).SetBmmType(v))
+	return i
+}
+
+func (i *PBmmGenericTypeBuilder) Build() (*PBmmGenericType, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmGenericType), nil
+	}
+}
+
 /* ============================= PBmmContainerType =====================================*/
 /* ============================= PBmmSingleProperty =====================================*/
 /* ============================= PBmmSinglePropertyOpen =====================================*/

@@ -139,8 +139,8 @@ type IPBmmProperty interface {
 /* ============================= PBmmBaseType =====================================*/
 type IPBmmBaseType interface {
 	IPBmmType
-	ValueConstraint() string
-	SetValueConstraint(valueConstraint string) error
+	//ValueConstraint() string
+	//SetValueConstraint(valueConstraint string) error
 }
 
 /* ============================= PBmmSimpleType =====================================*/
@@ -159,6 +159,12 @@ type IPBmmOpenType interface {
 }
 
 /* ============================= PBmmGenericType =====================================*/
+type IPBmmGenericType interface {
+	IPBmmBaseType
+	//P_BMM_GENERIC_TYPE
+	GenericParameterRefs() []IPBmmType
+}
+
 /* ============================= PBmmContainerType =====================================*/
 /* ============================= PBmmSingleProperty =====================================*/
 /* ============================= PBmmSinglePropertyOpen =====================================*/
