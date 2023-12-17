@@ -209,8 +209,253 @@ func (p *PBmmPackage) CreateBmmPackageDefinition() {
 }
 
 /* ============================= PBmmType =====================================*/
+// Persistent form of BMM_TYPE .
+type PBmmType struct {
+	// embedded for Inheritance
+	// Constants
+	// Attributes
+	// result of create_bmm_type() call.
+	bmmType IBmmType `yaml:"bmmtype" json:"bmmtype" xml:"bmmtype"`
+}
+
+func (p *PBmmType) BmmType() IBmmType {
+	return p.bmmType
+}
+
+func (p *PBmmType) SetBmmType(bmmType IBmmType) error {
+	p.bmmType = bmmType
+	return nil
+}
+
+// CONSTRUCTOR
+// abstract, no constructor, no builder
+// FUNCTIONS
+// Create appropriate BMM_XXX object; effected in descendants.
+func (p *PBmmType) CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass) {
+	return
+}
+
+// Formal name of the type for display.
+func (p *PBmmType) AsTypeString() string {
+	return ""
+}
+
 /* ============================= PBmmClass =====================================*/
+/**
+definition of persistent form of BMM_CLASS for serialisation to ODIN, JSON, XML
+etc.
+*/
+type PBmmClass struct {
+	// embedded for Inheritance
+	PBmmModelElement
+	// Attributes
+	// name of the class. Persisted attribute.
+	name string `yaml:"name" json:"name" xml:"name"`
+	/**
+	List of immediate inheritance parents. If there are generic ancestors, use
+	ancestor_defs instead. Persisted attribute.
+	*/
+	ancestors []string `yaml:"ancestors" json:"ancestors" xml:"ancestors"`
+	// List of attributes defined in this class. Persistent attribute.
+	properties map[string]IPBmmProperty `yaml:"properties" json:"properties" xml:"properties"`
+	// True if this is an abstract type. Persisted attribute.
+	isAbstract bool `yaml:"isabstract" json:"isabstract" xml:"isabstract"`
+	// True if this class definition overrides one found in an included schema.
+	isOverride bool `yaml:"isoverride" json:"isoverride" xml:"isoverride"`
+	// List of generic parameter definitions. Persisted attribute.
+	genericParameterDefs map[string]IPBmmGenericParameter `yaml:"genericparameterdefs" json:"genericparameterdefs" xml:"genericparameterdefs"`
+	/**
+	Reference to original source schema defining this class. Set during BMM_SCHEMA
+	materialise. Useful for GUI tools to enable user to edit the schema file
+	containing a given class (i.e. taking into account that a class may be in any of
+	the schemas in a schema inclusion hierarchy).
+	*/
+	sourceSchemaId string `yaml:"sourceschemaid" json:"sourceschemaid" xml:"sourceschemaid"`
+	/**
+	BMM_CLASS object built by create_bmm_class_definition and
+	populate_bmm_class_definition .
+	*/
+	bmmClass IBmmClass `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+	/**
+	Unique id generated for later comparison during merging, in order to detect if
+	two classes are the same. Assigned in post-load processing.
+	*/
+	uid int `yaml:"uid" json:"uid" xml:"uid"`
+	/**
+	List of structured inheritance ancestors, used only in the case of generic
+	inheritance. Persisted attribute.
+	*/
+	//AncestorDefs []IPBmmGenericType `yaml:"ancestordefs" json:"ancestordefs" xml:"ancestordefs"`
+}
+
+func (p *PBmmClass) Name() string {
+	return p.name
+}
+
+func (p *PBmmClass) SetName(name string) error {
+	p.name = name
+	return nil
+}
+
+func (p *PBmmClass) Ancestors() []string {
+	return p.ancestors
+}
+
+func (p *PBmmClass) SetAncestors(ancestors []string) error {
+	p.ancestors = ancestors
+	return nil
+}
+
+func (p *PBmmClass) Properties() map[string]IPBmmProperty {
+	return p.properties
+}
+
+func (p *PBmmClass) SetProperties(properties map[string]IPBmmProperty) error {
+	p.properties = properties
+	return nil
+}
+
+func (p *PBmmClass) IsAbstract() bool {
+	return p.isAbstract
+}
+
+func (p *PBmmClass) SetIsAbstract(isAbstract bool) error {
+	p.isAbstract = isAbstract
+	return nil
+}
+
+func (p *PBmmClass) IsOverride() bool {
+	return p.isOverride
+}
+
+func (p *PBmmClass) SetIsOverride(isOverride bool) error {
+	p.isOverride = isOverride
+	return nil
+}
+
+func (p *PBmmClass) GenericParameterDefs() map[string]IPBmmGenericParameter {
+	return p.genericParameterDefs
+}
+
+func (p *PBmmClass) SetGenericParameterDefs(genericParameterDefs map[string]IPBmmGenericParameter) error {
+	p.genericParameterDefs = genericParameterDefs
+	return nil
+}
+
+func (p *PBmmClass) SourceSchemaId() string {
+	return p.sourceSchemaId
+}
+
+func (p *PBmmClass) SetSourceSchemaId(sourceSchemaId string) error {
+	p.sourceSchemaId = sourceSchemaId
+	return nil
+}
+
+func (p *PBmmClass) BmmClass() IBmmClass {
+	return p.bmmClass
+}
+
+func (p *PBmmClass) SetBmmClass(bmmClass IBmmClass) error {
+	p.bmmClass = bmmClass
+	return nil
+}
+
+func (p *PBmmClass) Uid() int {
+	return p.uid
+}
+
+func (p *PBmmClass) SetUid(uid int) error {
+	p.uid = uid
+	return nil
+}
+
+// CONSTRUCTOR
+func NewPBmmClass() *PBmmClass {
+	pbmmclass := new(PBmmClass)
+	pbmmclass.ancestors = make([]string, 0)
+	pbmmclass.properties = make(map[string]IPBmmProperty)
+	pbmmclass.genericParameterDefs = make(map[string]IPBmmGenericParameter)
+	return pbmmclass
+}
+
+/*
+*
+Post : result := generic_parameter_defs /= Void. True if this class is a generic
+class.
+*/
+func (p *PBmmClass) IsGeneric() bool {
+	return false
+}
+
+// Create bmm_class_definition .
+func (p *PBmmClass) CreateBmmClass() {
+	return
+}
+
+// Add remaining model elements from Current to bmm_class_definition .
+func (p *PBmmClass) PopulateBmmClass(a_bmm_schema IBmmModel) {
+	return
+}
+
 /* ============================= PBmmGenericParameter =====================================*/
+// Persistent form of BMM_GENERIC_PARAMETER
+type PBmmGenericParameter struct {
+	// embedded for Inheritance
+	PBmmModelElement
+	// Attributes
+	/**
+	name of the parameter, e.g. 'T' etc. Persisted attribute. name is limited to 1
+	character, upper case.
+	*/
+	name string `yaml:"name" json:"name" xml:"name"`
+	/**
+	Optional conformance constraint - the name of a type to which a concrete
+	substitution of this generic parameter must conform. Persisted attribute.
+	*/
+	conformsToType string `yaml:"conformstotype" json:"conformstotype" xml:"conformstotype"`
+	// BMM_GENERIC_PARAMETER created by create_bmm_generic_parameter .
+	bmmGenericParameter IBmmParameterType `yaml:"bmmgenericparameter" json:"bmmgenericparameter" xml:"bmmgenericparameter"`
+}
+
+func (p *PBmmGenericParameter) Name() string {
+	return p.name
+}
+
+func (p *PBmmGenericParameter) SetName(name string) error {
+	p.name = name
+	return nil
+}
+
+func (p *PBmmGenericParameter) ConformsToType() string {
+	return p.conformsToType
+}
+
+func (p *PBmmGenericParameter) SetConformsToType(conformsToType string) error {
+	p.conformsToType = conformsToType
+	return nil
+}
+
+func (p *PBmmGenericParameter) BmmGenericParameter() IBmmParameterType {
+	return p.bmmGenericParameter
+}
+
+func (p *PBmmGenericParameter) SetBmmGenericParameter(bmmGenericParameter IBmmParameterType) error {
+	p.bmmGenericParameter = bmmGenericParameter
+	return nil
+}
+
+// CONSTRUCTOR
+func NewPBmmGenericParameter() *PBmmGenericParameter {
+	pbmmgenericparameter := new(PBmmGenericParameter)
+	return pbmmgenericparameter
+}
+
+// FUNCTIONS
+// Create bmm_generic_parameter .
+func (p *PBmmGenericParameter) CreateBmmGenericParameter(a_bmm_schema IBmmModel) {
+	return
+}
+
 /* ============================= PBmmProperty =====================================*/
 /* ============================= PBmmBaseType =====================================*/
 /* ============================= PBmmSimpleType =====================================*/

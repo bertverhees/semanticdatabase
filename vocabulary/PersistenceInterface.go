@@ -69,8 +69,53 @@ type IPBmmPackage interface {
 }
 
 /* ============================= PBmmType =====================================*/
+type IPBmmType interface {
+	//P_BMM_TYPE
+	CreateBmmType(a_schema IBmmModel, a_class_def IBmmClass)
+	AsTypeString() string
+	BmmType() IBmmType
+	SetBmmType(bmmType IBmmType) error
+}
+
 /* ============================= PBmmClass =====================================*/
+type IPBmmClass interface {
+	IPBmmModelElement
+	IsGeneric() bool
+	CreateBmmClass()
+	PopulateBmmClass(a_bmm_schema IBmmModel)
+	Name() string
+	SetName(name string) error
+	Ancestors() []string
+	SetAncestors(ancestors []string) error
+	Properties() map[string]IPBmmProperty
+	SetProperties(properties map[string]IPBmmProperty) error
+	IsAbstract() bool
+	SetIsAbstract(isAbstract bool) error
+	IsOverride() bool
+	SetIsOverride(isOverride bool) error
+	GenericParameterDefs() map[string]IPBmmGenericParameter
+	SetGenericParameterDefs(genericParameterDefs map[string]IPBmmGenericParameter) error
+	SourceSchemaId() string
+	SetSourceSchemaId(sourceSchemaId string) error
+	BmmClass() IBmmClass
+	SetBmmClass(bmmClass IBmmClass) error
+	Uid() int
+	SetUid(uid int) error
+}
+
 /* ============================= PBmmGenericParameter =====================================*/
+type IPBmmGenericParameter interface {
+	IPBmmModelElement
+	CreateBmmGenericParameter(a_bmm_schema IBmmModel)
+	Name() string
+	SetName(name string) error
+	ConformsToType() string
+	SetConformsToType(conformsToType string) error
+	BmmGenericParameter() IBmmParameterType
+	SetBmmGenericParameter(bmmGenericParameter IBmmParameterType) error
+	// From: P_BMM_MODEL_ELEMENT
+}
+
 /* ============================= PBmmProperty =====================================*/
 /* ============================= PBmmBaseType =====================================*/
 /* ============================= PBmmSimpleType =====================================*/

@@ -245,8 +245,169 @@ func (i *PBmmPackageBuilder) Build() (*PBmmPackage, []error) {
 }
 
 /* ============================= PBmmType =====================================*/
+type PBmmTypeBuilder struct {
+	Builder
+}
+
+func (i *PBmmTypeBuilder) SetBmmType(v IBmmType) *PBmmTypeBuilder {
+	i.AddError(i.object.(*PBmmType).SetBmmType(v))
+	return i
+}
+
 /* ============================= PBmmClass =====================================*/
+type PBmmClassBuilder struct {
+	PBmmModelElementBuilder
+}
+
+func NewPBmmClassBuilder() *PBmmClassBuilder {
+	builder := &PBmmClassBuilder{}
+	builder.object = NewPBmmClass()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// name of the class. Persisted attribute.
+func (i *PBmmClassBuilder) SetName(v string) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetName(v))
+	return i
+}
+
+/*
+*
+List of immediate inheritance parents. If there are generic ancestors, use
+ancestor_defs instead. Persisted attribute.
+*/
+func (i *PBmmClassBuilder) SetAncestors(v []string) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetAncestors(v))
+	return i
+}
+
+// List of attributes defined in this class. Persistent attribute.
+func (i *PBmmClassBuilder) SetProperties(v map[string]IPBmmProperty) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetProperties(v))
+	return i
+}
+
+// True if this is an abstract type. Persisted attribute.
+func (i *PBmmClassBuilder) SetIsAbstract(v bool) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsAbstract(v))
+	return i
+}
+
+// True if this class definition overrides one found in an included schema.
+func (i *PBmmClassBuilder) SetIsOverride(v bool) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsOverride(v))
+	return i
+}
+
+// List of generic parameter definitions. Persisted attribute.
+func (i *PBmmClassBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericParameter) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetGenericParameterDefs(v))
+	return i
+}
+
+/*
+*
+Reference to original source schema defining this class. Set during BMM_SCHEMA
+materialise. Useful for GUI tools to enable user to edit the schema file
+containing a given class (i.e. taking into account that a class may be in any of
+the schemas in a schema inclusion hierarchy).
+*/
+func (i *PBmmClassBuilder) SetSourceSchemaId(v string) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+/*
+*
+BMM_CLASS object built by create_bmm_class_definition and
+populate_bmm_class_definition .
+*/
+func (i *PBmmClassBuilder) SetBmmClass(v IBmmClass) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetBmmClass(v))
+	return i
+}
+
+/*
+*
+Unique id generated for later comparison during merging, in order to detect if
+two classes are the same. Assigned in post-load processing.
+*/
+func (i *PBmmClassBuilder) SetUid(v int) *PBmmClassBuilder {
+	i.AddError(i.object.(*PBmmClass).SetUid(v))
+	return i
+}
+
+/*
+*
+List of structured inheritance ancestors, used only in the case of generic
+inheritance. Persisted attribute.
+*/
+//func (i *PBmmClassBuilder) SetAncestorDefs(v []IPBmmGenericType) *PBmmClassBuilder {
+//	i.pbmmclass.AncestorDefs = v
+//	return i
+//}
+
+func (i *PBmmClassBuilder) Build() (*PBmmClass, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmClass), nil
+	}
+}
+
 /* ============================= PBmmGenericParameter =====================================*/
+type PBmmGenericParameterBuilder struct {
+	PBmmModelElementBuilder
+}
+
+func NewPBmmGenericParameterBuilder() *PBmmGenericParameterBuilder {
+	builder := &PBmmGenericParameterBuilder{}
+	builder.object = NewPBmmGenericParameter()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+name of the parameter, e.g. 'T' etc. Persisted attribute. name is limited to 1
+character, upper case.
+*/
+func (i *PBmmGenericParameterBuilder) SetName(v string) *PBmmGenericParameterBuilder {
+	i.AddError(i.object.(*PBmmGenericParameter).SetName(v))
+	return i
+}
+
+/*
+*
+Optional conformance constraint - the name of a type to which a concrete
+substitution of this generic parameter must conform. Persisted attribute.
+*/
+func (i *PBmmGenericParameterBuilder) SetConformsToType(v string) *PBmmGenericParameterBuilder {
+	i.AddError(i.object.(*PBmmGenericParameter).SetConformsToType(v))
+	return i
+}
+
+// BMM_GENERIC_PARAMETER created by create_bmm_generic_parameter .
+func (i *PBmmGenericParameterBuilder) SetBmmGenericParameter(v IBmmParameterType) *PBmmGenericParameterBuilder {
+	i.AddError(i.object.(*PBmmGenericParameter).SetBmmGenericParameter(v))
+	return i
+}
+
+// //From: PBmmModelElement
+// Optional documentation of this element.
+func (i *PBmmGenericParameterBuilder) SetDocumentation(v string) *PBmmGenericParameterBuilder {
+	i.AddError(i.object.(*PBmmGenericParameter).SetDocumentation(v))
+	return i
+}
+
+func (i *PBmmGenericParameterBuilder) Build() (*PBmmGenericParameter, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmGenericParameter), nil
+	}
+}
+
 /* ============================= PBmmProperty =====================================*/
 /* ============================= PBmmBaseType =====================================*/
 /* ============================= PBmmSimpleType =====================================*/
