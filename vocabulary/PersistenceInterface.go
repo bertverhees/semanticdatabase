@@ -178,7 +178,24 @@ type IPBmmContainerType interface {
 }
 
 /* ============================= PBmmSingleProperty =====================================*/
+type IPBmmSingleProperty interface {
+	IPBmmProperty
+	TypeDef() IPBmmType
+	Type() string
+	SetType(_type string) error
+	TypeRef() IPBmmSimpleType
+	SetTypeRef(typeRef IPBmmSimpleType) error
+}
+
 /* ============================= PBmmSinglePropertyOpen =====================================*/
+type IPBmmSinglePropertyOpen interface {
+	IPBmmProperty
+	TypeDef() IPBmmType
+	TypeRef() IPBmmOpenType
+	SetTypeRef(typeRef IPBmmOpenType) error
+	Type() string
+	SetType(_type string) error
+}
 /* ============================= PBmmGenericProperty =====================================*/
 /* ============================= PBmmContainerProperty =====================================*/
 /* ============================= PBmmEnumeration =====================================*/

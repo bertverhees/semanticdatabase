@@ -627,7 +627,99 @@ func (i *PBmmContainerTypeBuilder) Build() (*PBmmContainerType, []error) {
 }
 
 /* ============================= PBmmSingleProperty =====================================*/
+type PBmmSinglePropertyBuilder struct {
+	PBmmPropertyBuilder
+}
+
+func NewPBmmSinglePropertyBuilder() *PBmmSinglePropertyBuilder {
+	builder := &PBmmSinglePropertyBuilder{}
+	builder.object = NewPBmmSingleProperty()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+If the type is a simple type, then this attribute will hold the type name. If
+the type is a container or generic, then type_ref will hold the type definition.
+The resulting type is generated in type_def.
+*/
+func (i *PBmmSinglePropertyBuilder) SetType(v string) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmSingleProperty).SetType(v))
+	return i
+}
+
+/*
+*
+_type definition of this property computed from type for later use in
+bmm_property .
+*/
+func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmSingleProperty).SetTypeRef(v))
+	return i
+}
+
+// From: PBmmProperty
+// BMM_PROPERTY created by create_bmm_property_definition.
+func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmSingleProperty).SetBmmProperty(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) Build() (*PBmmSingleProperty, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmSingleProperty), nil
+	}
+}
+
 /* ============================= PBmmSinglePropertyOpen =====================================*/
+type PBmmSinglePropertyOpenBuilder struct {
+	PBmmPropertyBuilder
+}
+
+func NewPBmmSinglePropertyOpenBuilder() *PBmmSinglePropertyOpenBuilder {
+	builder := &PBmmSinglePropertyOpenBuilder{}
+	builder.object = NewPBmmSinglePropertyOpen()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+_type definition of this property computed from type for later use in
+bmm_property .
+*/
+func (i *PBmmSinglePropertyOpenBuilder) SetTypeRef(v IPBmmOpenType) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmSinglePropertyOpen).SetTypeRef(v))
+	return i
+}
+
+/*
+*
+_type definition of this property, if a simple String type reference. Really we
+should use type_def to be regular in the schema, but that makes the schema more
+wordy and less clear. So we use this persisted String value, and compute the
+type_def on the fly. Persisted attribute.
+*/
+func (i *PBmmSinglePropertyOpenBuilder) SetType(v string) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmSinglePropertyOpen).SetType(v))
+	return i
+}
+
+// BMM_PROPERTY created by create_bmm_property_definition .
+func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmSinglePropertyOpen).SetBmmProperty(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) Build() (*PBmmSinglePropertyOpen, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmSinglePropertyOpen), nil
+	}
+}
+
 /* ============================= PBmmGenericProperty =====================================*/
 /* ============================= PBmmContainerProperty =====================================*/
 /* ============================= PBmmEnumeration =====================================*/

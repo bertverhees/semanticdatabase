@@ -796,12 +796,133 @@ func NewPBmmContainerType() *PBmmContainerType {
 The target type; this converts to the first parameter in generic_parameters in
 BMM_GENERIC_TYPE . Persisted attribute.
 */
-//func (p *PBmmContainerType) TypeRef() IPBmmBaseType {
-//	return nil
-//}
+func (p *PBmmContainerType) TypeRef() IPBmmBaseType {
+	return nil
+}
 
 /* ============================= PBmmSingleProperty =====================================*/
+// Persistent form of BMM_SINGLE_PROPERTY
+type PBmmSingleProperty struct {
+	// embedded for Inheritance
+	PBmmProperty
+	// Constants
+	// Attributes
+	/**
+	If the type is a simple type, then this attribute will hold the type name. If
+	the type is a container or generic, then type_ref will hold the type definition.
+	The resulting type is generated in type_def.
+	*/
+	_type string `yaml:"type" json:"type" xml:"type"`
+	/**
+	_type definition of this property computed from type for later use in
+	bmm_property .
+	*/
+	typeRef IPBmmSimpleType `yaml:"typeref" json:"typeref" xml:"typeref"`
+	// BMM_PROPERTY created by create_bmm_property_definition .
+	bmmProperty IBmmProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+}
+
+func (p *PBmmSingleProperty) Type() string {
+	return p._type
+}
+
+func (p *PBmmSingleProperty) SetType(_type string) error {
+	p._type = _type
+	return nil
+}
+
+func (p *PBmmSingleProperty) TypeRef() IPBmmSimpleType {
+	return p.typeRef
+}
+
+func (p *PBmmSingleProperty) SetTypeRef(typeRef IPBmmSimpleType) error {
+	p.typeRef = typeRef
+	return nil
+}
+
+func (p *PBmmSingleProperty) SetBmmProperty(bmmType IBmmProperty) error {
+	s, ok := bmmType.(IBmmProperty)
+	if !ok {
+		return errors.New("_type-assertion to IBmmProperty in PBmmSingleProperty->SetBmmProperty failed")
+	} else {
+		p.bmmProperty = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmSingleProperty() *PBmmSingleProperty {
+	pbmmsingleproperty := new(PBmmSingleProperty)
+	return pbmmsingleproperty
+}
+
+func (p *PBmmSingleProperty) TypeDef() IPBmmType {
+	return nil
+}
+
 /* ============================= PBmmSinglePropertyOpen =====================================*/
+// Persistent form of a BMM_SINGLE_PROPERTY_OPEN .
+type PBmmSinglePropertyOpen struct {
+	// embedded for Inheritance
+	PBmmProperty
+	// Attributes
+	/**
+	_type definition of this property computed from type for later use in
+	bmm_property .
+	*/
+	typeRef IPBmmOpenType `yaml:"typeref" json:"typeref" xml:"typeref"`
+	/**
+	_type definition of this property, if a simple String type reference. Really we
+	should use type_def to be regular in the schema, but that makes the schema more
+	wordy and less clear. So we use this persisted String value, and compute the
+	type_def on the fly. Persisted attribute.
+	*/
+	_type string `yaml:"type" json:"type" xml:"type"`
+	// BMM_PROPERTY created by create_bmm_property_definition .
+	bmmProperty IBmmProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+}
+
+func (p *PBmmSinglePropertyOpen) TypeRef() IPBmmOpenType {
+	return p.typeRef
+}
+
+func (p *PBmmSinglePropertyOpen) SetTypeRef(typeRef IPBmmOpenType) error {
+	p.typeRef = typeRef
+	return nil
+}
+
+func (p *PBmmSinglePropertyOpen) Type() string {
+	return p._type
+}
+
+func (p *PBmmSinglePropertyOpen) SetType(_type string) error {
+	p._type = _type
+	return nil
+}
+
+func (p *PBmmSinglePropertyOpen) SetBmmProperty(bmmType IBmmProperty) error {
+	s, ok := bmmType.(IBmmProperty)
+	if !ok {
+		return errors.New("_type-assertion to IBmmProperty in PBmmSinglePropertyOpen->SetBmmProperty failed")
+	} else {
+		p.bmmProperty = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmSinglePropertyOpen() *PBmmSinglePropertyOpen {
+	pbmmsinglepropertyopen := new(PBmmSinglePropertyOpen)
+	// Constants
+	return pbmmsinglepropertyopen
+}
+
+// FUNCTIONS
+// Generate type_ref from type and save.
+func (p *PBmmSinglePropertyOpen) TypeDef() IPBmmType {
+	return nil
+}
+
 /* ============================= PBmmGenericProperty =====================================*/
 /* ============================= PBmmContainerProperty =====================================*/
 /* ============================= PBmmEnumeration =====================================*/
