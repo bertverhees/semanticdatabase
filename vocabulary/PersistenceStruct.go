@@ -924,6 +924,49 @@ func (p *PBmmSinglePropertyOpen) TypeDef() IPBmmType {
 }
 
 /* ============================= PBmmGenericProperty =====================================*/
+// Persistent form of BMM_GENERIC_PROPERTY .
+type PBmmGenericProperty struct {
+	// embedded for Inheritance
+	PBmmProperty
+	// Attributes
+	/**
+	_type definition of this property, if not a simple String type reference.
+	Persistent attribute.
+	*/
+	typeDef IPBmmGenericType `yaml:"typedef" json:"typedef" xml:"typedef"`
+	// BMM_PROPERTY created by create_bmm_property_definition .
+	bmmProperty IBmmProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+}
+
+func (p *PBmmGenericProperty) SetTypeDef(typeDef IPBmmType) error {
+	s, ok := typeDef.(IPBmmGenericType)
+	if !ok {
+		return errors.New("_type-assertion to IPBmmGenericType in PBmmSinglePropertyOpen->SetTypeDef failed")
+	} else {
+		p.typeDef = s
+		return nil
+	}
+}
+
+func (p *PBmmGenericProperty) SetBmmProperty(bmmType IBmmProperty) error {
+	s, ok := bmmType.(IBmmProperty)
+	if !ok {
+		return errors.New("_type-assertion to IBmmProperty in PBmmGenericProperty->SetBmmProperty failed")
+	} else {
+		p.bmmProperty = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmGenericProperty() *PBmmGenericProperty {
+	pbmmgenericproperty := new(PBmmGenericProperty)
+	// Constants
+	// From: PBmmProperty
+	// From: PBmmModelElement
+	return pbmmgenericproperty
+}
+
 /* ============================= PBmmContainerProperty =====================================*/
 /* ============================= PBmmEnumeration =====================================*/
 /* ============================= PBmmEnumerationString =====================================*/

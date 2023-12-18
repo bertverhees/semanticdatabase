@@ -721,6 +721,40 @@ func (i *PBmmSinglePropertyOpenBuilder) Build() (*PBmmSinglePropertyOpen, []erro
 }
 
 /* ============================= PBmmGenericProperty =====================================*/
+type PBmmGenericPropertyBuilder struct {
+	PBmmPropertyBuilder
+}
+
+func NewPBmmGenericPropertyBuilder() *PBmmGenericPropertyBuilder {
+	builder := &PBmmGenericPropertyBuilder{}
+	builder.object = NewPBmmGenericProperty()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+_type definition of this property, if not a simple String type reference.
+Persistent attribute.
+*/
+func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmGenericProperty).SetTypeDef(v))
+	return i
+}
+
+// BMM_PROPERTY created by create_bmm_property_definition .
+func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmGenericProperty).SetBmmProperty(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) Build() (*PBmmGenericProperty, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmGenericProperty), nil
+	}
+}
+
 /* ============================= PBmmContainerProperty =====================================*/
 /* ============================= PBmmEnumeration =====================================*/
 /* ============================= PBmmEnumerationString =====================================*/

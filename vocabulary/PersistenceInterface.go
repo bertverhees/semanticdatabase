@@ -196,7 +196,13 @@ type IPBmmSinglePropertyOpen interface {
 	Type() string
 	SetType(_type string) error
 }
+
 /* ============================= PBmmGenericProperty =====================================*/
+type IPBmmGenericProperty interface {
+	IPBmmProperty
+	// From: P_BMM_PROPERTY
+}
+
 /* ============================= PBmmContainerProperty =====================================*/
 /* ============================= PBmmEnumeration =====================================*/
 /* ============================= PBmmEnumerationString =====================================*/
