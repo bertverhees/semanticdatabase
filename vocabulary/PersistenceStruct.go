@@ -1,6 +1,9 @@
 package vocabulary
 
-import "errors"
+import (
+	"errors"
+	"semanticdatabase/base"
+)
 
 /* ============================= PBmmModelElement =====================================*/
 // Persistent form of BMM_MODEL_ELEMENT
@@ -961,13 +964,164 @@ func (p *PBmmGenericProperty) SetBmmProperty(bmmType IBmmProperty) error {
 // CONSTRUCTOR
 func NewPBmmGenericProperty() *PBmmGenericProperty {
 	pbmmgenericproperty := new(PBmmGenericProperty)
-	// Constants
-	// From: PBmmProperty
-	// From: PBmmModelElement
 	return pbmmgenericproperty
 }
 
 /* ============================= PBmmContainerProperty =====================================*/
+// Persistent form of BMM_CONTAINER_PROPERTY .
+type PBmmContainerProperty struct {
+	PBmmProperty
+	// Attributes
+	// cardinality of this property in its class. Persistent attribute.
+	cardinality base.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
+	/**
+	_type definition of this property, if not a simple String type reference.
+	Persistent attribute.
+	*/
+	typeDef IPBmmContainerType `yaml:"typedef" json:"typedef" xml:"typedef"`
+	// BMM_PROPERTY created by create_bmm_property .
+	bmmProperty IBmmContainerProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
+}
+
+func (p *PBmmContainerProperty) Cardinality() base.Interval[int] {
+	return p.cardinality
+}
+
+func (p *PBmmContainerProperty) SetCardinality(cardinality base.Interval[int]) error {
+	p.cardinality = cardinality
+	return nil
+}
+func (p *PBmmContainerProperty) SetTypeDef(typeDef IPBmmType) error {
+	s, ok := typeDef.(IPBmmContainerType)
+	if !ok {
+		return errors.New("_type-assertion to IPBmmContainerType in PBmmContainerProperty->SetTypeDef failed")
+	} else {
+		p.typeDef = s
+		return nil
+	}
+}
+
+func (p *PBmmContainerProperty) SetBmmProperty(bmmType IBmmProperty) error {
+	s, ok := bmmType.(IBmmContainerProperty)
+	if !ok {
+		return errors.New("_type-assertion to IBmmContainerProperty in PBmmContainerProperty->SetBmmProperty failed")
+	} else {
+		p.bmmProperty = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmContainerProperty() *PBmmContainerProperty {
+	pbmmcontainerproperty := new(PBmmContainerProperty)
+	return pbmmcontainerproperty
+}
+
+// FUNCTIONS
+// Create bmm_property_definition .
+func (p *PBmmContainerProperty) CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass) {
+	return
+}
+
 /* ============================= PBmmEnumeration =====================================*/
+type PBmmEnumeration struct {
+	// embedded for Inheritance
+	PBmmClass
+	// Constants
+	// Attributes
+	itemNames  []string `yaml:"itemnames" json:"itemnames" xml:"itemnames"`
+	itemValues []any    `yaml:"itemvalues" json:"itemvalues" xml:"itemvalues"`
+	/**
+	BMM_CLASS object build by create_bmm_class_definition and
+	populate_bmm_class_definition .
+	*/
+	bmmClass IBmmEnumeration `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+}
+
+func (p *PBmmEnumeration) ItemNames() []string {
+	return p.itemNames
+}
+
+func (p *PBmmEnumeration) SetItemNames(itemNames []string) error {
+	p.itemNames = itemNames
+	return nil
+}
+
+func (p *PBmmEnumeration) ItemValues() []any {
+	return p.itemValues
+}
+
+func (p *PBmmEnumeration) SetItemValues(itemValues []any) error {
+	p.itemValues = itemValues
+	return nil
+}
+
+func (b *PBmmEnumeration) SetBmmClass(bmmClass IBmmClass) error {
+	s, ok := bmmClass.(IBmmEnumeration)
+	if !ok {
+		return errors.New("type-assertion  for IBmmEnumeration in PBmmEnumeration->SetBmmClass failed")
+	} else {
+		b.bmmClass = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmEnumeration() *PBmmEnumeration {
+	pbmmenumeration := new(PBmmEnumeration)
+	return pbmmenumeration
+}
+
 /* ============================= PBmmEnumerationString =====================================*/
+// Persistent form of an instance of BMM_ENUMERATION_STRING .
+type PBmmEnumerationString struct {
+	PBmmEnumeration
+	/**
+	BMM_CLASS object build by create_bmm_class_definition and
+	populate_bmm_class_definition .
+	*/
+	bmmClass IBmmEnumerationString `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+}
+
+func (b *PBmmEnumerationString) SetBmmClass(bmmClass IBmmClass) error {
+	s, ok := bmmClass.(IBmmEnumerationString)
+	if !ok {
+		return errors.New("type-assertion  for IBmmEnumerationString in PBmmEnumerationString->SetBmmClass failed")
+	} else {
+		b.bmmClass = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmEnumerationString() *PBmmEnumerationString {
+	pbmmenumerationString := new(PBmmEnumerationString)
+	return pbmmenumerationString
+}
+
 /* ============================= PBmmEnumerationInt =====================================*/
+// Persistent form of an instance of BMM_ENUMERATION_INTEGER .
+type PBmmEnumerationInteger struct {
+	PBmmEnumeration
+	/**
+	BMM_CLASS object build by create_bmm_class_definition and
+	populate_bmm_class_definition .
+	*/
+	bmmClass IBmmEnumerationInteger `yaml:"bmmclass" json:"bmmclass" xml:"bmmclass"`
+}
+
+func (b *PBmmEnumerationInteger) SetBmmClass(bmmClass IBmmClass) error {
+	s, ok := bmmClass.(IBmmEnumerationInteger)
+	if !ok {
+		return errors.New("type-assertion  for IBmmEnumerationInteger in PBmmEnumerationInteger->SetBmmClass failed")
+	} else {
+		b.bmmClass = s
+		return nil
+	}
+}
+
+// CONSTRUCTOR
+func NewPBmmEnumerationInteger() *PBmmEnumerationInteger {
+	pbmmenumerationinteger := new(PBmmEnumerationInteger)
+	return pbmmenumerationinteger
+}

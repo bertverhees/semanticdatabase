@@ -1,5 +1,7 @@
 package vocabulary
 
+import "semanticdatabase/base"
+
 /* ============================= PBmmModelElement =====================================*/
 type PBmmModelElementBuilder struct {
 	Builder
@@ -756,6 +758,140 @@ func (i *PBmmGenericPropertyBuilder) Build() (*PBmmGenericProperty, []error) {
 }
 
 /* ============================= PBmmContainerProperty =====================================*/
+// Persistent form of BMM_ENUMERATION attributes.
+type PBmmContainerPropertyBuilder struct {
+	PBmmPropertyBuilder
+}
+
+func NewPBmmContainerPropertyBuilder() *PBmmContainerPropertyBuilder {
+	builder := &PBmmContainerPropertyBuilder{}
+	builder.object = NewPBmmContainerProperty()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+// cardinality of this property in its class. Persistent attribute.
+func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmContainerProperty).SetCardinality(v))
+	return i
+}
+
+/*
+*
+_type definition of this property, if not a simple String type reference.
+Persistent attribute.
+*/
+func (i *PBmmContainerPropertyBuilder) SetTypeDef(v IPBmmContainerType) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmContainerProperty).SetTypeDef(v))
+	return i
+}
+
+// BMM_PROPERTY created by create_bmm_property .
+func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v IBmmContainerProperty) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmContainerProperty).SetBmmProperty(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) Build() (*PBmmContainerProperty, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmContainerProperty), nil
+	}
+}
+
 /* ============================= PBmmEnumeration =====================================*/
+type PBmmEnumerationBuilder struct {
+	PBmmClassBuilder
+}
+
+func NewPBmmEnumerationBuilder() *PBmmEnumerationBuilder {
+	builder := &PBmmEnumerationBuilder{}
+	builder.object = NewPBmmEnumeration()
+	return builder
+}
+
+// BUILDER ATTRIBUTES
+func (i *PBmmEnumerationBuilder) SetItemNames(v []string) *PBmmEnumerationBuilder {
+	i.object.(*PBmmEnumeration).itemNames = v
+	return i
+}
+func (i *PBmmEnumerationBuilder) SetItemValues(v []any) *PBmmEnumerationBuilder {
+	i.object.(*PBmmEnumeration).itemValues = v
+	return i
+}
+
+/*
+*
+BMM_CLASS object built by create_bmm_class_definition and
+populate_bmm_class_definition .
+*/
+func (i *PBmmEnumerationBuilder) SetBmmClass(v IBmmClass) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmEnumeration).SetBmmClass(v))
+	return i
+}
+func (i *PBmmEnumerationBuilder) Build() (*PBmmEnumeration, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmEnumeration), nil
+	}
+}
+
 /* ============================= PBmmEnumerationString =====================================*/
+type PBmmEnumerationStringBuilder struct {
+	PBmmEnumerationBuilder
+}
+
+func NewPBmmEnumerationStringBuilder() *PBmmEnumerationStringBuilder {
+	builder := &PBmmEnumerationStringBuilder{}
+	builder.object = NewPBmmEnumerationString()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+BMM_CLASS object build by create_bmm_class_definition and
+populate_bmm_class_definition .
+*/
+func (i *PBmmEnumerationStringBuilder) SetBmmClass(v IBmmEnumerationString) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmEnumerationString).SetBmmClass(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) Build() (*PBmmEnumerationString, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmEnumerationString), nil
+	}
+}
+
 /* ============================= PBmmEnumerationInt =====================================*/
+type PBmmEnumerationIntegerBuilder struct {
+	PBmmEnumerationBuilder
+}
+
+func NewPBmmEnumerationIntegerBuilder() *PBmmEnumerationIntegerBuilder {
+	builder := &PBmmEnumerationIntegerBuilder{}
+	builder.object = NewPBmmEnumerationInteger()
+	return builder
+}
+
+//BUILDER ATTRIBUTES
+/**
+BMM_CLASS object build by create_bmm_class_definition and
+populate_bmm_class_definition .
+*/
+func (i *PBmmEnumerationIntegerBuilder) SetBmmClass(v IBmmEnumerationInteger) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmEnumerationInteger).SetBmmClass(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) Build() (*PBmmEnumerationInteger, []error) {
+	if len(i.errors) > 0 {
+		return nil, i.errors
+	} else {
+		return i.object.(*PBmmEnumerationInteger), nil
+	}
+}

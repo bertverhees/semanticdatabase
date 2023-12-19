@@ -204,6 +204,22 @@ type IPBmmGenericProperty interface {
 }
 
 /* ============================= PBmmContainerProperty =====================================*/
+type IPBmmContainerProperty interface {
+	IPBmmProperty
+	CreateBmmProperty(a_bmm_schema IBmmModel, a_class_def IBmmClass)
+}
+
 /* ============================= PBmmEnumeration =====================================*/
+type IPBmmEnumeration interface {
+	IPBmmClass
+}
+
 /* ============================= PBmmEnumerationString =====================================*/
+type IPBmmEnumerationString interface {
+	IPBmmEnumeration
+}
+
 /* ============================= PBmmEnumerationInt =====================================*/
+type IPBmmEnumerationInteger interface {
+	IPBmmEnumeration
+}
