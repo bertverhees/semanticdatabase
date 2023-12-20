@@ -4,7 +4,7 @@ import "errors"
 
 /* ========================= BmmLiteralValue ========================*/
 /**
-Meta-type for literal instance values declared in a model. Instance values may
+Meta-type for literal instance values declared in a model. Instance values should
 be inline values of primitive types in the usual fashion or complex objects in
 syntax form, e.g. JSON.
 */
@@ -19,7 +19,7 @@ type BmmLiteralValue[T IBmmType] struct {
 	value any `yaml:"value" json:"value" xml:"value"`
 	/**
 	Optional specification of formalism of the value_literal attribute for complex
-	values. value may be any of json | json5 | yawl | xml | odin | rdf or another
+	values. value should be any of json | json5 | yawl | xml | odin | rdf or another
 	value agreed by the user community. If not set, json is assumed.
 	*/
 	syntax string `yaml:"syntax" json:"syntax" xml:"syntax"`
@@ -33,7 +33,7 @@ func (b *BmmLiteralValue[T]) ValueLiteral() string {
 
 func (b *BmmLiteralValue[T]) SetValueLiteral(valueLiteral string) error {
 	if valueLiteral == "" {
-		return errors.New("valueLiteral may not be set to empty in BmmLiteralValue")
+		return errors.New("valueLiteral should not be set to empty in BmmLiteralValue")
 	}
 	b.valueLiteral = valueLiteral
 	return nil

@@ -15,7 +15,7 @@ func (i *BmmModelElementBuilder) SetName(v string) *BmmModelElementBuilder {
 Optional documentation of this element, as a keyed list. It is strongly
 recommended to use the following key /type combinations for the relevant
 purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-String "references": String Other keys and value types may be freely added.
+String "references": String Other keys and value types should be freely added.
 */
 func (i *BmmModelElementBuilder) SetDocumentation(v map[string]any) *BmmModelElementBuilder {
 	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
@@ -29,7 +29,7 @@ func (i *BmmModelElementBuilder) SetScope(v IBmmModelElement) *BmmModelElementBu
 }
 
 /*
-Optional meta-data of this element, as a keyed list. May be used to extend the
+Optional meta-data of this element, as a keyed list. should be used to extend the
 meta-model.
 */
 func (i *BmmModelElementBuilder) SetExtensions(v map[string]any) *BmmModelElementBuilder {
@@ -51,8 +51,25 @@ func (i *BmmPackageContainerBuilder) SetScope(v IBmmPackageContainer) *BmmPackag
 /*
 Child packages; keys all in upper case for guaranteed matching.
 */
-func (i *BmmPackageContainerBuilder) SetExtensions(v map[string]IBmmPackage) *BmmPackageContainerBuilder {
+func (i *BmmPackageContainerBuilder) SetPackages(v map[string]IBmmPackage) *BmmPackageContainerBuilder {
 	i.AddError(i.object.(*BmmPackageContainer).SetPackages(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmPackageContainerBuilder) SetName(v string) *BmmPackageContainerBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmPackageContainerBuilder) SetDocumentation(v map[string]any) *BmmPackageContainerBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmPackageContainerBuilder) SetExtensions(v map[string]any) *BmmPackageContainerBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
 	return i
 }
 
@@ -67,13 +84,6 @@ func NewBmmPackageBuilder() *BmmPackageBuilder {
 	return builder
 }
 
-/*********************************/
-func (i *BmmPackageBuilder) SetName(v string) *BmmPackageBuilder {
-	i.AddError(i.object.(*BmmPackage).SetName(v))
-	return i
-}
-
-/*********************************/
 // BUILDER ATTRIBUTES
 // Member modules in this package.
 func (i *BmmPackageBuilder) SetMembers(v []IBmmModule) *BmmPackageBuilder {
@@ -89,6 +99,46 @@ func (i *BmmPackageBuilder) Build() (*BmmPackage, []error) {
 	}
 }
 
+// BmmModelElement
+func (i *BmmPackageBuilder) SetName(v string) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmPackageBuilder) SetDocumentation(v map[string]any) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmPackageBuilder) SetExtensions(v map[string]any) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmPackageContainerBuilder
+func (i *BmmPackageBuilder) SetScope(v IBmmPackageContainer) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmPackageContainer).SetScope(v))
+	return i
+}
+
+func (i *BmmPackageBuilder) SetPackages(v map[string]IBmmPackage) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmPackageContainer).SetPackages(v))
+	return i
+}
+
+// BmmModelMetadataBuilder
+func (i *BmmPackageBuilder) SetRmPublisher(v string) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmModelMetadata).SetRmPublisher(v))
+	return i
+}
+
+// Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
+func (i *BmmPackageBuilder) SetRmRelease(v string) *BmmPackageBuilder {
+	i.AddError(i.object.(*BmmModelMetadata).SetRmRelease(v))
+	return i
+}
+
 /*========================BmmModelBuilder===========================*/
 type BmmModelBuilder struct {
 	BmmModelMetadataBuilder
@@ -101,18 +151,9 @@ func NewBmmModelBuilder() *BmmModelBuilder {
 	return builder
 }
 
-// BUILDER ATTRIBUTES
-// BMMModelElement
-// From: BmmModelElement
-// name of this model element.
-func (i *BmmModelBuilder) SetName(v string) *BmmModelBuilder {
-	i.AddError(i.object.(*BmmModel).SetName(v))
-	return i
-}
-
 /*
 List of other models 'used' (i.e. 'imported' by this model). classes in the
-current model may refer to classes in a used model by specifying the other
+current model should refer to classes in a used model by specifying the other
 class’s scope meta-attribute.
 */
 func (i *BmmModelBuilder) SetUsedModels(v []IBmmModel) *BmmModelBuilder {
@@ -126,7 +167,6 @@ func (i *BmmModelBuilder) SetModules(v map[string]IBmmModule) *BmmModelBuilder {
 	return i
 }
 
-// From: BmmModelElement
 // All classes in this model, keyed by type name.
 func (i *BmmModelBuilder) SetClassDefinitions(v map[string]IBmmClass) *BmmModelBuilder {
 	i.AddError(i.object.(*BmmModel).SetClassDefinitions(v))
@@ -141,15 +181,40 @@ func (i *BmmModelBuilder) Build() (*BmmModel, []error) {
 	}
 }
 
-/*========================BmmModelBuilder===========================*/
+// BmmModelElement
+func (i *BmmModelBuilder) SetName(v string) *BmmModelBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmModelBuilder) SetDocumentation(v map[string]any) *BmmModelBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmModelBuilder) SetExtensions(v map[string]any) *BmmModelBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmPackageContainerBuilder
+func (i *BmmModelBuilder) SetScope(v IBmmPackageContainer) *BmmModelBuilder {
+	i.AddError(i.object.(*BmmPackageContainer).SetScope(v))
+	return i
+}
+
+func (i *BmmModelBuilder) SetPackages(v map[string]IBmmPackage) *BmmModelBuilder {
+	i.AddError(i.object.(*BmmPackageContainer).SetPackages(v))
+	return i
+}
+
+/*========================BmmModuleBuilder===========================*/
 type BmmModuleBuilder struct {
 	BmmModelElementBuilder
 }
 
 // BUILDER ATTRIBUTES
-// BMMModelElement
-// From: BmmModelElement
-// name of this model element.
 func (i *BmmModuleBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmModuleBuilder {
 	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
 	return i
@@ -157,5 +222,27 @@ func (i *BmmModuleBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmModuleBuil
 
 func (i *BmmModuleBuilder) SetFeatures(v []IBmmFormalElement) *BmmModuleBuilder {
 	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmModuleBuilder) SetName(v string) *BmmModuleBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmModuleBuilder) SetDocumentation(v map[string]any) *BmmModuleBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmModuleBuilder) SetExtensions(v map[string]any) *BmmModuleBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+func (i *BmmModuleBuilder) SetScope(v IBmmModelElement) *BmmModuleBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetScope(v))
 	return i
 }

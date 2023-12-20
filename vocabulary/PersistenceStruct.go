@@ -36,7 +36,7 @@ func (P *PBmmPackageContainer) Packages() map[string]IPBmmPackage {
 
 func (P *PBmmPackageContainer) SetPackages(packages map[string]IPBmmPackage) error {
 	if packages == nil {
-		return errors.New("Packages in PBmmPackageContainer may not be set to null")
+		return errors.New("Packages in PBmmPackageContainer should not be set to null")
 	}
 	P.packages = packages
 	return nil
@@ -148,7 +148,7 @@ type PBmmPackage struct {
 	PBmmPackageContainer
 	// Attributes
 	/**
-	name of the package from schema; this name may be qualified if it is a top-level
+	name of the package from schema; this name should be qualified if it is a top-level
 	package within the schema, or unqualified. Persistent attribute.
 	*/
 	name string `yaml:"name" json:"name" xml:"name"`
@@ -270,7 +270,7 @@ type PBmmClass struct {
 	/**
 	Reference to original source schema defining this class. Set during BMM_SCHEMA
 	materialise. Useful for GUI tools to enable user to edit the schema file
-	containing a given class (i.e. taking into account that a class may be in any of
+	containing a given class (i.e. taking into account that a class should be in any of
 	the schemas in a schema inclusion hierarchy).
 	*/
 	sourceSchemaId string `yaml:"sourceschemaid" json:"sourceschemaid" xml:"sourceschemaid"`

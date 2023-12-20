@@ -18,7 +18,7 @@ func NewBmmStatementItem() *BmmStatementItem {
 /* ================ BmmStatementBlock =========================== */
 /**
 A statement 'block' corresponding to the programming language concept of the
-same name. May be used to establish scope in specific languages.
+same name. should be used to establish scope in specific languages.
 */
 
 type BmmStatementBlock struct {
@@ -44,7 +44,7 @@ func NewBmmStatementBlock() *BmmStatementBlock {
 
 /* ================ BmmStatement =========================== */
 /**
-Abstract parent of 'statement' types that may be defined to implement BMM
+Abstract parent of 'statement' types that should be defined to implement BMM
 Routines.
 */
 type BmmStatement struct {
@@ -77,7 +77,7 @@ func (b *BmmDeclaration) Name() string {
 
 func (b *BmmDeclaration) SetName(name string) error {
 	if name == "" {
-		return errors.New("name may not be set to empty in BmmDeclaration")
+		return errors.New("name should not be set to empty in BmmDeclaration")
 	}
 	b.name = name
 	return nil
@@ -89,7 +89,7 @@ func (b *BmmDeclaration) Result() IElWritableVariable {
 
 func (b *BmmDeclaration) SetResult(result IElWritableVariable) error {
 	if result == nil {
-		return errors.New("result may not be set to null in BmmDeclaration")
+		return errors.New("result should not be set to null in BmmDeclaration")
 	}
 	b.result = result
 	return nil
@@ -101,7 +101,7 @@ func (b *BmmDeclaration) Type() IBmmType {
 
 func (b *BmmDeclaration) SetType(_type IBmmType) error {
 	if _type == nil {
-		return errors.New("type may not be set to null in BmmDeclaration")
+		return errors.New("type should not be set to null in BmmDeclaration")
 	}
 	b._type = _type
 	return nil
@@ -118,7 +118,7 @@ func NewBmmDeclaration() *BmmDeclaration {
 /**
 Statement type representing an assignment from a value-generating source to a
 writable entity, i.e. a variable reference or property. At the meta-model level,
-may be understood as an initialisation of an existing meta-model instance.
+should be understood as an initialisation of an existing meta-model instance.
 */
 type BmmAssignment struct {
 	BmmSimpleStatement
@@ -135,7 +135,7 @@ func (b *BmmAssignment) Target() IElValueGenerator {
 
 func (b *BmmAssignment) SetTarget(target IElValueGenerator) error {
 	if target == nil {
-		return errors.New("type may not be set to null in BmmAssignment")
+		return errors.New("type should not be set to null in BmmAssignment")
 	}
 	b.target = target
 	return nil
@@ -147,7 +147,7 @@ func (b *BmmAssignment) Source() IElExpression {
 
 func (b *BmmAssignment) SetSource(source IElExpression) error {
 	if source == nil {
-		return errors.New("type may not be set to null in BmmAssignment")
+		return errors.New("type should not be set to null in BmmAssignment")
 	}
 	b.source = source
 	return nil
@@ -175,7 +175,7 @@ type BmmProcedureCall struct {
 
 func (e *BmmProcedureCall) SetAgent(agent IElAgent) error {
 	if agent == nil {
-		return errors.New("Agent in BmmProcedureCall may not be set to null")
+		return errors.New("Agent in BmmProcedureCall should not be set to null")
 	}
 	s, ok := agent.(IElProcedureAgent)
 	if !ok {
@@ -212,7 +212,7 @@ func (b *BmmAssertion) Expression() IElBooleanExpression {
 
 func (b *BmmAssertion) SetExpression(expression IElBooleanExpression) error {
 	if expression == nil {
-		return errors.New("Expression in BmmAssertion may not be set to null")
+		return errors.New("Expression in BmmAssertion should not be set to null")
 	}
 	b.expression = expression
 	return nil
@@ -251,7 +251,7 @@ func (b *BmmActionTable) DecisionTable() IBmmActionDecisionTable {
 
 func (b *BmmActionTable) SetDecisionTable(decisionTable IBmmActionDecisionTable) error {
 	if decisionTable == nil {
-		return errors.New("decisionTable in BmmActionTable may not be set to null")
+		return errors.New("decisionTable in BmmActionTable should not be set to null")
 	}
 	b.decisionTable = decisionTable
 	return nil

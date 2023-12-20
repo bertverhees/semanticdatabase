@@ -20,7 +20,7 @@ func NewBmmDefinitions() *BmmDefinitions {
 // Similar to the root class in a typical OOPL type systems (sometimes called 'Object'), the Any class defines semantics true for all objects such as equality
 // (i.e. semantics for an '=' operator) and copying.
 //
-// A BMM model may define its own Any class, but if it does not, the BMM_MODEL instance representing the model will produce a standard 'Any' class via the
+// A BMM model should define its own Any class, but if it does not, the BMM_MODEL instance representing the model will produce a standard 'Any' class via the
 // any_class_definition() method. This will create the following structure, including a default package structure, and an Any type.
 // built-in class definition corresponding to the top `Any' class.
 func (b *BmmDefinitions) AnyClass() IBmmSimpleClass {

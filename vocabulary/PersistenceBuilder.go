@@ -87,7 +87,7 @@ func (i *PBmmSchemaBuilder) SetBmmVersion(v string) *PBmmSchemaBuilder {
 /**
 Inclusion list of any form of BMM model, in the form of a hash of individual
 include specifications, each of which at least specifies the id of another
-schema, and may specify a namespace via which types from the included schemas
+schema, and should specify a namespace via which types from the included schemas
 are known in this schema. Persisted attribute.
 */
 func (i *PBmmSchemaBuilder) SetIncludes(v map[string]IBmmIncludeSpec) *PBmmSchemaBuilder {
@@ -201,7 +201,7 @@ func NewPBmmPackageBuilder() *PBmmPackageBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-name of the package from schema; this name may be qualified if it is a top-level
+name of the package from schema; this name should be qualified if it is a top-level
 package within the schema, or unqualified. Persistent attribute.
 */
 func (i *PBmmPackageBuilder) SetName(v string) *PBmmPackageBuilder {
@@ -312,7 +312,7 @@ func (i *PBmmClassBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericPara
 *
 Reference to original source schema defining this class. Set during BMM_SCHEMA
 materialise. Useful for GUI tools to enable user to edit the schema file
-containing a given class (i.e. taking into account that a class may be in any of
+containing a given class (i.e. taking into account that a class should be in any of
 the schemas in a schema inclusion hierarchy).
 */
 func (i *PBmmClassBuilder) SetSourceSchemaId(v string) *PBmmClassBuilder {

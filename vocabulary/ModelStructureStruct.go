@@ -25,13 +25,13 @@ type BmmModelElement struct {
 	"use": String
 	"misuse": String
 	"references": String
-	Other keys and value types may be freely added.
+	Other keys and value types should be freely added.
 	*/
 	documentation map[string]any `yaml:"documentation" json:"documentation" xml:"documentation"`
 	// Model element within which an element is declared.
 	scope IBmmModelElement `yaml:"scope" json:"scope" xml:"scope"`
 	/**
-	Optional meta-data of this element, as a keyed list. May be used to extend the
+	Optional meta-data of this element, as a keyed list. should be used to extend the
 	meta-model.
 	*/
 	extensions map[string]any `yaml:"extensions" json:"extensions" xml:"extensions"`
@@ -44,7 +44,7 @@ func (b *BmmModelElement) Name() string {
 
 func (b *BmmModelElement) SetName(name string) error {
 	if name == "" {
-		return errors.New("name may not be set empty")
+		return errors.New("name should not be set empty")
 	}
 	b.name = name
 	return nil
@@ -65,7 +65,7 @@ func (b *BmmModelElement) Scope() IBmmModelElement {
 
 func (b *BmmModelElement) SetScope(scope IBmmModelElement) error {
 	if scope == nil {
-		return errors.New("scope may not be set to nil")
+		return errors.New("scope should not be set to nil")
 	}
 	b.scope = scope
 	return nil
@@ -116,7 +116,7 @@ func (b *BmmPackageContainer) SetPackages(packages map[string]IBmmPackage) error
 
 func (b *BmmPackageContainer) SetScope(scope IBmmModelElement) error {
 	if scope == nil {
-		return errors.New("scope may not be set to nil")
+		return errors.New("scope should not be set to nil")
 	}
 	s, ok := scope.(IBmmPackageContainer)
 	if !ok {
@@ -170,7 +170,7 @@ func (b *BmmPackageContainer) HasPackagePath(a_path string) bool {
 /* -------------------------- BmmPackage ---------------------------------*/
 /**
 Abstraction of a package as a tree structure whose nodes can contain other
-packages and classes. The name may be qualified if it is a top-level package.
+packages and classes. The name should be qualified if it is a top-level package.
 */
 type BmmPackage struct {
 	BmmPackageContainer
@@ -234,7 +234,7 @@ type BmmModel struct {
 	classDefinitions map[string]IBmmClass `yaml:"classdefinitions" json:"classdefinitions" xml:"classdefinitions"`
 	/**
 	List of other models 'used' (i.e. 'imported' by this model). classes in the
-	current model may refer to classes in a used model by specifying the other
+	current model should refer to classes in a used model by specifying the other
 	class’s scope meta-attribute.
 	*/
 	usedModels []IBmmModel `yaml:"usedmodels" json:"usedmodels" xml:"usedmodels"`
@@ -297,7 +297,7 @@ func (b *BmmModel) ModelId() string {
 
 /*
 *
-Retrieve the class definition corresponding to a_type_name (which may contain a
+Retrieve the class definition corresponding to a_type_name (which should contain a
 generic part).
 */
 func (b *BmmModel) ClassDefinition(a_name string) IBmmClass {
@@ -323,7 +323,7 @@ func (b *BmmModel) HasClassDefinition(a_class_name string) bool {
 /*
 *
 True if a_type_name is already concretely known in the system, including if it
-is generic, which may be open, partially open or closed.
+is generic, which should be open, partially open or closed.
 */
 func (b *BmmModel) HasTypeDefinition(a_type_name string) bool {
 	return false
@@ -400,8 +400,8 @@ func (b *BmmModel) IsDescendantOf(a_class_name string, a_parent_class_name strin
 
 /*
 *
-Check conformance of a_desc_type to an_anc_type ; the types may be generic, and
-may contain open generic parameters like 'T' etc. These are replaced with their
+Check conformance of a_desc_type to an_anc_type ; the types should be generic, and
+should contain open generic parameters like 'T' etc. These are replaced with their
 appropriate constrainer types, or Any during the conformance testing process.
 Conformance is found if: [base class test] types are non-generic, and either
 type names are identical, or else a_desc_type has an_anc_type in its ancestors;
@@ -416,7 +416,7 @@ func (b *BmmModel) TypeConformsTo(a_desc_type string, an_anc_type string) bool {
 
 /*
 *
-Generate type substitutions for the supplied type, which may be simple, generic
+Generate type substitutions for the supplied type, which should be simple, generic
 (closed, open or partially open), or a container type. In the generic and
 container cases, the result is the permutation of the base class type and type
 substitutions of all generic parameters. parameters a_type name of a type.
@@ -427,7 +427,7 @@ func (b *BmmModel) Subtypes(a_type string) []string {
 
 /*
 *
-BMM_SIMPLE_CLASS instance for the Any class. This may be defined in the BMM
+BMM_SIMPLE_CLASS instance for the Any class. This should be defined in the BMM
 schema, but if not, use BMM_DEFINITIONS. any_class .
 */
 func (b *BmmModel) AnyClassDefinition() IBmmSimpleClass {
@@ -482,7 +482,7 @@ func (b *BmmModule) SetFeatures(features []IBmmFormalElement) error {
 
 func (b *BmmModule) SetScope(scope IBmmModelElement) error {
 	if scope == nil {
-		return errors.New("scope may not be set to nil")
+		return errors.New("scope should not be set to nil")
 	}
 	s, ok := scope.(IBmmModel)
 	if !ok {

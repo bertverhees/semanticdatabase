@@ -13,7 +13,7 @@ type BmmFormalElement struct {
 	// Declared or inferred static type of the entity.
 	_type IBmmType `yaml:"type" json:"type" xml:"type"`
 	/**
-	True if this element can be null (Void) at execution time. May be interpreted as
+	True if this element can be null (Void) at execution time. should be interpreted as
 	optionality in subtypes..
 	*/
 	isNullable bool `yaml:"isnullable" json:"isnullable" xml:"isnullable"`
@@ -25,7 +25,7 @@ func (b *BmmFormalElement) Type() IBmmType {
 
 func (b *BmmFormalElement) SetType(_type IBmmType) error {
 	if _type == nil {
-		return errors.New("Type-property BmmFormalElement may not be set to nil")
+		return errors.New("Type-property BmmFormalElement should not be set to nil")
 	}
 	b._type = _type
 	return nil
@@ -144,7 +144,7 @@ func (b *BmmFeatureGroup) Name() string {
 
 func (b *BmmFeatureGroup) SetName(name string) error {
 	if name == "" {
-		return errors.New("Name-property BmmFeatureGroup may not be set to empty")
+		return errors.New("Name-property BmmFeatureGroup should not be set to empty")
 	}
 	b.name = name
 	return nil
@@ -156,7 +156,7 @@ func (b *BmmFeatureGroup) Properties() map[string]string {
 
 func (b *BmmFeatureGroup) SetProperties(properties map[string]string) error {
 	if properties == nil || len(properties) == 0 {
-		return errors.New("Property-property BmmFeatureGroup may not be set to nil or empty")
+		return errors.New("Property-property BmmFeatureGroup should not be set to nil or empty")
 	}
 	b.properties = properties
 	return nil
@@ -221,8 +221,8 @@ type BmmStatic struct {
 /* ------------------- BmmConstant ---------------------- */
 /**
 An immutable, static value-returning element scoped to a class. The value is the
-result of the evaluation of the generator , which may be as simple as a literal
-value, or may be any expression, including a function call.
+result of the evaluation of the generator , which should be as simple as a literal
+value, or should be any expression, including a function call.
 */
 type BmmConstant struct {
 	BmmStatic
@@ -238,7 +238,7 @@ func (b *BmmConstant) Generator() IBmmLiteralValue[IBmmSimpleType] {
 
 func (b *BmmConstant) SetGenerator(generator IBmmLiteralValue[IBmmSimpleType]) error {
 	if generator == nil {
-		return errors.New("Generator-property BmmConstant may not be set to nil")
+		return errors.New("Generator-property BmmConstant should not be set to nil")
 	}
 	b.generator = generator
 	return nil
@@ -513,13 +513,13 @@ type BmmRoutine struct {
 	parameters []IBmmParameter `yaml:"parameters" json:"parameters" xml:"parameters"`
 	/**
 	Boolean conditions that must evaluate to True for the routine to execute
-	correctly, May be used to generate exceptions if included in run-time build. A
+	correctly, should be used to generate exceptions if included in run-time build. A
 	False pre-condition implies an error in the passed parameters.
 	*/
 	preConditions []IBmmAssertion `yaml:"preconditions" json:"preconditions" xml:"preconditions"`
 	/**
 	Boolean conditions that will evaluate to True if the routine executed correctly,
-	May be used to generate exceptions if included in run-time build. A False
+	should be used to generate exceptions if included in run-time build. A False
 	post-condition implies an error (i.e. bug) in routine code.
 	*/
 	postConditions []IBmmAssertion `yaml:"postconditions" json:"postconditions" xml:"postconditions"`
@@ -636,7 +636,7 @@ type BmmOperator struct {
 	// position of operator in syntactic representation.
 	position BmmOperatorPosition `yaml:"position" json:"position" xml:"position"`
 	/**
-	Set of String symbols that may be used to represent this operator in a textual
+	Set of String symbols that should be used to represent this operator in a textual
 	representation of a BMM model.
 	*/
 	symbols []string `yaml:"symbols" json:"symbols" xml:"symbols"`
@@ -755,7 +755,7 @@ type BmmVariable struct {
 
 func (b *BmmVariable) SetScope(scope IBmmModelElement) error {
 	if scope == nil {
-		return errors.New("Scope-property BmmVariable may not be set to nil")
+		return errors.New("Scope-property BmmVariable should not be set to nil")
 	}
 	s, ok := scope.(IBmmRoutine)
 	if !ok {
@@ -989,7 +989,7 @@ func (b *BmmExternalRoutine) MetaData() map[string]string {
 
 func (b *BmmExternalRoutine) SetMetaData(metaData map[string]string) error {
 	if metaData == nil || len(metaData) == 0 {
-		return errors.New("metaData-property BmmExternalRoutine may not be set to nil or empty")
+		return errors.New("metaData-property BmmExternalRoutine should not be set to nil or empty")
 	}
 	b.metaData = metaData
 	return nil

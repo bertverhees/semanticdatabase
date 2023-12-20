@@ -56,7 +56,7 @@ type BmmClass struct {
 	isAbstract bool            //`yaml:"isabstract" json:"isabstract" xml:"isabstract"`
 	invariants []IBmmAssertion //`yaml:"invariants" json:"invariants" xml:"invariants"`
 	/**
-	Subset of procedures that may be used to initialise a new instance of an object,
+	Subset of procedures that should be used to initialise a new instance of an object,
 	and whose execution will guarantee that class invariants are satisfied.
 	*/
 	creators map[string]IBmmProcedure //`yaml:"creators" json:"creators" xml:"creators"`
@@ -75,7 +75,7 @@ func (b *BmmClass) Package() IBmmPackage {
 
 func (b *BmmClass) SetPackage(_package IBmmPackage) error {
 	if _package == nil {
-		return errors.New("_package may not be set to nil")
+		return errors.New("_package should not be set to nil")
 	}
 	b._package = _package
 	return nil
@@ -96,7 +96,7 @@ func (b *BmmClass) SourceSchemaId() string {
 
 func (b *BmmClass) SetSourceSchemaId(sourceSchemaId string) error {
 	if sourceSchemaId == "" {
-		return errors.New("sourceSchemaId may not be set to empty string")
+		return errors.New("sourceSchemaId should not be set to empty string")
 	}
 	b.sourceSchemaId = sourceSchemaId
 	return nil

@@ -171,7 +171,7 @@ func (b *BmmSchemaDescriptor) SchemaId() string {
 
 func (b *BmmSchemaDescriptor) SetSchemaId(schemaId string) error {
 	if schemaId == "" {
-		return errors.New("SchemaId may not be set empty")
+		return errors.New("SchemaId should not be set empty")
 	}
 	b.schemaId = schemaId
 	return nil
@@ -183,7 +183,7 @@ func (b *BmmSchemaDescriptor) MetaData() map[string]string {
 
 func (b *BmmSchemaDescriptor) SetMetaData(metaData map[string]string) error {
 	if metaData == nil || len(metaData) == 0 {
-		return errors.New("metaData may not be set nil or empty")
+		return errors.New("metaData should not be set nil or empty")
 	}
 	b.metaData = metaData
 	return nil
@@ -260,7 +260,7 @@ func (b *BmmSchemaDescriptor) CreateModel() {
 
 /* --------------------- BmmModelMetadata ----------------------------*/
 /**
-Core properties of BMM_MODEL , may be used in a serial representation as well,
+Core properties of BMM_MODEL , should be used in a serial representation as well,
 such as P_BMM_SCHEMA .
 */
 type BmmModelMetadata struct {
@@ -276,7 +276,7 @@ func (b *BmmModelMetadata) RmPublisher() string {
 
 func (b *BmmModelMetadata) SetRmPublisher(rmPublisher string) error {
 	if rmPublisher == "" {
-		return errors.New("rmPublisher may not be set empty")
+		return errors.New("rmPublisher should not be set empty")
 	}
 	b.rmPublisher = rmPublisher
 	return nil
@@ -288,7 +288,7 @@ func (b *BmmModelMetadata) RmRelease() string {
 
 func (b *BmmModelMetadata) SetRmRelease(rmRelease string) error {
 	if rmRelease == "" {
-		return errors.New("rmRelease may not be set empty")
+		return errors.New("rmRelease should not be set empty")
 	}
 	b.rmRelease = rmRelease
 	return nil
@@ -311,7 +311,7 @@ type BmmSchema struct {
 	/**
 	Inclusion list of any form of BMM model, in the form of a hash of individual
 	include specifications, each of which at least specifies the id of another
-	schema, and may specify a namespace via which types from the included schemas
+	schema, and should specify a namespace via which types from the included schemas
 	are known in this schema. Persisted attribute.
 	*/
 	includes map[string]IBmmIncludeSpec `yaml:"includes" json:"includes" xml:"includes"`
@@ -348,7 +348,7 @@ func (b *BmmSchema) BmmVersion() string {
 
 func (b *BmmSchema) SetBmmVersion(bmmVersion string) error {
 	if bmmVersion == "" {
-		return errors.New("bmmVersion may not be set empty")
+		return errors.New("bmmVersion should not be set empty")
 	}
 	b.bmmVersion = bmmVersion
 	return nil
@@ -396,7 +396,7 @@ func (b *BmmSchema) SchemaName() string {
 
 func (b *BmmSchema) SetSchemaName(schemaName string) error {
 	if schemaName == "" {
-		return errors.New("schemaName may not be set empty")
+		return errors.New("schemaName should not be set empty")
 	}
 	b.schemaName = schemaName
 	return nil
@@ -408,7 +408,7 @@ func (b *BmmSchema) SchemaRevision() string {
 
 func (b *BmmSchema) SetSchemaRevision(schemaRevision string) error {
 	if schemaRevision == "" {
-		return errors.New("schemaRevision may not be set empty")
+		return errors.New("schemaRevision should not be set empty")
 	}
 	b.schemaRevision = schemaRevision
 	return nil
@@ -420,7 +420,7 @@ func (b *BmmSchema) SchemaLifecycleState() string {
 
 func (b *BmmSchema) SetSchemaLifecycleState(schemaLifecycleState string) error {
 	if schemaLifecycleState == "" {
-		return errors.New("schemaLifecycleState may not be set empty")
+		return errors.New("schemaLifecycleState should not be set empty")
 	}
 	b.schemaLifecycleState = schemaLifecycleState
 	return nil
@@ -432,7 +432,7 @@ func (b *BmmSchema) SchemaAuthor() string {
 
 func (b *BmmSchema) SetSchemaAuthor(schemaAuthor string) error {
 	if schemaAuthor == "" {
-		return errors.New("schemaAuthor may not be set empty")
+		return errors.New("schemaAuthor should not be set empty")
 	}
 	b.schemaAuthor = schemaAuthor
 	return nil
@@ -444,7 +444,7 @@ func (b *BmmSchema) SchemaDescription() string {
 
 func (b *BmmSchema) SetSchemaDescription(schemaDescription string) error {
 	if schemaDescription == "" {
-		return errors.New("schemaDescription may not be set empty")
+		return errors.New("schemaDescription should not be set empty")
 	}
 	b.schemaDescription = schemaDescription
 	return nil
@@ -522,7 +522,7 @@ func (b *BmmSchema) CreateBmmModel() {
 // From: BMM_SCHEMA
 /**
 Post_state: state = State_includes_processed
-True when validation may be commenced.
+True when validation should be commenced.
 */
 func (b *BmmSchema) ReadToValidate() bool {
 	log.Fatal("The class bmmSchema is not yet supported")
@@ -569,7 +569,7 @@ func (b *BmmIncludeSpec) Id() string {
 
 func (b *BmmIncludeSpec) SetId(id string) error {
 	if id == "" {
-		return errors.New("id may not be set empty")
+		return errors.New("id should not be set empty")
 	}
 	b.id = id
 	return nil

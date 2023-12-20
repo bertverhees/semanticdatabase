@@ -11,7 +11,7 @@ import (
 Abstract idea of specifying a type in some context. This is not the same as
 'defining' a class. A type specification is essentially a reference of some
 kind, that defines the type of an attribute, or function result or argument. It
-may include generic parameters that might or might not be bound. See subtypes.
+should include generic parameters that might or might not be bound. See subtypes.
 */
 type BmmType struct {
 }
@@ -49,7 +49,7 @@ func (b *BmmType) IsPrimitive() bool {
 	return false
 }
 
-// abstract,  _type with any container abstracted away; may be a formal generic type.
+// abstract,  _type with any container abstracted away; should be a formal generic type.
 func (b *BmmType) UnitaryType() IBmmUnitaryType {
 	return nil
 }
@@ -69,7 +69,7 @@ func (b *BmmType) FlattenedTypeList() []string {
 
 /* ---------------------- BmmUnitaryType --------------------------------*/
 /*
-Parent of meta-types that may be used as the type of any instantiated object
+Parent of meta-types that should be used as the type of any instantiated object
 that is not a container object.
 */
 type BmmUnitaryType struct {
@@ -333,7 +333,7 @@ type BmmGenericType struct {
 	/**
 	Generic parameters of the root_type in this type specifier. The order must match
 	the order of the owning class’s formal generic parameter declarations, and the
-	types may be defined types or formal parameter types.
+	types should be defined types or formal parameter types.
 	*/
 	genericParameters []IBmmUnitaryType `yaml:"genericparameters" json:"genericparameters" xml:"genericparameters"`
 	// Defining generic class of this type.
@@ -393,7 +393,7 @@ func (b *BmmGenericType) IsAbstract() bool {
 /*
 *
 (effected) result is base_class.name followed by names of all generic parameter type names,
-which may be open or closed.
+which should be open or closed.
 */
 func (b *BmmGenericType) FlattenedTypeList() []string {
 	return nil
@@ -684,7 +684,7 @@ type BmmIndexedContainerType struct {
 	BmmContainerType
 	// Attributes
 	/**
-	_type of the element index, typically String or Integer , but may be a numeric
+	_type of the element index, typically String or Integer , but should be a numeric
 	type or indeed any type from which a hash value can be derived.
 	*/
 	indexType IBmmSimpleType `yaml:"indextype" json:"indextype" xml:"indextype"`

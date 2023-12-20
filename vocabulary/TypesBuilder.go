@@ -105,7 +105,7 @@ func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
 /**
 Generic parameters of the root_type in this type specifier. The order must match
 the order of the owning class’s formal generic parameter declarations, and the
-types may be defined types or formal parameter types.
+types should be defined types or formal parameter types.
 */
 func (i *BmmGenericTypeBuilder) SetGenericParameters(v []IBmmUnitaryType) *BmmGenericTypeBuilder {
 	i.AddError(i.object.(*BmmGenericType).SetGenericParameters(v))
@@ -351,7 +351,7 @@ func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
 
 //BUILDER ATTRIBUTES
 /**
-_type of the element index, typically String or Integer , but may be a numeric
+_type of the element index, typically String or Integer , but should be a numeric
 type or indeed any type from which a hash value can be derived.
 */
 func (i *BmmIndexedContainerTypeBuilder) SetIndexType(v IBmmSimpleType) *BmmIndexedContainerTypeBuilder {
