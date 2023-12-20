@@ -51,7 +51,8 @@ func (i *BmmModelAccessBuilder) Build() (*BmmModelAccess, []error) {
 
 /* ======================== BmmSchema =====================================*/
 type BmmSchemaBuilder struct {
-	BmmModelMetadataBuilder
+	Builder
+	//BmmModelMetadataBuilder
 }
 
 func (i *BmmSchemaBuilder) SetBmmVersion(v string) *BmmSchemaBuilder {

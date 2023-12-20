@@ -39,7 +39,8 @@ func (i *BmmModelElementBuilder) SetExtensions(v map[string]any) *BmmModelElemen
 
 /*=======================BmmPackageContainerBuilder===========================*/
 type BmmPackageContainerBuilder struct {
-	BmmModelElementBuilder
+	Builder
+	//BmmModelElementBuilder
 }
 
 // Model element within which an element is declared.
@@ -75,7 +76,8 @@ func (i *BmmPackageContainerBuilder) SetExtensions(v map[string]any) *BmmPackage
 
 /*=======================BmmPackageBuilder===========================*/
 type BmmPackageBuilder struct {
-	BmmPackageContainerBuilder
+	Builder
+	//BmmPackageContainerBuilder
 }
 
 func NewBmmPackageBuilder() *BmmPackageBuilder {
@@ -141,8 +143,9 @@ func (i *BmmPackageBuilder) SetRmRelease(v string) *BmmPackageBuilder {
 
 /*========================BmmModelBuilder===========================*/
 type BmmModelBuilder struct {
-	BmmModelMetadataBuilder
-	BmmPackageContainerBuilder
+	Builder
+	//BmmModelMetadataBuilder
+	//BmmPackageContainerBuilder
 }
 
 func NewBmmModelBuilder() *BmmModelBuilder {
@@ -211,7 +214,7 @@ func (i *BmmModelBuilder) SetPackages(v map[string]IBmmPackage) *BmmModelBuilder
 
 /*========================BmmModuleBuilder===========================*/
 type BmmModuleBuilder struct {
-	BmmModelElementBuilder
+	Builder
 }
 
 // BUILDER ATTRIBUTES
