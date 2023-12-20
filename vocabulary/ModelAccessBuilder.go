@@ -109,6 +109,18 @@ func (i *BmmSchemaBuilder) SetSchemaContributors(v []string) *BmmSchemaBuilder {
 	return i
 }
 
+// BmmModelMetadataBuilder
+func (i *BmmSchemaBuilder) SetRmPublisher(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmModelMetadata).SetRmPublisher(v))
+	return i
+}
+
+// Release of model expressed in the schema as a 3-part numeric, e.g. "3.1.0" .
+func (i *BmmSchemaBuilder) SetRmRelease(v string) *BmmSchemaBuilder {
+	i.AddError(i.object.(*BmmModelMetadata).SetRmRelease(v))
+	return i
+}
+
 /* ======================== BmmSchemaDescriptor =====================================*/
 type BmmSchemaDescriptorBuilder struct {
 	Builder
