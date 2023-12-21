@@ -1,46 +1,9 @@
 package vocabulary
 
-import "semanticdatabase/base"
-
-/* ------------------- BmmFormalElement ----------------------- */
-type BmmFormalElementBuilder struct {
-	BmmModelElementBuilder
-}
-
-func (i *BmmFormalElementBuilder) SetType(v IBmmType) *BmmFormalElementBuilder {
-	i.AddError(i.object.(*BmmFormalElement).SetType(v))
-	return i
-}
-
-func (i *BmmFormalElementBuilder) SetMetaData(v bool) *BmmFormalElementBuilder {
-	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
-	return i
-}
-
-/* ------------------- BmmFeature -------------------------- */
-type BmmFeatureBuilder struct {
-	BmmFormalElementBuilder
-}
-
-func (i *BmmFeatureBuilder) SetIsSynthesisedGeneric(v bool) *BmmFeatureBuilder {
-	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
-	return i
-}
-
-func (i *BmmFeatureBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmFeatureBuilder {
-	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
-	return i
-}
-
-func (i *BmmFeatureBuilder) SetGroup(v IBmmFeatureGroup) *BmmFeatureBuilder {
-	i.AddError(i.object.(*BmmFeature).SetGroup(v))
-	return i
-}
-
-func (i *BmmFeatureBuilder) SetScope(v IBmmClass) *BmmFeatureBuilder {
-	i.AddError(i.object.(*BmmFeature).SetScope(v))
-	return i
-}
+import (
+	"errors"
+	"semanticdatabase/base"
+)
 
 /* ------------------- BmmFeatureGroup ---------------------- */
 type BmmFeatureGroupBuilder struct {
@@ -83,6 +46,12 @@ func (i *BmmFeatureGroupBuilder) SetVisibility(v IBmmVisibility) *BmmFeatureGrou
 }
 
 func (i *BmmFeatureGroupBuilder) Build() (*BmmFeatureGroup, []error) {
+	if i.object.(*BmmFeatureGroup).Name() == "" {
+		i.AddError(errors.New("Name property of BmmFeatureGroup should not be set empty"))
+	}
+	if len(i.object.(*BmmFeatureGroup).Properties()) == 0 {
+		i.AddError(errors.New("Properties property of BmmFeatureGroup should not be set to 0 items"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -90,24 +59,9 @@ func (i *BmmFeatureGroupBuilder) Build() (*BmmFeatureGroup, []error) {
 	}
 }
 
-/* ------------------- BmmVisibility ---------------------- */
-type BmmVisibilityBuilder struct {
-	Builder
-}
-
-/* ------------------- BmmInstantiableFeature ---------------------- */
-type BmmInstantiableFeatureBuilder struct {
-	BmmFeatureBuilder
-}
-
-/* ------------------- BmmStatic ---------------------- */
-type BmmStaticBuilder struct {
-	BmmInstantiableFeatureBuilder
-}
-
 /* ------------------- BmmConstant ---------------------- */
 type BmmConstantBuilder struct {
-	BmmStaticBuilder
+	Builder
 }
 
 func NewBmmConstantBuilder() *BmmConstantBuilder {
@@ -124,6 +78,24 @@ func (i *BmmConstantBuilder) SetGenerator(v IBmmLiteralValue[IBmmSimpleType]) *B
 }
 
 func (i *BmmConstantBuilder) Build() (*BmmConstant, []error) {
+	if i.object.(*BmmConstant).Generator() == nil {
+		i.AddError(errors.New("Generator property of BmmFeatureGroup should not be set nil"))
+	}
+	// BmmFeature
+	if i.object.(*BmmConstant).Group() == nil {
+		i.AddError(errors.New("Group property of BmmFeatureGroup should not be set nil"))
+	}
+	if i.object.(*BmmConstant).Scope() == nil {
+		i.AddError(errors.New("Scope property of BmmFeatureGroup should not be set nil"))
+	}
+	//BmmFormalElement
+	if i.object.(*BmmConstant).Type() == nil {
+		i.AddError(errors.New("Type property of BmmFeatureGroup should not be set nil"))
+	}
+	//BmmModelElement
+	if i.object.(*BmmConstant).Name() == "" {
+		i.AddError(errors.New("Name property of BmmFeatureGroup should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -131,9 +103,60 @@ func (i *BmmConstantBuilder) Build() (*BmmConstant, []error) {
 	}
 }
 
+// BmmStatic
+// BmmInstantiableFeature
+// BmmFeature
+func (i *BmmConstantBuilder) SetIsSynthesisedGeneric(v bool) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
+	return i
+}
+
+func (i *BmmConstantBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
+	return i
+}
+
+func (i *BmmConstantBuilder) SetGroup(v IBmmFeatureGroup) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmConstantBuilder) SetScope(v IBmmClass) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmConstantBuilder) SetType(v IBmmType) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
+}
+
+func (i *BmmConstantBuilder) SetMetaData(v bool) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmConstantBuilder) SetName(v string) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmConstantBuilder) SetDocumentation(v map[string]any) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmConstantBuilder) SetExtensions(v map[string]any) *BmmConstantBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
 /* ------------------- BmmSingleton ---------------------- */
 type BmmSingletonBuilder struct {
-	BmmStaticBuilder
+	Builder
 }
 
 func NewBmmSingletonBuilder() *BmmSingletonBuilder {
@@ -150,6 +173,24 @@ func (i *BmmSingletonBuilder) SetGenerator(v IBmmRoutineDefinition) *BmmSingleto
 }
 
 func (i *BmmSingletonBuilder) Build() (*BmmSingleton, []error) {
+	if i.object.(*BmmSingleton).Generator() == nil {
+		i.AddError(errors.New("Generator property of BmmFeatureGroup should not be set nil"))
+	}
+	// BmmFeature
+	if i.object.(*BmmSingleton).Group() == nil {
+		i.AddError(errors.New("Group property of BmmFeatureGroup should not be set nil"))
+	}
+	if i.object.(*BmmSingleton).Scope() == nil {
+		i.AddError(errors.New("Scope property of BmmFeatureGroup should not be set nil"))
+	}
+	//BmmFormalElement
+	if i.object.(*BmmSingleton).Type() == nil {
+		i.AddError(errors.New("Type property of BmmFeatureGroup should not be set nil"))
+	}
+	//BmmModelElement
+	if i.object.(*BmmSingleton).Name() == "" {
+		i.AddError(errors.New("Name property of BmmFeatureGroup should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -157,29 +198,60 @@ func (i *BmmSingletonBuilder) Build() (*BmmSingleton, []error) {
 	}
 }
 
-/* ------------------- BmmProperty ---------------------- */
-type BmmPropertyBuilder struct {
-	BmmInstantiableFeatureBuilder
-}
-
-func (i *BmmPropertyBuilder) SetIsImRuntime(v bool) *BmmPropertyBuilder {
-	i.AddError(i.object.(*BmmProperty).SetIsImRuntime(v))
+// BmmStatic
+// BmmInstantiableFeature
+// BmmFeature
+func (i *BmmSingletonBuilder) SetIsSynthesisedGeneric(v bool) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
 	return i
 }
 
-func (i *BmmPropertyBuilder) SetIsImInfrastructure(v bool) *BmmPropertyBuilder {
-	i.AddError(i.object.(*BmmProperty).SetIsImInfrastructure(v))
+func (i *BmmSingletonBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
 	return i
 }
 
-func (i *BmmPropertyBuilder) SetIsComposition(v bool) *BmmPropertyBuilder {
-	i.AddError(i.object.(*BmmProperty).SetIsComposition(v))
+func (i *BmmSingletonBuilder) SetGroup(v IBmmFeatureGroup) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmSingletonBuilder) SetScope(v IBmmClass) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmSingletonBuilder) SetType(v IBmmType) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
+}
+
+func (i *BmmSingletonBuilder) SetMetaData(v bool) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmSingletonBuilder) SetName(v string) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmSingletonBuilder) SetDocumentation(v map[string]any) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmSingletonBuilder) SetExtensions(v map[string]any) *BmmSingletonBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
 	return i
 }
 
 /* ------------------- BmmUnitaryProperty ---------------------- */
 type BmmUnitaryPropertyBuilder struct {
-	BmmStaticBuilder
+	Builder
 }
 
 func NewBmmUnitaryPropertyBuilder() *BmmUnitaryPropertyBuilder {
@@ -203,9 +275,70 @@ func (i *BmmUnitaryPropertyBuilder) Build() (*BmmUnitaryProperty, []error) {
 	}
 }
 
+// BmmProperty
+func (i *BmmUnitaryPropertyBuilder) SetIsImRuntime(v bool) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetIsImInfrastructure(v bool) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetIsComposition(v bool) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsComposition(v))
+	return i
+}
+
+// BmmInstantiableFeature
+// BmmFeature
+func (i *BmmUnitaryPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetScope(v IBmmClass) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmUnitaryPropertyBuilder) SetMetaData(v bool) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmUnitaryPropertyBuilder) SetName(v string) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetDocumentation(v map[string]any) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmUnitaryPropertyBuilder) SetExtensions(v map[string]any) *BmmUnitaryPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
 /* ------------------- BmmContainerProperty ---------------------- */
 type BmmContainerPropertyBuilder struct {
-	BmmPropertyBuilder
+	Builder
 }
 
 func NewBmmContainerPropertyBuilder() *BmmContainerPropertyBuilder {
@@ -234,9 +367,70 @@ func (i *BmmContainerPropertyBuilder) Build() (*BmmContainerProperty, []error) {
 	}
 }
 
+// BmmProperty
+func (i *BmmContainerPropertyBuilder) SetIsImRuntime(v bool) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetIsImInfrastructure(v bool) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetIsComposition(v bool) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsComposition(v))
+	return i
+}
+
+// BmmInstantiableFeature
+// BmmFeature
+func (i *BmmContainerPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetScope(v IBmmClass) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmContainerPropertyBuilder) SetMetaData(v bool) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmContainerPropertyBuilder) SetName(v string) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetDocumentation(v map[string]any) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmContainerPropertyBuilder) SetExtensions(v map[string]any) *BmmContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
 /* ------------------- BmmIndexedContainerProperty ---------------------- */
 type BmmIndexedContainerPropertyBuilder struct {
-	BmmContainerPropertyBuilder
+	Builder
 }
 
 func NewBmmIndexedContainerPropertyBuilder() *BmmIndexedContainerPropertyBuilder {
@@ -259,34 +453,76 @@ func (i *BmmIndexedContainerPropertyBuilder) Build() (*BmmIndexedContainerProper
 	}
 }
 
-/* ------------------- BmmRoutine ---------------------- */
-type BmmRoutineBuilder struct {
-	BmmInstantiableFeatureBuilder
-}
-
-func (i *BmmRoutineBuilder) SetParameters(v []IBmmParameter) *BmmRoutineBuilder {
-	i.AddError(i.object.(*BmmRoutine).SetParameters(v))
+// BmmContainerProperty
+func (i *BmmIndexedContainerPropertyBuilder) SetCardinality(v *base.MultiplicityInterval[int]) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmContainerProperty).SetCardinality(v))
 	return i
 }
 
-func (i *BmmRoutineBuilder) SetPreConditions(v []IBmmAssertion) *BmmRoutineBuilder {
-	i.AddError(i.object.(*BmmRoutine).SetPreConditions(v))
+// BmmProperty
+func (i *BmmIndexedContainerPropertyBuilder) SetIsImRuntime(v bool) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsImRuntime(v))
 	return i
 }
 
-func (i *BmmRoutineBuilder) SetPostConditions(v []IBmmAssertion) *BmmRoutineBuilder {
-	i.AddError(i.object.(*BmmRoutine).SetPostConditions(v))
+func (i *BmmIndexedContainerPropertyBuilder) SetIsImInfrastructure(v bool) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsImInfrastructure(v))
 	return i
 }
 
-func (i *BmmRoutineBuilder) SetDefinition(v IBmmRoutineDefinition) *BmmRoutineBuilder {
-	i.AddError(i.object.(*BmmRoutine).SetDefinition(v))
+func (i *BmmIndexedContainerPropertyBuilder) SetIsComposition(v bool) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmProperty).SetIsComposition(v))
+	return i
+}
+
+// BmmInstantiableFeature
+// BmmFeature
+func (i *BmmIndexedContainerPropertyBuilder) SetIsSynthesisedGeneric(v bool) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
+	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
+	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) SetGroup(v IBmmFeatureGroup) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) SetScope(v IBmmClass) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmIndexedContainerPropertyBuilder) SetMetaData(v bool) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmIndexedContainerPropertyBuilder) SetName(v string) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) SetDocumentation(v map[string]any) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmIndexedContainerPropertyBuilder) SetExtensions(v map[string]any) *BmmIndexedContainerPropertyBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
 	return i
 }
 
 /* ------------------- BmmFunction ---------------------- */
 type BmmFunctionBuilder struct {
-	BmmRoutineBuilder
+	Builder
 }
 
 func NewBmmFunctionBuilder() *BmmFunctionBuilder {
@@ -312,6 +548,76 @@ func (i *BmmFunctionBuilder) Build() (*BmmFunction, []error) {
 	} else {
 		return i.object.(*BmmFunction), nil
 	}
+}
+
+// BmmRoutine
+func (i *BmmFunctionBuilder) SetParameters(v []IBmmParameter) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetParameters(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetPreConditions(v []IBmmAssertion) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetPreConditions(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetPostConditions(v []IBmmAssertion) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetPostConditions(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetDefinition(v IBmmRoutineDefinition) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetDefinition(v))
+	return i
+}
+
+// BmmFeature
+func (i *BmmFunctionBuilder) SetIsSynthesisedGeneric(v bool) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetGroup(v IBmmFeatureGroup) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetScope(v IBmmClass) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmFunctionBuilder) SetType(v IBmmType) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetMetaData(v bool) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmFunctionBuilder) SetName(v string) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetDocumentation(v map[string]any) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmFunctionBuilder) SetExtensions(v map[string]any) *BmmFunctionBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
 }
 
 /* ------------------- BmmOperator ---------------------- */
@@ -351,7 +657,7 @@ func (i *BmmOperatorBuilder) Build() (*BmmOperator, []error) {
 
 /* ------------------- BmmProcedure ---------------------- */
 type BmmProcedureBuilder struct {
-	BmmRoutineBuilder
+	Builder
 }
 
 func NewBmmProcedureBuilder() *BmmProcedureBuilder {
@@ -375,38 +681,74 @@ func (i *BmmProcedureBuilder) Build() (*BmmProcedure, []error) {
 	}
 }
 
-/* ------------------- BmmVariable ---------------------- */
-type BmmVariableBuilder struct {
-	BmmFormalElementBuilder
-}
-
-func (i *BmmVariableBuilder) SetScope(v IBmmRoutine) *BmmVariableBuilder {
-	i.AddError(i.object.(*BmmVariable).SetScope(v))
+// BmmRoutine
+func (i *BmmProcedureBuilder) SetParameters(v []IBmmParameter) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetParameters(v))
 	return i
 }
 
-/* ------------------- BmmWritableVariable ---------------------- */
-type BmmWritableVariableBuilder struct {
-	BmmVariableBuilder
+func (i *BmmProcedureBuilder) SetPreConditions(v []IBmmAssertion) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetPreConditions(v))
+	return i
 }
 
-func NewWritableVariableBuilder() *BmmWritableVariableBuilder {
-	builder := &BmmWritableVariableBuilder{}
-	builder.object = NewBmmWritableVariable()
-	return builder
+func (i *BmmProcedureBuilder) SetPostConditions(v []IBmmAssertion) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetPostConditions(v))
+	return i
 }
 
-func (i *BmmWritableVariableBuilder) Build() (*BmmWritableVariable, []error) {
-	if len(i.errors) > 0 {
-		return nil, i.errors
-	} else {
-		return i.object.(*BmmWritableVariable), nil
-	}
+func (i *BmmProcedureBuilder) SetDefinition(v IBmmRoutineDefinition) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmRoutine).SetDefinition(v))
+	return i
+}
+
+// BmmFeature
+func (i *BmmProcedureBuilder) SetIsSynthesisedGeneric(v bool) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmFeature).SetIsSynthesisedGeneric(v))
+	return i
+}
+
+func (i *BmmProcedureBuilder) SetFeatureExtensions(v []IBmmFeatureExtension) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmFeature).SetFeatureExtensions(v))
+	return i
+}
+
+func (i *BmmProcedureBuilder) SetGroup(v IBmmFeatureGroup) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmFeature).SetGroup(v))
+	return i
+}
+
+func (i *BmmProcedureBuilder) SetScope(v IBmmClass) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmFeature).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmProcedureBuilder) SetMetaData(v bool) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmProcedureBuilder) SetName(v string) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmProcedureBuilder) SetDocumentation(v map[string]any) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmProcedureBuilder) SetExtensions(v map[string]any) *BmmProcedureBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
 }
 
 /* ------------------- BmmLocal ---------------------- */
 type BmmLocalBuilder struct {
-	BmmWritableVariableBuilder
+	Builder
 }
 
 func NewBmmLocalBuilder() *BmmLocalBuilder {
@@ -423,9 +765,44 @@ func (i *BmmLocalBuilder) Build() (*BmmLocal, []error) {
 	}
 }
 
+// BmmWritableVariable
+// BmmVariable
+func (i *BmmLocalBuilder) SetScope(v IBmmRoutine) *BmmLocalBuilder {
+	i.AddError(i.object.(*BmmVariable).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmLocalBuilder) SetType(v IBmmType) *BmmLocalBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
+}
+
+func (i *BmmLocalBuilder) SetMetaData(v bool) *BmmLocalBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmLocalBuilder) SetName(v string) *BmmLocalBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmLocalBuilder) SetDocumentation(v map[string]any) *BmmLocalBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmLocalBuilder) SetExtensions(v map[string]any) *BmmLocalBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
 /* ------------------- BmmResult ---------------------- */
 type BmmResultBuilder struct {
-	BmmWritableVariableBuilder
+	Builder
 }
 
 func NewBmmResultBuilder() *BmmResultBuilder {
@@ -449,28 +826,38 @@ func (i *BmmResultBuilder) Build() (*BmmResult, []error) {
 	}
 }
 
-/* ------------------- BmmReadonlyVariable ---------------------- */
-type BmmReadonlyVariableBuilder struct {
-	BmmVariableBuilder
+// BmmWritableVariable
+// BmmVariable
+func (i *BmmResultBuilder) SetScope(v IBmmRoutine) *BmmResultBuilder {
+	i.AddError(i.object.(*BmmVariable).SetScope(v))
+	return i
 }
 
-func NewReadonlyVariableBuilder() *BmmReadonlyVariableBuilder {
-	builder := &BmmReadonlyVariableBuilder{}
-	builder.object = NewBmmReadonlyVariable()
-	return builder
+// BmmFormalElement
+func (i *BmmResultBuilder) SetType(v IBmmType) *BmmResultBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
 }
 
-func (i *BmmReadonlyVariableBuilder) Build() (*BmmReadonlyVariable, []error) {
-	if len(i.errors) > 0 {
-		return nil, i.errors
-	} else {
-		return i.object.(*BmmReadonlyVariable), nil
-	}
+func (i *BmmResultBuilder) SetMetaData(v bool) *BmmResultBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmResultBuilder) SetDocumentation(v map[string]any) *BmmResultBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmResultBuilder) SetExtensions(v map[string]any) *BmmResultBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
 }
 
 /* ------------------- BmmSelf ---------------------- */
 type BmmSelfBuilder struct {
-	BmmReadonlyVariableBuilder
+	Builder
 }
 
 func NewBmmSelfBuilder() *BmmSelfBuilder {
@@ -493,9 +880,38 @@ func (i *BmmSelfBuilder) Build() (*BmmSelf, []error) {
 	}
 }
 
+// BmmReadonlyVariable
+// BmmVariable
+func (i *BmmSelfBuilder) SetScope(v IBmmRoutine) *BmmSelfBuilder {
+	i.AddError(i.object.(*BmmVariable).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmSelfBuilder) SetType(v IBmmType) *BmmSelfBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
+}
+
+func (i *BmmSelfBuilder) SetMetaData(v bool) *BmmSelfBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmSelfBuilder) SetDocumentation(v map[string]any) *BmmSelfBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmSelfBuilder) SetExtensions(v map[string]any) *BmmSelfBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
 /* ------------------- BmmParameter ---------------------- */
 type BmmParameterBuilder struct {
-	BmmReadonlyVariableBuilder
+	Builder
 }
 
 func NewBmmParameterBuilder() *BmmParameterBuilder {
@@ -518,14 +934,44 @@ func (i *BmmParameterBuilder) Build() (*BmmParameter, []error) {
 	}
 }
 
-/* ------------------- BmmRoutineDefinition ---------------------- */
-type BmmRouteDefinitionBuilder struct {
-	Builder
+// BmmReadonlyVariable
+// BmmVariable
+func (i *BmmParameterBuilder) SetScope(v IBmmRoutine) *BmmParameterBuilder {
+	i.AddError(i.object.(*BmmVariable).SetScope(v))
+	return i
+}
+
+// BmmFormalElement
+func (i *BmmParameterBuilder) SetType(v IBmmType) *BmmParameterBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetType(v))
+	return i
+}
+
+func (i *BmmParameterBuilder) SetMetaData(v bool) *BmmParameterBuilder {
+	i.AddError(i.object.(*BmmFormalElement).SetIsNullable(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmParameterBuilder) SetName(v string) *BmmParameterBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmParameterBuilder) SetDocumentation(v map[string]any) *BmmParameterBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmParameterBuilder) SetExtensions(v map[string]any) *BmmParameterBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
 }
 
 /* ------------------- BmmLocalRoutine ---------------------- */
 type BmmLocalRoutineBuilder struct {
-	BmmRouteDefinitionBuilder
+	Builder
 }
 
 func NewBmmLocalRoutineBuilder() *BmmLocalRoutineBuilder {
@@ -557,7 +1003,7 @@ func (i *BmmLocalRoutineBuilder) Build() (*BmmLocalRoutine, []error) {
 
 /* ------------------- BmmExternalRoutine ---------------------- */
 type BmmExternalRoutineBuilder struct {
-	BmmRouteDefinitionBuilder
+	Builder
 }
 
 func NewBmmExternalRoutineBuilder() *BmmExternalRoutineBuilder {
@@ -585,6 +1031,18 @@ func (i *BmmExternalRoutineBuilder) Build() (*BmmExternalRoutine, []error) {
 	} else {
 		return i.object.(*BmmExternalRoutine), nil
 	}
+}
+
+// BmmLocalRoutine
+func (i *BmmExternalRoutineBuilder) SetLocals(v []IBmmLocal) *BmmExternalRoutineBuilder {
+	i.AddError(i.object.(*BmmLocalRoutine).SetLocals(v))
+	return i
+}
+
+// body of routine declaration.
+func (i *BmmExternalRoutineBuilder) SetBody(v IBmmStatementBlock) *BmmExternalRoutineBuilder {
+	i.AddError(i.object.(*BmmLocalRoutine).SetBody(v))
+	return i
 }
 
 /* ------------------- BmmFeatureExtension ---------------------- */
