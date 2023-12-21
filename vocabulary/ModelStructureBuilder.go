@@ -2,80 +2,6 @@ package vocabulary
 
 import "errors"
 
-/*=======================BmmModelElementBuilder===========================*/
-type BmmModelElementBuilder struct {
-	Builder
-}
-
-// name of this model element.
-func (i *BmmModelElementBuilder) SetName(v string) *BmmModelElementBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetName(v))
-	return i
-}
-
-/*
-Optional documentation of this element, as a keyed list. It is strongly
-recommended to use the following key /type combinations for the relevant
-purposes: "purpose": String "keywords": List<String> "use": String "misuse":
-String "references": String Other keys and value types should be freely added.
-*/
-func (i *BmmModelElementBuilder) SetDocumentation(v map[string]any) *BmmModelElementBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
-	return i
-}
-
-// Model element within which an element is declared.
-func (i *BmmModelElementBuilder) SetScope(v IBmmModelElement) *BmmModelElementBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetScope(v))
-	return i
-}
-
-/*
-Optional meta-data of this element, as a keyed list. should be used to extend the
-meta-model.
-*/
-func (i *BmmModelElementBuilder) SetExtensions(v map[string]any) *BmmModelElementBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
-	return i
-}
-
-/*=======================BmmPackageContainerBuilder===========================*/
-type BmmPackageContainerBuilder struct {
-	Builder
-	//BmmModelElementBuilder
-}
-
-// Model element within which an element is declared.
-func (i *BmmPackageContainerBuilder) SetScope(v IBmmPackageContainer) *BmmPackageContainerBuilder {
-	i.AddError(i.object.(*BmmPackageContainer).SetScope(v))
-	return i
-}
-
-/*
-Child packages; keys all in upper case for guaranteed matching.
-*/
-func (i *BmmPackageContainerBuilder) SetPackages(v map[string]IBmmPackage) *BmmPackageContainerBuilder {
-	i.AddError(i.object.(*BmmPackageContainer).SetPackages(v))
-	return i
-}
-
-// BmmModelElement
-func (i *BmmPackageContainerBuilder) SetName(v string) *BmmPackageContainerBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetName(v))
-	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
-	return i
-}
-
-func (i *BmmPackageContainerBuilder) SetDocumentation(v map[string]any) *BmmPackageContainerBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
-	return i
-}
-
-func (i *BmmPackageContainerBuilder) SetExtensions(v map[string]any) *BmmPackageContainerBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
-	return i
-}
-
 /*=======================BmmPackageBuilder===========================*/
 type BmmPackageBuilder struct {
 	Builder
@@ -226,43 +152,5 @@ func (i *BmmModelBuilder) SetScope(v IBmmPackageContainer) *BmmModelBuilder {
 
 func (i *BmmModelBuilder) SetPackages(v map[string]IBmmPackage) *BmmModelBuilder {
 	i.AddError(i.object.(*BmmPackageContainer).SetPackages(v))
-	return i
-}
-
-/*========================BmmModuleBuilder===========================*/
-type BmmModuleBuilder struct {
-	Builder
-}
-
-// BUILDER ATTRIBUTES
-func (i *BmmModuleBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
-	return i
-}
-
-func (i *BmmModuleBuilder) SetFeatures(v []IBmmFormalElement) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModule).SetFeatures(v))
-	return i
-}
-
-// BmmModelElement
-func (i *BmmModuleBuilder) SetName(v string) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetName(v))
-	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
-	return i
-}
-
-func (i *BmmModuleBuilder) SetDocumentation(v map[string]any) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
-	return i
-}
-
-func (i *BmmModuleBuilder) SetExtensions(v map[string]any) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
-	return i
-}
-
-func (i *BmmModuleBuilder) SetScope(v IBmmModelElement) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModule).SetScope(v))
 	return i
 }
