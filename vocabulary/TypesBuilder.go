@@ -1,23 +1,8 @@
 package vocabulary
 
-/*======================= BmmTypeBuilder ===========================*/
-type BmmTypeBuilder struct {
-	Builder
-}
-
-/*======================= BmmUnitaryTypeBuilder ===========================*/
-type BmmUnitaryTypeBuilder struct {
-	BmmTypeBuilder
-}
-
-/*======================= BmmEffectiveTypeBuilder ===========================*/
-type BmmEffectiveTypeBuilder struct {
-	BmmUnitaryTypeBuilder
-}
-
 /*======================= BmmParameterTypeBuilder ===========================*/
 type BmmParameterTypeBuilder struct {
-	BmmEffectiveTypeBuilder
+	Builder
 }
 
 func NewBmmParameterTypeBuilder() *BmmParameterTypeBuilder {
@@ -56,24 +41,9 @@ func (i *BmmParameterTypeBuilder) Build() (*BmmParameterType, []error) {
 	}
 }
 
-/*======================= BmmModelTypeBuilder ===========================*/
-type BmmModelTypeBuilder struct {
-	BmmParameterTypeBuilder
-}
-
-func (i *BmmModelTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmModelTypeBuilder {
-	i.AddError(i.object.(*BmmModelType).SetValueConstraint(v))
-	return i
-}
-
-func (i *BmmModelTypeBuilder) SetBaseClass(v IBmmClass) *BmmModelTypeBuilder {
-	i.AddError(i.object.(*BmmModelType).SetBaseClass(v))
-	return i
-}
-
 /*======================= BmmSimpleTypeBuilder ===========================*/
 type BmmSimpleTypeBuilder struct {
-	BmmModelTypeBuilder
+	Builder
 }
 
 func NewBmmSimpleTypeBuilder() *BmmSimpleTypeBuilder {
@@ -90,9 +60,20 @@ func (i *BmmSimpleTypeBuilder) Build() (*BmmSimpleType, []error) {
 	}
 }
 
+// BmmModelTypeBuilder
+func (i *BmmSimpleTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmSimpleTypeBuilder {
+	i.AddError(i.object.(*BmmModelType).SetValueConstraint(v))
+	return i
+}
+
+func (i *BmmSimpleTypeBuilder) SetBaseClass(v IBmmSimpleClass) *BmmSimpleTypeBuilder {
+	i.AddError(i.object.(*BmmSimpleType).SetBaseClass(v))
+	return i
+}
+
 /*======================= BmmGenericTypeBuilder ===========================*/
 type BmmGenericTypeBuilder struct {
-	BmmModelTypeBuilder
+	Builder
 }
 
 func NewBmmGenericTypeBuilder() *BmmGenericTypeBuilder {
@@ -120,19 +101,20 @@ func (i *BmmGenericTypeBuilder) Build() (*BmmGenericType, []error) {
 	}
 }
 
-/*======================= BmmBuiltinTypeBuilder ===========================*/
-type BmmBuiltinTypeBuilder struct {
-	BmmEffectiveTypeBuilder
+// BmmModelTypeBuilder
+func (i *BmmGenericTypeBuilder) SetValueConstraint(v IBmmValueSetSpec) *BmmGenericTypeBuilder {
+	i.AddError(i.object.(*BmmModelType).SetValueConstraint(v))
+	return i
 }
 
-func (i *BmmBuiltinTypeBuilder) SetBaseName(v string) *BmmBuiltinTypeBuilder {
-	i.AddError(i.object.(*BmmBuiltinType).SetBaseName(v))
+func (i *BmmGenericTypeBuilder) SetBaseClass(v IBmmClass) *BmmGenericTypeBuilder {
+	i.AddError(i.object.(*BmmGenericType).SetBaseClass(v))
 	return i
 }
 
 /*======================= BmmTupleTypeBuilder ===========================*/
 type BmmTupleTypeBuilder struct {
-	BmmBuiltinTypeBuilder
+	Builder
 }
 
 func NewBmmTupleTypeBuilder() *BmmTupleTypeBuilder {
@@ -157,8 +139,9 @@ func (i *BmmTupleTypeBuilder) Build() (*BmmTupleType, []error) {
 	}
 }
 
+/*======================= BmmSignatureBuilder ===========================*/
 type BmmSignatureBuilder struct {
-	BmmBuiltinTypeBuilder
+	Builder
 }
 
 func NewBmmSignatureBuilder() *BmmSignatureBuilder {
@@ -184,7 +167,7 @@ func (i *BmmSignatureBuilder) Build() (*BmmSignature, []error) {
 
 /*======================= BmmPropertyTypeBuilder ===========================*/
 type BmmPropertyTypeBuilder struct {
-	BmmSignatureBuilder
+	Builder
 }
 
 func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
@@ -199,6 +182,12 @@ func (i *BmmPropertyTypeBuilder) Build() (*BmmPropertyType, []error) {
 	} else {
 		return i.object.(*BmmPropertyType), nil
 	}
+}
+
+// BmmSignatureBuilder
+func (i *BmmPropertyTypeBuilder) SetResultType(v IBmmType) *BmmPropertyTypeBuilder {
+	i.AddError(i.object.(*BmmSignature).SetResultType(v))
+	return i
 }
 
 /*======================= BmmRoutineTypeBuilder ===========================*/
@@ -230,9 +219,15 @@ func (i *BmmRoutineTypeBuilder) Build() (*BmmRoutineType, []error) {
 	}
 }
 
+// BmmSignatureBuilder
+func (i *BmmRoutineTypeBuilder) SetResultType(v IBmmType) *BmmRoutineTypeBuilder {
+	i.AddError(i.object.(*BmmSignature).SetResultType(v))
+	return i
+}
+
 /*======================= BmmFunctionTypeBuilder ===========================*/
 type BmmFunctionTypeBuilder struct {
-	BmmRoutineTypeBuilder
+	Builder
 }
 
 func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
@@ -249,9 +244,21 @@ func (i *BmmFunctionTypeBuilder) Build() (*BmmFunctionType, []error) {
 	}
 }
 
+// BmmRoutineTypeBuilder
+func (i *BmmFunctionTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmFunctionTypeBuilder {
+	i.AddError(i.object.(*BmmRoutineType).SetArgumentTypes(v))
+	return i
+}
+
+// BmmSignatureBuilder
+func (i *BmmFunctionTypeBuilder) SetResultType(v IBmmType) *BmmFunctionTypeBuilder {
+	i.AddError(i.object.(*BmmSignature).SetResultType(v))
+	return i
+}
+
 /*======================= BmmProcedureTypeBuilder ===========================*/
 type BmmProcedureTypeBuilder struct {
-	BmmRoutineTypeBuilder
+	Builder
 }
 
 func NewBmmProcedureTypeBuilder() *BmmProcedureTypeBuilder {
@@ -268,9 +275,21 @@ func (i *BmmProcedureTypeBuilder) Build() (*BmmProcedureType, []error) {
 	}
 }
 
+// BmmRoutineTypeBuilder
+func (i *BmmProcedureTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmProcedureTypeBuilder {
+	i.AddError(i.object.(*BmmRoutineType).SetArgumentTypes(v))
+	return i
+}
+
+// BmmSignatureBuilder
+func (i *BmmProcedureTypeBuilder) SetResultType(v IBmmType) *BmmProcedureTypeBuilder {
+	i.AddError(i.object.(*BmmSignature).SetResultType(v))
+	return i
+}
+
 /*======================= BmmStatusTypeBuilder ===========================*/
 type BmmStatusTypeBuilder struct {
-	BmmBuiltinTypeBuilder
+	Builder
 }
 
 func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
@@ -289,7 +308,7 @@ func (i *BmmStatusTypeBuilder) Build() (*BmmStatusType, []error) {
 
 /*======================= BmmContainerTypeBuilder ===========================*/
 type BmmContainerTypeBuilder struct {
-	BmmTypeBuilder
+	Builder
 }
 
 func NewBmmContainerTypeBuilder() *BmmContainerTypeBuilder {
@@ -340,7 +359,7 @@ func (i *BmmContainerTypeBuilder) Build() (*BmmContainerType, []error) {
 
 /*======================= BmmIndexedContainerTypeBuilder ===========================*/
 type BmmIndexedContainerTypeBuilder struct {
-	BmmContainerTypeBuilder
+	Builder
 }
 
 func NewBmmIndexedContainerTypeBuilder() *BmmIndexedContainerTypeBuilder {
@@ -365,4 +384,25 @@ func (i *BmmIndexedContainerTypeBuilder) Build() (*BmmIndexedContainerType, []er
 	} else {
 		return i.object.(*BmmIndexedContainerType), nil
 	}
+}
+
+// BmmContainerTypeBuilder
+func (i *BmmIndexedContainerTypeBuilder) SetContainerClass(v IBmmGenericClass) *BmmIndexedContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetContainerClass(v))
+	return i
+}
+
+func (i *BmmIndexedContainerTypeBuilder) SetItemType(v IBmmUnitaryType) *BmmIndexedContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetItemType(v))
+	return i
+}
+
+func (i *BmmIndexedContainerTypeBuilder) SetIsOrdered(v bool) *BmmIndexedContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetIsOrdered(v))
+	return i
+}
+
+func (i *BmmIndexedContainerTypeBuilder) SetIsUnique(v bool) *BmmIndexedContainerTypeBuilder {
+	i.AddError(i.object.(*BmmContainerType).SetIsUnique(v))
+	return i
 }

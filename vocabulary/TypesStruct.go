@@ -131,6 +131,9 @@ func (b *BmmParameterType) Name() string {
 }
 
 func (b *BmmParameterType) SetName(name string) error {
+	if name == "" {
+		return errors.New("Name-property BmmParameterType should not be set to empty")
+	}
 	b.name = name
 	return nil
 }
@@ -304,6 +307,19 @@ func NewBmmSimpleType() *BmmSimpleType {
 	return bmmsimpletype
 }
 
+func (b *BmmSimpleType) SetBaseClass(baseClass IBmmClass) error {
+	if baseClass == nil {
+		return errors.New("baseClass-property BmmSimpleType should not be set to null")
+	}
+	s, ok := baseClass.(IBmmSimpleClass)
+	if !ok {
+		return errors.New("_type-assertion to IBmmSimpleClass in BmmSimpleType->SetBaseClass failed")
+	} else {
+		b.baseClass = s
+		return nil
+	}
+}
+
 // FUNCTIONS
 // (effected) result is base_class.name .
 func (b *BmmSimpleType) TypeName() string {
@@ -353,11 +369,17 @@ func (b *BmmGenericType) GenericParameters() []IBmmUnitaryType {
 }
 
 func (b *BmmGenericType) SetGenericParameters(genericParameters []IBmmUnitaryType) error {
+	if genericParameters == nil || len(genericParameters) == 0 {
+		return errors.New("baseClass-property BmmGenericType should not be set to null or empty array")
+	}
 	b.genericParameters = genericParameters
 	return nil
 }
 
 func (b *BmmGenericType) SetBaseClass(baseClass IBmmClass) error {
+	if baseClass == nil {
+		return errors.New("baseClass-property BmmGenericType should not be set to null")
+	}
 	s, ok := baseClass.(IBmmGenericClass)
 	if !ok {
 		return errors.New("_type-assertion to IBmmGenericClass in BmmGenericType->SetBaseClass failed")
@@ -457,6 +479,9 @@ func (b *BmmTupleType) ItemTypes() map[string]IBmmType {
 }
 
 func (b *BmmTupleType) SetItemTypes(itemTypes map[string]IBmmType) error {
+	if itemTypes == nil || len(itemTypes) == 0 {
+		return errors.New("baseClass-property BmmTupleType should not be set to null or empty map")
+	}
 	b.itemTypes = itemTypes
 	return nil
 }
@@ -488,6 +513,9 @@ func (b *BmmSignature) ResultType() IBmmType {
 }
 
 func (b *BmmSignature) SetResultType(resultType IBmmType) error {
+	if resultType == nil {
+		return errors.New("resultType-property BmmSignature should not be set to null")
+	}
 	b.resultType = resultType
 	return nil
 }
@@ -635,6 +663,9 @@ func (b *BmmContainerType) ContainerClass() IBmmGenericClass {
 }
 
 func (b *BmmContainerType) SetContainerClass(containerClass IBmmGenericClass) error {
+	if containerClass == nil {
+		return errors.New("containerClass-property BmmContainerType should not be set to null")
+	}
 	b.containerClass = containerClass
 	return nil
 }
@@ -644,6 +675,9 @@ func (b *BmmContainerType) ItemType() IBmmUnitaryType {
 }
 
 func (b *BmmContainerType) SetItemType(itemType IBmmUnitaryType) error {
+	if itemType == nil {
+		return errors.New("itemType-property BmmContainerType should not be set to null")
+	}
 	b.itemType = itemType
 	return nil
 }
@@ -695,6 +729,9 @@ func (b *BmmIndexedContainerType) IndexType() IBmmSimpleType {
 }
 
 func (b *BmmIndexedContainerType) SetIndexType(indexType IBmmSimpleType) error {
+	if indexType == nil {
+		return errors.New("indexType-property BmmIndexedContainerType should not be set to null")
+	}
 	b.indexType = indexType
 	return nil
 }
