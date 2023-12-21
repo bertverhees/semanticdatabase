@@ -246,6 +246,6 @@ func (i *BmmModuleBuilder) SetExtensions(v map[string]any) *BmmModuleBuilder {
 }
 
 func (i *BmmModuleBuilder) SetScope(v IBmmModelElement) *BmmModuleBuilder {
-	i.AddError(i.object.(*BmmModelElement).SetScope(v))
+	i.AddError(i.object.(*BmmModule).SetScope(v))
 	return i
 }

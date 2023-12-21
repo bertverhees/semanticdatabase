@@ -327,6 +327,8 @@ func NewBmmSimpleClass() *BmmSimpleClass {
 	bmmsimpleclass.creators = make(map[string]IBmmProcedure)
 	bmmsimpleclass.converters = make(map[string]IBmmProcedure)
 
+	bmmsimpleclass.isOverride = false
+
 	return bmmsimpleclass
 }
 
@@ -380,6 +382,8 @@ func NewBmmGenericClass() *BmmGenericClass {
 	bmmgenericclass.invariants = make([]IBmmAssertion, 0)
 	bmmgenericclass.creators = make(map[string]IBmmProcedure)
 	bmmgenericclass.converters = make(map[string]IBmmProcedure)
+
+	bmmgenericclass.isOverride = false
 
 	return bmmgenericclass
 }
@@ -462,6 +466,9 @@ func NewBmmEnumeration() *BmmEnumeration {
 	bmmenumeration.invariants = make([]IBmmAssertion, 0)
 	bmmenumeration.creators = make(map[string]IBmmProcedure)
 	bmmenumeration.converters = make(map[string]IBmmProcedure)
+
+	bmmenumeration.isOverride = false
+
 	//BmmEnumeration
 	bmmenumeration.itemValues = make([]IBmmPrimitiveValue, 0)
 	return bmmenumeration
@@ -515,6 +522,9 @@ func NewBmmEnumerationString() *BmmEnumerationString {
 	bmmenumerationstring.invariants = make([]IBmmAssertion, 0)
 	bmmenumerationstring.creators = make(map[string]IBmmProcedure)
 	bmmenumerationstring.converters = make(map[string]IBmmProcedure)
+
+	bmmenumerationstring.isOverride = false
+
 	//BmmEnumeration
 	bmmenumerationstring.itemValues = make([]IBmmStringValue, 0)
 
@@ -550,6 +560,9 @@ func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 	bmmenumerationinteger.invariants = make([]IBmmAssertion, 0)
 	bmmenumerationinteger.creators = make(map[string]IBmmProcedure)
 	bmmenumerationinteger.converters = make(map[string]IBmmProcedure)
+
+	bmmenumerationinteger.isOverride = false
+
 	//BmmEnumeration
 	bmmenumerationinteger.itemValues = make([]IBmmIntegerValue, 0)
 
@@ -557,6 +570,9 @@ func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 }
 
 func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmPrimitiveValue) error {
+	if itemValues==nil || len(itemValues) == 0{
+		return errors.New("_type-assertion to in BmmEnumerationInteger should not be set to nil or have an empty array")
+	}
 	b.itemValues = make([]IBmmIntegerValue, 0)
 	for _, s := range itemValues {
 		s, ok := s.(IBmmIntegerValue)

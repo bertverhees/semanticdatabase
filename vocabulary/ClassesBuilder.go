@@ -1,83 +1,10 @@
 package vocabulary
 
-type BmmClassBuilder struct {
-	BmmModuleBuilder
-}
-
-// BUILDER ATTRIBUTES
-func (i *BmmClassBuilder) SetAncestors(v map[string]IBmmModelType) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetAncestors(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetPackage(v IBmmPackage) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetPackage(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetProperties(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetSourceSchemaId(v string) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetSourceSchemaId(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetImmediateDescendants(v []IBmmClass) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetImmediateDescendants(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetIsOverride(v bool) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetIsOverride(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetStaticProperties(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetFunctions(v map[string]IBmmFunction) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetFunctions(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetProcedures(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetIsPrimitive(v bool) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetIsPrimitive(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetIsAbstract(v bool) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetIsAbstract(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetInvariants(v []IBmmAssertion) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetInvariants(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetCreators(v map[string]IBmmProcedure) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetCreators(v))
-	return i
-}
-
-func (i *BmmClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmClassBuilder {
-	i.AddError(i.object.(*BmmClass).SetConverters(v))
-	return i
-}
+import "errors"
 
 /*========================= BmmSimpleClassBuilder ===============================*/
 type BmmSimpleClassBuilder struct {
-	BmmClassBuilder
+	Builder
 }
 
 func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
@@ -86,19 +13,19 @@ func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
 	return builder
 }
 
-/*********************************/
-func (i *BmmSimpleClassBuilder) SetName(v string) *BmmSimpleClassBuilder {
-	i.AddError(i.object.(*BmmSimpleClass).SetName(v))
-	return i
-}
-
-func (i *BmmSimpleClassBuilder) SetPackage(v IBmmPackage) *BmmSimpleClassBuilder {
-	i.AddError(i.object.(*BmmSimpleClass).SetPackage(v))
-	return i
-}
-
-/*********************************/
 func (i *BmmSimpleClassBuilder) Build() (*BmmSimpleClass, []error) {
+	if i.object.(*BmmSimpleClass).Name() == "" {
+		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+	}
+	if i.object.(*BmmSimpleClass).Scope() == nil {
+		i.AddError(errors.New("scope in BmmSimpleClass should not be set nil"))
+	}
+	if i.object.(*BmmSimpleClass).Package() == nil {
+		i.AddError(errors.New("Package in BmmSimpleClass should not be set nil"))
+	}
+	if i.object.(*BmmSimpleClass).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -106,9 +33,113 @@ func (i *BmmSimpleClassBuilder) Build() (*BmmSimpleClass, []error) {
 	}
 }
 
+// BmmModule
+func (i *BmmSimpleClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetFeatures(v []IBmmFormalElement) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetScope(v IBmmModelElement) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmModule).SetScope(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmSimpleClassBuilder) SetName(v string) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetDocumentation(v map[string]any) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetExtensions(v map[string]any) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmClass
+func (i *BmmSimpleClassBuilder) SetAncestors(v map[string]IBmmModelType) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetPackage(v IBmmPackage) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetPackage(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetProperties(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetSourceSchemaId(v string) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetImmediateDescendants(v []IBmmClass) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetImmediateDescendants(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetIsOverride(v bool) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetStaticProperties(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetFunctions(v map[string]IBmmFunction) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetFunctions(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetProcedures(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetIsPrimitive(v bool) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsPrimitive(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetIsAbstract(v bool) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetInvariants(v []IBmmAssertion) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetInvariants(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetCreators(v map[string]IBmmProcedure) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetCreators(v))
+	return i
+}
+
+func (i *BmmSimpleClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmSimpleClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetConverters(v))
+	return i
+}
+
 /* ============================= BmmGenericClass ============================ */
 type BmmGenericClassBuilder struct {
-	BmmClassBuilder
+	Builder
 }
 
 func NewBmmGenericClassBuilder() *BmmGenericClassBuilder {
@@ -129,6 +160,21 @@ func (i *BmmGenericClassBuilder) SetGenericParameters(v map[string]IBmmParameter
 }
 
 func (i *BmmGenericClassBuilder) Build() (*BmmGenericClass, []error) {
+	if i.object.(*BmmGenericClass).Name() == "" {
+		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+	}
+	if i.object.(*BmmGenericClass).Scope() == nil {
+		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set nil"))
+	}
+	if i.object.(*BmmGenericClass).Package() == nil {
+		i.AddError(errors.New("Package in BmmGenericClass should not be set nil"))
+	}
+	if i.object.(*BmmGenericClass).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+	}
+	if len(i.object.(*BmmGenericClass).GenericParameters()) == 0 {
+		i.AddError(errors.New("GenericParameters in BmmGenericClass should not be set to nil"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -136,9 +182,113 @@ func (i *BmmGenericClassBuilder) Build() (*BmmGenericClass, []error) {
 	}
 }
 
+// BmmModule
+func (i *BmmGenericClassBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetFeatures(v []IBmmFormalElement) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetScope(v IBmmModelElement) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmModule).SetScope(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmGenericClassBuilder) SetName(v string) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetDocumentation(v map[string]any) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetExtensions(v map[string]any) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmClass
+func (i *BmmGenericClassBuilder) SetAncestors(v map[string]IBmmModelType) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetPackage(v IBmmPackage) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetPackage(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetProperties(v map[string]IBmmProperty) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetProperties(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetSourceSchemaId(v string) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetImmediateDescendants(v []IBmmClass) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetImmediateDescendants(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetIsOverride(v bool) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetStaticProperties(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetFunctions(v map[string]IBmmFunction) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetFunctions(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetProcedures(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetIsPrimitive(v bool) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsPrimitive(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetIsAbstract(v bool) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetInvariants(v []IBmmAssertion) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetInvariants(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetCreators(v map[string]IBmmProcedure) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetCreators(v))
+	return i
+}
+
+func (i *BmmGenericClassBuilder) SetConverters(v map[string]IBmmProcedure) *BmmGenericClassBuilder {
+	i.AddError(i.object.(*BmmClass).SetConverters(v))
+	return i
+}
+
 /* ============================= BmmEnumeration ============================ */
 type BmmEnumerationBuilder struct {
-	BmmSimpleClassBuilder
+	Builder
 }
 
 func NewBmmEnumerationBuilder() *BmmEnumerationBuilder {
@@ -164,6 +314,21 @@ func (i *BmmEnumerationBuilder) SetItemValues(v []IBmmPrimitiveValue) *BmmEnumer
 }
 
 func (i *BmmEnumerationBuilder) Build() (*BmmEnumeration, []error) {
+	if i.object.(*BmmEnumeration).Name() == "" {
+		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+	}
+	if i.object.(*BmmEnumeration).Scope() == nil {
+		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set nil"))
+	}
+	if i.object.(*BmmEnumeration).Package() == nil {
+		i.AddError(errors.New("Package in BmmEnumeration should not be set nil"))
+	}
+	if i.object.(*BmmEnumeration).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+	}
+	if len(i.object.(*BmmEnumeration).NameMap()) == 0 {
+		i.AddError(errors.New("NameMap in BmmEnumeration should not be set to nil"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -171,9 +336,113 @@ func (i *BmmEnumerationBuilder) Build() (*BmmEnumeration, []error) {
 	}
 }
 
+// BmmModule
+func (i *BmmEnumerationBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetFeatures(v []IBmmFormalElement) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetScope(v IBmmModelElement) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmModule).SetScope(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmEnumerationBuilder) SetName(v string) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetDocumentation(v map[string]any) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetExtensions(v map[string]any) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmClass
+func (i *BmmEnumerationBuilder) SetAncestors(v map[string]IBmmModelType) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetPackage(v IBmmPackage) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetPackage(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetProperties(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetSourceSchemaId(v string) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetImmediateDescendants(v []IBmmClass) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetImmediateDescendants(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetIsOverride(v bool) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetStaticProperties(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetFunctions(v map[string]IBmmFunction) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetFunctions(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetProcedures(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetIsPrimitive(v bool) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsPrimitive(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetIsAbstract(v bool) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetInvariants(v []IBmmAssertion) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetInvariants(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetCreators(v map[string]IBmmProcedure) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetCreators(v))
+	return i
+}
+
+func (i *BmmEnumerationBuilder) SetConverters(v map[string]IBmmProcedure) *BmmEnumerationBuilder {
+	i.AddError(i.object.(*BmmClass).SetConverters(v))
+	return i
+}
+
 /* ============================= BmmEnumerationString ============================ */
 type BmmEnumerationStringBuilder struct {
-	BmmEnumerationBuilder
+	Builder
 }
 
 func NewBmmEnumerationStringBuilder() *BmmEnumerationStringBuilder {
@@ -188,6 +457,21 @@ func (i *BmmEnumerationStringBuilder) SetItemValues(v []IBmmPrimitiveValue) *Bmm
 }
 
 func (i *BmmEnumerationStringBuilder) Build() (*BmmEnumerationString, []error) {
+	if i.object.(*BmmEnumerationString).Name() == "" {
+		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+	}
+	if i.object.(*BmmEnumerationString).Scope() == nil {
+		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set nil"))
+	}
+	if i.object.(*BmmEnumerationString).Package() == nil {
+		i.AddError(errors.New("Package in BmmEnumerationInteger should not be set nil"))
+	}
+	if i.object.(*BmmEnumerationString).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+	}
+	if len(i.object.(*BmmEnumerationString).NameMap()) == 0 {
+		i.AddError(errors.New("NameMap in BmmEnumeration should not be set to nil"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -195,9 +479,113 @@ func (i *BmmEnumerationStringBuilder) Build() (*BmmEnumerationString, []error) {
 	}
 }
 
+// BmmModule
+func (i *BmmEnumerationStringBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetFeatures(v []IBmmFormalElement) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetScope(v IBmmModelElement) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmModule).SetScope(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmEnumerationStringBuilder) SetName(v string) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetDocumentation(v map[string]any) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetExtensions(v map[string]any) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmClass
+func (i *BmmEnumerationStringBuilder) SetAncestors(v map[string]IBmmModelType) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetPackage(v IBmmPackage) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetPackage(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetProperties(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetSourceSchemaId(v string) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetImmediateDescendants(v []IBmmClass) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetImmediateDescendants(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetIsOverride(v bool) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetStaticProperties(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetFunctions(v map[string]IBmmFunction) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetFunctions(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetProcedures(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetIsPrimitive(v bool) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsPrimitive(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetIsAbstract(v bool) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetInvariants(v []IBmmAssertion) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetInvariants(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetCreators(v map[string]IBmmProcedure) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetCreators(v))
+	return i
+}
+
+func (i *BmmEnumerationStringBuilder) SetConverters(v map[string]IBmmProcedure) *BmmEnumerationStringBuilder {
+	i.AddError(i.object.(*BmmClass).SetConverters(v))
+	return i
+}
+
 /* ============================= BmmEnumerationInteger ============================ */
 type BmmEnumerationIntegerBuilder struct {
-	BmmEnumerationBuilder
+	Builder
 }
 
 func NewBmmEnumerationIntegerBuilder() *BmmEnumerationIntegerBuilder {
@@ -212,6 +600,24 @@ func (i *BmmEnumerationIntegerBuilder) SetItemValues(v []IBmmPrimitiveValue) *Bm
 }
 
 func (i *BmmEnumerationIntegerBuilder) Build() (*BmmEnumerationInteger, []error) {
+	if i.object.(*BmmEnumerationInteger).Name() == "" {
+		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+	}
+	if i.object.(*BmmEnumerationInteger).Scope() == nil {
+		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set empty"))
+	}
+	if i.object.(*BmmEnumerationInteger).Package() == nil {
+		i.AddError(errors.New("Package in BmmEnumerationInteger should not be set nil"))
+	}
+	if len(i.object.(*BmmEnumerationInteger).ItemValues()) == 0 {
+		i.AddError(errors.New("ItemValues to in BmmEnumeration should not be set to nil"))
+	}
+	if i.object.(*BmmEnumerationInteger).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+	}
+	if len(i.object.(*BmmEnumerationInteger).NameMap()) == 0 {
+		i.AddError(errors.New("NameMap in BmmEnumeration should not be set to nil"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -219,7 +625,111 @@ func (i *BmmEnumerationIntegerBuilder) Build() (*BmmEnumerationInteger, []error)
 	}
 }
 
-/* ============================= BmmEnumerationInteger ============================ */
+// BmmModule
+func (i *BmmEnumerationIntegerBuilder) SetFeatureGroups(v []IBmmFeatureGroup) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatureGroups(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetFeatures(v []IBmmFormalElement) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmModule).SetFeatures(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetScope(v IBmmModelElement) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmModule).SetScope(v))
+	return i
+}
+
+// BmmModelElement
+func (i *BmmEnumerationIntegerBuilder) SetName(v string) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetName(v))
+	//return BmmModelElementBuilder.SetName(v).(IBmmPackageContainerBuilder)
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetDocumentation(v map[string]any) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetDocumentation(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetExtensions(v map[string]any) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmModelElement).SetExtensions(v))
+	return i
+}
+
+// BmmClass
+func (i *BmmEnumerationIntegerBuilder) SetAncestors(v map[string]IBmmModelType) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetPackage(v IBmmPackage) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetPackage(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetProperties(v map[string]IBmmProperty) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetProperties(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetSourceSchemaId(v string) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetImmediateDescendants(v []IBmmClass) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetImmediateDescendants(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetIsOverride(v bool) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetStaticProperties(v map[string]IBmmStatic) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetStaticProperties(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetFunctions(v map[string]IBmmFunction) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetFunctions(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetProcedures(v map[string]IBmmProcedure) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetProcedures(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetIsPrimitive(v bool) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsPrimitive(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetIsAbstract(v bool) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetInvariants(v []IBmmAssertion) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetInvariants(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetCreators(v map[string]IBmmProcedure) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetCreators(v))
+	return i
+}
+
+func (i *BmmEnumerationIntegerBuilder) SetConverters(v map[string]IBmmProcedure) *BmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*BmmClass).SetConverters(v))
+	return i
+}
+
+/* ============================= BmmValueSetSpec ============================ */
 type BmmValueSetSpecBuilder struct {
 	Builder
 }

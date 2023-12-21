@@ -44,7 +44,7 @@ func (b *BmmModelElement) Name() string {
 
 func (b *BmmModelElement) SetName(name string) error {
 	if name == "" {
-		return errors.New("name should not be set empty")
+		return errors.New("name in BmmModelElement should not be set empty")
 	}
 	b.name = name
 	return nil
