@@ -15,7 +15,7 @@ func NewBmmSimpleClassBuilder() *BmmSimpleClassBuilder {
 
 func (i *BmmSimpleClassBuilder) Build() (*BmmSimpleClass, []error) {
 	if i.object.(*BmmSimpleClass).Name() == "" {
-		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("name in BmmSimpleClass should not be set empty"))
 	}
 	if i.object.(*BmmSimpleClass).Scope() == nil {
 		i.AddError(errors.New("scope in BmmSimpleClass should not be set nil"))
@@ -24,7 +24,7 @@ func (i *BmmSimpleClassBuilder) Build() (*BmmSimpleClass, []error) {
 		i.AddError(errors.New("Package in BmmSimpleClass should not be set nil"))
 	}
 	if i.object.(*BmmSimpleClass).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("SourceSchemaId in BmmSimpleClass should not be set empty"))
 	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
@@ -161,16 +161,16 @@ func (i *BmmGenericClassBuilder) SetGenericParameters(v map[string]IBmmParameter
 
 func (i *BmmGenericClassBuilder) Build() (*BmmGenericClass, []error) {
 	if i.object.(*BmmGenericClass).Name() == "" {
-		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("name in BmmGenericClass should not be set empty"))
 	}
 	if i.object.(*BmmGenericClass).Scope() == nil {
-		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set nil"))
+		i.AddError(errors.New("scope in BmmGenericClass should not be set nil"))
 	}
 	if i.object.(*BmmGenericClass).Package() == nil {
 		i.AddError(errors.New("Package in BmmGenericClass should not be set nil"))
 	}
 	if i.object.(*BmmGenericClass).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("SourceSchemaId in BmmGenericClass should not be set empty"))
 	}
 	if len(i.object.(*BmmGenericClass).GenericParameters()) == 0 {
 		i.AddError(errors.New("GenericParameters in BmmGenericClass should not be set to nil"))
@@ -315,16 +315,16 @@ func (i *BmmEnumerationBuilder) SetItemValues(v []IBmmPrimitiveValue) *BmmEnumer
 
 func (i *BmmEnumerationBuilder) Build() (*BmmEnumeration, []error) {
 	if i.object.(*BmmEnumeration).Name() == "" {
-		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("name in BmmEnumeration should not be set empty"))
 	}
 	if i.object.(*BmmEnumeration).Scope() == nil {
-		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set nil"))
+		i.AddError(errors.New("scope in BmmEnumeration should not be set nil"))
 	}
 	if i.object.(*BmmEnumeration).Package() == nil {
 		i.AddError(errors.New("Package in BmmEnumeration should not be set nil"))
 	}
 	if i.object.(*BmmEnumeration).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("SourceSchemaId in BmmEnumeration should not be set empty"))
 	}
 	if len(i.object.(*BmmEnumeration).NameMap()) == 0 {
 		i.AddError(errors.New("NameMap in BmmEnumeration should not be set to nil"))
@@ -458,19 +458,19 @@ func (i *BmmEnumerationStringBuilder) SetItemValues(v []IBmmPrimitiveValue) *Bmm
 
 func (i *BmmEnumerationStringBuilder) Build() (*BmmEnumerationString, []error) {
 	if i.object.(*BmmEnumerationString).Name() == "" {
-		i.AddError(errors.New("name in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("name in BmmEnumerationString should not be set empty"))
 	}
 	if i.object.(*BmmEnumerationString).Scope() == nil {
-		i.AddError(errors.New("scope in BmmEnumerationInteger should not be set nil"))
+		i.AddError(errors.New("scope in BmmEnumerationString should not be set nil"))
 	}
 	if i.object.(*BmmEnumerationString).Package() == nil {
-		i.AddError(errors.New("Package in BmmEnumerationInteger should not be set nil"))
+		i.AddError(errors.New("Package in BmmEnumerationString should not be set nil"))
 	}
 	if i.object.(*BmmEnumerationString).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId in BmmEnumerationInteger should not be set empty"))
+		i.AddError(errors.New("SourceSchemaId in BmmEnumerationString should not be set empty"))
 	}
 	if len(i.object.(*BmmEnumerationString).NameMap()) == 0 {
-		i.AddError(errors.New("NameMap in BmmEnumeration should not be set to nil"))
+		i.AddError(errors.New("NameMap in BmmEnumerationString should not be set to nil"))
 	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
@@ -762,6 +762,12 @@ func (i *BmmValueSetSpecBuilder) SetValueSetId(v string) *BmmValueSetSpecBuilder
 }
 
 func (i *BmmValueSetSpecBuilder) Build() (*BmmValueSetSpec, []error) {
+	if i.object.(*BmmValueSetSpec).ResourceId() == "" {
+		i.AddError(errors.New("name in BmmValueSetSpec should not be set empty"))
+	}
+	if i.object.(*BmmValueSetSpec).ValueSetId() == "" {
+		i.AddError(errors.New("name in BmmValueSetSpec should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
