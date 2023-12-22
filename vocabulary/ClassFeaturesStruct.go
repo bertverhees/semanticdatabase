@@ -104,6 +104,9 @@ func (b *BmmFeature) Group() IBmmFeatureGroup {
 }
 
 func (b *BmmFeature) SetGroup(group IBmmFeatureGroup) error {
+	if group == nil {
+		return errors.New("Group-property BmmFeature should not be set to nil")
+	}
 	b.group = group
 	return nil
 }
@@ -604,6 +607,9 @@ func (b *BmmFunction) Result() IBmmResult {
 }
 
 func (b *BmmFunction) SetResult(result IBmmResult) error {
+	if result == nil {
+		return errors.New("result-property BmmFunction should not be set to nil")
+	}
 	b.result = result
 	return nil
 }
@@ -644,12 +650,12 @@ type BmmOperator struct {
 	name string `yaml:"name" json:"name" xml:"name"`
 }
 
-func (b *BmmOperator) Position() BmmOperatorPosition {
-	return b.position
+func (b *BmmOperator) Position() *BmmOperatorPosition {
+	return &b.position
 }
 
-func (b *BmmOperator) SetPosition(position BmmOperatorPosition) error {
-	b.position = position
+func (b *BmmOperator) SetPosition(position *BmmOperatorPosition) error {
+	b.position = *position
 	return nil
 }
 
@@ -881,12 +887,12 @@ type BmmParameter struct {
 	direction BmmParameterDirection `yaml:"direction" json:"direction" xml:"direction"`
 }
 
-func (b *BmmParameter) Direction() BmmParameterDirection {
-	return b.direction
+func (b *BmmParameter) Direction() *BmmParameterDirection {
+	return &b.direction
 }
 
-func (b *BmmParameter) SetDirection(direction BmmParameterDirection) error {
-	b.direction = direction
+func (b *BmmParameter) SetDirection(direction *BmmParameterDirection) error {
+	b.direction = *direction
 	return nil
 }
 
@@ -954,6 +960,9 @@ func (b *BmmLocalRoutine) Body() IBmmStatementBlock {
 }
 
 func (b *BmmLocalRoutine) SetBody(body IBmmStatementBlock) error {
+	if body == nil {
+		return errors.New("Body property of BmmLocalRoutine should not be set nil")
+	}
 	b.body = body
 	return nil
 }
