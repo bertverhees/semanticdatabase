@@ -76,11 +76,6 @@ func (i *ElLiteralBuilder) Build() (*ElLiteral, []error) {
 	}
 }
 
-/* ======================= ElVariable ==================== */
-type ElVariableBuilder struct {
-	Builder
-}
-
 /* ======================= ElWritableVariable ==================== */
 type ElWritableVariableBuilder struct {
 	Builder
@@ -159,16 +154,6 @@ func (i *ElReadonlyVariableBuilder) SetIsWritable(v bool) *ElReadonlyVariableBui
 
 func (i *ElReadonlyVariableBuilder) SetName(v string) *ElReadonlyVariableBuilder {
 	i.AddError(i.object.(*ElValueGenerator).SetName(v))
-	return i
-}
-
-/* ======================= ElFeatureRef ==================== */
-type ElFeatureRefBuilder struct {
-	Builder
-}
-
-func (i *ElFeatureRefBuilder) SetScoper(v IElValueGenerator) *ElFeatureRefBuilder {
-	i.AddError(i.object.(*ElFeatureRef).SetScoper(v))
 	return i
 }
 
@@ -254,16 +239,6 @@ func (i *ElStaticRefBuilder) SetName(v string) *ElStaticRefBuilder {
 	return i
 }
 
-/* ======================= ElAgentCall ==================== */
-type ElAgentCallBuilder struct {
-	Builder
-}
-
-func (i *ElFeatureRefBuilder) SetAgent(v IElAgent) *ElFeatureRefBuilder {
-	i.AddError(i.object.(*ElAgentCall).SetAgent(v))
-	return i
-}
-
 /* ======================= ElFunctionCall ==================== */
 type ElFunctionCallBuilder struct {
 	Builder
@@ -284,6 +259,10 @@ func (i *ElFunctionCallBuilder) Build() (*ElFunctionCall, []error) {
 	// ElValueGenerator
 	if i.object.(*ElValueGenerator).Name() == "" {
 		i.AddError(errors.New("Name property of ElFunctionCall should not be set empty"))
+	}
+	// ElAgentCall
+	if i.object.(*ElAgentCall).Agent() == nil {
+		i.AddError(errors.New("Agent property of ElFunctionCall should not be set empty"))
 	}
 	if len(i.errors) > 0 {
 		return nil, i.errors

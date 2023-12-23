@@ -340,6 +340,9 @@ func (e *ElAgentCall) Agent() IElAgent {
 }
 
 func (e *ElAgentCall) SetAgent(agent IElAgent) error {
+	if agent == nil {
+		return errors.New("agent should not be set to nil in ElAgentCall")
+	}
 	e.agent = agent
 	return nil
 }
