@@ -1,40 +1,13 @@
 package vocabulary
 
-import "semanticdatabase/aom/constraints"
-
-/* ======================= ElExpression ==================== */
-type ElExpressionBuilder struct {
-	Builder
-}
-
-/* ======================= ElTerminal ==================== */
-type ElTerminalBuilder struct {
-	ElExpressionBuilder
-}
-
-/* ======================= ElSimple ==================== */
-type ElSimpleBuilder struct {
-	ElTerminalBuilder
-}
-
-/* ======================= ElValueGenerator ==================== */
-type ElValueGeneratorBuilder struct {
-	ElSimpleBuilder
-}
-
-func (i *ElValueGeneratorBuilder) SetIsWritable(v bool) *ElValueGeneratorBuilder {
-	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
-	return i
-}
-
-func (i *ElValueGeneratorBuilder) SetName(v string) *ElValueGeneratorBuilder {
-	i.AddError(i.object.(*ElValueGenerator).SetName(v))
-	return i
-}
+import (
+	"errors"
+	"semanticdatabase/aom/constraints"
+)
 
 /* ======================= ElTypeRef ==================== */
 type ElTypeRefBuilder struct {
-	ElValueGeneratorBuilder
+	Builder
 }
 
 func NewElTypeRefBuilder() *ElTypeRefBuilder {
@@ -55,6 +28,10 @@ func (i *ElTypeRefBuilder) SetIsMutable(v bool) *ElTypeRefBuilder {
 }
 
 func (i *ElTypeRefBuilder) Build() (*ElTypeRef, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElTypeRef should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -62,9 +39,20 @@ func (i *ElTypeRefBuilder) Build() (*ElTypeRef, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElTypeRefBuilder) SetIsWritable(v bool) *ElTypeRefBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElTypeRefBuilder) SetName(v string) *ElTypeRefBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElLiteral ==================== */
 type ElLiteralBuilder struct {
-	ElSimpleBuilder
+	Builder
 }
 
 func NewElLiteralBuilder() *ElLiteralBuilder {
@@ -90,12 +78,12 @@ func (i *ElLiteralBuilder) Build() (*ElLiteral, []error) {
 
 /* ======================= ElVariable ==================== */
 type ElVariableBuilder struct {
-	ElValueGeneratorBuilder
+	Builder
 }
 
 /* ======================= ElWritableVariable ==================== */
 type ElWritableVariableBuilder struct {
-	ElVariableBuilder
+	Builder
 }
 
 func NewElWritableVariableBuilder() *ElWritableVariableBuilder {
@@ -111,6 +99,10 @@ func (i *ElWritableVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElWri
 	return i
 }
 func (i *ElWritableVariableBuilder) Build() (*ElWritableVariable, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElWritableVariable should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -118,9 +110,20 @@ func (i *ElWritableVariableBuilder) Build() (*ElWritableVariable, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElWritableVariableBuilder) SetIsWritable(v bool) *ElWritableVariableBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElWritableVariableBuilder) SetName(v string) *ElWritableVariableBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElReadonlyVariable ==================== */
 type ElReadonlyVariableBuilder struct {
-	ElVariableBuilder
+	Builder
 }
 
 func NewElReadonlyVariableBuilder() *ElReadonlyVariableBuilder {
@@ -137,6 +140,10 @@ func (i *ElReadonlyVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElRea
 }
 
 func (i *ElReadonlyVariableBuilder) Build() (*ElReadonlyVariable, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElReadonlyVariable should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -144,9 +151,20 @@ func (i *ElReadonlyVariableBuilder) Build() (*ElReadonlyVariable, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElReadonlyVariableBuilder) SetIsWritable(v bool) *ElReadonlyVariableBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElReadonlyVariableBuilder) SetName(v string) *ElReadonlyVariableBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElFeatureRef ==================== */
 type ElFeatureRefBuilder struct {
-	ElValueGeneratorBuilder
+	Builder
 }
 
 func (i *ElFeatureRefBuilder) SetScoper(v IElValueGenerator) *ElFeatureRefBuilder {
@@ -156,7 +174,7 @@ func (i *ElFeatureRefBuilder) SetScoper(v IElValueGenerator) *ElFeatureRefBuilde
 
 /* ======================= ElPropertyRef ==================== */
 type ElPropertyRefBuilder struct {
-	ElFeatureRefBuilder
+	Builder
 }
 
 func NewElPropertyRefBuilder() *ElPropertyRefBuilder {
@@ -173,6 +191,10 @@ func (i *ElPropertyRefBuilder) SetDefinition(v IBmmProperty) *ElPropertyRefBuild
 }
 
 func (i *ElPropertyRefBuilder) Build() (*ElPropertyRef, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElPropertyRef should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -180,9 +202,20 @@ func (i *ElPropertyRefBuilder) Build() (*ElPropertyRef, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElPropertyRefBuilder) SetIsWritable(v bool) *ElPropertyRefBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElPropertyRefBuilder) SetName(v string) *ElPropertyRefBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElStaticRef ==================== */
 type ElStaticRefBuilder struct {
-	ElFeatureRefBuilder
+	Builder
 }
 
 func NewElStaticRefBuilder() *ElStaticRefBuilder {
@@ -199,11 +232,26 @@ func (i *ElStaticRefBuilder) SetDefinition(v IBmmProperty) *ElStaticRefBuilder {
 }
 
 func (i *ElStaticRefBuilder) Build() (*ElStaticRef, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElStaticRef should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElStaticRef), nil
 	}
+}
+
+// ElValueGenerator
+func (i *ElStaticRefBuilder) SetIsWritable(v bool) *ElStaticRefBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElStaticRefBuilder) SetName(v string) *ElStaticRefBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
 }
 
 /* ======================= ElAgentCall ==================== */
@@ -218,8 +266,7 @@ func (i *ElFeatureRefBuilder) SetAgent(v IElAgent) *ElFeatureRefBuilder {
 
 /* ======================= ElFunctionCall ==================== */
 type ElFunctionCallBuilder struct {
-	ElFeatureRefBuilder
-	ElAgentCallBuilder
+	Builder
 }
 
 func NewElFunctionCallBuilder() *ElFunctionCallBuilder {
@@ -234,6 +281,10 @@ func (i *ElFunctionCallBuilder) SetAgent(v IElFunctionAgent) *ElFunctionCallBuil
 }
 
 func (i *ElFunctionCallBuilder) Build() (*ElFunctionCall, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElFunctionCall should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -241,9 +292,20 @@ func (i *ElFunctionCallBuilder) Build() (*ElFunctionCall, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElFunctionCallBuilder) SetIsWritable(v bool) *ElFunctionCallBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElFunctionCallBuilder) SetName(v string) *ElFunctionCallBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElAgent ==================== */
 type ElAgentBuilder struct {
-	ElFeatureRefBuilder
+	Builder
 }
 
 func (i *ElAgentBuilder) SetClosedArgs(v IElTuple) *ElAgentBuilder {
@@ -263,7 +325,7 @@ func (i *ElAgentBuilder) SetDefinition(v IBmmRoutine) *ElAgentBuilder {
 
 /* ======================= ElFunctionAgent ==================== */
 type ElFunctionAgentBuilder struct {
-	ElAgentBuilder
+	Builder
 }
 
 func NewElFunctionAgentBuilder() *ElFunctionAgentBuilder {
@@ -283,6 +345,10 @@ func (i *ElFunctionAgentBuilder) SetDefinition(v IBmmFunction) *ElFunctionAgentB
 }
 
 func (i *ElFunctionAgentBuilder) Build() (*ElFunctionAgent, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElFunctionAgent should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -290,9 +356,20 @@ func (i *ElFunctionAgentBuilder) Build() (*ElFunctionAgent, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElFunctionAgentBuilder) SetIsWritable(v bool) *ElFunctionAgentBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElFunctionAgentBuilder) SetName(v string) *ElFunctionAgentBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElProcedureAgent ==================== */
 type ElProcedureAgentBuilder struct {
-	ElAgentBuilder
+	Builder
 }
 
 func NewElProcedureAgentBuilder() *ElProcedureAgentBuilder {
@@ -312,6 +389,10 @@ func (i *ElProcedureAgentBuilder) SetDefinition(v IBmmProcedure) *ElProcedureAge
 }
 
 func (i *ElProcedureAgentBuilder) Build() (*ElProcedureAgent, []error) {
+	// ElValueGenerator
+	if i.object.(*ElValueGenerator).Name() == "" {
+		i.AddError(errors.New("Name property of ElProcedureAgent should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -319,9 +400,20 @@ func (i *ElProcedureAgentBuilder) Build() (*ElProcedureAgent, []error) {
 	}
 }
 
+// ElValueGenerator
+func (i *ElProcedureAgentBuilder) SetIsWritable(v bool) *ElProcedureAgentBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetIsWritable(v))
+	return i
+}
+
+func (i *ElProcedureAgentBuilder) SetName(v string) *ElProcedureAgentBuilder {
+	i.AddError(i.object.(*ElValueGenerator).SetName(v))
+	return i
+}
+
 /* ======================= ElPredicate ==================== */
 type ElPredicateBuilder struct {
-	ElFeatureRefBuilder
+	Builder
 }
 
 func (i *ElPredicateBuilder) SetOperand(v IElValueGenerator) *ElPredicateBuilder {
@@ -331,7 +423,7 @@ func (i *ElPredicateBuilder) SetOperand(v IElValueGenerator) *ElPredicateBuilder
 
 /* ======================= ElDefined ==================== */
 type ElDefinedBuilder struct {
-	ElPredicateBuilder
+	Builder
 }
 
 func NewElDefinedBuilder() *ElDefinedBuilder {
@@ -350,7 +442,7 @@ func (i *ElDefinedBuilder) Build() (*ElDefined, []error) {
 
 /* ======================= ElAttached ==================== */
 type ElAttachedBuilder struct {
-	ElPredicateBuilder
+	Builder
 }
 
 func NewElAttachedBuilder() *ElAttachedBuilder {
@@ -369,7 +461,7 @@ func (i *ElAttachedBuilder) Build() (*ElAttached, []error) {
 
 /* ======================= ElDecisionTable ==================== */
 type ElDecisionTableBuilder[T IElTerminal] struct {
-	ElTerminalBuilder
+	Builder
 }
 
 func (i *ElDecisionTableBuilder[T]) SetItems(v []IElDecisionBranch[T]) *ElDecisionTableBuilder[T] {
@@ -384,7 +476,7 @@ func (i *ElDecisionTableBuilder[T]) SetElse(v T) *ElDecisionTableBuilder[T] {
 
 /* ======================= ElDecisionBranch ==================== */
 type ElDecisionBranchBuilder[T IElTerminal] struct {
-	ElTerminalBuilder
+	Builder
 }
 
 func (i *ElDecisionBranchBuilder[T]) SetResult(v T) *ElDecisionBranchBuilder[T] {
@@ -394,7 +486,7 @@ func (i *ElDecisionBranchBuilder[T]) SetResult(v T) *ElDecisionBranchBuilder[T] 
 
 /* ======================= ElConditionChain ==================== */
 type ElConditionChainBuilder[T IElTerminal] struct {
-	ElDecisionTableBuilder[T]
+	Builder
 }
 
 func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
@@ -418,7 +510,7 @@ func (i *ElConditionChainBuilder[T]) Build() (*ElConditionChain[T], []error) {
 
 /* ======================= ElConditionalExpression ==================== */
 type ElConditionalExpressionBuilder[T IElTerminal] struct {
-	ElDecisionTableBuilder[T]
+	Builder
 }
 
 func NewElConditionalExpressionBuilder[T IElTerminal]() *ElConditionalExpressionBuilder[T] {
@@ -443,7 +535,7 @@ func (i *ElConditionalExpressionBuilder[T]) Build() (*ElConditionalExpression[T]
 /* ======================= ElCaseTable ==================== */
 // BUILDER
 type ElCaseTableBuilder[T IElTerminal] struct {
-	ElDecisionTableBuilder[T]
+	Builder
 }
 
 func NewElCaseTableBuilder[T IElTerminal]() *ElCaseTableBuilder[T] {
@@ -479,7 +571,7 @@ func (i *ElCaseTableBuilder[T]) Build() (*ElCaseTable[T], []error) {
 
 /* ======================= ElCase ==================== */
 type ElCaseBuilder[T IElTerminal] struct {
-	ElDecisionBranchBuilder[T]
+	Builder
 }
 
 func NewElCaseBuilder[T IElTerminal]() *ElCaseBuilder[T] {
@@ -505,7 +597,7 @@ func (i *ElCaseBuilder[T]) Build() (*ElCase[T], []error) {
 
 /* ======================= ElOperator ==================== */
 type ElOperatorBuilder struct {
-	ElExpressionBuilder
+	Builder
 }
 
 func (i *ElOperatorBuilder) SetPrecedenceOverridden(v bool) *ElOperatorBuilder {
@@ -525,7 +617,7 @@ func (i *ElOperatorBuilder) SetCall(v IElFunctionCall) *ElOperatorBuilder {
 
 /* ======================= ElUnaryOperator ==================== */
 type ElUnaryOperatorBuilder struct {
-	ElOperatorBuilder
+	Builder
 }
 
 func NewElUnaryOperatorBuilder() *ElUnaryOperatorBuilder {
@@ -551,7 +643,7 @@ func (i *ElUnaryOperatorBuilder) Build() (*ElUnaryOperator, []error) {
 
 /* ======================= ElBinaryOperator ==================== */
 type ElBinaryOperatorBuilder struct {
-	ElOperatorBuilder
+	Builder
 }
 
 func NewElBinaryOperatorBuilder() *ElBinaryOperatorBuilder {
@@ -583,7 +675,7 @@ func (i *ElBinaryOperatorBuilder) Build() (*ElBinaryOperator, []error) {
 
 /* ======================= ElTuple ==================== */
 type ElTupleBuilder struct {
-	ElExpressionBuilder
+	Builder
 }
 
 func NewElTupleBuilder() *ElTupleBuilder {
@@ -653,7 +745,7 @@ func (i *ElTupleItemBuilder) Build() (*ElTupleItem, []error) {
 
 /* ======================= ElConstrained ==================== */
 type ElConstrainedBuilder struct {
-	ElExpressionBuilder
+	Builder
 }
 
 func (i *ElConstrainedBuilder) SetBaseExpression(v IElExpression) *ElConstrainedBuilder {

@@ -131,6 +131,7 @@ func (e *ElTypeRef) SetIsMutable(isMutable bool) error {
 // CONSTRUCTOR
 func NewElTypeRef() *ElTypeRef {
 	eltyperef := new(ElTypeRef)
+	eltyperef.isWritable = true
 	// Constants
 	return eltyperef
 }
@@ -367,6 +368,7 @@ func (e *ElFunctionCall) SetAgent(agent IElAgent) error {
 // CONSTRUCTOR
 func NewElFunctionCall() *ElFunctionCall {
 	elfunctioncall := new(ElFunctionCall)
+	elfunctioncall.isWritable = true
 	// Constants
 	return elfunctioncall
 }
@@ -556,8 +558,8 @@ type ElAttached struct {
 
 // CONSTRUCTOR
 func NewElAttached() *ElAttached {
-	eldefined := new(ElAttached)
-	return eldefined
+	elattached := new(ElAttached)
+	return elattached
 }
 
 /* ======================= ElDecisionTable ==================== */
@@ -682,7 +684,6 @@ func (e *ElConditionalExpression[T]) SetCondition(condition IElExpression) error
 // CONSTRUCTOR
 func NewElConditionalExpression[T IElTerminal]() *ElConditionalExpression[T] {
 	elconditionalexpression := new(ElConditionalExpression[T])
-	// Constants
 	return elconditionalexpression
 }
 
@@ -730,8 +731,6 @@ criterion) and a result, of the generic parameter type T.
 */
 type ElCase[T IElTerminal] struct {
 	ElDecisionBranch[T]
-	// Attributes
-	// Constraint on
 	valueConstraint constraints.ICObject `yaml:"valueconstraint" json:"valueconstraint" xml:"valueconstraint"`
 }
 
