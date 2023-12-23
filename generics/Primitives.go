@@ -1,5 +1,5 @@
 package generics
 
-type Primitive interface {
+type Primitives interface {
 	Bool | Number | String
 }

@@ -570,7 +570,7 @@ func NewBmmEnumerationInteger() *BmmEnumerationInteger {
 }
 
 func (b *BmmEnumerationInteger) SetItemValues(itemValues []IBmmPrimitiveValue) error {
-	if itemValues==nil || len(itemValues) == 0{
+	if itemValues == nil || len(itemValues) == 0 {
 		return errors.New("_type-assertion to in BmmEnumerationInteger should not be set to nil or have an empty array")
 	}
 	b.itemValues = make([]IBmmIntegerValue, 0)

@@ -3,8 +3,6 @@ package vocabulary
 /* ========================= BmmLiteralValue ========================*/
 type IBmmLiteralValue[T IBmmType] interface {
 	//BmmLiteralValue
-	SetType(_type T) error
-	Type() T
 	SetSyntax(syntax string) error
 	Syntax() string
 	SetValue(value any) error
@@ -14,13 +12,13 @@ type IBmmLiteralValue[T IBmmType] interface {
 }
 
 /* ========================= BmmContainerValue ========================*/
-type IBmmContainerValue interface {
-	IBmmLiteralValue[IBmmContainerType]
+type IBmmContainerValue[T IBmmContainerType] interface {
+	IBmmLiteralValue[T]
 }
 
 /* ========================= BmmIndexedContainerValue ========================*/
-type IBmmIndexedContainerValue interface {
-	IBmmLiteralValue[IBmmIndexedContainerType]
+type IBmmIndexedContainerValue[T IBmmIndexedContainerType] interface {
+	IBmmLiteralValue[T]
 }
 
 /* ========================= BmmUnitaryValue ========================*/

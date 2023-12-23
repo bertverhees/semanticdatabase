@@ -135,8 +135,8 @@ type IBmmFunction interface {
 
 /* ------------------- BmmOperator ---------------------- */
 type IBmmOperator interface {
-	Position() BmmOperatorPosition
-	SetPosition(position BmmOperatorPosition) error
+	Position() *BmmOperatorPosition
+	SetPosition(position *BmmOperatorPosition) error
 	Symbols() []string
 	SetSymbols(symbols []string) error
 	Name() string
@@ -188,8 +188,8 @@ type IBmmSelf interface {
 type IBmmParameter interface {
 	IBmmReadonlyVariable
 	//BMM_PARAMETER
-	Direction() BmmParameterDirection
-	SetDirection(direction BmmParameterDirection) error
+	Direction() *BmmParameterDirection
+	SetDirection(direction *BmmParameterDirection) error
 }
 
 /* ------------------- BmmRoutineDefinition ---------------------- */

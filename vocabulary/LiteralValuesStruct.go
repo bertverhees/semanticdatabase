@@ -1,6 +1,8 @@
 package vocabulary
 
-import "errors"
+import (
+	"errors"
+)
 
 /* ========================= BmmLiteralValue ========================*/
 /**
@@ -57,12 +59,15 @@ func (b *BmmLiteralValue[T]) SetSyntax(syntax string) error {
 	return nil
 }
 
-func (b *BmmLiteralValue[T]) Type() T {
+func (b *BmmLiteralValue[T]) Type() IBmmType {
 	return b._type
 }
 
-func (b *BmmLiteralValue[T]) SetType(_type T) error {
-	b._type = _type
+func (b *BmmLiteralValue[T]) SetType(_type IBmmType) error {
+	if _type == nil {
+		return errors.New("_type should not be set to nil in BmmLiteralValue")
+	}
+	b._type = _type.(T)
 	return nil
 }
 
@@ -131,6 +136,18 @@ func NewBmmStringValue() *BmmStringValue {
 	return bmmstringvalue
 }
 
+func (b *BmmStringValue) Type() IBmmSimpleType {
+	return b._type
+}
+
+func (b *BmmStringValue) SetType(_type IBmmSimpleType) error {
+	if _type == nil {
+		return errors.New("_type should not be set to nil in BmmStringValue")
+	}
+	b._type = _type
+	return nil
+}
+
 /* ========================= BmmIntegerValue ========================*/
 /**
 Meta-type for a literal Integer value, for which type is fixed to the BMM_TYPE
@@ -144,6 +161,17 @@ type BmmIntegerValue struct {
 func NewBmmIntegerValue() *BmmIntegerValue {
 	bmmintegervalue := new(BmmIntegerValue)
 	return bmmintegervalue
+}
+func (b *BmmIntegerValue) Type() IBmmSimpleType {
+	return b._type
+}
+
+func (b *BmmIntegerValue) SetType(_type IBmmSimpleType) error {
+	if _type == nil {
+		return errors.New("_type should not be set to nil in BmmIntegerValue")
+	}
+	b._type = _type
+	return nil
 }
 
 /* ========================= BmmBooleanValue ========================*/
@@ -159,6 +187,18 @@ type BmmBooleanValue struct {
 func NewBmmBooleanValue() *BmmBooleanValue {
 	bmmbooleanvalue := new(BmmBooleanValue)
 	return bmmbooleanvalue
+}
+
+func (b *BmmBooleanValue) Type() IBmmSimpleType {
+	return b._type
+}
+
+func (b *BmmBooleanValue) SetType(_type IBmmSimpleType) error {
+	if _type == nil {
+		return errors.New("_type should not be set to nil in BmmBooleanValue")
+	}
+	b._type = _type
+	return nil
 }
 
 /* ========================= BmmIntervalValue ========================*/
