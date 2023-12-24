@@ -523,6 +523,9 @@ func (e *ElPredicate) Operand() IElValueGenerator {
 }
 
 func (e *ElPredicate) SetOperand(operand IElValueGenerator) error {
+	if operand == nil {
+		return errors.New("operand in ElPredicate should not be set to nil")
+	}
 	e.operand = operand
 	return nil
 }
@@ -596,6 +599,9 @@ func (e *ElDecisionTable[T]) Else() T {
 }
 
 func (e *ElDecisionTable[T]) SetElse(_else T) error {
+	//if _else == nil {
+	//	return errors.New("_else in ElDecisionTable en descendants should not be set to nil")
+	//}
 	e._else = _else
 	return nil
 }
@@ -618,6 +624,9 @@ func (e *ElDecisionBranch[T]) Result() T {
 }
 
 func (e *ElDecisionBranch[T]) SetResult(result T) error {
+	//if result == nil {
+	//	return errors.New("result should not be set to nil in ElDecisionBranch and descendants")
+	//}
 	e.result = result
 	return nil
 }
@@ -643,6 +652,9 @@ type ElConditionChain[T IElTerminal] struct {
 }
 
 func (e *ElConditionChain[T]) SetItems(items []IElDecisionBranch[T]) error {
+	if len(items) == 0 {
+		return errors.New("items: array in ElConditionChain should not be set to 0 items")
+	}
 	e.items = make([]IElConditionalExpression[T], 0)
 	for _, s := range items {
 		s, ok := s.(IElConditionalExpression[T])
@@ -680,6 +692,9 @@ func (e *ElConditionalExpression[T]) Condition() IElExpression {
 }
 
 func (e *ElConditionalExpression[T]) SetCondition(condition IElExpression) error {
+	if condition == nil {
+		return errors.New("condition should not be set to nil in ElConditionalExpression and descendants")
+	}
 	e.condition = condition
 	return nil
 }
@@ -703,6 +718,9 @@ func (e *ElCaseTable[T]) TestValue() IElValueGenerator {
 }
 
 func (e *ElCaseTable[T]) SetTestValue(testValue IElValueGenerator) error {
+	if testValue == nil {
+		return errors.New("testValue should not be set to nil in ElCaseTable and descendants")
+	}
 	e.testValue = testValue
 	return nil
 }
@@ -742,6 +760,9 @@ func (e *ElCase[T]) ValueConstraint() constraints.ICObject {
 }
 
 func (e *ElCase[T]) SetValueConstraint(valueConstraint constraints.ICObject) error {
+	if valueConstraint == nil {
+		return errors.New("valueConstraint should not be set to nil in ElCase and descendants")
+	}
 	e.valueConstraint = valueConstraint
 	return nil
 }

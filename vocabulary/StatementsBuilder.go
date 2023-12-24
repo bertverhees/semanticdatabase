@@ -108,8 +108,7 @@ func (i *BmmAssignmentBuilder) Build() (*BmmAssignment, []error) {
 
 /* ================ BmmProcedureCall =========================== */
 type BmmProcedureCallBuilder struct {
-	ElAgentCallBuilder
-	BmmSimpleStatementBuilder
+	Builder
 }
 
 func NewBmmProcedureCallBuilder() *BmmProcedureCallBuilder {
