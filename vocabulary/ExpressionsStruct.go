@@ -599,9 +599,11 @@ func (e *ElDecisionTable[T]) Else() T {
 }
 
 func (e *ElDecisionTable[T]) SetElse(_else T) error {
-	//if _else == nil {
-	//	return errors.New("_else in ElDecisionTable en descendants should not be set to nil")
-	//}
+	var el IElTerminal
+	el = _else
+	if el == nil {
+		return errors.New("_else in ElDecisionTable en descendants should not be set to nil")
+	}
 	e._else = _else
 	return nil
 }
@@ -612,9 +614,6 @@ Abstract parent of meta-types representing a branch of some kind of decision str
 Defines result as being of the generic type T.
 */
 type ElDecisionBranch[T IElTerminal] struct {
-	// embedded for Inheritance
-	// Constants
-	// Attributes
 	// result expression of conditional, if its condition evaluates to True.
 	result T `yaml:"result" json:"result" xml:"result"`
 }
@@ -624,9 +623,11 @@ func (e *ElDecisionBranch[T]) Result() T {
 }
 
 func (e *ElDecisionBranch[T]) SetResult(result T) error {
-	//if result == nil {
-	//	return errors.New("result should not be set to nil in ElDecisionBranch and descendants")
-	//}
+	var r IElTerminal
+	r = result
+	if r == nil {
+		return errors.New("result should not be set to nil in ElDecisionBranch and descendants")
+	}
 	e.result = result
 	return nil
 }
@@ -820,6 +821,9 @@ func (e *ElOperator) Call() IElFunctionCall {
 }
 
 func (e *ElOperator) SetCall(call IElFunctionCall) error {
+	if call == nil {
+		return errors.New("call should not be set to nil in ElOperator and descendants")
+	}
 	e.call = call
 	return nil
 }
@@ -850,6 +854,9 @@ func (e *ElUnaryOperator) Operand() IElExpression {
 }
 
 func (e *ElUnaryOperator) SetOperand(operand IElExpression) error {
+	if operand == nil {
+		return errors.New("operand should not be set to nil in ElUnaryOperator and descendants")
+	}
 	e.operand = operand
 	return nil
 }
@@ -875,6 +882,9 @@ func (e *ElBinaryOperator) LeftOperand() IElExpression {
 }
 
 func (e *ElBinaryOperator) SetLeftOperand(leftOperand IElExpression) error {
+	if leftOperand == nil {
+		return errors.New("leftOperand should not be set to nil in ElBinaryOperator and descendants")
+	}
 	e.leftOperand = leftOperand
 	return nil
 }
@@ -884,6 +894,9 @@ func (e *ElBinaryOperator) RightOperand() IElExpression {
 }
 
 func (e *ElBinaryOperator) SetRightOperand(rightOperand IElExpression) error {
+	if rightOperand == nil {
+		return errors.New("rightOperand should not be set to nil in ElBinaryOperator and descendants")
+	}
 	e.rightOperand = rightOperand
 	return nil
 }
@@ -922,6 +935,9 @@ func (e *ElTuple) Type() IBmmTupleType {
 }
 
 func (e *ElTuple) SetType(_type IBmmTupleType) error {
+	if _type == nil {
+		return errors.New("_type should not be set to nil in ElTuple and descendants")
+	}
 	e._type = _type
 	return nil
 }

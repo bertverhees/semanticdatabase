@@ -623,26 +623,6 @@ func (i *ElCaseBuilder[T]) SetResult(v T) *ElCaseBuilder[T] {
 	return i
 }
 
-/* ======================= ElOperator ==================== */
-type ElOperatorBuilder struct {
-	Builder
-}
-
-func (i *ElOperatorBuilder) SetPrecedenceOverridden(v bool) *ElOperatorBuilder {
-	i.AddError(i.object.(*ElOperator).SetPrecedenceOverridden(v))
-	return i
-}
-
-func (i *ElOperatorBuilder) SetSymbol(v string) *ElOperatorBuilder {
-	i.AddError(i.object.(*ElOperator).SetSymbol(v))
-	return i
-}
-
-func (i *ElOperatorBuilder) SetCall(v IElFunctionCall) *ElOperatorBuilder {
-	i.AddError(i.object.(*ElOperator).SetCall(v))
-	return i
-}
-
 /* ======================= ElUnaryOperator ==================== */
 type ElUnaryOperatorBuilder struct {
 	Builder
@@ -662,11 +642,35 @@ func (i *ElUnaryOperatorBuilder) SetOperand(v IElExpression) *ElUnaryOperatorBui
 }
 
 func (i *ElUnaryOperatorBuilder) Build() (*ElUnaryOperator, []error) {
+	// ElUnaryOperator
+	if i.object.(*ElUnaryOperator).Operand() == nil {
+		i.AddError(errors.New("operand should not be set to nil in ElOperator and descendants"))
+	}
+	//ElOperator
+	if i.object.(*ElUnaryOperator).Call() == nil {
+		i.AddError(errors.New("call should not be set to nil in ElOperator and descendants"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElUnaryOperator), nil
 	}
+}
+
+// ElOperator
+func (i *ElUnaryOperatorBuilder) SetPrecedenceOverridden(v bool) *ElUnaryOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetPrecedenceOverridden(v))
+	return i
+}
+
+func (i *ElUnaryOperatorBuilder) SetSymbol(v string) *ElUnaryOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetSymbol(v))
+	return i
+}
+
+func (i *ElUnaryOperatorBuilder) SetCall(v IElFunctionCall) *ElUnaryOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetCall(v))
+	return i
 }
 
 /* ======================= ElBinaryOperator ==================== */
@@ -694,11 +698,38 @@ func (i *ElBinaryOperatorBuilder) SetRightOperand(v IElExpression) *ElBinaryOper
 }
 
 func (i *ElBinaryOperatorBuilder) Build() (*ElBinaryOperator, []error) {
+	// ElBinaryOperator
+	if i.object.(*ElBinaryOperator).LeftOperand() == nil {
+		i.AddError(errors.New("LeftOperand should not be set to nil in ElBinaryOperator and descendants"))
+	}
+	if i.object.(*ElBinaryOperator).RightOperand() == nil {
+		i.AddError(errors.New("RightOperand should not be set to nil in ElBinaryOperator and descendants"))
+	}
+	//ElOperator
+	if i.object.(*ElBinaryOperator).Call() == nil {
+		i.AddError(errors.New("call should not be set to nil in ElOperator and descendants"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElBinaryOperator), nil
 	}
+}
+
+// ElOperator
+func (i *ElBinaryOperatorBuilder) SetPrecedenceOverridden(v bool) *ElBinaryOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetPrecedenceOverridden(v))
+	return i
+}
+
+func (i *ElBinaryOperatorBuilder) SetSymbol(v string) *ElBinaryOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetSymbol(v))
+	return i
+}
+
+func (i *ElBinaryOperatorBuilder) SetCall(v IElFunctionCall) *ElBinaryOperatorBuilder {
+	i.AddError(i.object.(*ElOperator).SetCall(v))
+	return i
 }
 
 /* ======================= ElTuple ==================== */
@@ -729,6 +760,9 @@ func (i *ElTupleBuilder) SetType(v IBmmTupleType) *ElTupleBuilder {
 }
 
 func (i *ElTupleBuilder) Build() (*ElTuple, []error) {
+	if i.object.(*ElTuple).Type() == nil {
+		i.AddError(errors.New("Type should not be set to nil in ElTuple and descendants"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -771,19 +805,9 @@ func (i *ElTupleItemBuilder) Build() (*ElTupleItem, []error) {
 	}
 }
 
-/* ======================= ElConstrained ==================== */
-type ElConstrainedBuilder struct {
-	Builder
-}
-
-func (i *ElConstrainedBuilder) SetBaseExpression(v IElExpression) *ElConstrainedBuilder {
-	i.AddError(i.object.(*ElConstrained).SetBaseExpression(v))
-	return i
-}
-
 /* ======================= ElBooleanExpression ==================== */
 type ElBooleanExpressionBuilder struct {
-	ElConstrainedBuilder
+	Builder
 }
 
 func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
@@ -793,9 +817,17 @@ func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
 }
 
 func (i *ElBooleanExpressionBuilder) Build() (*ElBooleanExpression, []error) {
+	if i.object.(*ElBooleanExpression).BaseExpression() == nil {
+		i.AddError(errors.New("BaseExpression should not be set to nil in ElBooleanExpression and descendants"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElBooleanExpression), nil
 	}
+}
+
+func (i *ElBooleanExpressionBuilder) SetBaseExpression(v IElExpression) *ElBooleanExpressionBuilder {
+	i.AddError(i.object.(*ElConstrained).SetBaseExpression(v))
+	return i
 }
