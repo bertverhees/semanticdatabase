@@ -370,6 +370,15 @@ inheritance. Persisted attribute.
 //}
 
 func (i *PBmmClassBuilder) Build() (*PBmmClass, []error) {
+	if i.object.(*PBmmClass).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmClass"))
+	}
+	if i.object.(*PBmmClass).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmClass"))
+	}
+	if i.object.(*PBmmClass).Uid() == 0 {
+		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmClass"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -428,51 +437,14 @@ func (i *PBmmGenericParameterBuilder) SetDocumentation(v string) *PBmmGenericPar
 }
 
 func (i *PBmmGenericParameterBuilder) Build() (*PBmmGenericParameter, []error) {
+	if i.object.(*PBmmGenericParameter).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmGenericParameter"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmGenericParameter), nil
 	}
-}
-
-/* ============================= PBmmProperty =====================================*/
-type PBmmPropertyBuilder struct {
-	Builder
-}
-
-func (i *PBmmPropertyBuilder) SetName(v string) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetName(v))
-	return i
-}
-
-func (i *PBmmPropertyBuilder) SetIsMandatory(v bool) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetIsMandatory(v))
-	return i
-}
-
-func (i *PBmmPropertyBuilder) SetIsComputed(v bool) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetIsComputed(v))
-	return i
-}
-
-func (i *PBmmPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetIsImInfrastructure(v))
-	return i
-}
-
-func (i *PBmmPropertyBuilder) SetIsImRuntime(v bool) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetIsImRuntime(v))
-	return i
-}
-
-func (i *PBmmPropertyBuilder) SetTypeDef(v IPBmmType) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetTypeDef(v))
-	return i
-}
-
-func (i *PBmmPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmPropertyBuilder {
-	i.AddError(i.object.(*PBmmProperty).SetBmmProperty(v))
-	return i
 }
 
 /* ============================= PBmmBaseType =====================================*/
@@ -687,17 +659,51 @@ func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePro
 
 // From: PBmmProperty
 // BMM_PROPERTY created by create_bmm_property_definition.
-func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePropertyBuilder {
-	i.AddError(i.object.(*PBmmSingleProperty).SetBmmProperty(v))
-	return i
-}
-
 func (i *PBmmSinglePropertyBuilder) Build() (*PBmmSingleProperty, []error) {
+	if i.object.(*PBmmSingleProperty).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmSingleProperty), nil
 	}
+}
+
+// PBmmProperty
+func (i *PBmmSinglePropertyBuilder) SetName(v string) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetName(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) SetIsMandatory(v bool) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsMandatory(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) SetIsComputed(v bool) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsComputed(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) SetIsImInfrastructure(v bool) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) SetIsImRuntime(v bool) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) SetTypeDef(v IPBmmType) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetTypeDef(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetBmmProperty(v))
+	return i
 }
 
 // PBmmModelElement
@@ -739,18 +745,51 @@ func (i *PBmmSinglePropertyOpenBuilder) SetType(v string) *PBmmSinglePropertyOpe
 	return i
 }
 
-// BMM_PROPERTY created by create_bmm_property_definition .
-func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePropertyOpenBuilder {
-	i.AddError(i.object.(*PBmmSinglePropertyOpen).SetBmmProperty(v))
-	return i
-}
-
 func (i *PBmmSinglePropertyOpenBuilder) Build() (*PBmmSinglePropertyOpen, []error) {
+	if i.object.(*PBmmSinglePropertyOpen).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmSinglePropertyOpen), nil
 	}
+}
+
+// PBmmProperty
+func (i *PBmmSinglePropertyOpenBuilder) SetName(v string) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetName(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) SetIsMandatory(v bool) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsMandatory(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) SetIsComputed(v bool) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsComputed(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) SetIsImInfrastructure(v bool) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) SetIsImRuntime(v bool) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) SetTypeDef(v IPBmmType) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetTypeDef(v))
+	return i
+}
+
+func (i *PBmmSinglePropertyOpenBuilder) SetBmmProperty(v IBmmProperty) *PBmmSinglePropertyOpenBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetBmmProperty(v))
+	return i
 }
 
 // PBmmModelElement
@@ -770,28 +809,52 @@ func NewPBmmGenericPropertyBuilder() *PBmmGenericPropertyBuilder {
 	return builder
 }
 
-//BUILDER ATTRIBUTES
-/**
-_type definition of this property, if not a simple String type reference.
-Persistent attribute.
-*/
-func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGenericPropertyBuilder {
-	i.AddError(i.object.(*PBmmGenericProperty).SetTypeDef(v))
-	return i
-}
-
-// BMM_PROPERTY created by create_bmm_property_definition .
-func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmGenericPropertyBuilder {
-	i.AddError(i.object.(*PBmmGenericProperty).SetBmmProperty(v))
-	return i
-}
-
+// BUILDER ATTRIBUTES
 func (i *PBmmGenericPropertyBuilder) Build() (*PBmmGenericProperty, []error) {
+	if i.object.(*PBmmGenericProperty).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmGenericProperty), nil
 	}
+}
+
+// PBmmProperty
+func (i *PBmmGenericPropertyBuilder) SetName(v string) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetName(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) SetIsMandatory(v bool) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsMandatory(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) SetIsComputed(v bool) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsComputed(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) SetIsImRuntime(v bool) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) SetTypeDef(v IPBmmGenericType) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetTypeDef(v))
+	return i
+}
+
+func (i *PBmmGenericPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmGenericPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetBmmProperty(v))
+	return i
 }
 
 // PBmmModelElement
@@ -819,23 +882,10 @@ func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBm
 	return i
 }
 
-/*
-*
-_type definition of this property, if not a simple String type reference.
-Persistent attribute.
-*/
-func (i *PBmmContainerPropertyBuilder) SetTypeDef(v IPBmmContainerType) *PBmmContainerPropertyBuilder {
-	i.AddError(i.object.(*PBmmContainerProperty).SetTypeDef(v))
-	return i
-}
-
-// BMM_PROPERTY created by create_bmm_property .
-func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v IBmmContainerProperty) *PBmmContainerPropertyBuilder {
-	i.AddError(i.object.(*PBmmContainerProperty).SetBmmProperty(v))
-	return i
-}
-
 func (i *PBmmContainerPropertyBuilder) Build() (*PBmmContainerProperty, []error) {
+	if i.object.(*PBmmContainerProperty).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmContainerProperty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -843,13 +893,52 @@ func (i *PBmmContainerPropertyBuilder) Build() (*PBmmContainerProperty, []error)
 	}
 }
 
+// PBmmProperty
+
+func (i *PBmmContainerPropertyBuilder) SetName(v string) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetName(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) SetIsMandatory(v bool) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsMandatory(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) SetIsComputed(v bool) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsComputed(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) SetIsImInfrastructure(v bool) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImInfrastructure(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) SetIsImRuntime(v bool) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetIsImRuntime(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) SetTypeDef(v IPBmmContainerType) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetTypeDef(v))
+	return i
+}
+
+func (i *PBmmContainerPropertyBuilder) SetBmmProperty(v IBmmProperty) *PBmmContainerPropertyBuilder {
+	i.AddError(i.object.(*PBmmProperty).SetBmmProperty(v))
+	return i
+}
+
 // PBmmModelElement
+
 func (i *PBmmContainerPropertyBuilder) SetDocumentation(v string) *PBmmContainerPropertyBuilder {
 	i.AddError(i.object.(*PBmmModelElement).SetDocumentation(v))
 	return i
 }
 
-/* ============================= PBmmEnumeration =====================================*/
+/* ============================= PBmmEnumeration =====================================
+ */
 type PBmmEnumerationBuilder struct {
 	Builder
 }

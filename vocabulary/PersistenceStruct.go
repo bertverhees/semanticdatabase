@@ -299,6 +299,9 @@ func (p *PBmmClass) Name() string {
 }
 
 func (p *PBmmClass) SetName(name string) error {
+	if name == "" {
+		return errors.New("name in PBmmClass should not be set empty")
+	}
 	p.name = name
 	return nil
 }
@@ -353,6 +356,9 @@ func (p *PBmmClass) SourceSchemaId() string {
 }
 
 func (p *PBmmClass) SetSourceSchemaId(sourceSchemaId string) error {
+	if sourceSchemaId == "" {
+		return errors.New("sourceSchemaId in PBmmClass should not be set empty")
+	}
 	p.sourceSchemaId = sourceSchemaId
 	return nil
 }
@@ -379,6 +385,7 @@ func (p *PBmmClass) SetUid(uid int) error {
 func NewPBmmClass() *PBmmClass {
 	pbmmclass := new(PBmmClass)
 	pbmmclass.ancestors = make([]string, 0)
+	pbmmclass.uid = 0
 	pbmmclass.properties = make(map[string]IPBmmProperty)
 	pbmmclass.genericParameterDefs = make(map[string]IPBmmGenericParameter)
 	return pbmmclass
@@ -428,6 +435,9 @@ func (p *PBmmGenericParameter) Name() string {
 }
 
 func (p *PBmmGenericParameter) SetName(name string) error {
+	if name == "" {
+		return errors.New("name in PBmmGenericParameter should not be set empty")
+	}
 	p.name = name
 	return nil
 }
