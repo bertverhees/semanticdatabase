@@ -35,8 +35,8 @@ func (P *PBmmPackageContainer) Packages() map[string]IPBmmPackage {
 }
 
 func (P *PBmmPackageContainer) SetPackages(packages map[string]IPBmmPackage) error {
-	if packages == nil {
-		return errors.New("Packages in PBmmPackageContainer should not be set to null")
+	if packages == nil || len(packages) == 0 {
+		return errors.New("Packages in PBmmPackageContainer should not be set to null or 0 items")
 	}
 	P.packages = packages
 	return nil
@@ -163,6 +163,9 @@ func (p *PBmmPackage) Name() string {
 }
 
 func (p *PBmmPackage) SetName(name string) error {
+	if name == "" {
+		return errors.New("name=property should not be set to an empty property in PBmmPackage")
+	}
 	p.name = name
 	return nil
 }

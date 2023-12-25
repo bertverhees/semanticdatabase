@@ -1,6 +1,9 @@
 package vocabulary
 
-import "semanticdatabase/base"
+import (
+	"errors"
+	"semanticdatabase/base"
+)
 
 /* ============================= PBmmPackageContainer =====================================*/
 type PBmmPackageContainerBuilder struct {
@@ -24,6 +27,9 @@ func (i *PBmmPackageContainerBuilder) SetPackages(v map[string]IPBmmPackage) *PB
 }
 
 func (i *PBmmPackageContainerBuilder) Build() (*PBmmPackageContainer, []error) {
+	if i.object.(*PBmmPackageContainer).Packages() == nil || len(i.object.(*PBmmPackageContainer).Packages()) == 0 {
+		i.AddError(errors.New("Packages in PBmmPackageContainer or descendants should not be set to null or 0 items"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -93,7 +99,7 @@ func (i *PBmmSchemaBuilder) SetBmmModel(v IBmmModel) *PBmmSchemaBuilder {
 
 // From: BmmSchema
 // Current processing state.
-func (i *PBmmSchemaBuilder) SetState(v BmmSchemaState) *PBmmSchemaBuilder {
+func (i *PBmmSchemaBuilder) SetState(v *BmmSchemaState) *PBmmSchemaBuilder {
 	i.AddError(i.object.(*PBmmSchema).SetState(v))
 	return i
 }
@@ -169,6 +175,30 @@ func (i *PBmmSchemaBuilder) SetRmRelease(v string) *PBmmSchemaBuilder {
 }
 
 func (i *PBmmSchemaBuilder) Build() (*PBmmSchema, []error) {
+	if i.object.(*PBmmSchema).Packages() == nil || len(i.object.(*PBmmSchema).Packages()) == 0 {
+		i.AddError(errors.New("Packages in PBmmSchema should not be set to null or 0 items"))
+	}
+	if i.object.(*PBmmSchema).BmmVersion() == "" {
+		i.AddError(errors.New("BmmVersion in PBmmSchema should not be set empty"))
+	}
+	if i.object.(*PBmmSchema).State() == nil {
+		i.AddError(errors.New("Packages in PBmmSchema should not be set to null or 0 items"))
+	}
+	if i.object.(*PBmmSchema).SchemaName() == "" {
+		i.AddError(errors.New("SchemaName in PBmmSchema should not be set empty"))
+	}
+	if i.object.(*PBmmSchema).SchemaRevision() == "" {
+		i.AddError(errors.New("SchemaRevision in PBmmSchema should not be set empty"))
+	}
+	if i.object.(*PBmmSchema).SchemaLifecycleState() == "" {
+		i.AddError(errors.New("SchemaLifecycleState in PBmmSchema should not be set empty"))
+	}
+	if i.object.(*PBmmSchema).SchemaAuthor() == "" {
+		i.AddError(errors.New("SchemaAuthor in PBmmSchema should not be set empty"))
+	}
+	if i.object.(*PBmmSchema).SchemaDescription() == "" {
+		i.AddError(errors.New("SchemaDescription in PBmmSchema should not be set empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -209,29 +239,24 @@ func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v IBmmPackage) *PBmmPackage
 	return i
 }
 
-// From: PBmmPackageContainer
-/**
-Package structure as a hierarchy of packages each potentially containing names
-of classes in that package in the original model.
-*/
-func (i *PBmmPackageBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetPackages(v))
-	return i
-}
-
-// From: PBmmModelElement
-// Optional documentation of this element.
-func (i *PBmmPackageBuilder) SetDocumentation(v string) *PBmmPackageBuilder {
-	i.AddError(i.object.(*PBmmPackage).SetDocumentation(v))
-	return i
-}
-
 func (i *PBmmPackageBuilder) Build() (*PBmmPackage, []error) {
+	if i.object.(*PBmmPackage).Packages() == nil || len(i.object.(*PBmmPackage).Packages()) == 0 {
+		i.AddError(errors.New("Packages in PBmmPackageContainer or PBmmPackage should not be set to null or 0 items"))
+	}
+	if i.object.(*PBmmPackage).Name() == "" {
+		i.AddError(errors.New("name=property should not be set to an empty property in PBmmPackage"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmPackage), nil
 	}
+}
+
+// From: PBmmPackageContainer
+func (i *PBmmPackageBuilder) SetPackages(v map[string]IPBmmPackage) *PBmmPackageBuilder {
+	i.AddError(i.object.(*PBmmPackage).SetPackages(v))
+	return i
 }
 
 // PBmmModelElement
