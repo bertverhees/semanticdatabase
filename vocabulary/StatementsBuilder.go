@@ -1,13 +1,10 @@
 package vocabulary
 
-/* ================ BmmStatementItem =========================== */
-type BmmStatementItemBuilder struct {
-	Builder
-}
+import "errors"
 
 /* ================ BmmStatementBlock =========================== */
 type BmmStatementBlockBuilder struct {
-	BmmStatementItemBuilder
+	Builder
 }
 
 func NewBmmStatementBlockBuilder() *BmmStatementBlockBuilder {
@@ -29,19 +26,9 @@ func (i *BmmStatementBlockBuilder) Build() (*BmmStatementBlock, []error) {
 	}
 }
 
-/* ================ BmmStatement =========================== */
-type BmmStatementBuilder struct {
-	BmmStatementItemBuilder
-}
-
-/* ================ BmmSimpleStatement =========================== */
-type BmmSimpleStatementBuilder struct {
-	BmmStatementBuilder
-}
-
 /* ================ BmmDeclaration =========================== */
 type BmmDeclarationBuilder struct {
-	BmmSimpleStatementBuilder
+	Builder
 }
 
 func NewBmmDeclarationBuilder() *BmmDeclarationBuilder {
@@ -67,6 +54,15 @@ func (i *BmmDeclarationBuilder) SetType(v IBmmType) *BmmDeclarationBuilder {
 }
 
 func (i *BmmDeclarationBuilder) Build() (*BmmDeclaration, []error) {
+	if i.object.(*BmmDeclaration).Name() == "" {
+		i.AddError(errors.New("Name-property should not be set emty in BmmDeclaration"))
+	}
+	if i.object.(*BmmDeclaration).Result() == nil {
+		i.AddError(errors.New("Result-property should not be set nil in BmmDeclaration"))
+	}
+	if i.object.(*BmmDeclaration).Type() == nil {
+		i.AddError(errors.New("Type-property should not be set nil in BmmDeclaration"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -76,7 +72,7 @@ func (i *BmmDeclarationBuilder) Build() (*BmmDeclaration, []error) {
 
 /* ================ BmmAssignment =========================== */
 type BmmAssignmentBuilder struct {
-	BmmSimpleStatementBuilder
+	Builder
 }
 
 func NewBmmAssignmentBuilder() *BmmAssignmentBuilder {
@@ -99,6 +95,12 @@ func (i *BmmAssignmentBuilder) SetSource(v IElExpression) *BmmAssignmentBuilder 
 }
 
 func (i *BmmAssignmentBuilder) Build() (*BmmAssignment, []error) {
+	if i.object.(*BmmAssignment).Target() == nil {
+		i.AddError(errors.New("Target-property should not be set nil in BmmAssignment"))
+	}
+	if i.object.(*BmmAssignment).Source() == nil {
+		i.AddError(errors.New("Source-property should not be set nil in BmmAssignment"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -125,6 +127,9 @@ func (i *BmmProcedureCallBuilder) SetAgent(v IElProcedureAgent) *BmmProcedureCal
 }
 
 func (i *BmmProcedureCallBuilder) Build() (*BmmProcedureCall, []error) {
+	if i.object.(*BmmProcedureCall).Agent() == nil {
+		i.AddError(errors.New("Agent in BmmProcedureCall should not be set to null"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -134,7 +139,7 @@ func (i *BmmProcedureCallBuilder) Build() (*BmmProcedureCall, []error) {
 
 /* ================ BmmAssertion =========================== */
 type BmmAssertionBuilder struct {
-	BmmSimpleStatementBuilder
+	Builder
 }
 
 func NewBmmAssertionBuilder() *BmmAssertionBuilder {
@@ -161,6 +166,9 @@ func (i *BmmAssertionBuilder) SetTag(v string) *BmmAssertionBuilder {
 }
 
 func (i *BmmAssertionBuilder) Build() (*BmmAssertion, []error) {
+	if i.object.(*BmmAssertion).Expression() == nil {
+		i.AddError(errors.New("Expression in BmmAssertion should not be set to null"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -170,7 +178,7 @@ func (i *BmmAssertionBuilder) Build() (*BmmAssertion, []error) {
 
 /* ================ BmmActionTable =========================== */
 type BmmActionTableBuilder struct {
-	BmmStatementBuilder
+	Builder
 }
 
 func NewBmmActionTableBuilder() *BmmActionTableBuilder {
@@ -190,6 +198,9 @@ func (i *BmmActionTableBuilder) SetDecisionTable(v IBmmActionDecisionTable) *Bmm
 }
 
 func (i *BmmActionTableBuilder) Build() (*BmmActionTable, []error) {
+	if i.object.(*BmmActionTable).DecisionTable() == nil {
+		i.AddError(errors.New("DecisionTable in BmmActionTable should not be set to null"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
