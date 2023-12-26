@@ -60,8 +60,8 @@ type IBmmSchema interface {
 	SetIncludes(includes map[string]IBmmIncludeSpec) error
 	BmmModel() IBmmModel
 	SetBmmModel(bmmModel IBmmModel) error
-	State() BmmSchemaState
-	SetState(state BmmSchemaState) error
+	State() *BmmSchemaState
+	SetState(state *BmmSchemaState) error
 	ModelName() string
 	SetModelName(modelName string) error
 	SchemaName() string

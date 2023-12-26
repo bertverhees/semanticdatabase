@@ -70,7 +70,7 @@ func (i *BmmSchemaBuilder) SetBmmModel(v IBmmModel) *BmmSchemaBuilder {
 	return i
 }
 
-func (i *BmmSchemaBuilder) SetState(v BmmSchemaState) *BmmSchemaBuilder {
+func (i *BmmSchemaBuilder) SetState(v *BmmSchemaState) *BmmSchemaBuilder {
 	i.AddError(i.object.(*BmmSchema).SetState(v))
 	return i
 }

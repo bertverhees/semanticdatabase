@@ -300,7 +300,7 @@ func (p *PBmmClass) Name() string {
 
 func (p *PBmmClass) SetName(name string) error {
 	if name == "" {
-		return errors.New("name in PBmmClass should not be set empty")
+		return errors.New("name in PBmmClass and descendants should not be set empty")
 	}
 	p.name = name
 	return nil
@@ -357,7 +357,7 @@ func (p *PBmmClass) SourceSchemaId() string {
 
 func (p *PBmmClass) SetSourceSchemaId(sourceSchemaId string) error {
 	if sourceSchemaId == "" {
-		return errors.New("sourceSchemaId in PBmmClass should not be set empty")
+		return errors.New("sourceSchemaId in PBmmClass and descendants should not be set empty")
 	}
 	p.sourceSchemaId = sourceSchemaId
 	return nil
@@ -603,6 +603,9 @@ func (p *PBmmSimpleType) Type() string {
 }
 
 func (p *PBmmSimpleType) SetType(_type string) error {
+	if _type == "" {
+		return errors.New("_type in PBmmSimpleType should not be set empty")
+	}
 	p._type = _type
 	return nil
 }
@@ -641,6 +644,9 @@ func (p *PBmmOpenType) Type() string {
 }
 
 func (p *PBmmOpenType) SetType(_type string) error {
+	if _type == "" {
+		return errors.New("_type in PBmmOpenType should not be set empty")
+	}
 	p._type = _type
 	return nil
 }
@@ -692,6 +698,9 @@ func (p *PBmmGenericType) RootType() string {
 }
 
 func (p *PBmmGenericType) SetRootType(rootType string) error {
+	if rootType == "" {
+		return errors.New("rootType in PBmmGenericType should not be set empty")
+	}
 	p.rootType = rootType
 	return nil
 }
@@ -701,6 +710,9 @@ func (p *PBmmGenericType) GenericParameterDefs() []IPBmmType {
 }
 
 func (p *PBmmGenericType) SetGenericParameterDefs(genericParameterDefs []IPBmmType) error {
+	if genericParameterDefs == nil || len(genericParameterDefs) == 0 {
+		return errors.New("genericParameterDefs should not be nil or an empty array in PBmmGenericType")
+	}
 	p.genericParameterDefs = genericParameterDefs
 	return nil
 }
@@ -769,6 +781,9 @@ func (p *PBmmContainerType) ContainerType() string {
 }
 
 func (p *PBmmContainerType) SetContainerType(containerType string) error {
+	if containerType == "" {
+		return errors.New("containerType in PBmmContainerType should not be set empty")
+	}
 	p.containerType = containerType
 	return nil
 }

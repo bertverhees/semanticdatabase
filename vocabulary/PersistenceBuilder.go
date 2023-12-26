@@ -447,11 +447,6 @@ func (i *PBmmGenericParameterBuilder) Build() (*PBmmGenericParameter, []error) {
 	}
 }
 
-/* ============================= PBmmBaseType =====================================*/
-type PBmmBaseTypeBuilder struct {
-	Builder
-}
-
 /* ============================= PBmmSimpleType =====================================*/
 type PBmmSimpleTypeBuilder struct {
 	Builder
@@ -471,12 +466,15 @@ func (i *PBmmSimpleTypeBuilder) SetType(v string) *PBmmSimpleTypeBuilder {
 }
 
 // result of create_bmm_type() call.
-func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmType) *PBmmSimpleTypeBuilder {
+func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmSimpleType) *PBmmSimpleTypeBuilder {
 	i.AddError(i.object.(*PBmmSimpleType).SetBmmType(v))
 	return i
 }
 
 func (i *PBmmSimpleTypeBuilder) Build() (*PBmmSimpleType, []error) {
+	if i.object.(*PBmmSimpleType).Type() == "" {
+		i.AddError(errors.New("type in PBmmSimpleType should not be empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -509,6 +507,9 @@ func (i *PBmmOpenTypeBuilder) SetBmmType(v IBmmType) *PBmmOpenTypeBuilder {
 }
 
 func (i *PBmmOpenTypeBuilder) Build() (*PBmmOpenType, []error) {
+	if i.object.(*PBmmOpenType).Type() == "" {
+		i.AddError(errors.New("type in PBmmOpenType should not be empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -563,6 +564,12 @@ func (i *PBmmGenericTypeBuilder) SetBmmType(v IBmmGenericType) *PBmmGenericTypeB
 }
 
 func (i *PBmmGenericTypeBuilder) Build() (*PBmmGenericType, []error) {
+	if i.object.(*PBmmGenericType).RootType() == "" {
+		i.AddError(errors.New("RootType in PBmmGenericType should not be empty"))
+	}
+	if len(i.object.(*PBmmGenericType).GenericParameterDefs()) == 0 {
+		i.AddError(errors.New("genericParameterDefs should not be an empty array in PBmmGenericType"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -618,6 +625,9 @@ func (i *PBmmContainerTypeBuilder) SetBmmType(v IBmmContainerType) *PBmmContaine
 }
 
 func (i *PBmmContainerTypeBuilder) Build() (*PBmmContainerType, []error) {
+	if i.object.(*PBmmContainerType).ContainerType() == "" {
+		i.AddError(errors.New("ContainerType in PBmmContainerType should not be empty"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
@@ -964,16 +974,67 @@ func (i *PBmmEnumerationBuilder) SetItemValues(v []any) *PBmmEnumerationBuilder 
 BMM_CLASS object built by create_bmm_class_definition and
 populate_bmm_class_definition .
 */
-func (i *PBmmEnumerationBuilder) SetBmmClass(v IBmmClass) *PBmmEnumerationBuilder {
+func (i *PBmmEnumerationBuilder) SetBmmClass(v IBmmEnumeration) *PBmmEnumerationBuilder {
 	i.AddError(i.object.(*PBmmEnumeration).SetBmmClass(v))
 	return i
 }
 func (i *PBmmEnumerationBuilder) Build() (*PBmmEnumeration, []error) {
+	if i.object.(*PBmmEnumeration).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+	}
+	if i.object.(*PBmmEnumeration).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
+	}
+	if i.object.(*PBmmEnumeration).Uid() == 0 {
+		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmEnumeration), nil
 	}
+}
+
+// PBmmClass
+func (i *PBmmEnumerationBuilder) SetName(v string) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetName(v))
+	return i
+}
+
+func (i *PBmmEnumerationBuilder) SetAncestors(v []string) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetAncestors(v))
+	return i
+}
+
+// List of attributes defined in this class. Persistent attribute.
+func (i *PBmmEnumerationBuilder) SetProperties(v map[string]IPBmmProperty) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetProperties(v))
+	return i
+}
+
+func (i *PBmmEnumerationBuilder) SetIsAbstract(v bool) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *PBmmEnumerationBuilder) SetIsOverride(v bool) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *PBmmEnumerationBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericParameter) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetGenericParameterDefs(v))
+	return i
+}
+
+func (i *PBmmEnumerationBuilder) SetSourceSchemaId(v string) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *PBmmEnumerationBuilder) SetUid(v int) *PBmmEnumerationBuilder {
+	i.AddError(i.object.(*PBmmClass).SetUid(v))
+	return i
 }
 
 // PBmmModelElement
@@ -1004,11 +1065,61 @@ func (i *PBmmEnumerationStringBuilder) SetBmmClass(v IBmmEnumerationString) *PBm
 }
 
 func (i *PBmmEnumerationStringBuilder) Build() (*PBmmEnumerationString, []error) {
+	if i.object.(*PBmmEnumerationString).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+	}
+	if i.object.(*PBmmEnumerationString).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
+	}
+	if i.object.(*PBmmEnumerationString).Uid() == 0 {
+		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmEnumerationString), nil
 	}
+}
+
+// PBmmClass
+func (i *PBmmEnumerationStringBuilder) SetName(v string) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetName(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetAncestors(v []string) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetProperties(v map[string]IPBmmProperty) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetProperties(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetIsAbstract(v bool) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetIsOverride(v bool) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericParameter) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetGenericParameterDefs(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetSourceSchemaId(v string) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *PBmmEnumerationStringBuilder) SetUid(v int) *PBmmEnumerationStringBuilder {
+	i.AddError(i.object.(*PBmmClass).SetUid(v))
+	return i
 }
 
 // PBmmModelElement
@@ -1039,11 +1150,61 @@ func (i *PBmmEnumerationIntegerBuilder) SetBmmClass(v IBmmEnumerationInteger) *P
 }
 
 func (i *PBmmEnumerationIntegerBuilder) Build() (*PBmmEnumerationInteger, []error) {
+	if i.object.(*PBmmEnumerationString).Name() == "" {
+		i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+	}
+	if i.object.(*PBmmEnumerationString).SourceSchemaId() == "" {
+		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
+	}
+	if i.object.(*PBmmEnumerationString).Uid() == 0 {
+		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
+	}
 	if len(i.errors) > 0 {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmEnumerationInteger), nil
 	}
+}
+
+// PBmmClass
+func (i *PBmmEnumerationIntegerBuilder) SetName(v string) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetName(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetAncestors(v []string) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetAncestors(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetProperties(v map[string]IPBmmProperty) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetProperties(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetIsAbstract(v bool) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsAbstract(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetIsOverride(v bool) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetIsOverride(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetGenericParameterDefs(v map[string]IPBmmGenericParameter) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetGenericParameterDefs(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetSourceSchemaId(v string) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetSourceSchemaId(v))
+	return i
+}
+
+func (i *PBmmEnumerationIntegerBuilder) SetUid(v int) *PBmmEnumerationIntegerBuilder {
+	i.AddError(i.object.(*PBmmClass).SetUid(v))
+	return i
 }
 
 // PBmmModelElement
