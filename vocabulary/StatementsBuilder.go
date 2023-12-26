@@ -19,7 +19,7 @@ func (i *BmmStatementBlockBuilder) SetItems(v []IBmmStatementItem) *BmmStatement
 }
 
 func (i *BmmStatementBlockBuilder) Build() (*BmmStatementBlock, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmStatementBlock), nil
@@ -54,16 +54,18 @@ func (i *BmmDeclarationBuilder) SetType(v IBmmType) *BmmDeclarationBuilder {
 }
 
 func (i *BmmDeclarationBuilder) Build() (*BmmDeclaration, []error) {
-	if i.object.(*BmmDeclaration).Name() == "" {
-		i.AddError(errors.New("Name-property should not be set emty in BmmDeclaration"))
+	if i.errors == nil {
+		if i.object.(*BmmDeclaration).Name() == "" {
+			i.AddError(errors.New("Name-property should not be set emty in BmmDeclaration"))
+		}
+		if i.object.(*BmmDeclaration).Result() == nil {
+			i.AddError(errors.New("Result-property should not be set nil in BmmDeclaration"))
+		}
+		if i.object.(*BmmDeclaration).Type() == nil {
+			i.AddError(errors.New("Type-property should not be set nil in BmmDeclaration"))
+		}
 	}
-	if i.object.(*BmmDeclaration).Result() == nil {
-		i.AddError(errors.New("Result-property should not be set nil in BmmDeclaration"))
-	}
-	if i.object.(*BmmDeclaration).Type() == nil {
-		i.AddError(errors.New("Type-property should not be set nil in BmmDeclaration"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmDeclaration), nil
@@ -95,13 +97,15 @@ func (i *BmmAssignmentBuilder) SetSource(v IElExpression) *BmmAssignmentBuilder 
 }
 
 func (i *BmmAssignmentBuilder) Build() (*BmmAssignment, []error) {
-	if i.object.(*BmmAssignment).Target() == nil {
-		i.AddError(errors.New("Target-property should not be set nil in BmmAssignment"))
+	if i.errors == nil {
+		if i.object.(*BmmAssignment).Target() == nil {
+			i.AddError(errors.New("Target-property should not be set nil in BmmAssignment"))
+		}
+		if i.object.(*BmmAssignment).Source() == nil {
+			i.AddError(errors.New("Source-property should not be set nil in BmmAssignment"))
+		}
 	}
-	if i.object.(*BmmAssignment).Source() == nil {
-		i.AddError(errors.New("Source-property should not be set nil in BmmAssignment"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmAssignment), nil
@@ -127,10 +131,12 @@ func (i *BmmProcedureCallBuilder) SetAgent(v IElProcedureAgent) *BmmProcedureCal
 }
 
 func (i *BmmProcedureCallBuilder) Build() (*BmmProcedureCall, []error) {
-	if i.object.(*BmmProcedureCall).Agent() == nil {
-		i.AddError(errors.New("Agent in BmmProcedureCall should not be set to null"))
+	if i.errors == nil {
+		if i.object.(*BmmProcedureCall).Agent() == nil {
+			i.AddError(errors.New("Agent in BmmProcedureCall should not be set to null"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmProcedureCall), nil
@@ -166,10 +172,12 @@ func (i *BmmAssertionBuilder) SetTag(v string) *BmmAssertionBuilder {
 }
 
 func (i *BmmAssertionBuilder) Build() (*BmmAssertion, []error) {
-	if i.object.(*BmmAssertion).Expression() == nil {
-		i.AddError(errors.New("Expression in BmmAssertion should not be set to null"))
+	if i.errors == nil {
+		if i.object.(*BmmAssertion).Expression() == nil {
+			i.AddError(errors.New("Expression in BmmAssertion should not be set to null"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmAssertion), nil
@@ -198,10 +206,12 @@ func (i *BmmActionTableBuilder) SetDecisionTable(v IBmmActionDecisionTable) *Bmm
 }
 
 func (i *BmmActionTableBuilder) Build() (*BmmActionTable, []error) {
-	if i.object.(*BmmActionTable).DecisionTable() == nil {
-		i.AddError(errors.New("DecisionTable in BmmActionTable should not be set to null"))
+	if i.errors == nil {
+		if i.object.(*BmmActionTable).DecisionTable() == nil {
+			i.AddError(errors.New("DecisionTable in BmmActionTable should not be set to null"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmActionTable), nil
@@ -220,7 +230,7 @@ func NewBmmActionDecisionTableBuilder() *BmmActionDecisionTableBuilder {
 }
 
 func (i *BmmActionDecisionTableBuilder) Build() (*BmmActionDecisionTable, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmActionDecisionTable), nil

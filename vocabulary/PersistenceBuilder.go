@@ -27,10 +27,12 @@ func (i *PBmmPackageContainerBuilder) SetPackages(v map[string]IPBmmPackage) *PB
 }
 
 func (i *PBmmPackageContainerBuilder) Build() (*PBmmPackageContainer, []error) {
-	if i.object.(*PBmmPackageContainer).Packages() == nil || len(i.object.(*PBmmPackageContainer).Packages()) == 0 {
-		i.AddError(errors.New("Packages in PBmmPackageContainer or descendants should not be set to null or 0 items"))
+	if i.errors == nil {
+		if i.object.(*PBmmPackageContainer).Packages() == nil || len(i.object.(*PBmmPackageContainer).Packages()) == 0 {
+			i.AddError(errors.New("Packages in PBmmPackageContainer or descendants should not be set to null or 0 items"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmPackageContainer), nil
@@ -175,31 +177,33 @@ func (i *PBmmSchemaBuilder) SetRmRelease(v string) *PBmmSchemaBuilder {
 }
 
 func (i *PBmmSchemaBuilder) Build() (*PBmmSchema, []error) {
-	if i.object.(*PBmmSchema).Packages() == nil || len(i.object.(*PBmmSchema).Packages()) == 0 {
-		i.AddError(errors.New("Packages in PBmmSchema should not be set to null or 0 items"))
+	if i.errors == nil {
+		if i.object.(*PBmmSchema).Packages() == nil || len(i.object.(*PBmmSchema).Packages()) == 0 {
+			i.AddError(errors.New("Packages in PBmmSchema should not be set to null or 0 items"))
+		}
+		if i.object.(*PBmmSchema).BmmVersion() == "" {
+			i.AddError(errors.New("BmmVersion in PBmmSchema should not be set empty"))
+		}
+		if i.object.(*PBmmSchema).State() == nil {
+			i.AddError(errors.New("Packages in PBmmSchema should not be set to null or 0 items"))
+		}
+		if i.object.(*PBmmSchema).SchemaName() == "" {
+			i.AddError(errors.New("SchemaName in PBmmSchema should not be set empty"))
+		}
+		if i.object.(*PBmmSchema).SchemaRevision() == "" {
+			i.AddError(errors.New("SchemaRevision in PBmmSchema should not be set empty"))
+		}
+		if i.object.(*PBmmSchema).SchemaLifecycleState() == "" {
+			i.AddError(errors.New("SchemaLifecycleState in PBmmSchema should not be set empty"))
+		}
+		if i.object.(*PBmmSchema).SchemaAuthor() == "" {
+			i.AddError(errors.New("SchemaAuthor in PBmmSchema should not be set empty"))
+		}
+		if i.object.(*PBmmSchema).SchemaDescription() == "" {
+			i.AddError(errors.New("SchemaDescription in PBmmSchema should not be set empty"))
+		}
 	}
-	if i.object.(*PBmmSchema).BmmVersion() == "" {
-		i.AddError(errors.New("BmmVersion in PBmmSchema should not be set empty"))
-	}
-	if i.object.(*PBmmSchema).State() == nil {
-		i.AddError(errors.New("Packages in PBmmSchema should not be set to null or 0 items"))
-	}
-	if i.object.(*PBmmSchema).SchemaName() == "" {
-		i.AddError(errors.New("SchemaName in PBmmSchema should not be set empty"))
-	}
-	if i.object.(*PBmmSchema).SchemaRevision() == "" {
-		i.AddError(errors.New("SchemaRevision in PBmmSchema should not be set empty"))
-	}
-	if i.object.(*PBmmSchema).SchemaLifecycleState() == "" {
-		i.AddError(errors.New("SchemaLifecycleState in PBmmSchema should not be set empty"))
-	}
-	if i.object.(*PBmmSchema).SchemaAuthor() == "" {
-		i.AddError(errors.New("SchemaAuthor in PBmmSchema should not be set empty"))
-	}
-	if i.object.(*PBmmSchema).SchemaDescription() == "" {
-		i.AddError(errors.New("SchemaDescription in PBmmSchema should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmSchema), nil
@@ -240,13 +244,15 @@ func (i *PBmmPackageBuilder) SetBmmPackageDefinition(v IBmmPackage) *PBmmPackage
 }
 
 func (i *PBmmPackageBuilder) Build() (*PBmmPackage, []error) {
-	if i.object.(*PBmmPackage).Packages() == nil || len(i.object.(*PBmmPackage).Packages()) == 0 {
-		i.AddError(errors.New("Packages in PBmmPackageContainer or PBmmPackage should not be set to null or 0 items"))
+	if i.errors == nil {
+		if i.object.(*PBmmPackage).Packages() == nil || len(i.object.(*PBmmPackage).Packages()) == 0 {
+			i.AddError(errors.New("Packages in PBmmPackageContainer or PBmmPackage should not be set to null or 0 items"))
+		}
+		if i.object.(*PBmmPackage).Name() == "" {
+			i.AddError(errors.New("name=property should not be set to an empty property in PBmmPackage"))
+		}
 	}
-	if i.object.(*PBmmPackage).Name() == "" {
-		i.AddError(errors.New("name=property should not be set to an empty property in PBmmPackage"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmPackage), nil
@@ -370,16 +376,18 @@ inheritance. Persisted attribute.
 //}
 
 func (i *PBmmClassBuilder) Build() (*PBmmClass, []error) {
-	if i.object.(*PBmmClass).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmClass"))
+	if i.errors == nil {
+		if i.object.(*PBmmClass).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmClass"))
+		}
+		if i.object.(*PBmmClass).SourceSchemaId() == "" {
+			i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmClass"))
+		}
+		if i.object.(*PBmmClass).Uid() == 0 {
+			i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmClass"))
+		}
 	}
-	if i.object.(*PBmmClass).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmClass"))
-	}
-	if i.object.(*PBmmClass).Uid() == 0 {
-		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmClass"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmClass), nil
@@ -437,10 +445,12 @@ func (i *PBmmGenericParameterBuilder) SetDocumentation(v string) *PBmmGenericPar
 }
 
 func (i *PBmmGenericParameterBuilder) Build() (*PBmmGenericParameter, []error) {
-	if i.object.(*PBmmGenericParameter).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmGenericParameter"))
+	if i.errors == nil {
+		if i.object.(*PBmmGenericParameter).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmGenericParameter"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmGenericParameter), nil
@@ -472,10 +482,12 @@ func (i *PBmmSimpleTypeBuilder) SetBmmType(v IBmmSimpleType) *PBmmSimpleTypeBuil
 }
 
 func (i *PBmmSimpleTypeBuilder) Build() (*PBmmSimpleType, []error) {
-	if i.object.(*PBmmSimpleType).Type() == "" {
-		i.AddError(errors.New("type in PBmmSimpleType should not be empty"))
+	if i.errors == nil {
+		if i.object.(*PBmmSimpleType).Type() == "" {
+			i.AddError(errors.New("type in PBmmSimpleType should not be empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmSimpleType), nil
@@ -507,10 +519,12 @@ func (i *PBmmOpenTypeBuilder) SetBmmType(v IBmmType) *PBmmOpenTypeBuilder {
 }
 
 func (i *PBmmOpenTypeBuilder) Build() (*PBmmOpenType, []error) {
-	if i.object.(*PBmmOpenType).Type() == "" {
-		i.AddError(errors.New("type in PBmmOpenType should not be empty"))
+	if i.errors == nil {
+		if i.object.(*PBmmOpenType).Type() == "" {
+			i.AddError(errors.New("type in PBmmOpenType should not be empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmOpenType), nil
@@ -564,13 +578,15 @@ func (i *PBmmGenericTypeBuilder) SetBmmType(v IBmmGenericType) *PBmmGenericTypeB
 }
 
 func (i *PBmmGenericTypeBuilder) Build() (*PBmmGenericType, []error) {
-	if i.object.(*PBmmGenericType).RootType() == "" {
-		i.AddError(errors.New("RootType in PBmmGenericType should not be empty"))
+	if i.errors == nil {
+		if i.object.(*PBmmGenericType).RootType() == "" {
+			i.AddError(errors.New("RootType in PBmmGenericType should not be empty"))
+		}
+		if len(i.object.(*PBmmGenericType).GenericParameterDefs()) == 0 {
+			i.AddError(errors.New("genericParameterDefs should not be an empty array in PBmmGenericType"))
+		}
 	}
-	if len(i.object.(*PBmmGenericType).GenericParameterDefs()) == 0 {
-		i.AddError(errors.New("genericParameterDefs should not be an empty array in PBmmGenericType"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmGenericType), nil
@@ -625,10 +641,12 @@ func (i *PBmmContainerTypeBuilder) SetBmmType(v IBmmContainerType) *PBmmContaine
 }
 
 func (i *PBmmContainerTypeBuilder) Build() (*PBmmContainerType, []error) {
-	if i.object.(*PBmmContainerType).ContainerType() == "" {
-		i.AddError(errors.New("ContainerType in PBmmContainerType should not be empty"))
+	if i.errors == nil {
+		if i.object.(*PBmmContainerType).ContainerType() == "" {
+			i.AddError(errors.New("ContainerType in PBmmContainerType should not be empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmContainerType), nil
@@ -670,10 +688,12 @@ func (i *PBmmSinglePropertyBuilder) SetTypeRef(v IPBmmSimpleType) *PBmmSinglePro
 // From: PBmmProperty
 // BMM_PROPERTY created by create_bmm_property_definition.
 func (i *PBmmSinglePropertyBuilder) Build() (*PBmmSingleProperty, []error) {
-	if i.object.(*PBmmSingleProperty).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+	if i.errors == nil {
+		if i.object.(*PBmmSingleProperty).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmSingleProperty), nil
@@ -756,10 +776,12 @@ func (i *PBmmSinglePropertyOpenBuilder) SetType(v string) *PBmmSinglePropertyOpe
 }
 
 func (i *PBmmSinglePropertyOpenBuilder) Build() (*PBmmSinglePropertyOpen, []error) {
-	if i.object.(*PBmmSinglePropertyOpen).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+	if i.errors == nil {
+		if i.object.(*PBmmSinglePropertyOpen).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmSinglePropertyOpen), nil
@@ -821,10 +843,12 @@ func NewPBmmGenericPropertyBuilder() *PBmmGenericPropertyBuilder {
 
 // BUILDER ATTRIBUTES
 func (i *PBmmGenericPropertyBuilder) Build() (*PBmmGenericProperty, []error) {
-	if i.object.(*PBmmGenericProperty).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+	if i.errors == nil {
+		if i.object.(*PBmmGenericProperty).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmSingleProperty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmGenericProperty), nil
@@ -893,10 +917,12 @@ func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBm
 }
 
 func (i *PBmmContainerPropertyBuilder) Build() (*PBmmContainerProperty, []error) {
-	if i.object.(*PBmmContainerProperty).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmContainerProperty"))
+	if i.errors == nil {
+		if i.object.(*PBmmContainerProperty).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmContainerProperty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmContainerProperty), nil
@@ -979,16 +1005,18 @@ func (i *PBmmEnumerationBuilder) SetBmmClass(v IBmmEnumeration) *PBmmEnumeration
 	return i
 }
 func (i *PBmmEnumerationBuilder) Build() (*PBmmEnumeration, []error) {
-	if i.object.(*PBmmEnumeration).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+	if i.errors == nil {
+		if i.object.(*PBmmEnumeration).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+		}
+		if i.object.(*PBmmEnumeration).SourceSchemaId() == "" {
+			i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
+		}
+		if i.object.(*PBmmEnumeration).Uid() == 0 {
+			i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
+		}
 	}
-	if i.object.(*PBmmEnumeration).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
-	}
-	if i.object.(*PBmmEnumeration).Uid() == 0 {
-		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmEnumeration), nil
@@ -1065,16 +1093,18 @@ func (i *PBmmEnumerationStringBuilder) SetBmmClass(v IBmmEnumerationString) *PBm
 }
 
 func (i *PBmmEnumerationStringBuilder) Build() (*PBmmEnumerationString, []error) {
-	if i.object.(*PBmmEnumerationString).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+	if i.errors == nil {
+		if i.object.(*PBmmEnumerationString).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+		}
+		if i.object.(*PBmmEnumerationString).SourceSchemaId() == "" {
+			i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
+		}
+		if i.object.(*PBmmEnumerationString).Uid() == 0 {
+			i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
+		}
 	}
-	if i.object.(*PBmmEnumerationString).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
-	}
-	if i.object.(*PBmmEnumerationString).Uid() == 0 {
-		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmEnumerationString), nil
@@ -1150,16 +1180,18 @@ func (i *PBmmEnumerationIntegerBuilder) SetBmmClass(v IBmmEnumerationInteger) *P
 }
 
 func (i *PBmmEnumerationIntegerBuilder) Build() (*PBmmEnumerationInteger, []error) {
-	if i.object.(*PBmmEnumerationString).Name() == "" {
-		i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+	if i.errors == nil {
+		if i.object.(*PBmmEnumerationString).Name() == "" {
+			i.AddError(errors.New("name-property should not be set to an empty property in PBmmEnumeration"))
+		}
+		if i.object.(*PBmmEnumerationString).SourceSchemaId() == "" {
+			i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
+		}
+		if i.object.(*PBmmEnumerationString).Uid() == 0 {
+			i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
+		}
 	}
-	if i.object.(*PBmmEnumerationString).SourceSchemaId() == "" {
-		i.AddError(errors.New("SourceSchemaId-property should not be set to an empty property in PBmmEnumeration"))
-	}
-	if i.object.(*PBmmEnumerationString).Uid() == 0 {
-		i.AddError(errors.New("Uid-property should not be set to 0 (zero) in PBmmEnumeration"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*PBmmEnumerationInteger), nil

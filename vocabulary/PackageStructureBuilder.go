@@ -11,7 +11,7 @@ func NewBmmDefinitionsBuilder() *BmmDefinitionsBuilder {
 }
 
 func (i *BmmDefinitionsBuilder) Build() (*BmmDefinitions, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmDefinitions), nil

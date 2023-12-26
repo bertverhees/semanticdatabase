@@ -28,11 +28,13 @@ func (i *ElTypeRefBuilder) SetIsMutable(v bool) *ElTypeRefBuilder {
 }
 
 func (i *ElTypeRefBuilder) Build() (*ElTypeRef, []error) {
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElTypeRef should not be set empty"))
+	if i.errors == nil {
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElTypeRef should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElTypeRef), nil
@@ -69,7 +71,7 @@ func (i *ElLiteralBuilder) SetValue(v IBmmLiteralValue[IBmmType]) *ElLiteralBuil
 }
 
 func (i *ElLiteralBuilder) Build() (*ElLiteral, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElLiteral), nil
@@ -94,11 +96,13 @@ func (i *ElWritableVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElWri
 	return i
 }
 func (i *ElWritableVariableBuilder) Build() (*ElWritableVariable, []error) {
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElWritableVariable should not be set empty"))
+	if i.errors == nil {
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElWritableVariable should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElWritableVariable), nil
@@ -135,11 +139,13 @@ func (i *ElReadonlyVariableBuilder) SetDefinition(v IBmmWritableVariable) *ElRea
 }
 
 func (i *ElReadonlyVariableBuilder) Build() (*ElReadonlyVariable, []error) {
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElReadonlyVariable should not be set empty"))
+	if i.errors == nil {
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElReadonlyVariable should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElReadonlyVariable), nil
@@ -176,11 +182,13 @@ func (i *ElPropertyRefBuilder) SetDefinition(v IBmmProperty) *ElPropertyRefBuild
 }
 
 func (i *ElPropertyRefBuilder) Build() (*ElPropertyRef, []error) {
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElPropertyRef should not be set empty"))
+	if i.errors == nil {
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElPropertyRef should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElPropertyRef), nil
@@ -217,11 +225,13 @@ func (i *ElStaticRefBuilder) SetDefinition(v IBmmProperty) *ElStaticRefBuilder {
 }
 
 func (i *ElStaticRefBuilder) Build() (*ElStaticRef, []error) {
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElStaticRef should not be set empty"))
+	if i.errors == nil {
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElStaticRef should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElStaticRef), nil
@@ -256,15 +266,17 @@ func (i *ElFunctionCallBuilder) SetAgent(v IElFunctionAgent) *ElFunctionCallBuil
 }
 
 func (i *ElFunctionCallBuilder) Build() (*ElFunctionCall, []error) {
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("name property of ElFunctionCall should not be set empty"))
+	if i.errors == nil {
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("name property of ElFunctionCall should not be set empty"))
+		}
+		// ElAgentCall
+		if i.object.(*ElAgentCall).Agent() == nil {
+			i.AddError(errors.New("agent property of ElFunctionCall should not be set empty"))
+		}
 	}
-	// ElAgentCall
-	if i.object.(*ElAgentCall).Agent() == nil {
-		i.AddError(errors.New("agent property of ElFunctionCall should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElFunctionCall), nil
@@ -304,12 +316,14 @@ func (i *ElFunctionAgentBuilder) SetDefinition(v IBmmRoutine) *ElFunctionAgentBu
 }
 
 func (i *ElFunctionAgentBuilder) Build() (*ElFunctionAgent, []error) {
-	// ElAgent
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElFunctionAgent should not be set empty"))
+	if i.errors == nil {
+		// ElAgent
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElFunctionAgent should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElFunctionAgent), nil
@@ -360,12 +374,14 @@ func (i *ElProcedureAgentBuilder) SetDefinition(v IBmmProcedure) *ElProcedureAge
 }
 
 func (i *ElProcedureAgentBuilder) Build() (*ElProcedureAgent, []error) {
-	// ElAgent
-	// ElValueGenerator
-	if i.object.(*ElValueGenerator).Name() == "" {
-		i.AddError(errors.New("Name property of ElProcedureAgent should not be set empty"))
+	if i.errors == nil {
+		// ElAgent
+		// ElValueGenerator
+		if i.object.(*ElValueGenerator).Name() == "" {
+			i.AddError(errors.New("Name property of ElProcedureAgent should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElProcedureAgent), nil
@@ -406,11 +422,13 @@ func NewElDefinedBuilder() *ElDefinedBuilder {
 }
 
 func (i *ElDefinedBuilder) Build() (*ElDefined, []error) {
-	// ElPredicate
-	if i.object.(*ElPredicate).Operand() == nil {
-		i.AddError(errors.New("Operand property of ElPredicate should not be set nil"))
+	if i.errors == nil {
+		// ElPredicate
+		if i.object.(*ElPredicate).Operand() == nil {
+			i.AddError(errors.New("Operand property of ElPredicate should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElDefined), nil
@@ -435,11 +453,13 @@ func NewElAttachedBuilder() *ElAttachedBuilder {
 }
 
 func (i *ElAttachedBuilder) Build() (*ElAttached, []error) {
-	// ElPredicate
-	if i.object.(*ElPredicate).Operand() == nil {
-		i.AddError(errors.New("Operand property of ElAttached should not be set nil"))
+	if i.errors == nil {
+		// ElPredicate
+		if i.object.(*ElPredicate).Operand() == nil {
+			i.AddError(errors.New("Operand property of ElAttached should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElAttached), nil
@@ -464,15 +484,17 @@ func NewElConditionChainBuilder[T IElTerminal]() *ElConditionChainBuilder[T] {
 }
 
 func (i *ElConditionChainBuilder[T]) Build() (*ElConditionChain[T], []error) {
-	// ElDecisionTable
-	if len(i.object.(*ElDecisionTable[T]).Items()) == 0 {
-		i.AddError(errors.New("Items-array in ElDecisionTable should not be set to 0 items"))
+	if i.errors == nil {
+		// ElDecisionTable
+		if len(i.object.(*ElDecisionTable[T]).Items()) == 0 {
+			i.AddError(errors.New("Items-array in ElDecisionTable should not be set to 0 items"))
+		}
+		_else := i.object.(*ElDecisionTable[IElTerminal]).Else()
+		if _else == nil {
+			i.AddError(errors.New("Else property of ElDecisionTable should not be set nil"))
+		}
 	}
-	_else := i.object.(*ElDecisionTable[IElTerminal]).Else()
-	if _else == nil {
-		i.AddError(errors.New("Else property of ElDecisionTable should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElConditionChain[T]), nil
@@ -507,16 +529,18 @@ func (i *ElConditionalExpressionBuilder[T]) SetCondition(v IElExpression) *ElCon
 }
 
 func (i *ElConditionalExpressionBuilder[T]) Build() (*ElConditionalExpression[T], []error) {
-	// ElConditionalExpression
-	result := i.object.(*ElConditionalExpression[IElTerminal]).Result()
-	if result == nil {
-		i.AddError(errors.New("Result property of ElConditionalExpression should not be set nil"))
+	if i.errors == nil {
+		// ElConditionalExpression
+		result := i.object.(*ElConditionalExpression[IElTerminal]).Result()
+		if result == nil {
+			i.AddError(errors.New("Result property of ElConditionalExpression should not be set nil"))
+		}
+		// ElDecisionBranch
+		if i.object.(*ElConditionalExpression[T]).Condition() == nil {
+			i.AddError(errors.New("Condition property of ElConditionalExpression should not be set nil"))
+		}
 	}
-	// ElDecisionBranch
-	if i.object.(*ElConditionalExpression[T]).Condition() == nil {
-		i.AddError(errors.New("Condition property of ElConditionalExpression should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElConditionalExpression[T]), nil
@@ -558,19 +582,21 @@ func (i *ElCaseTableBuilder[T]) SetItems(v []IElDecisionBranch[T]) *ElCaseTableB
 }
 
 func (i *ElCaseTableBuilder[T]) Build() (*ElCaseTable[T], []error) {
-	// ElCaseTable
-	if i.object.(*ElCaseTable[T]).TestValue() == nil {
-		i.AddError(errors.New("TestValue in ElCaseTable should not be set to nil"))
+	if i.errors == nil {
+		// ElCaseTable
+		if i.object.(*ElCaseTable[T]).TestValue() == nil {
+			i.AddError(errors.New("TestValue in ElCaseTable should not be set to nil"))
+		}
+		// ElDecisionTable
+		if len(i.object.(*ElCaseTable[T]).Items()) == 0 {
+			i.AddError(errors.New("Items-array in ElDecisionTable should not be set to 0 items"))
+		}
+		_else := i.object.(*ElCaseTable[IElTerminal]).Else()
+		if _else == nil {
+			i.AddError(errors.New("Else property of ElDecisionTable should not be set nil"))
+		}
 	}
-	// ElDecisionTable
-	if len(i.object.(*ElCaseTable[T]).Items()) == 0 {
-		i.AddError(errors.New("Items-array in ElDecisionTable should not be set to 0 items"))
-	}
-	_else := i.object.(*ElCaseTable[IElTerminal]).Else()
-	if _else == nil {
-		i.AddError(errors.New("Else property of ElDecisionTable should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElCaseTable[T]), nil
@@ -602,16 +628,18 @@ func (i *ElCaseBuilder[T]) SetValueConstraint(v constraints.ICObject) *ElCaseBui
 }
 
 func (i *ElCaseBuilder[T]) Build() (*ElCase[T], []error) {
-	// ElDecisionBranch
-	result := i.object.(*ElCase[IElTerminal]).Result()
-	if result == nil {
-		i.AddError(errors.New("Result property of ElCase should not be set nil"))
+	if i.errors == nil {
+		// ElDecisionBranch
+		result := i.object.(*ElCase[IElTerminal]).Result()
+		if result == nil {
+			i.AddError(errors.New("Result property of ElCase should not be set nil"))
+		}
+		// ElCase
+		if i.object.(*ElCase[T]).ValueConstraint() == nil {
+			i.AddError(errors.New("ValueConstraint property of ElCase should not be set nil"))
+		}
 	}
-	// ElCase
-	if i.object.(*ElCase[T]).ValueConstraint() == nil {
-		i.AddError(errors.New("ValueConstraint property of ElCase should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElCase[T]), nil
@@ -642,15 +670,17 @@ func (i *ElUnaryOperatorBuilder) SetOperand(v IElExpression) *ElUnaryOperatorBui
 }
 
 func (i *ElUnaryOperatorBuilder) Build() (*ElUnaryOperator, []error) {
-	// ElUnaryOperator
-	if i.object.(*ElUnaryOperator).Operand() == nil {
-		i.AddError(errors.New("operand should not be set to nil in ElOperator and descendants"))
+	if i.errors == nil {
+		// ElUnaryOperator
+		if i.object.(*ElUnaryOperator).Operand() == nil {
+			i.AddError(errors.New("operand should not be set to nil in ElOperator and descendants"))
+		}
+		//ElOperator
+		if i.object.(*ElUnaryOperator).Call() == nil {
+			i.AddError(errors.New("call should not be set to nil in ElOperator and descendants"))
+		}
 	}
-	//ElOperator
-	if i.object.(*ElUnaryOperator).Call() == nil {
-		i.AddError(errors.New("call should not be set to nil in ElOperator and descendants"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElUnaryOperator), nil
@@ -698,18 +728,20 @@ func (i *ElBinaryOperatorBuilder) SetRightOperand(v IElExpression) *ElBinaryOper
 }
 
 func (i *ElBinaryOperatorBuilder) Build() (*ElBinaryOperator, []error) {
-	// ElBinaryOperator
-	if i.object.(*ElBinaryOperator).LeftOperand() == nil {
-		i.AddError(errors.New("LeftOperand should not be set to nil in ElBinaryOperator and descendants"))
+	if i.errors == nil {
+		// ElBinaryOperator
+		if i.object.(*ElBinaryOperator).LeftOperand() == nil {
+			i.AddError(errors.New("LeftOperand should not be set to nil in ElBinaryOperator and descendants"))
+		}
+		if i.object.(*ElBinaryOperator).RightOperand() == nil {
+			i.AddError(errors.New("RightOperand should not be set to nil in ElBinaryOperator and descendants"))
+		}
+		//ElOperator
+		if i.object.(*ElBinaryOperator).Call() == nil {
+			i.AddError(errors.New("call should not be set to nil in ElOperator and descendants"))
+		}
 	}
-	if i.object.(*ElBinaryOperator).RightOperand() == nil {
-		i.AddError(errors.New("RightOperand should not be set to nil in ElBinaryOperator and descendants"))
-	}
-	//ElOperator
-	if i.object.(*ElBinaryOperator).Call() == nil {
-		i.AddError(errors.New("call should not be set to nil in ElOperator and descendants"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElBinaryOperator), nil
@@ -760,10 +792,12 @@ func (i *ElTupleBuilder) SetType(v IBmmTupleType) *ElTupleBuilder {
 }
 
 func (i *ElTupleBuilder) Build() (*ElTuple, []error) {
-	if i.object.(*ElTuple).Type() == nil {
-		i.AddError(errors.New("Type should not be set to nil in ElTuple and descendants"))
+	if i.errors == nil {
+		if i.object.(*ElTuple).Type() == nil {
+			i.AddError(errors.New("Type should not be set to nil in ElTuple and descendants"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElTuple), nil
@@ -798,7 +832,7 @@ func (i *ElTupleItemBuilder) SetName(v string) *ElTupleItemBuilder {
 }
 
 func (i *ElTupleItemBuilder) Build() (*ElTupleItem, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElTupleItem), nil
@@ -817,10 +851,12 @@ func NewElBooleanExpressionBuilder() *ElBooleanExpressionBuilder {
 }
 
 func (i *ElBooleanExpressionBuilder) Build() (*ElBooleanExpression, []error) {
-	if i.object.(*ElBooleanExpression).BaseExpression() == nil {
-		i.AddError(errors.New("BaseExpression should not be set to nil in ElBooleanExpression and descendants"))
+	if i.errors == nil {
+		if i.object.(*ElBooleanExpression).BaseExpression() == nil {
+			i.AddError(errors.New("BaseExpression should not be set to nil in ElBooleanExpression and descendants"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*ElBooleanExpression), nil

@@ -46,13 +46,15 @@ func (i *BmmFeatureGroupBuilder) SetVisibility(v IBmmVisibility) *BmmFeatureGrou
 }
 
 func (i *BmmFeatureGroupBuilder) Build() (*BmmFeatureGroup, []error) {
-	if i.object.(*BmmFeatureGroup).Name() == "" {
-		i.AddError(errors.New("Name property of BmmFeatureGroup should not be set empty"))
+	if i.errors == nil {
+		if i.object.(*BmmFeatureGroup).Name() == "" {
+			i.AddError(errors.New("Name property of BmmFeatureGroup should not be set empty"))
+		}
+		if len(i.object.(*BmmFeatureGroup).Properties()) == 0 {
+			i.AddError(errors.New("Properties property of BmmFeatureGroup should not be set to 0 items"))
+		}
 	}
-	if len(i.object.(*BmmFeatureGroup).Properties()) == 0 {
-		i.AddError(errors.New("Properties property of BmmFeatureGroup should not be set to 0 items"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmFeatureGroup), nil
@@ -78,12 +80,14 @@ func (i *BmmConstantBuilder) SetGenerator(v IBmmLiteralValue[IBmmSimpleType]) *B
 }
 
 func (i *BmmConstantBuilder) Build() (*BmmConstant, []error) {
-	if i.object.(*BmmConstant).Generator() == nil {
-		i.AddError(errors.New("Generator property of BmmConstant should not be set nil"))
-	}
-	// BmmFeature
-	if i.object.(*BmmConstant).Group() == nil {
-		i.AddError(errors.New("Group property of BmmConstant should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmConstant).Generator() == nil {
+			i.AddError(errors.New("Generator property of BmmConstant should not be set nil"))
+		}
+		// BmmFeature
+		if i.object.(*BmmConstant).Group() == nil {
+			i.AddError(errors.New("Group property of BmmConstant should not be set nil"))
+		}
 	}
 	if i.object.(*BmmConstant).Scope() == nil {
 		i.AddError(errors.New("Scope property of BmmConstant should not be set nil"))
@@ -96,7 +100,7 @@ func (i *BmmConstantBuilder) Build() (*BmmConstant, []error) {
 	if i.object.(*BmmConstant).Name() == "" {
 		i.AddError(errors.New("Name property of BmmConstant should not be set empty"))
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmConstant), nil
@@ -173,25 +177,27 @@ func (i *BmmSingletonBuilder) SetGenerator(v IBmmRoutineDefinition) *BmmSingleto
 }
 
 func (i *BmmSingletonBuilder) Build() (*BmmSingleton, []error) {
-	if i.object.(*BmmSingleton).Generator() == nil {
-		i.AddError(errors.New("Generator property of BmmSingleton should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmSingleton).Generator() == nil {
+			i.AddError(errors.New("Generator property of BmmSingleton should not be set nil"))
+		}
+		// BmmFeature
+		if i.object.(*BmmSingleton).Group() == nil {
+			i.AddError(errors.New("Group property of BmmSingleton should not be set nil"))
+		}
+		if i.object.(*BmmSingleton).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmSingleton should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmSingleton).Type() == nil {
+			i.AddError(errors.New("Type property of BmmSingleton should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmSingleton).Name() == "" {
+			i.AddError(errors.New("Name property of BmmSingleton should not be set empty"))
+		}
 	}
-	// BmmFeature
-	if i.object.(*BmmSingleton).Group() == nil {
-		i.AddError(errors.New("Group property of BmmSingleton should not be set nil"))
-	}
-	if i.object.(*BmmSingleton).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmSingleton should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmSingleton).Type() == nil {
-		i.AddError(errors.New("Type property of BmmSingleton should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmSingleton).Name() == "" {
-		i.AddError(errors.New("Name property of BmmSingleton should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmSingleton), nil
@@ -268,22 +274,24 @@ func (i *BmmUnitaryPropertyBuilder) SetType(v IBmmUnitaryType) *BmmUnitaryProper
 }
 
 func (i *BmmUnitaryPropertyBuilder) Build() (*BmmUnitaryProperty, []error) {
-	// BmmFeature
-	if i.object.(*BmmUnitaryProperty).Group() == nil {
-		i.AddError(errors.New("Group property of BmmUnitaryProperty should not be set nil"))
+	if i.errors == nil {
+		// BmmFeature
+		if i.object.(*BmmUnitaryProperty).Group() == nil {
+			i.AddError(errors.New("Group property of BmmUnitaryProperty should not be set nil"))
+		}
+		if i.object.(*BmmUnitaryProperty).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmUnitaryProperty should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmUnitaryProperty).Type() == nil {
+			i.AddError(errors.New("Type property of BmmUnitaryProperty should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmUnitaryProperty).Name() == "" {
+			i.AddError(errors.New("Name property of BmmUnitaryProperty should not be set empty"))
+		}
 	}
-	if i.object.(*BmmUnitaryProperty).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmUnitaryProperty should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmUnitaryProperty).Type() == nil {
-		i.AddError(errors.New("Type property of BmmUnitaryProperty should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmUnitaryProperty).Name() == "" {
-		i.AddError(errors.New("Name property of BmmUnitaryProperty should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmUnitaryProperty), nil
@@ -375,23 +383,25 @@ func (i *BmmContainerPropertyBuilder) SetType(v IBmmContainerType) *BmmContainer
 }
 
 func (i *BmmContainerPropertyBuilder) Build() (*BmmContainerProperty, []error) {
-	// BmmProperty
-	// BmmFeature
-	if i.object.(*BmmContainerProperty).Group() == nil {
-		i.AddError(errors.New("Group property of BmmContainerProperty should not be set nil"))
+	if i.errors == nil {
+		// BmmProperty
+		// BmmFeature
+		if i.object.(*BmmContainerProperty).Group() == nil {
+			i.AddError(errors.New("Group property of BmmContainerProperty should not be set nil"))
+		}
+		if i.object.(*BmmContainerProperty).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmContainerProperty should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmContainerProperty).Type() == nil {
+			i.AddError(errors.New("Type property of BmmContainerProperty should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmContainerProperty).Name() == "" {
+			i.AddError(errors.New("Name property of BmmContainerProperty should not be set empty"))
+		}
 	}
-	if i.object.(*BmmContainerProperty).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmContainerProperty should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmContainerProperty).Type() == nil {
-		i.AddError(errors.New("Type property of BmmContainerProperty should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmContainerProperty).Name() == "" {
-		i.AddError(errors.New("Name property of BmmContainerProperty should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmContainerProperty), nil
@@ -477,27 +487,29 @@ func (i *BmmIndexedContainerPropertyBuilder) SetType(v IBmmIndexedContainerType)
 }
 
 func (i *BmmIndexedContainerPropertyBuilder) Build() (*BmmIndexedContainerProperty, []error) {
-	// BmmContainerProperty
-	// BmmProperty
-	if i.object.(*BmmIndexedContainerProperty).Existence() == nil {
-		i.AddError(errors.New("Existence property of BmmIndexedContainerProperty should not be set nil"))
+	if i.errors == nil {
+		// BmmContainerProperty
+		// BmmProperty
+		if i.object.(*BmmIndexedContainerProperty).Existence() == nil {
+			i.AddError(errors.New("Existence property of BmmIndexedContainerProperty should not be set nil"))
+		}
+		// BmmFeature
+		if i.object.(*BmmIndexedContainerProperty).Group() == nil {
+			i.AddError(errors.New("Group property of BmmIndexedContainerProperty should not be set nil"))
+		}
+		if i.object.(*BmmContainerProperty).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmContainerProperty should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmIndexedContainerProperty).Type() == nil {
+			i.AddError(errors.New("Type property of BmmIndexedContainerProperty should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmIndexedContainerProperty).Name() == "" {
+			i.AddError(errors.New("Name property of BmmIndexedContainerProperty should not be set empty"))
+		}
 	}
-	// BmmFeature
-	if i.object.(*BmmIndexedContainerProperty).Group() == nil {
-		i.AddError(errors.New("Group property of BmmIndexedContainerProperty should not be set nil"))
-	}
-	if i.object.(*BmmContainerProperty).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmContainerProperty should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmIndexedContainerProperty).Type() == nil {
-		i.AddError(errors.New("Type property of BmmIndexedContainerProperty should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmIndexedContainerProperty).Name() == "" {
-		i.AddError(errors.New("Name property of BmmIndexedContainerProperty should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmIndexedContainerProperty), nil
@@ -594,27 +606,29 @@ func (i *BmmFunctionBuilder) SetResult(v IBmmResult) *BmmFunctionBuilder {
 }
 
 func (i *BmmFunctionBuilder) Build() (*BmmFunction, []error) {
-	// BmmFunction
-	if i.object.(*BmmFunction).Result() == nil {
-		i.AddError(errors.New("Result property of BmmFunction should not be set nil"))
+	if i.errors == nil {
+		// BmmFunction
+		if i.object.(*BmmFunction).Result() == nil {
+			i.AddError(errors.New("Result property of BmmFunction should not be set nil"))
+		}
+		// BmmRoutine
+		// BmmFeature
+		if i.object.(*BmmFunction).Group() == nil {
+			i.AddError(errors.New("Group property of BmmFunction should not be set nil"))
+		}
+		if i.object.(*BmmFunction).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmFunction should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmFunction).Type() == nil {
+			i.AddError(errors.New("Type property of BmmFunction should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmFunction).Name() == "" {
+			i.AddError(errors.New("Name property of BmmFunction should not be set empty"))
+		}
 	}
-	// BmmRoutine
-	// BmmFeature
-	if i.object.(*BmmFunction).Group() == nil {
-		i.AddError(errors.New("Group property of BmmFunction should not be set nil"))
-	}
-	if i.object.(*BmmFunction).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmFunction should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmFunction).Type() == nil {
-		i.AddError(errors.New("Type property of BmmFunction should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmFunction).Name() == "" {
-		i.AddError(errors.New("Name property of BmmFunction should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmFunction), nil
@@ -719,17 +733,19 @@ func (i *BmmOperatorBuilder) SetName(v string) *BmmOperatorBuilder {
 }
 
 func (i *BmmOperatorBuilder) Build() (*BmmOperator, []error) {
-	//BmmOperator
-	if i.object.(*BmmOperator).Position() == nil {
-		i.AddError(errors.New("Type property of BmmOperator should not be set nil"))
+	if i.errors == nil {
+		//BmmOperator
+		if i.object.(*BmmOperator).Position() == nil {
+			i.AddError(errors.New("Type property of BmmOperator should not be set nil"))
+		}
+		if i.object.(*BmmOperator).Name() == "" {
+			i.AddError(errors.New("Name property of BmmOperator should not be set empty"))
+		}
+		if len(i.object.(*BmmOperator).Symbols()) == 0 {
+			i.AddError(errors.New("Symbols property of BmmOperator should not be set to 0 items"))
+		}
 	}
-	if i.object.(*BmmOperator).Name() == "" {
-		i.AddError(errors.New("Name property of BmmOperator should not be set empty"))
-	}
-	if len(i.object.(*BmmOperator).Symbols()) == 0 {
-		i.AddError(errors.New("Symbols property of BmmOperator should not be set to 0 items"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmOperator), nil
@@ -755,23 +771,25 @@ func (i *BmmProcedureBuilder) SetType(v IBmmStatusType) *BmmProcedureBuilder {
 }
 
 func (i *BmmProcedureBuilder) Build() (*BmmProcedure, []error) {
-	// BmmRoutine
-	// BmmFeature
-	if i.object.(*BmmProcedure).Group() == nil {
-		i.AddError(errors.New("Group property of BmmProcedure should not be set nil"))
+	if i.errors == nil {
+		// BmmRoutine
+		// BmmFeature
+		if i.object.(*BmmProcedure).Group() == nil {
+			i.AddError(errors.New("Group property of BmmProcedure should not be set nil"))
+		}
+		if i.object.(*BmmProcedure).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmProcedure should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmProcedure).Type() == nil {
+			i.AddError(errors.New("Type property of BmmProcedure should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmProcedure).Name() == "" {
+			i.AddError(errors.New("Name property of BmmProcedure should not be set empty"))
+		}
 	}
-	if i.object.(*BmmProcedure).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmProcedure should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmProcedure).Type() == nil {
-		i.AddError(errors.New("Type property of BmmProcedure should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmProcedure).Name() == "" {
-		i.AddError(errors.New("Name property of BmmProcedure should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmProcedure), nil
@@ -855,19 +873,21 @@ func NewBmmLocalBuilder() *BmmLocalBuilder {
 }
 
 func (i *BmmLocalBuilder) Build() (*BmmLocal, []error) {
-	// BmmVariable
-	if i.object.(*BmmLocal).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmLocal should not be set nil"))
+	if i.errors == nil {
+		// BmmVariable
+		if i.object.(*BmmLocal).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmLocal should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmLocal).Type() == nil {
+			i.AddError(errors.New("Type property of BmmLocal should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmLocal).Name() == "" {
+			i.AddError(errors.New("Name property of BmmLocal should not be set empty"))
+		}
 	}
-	//BmmFormalElement
-	if i.object.(*BmmLocal).Type() == nil {
-		i.AddError(errors.New("Type property of BmmLocal should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmLocal).Name() == "" {
-		i.AddError(errors.New("Name property of BmmLocal should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmLocal), nil
@@ -928,19 +948,21 @@ func (i *BmmResultBuilder) SetName(v string) *BmmResultBuilder {
 }
 
 func (i *BmmResultBuilder) Build() (*BmmResult, []error) {
-	// BmmVariable
-	if i.object.(*BmmResult).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmResult should not be set nil"))
+	if i.errors == nil {
+		// BmmVariable
+		if i.object.(*BmmResult).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmResult should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmResult).Type() == nil {
+			i.AddError(errors.New("Type property of BmmResult should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmResult).Name() == "" {
+			i.AddError(errors.New("Name property of BmmResult should not be set empty"))
+		}
 	}
-	//BmmFormalElement
-	if i.object.(*BmmResult).Type() == nil {
-		i.AddError(errors.New("Type property of BmmResult should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmResult).Name() == "" {
-		i.AddError(errors.New("Name property of BmmResult should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmResult), nil
@@ -994,19 +1016,21 @@ func (i *BmmSelfBuilder) SetName(v string) *BmmSelfBuilder {
 }
 
 func (i *BmmSelfBuilder) Build() (*BmmSelf, []error) {
-	// BmmVariable
-	if i.object.(*BmmSelf).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmSelf should not be set nil"))
+	if i.errors == nil {
+		// BmmVariable
+		if i.object.(*BmmSelf).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmSelf should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmSelf).Type() == nil {
+			i.AddError(errors.New("Type property of BmmSelf should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmSelf).Name() == "" {
+			i.AddError(errors.New("Name property of BmmSelf should not be set empty"))
+		}
 	}
-	//BmmFormalElement
-	if i.object.(*BmmSelf).Type() == nil {
-		i.AddError(errors.New("Type property of BmmSelf should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmSelf).Name() == "" {
-		i.AddError(errors.New("Name property of BmmSelf should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmSelf), nil
@@ -1060,19 +1084,21 @@ func (i *BmmParameterBuilder) SetDirection(v BmmParameterDirection) *BmmParamete
 }
 
 func (i *BmmParameterBuilder) Build() (*BmmParameter, []error) {
-	// BmmVariable
-	if i.object.(*BmmParameter).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmParameter should not be set nil"))
+	if i.errors == nil {
+		// BmmVariable
+		if i.object.(*BmmParameter).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmParameter should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmParameter).Type() == nil {
+			i.AddError(errors.New("Type property of BmmParameter should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmParameter).Name() == "" {
+			i.AddError(errors.New("Name property of BmmParameter should not be set empty"))
+		}
 	}
-	//BmmFormalElement
-	if i.object.(*BmmParameter).Type() == nil {
-		i.AddError(errors.New("Type property of BmmParameter should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmParameter).Name() == "" {
-		i.AddError(errors.New("Name property of BmmParameter should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmParameter), nil
@@ -1139,11 +1165,13 @@ func (i *BmmLocalRoutineBuilder) SetBody(v IBmmStatementBlock) *BmmLocalRoutineB
 }
 
 func (i *BmmLocalRoutineBuilder) Build() (*BmmLocalRoutine, []error) {
-	// BmmLocalRoutine
-	if i.object.(*BmmLocalRoutine).Body() == nil {
-		i.AddError(errors.New("Body property of BmmLocalRoutine should not be set nil"))
+	if i.errors == nil {
+		// BmmLocalRoutine
+		if i.object.(*BmmLocalRoutine).Body() == nil {
+			i.AddError(errors.New("Body property of BmmLocalRoutine should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmLocalRoutine), nil
@@ -1175,11 +1203,13 @@ func (i *BmmExternalRoutineBuilder) SetArgumentMapping(v map[string]string) *Bmm
 }
 
 func (i *BmmExternalRoutineBuilder) Build() (*BmmExternalRoutine, []error) {
-	// BmmExternalRoutine
-	if len(i.object.(*BmmExternalRoutine).MetaData()) == 0 {
-		i.AddError(errors.New("MetaData property of BmmExternalRoutine should not be set nil"))
+	if i.errors == nil {
+		// BmmExternalRoutine
+		if len(i.object.(*BmmExternalRoutine).MetaData()) == 0 {
+			i.AddError(errors.New("MetaData property of BmmExternalRoutine should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmExternalRoutine), nil
@@ -1210,7 +1240,7 @@ func NewBmmFeatureExtensionBuilder() *BmmFeatureExtensionBuilder {
 }
 
 func (i *BmmFeatureExtensionBuilder) Build() (*BmmFeatureExtension, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmFeatureExtension), nil

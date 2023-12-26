@@ -36,10 +36,12 @@ func (i *BmmParameterTypeBuilder) SetInheritancePrecursor(v IBmmParameterType) *
 }
 
 func (i *BmmParameterTypeBuilder) Build() (*BmmParameterType, []error) {
-	if i.object.(*BmmParameterType).Name() == "" {
-		i.AddError(errors.New("name in BmmParameterType should not be set empty"))
+	if i.errors == nil {
+		if i.object.(*BmmParameterType).Name() == "" {
+			i.AddError(errors.New("name in BmmParameterType should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmParameterType), nil
@@ -58,10 +60,12 @@ func NewBmmSimpleTypeBuilder() *BmmSimpleTypeBuilder {
 }
 
 func (i *BmmSimpleTypeBuilder) Build() (*BmmSimpleType, []error) {
-	if i.object.(*BmmSimpleType).BaseClass() == nil {
-		i.AddError(errors.New("BaseClass in BmmSimpleTypeBuilder should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmSimpleType).BaseClass() == nil {
+			i.AddError(errors.New("BaseClass in BmmSimpleTypeBuilder should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmSimpleType), nil
@@ -102,13 +106,15 @@ func (i *BmmGenericTypeBuilder) SetGenericParameters(v []IBmmUnitaryType) *BmmGe
 }
 
 func (i *BmmGenericTypeBuilder) Build() (*BmmGenericType, []error) {
-	if i.object.(*BmmGenericType).BaseClass() == nil {
-		i.AddError(errors.New("BaseClass in BmmGenericType should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmGenericType).BaseClass() == nil {
+			i.AddError(errors.New("BaseClass in BmmGenericType should not be set nil"))
+		}
+		if len(i.object.(*BmmGenericType).GenericParameters()) == 0 {
+			i.AddError(errors.New("GenericParameters in BmmGenericType should not be set empty"))
+		}
 	}
-	if len(i.object.(*BmmGenericType).GenericParameters()) == 0 {
-		i.AddError(errors.New("GenericParameters in BmmGenericType should not be set empty"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmGenericType), nil
@@ -146,10 +152,12 @@ func (i *BmmTupleTypeBuilder) SetItemTypes(v map[string]IBmmType) *BmmTupleTypeB
 }
 
 func (i *BmmTupleTypeBuilder) Build() (*BmmTupleType, []error) {
-	if len(i.object.(*BmmTupleType).ItemTypes()) == 0 {
-		i.AddError(errors.New("ItemTypes in BmmTupleType should not be set empty"))
+	if i.errors == nil {
+		if len(i.object.(*BmmTupleType).ItemTypes()) == 0 {
+			i.AddError(errors.New("ItemTypes in BmmTupleType should not be set empty"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmTupleType), nil
@@ -175,10 +183,12 @@ func (i *BmmSignatureBuilder) SetResultType(v IBmmType) *BmmSignatureBuilder {
 }
 
 func (i *BmmSignatureBuilder) Build() (*BmmSignature, []error) {
-	if i.object.(*BmmSignature).ResultType() == nil {
-		i.AddError(errors.New("ResultType in BmmSignature should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmSignature).ResultType() == nil {
+			i.AddError(errors.New("ResultType in BmmSignature should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmSignature), nil
@@ -197,10 +207,12 @@ func NewBmmPropertyTypeBuilder() *BmmPropertyTypeBuilder {
 }
 
 func (i *BmmPropertyTypeBuilder) Build() (*BmmPropertyType, []error) {
-	if i.object.(*BmmPropertyType).ResultType() == nil {
-		i.AddError(errors.New("ResultType in BmmPropertyType should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmPropertyType).ResultType() == nil {
+			i.AddError(errors.New("ResultType in BmmPropertyType should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmPropertyType), nil
@@ -235,10 +247,12 @@ func (i *BmmRoutineTypeBuilder) SetArgumentTypes(v IBmmTupleType) *BmmRoutineTyp
 }
 
 func (i *BmmRoutineTypeBuilder) Build() (*BmmRoutineType, []error) {
-	if i.object.(*BmmRoutineType).ResultType() == nil {
-		i.AddError(errors.New("ResultType in BmmRoutineType should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmRoutineType).ResultType() == nil {
+			i.AddError(errors.New("ResultType in BmmRoutineType should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmRoutineType), nil
@@ -263,10 +277,12 @@ func NewBmmFunctionTypeBuilder() *BmmFunctionTypeBuilder {
 }
 
 func (i *BmmFunctionTypeBuilder) Build() (*BmmFunctionType, []error) {
-	if i.object.(*BmmFunctionType).ResultType() == nil {
-		i.AddError(errors.New("ResultType in BmmFunctionType should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmFunctionType).ResultType() == nil {
+			i.AddError(errors.New("ResultType in BmmFunctionType should not be set nil"))
+		}
 	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmFunctionType), nil
@@ -297,7 +313,7 @@ func NewBmmProcedureTypeBuilder() *BmmProcedureTypeBuilder {
 }
 
 func (i *BmmProcedureTypeBuilder) Build() (*BmmProcedureType, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmProcedureType), nil
@@ -328,7 +344,7 @@ func NewBmmStatusTypeBuilder() *BmmStatusTypeBuilder {
 }
 
 func (i *BmmStatusTypeBuilder) Build() (*BmmStatusType, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmStatusType), nil
@@ -379,13 +395,15 @@ func (i *BmmContainerTypeBuilder) SetIsUnique(v bool) *BmmContainerTypeBuilder {
 }
 
 func (i *BmmContainerTypeBuilder) Build() (*BmmContainerType, []error) {
-	if i.object.(*BmmContainerType).ContainerClass() == nil {
-		i.AddError(errors.New("ContainerClass in BmmContainerType should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmContainerType).ContainerClass() == nil {
+			i.AddError(errors.New("ContainerClass in BmmContainerType should not be set nil"))
+		}
+		if i.object.(*BmmContainerType).ItemType() == nil {
+			i.AddError(errors.New("ItemType in BmmContainerType should not be set nil"))
+		}
 	}
-	if i.object.(*BmmContainerType).ItemType() == nil {
-		i.AddError(errors.New("ItemType in BmmContainerType should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmContainerType), nil
@@ -414,13 +432,15 @@ func (i *BmmIndexedContainerTypeBuilder) SetIndexType(v IBmmSimpleType) *BmmInde
 }
 
 func (i *BmmIndexedContainerTypeBuilder) Build() (*BmmIndexedContainerType, []error) {
-	if i.object.(*BmmIndexedContainerType).ItemType() == nil {
-		i.AddError(errors.New("ItemType in BmmIndexedContainerType should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmIndexedContainerType).ItemType() == nil {
+			i.AddError(errors.New("ItemType in BmmIndexedContainerType should not be set nil"))
+		}
+		if i.object.(*BmmIndexedContainerType).IndexType() == nil {
+			i.AddError(errors.New("IndexType in BmmIndexedContainerType should not be set nil"))
+		}
 	}
-	if i.object.(*BmmIndexedContainerType).IndexType() == nil {
-		i.AddError(errors.New("IndexType in BmmIndexedContainerType should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmIndexedContainerType), nil

@@ -42,7 +42,7 @@ func (i *BmmModelAccessBuilder) SetMatchingBmmModels(v map[string]IBmmModel) *Bm
 }
 
 func (i *BmmModelAccessBuilder) Build() (*BmmModelAccess, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmModelAccess), nil
@@ -176,7 +176,7 @@ func (i *BmmSchemaDescriptorBuilder) SetIncludes(v []string) *BmmSchemaDescripto
 }
 
 func (i *BmmSchemaDescriptorBuilder) Build() (*BmmSchemaDescriptor, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmSchemaDescriptor), nil
@@ -207,7 +207,7 @@ func (i *BmmModelMetadataBuilder) SetRmRelease(v string) *BmmModelMetadataBuilde
 }
 
 func (i *BmmModelMetadataBuilder) Build() (*BmmModelMetadata, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmModelMetadata), nil
@@ -232,7 +232,7 @@ func (i *BmmIncludeSpecBuilder) SetId(v string) *BmmIncludeSpecBuilder {
 }
 
 func (i *BmmIncludeSpecBuilder) Build() (*BmmIncludeSpec, []error) {
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmIncludeSpec), nil

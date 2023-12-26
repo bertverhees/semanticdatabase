@@ -22,16 +22,18 @@ func (i *BmmPackageBuilder) SetMembers(v []IBmmModule) *BmmPackageBuilder {
 }
 
 func (i *BmmPackageBuilder) Build() (*BmmPackage, []error) {
-	if i.object.(*BmmPackage).Name() == "" {
-		i.AddError(errors.New("name in BmmPackage should not be set empty"))
+	if i.errors == nil {
+		if i.object.(*BmmPackage).Name() == "" {
+			i.AddError(errors.New("name in BmmPackage should not be set empty"))
+		}
+		if i.object.(*BmmPackage).Scope() == nil {
+			i.AddError(errors.New("scope in BmmPackage should not be set nil"))
+		}
+		if i.object.(*BmmPackage).Members() == nil {
+			i.AddError(errors.New("Members in BmmPackage should not be set nil"))
+		}
 	}
-	if i.object.(*BmmPackage).Scope() == nil {
-		i.AddError(errors.New("scope in BmmPackage should not be set nil"))
-	}
-	if i.object.(*BmmPackage).Members() == nil {
-		i.AddError(errors.New("Members in BmmPackage should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmPackage), nil
@@ -114,13 +116,15 @@ func (i *BmmModelBuilder) SetClassDefinitions(v map[string]IBmmClass) *BmmModelB
 }
 
 func (i *BmmModelBuilder) Build() (*BmmModel, []error) {
-	if i.object.(*BmmModel).Name() == "" {
-		i.AddError(errors.New("name in BmmModel should not be set empty"))
+	if i.errors == nil {
+		if i.object.(*BmmModel).Name() == "" {
+			i.AddError(errors.New("name in BmmModel should not be set empty"))
+		}
+		if i.object.(*BmmModel).Scope() == nil {
+			i.AddError(errors.New("scope in BmmModel should not be set nil"))
+		}
 	}
-	if i.object.(*BmmModel).Scope() == nil {
-		i.AddError(errors.New("scope in BmmModel should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmModel), nil

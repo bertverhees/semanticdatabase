@@ -17,13 +17,15 @@ func NewBmmContainerValueBuilder[T IBmmContainerType]() *BmmContainerValueBuilde
 }
 
 func (i *BmmContainerValueBuilder[T]) Build() (*BmmContainerValue, []error) {
-	if i.object.(*BmmContainerValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmContainerValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmContainerValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmContainerValue should not be set nil"))
+		}
+		if i.object.(*BmmContainerValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmContainerValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmContainerValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmContainerValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmContainerValue), nil
@@ -63,13 +65,15 @@ func NewBmmIndexedContainerValueBuilder[T IBmmIndexedContainerType]() *BmmIndexe
 }
 
 func (i *BmmIndexedContainerValueBuilder[T]) Build() (*BmmIndexedContainerValue, []error) {
-	if i.object.(*BmmContainerValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmContainerValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmContainerValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmContainerValue should not be set nil"))
+		}
+		if i.object.(*BmmContainerValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmContainerValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmContainerValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmContainerValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmIndexedContainerValue), nil
@@ -109,13 +113,15 @@ func NewBmmPrimitiveValueBuilder[T IBmmSimpleType]() *BmmPrimitiveValueBuilder[T
 }
 
 func (i *BmmPrimitiveValueBuilder[T]) Build() (*BmmPrimitiveValue, []error) {
-	if i.object.(*BmmPrimitiveValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmContainerValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmPrimitiveValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmContainerValue should not be set nil"))
+		}
+		if i.object.(*BmmPrimitiveValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmContainerValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmPrimitiveValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmContainerValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmPrimitiveValue), nil
@@ -162,13 +168,15 @@ func (i *BmmStringValueBuilder) SetValue(v string) *BmmStringValueBuilder {
 }
 
 func (i *BmmStringValueBuilder) Build() (*BmmStringValue, []error) {
-	if i.object.(*BmmStringValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmStringValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmStringValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmStringValue should not be set nil"))
+		}
+		if i.object.(*BmmStringValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmStringValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmStringValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmStringValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmStringValue), nil
@@ -209,13 +217,15 @@ func (i *BmmIntegerValueBuilder) SetValue(v int) *BmmIntegerValueBuilder {
 }
 
 func (i *BmmIntegerValueBuilder) Build() (*BmmIntegerValue, []error) {
-	if i.object.(*BmmIntegerValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmIntegerValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmIntegerValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmIntegerValue should not be set nil"))
+		}
+		if i.object.(*BmmIntegerValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmIntegerValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmIntegerValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmIntegerValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmIntegerValue), nil
@@ -255,13 +265,15 @@ func (i *BmmBooleanValueBuilder) SetValue(v bool) *BmmBooleanValueBuilder {
 }
 
 func (i *BmmBooleanValueBuilder) Build() (*BmmBooleanValue, []error) {
-	if i.object.(*BmmBooleanValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmBooleanValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmBooleanValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmBooleanValue should not be set nil"))
+		}
+		if i.object.(*BmmBooleanValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmBooleanValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmBooleanValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmBooleanValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmBooleanValue), nil
@@ -294,13 +306,15 @@ func NewBmmIntervalValueBuilder[T generics.Number]() *BmmIntervalValueBuilder[T]
 }
 
 func (i *BmmIntervalValueBuilder[T]) Build() (*BmmIntervalValue, []error) {
-	if i.object.(*BmmIntervalValue).Value() == nil {
-		i.AddError(errors.New("Value property of BmmIntervalValue should not be set nil"))
+	if i.errors == nil {
+		if i.object.(*BmmIntervalValue).Value() == nil {
+			i.AddError(errors.New("Value property of BmmIntervalValue should not be set nil"))
+		}
+		if i.object.(*BmmIntervalValue).Type() == nil {
+			i.AddError(errors.New("Type property of BmmIntervalValue should not be set nil"))
+		}
 	}
-	if i.object.(*BmmIntervalValue).Type() == nil {
-		i.AddError(errors.New("Type property of BmmIntervalValue should not be set nil"))
-	}
-	if len(i.errors) > 0 {
+	if i.errors != nil {
 		return nil, i.errors
 	} else {
 		return i.object.(*BmmIntervalValue), nil
