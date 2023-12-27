@@ -85,14 +85,6 @@ func NewIntervalBuilder[T generics.Number]() *IntervalBuilder[T] {
 	builder := &IntervalBuilder[T]{}
 	builder.object = NewInterval[T]()
 	return builder
-	//i := new(Interval[T])
-	//i.lowerIncluded = true
-	//i.upperIncluded = true
-	//i.lowerUnbounded = true
-	//i.upperUnbounded = true
-	//ib := new(IntervalBuilder[T])
-	//ib.interval = i
-	//return ib
 }
 
 func (i *IntervalBuilder[T]) setLower(lower T) *IntervalBuilder[T] {

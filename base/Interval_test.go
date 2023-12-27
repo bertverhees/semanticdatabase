@@ -12,7 +12,7 @@ func TestIntervalBuilder_build(t *testing.T) {
 		i    IntervalBuilder[T]
 		want *Interval[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		{name: "Test for Default included and unbounded booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0), want: &Interval[int]{
 			lower:          0,
 			upper:          0,
