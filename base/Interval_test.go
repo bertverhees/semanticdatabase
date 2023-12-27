@@ -15,7 +15,7 @@ func TestIntervalBuilder_build_errors(t *testing.T) {
 		er_message string
 	}
 	tests := []testCase[int]{
-		{name: "Test for Default Items", i: *NewIntervalBuilder[int](), er_size: 0, er_message: "Ampossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false"},
+		{name: "Test for Default Items", i: *NewIntervalBuilder[int](), er_size: 1, er_message: "Impossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false"},
 		{name: "Test for Default included and unbounded booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0), want: &Interval[int]{
 			lower:          0,
 			upper:          0,
@@ -44,8 +44,12 @@ func TestIntervalBuilder_build_errors(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			_, er := tt.i.Build()
-			t.Errorf("Build()-length errors = %v, want %v", len(er), tt.er_size)
-			t.Errorf("Build()-error-message = %v, want: %v", er[0].Error(), tt.er_message)
+			if len(er) != tt.er_size {
+				t.Errorf("Build()-length errors = %v, want %v", len(er), tt.er_size)
+			}
+			if er[0].Error() != tt.er_message {
+				t.Errorf("Build()-error-message = %v, want: %v", er[0].Error(), tt.er_message)
+			}
 		})
 	}
 }
