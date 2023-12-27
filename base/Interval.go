@@ -1,7 +1,7 @@
 package base
 
 import (
-	"errors"
+	"fmt"
 	"semanticdatabase/generics"
 )
 
@@ -76,61 +76,6 @@ func NewInterval[T generics.Number]() *Interval[T] {
 	return new(Interval[T])
 }
 
-type IntervalBuilder[T generics.Number] struct {
-	Builder
-	interval *Interval[T]
-}
-
-func NewIntervalBuilder[T generics.Number]() *IntervalBuilder[T] {
-	builder := &IntervalBuilder[T]{}
-	builder.object = NewInterval[T]()
-	return builder
-}
-
-func (i *IntervalBuilder[T]) setLower(lower T) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetLower(lower))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setUpper(upper T) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetUpper(upper))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setLowerUnbounded(lowerUnbounded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetLowerUnbounded(lowerUnbounded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setUpperUnbounded(upperUnbounded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetUpperUnbounded(upperUnbounded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setLowerIncluded(lowerIncluded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetLowerIncluded(lowerIncluded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setUpperIncluded(upperIncluded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetUpperIncluded(upperIncluded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) Build() (*Interval[T], []error) {
-	if i.object.(*Interval[T]).Lower() == i.object.(*Interval[T]).Upper() && (i.object.(*Interval[T]).LowerIncluded() == false || i.object.(*Interval[T]).UpperIncluded() == false) {
-		i.AddError(errors.New("Impossible interval constellation with lower being equal to upper and lowerincluded or upperincluded being false"))
-	}
-	if i.object.(*Interval[T]).Lower() > i.object.(*Interval[T]).Upper() {
-		i.AddError(errors.New("Impossible interval constellation with lower being higher to upper"))
-	}
-	if i.errors != nil {
-		return nil, i.errors
-	} else {
-		return i.object.(*Interval[T]), nil
-	}
-}
-
 func LowerUnboundedInterval[T generics.Number](upper T, UpperIncluded bool) (*Interval[T], []error) {
 	return NewIntervalBuilder[T]().setUpper(upper).setLowerIncluded(false).setUpperIncluded(UpperIncluded).setLowerUnbounded(true).Build()
 }
@@ -139,8 +84,8 @@ func UpperUnboundedInterval[T generics.Number](lower T, LowerIncluded bool) (*In
 	return NewIntervalBuilder[T]().setLower(lower).setUpperIncluded(false).setLowerIncluded(LowerIncluded).setUpperUnbounded(true).Build()
 }
 
-func UnboundedInterval[T generics.Number](lower T, LowerIncluded bool) (*Interval[T], []error) {
-	return NewIntervalBuilder[T]().setUpperIncluded(false).setLowerIncluded(false).setUpperUnbounded(true).setLowerUnbounded(true).Build()
+func UnboundedInterval[T generics.Number](lower T, upper T) (*Interval[T], []error) {
+	return NewIntervalBuilder[T]().setLower(lower).setUpper(upper).setUpperIncluded(false).setLowerIncluded(false).setUpperUnbounded(true).setLowerUnbounded(true).Build()
 }
 
 func (i *Interval[T]) Has(value T) bool {
@@ -193,4 +138,59 @@ func (i *Interval[T]) Contains(other *Interval[T]) bool {
 		otherHasUpper = i.Has(other.upper)
 	}
 	return otherHasUpper && otherHasLower
+}
+
+type IntervalBuilder[T generics.Number] struct {
+	Builder
+	interval *Interval[T]
+}
+
+func NewIntervalBuilder[T generics.Number]() *IntervalBuilder[T] {
+	builder := &IntervalBuilder[T]{}
+	builder.object = NewInterval[T]()
+	return builder
+}
+
+func (i *IntervalBuilder[T]) setLower(lower T) *IntervalBuilder[T] {
+	i.AddError(i.object.(*Interval[T]).SetLower(lower))
+	return i
+}
+
+func (i *IntervalBuilder[T]) setUpper(upper T) *IntervalBuilder[T] {
+	i.AddError(i.object.(*Interval[T]).SetUpper(upper))
+	return i
+}
+
+func (i *IntervalBuilder[T]) setLowerUnbounded(lowerUnbounded bool) *IntervalBuilder[T] {
+	i.AddError(i.object.(*Interval[T]).SetLowerUnbounded(lowerUnbounded))
+	return i
+}
+
+func (i *IntervalBuilder[T]) setUpperUnbounded(upperUnbounded bool) *IntervalBuilder[T] {
+	i.AddError(i.object.(*Interval[T]).SetUpperUnbounded(upperUnbounded))
+	return i
+}
+
+func (i *IntervalBuilder[T]) setLowerIncluded(lowerIncluded bool) *IntervalBuilder[T] {
+	i.AddError(i.object.(*Interval[T]).SetLowerIncluded(lowerIncluded))
+	return i
+}
+
+func (i *IntervalBuilder[T]) setUpperIncluded(upperIncluded bool) *IntervalBuilder[T] {
+	i.AddError(i.object.(*Interval[T]).SetUpperIncluded(upperIncluded))
+	return i
+}
+
+func (i *IntervalBuilder[T]) Build() (*Interval[T], []error) {
+	if i.object.(*Interval[T]).Lower() == i.object.(*Interval[T]).Upper() && (i.object.(*Interval[T]).LowerIncluded() == false || i.object.(*Interval[T]).UpperIncluded() == false) {
+		i.AddError(fmt.Errorf("Impossible interval constellation with lower: %v == upper: %v and lowerincluded or upperincluded being false", i.object.(*Interval[T]).Lower(), i.object.(*Interval[T]).Lower()))
+	}
+	if i.object.(*Interval[T]).Lower() > i.object.(*Interval[T]).Upper() {
+		i.AddError(fmt.Errorf("Impossible interval constellation with lower: %v being higher to upper: %v", i.object.(*Interval[T]).Lower(), i.object.(*Interval[T]).Upper()))
+	}
+	if i.errors != nil {
+		return nil, i.errors
+	} else {
+		return i.object.(*Interval[T]), nil
+	}
 }
