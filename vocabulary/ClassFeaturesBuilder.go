@@ -88,17 +88,17 @@ func (i *BmmConstantBuilder) Build() (*BmmConstant, []error) {
 		if i.object.(*BmmConstant).Group() == nil {
 			i.AddError(errors.New("Group property of BmmConstant should not be set nil"))
 		}
-	}
-	if i.object.(*BmmConstant).Scope() == nil {
-		i.AddError(errors.New("Scope property of BmmConstant should not be set nil"))
-	}
-	//BmmFormalElement
-	if i.object.(*BmmConstant).Type() == nil {
-		i.AddError(errors.New("Type property of BmmConstant should not be set nil"))
-	}
-	//BmmModelElement
-	if i.object.(*BmmConstant).Name() == "" {
-		i.AddError(errors.New("Name property of BmmConstant should not be set empty"))
+		if i.object.(*BmmConstant).Scope() == nil {
+			i.AddError(errors.New("Scope property of BmmConstant should not be set nil"))
+		}
+		//BmmFormalElement
+		if i.object.(*BmmConstant).Type() == nil {
+			i.AddError(errors.New("Type property of BmmConstant should not be set nil"))
+		}
+		//BmmModelElement
+		if i.object.(*BmmConstant).Name() == "" {
+			i.AddError(errors.New("Name property of BmmConstant should not be set empty"))
+		}
 	}
 	if i.errors != nil {
 		return nil, i.errors

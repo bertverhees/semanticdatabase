@@ -4,10 +4,10 @@ package base
 const (
 	// From: BasicDefinitions
 	// Carriage return character.
-	Cr = string(015)
+	Cr = '\r'
 	// From: BasicDefinitions
 	// Line feed character.
-	Lf = string(012)
+	Lf = '\n'
 	// From: BasicDefinitions
 	AnyTypeName = "Any"
 	// From: BasicDefinitions
@@ -17,34 +17,3 @@ const (
 	// From: BasicDefinitions
 	NoneTypeName = "None"
 )
-
-// Interface definition
-type IBasicDefinitions interface {
-}
-
-// Struct definition
-type BasicDefinitions struct {
-}
-
-// CONSTRUCTOR
-func NewBasicDefinitions() *BasicDefinitions {
-	basicdefinitions := new(BasicDefinitions)
-	return basicdefinitions
-}
-
-// BUILDER
-type BasicDefinitionsBuilder struct {
-	basicdefinitions *BasicDefinitions
-}
-
-func NewBasicDefinitionsBuilder() *BasicDefinitionsBuilder {
-	return &BasicDefinitionsBuilder{
-		basicdefinitions: NewBasicDefinitions(),
-	}
-}
-
-func (i *BasicDefinitionsBuilder) Build() *BasicDefinitions {
-	return i.basicdefinitions
-}
-
-//FUNCTIONS

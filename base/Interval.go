@@ -9,13 +9,67 @@ type Interval[T generics.Number] struct {
 	lower T
 	upper T
 	// lower boundary open (i.e. = -infinity)
-	LowerUnbounded bool
+	lowerUnbounded bool
 	// upper boundary open (i.e. = +infinity)
-	UpperUnbounded bool
+	upperUnbounded bool
 	// lower boundary value included in range if not lower_unbounded.
-	LowerIncluded bool
+	lowerIncluded bool
 	// upper boundary value included in range if not upper_unbounded.
-	UpperIncluded bool
+	upperIncluded bool
+}
+
+func (i *Interval[T]) Lower() T {
+	return i.lower
+}
+
+func (i *Interval[T]) SetLower(lower T) error {
+	i.lower = lower
+	return nil
+}
+
+func (i *Interval[T]) Upper() T {
+	return i.upper
+}
+
+func (i *Interval[T]) SetUpper(upper T) error {
+	i.upper = upper
+	return nil
+}
+
+func (i *Interval[T]) LowerUnbounded() bool {
+	return i.lowerUnbounded
+}
+
+func (i *Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
+	i.lowerUnbounded = lowerUnbounded
+	return nil
+}
+
+func (i *Interval[T]) UpperUnbounded() bool {
+	return i.upperUnbounded
+}
+
+func (i *Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
+	i.upperUnbounded = upperUnbounded
+	return nil
+}
+
+func (i *Interval[T]) LowerIncluded() bool {
+	return i.lowerIncluded
+}
+
+func (i *Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
+	i.lowerIncluded = lowerIncluded
+	return nil
+}
+
+func (i *Interval[T]) UpperIncluded() bool {
+	return i.upperIncluded
+}
+
+func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
+	i.upperIncluded = upperIncluded
+	return nil
 }
 
 func NewInterval[T generics.Number]() *Interval[T] {
@@ -23,97 +77,103 @@ func NewInterval[T generics.Number]() *Interval[T] {
 }
 
 type IntervalBuilder[T generics.Number] struct {
+	Builder
 	interval *Interval[T]
 }
 
 func NewIntervalBuilder[T generics.Number]() *IntervalBuilder[T] {
-	i := new(Interval[T])
-	i.LowerIncluded = true
-	i.UpperIncluded = true
-	i.LowerUnbounded = true
-	i.UpperUnbounded = true
-	ib := new(IntervalBuilder[T])
-	ib.interval = i
-	return ib
+	builder := &IntervalBuilder[T]{}
+	builder.object = NewInterval[T]()
+	return builder
+	//i := new(Interval[T])
+	//i.lowerIncluded = true
+	//i.upperIncluded = true
+	//i.lowerUnbounded = true
+	//i.upperUnbounded = true
+	//ib := new(IntervalBuilder[T])
+	//ib.interval = i
+	//return ib
 }
 
 func (i *IntervalBuilder[T]) setLower(lower T) *IntervalBuilder[T] {
-	i.interval.lower = lower
-	if i.interval.lower == i.interval.upper {
-		errors.New("Lower cannot be equal with Upper")
-	}
-	i.interval.LowerUnbounded = false
+	i.AddError(i.object.(*Interval[T]).SetLower(lower))
 	return i
 }
 
 func (i *IntervalBuilder[T]) setUpper(upper T) *IntervalBuilder[T] {
-	i.interval.upper = upper
-	if i.interval.lower == i.interval.upper {
-		errors.New("Lower cannot be equal with Upper")
-	}
-	i.interval.UpperUnbounded = false
+	i.AddError(i.object.(*Interval[T]).SetUpper(upper))
 	return i
 }
 
 func (i *IntervalBuilder[T]) setLowerUnbounded(lowerUnbounded bool) *IntervalBuilder[T] {
-	i.interval.LowerUnbounded = lowerUnbounded
+	i.AddError(i.object.(*Interval[T]).SetLowerUnbounded(lowerUnbounded))
 	return i
 }
 
 func (i *IntervalBuilder[T]) setUpperUnbounded(upperUnbounded bool) *IntervalBuilder[T] {
-	i.interval.UpperUnbounded = upperUnbounded
+	i.AddError(i.object.(*Interval[T]).SetUpperUnbounded(upperUnbounded))
 	return i
 }
 
 func (i *IntervalBuilder[T]) setLowerIncluded(lowerIncluded bool) *IntervalBuilder[T] {
-	i.interval.LowerIncluded = lowerIncluded
+	i.AddError(i.object.(*Interval[T]).SetLowerIncluded(lowerIncluded))
 	return i
 }
 
 func (i *IntervalBuilder[T]) setUpperIncluded(upperIncluded bool) *IntervalBuilder[T] {
-	i.interval.UpperIncluded = upperIncluded
+	i.AddError(i.object.(*Interval[T]).SetUpperIncluded(upperIncluded))
 	return i
 }
 
-func (i *IntervalBuilder[T]) build() *Interval[T] {
-	return i.interval
+func (i *IntervalBuilder[T]) Build() (*Interval[T], []error) {
+	if i.object.(*Interval[T]).Lower() == i.object.(*Interval[T]).Upper() && (i.object.(*Interval[T]).LowerIncluded() == false || i.object.(*Interval[T]).UpperIncluded() == false) {
+		i.AddError(errors.New("Impossible interval constellation with lower being equal to upper and lowerincluded or upperincluded being false"))
+	}
+	if i.object.(*Interval[T]).Lower() > i.object.(*Interval[T]).Upper() {
+		i.AddError(errors.New("Impossible interval constellation with lower being higher to upper"))
+	}
+	if i.errors != nil {
+		return nil, i.errors
+	} else {
+		return i.object.(*Interval[T]), nil
+	}
 }
 
-func LowerUnboundedInterval[T generics.Number](upper T, UpperIncluded bool) *Interval[T] {
-	return NewIntervalBuilder[T]().setUpper(upper).setLowerIncluded(false).setUpperIncluded(UpperIncluded).setLowerUnbounded(true).build()
+func LowerUnboundedInterval[T generics.Number](upper T, UpperIncluded bool) (*Interval[T], []error) {
+	return NewIntervalBuilder[T]().setUpper(upper).setLowerIncluded(false).setUpperIncluded(UpperIncluded).setLowerUnbounded(true).Build()
 }
 
-func UpperUnboundedInterval[T generics.Number](lower T, LowerIncluded bool) *Interval[T] {
-	return NewIntervalBuilder[T]().setLower(lower).setUpperIncluded(false).setLowerIncluded(LowerIncluded).setUpperUnbounded(true).build()
+func UpperUnboundedInterval[T generics.Number](lower T, LowerIncluded bool) (*Interval[T], []error) {
+	return NewIntervalBuilder[T]().setLower(lower).setUpperIncluded(false).setLowerIncluded(LowerIncluded).setUpperUnbounded(true).Build()
 }
 
-func UnboundedInterval[T generics.Number](lower T, LowerIncluded bool) *Interval[T] {
-	return NewIntervalBuilder[T]().setUpperIncluded(false).setLowerIncluded(false).setUpperUnbounded(true).setLowerUnbounded(true).build()
+func UnboundedInterval[T generics.Number](lower T, LowerIncluded bool) (*Interval[T], []error) {
+	return NewIntervalBuilder[T]().setUpperIncluded(false).setLowerIncluded(false).setUpperUnbounded(true).setLowerUnbounded(true).Build()
 }
 
 func (i *Interval[T]) Has(value T) bool {
-	if i.LowerUnbounded && i.UpperUnbounded {
+	if i.lowerUnbounded && i.upperUnbounded {
 		return true
 	}
 	returnValue := true
-	if !i.LowerUnbounded && i.UpperUnbounded {
-		if i.LowerIncluded {
+	if !i.lowerUnbounded && i.upperUnbounded {
+		if i.lowerIncluded {
 			returnValue = value >= i.lower
 		} else {
 			returnValue = value > i.lower
 		}
-	} else if !i.UpperUnbounded && i.LowerUnbounded {
-		if i.UpperIncluded {
+	} else if !i.upperUnbounded && i.lowerUnbounded {
+		if i.upperIncluded {
 			returnValue = value <= i.upper
 		} else {
 			returnValue = value < i.upper
 		}
-	} else if !i.LowerUnbounded && !i.UpperUnbounded {
-		if i.LowerIncluded && i.UpperIncluded {
+	} else if !i.lowerUnbounded && !i.upperUnbounded {
+		if i.lowerIncluded && i.upperIncluded {
 			returnValue = value >= i.lower && value <= i.upper
-		} else if !i.LowerIncluded && i.UpperIncluded {
+		} else if !i.lowerIncluded && i.upperIncluded {
 			returnValue = value > i.lower && value <= i.upper
-		} else if i.LowerIncluded && !i.UpperIncluded {
+		} else if i.lowerIncluded && !i.upperIncluded {
 			returnValue = value >= i.lower && value < i.upper
 		}
 	}
@@ -121,22 +181,22 @@ func (i *Interval[T]) Has(value T) bool {
 }
 
 func (i *Interval[T]) Intersects(other *Interval[T]) bool {
-	return (i.LowerUnbounded && other.LowerUnbounded) ||
-		(i.UpperUnbounded && other.UpperUnbounded) ||
+	return (i.lowerUnbounded && other.lowerUnbounded) ||
+		(i.upperUnbounded && other.upperUnbounded) ||
 		((i.lower-other.lower < 0) && (i.upper-other.upper < 0) && (other.lower-i.upper < 0)) ||
-		((i.lower-other.lower < 0) && (i.upper-other.upper < 0) && (other.lower-i.upper < 0))
+		((other.lower-other.lower < 0) && (other.upper-other.upper < 0) && (i.lower-i.upper < 0))
 }
 
 func (i *Interval[T]) Contains(other *Interval[T]) bool {
 	otherHasLower := false
 	otherHasUpper := false
-	if other.LowerUnbounded {
-		otherHasLower = i.LowerUnbounded
+	if other.lowerUnbounded {
+		otherHasLower = i.lowerUnbounded
 	} else {
 		otherHasLower = i.Has(other.lower)
 	}
-	if other.UpperUnbounded {
-		otherHasUpper = i.UpperUnbounded
+	if other.upperUnbounded {
+		otherHasUpper = i.upperUnbounded
 	} else {
 		otherHasUpper = i.Has(other.upper)
 	}
