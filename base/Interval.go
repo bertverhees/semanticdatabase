@@ -112,6 +112,8 @@ func (i *Interval[T]) Has(value T) bool {
 			returnValue = value > i.lower && value <= i.upper
 		} else if i.lowerIncluded && !i.upperIncluded {
 			returnValue = value >= i.lower && value < i.upper
+		} else if !i.lowerIncluded && !i.upperIncluded {
+			returnValue = value > i.lower && value < i.upper
 		}
 	}
 	return returnValue
