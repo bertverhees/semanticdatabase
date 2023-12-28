@@ -190,7 +190,7 @@ func TestLowerUnboundedInterval(t *testing.T) {
 		args args[T]
 		want *Interval[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -208,7 +208,7 @@ func TestMultiplicityInterval_IsMandatory(t *testing.T) {
 		mi   MultiplicityInterval[T]
 		want bool
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -226,7 +226,7 @@ func TestMultiplicityInterval_IsOpen(t *testing.T) {
 		mi   MultiplicityInterval[T]
 		want bool
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -244,7 +244,7 @@ func TestMultiplicityInterval_IsOptional(t *testing.T) {
 		mi   MultiplicityInterval[T]
 		want bool
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -262,7 +262,7 @@ func TestMultiplicityInterval_IsProhibited(t *testing.T) {
 		mi   MultiplicityInterval[T]
 		want bool
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -279,7 +279,7 @@ func TestNewInterval(t *testing.T) {
 		name string
 		want *Interval[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -296,7 +296,7 @@ func TestNewIntervalBuilder(t *testing.T) {
 		name string
 		want *IntervalBuilder[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -313,7 +313,7 @@ func TestNewMultiplicityInterval(t *testing.T) {
 		name string
 		want *MultiplicityInterval[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -335,7 +335,7 @@ func TestUnboundedInterval(t *testing.T) {
 		args args[T]
 		want *Interval[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -357,7 +357,7 @@ func TestUpperUnboundedInterval(t *testing.T) {
 		args args[T]
 		want *Interval[T]
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
+	tests := []testCase[int]{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
