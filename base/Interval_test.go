@@ -1,6 +1,7 @@
 package base
 
 import (
+	"errors"
 	"reflect"
 	"semanticdatabase/generics"
 	"testing"
@@ -8,47 +9,25 @@ import (
 
 func TestIntervalBuilder_build_errors(t *testing.T) {
 	type testCase[T generics.Number] struct {
-		name       string
-		i          IntervalBuilder[T]
-		want       *Interval[T]
-		er_size    int
-		er_message string
+		name   string
+		i      IntervalBuilder[T]
+		want   *Interval[T]
+		errors []error
 	}
 	tests := []testCase[int]{
-		{name: "Test for Default Items", i: *NewIntervalBuilder[int](), er_size: 1, er_message: "Impossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false"},
-		{name: "Test for Default included and unbounded booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0), want: &Interval[int]{
-			lower:          0,
-			upper:          0,
-			lowerUnbounded: false,
-			upperUnbounded: false,
-			lowerIncluded:  true,
-			upperIncluded:  true,
-		}},
-		{name: "Test for setted Unbounded booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0).setLowerUnbounded(true).setUpperUnbounded(true), want: &Interval[int]{
-			lower:          0,
-			upper:          0,
-			lowerUnbounded: true,
-			upperUnbounded: true,
-			lowerIncluded:  true,
-			upperIncluded:  true,
-		}},
-		//{name: "Test for setted Included booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(1).setLowerIncluded(true).setUpperIncluded(true), want: &Interval[int]{
-		//	lower:          0,
-		//	upper:          1,
-		//	lowerUnbounded: false,
-		//	upperUnbounded: false,
-		//	lowerIncluded:  true,
-		//	upperIncluded:  true,
-		//}},
+		{name: "Test Builder for Default Interval", i: *NewIntervalBuilder[int](), want: nil,
+			errors: []error{errors.New("Impossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false")}},
+		{name: "Test Builder for Default lower > upper", i: *NewIntervalBuilder[int]().setLower(4).setUpper(3), want: nil,
+			errors: []error{errors.New("Impossible interval constellation with lower: 4 being higher to upper: 3")}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, er := tt.i.Build()
-			if len(er) != tt.er_size {
-				t.Errorf("Build()-length errors = %v, want %v", len(er), tt.er_size)
+			got, got_errors := tt.i.Build()
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Build() = %v, want %v", got, tt.want)
 			}
-			if er[0].Error() != tt.er_message {
-				t.Errorf("Build()-error-message = %v, want: %v", er[0].Error(), tt.er_message)
+			if !reflect.DeepEqual(got_errors, tt.errors) {
+				t.Errorf("Errors from Build() = %v, errors %v", got_errors, tt.errors)
 			}
 		})
 	}
@@ -56,180 +35,53 @@ func TestIntervalBuilder_build_errors(t *testing.T) {
 
 func TestIntervalBuilder_build(t *testing.T) {
 	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		want *Interval[T]
+		name   string
+		i      IntervalBuilder[T]
+		want   *Interval[T]
+		errors []error
 	}
 	tests := []testCase[int]{
-		{name: "Test for Default Items", i: *NewIntervalBuilder[int](), want: &Interval[int]{
-			lower:          0,
-			upper:          0,
-			lowerUnbounded: false,
-			upperUnbounded: false,
-			lowerIncluded:  true,
-			upperIncluded:  true,
-		}},
-		{name: "Test for Default included and unbounded booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0), want: &Interval[int]{
-			lower:          0,
-			upper:          0,
-			lowerUnbounded: false,
-			upperUnbounded: false,
-			lowerIncluded:  true,
-			upperIncluded:  true,
-		}},
-		{name: "Test for setted Unbounded booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0).setLowerUnbounded(true).setUpperUnbounded(true), want: &Interval[int]{
-			lower:          0,
-			upper:          0,
-			lowerUnbounded: true,
-			upperUnbounded: true,
-			lowerIncluded:  true,
-			upperIncluded:  true,
-		}},
-		{name: "Test for setted Included booleans", i: *NewIntervalBuilder[int]().setLower(0).setUpper(0).setLowerIncluded(true).setUpperIncluded(true), want: &Interval[int]{
-			lower:          0,
-			upper:          0,
-			lowerUnbounded: true,
-			upperUnbounded: true,
-			lowerIncluded:  true,
-			upperIncluded:  true,
-		}},
+		{name: "Test for Default Items", i: *NewIntervalBuilder[int](), want: nil,
+			errors: []error{errors.New("Impossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false")}},
+		{name: "Test for Default included true and unbounded false booleans",
+			i: *NewIntervalBuilder[int]().setLower(0).setUpper(1).setUpperIncluded(true).setLowerIncluded(true),
+			want: &Interval[int]{
+				lower:          0,
+				upper:          1,
+				lowerUnbounded: false,
+				upperUnbounded: false,
+				lowerIncluded:  true,
+				upperIncluded:  true,
+			}},
+		{name: "Test for setted Unbounded booleans",
+			i: *NewIntervalBuilder[int]().setLower(0).setUpper(1).setLowerUnbounded(true).setUpperUnbounded(true),
+			want: &Interval[int]{
+				lower:          0,
+				upper:          1,
+				lowerUnbounded: true,
+				upperUnbounded: true,
+				lowerIncluded:  false,
+				upperIncluded:  false,
+			}},
+		{name: "Test for setted Included and unbounded booleans",
+			i: *NewIntervalBuilder[int]().setLower(0).setUpper(1).setLowerIncluded(true).setUpperIncluded(true).setUpperUnbounded(true).setLowerUnbounded(true),
+			want: &Interval[int]{
+				lower:          0,
+				upper:          1,
+				lowerUnbounded: true,
+				upperUnbounded: true,
+				lowerIncluded:  true,
+				upperIncluded:  true,
+			}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := tt.i.Build(); !reflect.DeepEqual(got, tt.want) {
+			got, got_errors := tt.i.Build()
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Build() = %v, want %v", got, tt.want)
 			}
-		})
-	}
-}
-
-func TestIntervalBuilder_setLower(t *testing.T) {
-	type args[T generics.Number] struct {
-		lower T
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		args args[T]
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.setLower(tt.args.lower); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("setLower() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIntervalBuilder_setLowerIncluded(t *testing.T) {
-	type args struct {
-		lowerIncluded bool
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		args args
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.setLowerIncluded(tt.args.lowerIncluded); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("setLowerIncluded() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIntervalBuilder_setLowerUnbounded(t *testing.T) {
-	type args struct {
-		lowerUnbounded bool
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		args args
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.setLowerUnbounded(tt.args.lowerUnbounded); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("setLowerUnbounded() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIntervalBuilder_setUpper(t *testing.T) {
-	type args[T generics.Number] struct {
-		upper T
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		args args[T]
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.setUpper(tt.args.upper); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("setUpper() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIntervalBuilder_setUpperIncluded(t *testing.T) {
-	type args struct {
-		upperIncluded bool
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		args args
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.setUpperIncluded(tt.args.upperIncluded); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("setUpperIncluded() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIntervalBuilder_setUpperUnbounded(t *testing.T) {
-	type args struct {
-		upperUnbounded bool
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    IntervalBuilder[T]
-		args args
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.setUpperUnbounded(tt.args.upperUnbounded); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("setUpperUnbounded() = %v, want %v", got, tt.want)
+			if !reflect.DeepEqual(got_errors, tt.errors) {
+				t.Errorf("Errors from Build() = %v, errors %v", got_errors, tt.errors)
 			}
 		})
 	}
@@ -245,8 +97,35 @@ func TestInterval_Contains(t *testing.T) {
 		args args[T]
 		want bool
 	}
-	tests := []testCase[int /* TODO: Insert concrete types here */]{
-		// TODO: Add test cases.
+	tests := []testCase[int]{
+		{name: "Should contain with included true and unbounded false",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
+			args: args[int]{other: &Interval[int]{lower: 5, upper: 9, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: true},
+		{name: "Should NOT contain with included true and unbounded false",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
+			args: args[int]{other: &Interval[int]{lower: -1, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: false},
+		{name: "Should NOT contain with included true and unbounded false and upper 11",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
+			args: args[int]{other: &Interval[int]{lower: 5, upper: 11, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: false},
+		{name: "Should NOT contain with upper-included false and unbounded false",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
+			args: args[int]{other: &Interval[int]{lower: 5, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: false},
+		{name: "Should NOT contain with lower-included false and unbounded false",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: true},
+			args: args[int]{other: &Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: false},
+		{name: "Should contain with lower-included false and upper-unbounded true",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: true},
+			args: args[int]{other: &Interval[int]{lower: 0, upper: 11, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: false},
+		{name: "Should contain with lower-included false and lower-unbounded true",
+			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: true},
+			args: args[int]{other: &Interval[int]{lower: -1, upper: 9, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
+			want: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
