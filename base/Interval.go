@@ -126,6 +126,9 @@ func (i *Interval[T]) Intersects(other *Interval[T]) bool {
 		((other.lower-other.lower < 0) && (other.upper-other.upper < 0) && (i.lower-i.upper < 0))
 }
 
+/*
+The included properties of "other" are ignored, but handled as true
+*/
 func (i *Interval[T]) Contains(other *Interval[T]) bool {
 	otherHasLower := false
 	otherHasUpper := false
