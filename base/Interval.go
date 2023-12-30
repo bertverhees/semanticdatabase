@@ -119,11 +119,54 @@ func (i *Interval[T]) Has(value T) bool {
 	return returnValue
 }
 
+/**
+ * True if there is any overlap between intervals represented by Current and
+ * `other'. True if at least one limit of other is strictly inside the limits
+ * of this interval.
+ */
 func (i *Interval[T]) Intersects(other *Interval[T]) bool {
-	return (i.lowerUnbounded && other.lowerUnbounded) ||
-		(i.upperUnbounded && other.upperUnbounded) ||
-		((i.lower-other.lower < 0) && (i.upper-other.upper < 0) && (other.lower-i.upper < 0)) ||
-		((other.lower-other.lower < 0) && (other.upper-other.upper < 0) && (i.lower-i.upper < 0))
+	b1 := i.lowerUnbounded && other.lowerUnbounded
+	b2 := i.upperUnbounded && other.upperUnbounded
+	b3 := (i.lower-other.lower < 0) && (i.upper-other.upper < 0) && (other.lower-i.upper < 0)
+	b4 := (other.lower-i.lower < 0) && (other.upper-i.upper < 0) && (i.lower-other.upper < 0)
+	b5 := other.Contains(i)
+	b6 := i.Contains(other)
+	b7 := other.lowerUnbounded && i.Has(other.upper)
+	b8 := other.upperUnbounded && i.Has(other.lower)
+	return b1 || b2 || b3 || b4 || b5 || b6 || b7 || b8
+}
+
+func (i *Interval[T]) IntersectsAsInterVal(other *Interval[T]) *Interval[T] {
+	var lowerUnbounded, upperUnbounded, lowerIncluded, upperIncluded bool
+	var lower, upper T
+	if i.Intersects(other) {
+		lowerIncluded = i.lowerIncluded && other.lowerIncluded
+		upperIncluded = i.upperIncluded && other.upperIncluded
+		lowerUnbounded = i.lowerUnbounded && other.lowerUnbounded
+		upperUnbounded = i.upperUnbounded && other.upperUnbounded
+		if !i.upperUnbounded && other.upperUnbounded {
+			upper = i.upper
+		} else if !other.upperUnbounded && i.upperUnbounded {
+			upper = other.upper
+		} else if !i.upperUnbounded && !other.upperUnbounded {
+			upper = i.upper
+			if i.upper > other.upper {
+				upper = other.upper
+			}
+		}
+		if !i.lowerUnbounded && other.lowerUnbounded {
+			lower = i.lower
+		} else if !other.lowerUnbounded && i.lowerUnbounded {
+			lower = other.lower
+		} else if !i.lowerUnbounded && !other.lowerUnbounded {
+			lower = i.lower
+			if i.lower < other.lower {
+				lower = other.lower
+			}
+		}
+		return &Interval[T]{lower: lower, upper: upper, lowerUnbounded: lowerUnbounded, upperUnbounded: upperUnbounded, lowerIncluded: lowerIncluded, upperIncluded: upperIncluded}
+	}
+	return nil
 }
 
 /*
