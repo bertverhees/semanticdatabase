@@ -119,6 +119,47 @@ func (i *Interval[T]) Has(value T) bool {
 	return returnValue
 }
 
+func (i *Interval[T]) BoundaryHas(value T, included bool) bool {
+	if i.lowerUnbounded && i.upperUnbounded {
+		return true
+	}
+	returnValue := true
+	if !i.lowerUnbounded && i.upperUnbounded {
+		if i.lowerIncluded {
+			returnValue = value >= i.lower
+			if included {
+				returnValue = value > i.lower
+			}
+		} else {
+			returnValue = value > i.lower
+		}
+	} else if !i.upperUnbounded && i.lowerUnbounded {
+		if i.upperIncluded {
+			returnValue = value <= i.upper
+			if included {
+				returnValue = value < i.lower
+			}
+		} else {
+			returnValue = value < i.upper
+		}
+	} else if !i.lowerUnbounded && !i.upperUnbounded {
+		if i.lowerIncluded && i.upperIncluded {
+			returnValue = value >= i.lower && value <= i.upper
+		} else if !i.lowerIncluded && i.upperIncluded {
+			returnValue = value > i.lower && value <= i.upper
+		} else if i.lowerIncluded && !i.upperIncluded {
+			returnValue = value >= i.lower && value < i.upper
+		} else if !i.lowerIncluded && !i.upperIncluded {
+			returnValue = value > i.lower && value < i.upper
+		}
+		if included {
+			returnValue = value > i.lower && value < i.upper
+		}
+
+	}
+	return returnValue
+}
+
 /**
  * True if there is any overlap between intervals represented by Current and
  * `other'. True if at least one limit of other is strictly inside the limits
@@ -164,7 +205,15 @@ func (i *Interval[T]) IntersectsAsInterVal(other *Interval[T]) *Interval[T] {
 				lower = other.lower
 			}
 		}
-		return &Interval[T]{lower: lower, upper: upper, lowerUnbounded: lowerUnbounded, upperUnbounded: upperUnbounded, lowerIncluded: lowerIncluded, upperIncluded: upperIncluded}
+		if lower > upper {
+			if lowerUnbounded {
+				lower = upper
+			}
+			if upperUnbounded {
+				upper = lower
+			}
+		}
+		return &Interval[T]{lower, upper, lowerUnbounded, upperUnbounded, lowerIncluded, upperIncluded}
 	}
 	return nil
 }
@@ -178,12 +227,12 @@ func (i *Interval[T]) Contains(other *Interval[T]) bool {
 	if other.lowerUnbounded {
 		otherHasLower = i.lowerUnbounded
 	} else {
-		otherHasLower = i.Has(other.lower)
+		otherHasLower = i.BoundaryHas(other.lower, other.lowerIncluded)
 	}
 	if other.upperUnbounded {
 		otherHasUpper = i.upperUnbounded
 	} else {
-		otherHasUpper = i.Has(other.upper)
+		otherHasUpper = i.BoundaryHas(other.upper, other.upperIncluded)
 	}
 	return otherHasUpper && otherHasLower
 }
