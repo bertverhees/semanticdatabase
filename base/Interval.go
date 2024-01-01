@@ -283,6 +283,8 @@ func (i Interval[T]) Bisect(x Interval[T]) (Interval[T], Interval[T]) {
 			lowerIncluded: i.lowerIncluded,
 			upper:         in.lower,
 			upperIncluded: !in.lowerIncluded,
+			//lowerUnbounded: in.lowerUnbounded,
+			//upperUnbounded: in.upperUnbounded,
 		}), maybeEmpty[T](Interval[T]{
 			lower:         in.upper,
 			lowerIncluded: !in.upperIncluded,
