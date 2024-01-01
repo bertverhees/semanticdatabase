@@ -1,1908 +1,675 @@
 package base
 
 import (
-	"errors"
-	"reflect"
-	"semanticdatabase/generics"
+	"fmt"
+	"golang.org/x/exp/constraints"
+	"strings"
 	"testing"
 )
 
-func TestIntervalBuilder_build_errors(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name   string
-		i      IntervalBuilder[T]
-		want   *Interval[T]
-		errors []error
+var testIntervals = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
+
+	//a
+	// i_interval_string.Before(x_interval_string)
+	i_Before_x bool
+	//b
+	// x_interval_string.Before(i_interval_string)
+	x_Before_i bool
+	//c
+	// i_interval_string.Cover(x_interval_string)
+	i_Cover_x bool
+	//d
+	// x_interval_string.Cover(i_interval_string)
+	x_Cover_i bool
+
+	//e
+	// i_interval_string.Intersect(x_interval_string)
+	i_Interval_x string
+	// x_interval_string.Intersect(i_interval_string)
+	// == i_Interval_x
+	// f string
+
+	//g,h
+	// i_interval_string.Bisect(x_interval_string)
+	i_Bisect_x_1, i_Bisect_x_2 string
+	//j,k
+	// x_interval_string.Bisect(i_interval_string)
+	x_Bisect_i_1, x_Bisect_i_2 string
+
+	//l
+	// i_interval_string.Adjoin(x_interval_string)
+	i_Adjoin_x string
+	// x_interval_string.Adjoin(i_interval_string)
+	// i_Adjoin_x == m
+	// m string
+
+	//o
+	// i_interval_string.Encompass(x_interval_string)
+	i_Encompass_x string
+	// x_interval_string.Encompass(i_interval_string)
+	// == i_Encompass_x
+	// p string
+}{
+	{ // 0
+		i_interval_string: "=====",
+		x_interval_string: "-------=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "=====",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "-------=========",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "================",
+	},
+	{ // 1
+		i_interval_string: "=====",
+		x_interval_string: "------=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "=====",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "------=========",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "===============",
+	},
+	{ // 2
+		i_interval_string: "=====",
+		x_interval_string: "-----*=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "=====",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "-----*=========",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "===============",
+	},
+	{ // 3
+		i_interval_string: "=====",
+		x_interval_string: "-----=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "=====",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "-----=========",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "==============",
+	},
+	{ // 4
+		i_interval_string: "=====",
+		x_interval_string: "----*=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "=====",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "----*=========",
+
+		i_Adjoin_x: "==============",
+
+		i_Encompass_x: "==============",
+	},
+	{ // 5
+		i_interval_string: "=====",
+		x_interval_string: "----=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "----=",
+
+		i_Bisect_x_1: "====*",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "----*========",
+
+		i_Adjoin_x: "=============",
+
+		i_Encompass_x: "=============",
+	},
+	{ // 6
+		i_interval_string: "=====",
+		x_interval_string: "--=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "--===",
+
+		i_Bisect_x_1: "==*",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "----*======",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "===========",
+	},
+	{ // 7
+		i_interval_string: "=====",
+		x_interval_string: "-=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "-====",
+
+		i_Bisect_x_1: "=*",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "----*=====",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "==========",
+	},
+	{ // 8
+		i_interval_string: "=====",
+		x_interval_string: "*=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "*====",
+
+		i_Bisect_x_1: "=",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "----*=====",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "==========",
+	},
+	{ // 9
+		i_interval_string: "=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "----*====",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 10
+		i_interval_string: "*=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "*=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "=",
+		x_Bisect_i_2: "-----*===",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 11
+		i_interval_string: "-=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "-=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "=*",
+		x_Bisect_i_2: "-----*===",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 12
+		i_interval_string: "--=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "--=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "==*",
+		x_Bisect_i_2: "------*==",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 13
+		i_interval_string: "---=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "---=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "===*",
+		x_Bisect_i_2: "-------*=",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 14
+		i_interval_string: "---=====*",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "---=====*",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "===*",
+		x_Bisect_i_2: "--------=",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 15
+		i_interval_string: "----=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+		i_Interval_x:      "----=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "====*",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========",
+	},
+	{ // 16
+		i_interval_string: "----=====*",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "----=====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "--------**",
+		x_Bisect_i_1: "====*",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "=========*",
+	},
+	{ // 17
+		i_interval_string: "-----=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "-----====",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "--------*=",
+		x_Bisect_i_1: "=====*",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "==========",
+	},
+	{ // 18
+		i_interval_string: "------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "------===",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "--------*==",
+		x_Bisect_i_1: "======*",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "===========",
+	},
+	{ // 19
+		i_interval_string: "-------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "-------==",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "--------*===",
+		x_Bisect_i_1: "=======*",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "============",
+	},
+	{ // 20
+		i_interval_string: "--------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "--------=",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "--------*====",
+		x_Bisect_i_1: "========*",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "=============",
+
+		i_Encompass_x: "=============",
+	},
+	{ // 21
+		i_interval_string: "--------*=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "--------*=====",
+		x_Bisect_i_1: "=========",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "==============",
+
+		i_Encompass_x: "==============",
+	},
+	{ // 22
+		i_interval_string: "---------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "---------=====",
+		x_Bisect_i_1: "=========",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "==============",
+	},
+	{ // 23
+		i_interval_string: "---------*=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "---------*=====",
+		x_Bisect_i_1: "=========",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "===============",
+	},
+	{ // 24
+		i_interval_string: "----------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "----------=====",
+		x_Bisect_i_1: "=========",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "===============",
+	},
+	{ // 25
+		i_interval_string: "-----------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_Interval_x:      "",
+
+		i_Bisect_x_1: "",
+		i_Bisect_x_2: "-----------=====",
+		x_Bisect_i_1: "=========",
+		x_Bisect_i_2: "",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "================",
+	},
+}
+
+func parseInterval[T constraints.Integer | constraints.Float](s string) Interval[T] {
+	if s == "" {
+		return Interval[T]{}
 	}
-	tests := []testCase[int]{
-		{name: "Test Builder for Default Interval", i: *NewIntervalBuilder[int](), want: nil,
-			errors: []error{errors.New("Impossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false")}},
-		{name: "Test Builder for Default lower > upper", i: *NewIntervalBuilder[int]().setLower(4).setUpper(3), want: nil,
-			errors: []error{errors.New("Impossible interval constellation with lower: 4 being higher to upper: 3")}},
+	var begin int
+	begin = strings.IndexAny(s, "*=")
+	end := strings.LastIndexAny(s, "*=")
+	l_lowerUnbounded := false
+	l_upperUnbounded := false
+	if strings.ContainsRune(s, '<') {
+		l_lowerUnbounded = true
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got_errors := tt.i.Build()
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Build() = %v, want %v", got, tt.want)
+	if strings.ContainsRune(s, '>') {
+		l_upperUnbounded = true
+	}
+	return Interval[T]{
+		lower:          T(begin),
+		lowerIncluded:  s[begin] == '=',
+		lowerUnbounded: l_lowerUnbounded,
+		upper:          T(end),
+		upperIncluded:  s[end] == '=',
+		upperUnbounded: l_upperUnbounded,
+	}
+}
+
+func TestIntInterval(t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[float64](tc.i_interval_string)
+			x := parseInterval[float64](tc.x_interval_string)
+
+			a, b := i.LtBeginOf(x), x.LtBeginOf(i)
+			if a != tc.i_Before_x {
+				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", i, x, tc.i_Before_x, a)
 			}
-			if !reflect.DeepEqual(got_errors, tt.errors) {
-				t.Errorf("Errors from Build() = %v, errors %v", got_errors, tt.errors)
+			if b != tc.x_Before_i {
+				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", x, i, tc.x_Before_i, b)
+			}
+
+			c, d := i.Contains(x), x.Contains(i)
+			if c != tc.i_Cover_x {
+				t.Errorf("want %s.Cover(%s) = %v but get %v", i, x, tc.i_Cover_x, c)
+			}
+			if d != tc.x_Cover_i {
+				t.Errorf("want %s.Cover(%s) = %v but get %v", x, i, tc.x_Cover_i, d)
+			}
+
+			e, f := i.Intersect(x), x.Intersect(i)
+			we := parseInterval[float64](tc.i_Interval_x)
+			if !e.Equal(we) {
+				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
+			}
+			if !f.Equal(we) {
+				t.Errorf("want %s.Intersect(%s) = %s but get %s", x, i, we, f)
+			}
+
+			g, h := i.Bisect(x)
+			wg, wh := parseInterval[float64](tc.i_Bisect_x_1), parseInterval[float64](tc.i_Bisect_x_2)
+			if !g.Equal(wg) || !h.Equal(wh) {
+				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", i, x, wg, wh, g, h)
+			}
+			j, k := x.Bisect(i)
+			wj, wk := parseInterval[float64](tc.x_Bisect_i_1), parseInterval[float64](tc.x_Bisect_i_2)
+			if !j.Equal(wj) || !k.Equal(wk) {
+				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
+			}
+
+			l, m := i.Adjoin(x), x.Adjoin(i)
+			wl := parseInterval[float64](tc.i_Adjoin_x)
+			if !l.Equal(wl) {
+				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
+			}
+			if !m.Equal(wl) {
+				t.Errorf("want %s.Adjoin(%s) = %s but get %s", x, i, wl, m)
+			}
+
+			o, p := i.Encompass(x), x.Encompass(i)
+			wo := parseInterval[float64](tc.i_Encompass_x)
+			if !o.Equal(wo) {
+				t.Errorf("want %s.Encompass(%s) = %s but get %s", i, x, wo, o)
+			}
+			if !p.Equal(wo) {
+				t.Errorf("want %s.Encompass(%s) = %s but get %s", x, i, wo, p)
 			}
 		})
 	}
 }
 
-func TestIntervalBuilder_build(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name   string
-		i      IntervalBuilder[T]
-		want   *Interval[T]
-		errors []error
-	}
-	tests := []testCase[int]{
-		{name: "Test for Default Items", i: *NewIntervalBuilder[int](), want: nil,
-			errors: []error{errors.New("Impossible interval constellation with lower: 0 == upper: 0 and lowerincluded or upperincluded being false")}},
-		{name: "Test for Default included true and unbounded false booleans",
-			i:    *NewIntervalBuilder[int]().setLower(0).setUpper(1).setUpperIncluded(true).setLowerIncluded(true),
-			want: &Interval[int]{lower: 0, upper: 1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-		{name: "Test for setted Unbounded booleans",
-			i:    *NewIntervalBuilder[int]().setLower(0).setUpper(1).setLowerUnbounded(true).setUpperUnbounded(true),
-			want: &Interval[int]{lower: 0, upper: 1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-		{name: "Test for setted Included and unbounded booleans",
-			i:    *NewIntervalBuilder[int]().setLower(0).setUpper(1).setLowerIncluded(true).setUpperIncluded(true).setUpperUnbounded(true).setLowerUnbounded(true),
-			want: &Interval[int]{lower: 0, upper: 1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got_errors := tt.i.Build()
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Build() = %v, want %v", got, tt.want)
+func TestFloatInterval(t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[float64](tc.i_interval_string)
+			x := parseInterval[float64](tc.x_interval_string)
+
+			a, b := i.LtBeginOf(x), x.LtBeginOf(i)
+			if a != tc.i_Before_x {
+				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", i, x, tc.i_Before_x, a)
 			}
-			if !reflect.DeepEqual(got_errors, tt.errors) {
-				t.Errorf("Errors from Build() = %v, errors %v", got_errors, tt.errors)
+			if b != tc.x_Before_i {
+				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", x, i, tc.x_Before_i, b)
 			}
-		})
-	}
-}
 
-func TestInterval_Contains(t *testing.T) {
-	type args[T generics.Number] struct {
-		other *Interval[T]
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    Interval[T]
-		args args[T]
-		want bool
-	}
-	tests := []testCase[int]{
-		// container included true unbounded false, arg included false unbounded false
-		{name: "0-1 Down and out container: 0..10, li true ui true, lu false uu false, arg:-5..-1 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-2 Down and intersecting: container: 0..10, li true ui true, lu false uu false, arg:-2..2 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-3 Down Limit and In: container: 0..10, li true ui true, lu false uu false, arg:0..6 li false ui false, lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-4 In: container: 0..10, li true ui true, lu false uu false, arg:2..6 li false ui false, lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-5 Up Limit and In: container: 0..10, li true ui true, lu false uu false, arg:8..10 li false ui false, lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-6 Up and intersecting: container: 0..10, li true ui true, lu false uu false, arg:8..12 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-7 Up and out: container: 0..10, li true ui true, lu false uu false, arg:12..16 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included upper false included lower true unbounded false, arg included false unbounded false
-		{name: "0-8 Down and out container: 0..10, li true ui false, lu false uu false,  arg:-5..-1 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-9 Down and intersecting: container: 0..10, li true ui false, lu false uu false,  arg:-2..2 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-10 Down Limit and In: container: 0..10, li true ui false, lu false uu false,  arg:0..6 li false ui false, lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-11 In: container: 0..10, li true ui false, lu false uu false,  arg:2..6 li false ui false, lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-12 Up Limit and In: container: 0..10, li true ui false, lu false uu false,  arg:8..10 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-13 Up and intersecting: container: 0..10, li true ui false, lu false uu false,  arg:8..12 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-14 Up and out: container: 0..10, li true ui false, lu false uu false,  arg:12..16 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded false, arg included false unbounded false
-		{name: "0-15 Down and out container: 0..10,  li false ui false,  lu false uu false,  arg:-5..-1 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-16 Down and intersecting: container: 0..10,  li false ui false,  lu false uu false,  arg:-2..2 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-17 Down Boundary and In: container: 0..10,  li false ui false,  lu false uu false,  arg:0..6 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-18 In: container: 0..10, included:upper:  li false ui false,  lu false uu false,  arg:2..6 li false ui false, lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-19 Up Boundary and In: container: 0..10,  li false ui false,  lu false uu false,  arg:8..10 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-20 Up and intersecting: container: 0..10,  li false ui false,  lu false uu false,  arg:8..12 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-21 Up and out: container: 0..10,  li false ui false,  lu false uu false,  arg:12..16 li false ui false, lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded false, arg included false unbounded false
-		{name: "0-22 Down and out container: 0..10, li false ui false and lu true uu false,  arg:-5..-1 li false ui false and lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-23 Down and intersecting: container: 0..10, li false ui false and lu true uu false,  arg:-2..2 li false ui false and lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-24 Down Limit and In: container: 0..10, li false ui false and lu true uu false,  arg:0..6 li false ui false and lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-25 In: container: 0..10, included:upper: li false ui false and lu true uu false,  arg:2..6 li false ui false and lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-26 Up Limit and In: container: 0..10, li false ui false and lu true uu false,  arg:8..10 li false ui false and lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-27 Up and intersecting: container: 0..10, li false ui false and lu true uu false,  arg:8..12 li false ui false and lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "0-28 Up and out: container: 0..10, li false ui false and lu true uu false,  arg:12..16 li false ui false and lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded true, arg included false unbounded false
-		{name: "0-29 Down and out container: 0..10, li false ui false and lu true uu true, arg:-5..-1li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-30 Down and intersecting: container: 0..10, li false ui false and lu true uu true, arg:-2..2li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-31 Down Limit and In: container: 0..10, li false ui false and lu true uu true, arg:0..6li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-32 In: container: 0..10, li false ui false and lu true uu true arg:2..6li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-33 Up Limit and In: container: 0..10, li false ui false and lu true uu true, arg:8..10li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-34 Up and intersecting: container: 0..10,li false ui false and lu true uu true, arg:8..12li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "0-35 Up and out: container: 0..10, li false ui false and lu true uu true, arg:12..16li false ui false and lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		// container included true unbounded false, arg included false unbounded low true up false
-		{name: "1-1 Down and out container: 0..10, li: true ui:true and lu: false uu: false, arg:-5..-1, li: false ui:false and lu: true uu: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-2 Down and intersecting: container: 0..10, li: true ui:true and lu: false uu: false, arg:-2..2 , li: false ui:false and lu: true uu: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-3 Down Limit and In: container: 0..10, li: true ui:true and lu: false uu: false, arg:0..6 , li: false ui:false and lu: true uu: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-4 In: container: 0..10, li: true ui:true and lu: false uu: false, arg:2..6 , li: false ui:false and lu: true uu: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-5 Up Limit and In: container: 0..10, li: true ui:true and lu: false uu: false, arg:8..10 , li: false ui:false and lu: true uu: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-6 Up and intersecting: container: 0..10, li: true ui:true and lu: false uu: false, arg:8..12 , li: false ui:false and lu: true uu: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-7 Up and out: container: 0..10, li: true ui:true and lu: false uu: false, arg:12..16 , li: false ui:false and lu: true uu: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included upper false included lower true unbounded false, arg included false unbounded low true up false
-		{name: "1-8 Down and out container: 0..10, included:upper: false lower: true and unbounded: false,  arg:-5..-1 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-9 Down and intersecting: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:-2..2 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-10 Down Limit and In: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:0..6 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-11 In: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:2..6 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-12 Up Limit and In: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:8..10 included: lower unbounded true upper, unbounded: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-13 Up and intersecting: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:8..12 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-14 Up and out: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:12..16 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded false, arg included false unbounded low true up false
-		{name: "1-15 Down and out container: 0..10, included false and unbounded: false,  arg:-5..-1 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-16 Down and intersecting: container: 0..10, included false and unbounded: false,  arg:-2..2 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-17 Down Boundary and In: container: 0..10, included false and unbounded: false,  arg:0..6 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-18 In: container: 0..10, included:upper: included false and unbounded: false,  arg:2..6 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-19 Up Boundary and In: container: 0..10, included false and unbounded: false,  arg:8..10 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-20 Up and intersecting: container: 0..10, included false and unbounded: false,  arg:8..12 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-21 Up and out: container: 0..10, included false and unbounded: false,  arg:12..16 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded lower true upper false, arg included false unbounded low true up false
-		{name: "1-22 Down and out container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:-5..-1 included: false, upper unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-23 Down and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:-2..2 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-24 Down Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:0..6 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-25 In: container: 0..10, included:upper: included false and lower unbounded: true upper unbounded: false,  arg:2..6 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-26 Up Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:8..10 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-27 Up and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:8..12 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "1-28 Up and out: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:12..16 included: false, lower unbounded true upper: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded true, arg included false unbounded low true up false
-		{name: "1-29 Down and out container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:-5..-1 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-30 Down and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:-2..2 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-31 Down Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:0..6 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-32 In: container: 0..10, included:upper: included false and lower unbounded: true upper unbounded: true,  arg:2..6 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-33 Up Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:8..10 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-34 Up and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:8..12 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "1-35 Up and out: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:12..16 included: false, lower unbounded true upper: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		// container included true unbounded false, arg included false unbounded low false up true
-		{name: "2-1 Down and out container: 0..10, included: true and unbounded: false,  arg:-5..-1 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-2 Down and intersecting: container: 0..10, included: true and unbounded: false,  arg:-2..2 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-3 Down Limit and In: container: 0..10, included: true and unbounded: false,  arg:0..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-4 In: container: 0..10, included: true and unbounded: false,  arg:2..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-5 Up Limit and In: container: 0..10, included: true and unbounded: false,  arg:8..10 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-6 Up and intersecting: container: 0..10, included: true and unbounded: false,  arg:8..12 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-7 Up and out: container: 0..10, included: true and unbounded: false,  arg:12..16 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included upper false included lower true unbounded false, arg included false unbounded low true up false
-		{name: "2-8 Down and out container: 0..10, included:upper: false lower: true and unbounded: false,  arg:-5..-1 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-9 Down and intersecting: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:-2..2 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-10 Down Limit and In: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:0..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-11 In: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:2..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-12 Up Limit and In: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:8..10 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-13 Up and intersecting: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:8..12 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-14 Up and out: container: 0..10, included:upper: false lower: true and unbounded: false,  arg:12..16 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded false, arg included false unbounded low true up false
-		{name: "2-15 Down and out container: 0..10, included false and unbounded: false,  arg:-5..-1 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-16 Down and intersecting: container: 0..10, included false and unbounded: false,  arg:-2..2 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-17 Down Boundary and In: container: 0..10, included false and unbounded: false,  arg:0..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-18 In: container: 0..10, included:upper: included false and unbounded: false,  arg:2..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-19 Up Boundary and In: container: 0..10, included false and unbounded: false,  arg:8..10 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-20 Up and intersecting: container: 0..10, included false and unbounded: false,  arg:8..12 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-21 Up and out: container: 0..10, included false and unbounded: false,  arg:12..16 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded lower true upper false, arg included false unbounded low true up false
-		{name: "2-22 Down and out container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:-5..-1 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-23 Down and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:-2..2 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-24 Down Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:0..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-25 In: container: 0..10, included:upper: included false and lower unbounded: true upper unbounded: false,  arg:2..6 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-26 Up Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:8..10 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-27 Up and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:8..12 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		{name: "2-28 Up and out: container: 0..10, included false and lower unbounded: true upper unbounded: false,  arg:12..16 included: false, upper unbounded true lower: false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: false},
-		// container included false unbounded true, arg included false unbounded low true up false
-		{name: "2-29 Down and out container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:-5..-1 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "2-30 Down and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:-2..2 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: -2, upper: 2, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "2-31 Down Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:0..6 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 0, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "2-32 In: container: 0..10, included:upper: included false and lower unbounded: true upper unbounded: true,  arg:2..6 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 2, upper: 6, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "2-33 Up Limit and In: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:8..10 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "2-34 Up and intersecting: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:8..12 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 8, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-		{name: "2-35 Up and out: container: 0..10, included false and lower unbounded: true upper unbounded: true,  arg:12..16 included: false, upper unbounded true lower: false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 16, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false}},
-			want: true},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.Contains(tt.args.other); got != tt.want {
-				t.Errorf("Contains() = %v, want %v", got, tt.want)
+			c, d := i.Contains(x), x.Contains(i)
+			if c != tc.i_Cover_x {
+				t.Errorf("want %s.Cover(%s) = %v but get %v", i, x, tc.i_Cover_x, c)
 			}
-		})
-	}
-}
-
-func TestInterval_Has(t *testing.T) {
-	type args[T generics.Number] struct {
-		value T
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    Interval[T]
-		args args[T]
-		want bool
-	}
-	tests := []testCase[int]{
-		{name: "1-1 Value -2, lu false, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: -2},
-			want: false},
-		{name: "1-2 Value 0, lu false, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 0},
-			want: false},
-		{name: "1-3 Value 5, lu false, uu false, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "1-4 Value 10, lu false, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 10},
-			want: false},
-		{name: "1-5 Value 12, lu false, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 12},
-			want: false},
-
-		{name: "2-1 Value -2, lu true, uu false, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: -2},
-			want: true},
-		{name: "2-2 Value 0, lu true, uu false, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 0},
-			want: true},
-		{name: "2-3 Value 5, lu true, uu false, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "2-4 Value 10, lu true, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 10},
-			want: false},
-		{name: "2-5 Value 12, lu true, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 12},
-			want: false},
-
-		{name: "3-1 Value -2, lu false, uu true, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: -2},
-			want: false},
-		{name: "3-2 Value 0, lu false, uu true, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 0},
-			want: false},
-		{name: "3-3 Value 5, lu false, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "3-4 Value 10, lu false, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 10},
-			want: true},
-		{name: "3-5 Value 12, lu false, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 12},
-			want: true},
-
-		{name: "4-1 Value -2, lu true, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: -2},
-			want: true},
-		{name: "4-2 Value 0, lu true, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 0},
-			want: true},
-		{name: "4-3 Value 5, lu true, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "4-4 Value 10, lu true, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 10},
-			want: true},
-		{name: "4-5 Value 12, lu true, uu true, li false ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: false, upperIncluded: false},
-			args: args[int]{value: 12},
-			want: true},
-
-		{name: "5-1 Value -2, lu false, uu false, li true ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{value: -2},
-			want: false},
-		{name: "5-2 Value 0, lu false, uu false, li true ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{value: 0},
-			want: true},
-		{name: "5-3 Value 5, lu false, uu false, li true ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "5-4 Value 10, lu false, uu false, li true ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{value: 10},
-			want: false},
-		{name: "5-5 Value 12, lu false, uu false, li true ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: false},
-			args: args[int]{value: 12},
-			want: false},
-
-		{name: "6-1 Value -2, lu false, uu false, li false ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: true},
-			args: args[int]{value: -2},
-			want: false},
-		{name: "6-2 Value 0, lu false, uu false, li true ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: true},
-			args: args[int]{value: 0},
-			want: false},
-		{name: "6-3 Value 5, lu false, uu false, li true ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: true},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "6-4 Value 10, lu false, uu false, li true ui false, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: true},
-			args: args[int]{value: 10},
-			want: true},
-		{name: "6-5 Value 12, lu false, uu false, li true ui false, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: false, upperIncluded: true},
-			args: args[int]{value: 12},
-			want: false},
-
-		{name: "7-1 Value -2, lu false, uu false, li true ui true, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{value: -2},
-			want: false},
-		{name: "7-2 Value 0, lu false, uu false, li true ui true, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{value: 0},
-			want: true},
-		{name: "7-3 Value 5, lu false, uu false, li true ui true, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{value: 5},
-			want: true},
-		{name: "7-4 Value 10, lu false, uu false, li true ui true, w true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{value: 10},
-			want: true},
-		{name: "7-5 Value 12, lu false, uu false, li true ui true, w false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{value: 12},
-			want: false},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.Has(tt.args.value); got != tt.want {
-				t.Errorf("Has() = %v, want %v", got, tt.want)
+			if d != tc.x_Cover_i {
+				t.Errorf("want %s.Cover(%s) = %v but get %v", x, i, tc.x_Cover_i, d)
 			}
-		})
-	}
-}
 
-func TestInterval_Intersects(t *testing.T) {
-	type args[T generics.Number] struct {
-		other *Interval[T]
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    Interval[T]
-		args args[T]
-		want bool
-	}
-	// false false false false 0
-	// true false false false 1
-	// false true false false 2
-	// true true false false 3
-
-	// false false true false 4
-	// true false true false 5
-	// false true true false 6
-	// true true true false 7
-
-	// false false false true 8
-	// true false false true 9
-	// false true false true 10
-	// true true false true 11
-
-	// false false true true 12
-	// true false true true 13
-	// false true true true 14
-	// true true true true 15
-
-	tests := []testCase[int]{
-		//Down and out
-		//                0 --------------------------- 10
-		//  -5 ------- -1
-		{name: "0-1 Down and out : 0..10, lu false uu false, arg:-5..-1 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		//  -5 ---------------------------------------->
-		{name: "0-2 Down and out : 0..10, lu false uu false, arg:-5..-1 lu false uu true, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		// <---------- -1
-		{name: "0-3 Down and out : 0..10, lu false uu false, arg:-5..-1 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		//Down and Intersects
-		//                0 --------------------------- 10
-		//        -5 ------------------- 5
-		{name: "0-4 Down and Intersects : lu false uu false, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		//        -5 ----------------------------------------------->
-		{name: "0-5 Down and Intersects : lu false uu false, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// <----------------------------- 5
-		{name: "0-6 Down and Intersects : lu false uu false, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// IN
-		//                0 --------------------------- 10
-		//                      3 ---------------- 7
-		{name: "0-7 In : 0..10, lu false uu false, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		//                      3 ------------------------------------->
-		{name: "0-8 In : 0..10, lu false uu false, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		//  <------------------------------------- 7
-		{name: "0-9 In : 0..10, lu false uu false, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// Up and Intersects
-		//                0 --------------------------- 10
-		//                                      7 ----------------- 12
-		{name: "0-10 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		//                                      7 ------------------------------------>
-		{name: "0-11 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		//              <------------------------------------------ 12
-		{name: "0-12 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// Up and Out
-		//                0 --------------------------- 10
-		//                                                   12 --------- 15
-		{name: "0-13 Up and Out: 0..10, lu false uu false, arg:12..15 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		//                                                   12 ------------------------------>
-		{name: "0-14 Up and Out: 0..10, lu false uu false, arg:12..15 lu false uu true, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		//   <---------------------------------------------- 12
-		{name: "0-15 Up and Out: 0..10, lu false uu false, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-
-		//false false false false
-		{name: "0-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		{name: "0-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		// true false false false
-		{name: "1-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "1-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "1-3 Down and Intersects : lu true uu false, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "1-4 In : 0..10, lu true uu false, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "1-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "1-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		{name: "1-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		// false true false false
-		{name: "2-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		{name: "2-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		{name: "2-3 Down and Intersects : lu false uu true, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "2-4 In : 0..10, lu false uu true, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "2-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "2-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "2-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true true false false
-		{name: "3-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "3-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "3-3 Down and Intersects : lu true uu true, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "3-4 In : 0..10, lu true uu true, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "3-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "3-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "3-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// ===============================
-		// false false true false
-		{name: "4-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "4-4 In : 0..10, lu false uu false, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "4-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true false true false
-		{name: "5-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "5-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "5-3 Down and Intersects : lu true uu false, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "5-4 In : 0..10, lu true uu false, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "5-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "5-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "5-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// false true true false
-		{name: "6-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu true uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		{name: "6-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "6-3 Down and Intersects : lu false uu true, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "6-4 In : 0..10, lu false uu true, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "6-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "6-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "6-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true true true false
-		{name: "7-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "7-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "7-3 Down and Intersects : lu true uu true, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "7-4 In : 0..10, lu true uu true, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "7-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "7-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "7-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// ===============================
-		// false false false true
-		{name: "8-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "8-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true false false true
-		{name: "9-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "9-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "9-3 Down and Intersects : lu true uu false, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "9-4 In : 0..10, lu true uu false, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "9-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "9-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "9-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu false uu true, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: false},
-		// false true false true
-		{name: "10-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "10-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "10-3 Down and Intersects : lu false uu true, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "10-4 In : 0..10, lu false uu true, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "10-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "10-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "10-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true true false true
-		{name: "11-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "11-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "11-3 Down and Intersects : lu true uu true, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "11-4 In : 0..10, lu true uu true, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "11-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "11-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "11-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// ===============================
-		// false false true true
-
-		{name: "12-1 Down and out : 0..10, lu false uu false, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "12-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "12-3 Down and Intersects : lu false uu false, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "12-4 In : 0..10, lu false uu false, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "12-5 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "12-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "12-7 Up and Out: 0..10, lu false uu false, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true false true true
-		{name: "13-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "13-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "13-3 Down and Intersects : lu true uu false, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "13-4 In : 0..10, lu true uu false, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "13-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "13-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "13-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// false true true true
-		{name: "14-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "14-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "14-3 Down and Intersects : lu false uu true, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "14-4 In : 0..10, lu false uu true, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "14-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "14-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "14-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// true true true true
-		{name: "15-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "15-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "15-3 Down and Intersects : lu true uu true, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "15-4 In : 0..10, lu true uu true, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "15-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "15-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		{name: "15-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: true},
-		// ===============================
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.Intersects(tt.args.other); got != tt.want {
-				t.Errorf("Intersects() = %v, want %v", got, tt.want)
+			e, f := i.Intersect(x), x.Intersect(i)
+			we := parseInterval[float64](tc.i_Interval_x)
+			if !e.Equal(we) {
+				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
 			}
-		})
-	}
-}
-
-func TestInterval_IntersectsAsInterval(t *testing.T) {
-	type args[T generics.Number] struct {
-		other *Interval[T]
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		i    Interval[T]
-		args args[T]
-		want *Interval[T]
-	}
-	tests := []testCase[int]{
-		//false false false false
-		{name: "0-1 Down and out : 0..10, lu false uu false, arg:-5..-1 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "0-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "0-3 Down and Intersects : lu false uu false, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 5, false, false, true, true}},
-		{name: "0-4 In : 0..10, lu false uu false, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 7, false, false, true, true}},
-		{name: "0-5 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 10, false, false, true, true}},
-		{name: "0-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "0-7 Up and Out: 0..10, lu false uu false, arg:12..15 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		// true false false false
-		{name: "1-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, -1, false, false, true, true}},
-		{name: "1-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 0, false, false, true, true}},
-		{name: "1-3 Down and Intersects : lu true uu false, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 5, false, false, true, true}},
-		{name: "1-4 In : 0..10, lu true uu false, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 7, false, false, true, true}},
-		{name: "1-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 10, false, false, true, true}},
-		{name: "1-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "1-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		// false true false false
-		{name: "2-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "2-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu false uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "2-3 Down and Intersects : lu false uu true, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 5, false, false, true, true}},
-		{name: "2-4 In : 0..10, lu false uu true, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 7, false, false, true, true}},
-		{name: "2-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 12, false, false, true, true}},
-		{name: "2-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{10, 12, false, false, true, true}},
-		{name: "2-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{12, 15, false, false, true, true}},
-		// true true false false
-		{name: "3-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, -1, false, false, true, true}},
-		{name: "3-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 0, false, false, true, true}},
-		{name: "3-3 Down and Intersects : lu true uu true, arg:-5..5 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 5, false, false, true, true}},
-		{name: "3-4 In : 0..10, lu true uu true, arg:3..7 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 7, false, false, true, true}},
-		{name: "3-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 12, false, false, true, true}},
-		{name: "3-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{10, 12, false, false, true, true}},
-		{name: "3-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu false uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{12, 15, false, false, true, true}},
-		// ===============================
-		// false false true false
-		{name: "4-1 Down and out : 0..10, lu false uu false, arg:-5..-1 lu true uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "4-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, false, true, true}},
-		{name: "4-3 Down and Intersects : lu false uu false, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 5, false, false, true, true}},
-		{name: "4-4 In : 0..10, lu false uu false, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 7, false, false, true, true}},
-		{name: "4-5 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "4-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "4-7 Up and Out: 0..10, lu false uu false, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		// true false true false
-		{name: "5-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-1, -1, true, false, true, true}},
-		{name: "5-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, false, true, true}},
-		{name: "5-3 Down and Intersects : lu true uu false, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 5, true, false, true, true}},
-		{name: "5-4 In : 0..10, lu true uu false, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 7, true, false, true, true}},
-		{name: "5-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "5-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "5-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		// false true true false
-		{name: "6-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu true uu false, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		{name: "6-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, false, true, true}},
-		{name: "6-3 Down and Intersects : lu false uu true, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 5, false, false, true, true}},
-		{name: "6-4 In : 0..10, lu false uu true, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 7, false, false, true, true}},
-		{name: "6-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 12, false, false, true, true}},
-		{name: "6-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 12, false, false, true, true}},
-		{name: "6-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 15, false, false, true, true}},
-		// true true true false
-		{name: "7-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-1, -1, true, false, true, true}},
-		{name: "7-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, false, true, true}},
-		{name: "7-3 Down and Intersects : lu true uu true, arg:-5..5 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 5, true, false, true, true}},
-		{name: "7-4 In : 0..10, lu true uu true, arg:3..7 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 7, true, false, true, true}},
-		{name: "7-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 12, true, false, true, true}},
-		{name: "7-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 12, true, false, true, true}},
-		{name: "7-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu true uu false, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 15, true, false, true, true}},
-		// ===============================
-		// false false false true
-		{name: "8-1 Down and out : 0..10, lu false uu false, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "8-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "8-3 Down and Intersects : lu false uu false, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "8-4 In : 0..10, lu false uu false, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 10, false, false, true, true}},
-		{name: "8-5 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 10, false, false, true, true}},
-		{name: "8-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{10, 10, false, false, true, true}},
-		{name: "8-7 Up and Out: 0..10, lu false uu false, arg:12..15 lu false uu true, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		// true false false true
-		{name: "9-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 10, false, false, true, true}},
-		{name: "9-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 10, false, false, true, true}},
-		{name: "9-3 Down and Intersects : lu true uu false, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 10, false, false, true, true}},
-		{name: "9-4 In : 0..10, lu true uu false, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 10, false, false, true, true}},
-		{name: "9-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 10, false, false, true, true}},
-		{name: "9-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{10, 10, false, false, true, true}},
-		{name: "9-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu false uu true, result: false",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: nil},
-		// false true false true
-		{name: "10-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "10-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "10-3 Down and Intersects : lu false uu true, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "10-4 In : 0..10, lu false uu true, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 3, false, true, true, true}},
-		{name: "10-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 7, false, true, true, true}},
-		{name: "10-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{10, 10, false, true, true, true}},
-		{name: "10-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{12, 12, false, true, true, true}},
-		// true true false true
-		{name: "11-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 0, false, true, true, true}},
-		{name: "11-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 0, false, true, true, true}},
-		{name: "11-3 Down and Intersects : lu true uu true, arg:-5..5 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{-5, 0, false, true, true, true}},
-		{name: "11-4 In : 0..10, lu true uu true, arg:3..7 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{3, 3, false, true, true, true}},
-		{name: "11-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{7, 7, false, true, true, true}},
-		{name: "11-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{10, 10, false, true, true, true}},
-		{name: "11-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu false uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{12, 12, false, true, true, true}},
-		// ===============================
-		// false false true true
-
-		{name: "12-1 Down and out : 0..10, lu false uu false, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "12-2 Down and Boundary : 0..10, lu false uu false, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "12-3 Down and Intersects : lu false uu false, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "12-4 In : 0..10, lu false uu false, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "12-5 Up and Intersects : 0..10, lu false uu false, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "12-6 Boundary and Up : 0..10, lu false uu false, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		{name: "12-7 Up and Out: 0..10, lu false uu false, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, false, false, true, true}},
-		// true false true true
-		{name: "13-1 Down and out : 0..10, lu true uu false, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "13-2 Down and Boundary : 0..10, lu true uu false, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "13-3 Down and Intersects : lu true uu false, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "13-4 In : 0..10, lu true uu false, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "13-5 Up and Intersects : 0..10, lu true uu false, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "13-6 Boundary and Up : 0..10, lu true uu false, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		{name: "13-7 Up and Out: 0..10, lu true uu false, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: false, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 10, true, false, true, true}},
-		// false true true true
-		{name: "14-1 Down and out : 0..10, lu false uu true, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "14-2 Down and Boundary : 0..10, lu false uu true, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "14-3 Down and Intersects : lu false uu true, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "14-4 In : 0..10, lu false uu true, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "14-5 Up and Intersects : 0..10, lu false uu true, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "14-6 Boundary and Up : 0..10, lu false uu true, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		{name: "14-7 Up and Out: 0..10, lu false uu true, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: false, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, false, true, true, true}},
-		// true true true true
-		{name: "15-1 Down and out : 0..10, lu true uu true, arg:-5..-1 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: -1, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		{name: "15-2 Down and Boundary : 0..10, lu true uu true, arg:-5..0 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 0, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		{name: "15-3 Down and Intersects : lu true uu true, arg:-5..5 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: -5, upper: 5, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		{name: "15-4 In : 0..10, lu true uu true, arg:3..7 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 3, upper: 7, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		{name: "15-5 Up and Intersects : 0..10, lu true uu true, arg:7..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 7, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		{name: "15-6 Boundary and Up : 0..10, lu true uu true, arg:10..12 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 10, upper: 12, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		{name: "15-7 Up and Out: 0..10, lu true uu true, arg:12..15 lu true uu true, result: true",
-			i:    Interval[int]{lower: 0, upper: 10, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true},
-			args: args[int]{other: &Interval[int]{lower: 12, upper: 15, lowerUnbounded: true, upperUnbounded: true, lowerIncluded: true, upperIncluded: true}},
-			want: &Interval[int]{0, 0, true, true, true, true}},
-		// ===============================
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.i.IntersectsAsInterVal(tt.args.other); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Intersects() = %v, want %v", got, tt.want)
+			if !f.Equal(we) {
+				t.Errorf("want %s.Intersect(%s) = %s but get %s", x, i, we, f)
 			}
-		})
-	}
-}
 
-func TestLowerUnboundedInterval(t *testing.T) {
-	type args[T generics.Number] struct {
-		upper         T
-		UpperIncluded bool
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		args args[T]
-		want *Interval[T]
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := LowerUnboundedInterval(tt.args.upper, tt.args.UpperIncluded); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("LowerUnboundedInterval() = %v, want %v", got, tt.want)
+			g, h := i.Bisect(x)
+			wg, wh := parseInterval[float64](tc.i_Bisect_x_1), parseInterval[float64](tc.i_Bisect_x_2)
+			if !g.Equal(wg) || !h.Equal(wh) {
+				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", i, x, wg, wh, g, h)
 			}
-		})
-	}
-}
-
-func TestMultiplicityInterval_IsMandatory(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		mi   MultiplicityInterval[T]
-		want bool
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.mi.IsMandatory(); got != tt.want {
-				t.Errorf("IsMandatory() = %v, want %v", got, tt.want)
+			j, k := x.Bisect(i)
+			wj, wk := parseInterval[float64](tc.x_Bisect_i_1), parseInterval[float64](tc.x_Bisect_i_2)
+			if !j.Equal(wj) || !k.Equal(wk) {
+				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
 			}
-		})
-	}
-}
 
-func TestMultiplicityInterval_IsOpen(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		mi   MultiplicityInterval[T]
-		want bool
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.mi.IsOpen(); got != tt.want {
-				t.Errorf("IsOpen() = %v, want %v", got, tt.want)
+			l, m := i.Adjoin(x), x.Adjoin(i)
+			wl := parseInterval[float64](tc.i_Adjoin_x)
+			if !l.Equal(wl) {
+				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
 			}
-		})
-	}
-}
-
-func TestMultiplicityInterval_IsOptional(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		mi   MultiplicityInterval[T]
-		want bool
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.mi.IsOptional(); got != tt.want {
-				t.Errorf("IsOptional() = %v, want %v", got, tt.want)
+			if !m.Equal(wl) {
+				t.Errorf("want %s.Adjoin(%s) = %s but get %s", x, i, wl, m)
 			}
-		})
-	}
-}
 
-func TestMultiplicityInterval_IsProhibited(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		mi   MultiplicityInterval[T]
-		want bool
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.mi.IsProhibited(); got != tt.want {
-				t.Errorf("IsProhibited() = %v, want %v", got, tt.want)
+			o, p := i.Encompass(x), x.Encompass(i)
+			wo := parseInterval[float64](tc.i_Encompass_x)
+			if !o.Equal(wo) {
+				t.Errorf("want %s.Encompass(%s) = %s but get %s", i, x, wo, o)
 			}
-		})
-	}
-}
-
-func TestNewInterval(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		want *Interval[T]
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := NewInterval[int](); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewInterval() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestNewIntervalBuilder(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		want *IntervalBuilder[T]
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := NewIntervalBuilder[int](); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewIntervalBuilder() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestNewMultiplicityInterval(t *testing.T) {
-	type testCase[T generics.Number] struct {
-		name string
-		want *MultiplicityInterval[T]
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := NewMultiplicityInterval[int](); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewMultiplicityInterval() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestUnboundedInterval(t *testing.T) {
-	type args[T generics.Number] struct {
-		lower T
-		upper T
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		args args[T]
-		want *Interval[T]
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := UnboundedInterval(tt.args.lower, tt.args.upper); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("UnboundedInterval() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestUpperUnboundedInterval(t *testing.T) {
-	type args[T generics.Number] struct {
-		lower         T
-		LowerIncluded bool
-	}
-	type testCase[T generics.Number] struct {
-		name string
-		args args[T]
-		want *Interval[T]
-	}
-	tests := []testCase[int]{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := UpperUnboundedInterval(tt.args.lower, tt.args.LowerIncluded); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("UpperUnboundedInterval() = %v, want %v", got, tt.want)
+			if !p.Equal(wo) {
+				t.Errorf("want %s.Encompass(%s) = %s but get %s", x, i, wo, p)
 			}
 		})
 	}

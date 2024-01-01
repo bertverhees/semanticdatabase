@@ -2,20 +2,23 @@ package base
 
 import (
 	"fmt"
-	"semanticdatabase/generics"
+	"golang.org/x/exp/constraints"
+	"strings"
 )
 
-type Interval[T generics.Number] struct {
+type Interval[T constraints.Integer | constraints.Float] struct {
+	// begin of this interval.
 	lower T
-	upper T
-	// lower boundary open (i.e. = -infinity)
-	lowerUnbounded bool
-	// upper boundary open (i.e. = +infinity)
-	upperUnbounded bool
-	// lower boundary value included in range if not lower_unbounded.
+	// if lowerIncluded is true, this interval is inclusive of the lower point.
 	lowerIncluded bool
-	// upper boundary value included in range if not upper_unbounded.
+	// if lowerUnbounded is true, the value of lower is ignored and the interval is considered endles on the lowerside
+	lowerUnbounded bool
+	// end of this interval.
+	upper T
+	// if upperIncluded is true, this interval is inclusive of the upper point.
 	upperIncluded bool
+	// if upperUnbounded is true, the value of upper is ignored and the interval is considered endles on the upperside
+	upperUnbounded bool
 }
 
 func (i *Interval[T]) Lower() T {
@@ -72,222 +75,260 @@ func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
 	return nil
 }
 
-func NewInterval[T generics.Number]() *Interval[T] {
-	return new(Interval[T])
+func newInterval[T constraints.Integer | constraints.Float]() *Interval[T] {
+	i := new(Interval[T])
+	i.lowerUnbounded = false
+	i.upperUnbounded = false
+	i.lowerIncluded = true
+	i.upperIncluded = true
+	return i
 }
 
-func LowerUnboundedInterval[T generics.Number](upper T, UpperIncluded bool) (*Interval[T], []error) {
-	return NewIntervalBuilder[T]().setUpper(upper).setLowerIncluded(false).setUpperIncluded(UpperIncluded).setLowerUnbounded(true).Build()
+func (i Interval[T]) String() string {
+	var b strings.Builder
+	if i.lowerIncluded {
+		b.WriteByte('[')
+	} else {
+		b.WriteByte('(')
+	}
+	if i.lowerUnbounded {
+		b.WriteByte('<')
+	}
+	fmt.Fprintf(&b, "%v", i.lower)
+	b.WriteString(", ")
+	fmt.Fprintf(&b, "%v", i.upper)
+	if i.upperIncluded {
+		b.WriteByte(']')
+	} else {
+		b.WriteByte(')')
+	}
+	if i.upperUnbounded {
+		b.WriteByte('>')
+	}
+	return b.String()
 }
 
-func UpperUnboundedInterval[T generics.Number](lower T, LowerIncluded bool) (*Interval[T], []error) {
-	return NewIntervalBuilder[T]().setLower(lower).setUpperIncluded(false).setLowerIncluded(LowerIncluded).setUpperUnbounded(true).Build()
+// Equal returns true if receiver interval is equals x_interval_string interval.
+func (i Interval[T]) Equal(x Interval[T]) bool {
+	return (i.lower == x.lower &&
+		i.upper == x.upper &&
+		i.lowerIncluded == x.lowerIncluded &&
+		i.upperIncluded == x.upperIncluded &&
+		i.lowerUnbounded == x.lowerUnbounded &&
+		i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
 }
 
-func UnboundedInterval[T generics.Number](lower T, upper T) (*Interval[T], []error) {
-	return NewIntervalBuilder[T]().setLower(lower).setUpper(upper).setUpperIncluded(false).setLowerIncluded(false).setUpperUnbounded(true).setLowerUnbounded(true).Build()
+func lowerUnbounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
+	return x.lowerUnbounded && i.lowerUnbounded
 }
 
-func (i *Interval[T]) Has(value T) bool {
-	if i.lowerUnbounded && i.upperUnbounded {
+func upperUnbounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
+	return x.upperUnbounded && i.upperUnbounded
+}
+
+func unbounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
+	return lowerUnbounded(i, x) && upperUnbounded(i, x)
+}
+
+func lowerBounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
+	return !x.lowerUnbounded && !i.lowerUnbounded
+}
+
+func upperBounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
+	return !x.upperUnbounded && !i.upperUnbounded
+}
+
+func bounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
+	return lowerBounded(i, x) && upperBounded(i, x)
+}
+
+// IsEmpty returns true if receiver interval has no value.
+func (i Interval[T]) IsEmpty() bool {
+	if i.upperUnbounded && i.lowerUnbounded {
+		return true
+	} else if i.upperUnbounded != i.lowerUnbounded {
+		return false
+	} else if i.lower < i.upper {
+		return false
+	} else if i.lower == i.upper {
+		return !i.lowerIncluded || !i.upperIncluded
+	}
+	return true
+}
+
+// LtBeginOf returns true if receiver interval is less than begin of x_interval_string interval.
+func (i Interval[T]) LtBeginOf(x Interval[T]) bool {
+	if x.IsEmpty() {
+		return false
+	}
+	if i.IsEmpty() {
+		return false
+	}
+	if i.upperUnbounded {
+		return false
+	}
+	if i.upper < x.lower {
+		return true
+	} else if i.upper == x.lower {
+		return !i.upperIncluded || !x.lowerIncluded
+	}
+	return false
+}
+
+// LeEndOf returns true if receiver interval is less than or equal to end of x_interval_string interval.
+func (i Interval[T]) LeEndOf(x Interval[T]) bool {
+	if x.IsEmpty() {
+		return false
+	}
+	if i.IsEmpty() {
+		return false
+	}
+	if i.upperUnbounded {
+		return false
+	}
+	if i.upper < x.upper {
+		return true
+	} else if i.upper == x.upper {
+		return !i.upperIncluded || x.upperIncluded
+	}
+	return false
+}
+
+// Contains returns true if x_interval_string interval is completely covered by receiver interval.
+func (i Interval[T]) Contains(x Interval[T]) bool {
+
+	if x.IsEmpty() {
 		return true
 	}
-	returnValue := true
-	if !i.lowerUnbounded && i.upperUnbounded {
-		if i.lowerIncluded {
-			returnValue = value >= i.lower
-		} else {
-			returnValue = value > i.lower
-		}
-	} else if !i.upperUnbounded && i.lowerUnbounded {
-		if i.upperIncluded {
-			returnValue = value <= i.upper
-		} else {
-			returnValue = value < i.upper
-		}
-	} else if !i.lowerUnbounded && !i.upperUnbounded {
-		if i.lowerIncluded && i.upperIncluded {
-			returnValue = value >= i.lower && value <= i.upper
-		} else if !i.lowerIncluded && i.upperIncluded {
-			returnValue = value > i.lower && value <= i.upper
-		} else if i.lowerIncluded && !i.upperIncluded {
-			returnValue = value >= i.lower && value < i.upper
-		} else if !i.lowerIncluded && !i.upperIncluded {
-			returnValue = value > i.lower && value < i.upper
-		}
+	if i.IsEmpty() {
+		return false
 	}
-	return returnValue
-}
-
-func (i *Interval[T]) BoundaryHas(value T, included bool) bool {
-	if i.lowerUnbounded && i.upperUnbounded {
+	if i.lower > x.lower || (x.lowerUnbounded && !i.lowerUnbounded) {
+		return false
+	}
+	if i.upper < x.upper || (x.upperUnbounded && !i.upperUnbounded) {
+		return false
+	}
+	if i.lower < x.lower && i.upper > x.upper &&
+		(unbounded(i, x) || bounded(i, x) ||
+			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded))) {
 		return true
 	}
-	returnValue := true
-	if !i.lowerUnbounded && i.upperUnbounded {
-		if i.lowerIncluded {
-			returnValue = value >= i.lower
-			if included {
-				returnValue = value > i.lower
-			}
-		} else {
-			returnValue = value > i.lower
-		}
-	} else if !i.upperUnbounded && i.lowerUnbounded {
-		if i.upperIncluded {
-			returnValue = value <= i.upper
-			if included {
-				returnValue = value < i.lower
-			}
-		} else {
-			returnValue = value < i.upper
-		}
-	} else if !i.lowerUnbounded && !i.upperUnbounded {
-		if i.lowerIncluded && i.upperIncluded {
-			returnValue = value >= i.lower && value <= i.upper
-		} else if !i.lowerIncluded && i.upperIncluded {
-			returnValue = value > i.lower && value <= i.upper
-		} else if i.lowerIncluded && !i.upperIncluded {
-			returnValue = value >= i.lower && value < i.upper
-		} else if !i.lowerIncluded && !i.upperIncluded {
-			returnValue = value > i.lower && value < i.upper
-		}
-		if included {
-			returnValue = value > i.lower && value < i.upper
-		}
-
+	if i.lower == x.lower && (i.lowerIncluded || !x.lowerIncluded) &&
+		(unbounded(i, x) || bounded(i, x) ||
+			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded))) {
+		return true
 	}
-	return returnValue
+	return i.upper == x.upper && (i.upperIncluded || !x.upperIncluded) &&
+		(unbounded(i, x) || bounded(i, x) ||
+			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded)))
 }
 
-/**
- * True if there is any overlap between intervals represented by Current and
- * `other'. True if at least one limit of other is strictly inside the limits
- * of this interval.
- */
-func (i *Interval[T]) Intersects(other *Interval[T]) bool {
-	b1 := i.lowerUnbounded && other.lowerUnbounded
-	b2 := i.upperUnbounded && other.upperUnbounded
-	b3 := (i.lower-other.lower < 0) && (i.upper-other.upper < 0) && (other.lower-i.upper < 0)
-	b4 := (other.lower-i.lower < 0) && (other.upper-i.upper < 0) && (i.lower-other.upper < 0)
-	b5 := other.Contains(i)
-	b6 := i.Contains(other)
-	b7 := other.lowerUnbounded && i.Has(other.upper)
-	b8 := other.upperUnbounded && i.Has(other.lower)
-	return b1 || b2 || b3 || b4 || b5 || b6 || b7 || b8
+// Intersect returns the intersection of receiver interval with x_interval_string interval.
+func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
+	if x.IsEmpty() || i.IsEmpty() {
+		return Interval[T]{}
+	}
+	if i.lower > x.lower && !i.lowerUnbounded {
+		x.lower = i.lower
+		x.lowerIncluded = i.lowerIncluded
+	} else if i.lower == x.lower && !i.lowerIncluded && !i.lowerUnbounded {
+		x.lowerIncluded = false
+	}
+	if i.upper < x.upper && !i.upperUnbounded {
+		x.upper = i.upper
+		x.upperIncluded = i.upperIncluded
+	} else if i.upper == x.upper && !i.upperIncluded && !i.upperUnbounded {
+		x.upperIncluded = false
+	}
+	return maybeEmpty[T](x)
 }
 
-func (i *Interval[T]) IntersectsAsInterVal(other *Interval[T]) *Interval[T] {
-	var lowerUnbounded, upperUnbounded, lowerIncluded, upperIncluded bool
-	var lower, upper T
-	if i.Intersects(other) {
-		lowerIncluded = i.lowerIncluded && other.lowerIncluded
-		upperIncluded = i.upperIncluded && other.upperIncluded
-		lowerUnbounded = i.lowerUnbounded && other.lowerUnbounded
-		upperUnbounded = i.upperUnbounded && other.upperUnbounded
-		if !i.upperUnbounded && other.upperUnbounded {
-			upper = i.upper
-		} else if !other.upperUnbounded && i.upperUnbounded {
-			upper = other.upper
-		} else if !i.upperUnbounded && !other.upperUnbounded {
-			upper = i.upper
-			if i.upper > other.upper {
-				upper = other.upper
-			}
+func maybeEmpty[T constraints.Integer | constraints.Float](x Interval[T]) Interval[T] {
+	if x.IsEmpty() {
+		return Interval[T]{}
+	}
+	return x
+}
+
+// Move returns an interval that adds number x_interval_string to begin and end of receiver interval.
+func (i Interval[T]) Move(x T) Interval[T] {
+	if i.IsEmpty() {
+		return Interval[T]{}
+	}
+	return Interval[T]{
+		lower:          i.lower + x,
+		lowerIncluded:  i.lowerIncluded,
+		upper:          i.upper + x,
+		upperIncluded:  i.upperIncluded,
+		upperUnbounded: i.upperUnbounded,
+		lowerUnbounded: i.lowerUnbounded,
+	}
+}
+
+// Bisect returns two intervals, one on the before of x_interval_string and one on the
+// after of x_interval_string, corresponding to the subtraction of x_interval_string from the receiver
+// interval. The returned intervals are always within the range of the
+// receiver interval.
+func (i Interval[T]) Bisect(x Interval[T]) (Interval[T], Interval[T]) {
+	in := i.Intersect(x)
+	if in.IsEmpty() {
+		if i.LtBeginOf(x) {
+			return i, Interval[T]{}
 		}
-		if !i.lowerUnbounded && other.lowerUnbounded {
-			lower = i.lower
-		} else if !other.lowerUnbounded && i.lowerUnbounded {
-			lower = other.lower
-		} else if !i.lowerUnbounded && !other.lowerUnbounded {
-			lower = i.lower
-			if i.lower < other.lower {
-				lower = other.lower
-			}
-		}
-		if lower > upper {
-			if lowerUnbounded {
-				lower = upper
-			}
-			if upperUnbounded {
-				upper = lower
-			}
-		}
-		return &Interval[T]{lower, upper, lowerUnbounded, upperUnbounded, lowerIncluded, upperIncluded}
+		return Interval[T]{}, i
 	}
-	return nil
+	return maybeEmpty[T](Interval[T]{
+			lower:         i.lower,
+			lowerIncluded: i.lowerIncluded,
+			upper:         in.lower,
+			upperIncluded: !in.lowerIncluded,
+		}), maybeEmpty[T](Interval[T]{
+			lower:         in.upper,
+			lowerIncluded: !in.upperIncluded,
+			upper:         i.upper,
+			upperIncluded: i.upperIncluded,
+		})
 }
 
-/*
-The included properties of "other" are ignored, but handled as true
-*/
-func (i *Interval[T]) Contains(other *Interval[T]) bool {
-	otherHasLower := false
-	otherHasUpper := false
-	if other.lowerUnbounded {
-		otherHasLower = i.lowerUnbounded
-	} else {
-		otherHasLower = i.BoundaryHas(other.lower, other.lowerIncluded)
+// Adjoin returns the union of two intervals, if the intervals are exactly
+// adjacent, or the zero interval if they are not.
+func (i Interval[T]) Adjoin(x Interval[T]) Interval[T] {
+	if x.IsEmpty() || i.IsEmpty() {
+		return Interval[T]{}
 	}
-	if other.upperUnbounded {
-		otherHasUpper = i.upperUnbounded
-	} else {
-		otherHasUpper = i.BoundaryHas(other.upper, other.upperIncluded)
+	if i.lower == x.upper && (i.lowerIncluded || x.upperIncluded) {
+		x.upper = i.upper
+		x.upperIncluded = i.upperIncluded
+		return x
 	}
-	return otherHasUpper && otherHasLower
-}
-
-type IntervalBuilder[T generics.Number] struct {
-	Builder
-	interval *Interval[T]
-}
-
-func NewIntervalBuilder[T generics.Number]() *IntervalBuilder[T] {
-	builder := &IntervalBuilder[T]{}
-	builder.object = NewInterval[T]()
-	return builder
-}
-
-func (i *IntervalBuilder[T]) setLower(lower T) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetLower(lower))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setUpper(upper T) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetUpper(upper))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setLowerUnbounded(lowerUnbounded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetLowerUnbounded(lowerUnbounded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setUpperUnbounded(upperUnbounded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetUpperUnbounded(upperUnbounded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setLowerIncluded(lowerIncluded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetLowerIncluded(lowerIncluded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) setUpperIncluded(upperIncluded bool) *IntervalBuilder[T] {
-	i.AddError(i.object.(*Interval[T]).SetUpperIncluded(upperIncluded))
-	return i
-}
-
-func (i *IntervalBuilder[T]) Build() (*Interval[T], []error) {
-	if i.object.(*Interval[T]).Lower() == i.object.(*Interval[T]).Upper() && (i.object.(*Interval[T]).LowerIncluded() == false || i.object.(*Interval[T]).UpperIncluded() == false) {
-		i.AddError(fmt.Errorf("Impossible interval constellation with lower: %v == upper: %v and lowerincluded or upperincluded being false", i.object.(*Interval[T]).Lower(), i.object.(*Interval[T]).Lower()))
+	if i.upper == x.lower && (i.upperIncluded || x.lowerIncluded) {
+		x.lower = i.lower
+		x.lowerIncluded = i.lowerIncluded
+		return x
 	}
-	if i.object.(*Interval[T]).Lower() > i.object.(*Interval[T]).Upper() {
-		i.AddError(fmt.Errorf("Impossible interval constellation with lower: %v being higher to upper: %v", i.object.(*Interval[T]).Lower(), i.object.(*Interval[T]).Upper()))
+	return Interval[T]{}
+}
+
+// Encompass returns an interval that covers the exact extents of two intervals.
+func (i Interval[T]) Encompass(x Interval[T]) Interval[T] {
+	if x.IsEmpty() {
+		return i
 	}
-	if i.errors != nil {
-		return nil, i.errors
-	} else {
-		return i.object.(*Interval[T]), nil
+	if i.IsEmpty() {
+		return x
 	}
+	if i.lower < x.lower {
+		x.lower = i.lower
+		x.lowerIncluded = i.lowerIncluded
+	} else if i.lower == x.lower && i.lowerIncluded {
+		x.lowerIncluded = true
+	}
+	if i.upper > x.upper {
+		x.upper = i.upper
+		x.upperIncluded = i.upperIncluded
+	} else if i.upper == x.upper && i.upperIncluded {
+		x.upperIncluded = true
+	}
+	return x
 }
