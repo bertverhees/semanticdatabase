@@ -75,7 +75,7 @@ func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
 	return nil
 }
 
-func newInterval[T constraints.Integer | constraints.Float]() *Interval[T] {
+func NewInterval[T constraints.Integer | constraints.Float]() *Interval[T] {
 	i := new(Interval[T])
 	i.lowerUnbounded = false
 	i.upperUnbounded = false
