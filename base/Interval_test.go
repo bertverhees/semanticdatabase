@@ -549,74 +549,16 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) Interval
 	}
 }
 
-func TestIntInterval(t *testing.T) {
-	for n, tc := range testIntervals {
-		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[float64](tc.i_interval_string)
-			x := parseInterval[float64](tc.x_interval_string)
-
-			a, b := i.LtBeginOf(x), x.LtBeginOf(i)
-			if a != tc.i_Before_x {
-				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", i, x, tc.i_Before_x, a)
-			}
-			if b != tc.x_Before_i {
-				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", x, i, tc.x_Before_i, b)
-			}
-
-			c, d := i.Contains(x), x.Contains(i)
-			if c != tc.i_Cover_x {
-				t.Errorf("want %s.Cover(%s) = %v but get %v", i, x, tc.i_Cover_x, c)
-			}
-			if d != tc.x_Cover_i {
-				t.Errorf("want %s.Cover(%s) = %v but get %v", x, i, tc.x_Cover_i, d)
-			}
-
-			e, f := i.Intersect(x), x.Intersect(i)
-			we := parseInterval[float64](tc.i_Interval_x)
-			if !e.Equal(we) {
-				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
-			}
-			if !f.Equal(we) {
-				t.Errorf("want %s.Intersect(%s) = %s but get %s", x, i, we, f)
-			}
-
-			g, h := i.Bisect(x)
-			wg, wh := parseInterval[float64](tc.i_Bisect_x_1), parseInterval[float64](tc.i_Bisect_x_2)
-			if !g.Equal(wg) || !h.Equal(wh) {
-				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", i, x, wg, wh, g, h)
-			}
-			j, k := x.Bisect(i)
-			wj, wk := parseInterval[float64](tc.x_Bisect_i_1), parseInterval[float64](tc.x_Bisect_i_2)
-			if !j.Equal(wj) || !k.Equal(wk) {
-				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
-			}
-
-			l, m := i.Adjoin(x), x.Adjoin(i)
-			wl := parseInterval[float64](tc.i_Adjoin_x)
-			if !l.Equal(wl) {
-				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
-			}
-			if !m.Equal(wl) {
-				t.Errorf("want %s.Adjoin(%s) = %s but get %s", x, i, wl, m)
-			}
-
-			o, p := i.Encompass(x), x.Encompass(i)
-			wo := parseInterval[float64](tc.i_Encompass_x)
-			if !o.Equal(wo) {
-				t.Errorf("want %s.Encompass(%s) = %s but get %s", i, x, wo, o)
-			}
-			if !p.Equal(wo) {
-				t.Errorf("want %s.Encompass(%s) = %s but get %s", x, i, wo, p)
-			}
-		})
-	}
+func TestInterval(t *testing.T) {
+	testInterval[int](t)
+	testInterval[float64](t)
 }
 
-func TestFloatInterval(t *testing.T) {
+func testInterval[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testIntervals {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[float64](tc.i_interval_string)
-			x := parseInterval[float64](tc.x_interval_string)
+			i := parseInterval[T](tc.i_interval_string)
+			x := parseInterval[T](tc.x_interval_string)
 
 			a, b := i.LtBeginOf(x), x.LtBeginOf(i)
 			if a != tc.i_Before_x {
@@ -635,7 +577,7 @@ func TestFloatInterval(t *testing.T) {
 			}
 
 			e, f := i.Intersect(x), x.Intersect(i)
-			we := parseInterval[float64](tc.i_Interval_x)
+			we := parseInterval[T](tc.i_Interval_x)
 			if !e.Equal(we) {
 				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
 			}
@@ -644,18 +586,18 @@ func TestFloatInterval(t *testing.T) {
 			}
 
 			g, h := i.Bisect(x)
-			wg, wh := parseInterval[float64](tc.i_Bisect_x_1), parseInterval[float64](tc.i_Bisect_x_2)
+			wg, wh := parseInterval[T](tc.i_Bisect_x_1), parseInterval[T](tc.i_Bisect_x_2)
 			if !g.Equal(wg) || !h.Equal(wh) {
 				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", i, x, wg, wh, g, h)
 			}
 			j, k := x.Bisect(i)
-			wj, wk := parseInterval[float64](tc.x_Bisect_i_1), parseInterval[float64](tc.x_Bisect_i_2)
+			wj, wk := parseInterval[T](tc.x_Bisect_i_1), parseInterval[T](tc.x_Bisect_i_2)
 			if !j.Equal(wj) || !k.Equal(wk) {
 				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
 			}
 
 			l, m := i.Adjoin(x), x.Adjoin(i)
-			wl := parseInterval[float64](tc.i_Adjoin_x)
+			wl := parseInterval[T](tc.i_Adjoin_x)
 			if !l.Equal(wl) {
 				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
 			}
@@ -664,7 +606,7 @@ func TestFloatInterval(t *testing.T) {
 			}
 
 			o, p := i.Encompass(x), x.Encompass(i)
-			wo := parseInterval[float64](tc.i_Encompass_x)
+			wo := parseInterval[T](tc.i_Encompass_x)
 			if !o.Equal(wo) {
 				t.Errorf("want %s.Encompass(%s) = %s but get %s", i, x, wo, o)
 			}
