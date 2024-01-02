@@ -224,24 +224,112 @@ func (i Interval[T]) Contains(x Interval[T]) bool {
 			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded)))
 }
 
+func (i *Interval[T]) Has(value T) bool {
+	if i.lowerUnbounded && i.upperUnbounded {
+		return true
+	}
+	returnValue := true
+	if !i.lowerUnbounded && i.upperUnbounded {
+		if i.lowerIncluded {
+			returnValue = value >= i.lower
+		} else {
+			returnValue = value > i.lower
+		}
+	} else if !i.upperUnbounded && i.lowerUnbounded {
+		if i.upperIncluded {
+			returnValue = value <= i.upper
+		} else {
+			returnValue = value < i.upper
+		}
+	} else if !i.lowerUnbounded && !i.upperUnbounded {
+		if i.lowerIncluded && i.upperIncluded {
+			returnValue = value >= i.lower && value <= i.upper
+		} else if !i.lowerIncluded && i.upperIncluded {
+			returnValue = value > i.lower && value <= i.upper
+		} else if i.lowerIncluded && !i.upperIncluded {
+			returnValue = value >= i.lower && value < i.upper
+		} else if !i.lowerIncluded && !i.upperIncluded {
+			returnValue = value > i.lower && value < i.upper
+		}
+	}
+	return returnValue
+}
+
+func (i *Interval[T]) BoundaryHas(value T, included bool) bool {
+	if i.lowerUnbounded && i.upperUnbounded {
+		return true
+	}
+	returnValue := true
+	if !i.lowerUnbounded && i.upperUnbounded {
+		if i.lowerIncluded {
+			returnValue = value >= i.lower
+			if included {
+				returnValue = value > i.lower
+			}
+		} else {
+			returnValue = value > i.lower
+		}
+	} else if !i.upperUnbounded && i.lowerUnbounded {
+		if i.upperIncluded {
+			returnValue = value <= i.upper
+			if included {
+				returnValue = value < i.lower
+			}
+		} else {
+			returnValue = value < i.upper
+		}
+	} else if !i.lowerUnbounded && !i.upperUnbounded {
+		if i.lowerIncluded && i.upperIncluded {
+			returnValue = value >= i.lower && value <= i.upper
+		} else if !i.lowerIncluded && i.upperIncluded {
+			returnValue = value > i.lower && value <= i.upper
+		} else if i.lowerIncluded && !i.upperIncluded {
+			returnValue = value >= i.lower && value < i.upper
+		} else if !i.lowerIncluded && !i.upperIncluded {
+			returnValue = value > i.lower && value < i.upper
+		}
+		if included {
+			returnValue = value > i.lower && value < i.upper
+		}
+	}
+	return returnValue
+}
+
 // Intersect returns the intersection of receiver interval with x_interval_string interval.
 func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
 		return Interval[T]{}
 	}
-	if i.lower > x.lower && !i.lowerUnbounded {
-		x.lower = i.lower
-		x.lowerIncluded = i.lowerIncluded
-	} else if i.lower == x.lower && !i.lowerIncluded && !i.lowerUnbounded {
-		x.lowerIncluded = false
+	result := Interval[T]{}
+	result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
+	result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
+	if i.upperUnbounded && !x.upperUnbounded { //i.upperUnbounded
+		result.upper = x.upper
+		result.upperIncluded = x.upperIncluded
+	} else if !i.upperUnbounded && x.upperUnbounded { //x.upperUnbounded
+		result.upper = i.upper
+		result.upperIncluded = i.upperIncluded
+	} else if (i.upper >= x.upper && i.upperIncluded) || (i.upper > x.upper && !i.upperIncluded) {
+		result.upper = x.upper
+		result.upperIncluded = x.upperIncluded
+	} else if (x.upper >= i.upper && x.upperIncluded) || (x.upper > i.upper && !x.upperIncluded) {
+		result.upper = i.upper
+		result.upperIncluded = i.upperIncluded
 	}
-	if i.upper < x.upper && !i.upperUnbounded {
-		x.upper = i.upper
-		x.upperIncluded = i.upperIncluded
-	} else if i.upper == x.upper && !i.upperIncluded && !i.upperUnbounded {
-		x.upperIncluded = false
+	if i.lowerUnbounded && !x.lowerUnbounded { //i.upperUnbounded
+		result.lower = x.lower
+		result.lowerIncluded = x.lowerIncluded
+	} else if !i.lowerUnbounded && x.lowerUnbounded { //x.upperUnbounded
+		result.lower = i.lower
+		result.lowerIncluded = i.lowerIncluded
+	} else if (i.lower <= x.lower && i.lowerIncluded) || (i.lower < x.lower && !i.lowerIncluded) {
+		result.lower = x.lower
+		result.lowerIncluded = x.lowerIncluded
+	} else if (x.lower <= i.lower && x.lowerIncluded) || (x.lower < i.lower && !x.lowerIncluded) {
+		result.lower = i.lower
+		result.lowerIncluded = i.lowerIncluded
 	}
-	return maybeEmpty[T](x)
+	return maybeEmpty[T](result)
 }
 
 func maybeEmpty[T constraints.Integer | constraints.Float](x Interval[T]) Interval[T] {

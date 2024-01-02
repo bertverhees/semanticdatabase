@@ -28,9 +28,9 @@ var testIntervals = []struct {
 
 	//e
 	// i_interval_string.Intersect(x_interval_string)
-	i_Interval_x string
+	i_intersect_x string
 	// x_interval_string.Intersect(i_interval_string)
-	// == i_Interval_x
+	// == i_intersect_x
 	// f string
 
 	//g,h
@@ -61,7 +61,25 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
+
+		i_Bisect_x_1: "=====",
+		i_Bisect_x_2: "",
+		x_Bisect_i_1: "",
+		x_Bisect_i_2: "-------=========",
+
+		i_Adjoin_x: "",
+
+		i_Encompass_x: "================",
+	},
+	{ // 0a
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+		i_intersect_x:     "-------=========",
 
 		i_Bisect_x_1: "=====",
 		i_Bisect_x_2: "",
@@ -79,7 +97,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "=====",
 		i_Bisect_x_2: "",
@@ -97,7 +115,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "=====",
 		i_Bisect_x_2: "",
@@ -115,7 +133,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "=====",
 		i_Bisect_x_2: "",
@@ -133,7 +151,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "=====",
 		i_Bisect_x_2: "",
@@ -151,7 +169,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "----=",
+		i_intersect_x:     "----=",
 
 		i_Bisect_x_1: "====*",
 		i_Bisect_x_2: "",
@@ -169,7 +187,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "--===",
+		i_intersect_x:     "--===",
 
 		i_Bisect_x_1: "==*",
 		i_Bisect_x_2: "",
@@ -187,7 +205,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "-====",
+		i_intersect_x:     "-====",
 
 		i_Bisect_x_1: "=*",
 		i_Bisect_x_2: "",
@@ -205,7 +223,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "*====",
+		i_intersect_x:     "*====",
 
 		i_Bisect_x_1: "=",
 		i_Bisect_x_2: "",
@@ -223,7 +241,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "=====",
+		i_intersect_x:     "=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -241,7 +259,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "*=====",
+		i_intersect_x:     "*=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -259,7 +277,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "-=====",
+		i_intersect_x:     "-=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -277,7 +295,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "--=====",
+		i_intersect_x:     "--=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -295,7 +313,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "---=====",
+		i_intersect_x:     "---=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -313,7 +331,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "---=====*",
+		i_intersect_x:     "---=====*",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -331,7 +349,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         true,
-		i_Interval_x:      "----=====",
+		i_intersect_x:     "----=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "",
@@ -349,7 +367,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "----=====",
+		i_intersect_x:     "----=====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "--------**",
@@ -367,7 +385,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "-----====",
+		i_intersect_x:     "-----====",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "--------*=",
@@ -385,7 +403,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "------===",
+		i_intersect_x:     "------===",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "--------*==",
@@ -403,7 +421,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "-------==",
+		i_intersect_x:     "-------==",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "--------*===",
@@ -421,7 +439,7 @@ var testIntervals = []struct {
 		x_Before_i:        false,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "--------=",
+		i_intersect_x:     "--------=",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "--------*====",
@@ -439,7 +457,7 @@ var testIntervals = []struct {
 		x_Before_i:        true,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "--------*=====",
@@ -457,7 +475,7 @@ var testIntervals = []struct {
 		x_Before_i:        true,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "---------=====",
@@ -475,7 +493,7 @@ var testIntervals = []struct {
 		x_Before_i:        true,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "---------*=====",
@@ -493,7 +511,7 @@ var testIntervals = []struct {
 		x_Before_i:        true,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "----------=====",
@@ -511,7 +529,7 @@ var testIntervals = []struct {
 		x_Before_i:        true,
 		i_Cover_x:         false,
 		x_Cover_i:         false,
-		i_Interval_x:      "",
+		i_intersect_x:     "",
 
 		i_Bisect_x_1: "",
 		i_Bisect_x_2: "-----------=====",
@@ -533,28 +551,59 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) Interval
 	end := strings.LastIndexAny(s, "*=")
 	l_lowerUnbounded := false
 	l_upperUnbounded := false
+	l_lowerIncluded := s[begin] == '='
+	l_upperIncluded := s[end] == '='
 	if strings.ContainsRune(s, '<') {
 		l_lowerUnbounded = true
+		//begin = 0
+		//l_lowerIncluded = false
 	}
 	if strings.ContainsRune(s, '>') {
 		l_upperUnbounded = true
+		//end = 0
+		//l_upperIncluded = false
 	}
 	return Interval[T]{
 		lower:          T(begin),
-		lowerIncluded:  s[begin] == '=',
+		lowerIncluded:  l_lowerIncluded,
 		lowerUnbounded: l_lowerUnbounded,
 		upper:          T(end),
-		upperIncluded:  s[end] == '=',
+		upperIncluded:  l_upperIncluded,
 		upperUnbounded: l_upperUnbounded,
 	}
 }
 
-func TestInterval(t *testing.T) {
-	testInterval[int](t)
-	testInterval[float64](t)
+func TestIntervalBisect(t *testing.T) {
+	testIntervalBisect[int](t)
+	testIntervalBisect[float64](t)
 }
 
-func testInterval[T constraints.Integer | constraints.Float](t *testing.T) {
+func TestIntervalIntersect(t *testing.T) {
+	testIntervalIntersect[int](t)
+	testIntervalIntersect[float64](t)
+}
+
+func TestIntervalLtBeginOf(t *testing.T) {
+	testIntervalLtBeginOf[int](t)
+	testIntervalLtBeginOf[float64](t)
+}
+
+func TestIntervalContains(t *testing.T) {
+	testIntervalContains[int](t)
+	testIntervalContains[float64](t)
+}
+
+func TestIntervalAdjoin(t *testing.T) {
+	testIntervalAdjoin[int](t)
+	testIntervalAdjoin[float64](t)
+}
+
+func TestIntervalEncompass(t *testing.T) {
+	testIntervalEncompass[int](t)
+	testIntervalEncompass[float64](t)
+}
+
+func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testIntervals {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
@@ -567,6 +616,15 @@ func testInterval[T constraints.Integer | constraints.Float](t *testing.T) {
 			if b != tc.x_Before_i {
 				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", x, i, tc.x_Before_i, b)
 			}
+		})
+	}
+}
+
+func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[T](tc.i_interval_string)
+			x := parseInterval[T](tc.x_interval_string)
 
 			c, d := i.Contains(x), x.Contains(i)
 			if c != tc.i_Cover_x {
@@ -575,15 +633,51 @@ func testInterval[T constraints.Integer | constraints.Float](t *testing.T) {
 			if d != tc.x_Cover_i {
 				t.Errorf("want %s.Cover(%s) = %v but get %v", x, i, tc.x_Cover_i, d)
 			}
+		})
+	}
+}
+
+func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[T](tc.i_interval_string)
+			x := parseInterval[T](tc.x_interval_string)
 
 			e, f := i.Intersect(x), x.Intersect(i)
-			we := parseInterval[T](tc.i_Interval_x)
+			we := parseInterval[T](tc.i_intersect_x)
 			if !e.Equal(we) {
 				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
 			}
 			if !f.Equal(we) {
 				t.Errorf("want %s.Intersect(%s) = %s but get %s", x, i, we, f)
 			}
+		})
+	}
+}
+
+func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[T](tc.i_interval_string)
+			x := parseInterval[T](tc.x_interval_string)
+
+			l, m := i.Adjoin(x), x.Adjoin(i)
+			wl := parseInterval[T](tc.i_Adjoin_x)
+			if !l.Equal(wl) {
+				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
+			}
+			if !m.Equal(wl) {
+				t.Errorf("want %s.Adjoin(%s) = %s but get %s", x, i, wl, m)
+			}
+		})
+	}
+}
+
+func testIntervalBisect[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[T](tc.i_interval_string)
+			x := parseInterval[T](tc.x_interval_string)
 
 			g, h := i.Bisect(x)
 			wg, wh := parseInterval[T](tc.i_Bisect_x_1), parseInterval[T](tc.i_Bisect_x_2)
@@ -595,15 +689,15 @@ func testInterval[T constraints.Integer | constraints.Float](t *testing.T) {
 			if !j.Equal(wj) || !k.Equal(wk) {
 				t.Errorf("want %s.Bisect(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
 			}
+		})
+	}
+}
 
-			l, m := i.Adjoin(x), x.Adjoin(i)
-			wl := parseInterval[T](tc.i_Adjoin_x)
-			if !l.Equal(wl) {
-				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
-			}
-			if !m.Equal(wl) {
-				t.Errorf("want %s.Adjoin(%s) = %s but get %s", x, i, wl, m)
-			}
+func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testIntervals {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i := parseInterval[T](tc.i_interval_string)
+			x := parseInterval[T](tc.x_interval_string)
 
 			o, p := i.Encompass(x), x.Encompass(i)
 			wo := parseInterval[T](tc.i_Encompass_x)
