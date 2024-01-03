@@ -110,6 +110,21 @@ func (i Interval[T]) String() string {
 
 // Equal returns true if receiver interval is equals x_interval_string interval.
 func (i Interval[T]) Equal(x Interval[T]) bool {
+	result := Interval[T]{}
+	result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
+	result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
+	if result.upperUnbounded {
+		return (i.lower == x.lower &&
+			i.lowerIncluded == x.lowerIncluded &&
+			i.lowerUnbounded == x.lowerUnbounded &&
+			i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
+	}
+	if result.lowerUnbounded {
+		return (i.upper == x.upper &&
+			i.upperIncluded == x.upperIncluded &&
+			i.lowerUnbounded == x.lowerUnbounded &&
+			i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
+	}
 	return (i.lower == x.lower &&
 		i.upper == x.upper &&
 		i.lowerIncluded == x.lowerIncluded &&
@@ -303,31 +318,41 @@ func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 	result := Interval[T]{}
 	result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
 	result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
-	if i.upperUnbounded && !x.upperUnbounded { //i.upperUnbounded
-		result.upper = x.upper
-		result.upperIncluded = x.upperIncluded
-	} else if !i.upperUnbounded && x.upperUnbounded { //x.upperUnbounded
-		result.upper = i.upper
-		result.upperIncluded = i.upperIncluded
-	} else if (i.upper >= x.upper && i.upperIncluded) || (i.upper > x.upper && !i.upperIncluded) {
-		result.upper = x.upper
-		result.upperIncluded = x.upperIncluded
-	} else if (x.upper >= i.upper && x.upperIncluded) || (x.upper > i.upper && !x.upperIncluded) {
-		result.upper = i.upper
-		result.upperIncluded = i.upperIncluded
+	if result.upperUnbounded {
+		result.upper = 0
+		result.upperIncluded = false
+	} else {
+		if i.upperUnbounded && !x.upperUnbounded { //i.upperUnbounded
+			result.upper = x.upper
+			result.upperIncluded = x.upperIncluded
+		} else if !i.upperUnbounded && x.upperUnbounded { //x.upperUnbounded
+			result.upper = i.upper
+			result.upperIncluded = i.upperIncluded
+		} else if (i.upper >= x.upper && i.upperIncluded) || (i.upper > x.upper && !i.upperIncluded) {
+			result.upper = x.upper
+			result.upperIncluded = x.upperIncluded
+		} else if (x.upper >= i.upper && x.upperIncluded) || (x.upper > i.upper && !x.upperIncluded) {
+			result.upper = i.upper
+			result.upperIncluded = i.upperIncluded
+		}
 	}
-	if i.lowerUnbounded && !x.lowerUnbounded { //i.upperUnbounded
-		result.lower = x.lower
-		result.lowerIncluded = x.lowerIncluded
-	} else if !i.lowerUnbounded && x.lowerUnbounded { //x.upperUnbounded
-		result.lower = i.lower
-		result.lowerIncluded = i.lowerIncluded
-	} else if (i.lower <= x.lower && i.lowerIncluded) || (i.lower < x.lower && !i.lowerIncluded) {
-		result.lower = x.lower
-		result.lowerIncluded = x.lowerIncluded
-	} else if (x.lower <= i.lower && x.lowerIncluded) || (x.lower < i.lower && !x.lowerIncluded) {
-		result.lower = i.lower
-		result.lowerIncluded = i.lowerIncluded
+	if result.lowerUnbounded {
+		result.lower = 0
+		result.lowerIncluded = false
+	} else {
+		if i.lowerUnbounded && !x.lowerUnbounded { //i.upperUnbounded
+			result.lower = x.lower
+			result.lowerIncluded = x.lowerIncluded
+		} else if !i.lowerUnbounded && x.lowerUnbounded { //x.upperUnbounded
+			result.lower = i.lower
+			result.lowerIncluded = i.lowerIncluded
+		} else if (i.lower <= x.lower && i.lowerIncluded) || (i.lower < x.lower && !i.lowerIncluded) {
+			result.lower = x.lower
+			result.lowerIncluded = x.lowerIncluded
+		} else if (x.lower <= i.lower && x.lowerIncluded) || (x.lower < i.lower && !x.lowerIncluded) {
+			result.lower = i.lower
+			result.lowerIncluded = i.lowerIncluded
+		}
 	}
 	return maybeEmpty[T](result)
 }

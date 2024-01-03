@@ -752,40 +752,65 @@ var testsIntervalIntersect = []struct {
 	// f string
 
 }{
-	{ // 0
+	{ // 0	0
 		i_interval_string: "=====",
 		x_interval_string: "-------=========",
 		i_intersect_x:     "",
 	},
-	{ // 0a
+	{ // 0a	1
 		i_interval_string: "=====>",
 		x_interval_string: "-------=========",
 		i_intersect_x:     "-------=========",
 	},
-	{ // 1
-		i_interval_string: "=====",
-		x_interval_string: "------=========",
+	{ // 0b	2
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========>",
+		i_intersect_x:     "-------=========>",
+	},
+	{ // 0c	3
+		i_interval_string: "<=====",
+		x_interval_string: "-------=========",
 		i_intersect_x:     "",
 	},
-	{ // 2
-		i_interval_string: "=====",
-		x_interval_string: "-----*=========",
+	{ // 0d	4
+		i_interval_string: "<=====",
+		x_interval_string: "------<=========",
+		i_intersect_x:     "<=====",
+	},
+	{ // 0e	5
+		i_interval_string: "<=====>",
+		x_interval_string: "------<=========>",
 		i_intersect_x:     "",
 	},
-	{ // 3
-		i_interval_string: "=====",
-		x_interval_string: "-----=========",
-		i_intersect_x:     "",
-	},
-	{ // 4
-		i_interval_string: "=====",
-		x_interval_string: "----*=========",
-		i_intersect_x:     "",
-	},
-	{ // 5
+	{ // 1	6
 		i_interval_string: "=====",
 		x_interval_string: "----=========",
 		i_intersect_x:     "----=",
+	},
+	{ // 1a	7
+		i_interval_string: "=====>",
+		x_interval_string: "----=========",
+		i_intersect_x:     "----=========",
+	},
+	{ // 1b	8
+		i_interval_string: "=====>",
+		x_interval_string: "----=========>",
+		i_intersect_x:     "----=>",
+	},
+	{ // 1c	9
+		i_interval_string: "<=====",
+		x_interval_string: "----=========",
+		i_intersect_x:     "----==",
+	},
+	{ // 1d	10
+		i_interval_string: "<=====",
+		x_interval_string: "----<=========",
+		i_intersect_x:     "----<=",
+	},
+	{ // 1e	11
+		i_interval_string: "<=====>",
+		x_interval_string: "----<=========>",
+		i_intersect_x:     "----<=>",
 	},
 	{ // 6
 		i_interval_string: "=====",
