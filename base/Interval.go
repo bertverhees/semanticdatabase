@@ -391,19 +391,28 @@ func (i Interval[T]) Bisect(x Interval[T]) (Interval[T], Interval[T]) {
 		}
 		return Interval[T]{}, i
 	}
-	return maybeEmpty[T](Interval[T]{
-			lower:         i.lower,
-			lowerIncluded: i.lowerIncluded,
-			upper:         in.lower,
-			upperIncluded: !in.lowerIncluded,
-			//lowerUnbounded: in.lowerUnbounded,
-			//upperUnbounded: in.upperUnbounded,
-		}), maybeEmpty[T](Interval[T]{
-			lower:         in.upper,
-			lowerIncluded: !in.upperIncluded,
-			upper:         i.upper,
-			upperIncluded: i.upperIncluded,
+	var r1, r2 Interval[T]
+	if !i.upperUnbounded && !x.upperUnbounded {
+		r1 = maybeEmpty[T](Interval[T]{
+			lower:          i.lower,
+			lowerIncluded:  i.lowerIncluded,
+			upper:          in.lower,
+			upperIncluded:  !in.lowerIncluded,
+			lowerUnbounded: in.lowerUnbounded,
+			upperUnbounded: in.upperUnbounded,
 		})
+	}
+	if !i.lowerUnbounded && !x.lowerUnbounded {
+		r2 = maybeEmpty[T](Interval[T]{
+			lower:          in.upper,
+			lowerIncluded:  !in.upperIncluded,
+			upper:          i.upper,
+			upperIncluded:  i.upperIncluded,
+			lowerUnbounded: in.lowerUnbounded,
+			upperUnbounded: in.upperUnbounded,
+		})
+	}
+	return r1, r2
 }
 
 // Adjoin returns the union of two intervals, if the intervals are exactly
