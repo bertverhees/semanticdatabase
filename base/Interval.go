@@ -394,26 +394,83 @@ func (i Interval[T]) Bisect(x Interval[T]) (Interval[T], Interval[T]) {
 		return Interval[T]{}, i
 	}
 	var r1, r2 Interval[T]
-	if !i.upperUnbounded && !x.upperUnbounded {
-		r1 = maybeEmpty[T](Interval[T]{
-			lower:          i.lower,
-			lowerIncluded:  i.lowerIncluded,
-			upper:          in.lower,
-			upperIncluded:  !in.lowerIncluded,
-			lowerUnbounded: in.lowerUnbounded,
-			upperUnbounded: in.upperUnbounded,
-		})
+	var lower1, lower2, upper1, upper2 T
+	var lowerIncluded1, lowerIncluded2, upperIncluded1, upperIncluded2 bool
+	var lowerUnbounded1, lowerUnbounded2, upperUnbounded1, upperUnbounded2 bool
+	if i.lower < x.lower || i.lowerUnbounded {
+		lower1 = i.lower
+		lowerIncluded1 = i.lowerIncluded
+		lowerUnbounded1 = i.lowerUnbounded
+		upper1 = x.lower
+		upperIncluded1 = !x.lowerIncluded
+		upperUnbounded1 = false
 	}
-	if !i.lowerUnbounded && !x.lowerUnbounded {
-		r2 = maybeEmpty[T](Interval[T]{
-			lower:          in.upper,
-			lowerIncluded:  !in.upperIncluded,
-			upper:          i.upper,
-			upperIncluded:  i.upperIncluded,
-			lowerUnbounded: in.lowerUnbounded,
-			upperUnbounded: in.upperUnbounded,
-		})
+	if i.lower == x.lower && !i.lowerUnbounded {
+		lower1 = i.lower
+		lowerIncluded1 = i.lowerIncluded
+		lowerUnbounded1 = false
+		upper1 = x.lower
+		upperIncluded1 = !x.lowerIncluded
+		upperUnbounded1 = false
 	}
+	if i.lower > x.lower && !i.lowerUnbounded {
+		lower1 = i.lower
+		if i.lowerIncluded != x.lowerIncluded {
+			lowerIncluded1 = false
+		}
+		if i.lowerIncluded == x.lowerIncluded {
+			lowerIncluded1 = i.lowerIncluded
+		}
+		lowerUnbounded1 = false
+		upper1 = i.lower
+		upperIncluded1 = !x.lowerIncluded
+		upperUnbounded1 = false
+	}
+	if i.upper > x.upper || i.upperUnbounded {
+		upper2 = i.upper
+		upperIncluded2 = i.upperIncluded
+		upperUnbounded2 = i.upperUnbounded
+		lower2 = x.upper
+		lowerIncluded2 = !x.lowerIncluded
+		lowerUnbounded2 = false
+	}
+	if i.upper == x.upper && !i.upperUnbounded {
+		upper2 = i.upper
+		upperIncluded2 = i.upperIncluded
+		upperUnbounded2 = false
+		lower2 = x.upper
+		lowerIncluded2 = !x.upperIncluded
+		lowerUnbounded2 = false
+	}
+	if i.upper < x.upper || !i.upperUnbounded {
+		upper2 = i.upper
+		if i.upperIncluded != x.upperIncluded {
+			upperIncluded2 = false
+		}
+		if i.upperIncluded == x.upperIncluded {
+			upperIncluded2 = i.upperIncluded
+		}
+		upperUnbounded2 = false
+		lower2 = i.upper
+		lowerIncluded2 = !x.upperIncluded
+		lowerUnbounded2 = false
+	}
+	r1 = maybeEmpty[T](Interval[T]{
+		lower:          lower1,
+		lowerIncluded:  lowerIncluded1,
+		upper:          upper1,
+		upperIncluded:  upperIncluded1,
+		lowerUnbounded: lowerUnbounded1,
+		upperUnbounded: upperUnbounded1,
+	})
+	r2 = maybeEmpty[T](Interval[T]{
+		lower:          lower2,
+		lowerIncluded:  lowerIncluded2,
+		upper:          upper2,
+		upperIncluded:  upperIncluded2,
+		lowerUnbounded: lowerUnbounded2,
+		upperUnbounded: upperUnbounded2,
+	})
 	return r1, r2
 }
 
