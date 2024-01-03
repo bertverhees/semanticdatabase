@@ -205,7 +205,7 @@ func (s *OrderedSet[T]) Add(x Interval[T]) bool {
 		push(s.intervals[low])
 		newIntervals = append(newIntervals, s.intervals[low+1:]...)
 	} else {
-		left, right := x.Bisect(s.intervals[low])
+		left, right := x.Subtract(s.intervals[low])
 		if !left.IsEmpty() && right.IsEmpty() {
 			//                 (low)     (high)
 			//       0    1      2         3           4        5    6   7
@@ -270,7 +270,7 @@ func (s *OrderedSet[T]) Remove(x Interval[T]) bool {
 		return false
 	}
 
-	left, right := s.intervals[low].Bisect(x)
+	left, right := s.intervals[low].Subtract(x)
 	if x.LeEndOf(s.intervals[low]) {
 		if left.IsEmpty() {
 			if right.IsEmpty() {
@@ -345,7 +345,7 @@ func (s *OrderedSet[T]) Remove(x Interval[T]) bool {
 	}
 
 	high := s.searchHigh(x)
-	_, right = s.intervals[high-1].Bisect(x)
+	_, right = s.intervals[high-1].Subtract(x)
 	if !left.IsEmpty() {
 		//                 (low)     (high)
 		//       0    1      2         3           4        5    6   7
@@ -424,7 +424,7 @@ func (s *OrderedSet[T]) Intersect(a, b OrderedSet[T]) OrderedSet[T] {
 			in := x.Intersect(y)
 			if !in.IsEmpty() {
 				intervals = append(intervals, in)
-				_, right := x.Bisect(y)
+				_, right := x.Subtract(y)
 				if !right.IsEmpty() {
 					x = right
 				} else {
@@ -446,7 +446,7 @@ func (s *OrderedSet[T]) Subtract(a, b OrderedSet[T]) OrderedSet[T] {
 			intervals = append(intervals, x)
 			x = xit()
 		} else {
-			left, right := x.Bisect(y)
+			left, right := x.Subtract(y)
 			if !left.IsEmpty() {
 				intervals = append(intervals, left)
 			}
@@ -490,8 +490,8 @@ func (s *OrderedSet[T]) Difference(a, b OrderedSet[T]) OrderedSet[T] {
 				push(y)
 				y = yit()
 			} else {
-				leftx, rightx := x.Bisect(y)
-				lefty, righty := y.Bisect(x)
+				leftx, rightx := x.Subtract(y)
+				lefty, righty := y.Subtract(x)
 				if !leftx.IsEmpty() {
 					push(leftx)
 				}

@@ -381,11 +381,11 @@ func (i Interval[T]) Move(x T) Interval[T] {
 	}
 }
 
-// Bisect returns two intervals, one on the before of x_interval_string and one on the
+// Subtract returns two intervals, one on the before of x_interval_string and one on the
 // after of x_interval_string, corresponding to the subtraction of x_interval_string from the receiver
 // interval. The returned intervals are always within the range of the
 // receiver interval.
-func (i Interval[T]) Bisect(x Interval[T]) (Interval[T], Interval[T]) {
+func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
 	in := i.Intersect(x)
 	if in.IsEmpty() {
 		if i.LtBeginOf(x) {
