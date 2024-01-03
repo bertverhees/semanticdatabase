@@ -7,7 +7,561 @@ import (
 	"testing"
 )
 
-var testIntervals = []struct {
+var testsIntervalAdjoin = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
+	//l
+	// i_interval_string.Adjoin(x_interval_string)
+	i_Adjoin_x string
+}{
+	{ // 0
+		i_interval_string: "=====",
+		x_interval_string: "-------=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 0a
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 1
+		i_interval_string: "=====",
+		x_interval_string: "------=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 2
+		i_interval_string: "=====",
+		x_interval_string: "-----*=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 3
+		i_interval_string: "=====",
+		x_interval_string: "-----=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 4
+		i_interval_string: "=====",
+		x_interval_string: "----*=========",
+		i_Adjoin_x:        "==============",
+	},
+	{ // 5
+		i_interval_string: "=====",
+		x_interval_string: "----=========",
+		i_Adjoin_x:        "=============",
+	},
+	{ // 6
+		i_interval_string: "=====",
+		x_interval_string: "--=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 7
+		i_interval_string: "=====",
+		x_interval_string: "-=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 8
+		i_interval_string: "=====",
+		x_interval_string: "*=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 9
+		i_interval_string: "=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 10
+		i_interval_string: "*=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 11
+		i_interval_string: "-=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 12
+		i_interval_string: "--=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 13
+		i_interval_string: "---=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 14
+		i_interval_string: "---=====*",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 15
+		i_interval_string: "----=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 16
+		i_interval_string: "----=====*",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 17
+		i_interval_string: "-----=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 18
+		i_interval_string: "------=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 19
+		i_interval_string: "-------=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 20
+		i_interval_string: "--------=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "=============",
+	},
+	{ // 21
+		i_interval_string: "--------*=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "==============",
+	},
+	{ // 22
+		i_interval_string: "---------=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 23
+		i_interval_string: "---------*=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 24
+		i_interval_string: "----------=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+	{ // 25
+		i_interval_string: "-----------=====",
+		x_interval_string: "=========",
+		i_Adjoin_x:        "",
+	},
+}
+
+var testsIntervalBisect = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
+
+	//g,h
+	// i_interval_string.Bisect(x_interval_string)
+	i_Bisect_x_1, i_Bisect_x_2 string
+	//j,k
+	// x_interval_string.Bisect(i_interval_string)
+	x_Bisect_i_1, x_Bisect_i_2 string
+}{
+	{ // 0
+		i_interval_string: "=====",
+		x_interval_string: "-------=========",
+		i_Bisect_x_1:      "=====",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "-------=========",
+	},
+	{ // 0a
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========",
+		i_Bisect_x_1:      "=====",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "-------=========",
+	},
+	{ // 1
+		i_interval_string: "=====",
+		x_interval_string: "------=========",
+		i_Bisect_x_1:      "=====",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "------=========",
+	},
+	{ // 2
+		i_interval_string: "=====",
+		x_interval_string: "-----*=========",
+		i_Bisect_x_1:      "=====",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "-----*=========",
+	},
+	{ // 3
+		i_interval_string: "=====",
+		x_interval_string: "-----=========",
+		i_Bisect_x_1:      "=====",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "-----=========",
+	},
+	{ // 4
+		i_interval_string: "=====",
+		x_interval_string: "----*=========",
+		i_Bisect_x_1:      "=====",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "----*=========",
+	},
+	{ // 5
+		i_interval_string: "=====",
+		x_interval_string: "----=========",
+		i_Bisect_x_1:      "====*",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "----*========",
+	},
+	{ // 6
+		i_interval_string: "=====",
+		x_interval_string: "--=========",
+		i_Bisect_x_1:      "==*",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "----*======",
+	},
+	{ // 7
+		i_interval_string: "=====",
+		x_interval_string: "-=========",
+		i_Bisect_x_1:      "=*",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "----*=====",
+	},
+	{ // 8
+		i_interval_string: "=====",
+		x_interval_string: "*=========",
+		i_Bisect_x_1:      "=",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "----*=====",
+	},
+	{ // 9
+		i_interval_string: "=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "",
+		x_Bisect_i_2:      "----*====",
+	},
+	{ // 10
+		i_interval_string: "*=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "=",
+		x_Bisect_i_2:      "-----*===",
+	},
+	{ // 11
+		i_interval_string: "-=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "=*",
+		x_Bisect_i_2:      "-----*===",
+	},
+	{ // 12
+		i_interval_string: "--=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "==*",
+		x_Bisect_i_2:      "------*==",
+	},
+	{ // 13
+		i_interval_string: "---=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "===*",
+		x_Bisect_i_2:      "-------*=",
+	},
+	{ // 14
+		i_interval_string: "---=====*",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "===*",
+		x_Bisect_i_2:      "--------=",
+	},
+	{ // 15
+		i_interval_string: "----=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "",
+		x_Bisect_i_1:      "====*",
+		x_Bisect_i_2:      "",
+	},
+	{ // 16
+		i_interval_string: "----=====*",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "--------**",
+		x_Bisect_i_1:      "====*",
+		x_Bisect_i_2:      "",
+	},
+	{ // 17
+		i_interval_string: "-----=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "--------*=",
+		x_Bisect_i_1:      "=====*",
+		x_Bisect_i_2:      "",
+	},
+	{ // 18
+		i_interval_string: "------=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "--------*==",
+		x_Bisect_i_1:      "======*",
+		x_Bisect_i_2:      "",
+	},
+	{ // 19
+		i_interval_string: "-------=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "--------*===",
+		x_Bisect_i_1:      "=======*",
+		x_Bisect_i_2:      "",
+	},
+	{ // 20
+		i_interval_string: "--------=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "--------*====",
+		x_Bisect_i_1:      "========*",
+		x_Bisect_i_2:      "",
+	},
+	{ // 21
+		i_interval_string: "--------*=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "--------*=====",
+		x_Bisect_i_1:      "=========",
+		x_Bisect_i_2:      "",
+	},
+	{ // 22
+		i_interval_string: "---------=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "---------=====",
+		x_Bisect_i_1:      "=========",
+		x_Bisect_i_2:      "",
+	},
+	{ // 23
+		i_interval_string: "---------*=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "---------*=====",
+		x_Bisect_i_1:      "=========",
+		x_Bisect_i_2:      "",
+	},
+	{ // 24
+		i_interval_string: "----------=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "----------=====",
+		x_Bisect_i_1:      "=========",
+		x_Bisect_i_2:      "",
+	},
+	{ // 25
+		i_interval_string: "-----------=====",
+		x_interval_string: "=========",
+		i_Bisect_x_1:      "",
+		i_Bisect_x_2:      "-----------=====",
+		x_Bisect_i_1:      "=========",
+		x_Bisect_i_2:      "",
+	},
+}
+
+var testsIntervalContains = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
+
+	//c
+	// i_interval_string.Cover(x_interval_string)
+	i_Cover_x bool
+	//d
+	// x_interval_string.Cover(i_interval_string)
+	x_Cover_i bool
+}{
+	{ // 0
+		i_interval_string: "=====",
+		x_interval_string: "-------=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 0a
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 1
+		i_interval_string: "=====",
+		x_interval_string: "------=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 2
+		i_interval_string: "=====",
+		x_interval_string: "-----*=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 3
+		i_interval_string: "=====",
+		x_interval_string: "-----=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 4
+		i_interval_string: "=====",
+		x_interval_string: "----*=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 5
+		i_interval_string: "=====",
+		x_interval_string: "----=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 6
+		i_interval_string: "=====",
+		x_interval_string: "--=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 7
+		i_interval_string: "=====",
+		x_interval_string: "-=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 8
+		i_interval_string: "=====",
+		x_interval_string: "*=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 9
+		i_interval_string: "=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 10
+		i_interval_string: "*=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 11
+		i_interval_string: "-=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 12
+		i_interval_string: "--=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 13
+		i_interval_string: "---=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 14
+		i_interval_string: "---=====*",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 15
+		i_interval_string: "----=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         true,
+	},
+	{ // 16
+		i_interval_string: "----=====*",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 17
+		i_interval_string: "-----=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 18
+		i_interval_string: "------=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 19
+		i_interval_string: "-------=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 20
+		i_interval_string: "--------=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 21
+		i_interval_string: "--------*=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 22
+		i_interval_string: "---------=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 23
+		i_interval_string: "---------*=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 24
+		i_interval_string: "----------=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+	{ // 25
+		i_interval_string: "-----------=====",
+		x_interval_string: "=========",
+		i_Cover_x:         false,
+		x_Cover_i:         false,
+	},
+}
+
+var testsIntervalLtBeginOf = []struct {
 	//i
 	i_interval_string string
 	//x
@@ -19,12 +573,176 @@ var testIntervals = []struct {
 	//b
 	// x_interval_string.Before(i_interval_string)
 	x_Before_i bool
-	//c
-	// i_interval_string.Cover(x_interval_string)
-	i_Cover_x bool
-	//d
-	// x_interval_string.Cover(i_interval_string)
-	x_Cover_i bool
+}{
+	{ // 0
+		i_interval_string: "=====",
+		x_interval_string: "-------=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+	},
+	{ // 0a
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 1
+		i_interval_string: "=====",
+		x_interval_string: "------=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+	},
+	{ // 2
+		i_interval_string: "=====",
+		x_interval_string: "-----*=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+	},
+	{ // 3
+		i_interval_string: "=====",
+		x_interval_string: "-----=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+	},
+	{ // 4
+		i_interval_string: "=====",
+		x_interval_string: "----*=========",
+		i_Before_x:        true,
+		x_Before_i:        false,
+	},
+	{ // 5
+		i_interval_string: "=====",
+		x_interval_string: "----=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 6
+		i_interval_string: "=====",
+		x_interval_string: "--=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 7
+		i_interval_string: "=====",
+		x_interval_string: "-=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 8
+		i_interval_string: "=====",
+		x_interval_string: "*=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 9
+		i_interval_string: "=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 10
+		i_interval_string: "*=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 11
+		i_interval_string: "-=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 12
+		i_interval_string: "--=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 13
+		i_interval_string: "---=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 14
+		i_interval_string: "---=====*",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 15
+		i_interval_string: "----=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 16
+		i_interval_string: "----=====*",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 17
+		i_interval_string: "-----=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 18
+		i_interval_string: "------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 19
+		i_interval_string: "-------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 20
+		i_interval_string: "--------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        false,
+	},
+	{ // 21
+		i_interval_string: "--------*=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+	},
+	{ // 22
+		i_interval_string: "---------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+	},
+	{ // 23
+		i_interval_string: "---------*=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+	},
+	{ // 24
+		i_interval_string: "----------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+	},
+	{ // 25
+		i_interval_string: "-----------=====",
+		x_interval_string: "=========",
+		i_Before_x:        false,
+		x_Before_i:        true,
+	},
+}
+
+var testsIntervalIntersect = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
 
 	//e
 	// i_interval_string.Intersect(x_interval_string)
@@ -33,20 +751,149 @@ var testIntervals = []struct {
 	// == i_intersect_x
 	// f string
 
-	//g,h
-	// i_interval_string.Bisect(x_interval_string)
-	i_Bisect_x_1, i_Bisect_x_2 string
-	//j,k
-	// x_interval_string.Bisect(i_interval_string)
-	x_Bisect_i_1, x_Bisect_i_2 string
+}{
+	{ // 0
+		i_interval_string: "=====",
+		x_interval_string: "-------=========",
+		i_intersect_x:     "",
+	},
+	{ // 0a
+		i_interval_string: "=====>",
+		x_interval_string: "-------=========",
+		i_intersect_x:     "-------=========",
+	},
+	{ // 1
+		i_interval_string: "=====",
+		x_interval_string: "------=========",
+		i_intersect_x:     "",
+	},
+	{ // 2
+		i_interval_string: "=====",
+		x_interval_string: "-----*=========",
+		i_intersect_x:     "",
+	},
+	{ // 3
+		i_interval_string: "=====",
+		x_interval_string: "-----=========",
+		i_intersect_x:     "",
+	},
+	{ // 4
+		i_interval_string: "=====",
+		x_interval_string: "----*=========",
+		i_intersect_x:     "",
+	},
+	{ // 5
+		i_interval_string: "=====",
+		x_interval_string: "----=========",
+		i_intersect_x:     "----=",
+	},
+	{ // 6
+		i_interval_string: "=====",
+		x_interval_string: "--=========",
+		i_intersect_x:     "--===",
+	},
+	{ // 7
+		i_interval_string: "=====",
+		x_interval_string: "-=========",
+		i_intersect_x:     "-====",
+	},
+	{ // 8
+		i_interval_string: "=====",
+		x_interval_string: "*=========",
+		i_intersect_x:     "*====",
+	},
+	{ // 9
+		i_interval_string: "=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "=====",
+	},
+	{ // 10
+		i_interval_string: "*=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "*=====",
+	},
+	{ // 11
+		i_interval_string: "-=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "-=====",
+	},
+	{ // 12
+		i_interval_string: "--=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "--=====",
+	},
+	{ // 13
+		i_interval_string: "---=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "---=====",
+	},
+	{ // 14
+		i_interval_string: "---=====*",
+		x_interval_string: "=========",
+		i_intersect_x:     "---=====*",
+	},
+	{ // 15
+		i_interval_string: "----=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "----=====",
+	},
+	{ // 16
+		i_interval_string: "----=====*",
+		x_interval_string: "=========",
+		i_intersect_x:     "----=====",
+	},
+	{ // 17
+		i_interval_string: "-----=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "-----====",
+	},
+	{ // 18
+		i_interval_string: "------=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "------===",
+	},
+	{ // 19
+		i_interval_string: "-------=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "-------==",
+	},
+	{ // 20
+		i_interval_string: "--------=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "--------=",
+	},
+	{ // 21
+		i_interval_string: "--------*=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "",
+	},
+	{ // 22
+		i_interval_string: "---------=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "",
+	},
+	{ // 23
+		i_interval_string: "---------*=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "",
+	},
+	{ // 24
+		i_interval_string: "----------=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "",
+	},
+	{ // 25
+		i_interval_string: "-----------=====",
+		x_interval_string: "=========",
+		i_intersect_x:     "",
+	},
+}
 
-	//l
-	// i_interval_string.Adjoin(x_interval_string)
-	i_Adjoin_x string
-	// x_interval_string.Adjoin(i_interval_string)
-	// i_Adjoin_x == m
-	// m string
-
+var testsIntervalEncompass = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
 	//o
 	// i_interval_string.Encompass(x_interval_string)
 	i_Encompass_x string
@@ -57,488 +904,137 @@ var testIntervals = []struct {
 	{ // 0
 		i_interval_string: "=====",
 		x_interval_string: "-------=========",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "=====",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "-------=========",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "================",
+		i_Encompass_x:     "================",
 	},
 	{ // 0a
 		i_interval_string: "=====>",
 		x_interval_string: "-------=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "-------=========",
-
-		i_Bisect_x_1: "=====",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "-------=========",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "================",
+		i_Encompass_x:     "================",
 	},
 	{ // 1
 		i_interval_string: "=====",
 		x_interval_string: "------=========",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "=====",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "------=========",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "===============",
+		i_Encompass_x:     "===============",
 	},
 	{ // 2
 		i_interval_string: "=====",
 		x_interval_string: "-----*=========",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "=====",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "-----*=========",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "===============",
+		i_Encompass_x:     "===============",
 	},
 	{ // 3
 		i_interval_string: "=====",
 		x_interval_string: "-----=========",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "=====",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "-----=========",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "==============",
+		i_Encompass_x:     "==============",
 	},
 	{ // 4
 		i_interval_string: "=====",
 		x_interval_string: "----*=========",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "=====",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "----*=========",
-
-		i_Adjoin_x: "==============",
-
-		i_Encompass_x: "==============",
+		i_Encompass_x:     "==============",
 	},
 	{ // 5
 		i_interval_string: "=====",
 		x_interval_string: "----=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "----=",
-
-		i_Bisect_x_1: "====*",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "----*========",
-
-		i_Adjoin_x: "=============",
-
-		i_Encompass_x: "=============",
+		i_Encompass_x:     "=============",
 	},
 	{ // 6
 		i_interval_string: "=====",
 		x_interval_string: "--=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "--===",
-
-		i_Bisect_x_1: "==*",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "----*======",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "===========",
+		i_Encompass_x:     "===========",
 	},
 	{ // 7
 		i_interval_string: "=====",
 		x_interval_string: "-=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "-====",
-
-		i_Bisect_x_1: "=*",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "----*=====",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "==========",
+		i_Encompass_x:     "==========",
 	},
 	{ // 8
 		i_interval_string: "=====",
 		x_interval_string: "*=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "*====",
-
-		i_Bisect_x_1: "=",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "----*=====",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "==========",
+		i_Encompass_x:     "==========",
 	},
 	{ // 9
 		i_interval_string: "=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "",
-		x_Bisect_i_2: "----*====",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 10
 		i_interval_string: "*=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "*=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "=",
-		x_Bisect_i_2: "-----*===",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 11
 		i_interval_string: "-=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "-=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "=*",
-		x_Bisect_i_2: "-----*===",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 12
 		i_interval_string: "--=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "--=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "==*",
-		x_Bisect_i_2: "------*==",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 13
 		i_interval_string: "---=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "---=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "===*",
-		x_Bisect_i_2: "-------*=",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 14
 		i_interval_string: "---=====*",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "---=====*",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "===*",
-		x_Bisect_i_2: "--------=",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 15
 		i_interval_string: "----=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         true,
-		i_intersect_x:     "----=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "",
-		x_Bisect_i_1: "====*",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========",
+		i_Encompass_x:     "=========",
 	},
 	{ // 16
 		i_interval_string: "----=====*",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "----=====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "--------**",
-		x_Bisect_i_1: "====*",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "=========*",
+		i_Encompass_x:     "=========*",
 	},
 	{ // 17
 		i_interval_string: "-----=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "-----====",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "--------*=",
-		x_Bisect_i_1: "=====*",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "==========",
+		i_Encompass_x:     "==========",
 	},
 	{ // 18
 		i_interval_string: "------=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "------===",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "--------*==",
-		x_Bisect_i_1: "======*",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "===========",
+		i_Encompass_x:     "===========",
 	},
 	{ // 19
 		i_interval_string: "-------=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "-------==",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "--------*===",
-		x_Bisect_i_1: "=======*",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "============",
+		i_Encompass_x:     "============",
 	},
 	{ // 20
 		i_interval_string: "--------=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "--------=",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "--------*====",
-		x_Bisect_i_1: "========*",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "=============",
-
-		i_Encompass_x: "=============",
+		i_Encompass_x:     "=============",
 	},
 	{ // 21
 		i_interval_string: "--------*=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        true,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "--------*=====",
-		x_Bisect_i_1: "=========",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "==============",
-
-		i_Encompass_x: "==============",
+		i_Encompass_x:     "==============",
 	},
 	{ // 22
 		i_interval_string: "---------=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        true,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "---------=====",
-		x_Bisect_i_1: "=========",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "==============",
+		i_Encompass_x:     "==============",
 	},
 	{ // 23
 		i_interval_string: "---------*=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        true,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "---------*=====",
-		x_Bisect_i_1: "=========",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "===============",
+		i_Encompass_x:     "===============",
 	},
 	{ // 24
 		i_interval_string: "----------=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        true,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "----------=====",
-		x_Bisect_i_1: "=========",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "===============",
+		i_Encompass_x:     "===============",
 	},
 	{ // 25
 		i_interval_string: "-----------=====",
 		x_interval_string: "=========",
-		i_Before_x:        false,
-		x_Before_i:        true,
-		i_Cover_x:         false,
-		x_Cover_i:         false,
-		i_intersect_x:     "",
-
-		i_Bisect_x_1: "",
-		i_Bisect_x_2: "-----------=====",
-		x_Bisect_i_1: "=========",
-		x_Bisect_i_2: "",
-
-		i_Adjoin_x: "",
-
-		i_Encompass_x: "================",
+		i_Encompass_x:     "================",
 	},
 }
 
@@ -604,7 +1100,7 @@ func TestIntervalEncompass(t *testing.T) {
 }
 
 func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing.T) {
-	for n, tc := range testIntervals {
+	for n, tc := range testsIntervalLtBeginOf {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
 			x := parseInterval[T](tc.x_interval_string)
@@ -621,7 +1117,7 @@ func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing
 }
 
 func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.T) {
-	for n, tc := range testIntervals {
+	for n, tc := range testsIntervalContains {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
 			x := parseInterval[T](tc.x_interval_string)
@@ -638,7 +1134,7 @@ func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.
 }
 
 func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing.T) {
-	for n, tc := range testIntervals {
+	for n, tc := range testsIntervalIntersect {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
 			x := parseInterval[T](tc.x_interval_string)
@@ -656,7 +1152,7 @@ func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing
 }
 
 func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T) {
-	for n, tc := range testIntervals {
+	for n, tc := range testsIntervalAdjoin {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
 			x := parseInterval[T](tc.x_interval_string)
@@ -674,7 +1170,7 @@ func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T)
 }
 
 func testIntervalBisect[T constraints.Integer | constraints.Float](t *testing.T) {
-	for n, tc := range testIntervals {
+	for n, tc := range testsIntervalBisect {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
 			x := parseInterval[T](tc.x_interval_string)
@@ -694,7 +1190,7 @@ func testIntervalBisect[T constraints.Integer | constraints.Float](t *testing.T)
 }
 
 func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing.T) {
-	for n, tc := range testIntervals {
+	for n, tc := range testsIntervalEncompass {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			i := parseInterval[T](tc.i_interval_string)
 			x := parseInterval[T](tc.x_interval_string)
