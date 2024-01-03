@@ -159,11 +159,10 @@ func bounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
 
 // IsEmpty returns true if receiver interval has no value.
 func (i Interval[T]) IsEmpty() bool {
-	if i.upperUnbounded && i.lowerUnbounded {
-		return true
-	} else if i.upperUnbounded != i.lowerUnbounded {
+	if i.upperUnbounded || i.lowerUnbounded {
 		return false
-	} else if i.lower < i.upper {
+	}
+	if i.lower < i.upper && !i.upperUnbounded && !i.lowerUnbounded {
 		return false
 	} else if i.lower == i.upper {
 		return !i.lowerIncluded || !i.upperIncluded
@@ -180,6 +179,9 @@ func (i Interval[T]) LtBeginOf(x Interval[T]) bool {
 		return false
 	}
 	if i.upperUnbounded {
+		return false
+	}
+	if x.lowerUnbounded {
 		return false
 	}
 	if i.upper < x.lower {

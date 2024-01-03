@@ -177,10 +177,10 @@ var testsIntervalBisect = []struct {
 	{ // 0a
 		i_interval_string: "=====>",
 		x_interval_string: "-------=========",
-		i_Bisect_x_before: "=====",
-		i_Bisect_x_after:  "",
+		i_Bisect_x_before: "=======",
+		i_Bisect_x_after:  "-------=========>",
 		x_Bisect_i_before: "",
-		x_Bisect_i_after:  "-------=========",
+		x_Bisect_i_after:  "",
 	},
 	{ // 1
 		i_interval_string: "=====",
