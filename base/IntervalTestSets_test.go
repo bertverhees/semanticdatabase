@@ -1,5 +1,34 @@
 package base
 
+/**
+Reading the test-sets
+The '========' stands for interval-range
+Upper- en lower-Included is true
+The '<' is for lowerUnbound, no lower-end
+The '>' is for upperUnbound, no upper-end
+The '*' is for Included is false (depending on the site for upper en lower included)
+The * and < and > do not count!!!!!!
+
+It looks hard to understand and is maybe confusing, but read on,
+So:
+*=================  lowerIncluded is false, and lower  is 0
+=================   lowerIncluded is true, and lower is 0
+<================ lowerUnbounded is true and lower is 0
+<*============== lowerUnbounded is true, and lowerIncluded is false and lower is 0
+---*=================  lowerIncluded is false, and lower  is 4
+---=================   lowerIncluded is true, and lower is 4
+---<================ lowerUnbounded is true and lower is 4
+---<*============== lowerUnbounded is true, and lowerIncluded is false and lower is 4
+
+On the uppersite are mutatis mutandis the same rules
+
+So, these intervals, although visible giving another picture, do NOT overlap
+<*====-------------- 0,4
+----*=======*       5,12
+
+Remember, this is only for creating tests-sets, it has nothing to do with an notation language of meaning outside these test-sets
+*/
+
 var testsParseInterval = []struct {
 	s              string
 	begin          int
