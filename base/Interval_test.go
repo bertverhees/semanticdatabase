@@ -30,7 +30,7 @@ So:
 
 # On the uppersite are mutatis mutandis the same rules
 
-So, these intervals, although visible giving another picture, do NOT overlap
+So, these intervals, although visible overlapping, do NOT overlap
 <*====-------------- 0,4
 ----*=======*       5,12
 
