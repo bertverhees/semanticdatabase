@@ -86,13 +86,13 @@ func NewInterval[T constraints.Integer | constraints.Float]() *Interval[T] {
 
 func (i Interval[T]) String() string {
 	var b strings.Builder
+	if i.lowerUnbounded {
+		b.WriteByte('<')
+	}
 	if i.lowerIncluded {
 		b.WriteByte('[')
 	} else {
-		b.WriteByte('(')
-	}
-	if i.lowerUnbounded {
-		b.WriteByte('<')
+		b.WriteByte('*')
 	}
 	fmt.Fprintf(&b, "%v", i.lower)
 	b.WriteString(", ")
@@ -100,7 +100,7 @@ func (i Interval[T]) String() string {
 	if i.upperIncluded {
 		b.WriteByte(']')
 	} else {
-		b.WriteByte(')')
+		b.WriteByte('*')
 	}
 	if i.upperUnbounded {
 		b.WriteByte('>')
