@@ -26,7 +26,7 @@ So, these intervals, although visible giving another picture, do NOT overlap
 <*====-------------- 0,4
 ----*=======*       5,12
 
-Remember, this is only for creating tests-sets, it has nothing to do with an notation language of meaning outside these test-sets
+Remember, this is only for creating tests-sets, it has nothing to do with a notation language of meaning outside these test-sets
 */
 
 var testsParseInterval = []struct {
