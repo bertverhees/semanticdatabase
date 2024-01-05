@@ -184,7 +184,10 @@ func testOrderedSet_Iterator[T constraints.Integer | constraints.Float](t *testi
 	for n, tc := range itCases {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			s := parseOrderedSet[T](tc.s)
-			b := parseInterval[T](tc.b)
+			b, er := parseInterval[T](tc.b)
+			if er != nil {
+				t.Errorf(er.Error())
+			}
 			w := parseOrderedSet[T](tc.w)
 			it := s.Iterator(b, true)
 			var intervals []Interval[T]
@@ -298,7 +301,10 @@ func testOrderedSet_Add[T constraints.Integer | constraints.Float](t *testing.T)
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			s := parseOrderedSet[T](tc.s)
 			os := s.Copy()
-			a := parseInterval[T](tc.a)
+			a, er := parseInterval[T](tc.a)
+			if er != nil {
+				t.Errorf(er.Error())
+			}
 			c := s.Add(a)
 			if c != tc.c {
 				t.Errorf("want changed is %v but get %v", tc.c, c)
@@ -443,7 +449,10 @@ func testOrderedSet_Remove[T constraints.Integer | constraints.Float](t *testing
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
 			s := parseOrderedSet[T](tc.s)
 			os := s.Copy()
-			r := parseInterval[T](tc.r)
+			r, er := parseInterval[T](tc.r)
+			if er != nil {
+				t.Errorf(er.Error())
+			}
 			c := s.Remove(r)
 			if c != tc.c {
 				t.Errorf("want changed is %v but get %v", tc.c, c)

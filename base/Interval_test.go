@@ -1,6 +1,7 @@
 package base
 
 import (
+	"errors"
 	"fmt"
 	"golang.org/x/exp/constraints"
 	"strings"
@@ -8,80 +9,73 @@ import (
 )
 
 /*
-*
 Reading the test-sets
 The '========' stands for interval-range
 Upper- en lower-Included is true
 The '<' is for lowerUnbound, no lower-end
 The '>' is for upperUnbound, no upper-end
 The '*' is for Included is false (depending on the site for upper en lower included)
-The * and < and > do not count!!!!!!
+
+The interval-string is divided in three parts by |, (or is empty)
+First part indicates the lower-unbounded/included, the third part for the right side
+It is allowed to have as many characters as is convenient on the first and the last part,
+only the indicated characters are meaningful
 
 It looks hard to understand and is maybe confusing, but read on,
 So:
-*=================  lowerIncluded is false, and lower  is 0
-=================   lowerIncluded is true, and lower is 0
-<================ lowerUnbounded is true and lower is 0
-<*============== lowerUnbounded is true, and lowerIncluded is false and lower is 0
----*=================  lowerIncluded is false, and lower  is 4
----=================   lowerIncluded is true, and lower is 4
----<================ lowerUnbounded is true and lower is 4
----<*============== lowerUnbounded is true, and lowerIncluded is false and lower is 4
+*|=================|  lowerIncluded is false, and lower  is 0
+|=================|   lowerIncluded is true, and lower is 0
+<|================| lowerUnbounded is true and lower is 0
+<*|==============| lowerUnbounded is true, and lowerIncluded is false and lower is 0
+*|---=================|  lowerIncluded is false, and lower  is 4
+|---=================|   lowerIncluded is true, and lower is 4
+|---<================| lowerUnbounded is true and lower is 4
+<*|---==============| lowerUnbounded is true, and lowerIncluded is false and lower is 4
 
 # On the uppersite are mutatis mutandis the same rules
 
 So, these two intervals below, although visible overlapping, do NOT overlap
-<*====-------------- 0,4
-----*=======*       5,12
+<*|====--------------| 0,4
+*|----=======|*       5,12
+So it can be written like this, which is much more readable
+<*|====--------------| 0,4
+* |----=======|*       5,12
 
 Remember, this is only for creating tests-sets, it has nothing to do with a notation language of meaning outside these test-sets
 */
-func parseInterval[T constraints.Integer | constraints.Float](s string) Interval[T] {
+func parseInterval[T constraints.Integer | constraints.Float](s string) (Interval[T], error) {
 	if s == "" {
-		return Interval[T]{}
+		return Interval[T]{}, nil
 	}
-	lLowerunbounded := false
-	lUpperunbounded := false
-	lLowerincluded := false
-	lUpperincluded := false
-	var begin int
-	var end int
-	if strings.Index(s, "<*=") >= 0 {
-		lLowerunbounded = true
-		begin = strings.Index(s, "=") - 2
-		end = strings.LastIndex(s, "=") - 1
-	} else if strings.Index(s, "<=") >= 0 {
-		lLowerunbounded = true
-		lLowerincluded = true
-		begin = strings.Index(s, "=") - 1
-		end = strings.LastIndex(s, "=")
-	} else if strings.Index(s, "*=") >= 0 {
-		begin = strings.Index(s, "=") - 1
-		end = strings.LastIndex(s, "=")
-	} else if strings.Index(s, "=") >= 0 {
-		lLowerincluded = true
-		begin = strings.Index(s, "=")
-		end = strings.LastIndex(s, "=") + 1
+	parts := strings.Split(s, "|")
+	if len(parts) != 3 {
+		return Interval[T]{}, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it must have 2 '|' (pipes).", s))
 	}
-	if strings.LastIndex(s, "=*>") == strings.LastIndex(s, "=") {
-		lUpperunbounded = true
-	} else if strings.LastIndex(s, "=>") == strings.LastIndex(s, "=") {
-		lUpperunbounded = true
-		lUpperincluded = true
-	} else if strings.LastIndex(s, "=*") == strings.LastIndex(s, "=") {
-		lUpperincluded = false
-	} else {
-		lUpperincluded = true
+	leftside := parts[0]
+	rightside := parts[2]
+	interval := parts[1]
+	if strings.ContainsAny(interval, "*<>") {
+		return Interval[T]{}, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it has not allowed characters in the middlepart", s))
 	}
-
+	begin := strings.Index(interval, "=")
+	end := strings.LastIndex(interval, "=") + 1
+	lowerunbounded, lowerincluded, upperunbounded, upperincluded := false, true, false, true
+	if len(leftside) > 0 {
+		lowerunbounded = strings.Contains(leftside, "<")
+		lowerincluded = !strings.Contains(leftside, "*")
+	}
+	if len(rightside) > 0 {
+		upperunbounded = strings.Contains(rightside, ">")
+		upperincluded = !strings.Contains(rightside, "*")
+	}
 	return Interval[T]{
 		lower:          T(begin),
-		lowerIncluded:  lLowerincluded,
-		lowerUnbounded: lLowerunbounded,
+		lowerIncluded:  lowerincluded,
+		lowerUnbounded: lowerunbounded,
 		upper:          T(end),
-		upperIncluded:  lUpperincluded,
-		upperUnbounded: lUpperunbounded,
-	}
+		upperIncluded:  upperincluded,
+		upperUnbounded: upperunbounded,
+	}, nil
 }
 
 func TestParseInterval(t *testing.T) {
@@ -117,7 +111,11 @@ func TestIntervalAdjoin(t *testing.T) {
 func testParseInterval[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsParseInterval {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.s)
+			i, er := parseInterval[T](tc.s)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			if i.lower != T(tc.begin) ||
 				i.upper != T(tc.end) ||
 				i.lowerIncluded != tc.lowerIncluded ||
@@ -138,8 +136,17 @@ func TestIntervalEncompass(t *testing.T) {
 func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalLtBeginOf {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.i_interval_string)
-			x := parseInterval[T](tc.x_interval_string)
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+				return
+			}
 
 			a, b := i.LtBeginOf(x), x.LtBeginOf(i)
 			if a != tc.i_Before_x {
@@ -155,8 +162,16 @@ func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing
 func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalContains {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.i_interval_string)
-			x := parseInterval[T](tc.x_interval_string)
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 
 			c, d := i.Contains(x), x.Contains(i)
 			if c != tc.i_Cover_x {
@@ -172,11 +187,23 @@ func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.
 func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalIntersect {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.i_interval_string)
-			x := parseInterval[T](tc.x_interval_string)
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 
 			e, f := i.Intersect(x), x.Intersect(i)
-			we := parseInterval[T](tc.i_intersect_x)
+			we, er := parseInterval[T](tc.i_intersect_x)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			if !e.Equal(we) {
 				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
 			}
@@ -190,11 +217,23 @@ func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing
 func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalAdjoin {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.i_interval_string)
-			x := parseInterval[T](tc.x_interval_string)
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 
 			l, m := i.Adjoin(x), x.Adjoin(i)
-			wl := parseInterval[T](tc.i_Adjoin_x)
+			wl, er := parseInterval[T](tc.i_Adjoin_x)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			if !l.Equal(wl) {
 				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
 			}
@@ -208,16 +247,41 @@ func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T)
 func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalSubtract {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.i_interval_string)
-			x := parseInterval[T](tc.x_interval_string)
-
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			g, h := i.Subtract(x)
-			wg, wh := parseInterval[T](tc.i_Subtract_x_before), parseInterval[T](tc.i_Subtract_x_after)
+			wg, er := parseInterval[T](tc.i_Subtract_x_before)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			wh, er := parseInterval[T](tc.i_Subtract_x_after)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			if !g.Equal(wg) || !h.Equal(wh) {
 				t.Errorf("want %s.Subtract(%s) = %s, %s but get %s, %s", i, x, wg, wh, g, h)
 			}
 			j, k := x.Subtract(i)
-			wj, wk := parseInterval[T](tc.x_Subtract_i_before), parseInterval[T](tc.x_Subtract_i_after)
+			wj, er := parseInterval[T](tc.x_Subtract_i_before)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			wk, er := parseInterval[T](tc.x_Subtract_i_before)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			if !j.Equal(wj) || !k.Equal(wk) {
 				t.Errorf("want %s.Subtract(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
 			}
@@ -228,11 +292,23 @@ func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.
 func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalEncompass {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i := parseInterval[T](tc.i_interval_string)
-			x := parseInterval[T](tc.x_interval_string)
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 
 			o, p := i.Encompass(x), x.Encompass(i)
-			wo := parseInterval[T](tc.i_Encompass_x)
+			wo, er := parseInterval[T](tc.i_Encompass_x)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
 			if !o.Equal(wo) {
 				t.Errorf("want %s.Encompass(%s) = %s but get %s", i, x, wo, o)
 			}
