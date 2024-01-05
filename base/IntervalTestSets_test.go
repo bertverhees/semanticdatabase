@@ -6,7 +6,7 @@ The '========' stands for interval-range
 Upper- en lower-Included is true
 The '<' is for lowerUnbound, no lower-end
 The '>' is for upperUnbound, no upper-end
-The '*' is for Included is false (depending on the site for upper en lower included)
+The '*' is for Included is false (depending on the side of the string for upper en lower included)
 
 The interval-string is divided in three parts by |,(or is empty)
 First part indicates the lower-unbounded/included, the third part for the right side
@@ -24,15 +24,16 @@ So:
 |---<================| lowerUnbounded is true and lower is 4
 <*|---==============| lowerUnbounded is true, and lowerIncluded is false and lower is 4
 
-# On the uppersite are mutatis mutandis the same rules
+# On the upperside are mutatis mutandis the same rules
 
 So, these two intervals below, although visible overlapping, do NOT overlap
 <*|====--------------| 0,4
 *|----=======|*       5,12
 So it can be written like this, which is much more readable
-<*|====--------------| 0,4
-* |----=======|*       5,12
-
+So it can be written like this, which is much more readable
+"<*|====--------------| 0,4"
+"* |----=======|*"       5,12 or
+" *|----=======|*"
 Remember, this is only for creating tests-sets, it has nothing to do with a notation language of meaning outside these test-sets
 */
 
