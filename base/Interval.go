@@ -203,10 +203,11 @@ func (i Interval[T]) LeEndOf(x Interval[T]) bool {
 	if i.upperUnbounded {
 		return false
 	}
-	if i.upper < x.upper {
+	if x.lowerUnbounded {
+		return false
+	}
+	if i.upper <= x.lower {
 		return true
-	} else if i.upper == x.upper {
-		return !i.upperIncluded || x.upperIncluded
 	}
 	return false
 }

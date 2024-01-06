@@ -84,9 +84,14 @@ func TestParseInterval(t *testing.T) {
 	testParseInterval[float64](t)
 }
 
-func TestIntervalSubtract(t *testing.T) {
-	testIntervalSubtract[int](t)
-	testIntervalSubtract[float64](t)
+func TestIntervalLtBeginOf(t *testing.T) {
+	testIntervalLtBeginOf[int](t)
+	testIntervalLtBeginOf[float64](t)
+}
+
+func TestIntervalLeEndOf(t *testing.T) {
+	testIntervalLeEndOf[int](t)
+	testIntervalLeEndOf[float64](t)
 }
 
 func TestIntervalIntersect(t *testing.T) {
@@ -94,9 +99,9 @@ func TestIntervalIntersect(t *testing.T) {
 	testIntervalIntersect[float64](t)
 }
 
-func TestIntervalLtBeginOf(t *testing.T) {
-	testIntervalLtBeginOf[int](t)
-	testIntervalLtBeginOf[float64](t)
+func TestIntervalSubtract(t *testing.T) {
+	testIntervalSubtract[int](t)
+	testIntervalSubtract[float64](t)
 }
 
 func TestIntervalContains(t *testing.T) {
@@ -107,6 +112,11 @@ func TestIntervalContains(t *testing.T) {
 func TestIntervalAdjoin(t *testing.T) {
 	testIntervalAdjoin[int](t)
 	testIntervalAdjoin[float64](t)
+}
+
+func TestIntervalEncompass(t *testing.T) {
+	testIntervalEncompass[int](t)
+	testIntervalEncompass[float64](t)
 }
 
 func testParseInterval[T constraints.Integer | constraints.Float](t *testing.T) {
@@ -127,11 +137,6 @@ func testParseInterval[T constraints.Integer | constraints.Float](t *testing.T) 
 			}
 		})
 	}
-}
-
-func TestIntervalEncompass(t *testing.T) {
-	testIntervalEncompass[int](t)
-	testIntervalEncompass[float64](t)
 }
 
 func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing.T) {
@@ -155,6 +160,31 @@ func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing
 			}
 			if b != tc.x_Before_i {
 				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", x, i, tc.x_Before_i, b)
+			}
+		})
+	}
+}
+
+func testIntervalLeEndOf[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testsIntervalLeEndOf {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i, er := parseInterval[T](tc.i_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			x, er := parseInterval[T](tc.x_interval_string)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+
+			a, b := i.LeEndOf(x), x.LeEndOf(i)
+			if a != tc.i_LeEnd_x {
+				t.Errorf("want %s.LeEndOf(%s) = %v but get %v", i, x, tc.i_LeEnd_x, a)
+			}
+			if b != tc.x_LeEnd_i {
+				t.Errorf("want %s.LeEndOf(%s) = %v but get %v", x, i, tc.x_LeEnd_i, b)
 			}
 		})
 	}

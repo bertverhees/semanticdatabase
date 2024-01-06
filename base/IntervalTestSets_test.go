@@ -965,6 +965,79 @@ var testsIntervalContains = []struct {
 	},
 }
 
+var testsIntervalLeEndOf = []struct {
+	//i
+	i_interval_string string
+	//x
+	x_interval_string string
+
+	//a
+	// i_interval_string.Before(x_interval_string)
+	i_LeEnd_x bool
+	//b
+	// x_interval_string.Before(i_interval_string)
+	x_LeEnd_i bool
+
+	counter string
+}{
+	{ // 0
+		i_interval_string: "  |=======|",
+		x_interval_string: "  |-------========|",
+		i_LeEnd_x:         true,
+		x_LeEnd_i:         false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |=======|",
+		x_interval_string: " *|-------========|",
+		i_LeEnd_x:         true,
+		x_LeEnd_i:         false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |=======|*",
+		x_interval_string: "  |-------========|",
+		i_LeEnd_x:         true,
+		x_LeEnd_i:         false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |=======|*",
+		x_interval_string: " *|-------========|",
+		i_LeEnd_x:         true,
+		x_LeEnd_i:         false,
+		counter:           "0",
+	},
+	{ // 0a
+		i_interval_string: "  |=====|>",
+		x_interval_string: "  |-----=========|",
+		i_LeEnd_x:         false,
+		x_LeEnd_i:         false,
+		counter:           "0a",
+	},
+	{ // 0b
+		i_interval_string: "  |=====|>",
+		x_interval_string: "  |-----=========|>",
+		i_LeEnd_x:         false,
+		x_LeEnd_i:         false,
+		counter:           "0b",
+	},
+	{ // 0c
+		i_interval_string: "  |=====|",
+		x_interval_string: " *|-----=========|>",
+		i_LeEnd_x:         true,
+		x_LeEnd_i:         false,
+		counter:           "0c",
+	},
+	{ // 0d
+		i_interval_string: " <|=====|*",
+		x_interval_string: "  |-----=========|",
+		i_LeEnd_x:         true,
+		x_LeEnd_i:         false,
+		counter:           "0d",
+	},
+}
+
 var testsIntervalLtBeginOf = []struct {
 	//i
 	i_interval_string string
@@ -983,6 +1056,27 @@ var testsIntervalLtBeginOf = []struct {
 	{ // 0
 		i_interval_string: "  |=======|",
 		x_interval_string: "  |-------========|",
+		i_Before_x:        false,
+		x_Before_i:        false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |=======|",
+		x_interval_string: " *|-------========|",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |=======|*",
+		x_interval_string: "  |-------========|",
+		i_Before_x:        true,
+		x_Before_i:        false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |=======|*",
+		x_interval_string: " *|-------========|",
 		i_Before_x:        true,
 		x_Before_i:        false,
 		counter:           "0",
@@ -1003,230 +1097,52 @@ var testsIntervalLtBeginOf = []struct {
 	},
 	{ // 0c
 		i_interval_string: "  |=====|",
-		x_interval_string: "  |-----=========|>",
+		x_interval_string: " *|-----=========|>",
 		i_Before_x:        true,
 		x_Before_i:        false,
 		counter:           "0c",
 	},
 	{ // 0d
-		i_interval_string: " <|=====|",
-		x_interval_string: "  |------=========|",
+		i_interval_string: " <|=====|*",
+		x_interval_string: "  |-----=========|",
 		i_Before_x:        true,
 		x_Before_i:        false,
 		counter:           "0d",
 	},
-	{ // 0e
-		i_interval_string: " <|=====|",
-		x_interval_string: "<-----=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0e",
-	},
-	{ // 0f
-		i_interval_string: "  |=====|",
-		x_interval_string: "<-----=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0f",
-	},
-	{ // 0g
-		i_interval_string: " <|=====|>",
-		x_interval_string: "<-----=========|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0g",
-	},
-	{ // 1
-		i_interval_string: "  |=======|",
-		x_interval_string: "  |------=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "1",
-	},
-	{ // 1a
-		i_interval_string: "  |=======|>",
-		x_interval_string: "  |------==========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "1a",
-	},
-	{ // 1b
-		i_interval_string: "  |========|>",
-		x_interval_string: "  |-------=========|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "1b",
-	},
-	{ // 1c
-		i_interval_string: "  |========|",
-		x_interval_string: "  |------=========|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "1c",
-	},
-	{ // 1d
-		i_interval_string: " <|========|",
-		x_interval_string: "  |-------=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "1d",
-	},
-	{ // 1e
+	{ // 0
 		i_interval_string: " <|=======|",
-		x_interval_string: "<-----=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "1e",
-	},
-	{ // 1
-		i_interval_string: "  |=====|>",
-		x_interval_string: "  |------=========|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 2
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|-----=========|",
+		x_interval_string: "  |--------=======|",
 		i_Before_x:        true,
 		x_Before_i:        false,
+		counter:           "0",
 	},
-	{ // 3
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |-----=========|",
+	{ // 0
+		i_interval_string: " <|=======|",
+		x_interval_string: "  |--------=======|>",
 		i_Before_x:        true,
 		x_Before_i:        false,
+		counter:           "0",
 	},
-	{ // 4
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|----=========|",
-		i_Before_x:        true,
-		x_Before_i:        false,
-	},
-	{ // 5
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |----=========|",
+	{ // 0
+		i_interval_string: " <|=======|>",
+		x_interval_string: "  |--------=======|",
 		i_Before_x:        false,
 		x_Before_i:        false,
+		counter:           "0",
 	},
-	{ // 6
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |--=========|",
+	{ // 0
+		i_interval_string: " <|=======|",
+		x_interval_string: " <|--------=======|>",
 		i_Before_x:        false,
 		x_Before_i:        false,
+		counter:           "0",
 	},
-	{ // 7
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |-=========|",
+	{ // 0
+		i_interval_string: " <|=======|>",
+		x_interval_string: " <|--------=======|>",
 		i_Before_x:        false,
 		x_Before_i:        false,
-	},
-	{ // 8
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 9
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 10
-		i_interval_string: " *|=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 11
-		i_interval_string: "  |-=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 12
-		i_interval_string: "  |--=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 13
-		i_interval_string: "  |---=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 14
-		i_interval_string: "  |---=====|*",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 15
-		i_interval_string: "  |----=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 16
-		i_interval_string: "  |----=====|*",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 17
-		i_interval_string: "  |-----=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 18
-		i_interval_string: "  |------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 19
-		i_interval_string: "  |-------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 20
-		i_interval_string: "  |--------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-	},
-	{ // 21
-		i_interval_string: " *|--------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        true,
-	},
-	{ // 22
-		i_interval_string: "  |---------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        true,
-	},
-	{ // 23
-		i_interval_string: " *|---------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        true,
-	},
-	{ // 24
-		i_interval_string: "  |----------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        true,
-	},
-	{ // 25
-		i_interval_string: "  |-----------=====|",
-		x_interval_string: "  |=========|",
-		i_Before_x:        false,
-		x_Before_i:        true,
+		counter:           "0",
 	},
 }
 
