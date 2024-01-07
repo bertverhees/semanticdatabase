@@ -202,12 +202,14 @@ func (i Interval[T]) LeEndOf(x Interval[T]) bool {
 	}
 	if i.upperUnbounded {
 		return false
-	}
-	if x.lowerUnbounded {
-		return false
-	}
-	if i.upper <= x.lower {
+	} else if x.upperUnbounded {
 		return true
+	}
+	if i.upper < x.upper {
+		return true
+	}
+	if i.upper == x.upper {
+		return (i.upperIncluded && x.upperIncluded) || !i.upperIncluded
 	}
 	return false
 }

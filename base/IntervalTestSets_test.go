@@ -1002,17 +1002,24 @@ var testsIntervalLeEndOf = []struct {
 		counter:           "0",
 	},
 	{ // 0
-		i_interval_string: "  |=======|*",
+		i_interval_string: "  |===============|*",
 		x_interval_string: " *|-------========|",
 		i_LeEnd_x:         true,
 		x_LeEnd_i:         false,
+		counter:           "0",
+	},
+	{ // 0
+		i_interval_string: "  |===============|",
+		x_interval_string: " *|-------========|*",
+		i_LeEnd_x:         false,
+		x_LeEnd_i:         true,
 		counter:           "0",
 	},
 	{ // 0a
 		i_interval_string: "  |=====|>",
 		x_interval_string: "  |-----=========|",
 		i_LeEnd_x:         false,
-		x_LeEnd_i:         false,
+		x_LeEnd_i:         true,
 		counter:           "0a",
 	},
 	{ // 0b

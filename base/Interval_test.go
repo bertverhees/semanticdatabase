@@ -181,10 +181,10 @@ func testIntervalLeEndOf[T constraints.Integer | constraints.Float](t *testing.T
 
 			a, b := i.LeEndOf(x), x.LeEndOf(i)
 			if a != tc.i_LeEnd_x {
-				t.Errorf("want %s.LeEndOf(%s) = %v but get %v", i, x, tc.i_LeEnd_x, a)
+				t.Errorf("want i: %s.LeEndOf(%s) = %v but get %v", i, x, tc.i_LeEnd_x, a)
 			}
 			if b != tc.x_LeEnd_i {
-				t.Errorf("want %s.LeEndOf(%s) = %v but get %v", x, i, tc.x_LeEnd_i, b)
+				t.Errorf("want x: %s.LeEndOf(%s) = %v but get %v", x, i, tc.x_LeEnd_i, b)
 			}
 		})
 	}
