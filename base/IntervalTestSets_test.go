@@ -1046,110 +1046,254 @@ var testsIntervalLeEndOf = []struct {
 }
 
 var testsIntervalLtBeginOf = []struct {
-	//i
-	i_interval_string string
-	//x
-	x_interval_string string
-
-	//a
-	// i_interval_string.Before(x_interval_string)
+	test       testGeneral
 	i_Before_x bool
-	//b
-	// x_interval_string.Before(i_interval_string)
 	x_Before_i bool
-
-	counter string
 }{
 	{ // 0
-		i_interval_string: "  |=======|",
-		x_interval_string: "  |-------========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[0],
+		i_Before_x: true,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: "  |=======|",
-		x_interval_string: " *|-------========|",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[1],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: "  |=======|*",
-		x_interval_string: "  |-------========|",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[2],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: "  |=======|*",
-		x_interval_string: " *|-------========|",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0",
-	},
-	{ // 0a
-		i_interval_string: "  |=====|>",
-		x_interval_string: "  |-----=========|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0a",
-	},
-	{ // 0b
-		i_interval_string: "  |=====|>",
-		x_interval_string: "  |-----=========|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0b",
-	},
-	{ // 0c
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|-----=========|>",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0c",
-	},
-	{ // 0d
-		i_interval_string: " <|=====|*",
-		x_interval_string: "  |-----=========|",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0d",
+		test:       testsGeneralSets[3],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: " <|=======|",
-		x_interval_string: "  |--------=======|",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[4],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: " <|=======|",
-		x_interval_string: "  |--------=======|>",
-		i_Before_x:        true,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[5],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: " <|=======|>",
-		x_interval_string: "  |--------=======|",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[6],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 	{ // 0
-		i_interval_string: " <|=======|",
-		x_interval_string: " <|--------=======|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[7],
+		i_Before_x: false,
+		x_Before_i: true,
 	},
 	{ // 0
-		i_interval_string: " <|=======|>",
-		x_interval_string: " <|--------=======|>",
-		i_Before_x:        false,
-		x_Before_i:        false,
-		counter:           "0",
+		test:       testsGeneralSets[8],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[9],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[10],
+		i_Before_x: false,
+		x_Before_i: true,
+	},
+	{ // 0
+		test:       testsGeneralSets[11],
+		i_Before_x: true,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[12],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[13],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[14],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[15],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[16],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[17],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[18],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[19],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[20],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[21],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[22],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[23],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[24],
+		i_Before_x: true,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[25],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[26],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[27],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[28],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[29],
+		i_Before_x: false,
+		x_Before_i: true,
+	},
+	{ // 0
+		test:       testsGeneralSets[30],
+		i_Before_x: true,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[31],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[32],
+		i_Before_x: false,
+		x_Before_i: true,
+	},
+	{ // 0
+		test:       testsGeneralSets[33],
+		i_Before_x: true,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[34],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[35],
+		i_Before_x: false,
+		x_Before_i: true,
+	},
+	{ // 0
+		test:       testsGeneralSets[36],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[37],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[38],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[39],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[40],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[41],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[42],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[43],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[44],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[45],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[46],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[47],
+		i_Before_x: false,
+		x_Before_i: false,
+	},
+	{ // 0
+		test:       testsGeneralSets[48],
+		i_Before_x: false,
+		x_Before_i: false,
 	},
 }
 

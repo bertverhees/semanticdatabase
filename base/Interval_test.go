@@ -142,12 +142,12 @@ func testParseInterval[T constraints.Integer | constraints.Float](t *testing.T) 
 func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalLtBeginOf {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
@@ -156,10 +156,10 @@ func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing
 
 			a, b := i.LtBeginOf(x), x.LtBeginOf(i)
 			if a != tc.i_Before_x {
-				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", i, x, tc.i_Before_x, a)
+				t.Errorf("want %s.LtBeginOf(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", i, x, tc.i_Before_x, a, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
 			}
 			if b != tc.x_Before_i {
-				t.Errorf("want %s.LtBeginOf(%s) = %v but get %v", x, i, tc.x_Before_i, b)
+				t.Errorf("want %s.LtBeginOf(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", x, i, tc.x_Before_i, b, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
 		})
 	}
