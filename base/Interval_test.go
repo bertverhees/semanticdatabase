@@ -168,12 +168,12 @@ func testIntervalLtBeginOf[T constraints.Integer | constraints.Float](t *testing
 func testIntervalLeEndOf[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalLeEndOf {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
@@ -181,11 +181,12 @@ func testIntervalLeEndOf[T constraints.Integer | constraints.Float](t *testing.T
 
 			a, b := i.LeEndOf(x), x.LeEndOf(i)
 			if a != tc.i_LeEnd_x {
-				t.Errorf("want i: %s.LeEndOf(%s) = %v but get %v", i, x, tc.i_LeEnd_x, a)
+				t.Errorf("want %s.LeEndOf(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", i, x, tc.i_LeEnd_x, a, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
 			}
 			if b != tc.x_LeEnd_i {
-				t.Errorf("want x: %s.LeEndOf(%s) = %v but get %v", x, i, tc.x_LeEnd_i, b)
+				t.Errorf("want %s.LeEndOf(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", x, i, tc.x_LeEnd_i, b, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
+
 		})
 	}
 }
