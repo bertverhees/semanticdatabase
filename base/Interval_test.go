@@ -94,6 +94,11 @@ func TestIntervalLeEndOf(t *testing.T) {
 	testIntervalLeEndOf[float64](t)
 }
 
+func TestIntervalContains(t *testing.T) {
+	testIntervalContains[int](t)
+	testIntervalContains[float64](t)
+}
+
 func TestIntervalIntersect(t *testing.T) {
 	testIntervalIntersect[int](t)
 	testIntervalIntersect[float64](t)
@@ -102,11 +107,6 @@ func TestIntervalIntersect(t *testing.T) {
 func TestIntervalSubtract(t *testing.T) {
 	testIntervalSubtract[int](t)
 	testIntervalSubtract[float64](t)
-}
-
-func TestIntervalContains(t *testing.T) {
-	testIntervalContains[int](t)
-	testIntervalContains[float64](t)
 }
 
 func TestIntervalAdjoin(t *testing.T) {
@@ -186,7 +186,6 @@ func testIntervalLeEndOf[T constraints.Integer | constraints.Float](t *testing.T
 			if b != tc.x_LeEnd_i {
 				t.Errorf("want %s.LeEndOf(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", x, i, tc.x_LeEnd_i, b, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
-
 		})
 	}
 }
@@ -194,12 +193,12 @@ func testIntervalLeEndOf[T constraints.Integer | constraints.Float](t *testing.T
 func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalContains {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
@@ -207,11 +206,12 @@ func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.
 
 			c, d := i.Contains(x), x.Contains(i)
 			if c != tc.i_Cover_x {
-				t.Errorf("want %s.Cover(%s) = %v but get %v", i, x, tc.i_Cover_x, c)
+				t.Errorf("want %s.Contains(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", i, x, tc.i_Cover_x, c, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
 			}
 			if d != tc.x_Cover_i {
-				t.Errorf("want %s.Cover(%s) = %v but get %v", x, i, tc.x_Cover_i, d)
+				t.Errorf("want %s.Contains(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", x, i, tc.x_Cover_i, d, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
+
 		})
 	}
 }

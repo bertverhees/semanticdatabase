@@ -21,7 +21,7 @@ type Interval[T constraints.Integer | constraints.Float] struct {
 	upperUnbounded bool
 }
 
-func (i *Interval[T]) Lower() T {
+func (i Interval[T]) Lower() T {
 	return i.lower
 }
 
@@ -30,7 +30,7 @@ func (i *Interval[T]) SetLower(lower T) error {
 	return nil
 }
 
-func (i *Interval[T]) Upper() T {
+func (i Interval[T]) Upper() T {
 	return i.upper
 }
 
@@ -39,7 +39,7 @@ func (i *Interval[T]) SetUpper(upper T) error {
 	return nil
 }
 
-func (i *Interval[T]) LowerUnbounded() bool {
+func (i Interval[T]) LowerUnbounded() bool {
 	return i.lowerUnbounded
 }
 
@@ -48,7 +48,7 @@ func (i *Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
 	return nil
 }
 
-func (i *Interval[T]) UpperUnbounded() bool {
+func (i Interval[T]) UpperUnbounded() bool {
 	return i.upperUnbounded
 }
 
@@ -57,7 +57,7 @@ func (i *Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
 	return nil
 }
 
-func (i *Interval[T]) LowerIncluded() bool {
+func (i Interval[T]) LowerIncluded() bool {
 	return i.lowerIncluded
 }
 
@@ -66,7 +66,7 @@ func (i *Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
 	return nil
 }
 
-func (i *Interval[T]) UpperIncluded() bool {
+func (i Interval[T]) UpperIncluded() bool {
 	return i.upperIncluded
 }
 
@@ -133,30 +133,6 @@ func (i Interval[T]) Equal(x Interval[T]) bool {
 		i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
 }
 
-func lowerUnbounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return x.lowerUnbounded && i.lowerUnbounded
-}
-
-func upperUnbounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return x.upperUnbounded && i.upperUnbounded
-}
-
-func unbounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return lowerUnbounded(i, x) && upperUnbounded(i, x)
-}
-
-func lowerBounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return !x.lowerUnbounded && !i.lowerUnbounded
-}
-
-func upperBounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return !x.upperUnbounded && !i.upperUnbounded
-}
-
-func bounded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return lowerBounded(i, x) && upperBounded(i, x)
-}
-
 // IsEmpty returns true if receiver interval has no value.
 func (i Interval[T]) IsEmpty() bool {
 	if i.upperUnbounded || i.lowerUnbounded {
@@ -216,32 +192,37 @@ func (i Interval[T]) LeEndOf(x Interval[T]) bool {
 
 // Contains returns true if x_interval_string interval is completely covered by receiver interval.
 func (i Interval[T]) Contains(x Interval[T]) bool {
-
 	if x.IsEmpty() {
 		return true
 	}
 	if i.IsEmpty() {
 		return false
 	}
-	if i.lower > x.lower || (x.lowerUnbounded && !i.lowerUnbounded) {
+	//i.Begin > x.Begin
+	if (i.lower > x.lower) && !i.lowerUnbounded {
 		return false
 	}
-	if i.upper < x.upper || (x.upperUnbounded && !i.upperUnbounded) {
+	//i.End < x.End
+	if i.upper < x.upper && !i.upperUnbounded {
 		return false
 	}
-	if i.lower < x.lower && i.upper > x.upper &&
-		(unbounded(i, x) || bounded(i, x) ||
-			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded))) {
+	//i.Begin <= x.Begin && i.End >= x.End
+	if iL_le_xL(i, x) && iU_ge_xU(i, x) {
 		return true
 	}
-	if i.lower == x.lower && (i.lowerIncluded || !x.lowerIncluded) &&
-		(unbounded(i, x) || bounded(i, x) ||
-			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded))) {
+	//i.Begin == x.Begin && i.End == x.End
+	if iL_e_xL(i, x) && iU_e_xU(i, x) {
 		return true
 	}
-	return i.upper == x.upper && (i.upperIncluded || !x.upperIncluded) &&
-		(unbounded(i, x) || bounded(i, x) ||
-			((!x.lowerUnbounded && i.lowerUnbounded) && (!x.upperUnbounded && i.upperUnbounded)))
+	//i.Begin <= x.Begin && i.End == x.End
+	if iL_le_xL(i, x) && iU_e_xU(i, x) {
+		return true
+	}
+	//i.Begin == x.Begin && i.End >= x.End
+	if iL_e_xL(i, x) && iU_ge_xU(i, x) {
+		return true
+	}
+	return false
 }
 
 func (i *Interval[T]) Has(value T) bool {
