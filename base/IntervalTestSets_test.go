@@ -866,7 +866,7 @@ var testsIntervalContains = []struct {
 	{ // 0
 		test:      testsGeneralSets[14],
 		i_Cover_x: false,
-		x_Cover_i: true,
+		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[15],
@@ -875,32 +875,32 @@ var testsIntervalContains = []struct {
 	},
 	{ // 0
 		test:      testsGeneralSets[16],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[17],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[18],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[19],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[20],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[21],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
@@ -910,17 +910,17 @@ var testsIntervalContains = []struct {
 	},
 	{ // 0
 		test:      testsGeneralSets[23],
-		i_Cover_x: false,
-		x_Cover_i: false,
-	},
-	{ // 0
-		test:      testsGeneralSets[24],
 		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
-		test:      testsGeneralSets[25],
+		test:      testsGeneralSets[24],
 		i_Cover_x: false,
+		x_Cover_i: false,
+	},
+	{ // 0
+		test:      testsGeneralSets[25],
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
@@ -935,108 +935,108 @@ var testsIntervalContains = []struct {
 	},
 	{ // 0
 		test:      testsGeneralSets[28],
-		i_Cover_x: false,
+		i_Cover_x: true,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[29],
 		i_Cover_x: false,
-		x_Cover_i: true,
+		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[30],
-		i_Cover_x: true,
+		i_Cover_x: false,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[31],
-		i_Cover_x: false,
-		x_Cover_i: false,
+		i_Cover_x: true,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[32],
 		i_Cover_x: false,
-		x_Cover_i: true,
+		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[33],
-		i_Cover_x: true,
+		i_Cover_x: false,
 		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[34],
-		i_Cover_x: false,
-		x_Cover_i: false,
+		i_Cover_x: true,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[35],
 		i_Cover_x: false,
-		x_Cover_i: true,
+		x_Cover_i: false,
 	},
 	{ // 0
 		test:      testsGeneralSets[36],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[37],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[38],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[39],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[40],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[41],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[42],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[43],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[44],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[45],
-		i_Cover_x: false,
-		x_Cover_i: false,
+		i_Cover_x: true,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[46],
 		i_Cover_x: false,
-		x_Cover_i: false,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[47],
-		i_Cover_x: false,
-		x_Cover_i: false,
+		i_Cover_x: true,
+		x_Cover_i: true,
 	},
 	{ // 0
 		test:      testsGeneralSets[48],
-		i_Cover_x: false,
-		x_Cover_i: false,
+		i_Cover_x: true,
+		x_Cover_i: true,
 	},
 }
 

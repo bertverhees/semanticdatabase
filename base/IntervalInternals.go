@@ -2,30 +2,6 @@ package base
 
 import "golang.org/x/exp/constraints"
 
-func iL_l_xL[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return (i.lower < x.lower) || (i.lowerUnbounded && !x.lowerUnbounded)
-}
-
-func iL_le_xL[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return (((i.lower <= x.lower) && (i.lowerIncluded || (i.lowerIncluded == x.lowerIncluded))) || i.lowerUnbounded || !(!i.lowerUnbounded && x.lowerUnbounded))
-}
-
-func iL_e_xL[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return ((i.lower == x.lower) && (!i.lowerUnbounded && !x.lowerUnbounded) && (i.lowerIncluded == x.lowerIncluded)) || (i.lowerUnbounded && x.lowerUnbounded)
-}
-
-func iU_e_xU[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return ((i.upper == x.upper) && (!i.upperUnbounded && !x.upperUnbounded) && (i.upperIncluded == x.upperIncluded)) || (i.upperUnbounded && x.upperUnbounded)
-}
-
-func iU_g_xU[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return (i.upper > x.upper) || (i.upperUnbounded && !x.upperUnbounded)
-}
-
-func iU_ge_xU[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return (((i.upper >= x.upper) && (i.upperIncluded || (i.upperIncluded == x.upperIncluded))) || i.upperUnbounded || !(!i.upperUnbounded && x.upperUnbounded))
-}
-
 func lowerIncluded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
 	return x.lowerIncluded && i.lowerIncluded
 }

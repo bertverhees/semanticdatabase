@@ -198,31 +198,39 @@ func (i Interval[T]) Contains(x Interval[T]) bool {
 	if i.IsEmpty() {
 		return false
 	}
-	//i.Begin > x.Begin
-	if (i.lower > x.lower) && !i.lowerUnbounded {
-		return false
+	lowerSide := false
+	upperSide := false
+	if i.lowerUnbounded {
+		lowerSide = true
 	}
-	//i.End < x.End
-	if i.upper < x.upper && !i.upperUnbounded {
-		return false
+	if i.lower < x.lower {
+		lowerSide = true
 	}
-	//i.Begin <= x.Begin && i.End >= x.End
-	if iL_le_xL(i, x) && iU_ge_xU(i, x) {
-		return true
+	if i.lower == x.lower && !x.lowerIncluded {
+		lowerSide = true
 	}
-	//i.Begin == x.Begin && i.End == x.End
-	if iL_e_xL(i, x) && iU_e_xU(i, x) {
-		return true
+	if i.lower == x.lower && i.lowerIncluded {
+		lowerSide = true
 	}
-	//i.Begin <= x.Begin && i.End == x.End
-	if iL_le_xL(i, x) && iU_e_xU(i, x) {
-		return true
+	if x.lowerUnbounded && !i.lowerUnbounded {
+		lowerSide = false
 	}
-	//i.Begin == x.Begin && i.End >= x.End
-	if iL_e_xL(i, x) && iU_ge_xU(i, x) {
-		return true
+	if i.upperUnbounded {
+		upperSide = true
 	}
-	return false
+	if i.upper > x.upper {
+		upperSide = true
+	}
+	if i.upper == x.upper && !x.upperIncluded {
+		upperSide = true
+	}
+	if i.upper == x.upper && i.upperIncluded {
+		upperSide = true
+	}
+	if x.upperUnbounded && !i.upperUnbounded {
+		upperSide = false
+	}
+	return lowerSide && upperSide
 }
 
 func (i *Interval[T]) Has(value T) bool {
