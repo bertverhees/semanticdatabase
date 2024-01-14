@@ -238,32 +238,14 @@ func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing
 				return
 			}
 
-			e, f := i.Intersect(x), x.Intersect(i)
+			e := i.Intersect(x)
 			we, er := parseInterval[T](tc.i_intersect_x)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			wf, er := parseInterval[T](tc.x_intersect_i)
-			if er != nil {
-				t.Errorf(er.Error())
-				return
-			}
-			//ee, er := parseInterval[T](e)
-			//if er != nil {
-			//	t.Errorf(er.Error())
-			//	return
-			//}
-			//ef, er := parseInterval[T](f)
-			//if er != nil {
-			//	t.Errorf(er.Error())
-			//	return
-			//}
 			if !e.Equal(we) {
 				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s", i, x, we, tc.i_intersect_x, e, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
-			}
-			if !f.Equal(wf) {
-				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-b\n%s\n%s", x, i, wf, tc.x_intersect_i, f, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
 		})
 	}

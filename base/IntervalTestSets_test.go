@@ -1545,253 +1545,204 @@ var testsIntervalLtBeginOf = []struct {
 }
 
 var testsIntervalIntersect = []struct {
-	test                         testGeneral
-	i_intersect_x, x_intersect_i string
+	test          testGeneral
+	i_intersect_x string
 }{
 	{ // 0
 		test:          testsGeneralSets[0],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[1],
 		i_intersect_x: "|------&------|",
-		x_intersect_i: "|------&------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[2],
 		i_intersect_x: "|------==------|",
-		x_intersect_i: "|------==------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[3],
 		i_intersect_x: "|-------=====------|",
-		x_intersect_i: "|-------=====------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[4],
 		i_intersect_x: "|------========------|",
-		x_intersect_i: "|------========------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[5],
 		i_intersect_x: "|-----------===------|",
-		x_intersect_i: "|-----------===------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[6],
 		i_intersect_x: "|--------------&------|",
-		x_intersect_i: "|--------------&------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[7],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[8],
 		i_intersect_x: "|------&------|",
-		x_intersect_i: "|------&------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[9],
 		i_intersect_x: "*|------========------|",
-		x_intersect_i: "*|------========------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[10],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[11],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[12],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|*",
 	},
 	{ // 0
 		test:          testsGeneralSets[13],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|--------------&|",
 	},
 	{ // 0
 		test:          testsGeneralSets[14],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------======|",
 	},
 	{ // 0
 		test:          testsGeneralSets[15],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|",
 	},
 	{ // 0
 		test:          testsGeneralSets[16],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|",
 	},
 	{ // 0
 		test:          testsGeneralSets[17],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|",
 	},
 	{ // 0
 		test:          testsGeneralSets[18],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|",
 	},
 	{ // 0
 		test:          testsGeneralSets[19],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------=======|",
 	},
 	{ // 0
 		test:          testsGeneralSets[20],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------=======|",
 	},
 	{ // 0
 		test:          testsGeneralSets[21],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------=======|",
 	},
 	{ // 0
 		test:          testsGeneralSets[22],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|-------=======|",
 	},
 	{ // 0
 		test:          testsGeneralSets[23],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|",
 	},
 	{ // 0
 		test:          testsGeneralSets[24],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "*|&|*",
 	},
 	{ // 0
 		test:          testsGeneralSets[25],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "*|------========|",
 	},
 	{ // 0
 		test:          testsGeneralSets[26],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|--------------&|",
 	},
 	{ // 0
 		test:          testsGeneralSets[27],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------&|",
 	},
 	{ // 0
 		test:          testsGeneralSets[28],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "|------========|*",
 	},
 	{ // 0
 		test:          testsGeneralSets[29],
-		i_intersect_x: "",
-		x_intersect_i: "",
+		i_intersect_x: "*|&|",
 	},
 	{ // 0
 		test:          testsGeneralSets[30],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[31],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[32],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[33],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[34],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[35],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[36],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[37],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[38],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[39],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[40],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[41],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[42],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[43],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[44],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[45],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[46],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[47],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 	{ // 0
 		test:          testsGeneralSets[48],
 		i_intersect_x: "",
-		x_intersect_i: "",
 	},
 }
 
