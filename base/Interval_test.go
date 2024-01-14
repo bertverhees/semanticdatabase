@@ -16,6 +16,8 @@ The '<' is for lowerUnbound, no lower-end
 The '>' is for upperUnbound, no upper-end
 The '*' is for Included is false (depending on the side of the string for upper en lower included)
 
+The '$' in the middlepart makes lower and upper equal
+
 The interval-string is divided in three parts by |,(or is empty)
 First part indicates the lower-unbounded/included, the third part for the right side
 It is allowed to have as many characters as is convenient on the first and the last part,
@@ -31,6 +33,8 @@ So:
 |---=================|   lowerIncluded is true, and lower is 4
 |---<================| lowerUnbounded is true and lower is 4
 <*|---==============| lowerUnbounded is true, and lowerIncluded is false and lower is 4
+
+|---&---|   lowerIncluded and upperIncluded are true, and lower and upper are 4
 
 # On the upperside are mutatis mutandis the same rules
 
@@ -60,6 +64,11 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) (Interva
 	}
 	begin := strings.Index(interval, "=")
 	end := strings.LastIndex(interval, "=") + 1
+	beginendequal := strings.Index(interval, "&")
+	if begin == -1 && end == 0 {
+		begin = beginendequal
+		end = beginendequal
+	}
 	lowerunbounded, lowerincluded, upperunbounded, upperincluded := false, true, false, true
 	if len(leftside) > 0 {
 		lowerunbounded = strings.Contains(leftside, "<")
@@ -211,7 +220,6 @@ func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.
 			if d != tc.x_Cover_i {
 				t.Errorf("want %s.Contains(%s) = %v (in test) but is %v, counter: %v\n%s\n%s", x, i, tc.x_Cover_i, d, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
-
 		})
 	}
 }
@@ -219,12 +227,12 @@ func testIntervalContains[T constraints.Integer | constraints.Float](t *testing.
 func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalIntersect {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
@@ -236,11 +244,26 @@ func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing
 				t.Errorf(er.Error())
 				return
 			}
-			if !e.Equal(we) {
-				t.Errorf("want %s.Intersect(%s) = %s but get %s", i, x, we, e)
+			wf, er := parseInterval[T](tc.x_intersect_i)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
 			}
-			if !f.Equal(we) {
-				t.Errorf("want %s.Intersect(%s) = %s but get %s", x, i, we, f)
+			//ee, er := parseInterval[T](e)
+			//if er != nil {
+			//	t.Errorf(er.Error())
+			//	return
+			//}
+			//ef, er := parseInterval[T](f)
+			//if er != nil {
+			//	t.Errorf(er.Error())
+			//	return
+			//}
+			if !e.Equal(we) {
+				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-a\n%s\n%s", i, x, we, tc.i_intersect_x, e, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
+			}
+			if !f.Equal(wf) {
+				t.Errorf("want %s.Intersect(%s) = %s, (%s) (result conform test) but is actually %s, counter: %v-b\n%s\n%s", x, i, wf, tc.x_intersect_i, f, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
 		})
 	}

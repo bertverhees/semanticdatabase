@@ -200,35 +200,37 @@ func (i Interval[T]) Contains(x Interval[T]) bool {
 	}
 	lowerSide := false
 	upperSide := false
-	if i.lowerUnbounded {
-		lowerSide = true
-	}
-	if i.lower < x.lower {
-		lowerSide = true
-	}
-	if i.lower == x.lower && !x.lowerIncluded {
-		lowerSide = true
-	}
-	if i.lower == x.lower && i.lowerIncluded {
-		lowerSide = true
-	}
 	if x.lowerUnbounded && !i.lowerUnbounded {
 		lowerSide = false
-	}
-	if i.upperUnbounded {
-		upperSide = true
-	}
-	if i.upper > x.upper {
-		upperSide = true
-	}
-	if i.upper == x.upper && !x.upperIncluded {
-		upperSide = true
-	}
-	if i.upper == x.upper && i.upperIncluded {
-		upperSide = true
+	} else {
+		if i.lowerUnbounded {
+			lowerSide = true
+		}
+		if i.lower < x.lower {
+			lowerSide = true
+		}
+		if i.lower == x.lower && !x.lowerIncluded {
+			lowerSide = true
+		}
+		if i.lower == x.lower && i.lowerIncluded {
+			lowerSide = true
+		}
 	}
 	if x.upperUnbounded && !i.upperUnbounded {
 		upperSide = false
+	} else {
+		if i.upperUnbounded {
+			upperSide = true
+		}
+		if i.upper > x.upper {
+			upperSide = true
+		}
+		if i.upper == x.upper && !x.upperIncluded {
+			upperSide = true
+		}
+		if i.upper == x.upper && i.upperIncluded {
+			upperSide = true
+		}
 	}
 	return lowerSide && upperSide
 }
@@ -313,8 +315,13 @@ func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 	result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
 	result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
 	if result.upperUnbounded {
-		result.upper = 0
-		result.upperIncluded = false
+		if x.upper > i.upper {
+			result.upper = i.upper
+			result.upperIncluded = i.upperIncluded
+		} else {
+			result.upper = x.upper
+			result.upperIncluded = x.upperIncluded
+		}
 	} else {
 		if i.upperUnbounded && !x.upperUnbounded { //i.upperUnbounded
 			result.upper = x.upper
@@ -331,8 +338,13 @@ func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 		}
 	}
 	if result.lowerUnbounded {
-		result.lower = 0
-		result.lowerIncluded = false
+		if x.lower < i.lower {
+			result.lower = i.lower
+			result.lowerIncluded = i.lowerIncluded
+		} else {
+			result.lower = x.lower
+			result.lowerIncluded = x.lowerIncluded
+		}
 	} else {
 		if i.lowerUnbounded && !x.lowerUnbounded { //i.upperUnbounded
 			result.lower = x.lower
