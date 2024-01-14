@@ -8,6 +8,8 @@ The '<' is for lowerUnbound, no lower-end
 The '>' is for upperUnbound, no upper-end
 The '*' is for Included is false (depending on the side of the string for upper en lower included)
 
+The '$' in the middlepart makes lower and upper equal
+
 The interval-string is divided in three parts by |,(or is empty)
 First part indicates the lower-unbounded/included, the third part for the right side
 It is allowed to have as many characters as is convenient on the first and the last part,
@@ -24,16 +26,18 @@ So:
 |---<================| lowerUnbounded is true and lower is 4
 <*|---==============| lowerUnbounded is true, and lowerIncluded is false and lower is 4
 
+|---&---|   lowerIncluded and upperIncluded are true, and lower and upper are 4
+
 # On the upperside are mutatis mutandis the same rules
 
 So, these two intervals below, although visible overlapping, do NOT overlap
-<*|====--------------| 0,4
-*|----=======|*       5,12
-So it can be written like this, which is much more readable
+"<*|====--------------|" 0,4
+"*|----=======|*"       5,12
 So it can be written like this, which is much more readable
 "<*|====--------------| 0,4"
 "* |----=======|*"       5,12 or
 " *|----=======|*"
+
 Remember, this is only for creating tests-sets, it has nothing to do with a notation language of meaning outside these test-sets
 */
 
@@ -413,10 +417,7 @@ var testsParseInterval = []struct {
 
 var testsIntervalSubtract = []struct {
 	//i
-	i_interval_string string
-	//x
-	x_interval_string string
-
+	test testGeneral
 	//g,h
 	// i_interval_string.Subtract(x_interval_string)
 	i_Subtract_x_before, i_Subtract_x_after string
@@ -425,220 +426,347 @@ var testsIntervalSubtract = []struct {
 	x_Subtract_i_before, x_Subtract_i_after string
 }{
 	{ // 0
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |-------=========|",
+		test:                testsGeneralSets[0],
 		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
 		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 0a
-		i_interval_string:   "  |=====|>",
-		x_interval_string:   "  |-------=========|",
-		i_Subtract_x_before: "  |=======|",
-		i_Subtract_x_after:  "  |----------------|>",
-		x_Subtract_i_before: "",
-		x_Subtract_i_after:  "",
-	},
-	{ // 1
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |------=========|",
+	{ // 0
+		test:                testsGeneralSets[1],
 		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  "  |------=========|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 2
-		i_interval_string:   "  |=====|",
-		x_interval_string:   " *|-----=========|",
+	{ // 0
+		test:                testsGeneralSets[2],
 		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|-----=========|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 3
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |-----=========|",
+	{ // 0
+		test:                testsGeneralSets[3],
 		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  "  |-----=========|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 4
-		i_interval_string:   "  |=====|",
-		x_interval_string:   " *|----=========|",
+	{ // 0
+		test:                testsGeneralSets[4],
 		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|----=========|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 5
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |----=========|",
-		i_Subtract_x_before: "  |====|*",
+	{ // 0
+		test:                testsGeneralSets[5],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|----========|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 6
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |--=========|",
-		i_Subtract_x_before: "  |==|*",
+	{ // 0
+		test:                testsGeneralSets[6],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|----======|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 7
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |-=========|",
-		i_Subtract_x_before: "  |=|*",
+	{ // 0
+		test:                testsGeneralSets[7],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|----=====|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 8
-		i_interval_string:   "  |=====|",
-		x_interval_string:   " *|=========|",
-		i_Subtract_x_before: "  |=|",
+	{ // 0
+		test:                testsGeneralSets[8],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|----=====|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 9
-		i_interval_string:   "  |=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[9],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  " *|----====|",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 10
-		i_interval_string:   " *|=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[10],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
-		x_Subtract_i_before: "  |=|",
-		x_Subtract_i_after:  " *|-----===|",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 11
-		i_interval_string:   "  |-=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[11],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
-		x_Subtract_i_before: "  |=|*",
-		x_Subtract_i_after:  " *|-----===|",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 12
-		i_interval_string:   "  |--=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[12],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
-		x_Subtract_i_before: "  |==|*",
-		x_Subtract_i_after:  "  |------*==|",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 13
-		i_interval_string:   "  |---=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[13],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
-		x_Subtract_i_before: "  |===|*",
-		x_Subtract_i_after:  "  |-------*=|",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 14
-		i_interval_string:   "  |---=====|*",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[14],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
-		x_Subtract_i_before: "  |===|*",
-		x_Subtract_i_after:  "  |--------=|",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 15
-		i_interval_string:   "  |----=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
+	{ // 0
+		test:                testsGeneralSets[15],
+		i_Subtract_x_before: "  |=====|",
 		i_Subtract_x_after:  "",
-		x_Subtract_i_before: "  |====|*",
-		x_Subtract_i_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 16
-		i_interval_string:   "  |----=====|*",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  "**|--------",
-		x_Subtract_i_before: "  |====|*",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[16],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 17
-		i_interval_string:   "  |-----=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  " *|--------=|",
-		x_Subtract_i_before: "  |=====|*",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[17],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 18
-		i_interval_string:   "  |------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  " *|--------==|",
-		x_Subtract_i_before: "  |======|*",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[18],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 19
-		i_interval_string:   "  |-------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  " *|--------===|",
-		x_Subtract_i_before: "  |=======|*",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[19],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 20
-		i_interval_string:   "  |--------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  " *|--------====|",
-		x_Subtract_i_before: "  |========|*",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[20],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 21
-		i_interval_string:   " *|--------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  " *|--------=====|",
-		x_Subtract_i_before: "  |=========|",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[21],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 22
-		i_interval_string:   "  |---------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  "  |---------=====|",
-		x_Subtract_i_before: "  |=========|",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[22],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 23
-		i_interval_string:   " *|---------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  " *|---------=====|",
-		x_Subtract_i_before: "  |=========|",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[23],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 24
-		i_interval_string:   "  |----------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  "  |----------=====|",
-		x_Subtract_i_before: "  |=========|",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[24],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
-	{ // 25
-		i_interval_string:   "  |-----------=====|",
-		x_interval_string:   "  |=========|",
-		i_Subtract_x_before: "",
-		i_Subtract_x_after:  "  |-----------=====|",
-		x_Subtract_i_before: "  |=========|",
-		x_Subtract_i_after:  "",
+	{ // 0
+		test:                testsGeneralSets[25],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[26],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[27],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[28],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[29],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[30],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[31],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[32],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[33],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[34],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[35],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[36],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[37],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[38],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[39],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[40],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[41],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[42],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[43],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[44],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[45],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[46],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[47],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
+	},
+	{ // 0
+		test:                testsGeneralSets[48],
+		i_Subtract_x_before: "  |=====|",
+		i_Subtract_x_after:  "",
+		x_Subtract_i_before: "",
+		x_Subtract_i_after:  "  |-------=========|",
 	},
 }
 
@@ -1674,7 +1802,7 @@ var testsIntervalIntersect = []struct {
 	},
 	{ // 0
 		test:          testsGeneralSets[31],
-		i_intersect_x: "",
+		i_intersect_x: "*|==============|",
 	},
 	{ // 0
 		test:          testsGeneralSets[32],
@@ -1694,55 +1822,55 @@ var testsIntervalIntersect = []struct {
 	},
 	{ // 0
 		test:          testsGeneralSets[36],
-		i_intersect_x: "",
+		i_intersect_x: "|=====----|",
 	},
 	{ // 0
 		test:          testsGeneralSets[37],
-		i_intersect_x: "",
+		i_intersect_x: "|======----|",
 	},
 	{ // 0
 		test:          testsGeneralSets[38],
-		i_intersect_x: "",
+		i_intersect_x: "|---=====------------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[39],
-		i_intersect_x: "",
+		i_intersect_x: "|-------=====--------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[40],
-		i_intersect_x: "",
+		i_intersect_x: "|------========------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[41],
-		i_intersect_x: "",
+		i_intersect_x: "|-----------=====----|",
 	},
 	{ // 0
 		test:          testsGeneralSets[42],
-		i_intersect_x: "",
+		i_intersect_x: "|--------------======|",
 	},
 	{ // 0
 		test:          testsGeneralSets[43],
-		i_intersect_x: "",
+		i_intersect_x: "|---------------=====|",
 	},
 	{ // 0
 		test:          testsGeneralSets[44],
-		i_intersect_x: "",
+		i_intersect_x: "<|------======------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[45],
-		i_intersect_x: "",
+		i_intersect_x: "<|------========------|",
 	},
 	{ // 0
 		test:          testsGeneralSets[46],
-		i_intersect_x: "",
+		i_intersect_x: "|-------=====--------|>",
 	},
 	{ // 0
 		test:          testsGeneralSets[47],
-		i_intersect_x: "",
+		i_intersect_x: "<|------========------|>",
 	},
 	{ // 0
 		test:          testsGeneralSets[48],
-		i_intersect_x: "",
+		i_intersect_x: "<|--------====--------|>",
 	},
 }
 

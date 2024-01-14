@@ -11,7 +11,7 @@ import (
 /*
 Reading the test-sets
 The '========' stands for interval-range
-Upper- en lower-Included is true
+Upper- and lower-Included is true
 The '<' is for lowerUnbound, no lower-end
 The '>' is for upperUnbound, no upper-end
 The '*' is for Included is false (depending on the side of the string for upper en lower included)
