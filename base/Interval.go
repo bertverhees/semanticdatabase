@@ -266,46 +266,6 @@ func (i *Interval[T]) Has(value T) bool {
 	return returnValue
 }
 
-func (i *Interval[T]) BoundaryHas(value T, included bool) bool {
-	if i.lowerUnbounded && i.upperUnbounded {
-		return true
-	}
-	returnValue := true
-	if !i.lowerUnbounded && i.upperUnbounded {
-		if i.lowerIncluded {
-			returnValue = value >= i.lower
-			if included {
-				returnValue = value > i.lower
-			}
-		} else {
-			returnValue = value > i.lower
-		}
-	} else if !i.upperUnbounded && i.lowerUnbounded {
-		if i.upperIncluded {
-			returnValue = value <= i.upper
-			if included {
-				returnValue = value < i.lower
-			}
-		} else {
-			returnValue = value < i.upper
-		}
-	} else if !i.lowerUnbounded && !i.upperUnbounded {
-		if i.lowerIncluded && i.upperIncluded {
-			returnValue = value >= i.lower && value <= i.upper
-		} else if !i.lowerIncluded && i.upperIncluded {
-			returnValue = value > i.lower && value <= i.upper
-		} else if i.lowerIncluded && !i.upperIncluded {
-			returnValue = value >= i.lower && value < i.upper
-		} else if !i.lowerIncluded && !i.upperIncluded {
-			returnValue = value > i.lower && value < i.upper
-		}
-		if included {
-			returnValue = value > i.lower && value < i.upper
-		}
-	}
-	return returnValue
-}
-
 // Intersect returns the intersection of receiver interval with x_interval_string interval.
 func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
@@ -397,85 +357,51 @@ func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
 		}
 		return Interval[T]{}, i
 	}
-	var r1, r2 Interval[T]
-	var lower1, lower2, upper1, upper2 T
-	var lowerIncluded1, lowerIncluded2, upperIncluded1, upperIncluded2 bool
-	var lowerUnbounded1, lowerUnbounded2, upperUnbounded1, upperUnbounded2 bool
-	if i.lower < x.lower || i.lowerUnbounded {
-		lower1 = i.lower
-		lowerIncluded1 = i.lowerIncluded
-		lowerUnbounded1 = i.lowerUnbounded
-		upper1 = x.lower
-		upperIncluded1 = !x.lowerIncluded
-		upperUnbounded1 = false
-	}
-	if i.lower == x.lower && !i.lowerUnbounded {
-		lower1 = i.lower
-		lowerIncluded1 = i.lowerIncluded
-		lowerUnbounded1 = false
-		upper1 = x.lower
-		upperIncluded1 = !x.lowerIncluded
-		upperUnbounded1 = false
-	}
-	if i.lower > x.lower && !i.lowerUnbounded {
-		lower1 = i.lower
-		if i.lowerIncluded != x.lowerIncluded {
-			lowerIncluded1 = false
-		}
-		if i.lowerIncluded == x.lowerIncluded {
-			lowerIncluded1 = i.lowerIncluded
-		}
-		lowerUnbounded1 = false
-		upper1 = i.lower
-		upperIncluded1 = !x.lowerIncluded
-		upperUnbounded1 = false
-	}
-	if i.upper > x.upper || i.upperUnbounded {
-		upper2 = i.upper
-		upperIncluded2 = i.upperIncluded
-		upperUnbounded2 = i.upperUnbounded
-		lower2 = x.upper
-		lowerIncluded2 = !x.lowerIncluded
-		lowerUnbounded2 = false
-	}
-	if i.upper == x.upper && !i.upperUnbounded {
-		upper2 = i.upper
-		upperIncluded2 = i.upperIncluded
-		upperUnbounded2 = false
-		lower2 = x.upper
-		lowerIncluded2 = !x.upperIncluded
-		lowerUnbounded2 = false
-	}
-	if i.upper < x.upper || !i.upperUnbounded {
-		upper2 = i.upper
-		if i.upperIncluded != x.upperIncluded {
-			upperIncluded2 = false
-		}
-		if i.upperIncluded == x.upperIncluded {
-			upperIncluded2 = i.upperIncluded
-		}
-		upperUnbounded2 = false
-		lower2 = i.upper
-		lowerIncluded2 = !x.upperIncluded
-		lowerUnbounded2 = false
-	}
-	r1 = maybeEmpty[T](Interval[T]{
-		lower:          lower1,
-		lowerIncluded:  lowerIncluded1,
-		upper:          upper1,
-		upperIncluded:  upperIncluded1,
-		lowerUnbounded: lowerUnbounded1,
-		upperUnbounded: upperUnbounded1,
-	})
-	r2 = maybeEmpty[T](Interval[T]{
-		lower:          lower2,
-		lowerIncluded:  lowerIncluded2,
-		upper:          upper2,
-		upperIncluded:  upperIncluded2,
-		lowerUnbounded: lowerUnbounded2,
-		upperUnbounded: upperUnbounded2,
-	})
-	return r1, r2
+	return maybeEmpty(Interval[T]{
+			lower:          i.lower,
+			lowerIncluded:  i.lowerIncluded,
+			upper:          in.lower,
+			upperIncluded:  !in.lowerIncluded,
+			lowerUnbounded: i.lowerUnbounded,
+			upperUnbounded: false,
+		}), maybeEmpty(Interval[T]{
+			lower:          in.upper,
+			lowerIncluded:  !in.upperIncluded,
+			upper:          i.upper,
+			upperIncluded:  i.upperIncluded,
+			lowerUnbounded: false,
+			upperUnbounded: in.upperUnbounded,
+		})
+
+	//r1 := Interval[T]{}
+	//if !x.lowerUnbounded { // if x.lowerUnbounded, result is empty
+	//	r1.lowerUnbounded = i.lowerUnbounded
+	//	r1.upperUnbounded = false
+	//	r1.lower = i.lower
+	//	r1.lowerIncluded = i.lowerIncluded
+	//	if i.lower <= x.lower { // i is result subtract x
+	//		r1.upper = x.lower
+	//		r1.upperIncluded = !x.lowerIncluded
+	//	} else {
+	//		r1.upper = i.upper
+	//		r1.upperIncluded = i.upperIncluded
+	//	}
+	//}
+	//r2 := Interval[T]{}
+	//if !x.upperUnbounded { // i lowerUnbounded, x not lowerUnbounded
+	//	r2.lowerUnbounded = false
+	//	r2.upperUnbounded = i.upperUnbounded
+	//	r2.upper = i.upper
+	//	r2.upperIncluded = i.upperIncluded
+	//	if i.upper >= x.upper { // i is result subtract x
+	//		r2.lower = i.upper
+	//		r2.lowerIncluded = !x.upperIncluded
+	//	} else {
+	//		r2.lower = x.upper
+	//		r2.upperIncluded = x.upperIncluded
+	//	}
+	//}
+	//return r1, r2
 }
 
 // Adjoin returns the union of two intervals, if the intervals are exactly

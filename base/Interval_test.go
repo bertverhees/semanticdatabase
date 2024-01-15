@@ -284,12 +284,12 @@ func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T)
 func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalSubtract {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
@@ -306,7 +306,7 @@ func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.
 				return
 			}
 			if !g.Equal(wg) || !h.Equal(wh) {
-				t.Errorf("want %s.Subtract(%s) = %s, %s but get %s, %s", i, x, wg, wh, g, h)
+				t.Errorf("\nwant %s.Subtract(%s) = %s, %s\n%s,%s (result conform test)\n but is actually %s, %s, counter: %v-a\n%s\n%s", i, x, wg, wh, tc.i_Subtract_x_before, tc.i_Subtract_x_after, g, h, tc.test.counter, tc.test.i_interval_string, tc.test.x_interval_string)
 			}
 			j, k := x.Subtract(i)
 			wj, er := parseInterval[T](tc.x_Subtract_i_before)
@@ -314,13 +314,13 @@ func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.
 				t.Errorf(er.Error())
 				return
 			}
-			wk, er := parseInterval[T](tc.x_Subtract_i_before)
+			wk, er := parseInterval[T](tc.x_Subtract_i_after)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
 			if !j.Equal(wj) || !k.Equal(wk) {
-				t.Errorf("want %s.Subtract(%s) = %s, %s but get %s, %s", x, i, wj, wk, k, k)
+				t.Errorf("\nwant %s.Subtract(%s) = %s, %s\n%s,%s (result conform test)\n but is actually %s, %s, counter: %v-b\n%s\n%s", x, i, wj, wk, tc.x_Subtract_i_before, tc.x_Subtract_i_after, j, k, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
 		})
 	}
