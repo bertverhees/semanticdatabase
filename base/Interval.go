@@ -357,14 +357,27 @@ func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
 		}
 		return Interval[T]{}, i
 	}
-	return maybeEmpty(Interval[T]{
-			lower:          i.lower,
+	var r1, r2 Interval[T]
+	if x.lowerUnbounded {
+		r1 = Interval[T]{}
+	} else {
+		lower := i.lower
+		if i.lower > in.lower {
+			lower = in.lower
+		}
+		r1 = maybeEmpty(Interval[T]{
+			lower:          lower,
 			lowerIncluded:  i.lowerIncluded,
 			upper:          in.lower,
 			upperIncluded:  !in.lowerIncluded,
 			lowerUnbounded: i.lowerUnbounded,
 			upperUnbounded: false,
-		}), maybeEmpty(Interval[T]{
+		})
+	}
+	if x.upperUnbounded {
+		r2 = Interval[T]{}
+	} else {
+		r2 = maybeEmpty(Interval[T]{
 			lower:          in.upper,
 			lowerIncluded:  !in.upperIncluded,
 			upper:          i.upper,
@@ -372,36 +385,8 @@ func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
 			lowerUnbounded: false,
 			upperUnbounded: in.upperUnbounded,
 		})
-
-	//r1 := Interval[T]{}
-	//if !x.lowerUnbounded { // if x.lowerUnbounded, result is empty
-	//	r1.lowerUnbounded = i.lowerUnbounded
-	//	r1.upperUnbounded = false
-	//	r1.lower = i.lower
-	//	r1.lowerIncluded = i.lowerIncluded
-	//	if i.lower <= x.lower { // i is result subtract x
-	//		r1.upper = x.lower
-	//		r1.upperIncluded = !x.lowerIncluded
-	//	} else {
-	//		r1.upper = i.upper
-	//		r1.upperIncluded = i.upperIncluded
-	//	}
-	//}
-	//r2 := Interval[T]{}
-	//if !x.upperUnbounded { // i lowerUnbounded, x not lowerUnbounded
-	//	r2.lowerUnbounded = false
-	//	r2.upperUnbounded = i.upperUnbounded
-	//	r2.upper = i.upper
-	//	r2.upperIncluded = i.upperIncluded
-	//	if i.upper >= x.upper { // i is result subtract x
-	//		r2.lower = i.upper
-	//		r2.lowerIncluded = !x.upperIncluded
-	//	} else {
-	//		r2.lower = x.upper
-	//		r2.upperIncluded = x.upperIncluded
-	//	}
-	//}
-	//return r1, r2
+	}
+	return r1, r2
 }
 
 // Adjoin returns the union of two intervals, if the intervals are exactly
