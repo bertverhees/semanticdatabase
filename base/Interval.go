@@ -383,8 +383,11 @@ func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
 			upper:          i.upper,
 			upperIncluded:  i.upperIncluded,
 			lowerUnbounded: false,
-			upperUnbounded: in.upperUnbounded,
+			upperUnbounded: i.upperUnbounded,
 		})
+		if r2.lower > r2.upper && i.upperUnbounded {
+			r2.upper = r2.lower
+		}
 	}
 	return r1, r2
 }
