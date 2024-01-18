@@ -12,7 +12,7 @@ lexer grammar BaseLexer;
 ISO8601_DATE_AUGMENTED : ISO8601_DATE_EXTENDED | YEAR '-' MONTH '-' UNKNOWN_DT | YEAR '-' UNKNOWN_DT '-' UNKNOWN_DT ;
 ISO8601_TIME_AUGMENTED : ISO8601_TIME_EXTENDED | (( HOUR ':' MINUTE ':' UNKNOWN_DT | HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? );
 ISO8601_DATE_TIME_AUGMENTED : ISO8601_DATE_TIME_EXTENDED | (( YEAR '-' MONTH '-' DAY 'T' HOUR ':' MINUTE ':' UNKNOWN_DT | YEAR '-' MONTH '-' DAY 'T' HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? ) ;
-fragment UNKNOWN_DT  : '??' ;                    // any unknown date/time value, except years.
+fragment UNKNOWN_DT  : '??' ;                    // any unknown date/ISO8601 value, except years.
 
 // -------------------- ISO8601 Date/Time patterns -------------------
 

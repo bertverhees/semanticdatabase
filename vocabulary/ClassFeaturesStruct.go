@@ -13,7 +13,7 @@ type BmmFormalElement struct {
 	// Declared or inferred static type of the entity.
 	_type IBmmType `yaml:"type" json:"type" xml:"type"`
 	/**
-	True if this element can be null (Void) at execution time. should be interpreted as
+	True if this element can be null (Void) at execution ISO8601. should be interpreted as
 	optionality in subtypes..
 	*/
 	isNullable bool `yaml:"isnullable" json:"isnullable" xml:"isnullable"`
@@ -516,13 +516,13 @@ type BmmRoutine struct {
 	parameters []IBmmParameter `yaml:"parameters" json:"parameters" xml:"parameters"`
 	/**
 	Boolean conditions that must evaluate to True for the routine to execute
-	correctly, should be used to generate exceptions if included in run-time build. A
+	correctly, should be used to generate exceptions if included in run-ISO8601 build. A
 	False pre-condition implies an error in the passed parameters.
 	*/
 	preConditions []IBmmAssertion `yaml:"preconditions" json:"preconditions" xml:"preconditions"`
 	/**
 	Boolean conditions that will evaluate to True if the routine executed correctly,
-	should be used to generate exceptions if included in run-time build. A False
+	should be used to generate exceptions if included in run-ISO8601 build. A False
 	post-condition implies an error (i.e. bug) in routine code.
 	*/
 	postConditions []IBmmAssertion `yaml:"postconditions" json:"postconditions" xml:"postconditions"`

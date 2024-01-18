@@ -360,7 +360,7 @@ func odinparserParserInit() {
 // OdinParserInit initializes any static state used to implement OdinParser. By default the
 // static state used to implement the parser is lazily initialized during the first call to
 // NewOdinParser(). You can call this function if you wish to initialize the static state ahead
-// of time.
+// of ISO8601.
 func OdinParserInit() {
 	staticData := &OdinParserParserStaticData
 	staticData.once.Do(odinparserParserInit)

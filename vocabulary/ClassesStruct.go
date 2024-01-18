@@ -29,7 +29,7 @@ type BmmClass struct {
 	sourceSchemaId string //`yaml:"sourceschemaid" json:"sourceschemaid" xml:"sourceschemaid"`
 	/**
 	List of computed references to base classes of immediate inheritance
-	descendants, derived when members of ancestors are attached at creation time.
+	descendants, derived when members of ancestors are attached at creation ISO8601.
 	*/
 	immediateDescendants []IBmmClass //`yaml:"immediatedescendants" json:"immediatedescendants" xml:"immediatedescendants"`
 	/**

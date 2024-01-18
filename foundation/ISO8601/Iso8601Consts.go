@@ -1,4 +1,4 @@
-package time
+package ISO8601
 
 const (
 	SecondsInMinute    = 60

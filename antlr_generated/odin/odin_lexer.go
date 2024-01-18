@@ -771,7 +771,7 @@ func odinlexerLexerInit() {
 // OdinLexerInit initializes any static state used to implement OdinLexer. By default the
 // static state used to implement the lexer is lazily initialized during the first call to
 // NewOdinLexer(). You can call this function if you wish to initialize the static state ahead
-// of time.
+// of ISO8601.
 func OdinLexerInit() {
 	staticData := &OdinLexerLexerStaticData
 	staticData.once.Do(odinlexerLexerInit)
