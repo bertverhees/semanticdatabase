@@ -431,5 +431,11 @@ func (i Interval[T]) Encompass(x Interval[T]) Interval[T] {
 	} else if i.upper == x.upper && i.upperIncluded {
 		x.upperIncluded = true
 	}
+	if i.lowerUnbounded || x.lowerUnbounded {
+		x.lowerUnbounded = true
+	}
+	if i.upperUnbounded || x.upperUnbounded {
+		x.upperUnbounded = true
+	}
 	return x
 }

@@ -1875,150 +1875,253 @@ var testsIntervalIntersect = []struct {
 }
 
 var testsIntervalEncompass = []struct {
-	//i
-	i_interval_string string
-	//x
-	x_interval_string string
-	//o
 	// i_interval_string.Encompass(x_interval_string)
-	i_Encompass_x string
-	// x_interval_string.Encompass(i_interval_string)
-	// == i_Encompass_x
-	// p string
+	i_Encompass_x, x_Encompass_i string
+	test                         testGeneral
 }{
 	{ // 0
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |-------=========|",
-		i_Encompass_x:     "  |================|",
+		test:          testsGeneralSets[0],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
 	},
-	{ // 0a
-		i_interval_string: "  |=====|>",
-		x_interval_string: "  |-------=========|",
-		i_Encompass_x:     "  |================|",
+	{ // 0
+		test:          testsGeneralSets[1],
+		i_Encompass_x: "|------&------|",
+		x_Encompass_i: "",
 	},
-	{ // 1
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |------=========|",
-		i_Encompass_x:     "  |===============|",
+	{ // 0
+		test:          testsGeneralSets[2],
+		i_Encompass_x: "|------==------|",
+		x_Encompass_i: "",
 	},
-	{ // 2
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|-----=========|",
-		i_Encompass_x:     "  |===============|",
+	{ // 0
+		test:          testsGeneralSets[3],
+		i_Encompass_x: "|-------=====------|",
+		x_Encompass_i: "",
 	},
-	{ // 3
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |-----=========|",
-		i_Encompass_x:     "  |==============|",
+	{ // 0
+		test:          testsGeneralSets[4],
+		i_Encompass_x: "|------========------|",
+		x_Encompass_i: "",
 	},
-	{ // 4
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|----=========|",
-		i_Encompass_x:     "  |==============|",
+	{ // 0
+		test:          testsGeneralSets[5],
+		i_Encompass_x: "|-----------===------|",
+		x_Encompass_i: "",
 	},
-	{ // 5
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |----=========|",
-		i_Encompass_x:     "  |=============|",
+	{ // 0
+		test:          testsGeneralSets[6],
+		i_Encompass_x: "|--------------&------|",
+		x_Encompass_i: "",
 	},
-	{ // 6
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |--=========|",
-		i_Encompass_x:     "  |===========|",
+	{ // 0
+		test:          testsGeneralSets[7],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
 	},
-	{ // 7
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |-=========|",
-		i_Encompass_x:     "  |==========|",
+	{ // 0
+		test:          testsGeneralSets[8],
+		i_Encompass_x: "|------&------|",
+		x_Encompass_i: "",
 	},
-	{ // 8
-		i_interval_string: "  |=====|",
-		x_interval_string: " *|=========|",
-		i_Encompass_x:     "  |==========|",
+	{ // 0
+		test:          testsGeneralSets[9],
+		i_Encompass_x: "*|------========------|",
+		x_Encompass_i: "",
 	},
-	{ // 9
-		i_interval_string: "  |=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[10],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
 	},
-	{ // 10
-		i_interval_string: " *|=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[11],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
 	},
-	{ // 11
-		i_interval_string: "  |-=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[12],
+		i_Encompass_x: "|------========|*",
+		x_Encompass_i: "",
 	},
-	{ // 12
-		i_interval_string: "  |--=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[13],
+		i_Encompass_x: "|--------------&|",
+		x_Encompass_i: "",
 	},
-	{ // 13
-		i_interval_string: "  |---=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[14],
+		i_Encompass_x: "|------======|",
+		x_Encompass_i: "",
 	},
-	{ // 14
-		i_interval_string: "  |---=====|*",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[15],
+		i_Encompass_x: "|------========|",
+		x_Encompass_i: "",
 	},
-	{ // 15
-		i_interval_string: "  |----=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|",
+	{ // 0
+		test:          testsGeneralSets[16],
+		i_Encompass_x: "|------========|",
+		x_Encompass_i: "",
 	},
-	{ // 16
-		i_interval_string: "  |----=====|*",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=========|*",
+	{ // 0
+		test:          testsGeneralSets[17],
+		i_Encompass_x: "|------========|",
+		x_Encompass_i: "",
 	},
-	{ // 17
-		i_interval_string: "  |-----=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |==========|",
+	{ // 0
+		test:          testsGeneralSets[18],
+		i_Encompass_x: "|------========|",
+		x_Encompass_i: "",
 	},
-	{ // 18
-		i_interval_string: "  |------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |===========|",
+	{ // 0
+		test:          testsGeneralSets[19],
+		i_Encompass_x: "|------=======|",
+		x_Encompass_i: "",
 	},
-	{ // 19
-		i_interval_string: "  |-------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |============|",
+	{ // 0
+		test:          testsGeneralSets[20],
+		i_Encompass_x: "|------=======|",
+		x_Encompass_i: "",
 	},
-	{ // 20
-		i_interval_string: "  |--------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |=============|",
+	{ // 0
+		test:          testsGeneralSets[21],
+		i_Encompass_x: "|------=======|",
+		x_Encompass_i: "",
 	},
-	{ // 21
-		i_interval_string: " *|--------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |==============|",
+	{ // 0
+		test:          testsGeneralSets[22],
+		i_Encompass_x: "|-------=======|",
+		x_Encompass_i: "",
 	},
-	{ // 22
-		i_interval_string: "  |---------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |==============|",
+	{ // 0
+		test:          testsGeneralSets[23],
+		i_Encompass_x: "|------========|",
+		x_Encompass_i: "",
 	},
-	{ // 23
-		i_interval_string: " *|---------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |===============|",
+	{ // 0
+		test:          testsGeneralSets[24],
+		i_Encompass_x: "*|&|*",
+		x_Encompass_i: "",
 	},
-	{ // 24
-		i_interval_string: "  |----------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |===============|",
+	{ // 0
+		test:          testsGeneralSets[25],
+		i_Encompass_x: "*|------========|",
+		x_Encompass_i: "",
 	},
-	{ // 25
-		i_interval_string: "  |-----------=====|",
-		x_interval_string: "  |=========|",
-		i_Encompass_x:     "  |================|",
+	{ // 0
+		test:          testsGeneralSets[26],
+		i_Encompass_x: "|--------------&|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[27],
+		i_Encompass_x: "|------&|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[28],
+		i_Encompass_x: "|------========|*",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[29],
+		i_Encompass_x: "*|&|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[30],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[31],
+		i_Encompass_x: "*|==============|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[32],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[33],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[34],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[35],
+		i_Encompass_x: "",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[36],
+		i_Encompass_x: "|=====----|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[37],
+		i_Encompass_x: "|======----|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[38],
+		i_Encompass_x: "|---=====------------|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[39],
+		i_Encompass_x: "|-------=====--------|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[40],
+		i_Encompass_x: "|------========------|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[41],
+		i_Encompass_x: "|-----------=====----|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[42],
+		i_Encompass_x: "|--------------======|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[43],
+		i_Encompass_x: "|---------------=====|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[44],
+		i_Encompass_x: "<|------======------|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[45],
+		i_Encompass_x: "<|------========------|",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[46],
+		i_Encompass_x: "|-------=====--------|>",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[47],
+		i_Encompass_x: "<|------========------|>",
+		x_Encompass_i: "",
+	},
+	{ // 0
+		test:          testsGeneralSets[48],
+		i_Encompass_x: "<|--------====--------|>",
+		x_Encompass_i: "",
 	},
 }

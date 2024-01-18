@@ -329,12 +329,12 @@ func testIntervalSubtract[T constraints.Integer | constraints.Float](t *testing.
 func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalEncompass {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
@@ -349,7 +349,12 @@ func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing
 			if !o.Equal(wo) {
 				t.Errorf("want %s.Encompass(%s) = %s but get %s", i, x, wo, o)
 			}
-			if !p.Equal(wo) {
+			wp, er := parseInterval[T](tc.i_Encompass_x)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			if !p.Equal(wp) {
 				t.Errorf("want %s.Encompass(%s) = %s but get %s", x, i, wo, p)
 			}
 		})
