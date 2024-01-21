@@ -784,7 +784,7 @@ var testsIntervalAdjoin = []struct {
 		x_interval_string: "  |-------=========|",
 		i_Adjoin_x:        "",
 	},
-	{a
+	{
 		i_interval_string: "  |=====|>",
 		x_interval_string: "  |-------=========|",
 		i_Adjoin_x:        "",
