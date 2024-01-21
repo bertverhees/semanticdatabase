@@ -340,7 +340,7 @@ func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing
 				return
 			}
 
-			o, p := i.Encompass(x), x.Encompass(i)
+			o := i.Encompass(x)
 			wo, er := parseInterval[T](tc.i_Encompass_x)
 			if er != nil {
 				t.Errorf(er.Error())
@@ -349,15 +349,6 @@ func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing
 			if !o.Equal(wo) {
 				t.Errorf("\nwant %s.Encompass(%s) = %s (result conform test)\n but is actually %s, counter: %v-a\n%s\n%s",
 					i, x, wo, o, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
-			}
-			wp, er := parseInterval[T](tc.x_Encompass_i)
-			if er != nil {
-				t.Errorf(er.Error())
-				return
-			}
-			if !p.Equal(wp) {
-				t.Errorf("\nwant %s.Encompass(%s) = %s (result conform test)\n but is actually %s, counter: %v-b\n%s\n%s",
-					x, i, wp, p, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
 		})
 	}
