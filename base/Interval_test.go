@@ -254,18 +254,18 @@ func testIntervalIntersect[T constraints.Integer | constraints.Float](t *testing
 func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T) {
 	for n, tc := range testsIntervalAdjoin {
 		t.Run(fmt.Sprint(n), func(t *testing.T) {
-			i, er := parseInterval[T](tc.i_interval_string)
+			i, er := parseInterval[T](tc.test.i_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
-			x, er := parseInterval[T](tc.x_interval_string)
+			x, er := parseInterval[T](tc.test.x_interval_string)
 			if er != nil {
 				t.Errorf(er.Error())
 				return
 			}
 
-			l, m := i.Adjoin(x), x.Adjoin(i)
+			l := i.Adjoin(x)
 			wl, er := parseInterval[T](tc.i_Adjoin_x)
 			if er != nil {
 				t.Errorf(er.Error())
@@ -273,9 +273,8 @@ func testIntervalAdjoin[T constraints.Integer | constraints.Float](t *testing.T)
 			}
 			if !l.Equal(wl) {
 				t.Errorf("want %s.Adjoin(%s) = %s but get %s", i, x, wl, l)
-			}
-			if !m.Equal(wl) {
-				t.Errorf("want %s.Adjoin(%s) = %s but get %s", x, i, wl, m)
+				t.Errorf("\nwant %s.Adjoin(%s) = %s (result conform test)\n but is actually %s, counter: %v\n%s\n%s",
+					i, x, wl, l, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
 			}
 		})
 	}

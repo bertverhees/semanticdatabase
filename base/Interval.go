@@ -394,8 +394,18 @@ func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
 
 // Adjoin returns the union of two intervals, if the intervals are exactly
 // adjacent, or the zero interval if they are not.
+// Monica says: The Adjoin keyword in Swift is used to combine two ranges, specifically closed ranges, into a single range. It operates on ranges of any type that conforms to the Comparable protocol, allowing for flexibility in combining different types of ranges.
+//
+// The Adjoin keyword takes two closed ranges as input and returns a new closed range that represents the union of the two input ranges.
+// If the input ranges are exactly adjacent, meaning they share a common boundary point,
+// the Adjoin operation successfully combines them into a single range.
+// However, if the input ranges are not adjacent, the Adjoin operation results in an empty range,
+// represented by an empty closed range with the same lower and upper bounds.
 func (i Interval[T]) Adjoin(x Interval[T]) Interval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
+		return Interval[T]{}
+	}
+	if i.lowerUnbounded || i.upperUnbounded || x.upperUnbounded || x.lowerUnbounded {
 		return Interval[T]{}
 	}
 	if i.lower == x.upper && (i.lowerIncluded || x.upperIncluded) {
