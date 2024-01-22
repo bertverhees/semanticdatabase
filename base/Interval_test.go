@@ -54,6 +54,16 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) (Interva
 	}
 	parts := strings.Split(s, "|")
 	if len(parts) != 3 {
+		if len(parts) == 1 {
+			begin := strings.IndexAny(s, "*=")
+			end := strings.LastIndexAny(s, "*=")
+			return Interval[T]{
+				lower:         T(begin),
+				lowerIncluded: s[begin] == '=',
+				upper:         T(end),
+				upperIncluded: s[end] == '=',
+			}, nil
+		}
 		return Interval[T]{}, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it must have 2 '|' (pipes).", s))
 	}
 	leftside := parts[0]

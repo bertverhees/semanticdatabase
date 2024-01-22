@@ -92,7 +92,7 @@ func (i Interval[T]) String() string {
 	if i.lowerIncluded {
 		b.WriteByte('[')
 	} else {
-		b.WriteByte('*')
+		b.WriteByte('(')
 	}
 	fmt.Fprintf(&b, "%v", i.lower)
 	b.WriteString(", ")
@@ -100,7 +100,7 @@ func (i Interval[T]) String() string {
 	if i.upperIncluded {
 		b.WriteByte(']')
 	} else {
-		b.WriteByte('*')
+		b.WriteByte(')')
 	}
 	if i.upperUnbounded {
 		b.WriteByte('>')
@@ -138,7 +138,7 @@ func (i Interval[T]) IsEmpty() bool {
 	if i.upperUnbounded || i.lowerUnbounded {
 		return false
 	}
-	if i.lower < i.upper && !i.upperUnbounded && !i.lowerUnbounded {
+	if i.lower < i.upper {
 		return false
 	} else if i.lower == i.upper {
 		return !i.lowerIncluded || !i.upperIncluded
@@ -271,56 +271,85 @@ func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
 		return Interval[T]{}
 	}
-	result := Interval[T]{}
-	result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
-	result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
-	if result.upperUnbounded {
-		if x.upper > i.upper {
-			result.upper = i.upper
-			result.upperIncluded = i.upperIncluded
-		} else {
-			result.upper = x.upper
-			result.upperIncluded = x.upperIncluded
+	if !i.lowerUnbounded && !x.lowerUnbounded {
+		if i.lower > x.lower {
+			x.lower = i.lower
+			x.lowerIncluded = i.lowerIncluded
+		} else if i.lower == x.lower && !i.lowerIncluded {
+			x.lowerIncluded = false
 		}
-	} else {
-		if i.upperUnbounded && !x.upperUnbounded { //i.upperUnbounded
-			result.upper = x.upper
-			result.upperIncluded = x.upperIncluded
-		} else if !i.upperUnbounded && x.upperUnbounded { //x.upperUnbounded
-			result.upper = i.upper
-			result.upperIncluded = i.upperIncluded
-		} else if (i.upper >= x.upper && i.upperIncluded) || (i.upper > x.upper && !i.upperIncluded) {
-			result.upper = x.upper
-			result.upperIncluded = x.upperIncluded
-		} else if (x.upper >= i.upper && x.upperIncluded) || (x.upper > i.upper && !x.upperIncluded) {
-			result.upper = i.upper
-			result.upperIncluded = i.upperIncluded
-		}
+	} else if x.lowerUnbounded && !i.lowerUnbounded {
+		x.lower = i.lower
+		x.lowerIncluded = i.lowerIncluded
+		x.lowerUnbounded = false
 	}
-	if result.lowerUnbounded {
-		if x.lower < i.lower {
-			result.lower = i.lower
-			result.lowerIncluded = i.lowerIncluded
-		} else {
-			result.lower = x.lower
-			result.lowerIncluded = x.lowerIncluded
+	if !i.upperUnbounded && !x.upperUnbounded {
+		if i.upper < x.upper {
+			x.upper = i.upper
+			x.upperIncluded = i.upperIncluded
+		} else if i.upper == x.upper && !i.upperIncluded {
+			x.upperIncluded = false
 		}
-	} else {
-		if i.lowerUnbounded && !x.lowerUnbounded { //i.upperUnbounded
-			result.lower = x.lower
-			result.lowerIncluded = x.lowerIncluded
-		} else if !i.lowerUnbounded && x.lowerUnbounded { //x.upperUnbounded
-			result.lower = i.lower
-			result.lowerIncluded = i.lowerIncluded
-		} else if (i.lower <= x.lower && i.lowerIncluded) || (i.lower < x.lower && !i.lowerIncluded) {
-			result.lower = x.lower
-			result.lowerIncluded = x.lowerIncluded
-		} else if (x.lower <= i.lower && x.lowerIncluded) || (x.lower < i.lower && !x.lowerIncluded) {
-			result.lower = i.lower
-			result.lowerIncluded = i.lowerIncluded
-		}
+	} else if x.upperUnbounded && !i.upperUnbounded {
+		x.upper = i.upper
+		x.upperIncluded = i.upperIncluded
+		x.upperUnbounded = false
 	}
-	return maybeEmpty[T](result)
+	return maybeEmpty(x)
+
+	//if x.IsEmpty() || i.IsEmpty() {
+	//	return Interval[T]{}
+	//}
+	//result := Interval[T]{}
+	//result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
+	//result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
+	//if result.upperUnbounded {
+	//	if x.upper > i.upper {
+	//		result.upper = i.upper
+	//		result.upperIncluded = i.upperIncluded
+	//	} else {
+	//		result.upper = x.upper
+	//		result.upperIncluded = x.upperIncluded
+	//	}
+	//} else {
+	//	if i.upperUnbounded && !x.upperUnbounded { //i.upperUnbounded
+	//		result.upper = x.upper
+	//		result.upperIncluded = x.upperIncluded
+	//	} else if !i.upperUnbounded && x.upperUnbounded { //x.upperUnbounded
+	//		result.upper = i.upper
+	//		result.upperIncluded = i.upperIncluded
+	//	} else if (i.upper >= x.upper && i.upperIncluded) || (i.upper > x.upper && !i.upperIncluded) {
+	//		result.upper = x.upper
+	//		result.upperIncluded = x.upperIncluded
+	//	} else if (x.upper >= i.upper && x.upperIncluded) || (x.upper > i.upper && !x.upperIncluded) {
+	//		result.upper = i.upper
+	//		result.upperIncluded = i.upperIncluded
+	//	}
+	//}
+	//if result.lowerUnbounded {
+	//	if x.lower < i.lower {
+	//		result.lower = i.lower
+	//		result.lowerIncluded = i.lowerIncluded
+	//	} else {
+	//		result.lower = x.lower
+	//		result.lowerIncluded = x.lowerIncluded
+	//	}
+	//} else {
+	//	if i.lowerUnbounded && !x.lowerUnbounded { //i.upperUnbounded
+	//		result.lower = x.lower
+	//		result.lowerIncluded = x.lowerIncluded
+	//	} else if !i.lowerUnbounded && x.lowerUnbounded { //x.upperUnbounded
+	//		result.lower = i.lower
+	//		result.lowerIncluded = i.lowerIncluded
+	//	} else if (i.lower <= x.lower && i.lowerIncluded) || (i.lower < x.lower && !i.lowerIncluded) {
+	//		result.lower = x.lower
+	//		result.lowerIncluded = x.lowerIncluded
+	//	} else if (x.lower <= i.lower && x.lowerIncluded) || (x.lower < i.lower && !x.lowerIncluded) {
+	//		result.lower = i.lower
+	//		result.lowerIncluded = i.lowerIncluded
+	//	}
+	//}
+	//return maybeEmpty[T](result)
 }
 
 func maybeEmpty[T constraints.Integer | constraints.Float](x Interval[T]) Interval[T] {

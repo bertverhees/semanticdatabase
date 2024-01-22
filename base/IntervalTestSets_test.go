@@ -666,9 +666,9 @@ var testsIntervalSubtract = []struct {
 	{
 		test:                testsGeneralSets[34],
 		i_Subtract_x_before: "",
-		i_Subtract_x_after:  "|------========---|*",
+		i_Subtract_x_after:  "",
 		x_Subtract_i_before: "",
-		x_Subtract_i_after:  "|------========---|*",
+		x_Subtract_i_after:  "",
 	},
 	{
 		test:                testsGeneralSets[35],
@@ -1859,7 +1859,7 @@ var testsIntervalIntersect = []struct {
 	},
 	{
 		test:          testsGeneralSets[31],
-		i_intersect_x: "*|==============|",
+		i_intersect_x: "*|------========|",
 	},
 	{
 		test:          testsGeneralSets[32],
@@ -1871,7 +1871,7 @@ var testsIntervalIntersect = []struct {
 	},
 	{
 		test:          testsGeneralSets[34],
-		i_intersect_x: "",
+		i_intersect_x: "|------========|*",
 	},
 	{
 		test:          testsGeneralSets[35],
@@ -1927,7 +1927,7 @@ var testsIntervalIntersect = []struct {
 	},
 	{
 		test:          testsGeneralSets[48],
-		i_intersect_x: "<|--------====--------|>",
+		i_intersect_x: "<|------========------|>",
 	},
 }
 
