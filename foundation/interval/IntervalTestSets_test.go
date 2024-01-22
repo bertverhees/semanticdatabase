@@ -2383,3 +2383,261 @@ var testsIntervalEncompass = []struct {
 		i_Encompass_x: "<|------========|>",
 	},
 }
+
+var testsHAS = []struct {
+	s       string
+	value   int
+	result  bool
+	counter string
+}{
+	{
+		s:       "  |===|",
+		value:   3,
+		result:  true,
+		counter: "0",
+	},
+	{
+		s:       "  |===|",
+		value:   0,
+		result:  true,
+		counter: "1",
+	},
+	{
+		s:       "  |===|",
+		value:   -1,
+		result:  false,
+		counter: "2",
+	},
+	{
+		s:       "  |===|",
+		value:   6,
+		result:  false,
+		counter: "3",
+	},
+	//----------------------------
+	{
+		s:       "*|===|",
+		value:   3,
+		result:  true,
+		counter: "4",
+	},
+	{
+		s:       "*|===|",
+		value:   0,
+		result:  false,
+		counter: "5",
+	},
+	{
+		s:       "*|===|",
+		value:   -1,
+		result:  false,
+		counter: "6",
+	},
+	{
+		s:       "*|===|",
+		value:   6,
+		result:  false,
+		counter: "7",
+	},
+	//------------------------
+	{
+		s:       "|=====|*",
+		value:   5,
+		result:  false,
+		counter: "8",
+	},
+	{
+		s:       "|=====|*",
+		value:   0,
+		result:  true,
+		counter: "9",
+	},
+	{
+		s:       "|=====|*",
+		value:   -1,
+		result:  false,
+		counter: "10",
+	},
+	{
+		s:       "|=====|*",
+		value:   6,
+		result:  false,
+		counter: "11",
+	},
+	//------------------------
+	{
+		s:       "*|=====|*",
+		value:   5,
+		result:  false,
+		counter: "12",
+	},
+	{
+		s:       "*|=====|*",
+		value:   0,
+		result:  false,
+		counter: "13",
+	},
+	{
+		s:       "*|=====|*",
+		value:   -1,
+		result:  false,
+		counter: "14",
+	},
+	{
+		s:       "*|=====|*",
+		value:   6,
+		result:  false,
+		counter: "15",
+	},
+	//----------------------------
+	{
+		s:       " <|=====|",
+		value:   5,
+		result:  true,
+		counter: "16",
+	},
+	{
+		s:       " <|=====|",
+		value:   0,
+		result:  true,
+		counter: "17",
+	},
+	{
+		s:       " <|=====|",
+		value:   -1,
+		result:  true,
+		counter: "18",
+	},
+	{
+		s:       " <|=====|",
+		value:   6,
+		result:  false,
+		counter: "19",
+	},
+	//----------------------------
+	{
+		s:       " |=====|>",
+		value:   5,
+		result:  true,
+		counter: "20",
+	},
+	{
+		s:       " |=====|>",
+		value:   0,
+		result:  true,
+		counter: "21",
+	},
+	{
+		s:       " |=====|>",
+		value:   -1,
+		result:  false,
+		counter: "22",
+	},
+	{
+		s:       " |=====|>",
+		value:   6,
+		result:  true,
+		counter: "23",
+	},
+	//----------------------------
+	{
+		s:       " <|=====|>",
+		value:   5,
+		result:  true,
+		counter: "24",
+	},
+	{
+		s:       " <|=====|>",
+		value:   0,
+		result:  true,
+		counter: "25",
+	},
+	{
+		s:       " <|=====|>",
+		value:   -1,
+		result:  true,
+		counter: "26",
+	},
+	{
+		s:       " <|=====|>",
+		value:   6,
+		result:  true,
+		counter: "27",
+	},
+	//----------------------------
+	{
+		s:       "  |=====|*>",
+		value:   5,
+		result:  true,
+		counter: "28",
+	},
+	{
+		s:       "  |=====|*>",
+		value:   0,
+		result:  true,
+		counter: "29",
+	},
+	{
+		s:       "  |=====|*>",
+		value:   -1,
+		result:  false,
+		counter: "30",
+	},
+	{
+		s:       "  |=====|*>",
+		value:   6,
+		result:  true,
+		counter: "31",
+	},
+	//----------------------------
+	{
+		s:       "<*|=====|",
+		value:   5,
+		result:  true,
+		counter: "32",
+	},
+	{
+		s:       "<*|=====|",
+		value:   0,
+		result:  true,
+		counter: "33",
+	},
+	{
+		s:       "<*|=====|",
+		value:   -1,
+		result:  true,
+		counter: "34",
+	},
+	{
+		s:       "<*|=====|",
+		value:   6,
+		result:  false,
+		counter: "35",
+	},
+	//----------------------------
+	{
+		s:       "<*|=====|*>",
+		value:   5,
+		result:  true,
+		counter: "36",
+	},
+	{
+		s:       "<*|=====|*>",
+		value:   0,
+		result:  true,
+		counter: "37",
+	},
+	{
+		s:       "<*|=====|*>",
+		value:   -1,
+		result:  true,
+		counter: "38",
+	},
+	{
+		s:       "<*|=====|*>",
+		value:   6,
+		result:  true,
+		counter: "39",
+	},
+	//----------------------------
+}

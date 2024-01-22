@@ -98,6 +98,11 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) (Interva
 	}, nil
 }
 
+func TestIntervalHas(t *testing.T) {
+	testIntervalHas[int](t)
+	testIntervalHas[float64](t)
+}
+
 func TestParseInterval(t *testing.T) {
 	testParseInterval[int](t)
 	testParseInterval[float64](t)
@@ -358,6 +363,23 @@ func testIntervalEncompass[T constraints.Integer | constraints.Float](t *testing
 			if !o.Equal(wo) {
 				t.Errorf("\nwant %s.Encompass(%s) = %s (result conform test)\n but is actually %s, counter: %v-a\n%s\n%s",
 					i, x, wo, o, tc.test.counter, tc.test.x_interval_string, tc.test.i_interval_string)
+			}
+		})
+	}
+}
+
+func testIntervalHas[T constraints.Integer | constraints.Float](t *testing.T) {
+	for n, tc := range testsHAS {
+		t.Run(fmt.Sprint(n), func(t *testing.T) {
+			i, er := parseInterval[T](tc.s)
+			if er != nil {
+				t.Errorf(er.Error())
+				return
+			}
+			o := i.Has(T(tc.value))
+			if o != tc.result {
+				t.Errorf("\nwant %s.Has(%v) = %v (result conform test)\n but is actually %v, counter: %v",
+					i, tc.value, tc.result, o, tc.counter)
 			}
 		})
 	}
