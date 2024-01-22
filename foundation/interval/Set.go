@@ -1,10 +1,28 @@
-package base
+package interval
 
 import (
 	"golang.org/x/exp/constraints"
 	"sort"
 	"strings"
 )
+
+type IOrderedSet[T constraints.Integer | constraints.Float] interface {
+	Copy() OrderedSet[T]
+	Len() int
+	IsEmpty() bool
+	Equal(x OrderedSet[T]) bool
+	String() string
+	Bound() Interval[T]
+	Contains(x Interval[T]) bool
+	Intervals() []Interval[T]
+	Iterator(bound Interval[T], forward bool) func() Interval[T]
+	Add(x Interval[T]) bool
+	Remove(x Interval[T]) bool
+	Union(a, b OrderedSet[T]) OrderedSet[T]
+	Intersect(a, b OrderedSet[T]) OrderedSet[T]
+	Subtract(a, b OrderedSet[T]) OrderedSet[T]
+	Difference(a, b OrderedSet[T]) OrderedSet[T]
+}
 
 // OrderedSet is i_Before_x set of ordered and non-overlapping interval objects.
 type OrderedSet[T constraints.Integer | constraints.Float] struct {

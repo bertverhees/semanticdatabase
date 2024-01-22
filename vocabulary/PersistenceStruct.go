@@ -2,7 +2,7 @@ package vocabulary
 
 import (
 	"errors"
-	"semanticdatabase/base"
+	"semanticdatabase/foundation/interval"
 )
 
 /* ============================= PBmmModelElement =====================================*/
@@ -1001,7 +1001,7 @@ type PBmmContainerProperty struct {
 	PBmmProperty
 	// Attributes
 	// cardinality of this property in its class. Persistent attribute.
-	cardinality base.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
+	cardinality interval.Interval[int] `yaml:"cardinality" json:"cardinality" xml:"cardinality"`
 	/**
 	_type definition of this property, if not a simple String type reference.
 	Persistent attribute.
@@ -1011,11 +1011,11 @@ type PBmmContainerProperty struct {
 	bmmProperty IBmmContainerProperty `yaml:"bmmproperty" json:"bmmproperty" xml:"bmmproperty"`
 }
 
-func (p *PBmmContainerProperty) Cardinality() base.Interval[int] {
+func (p *PBmmContainerProperty) Cardinality() interval.Interval[int] {
 	return p.cardinality
 }
 
-func (p *PBmmContainerProperty) SetCardinality(cardinality base.Interval[int]) error {
+func (p *PBmmContainerProperty) SetCardinality(cardinality interval.Interval[int]) error {
 	p.cardinality = cardinality
 	return nil
 }

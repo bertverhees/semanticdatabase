@@ -2,7 +2,7 @@ package vocabulary
 
 import (
 	"errors"
-	"semanticdatabase/base"
+	"semanticdatabase/foundation/interval"
 )
 
 /* ============================= PBmmPackageContainer =====================================*/
@@ -911,7 +911,7 @@ func NewPBmmContainerPropertyBuilder() *PBmmContainerPropertyBuilder {
 
 // BUILDER ATTRIBUTES
 // cardinality of this property in its class. Persistent attribute.
-func (i *PBmmContainerPropertyBuilder) SetCardinality(v base.Interval[int]) *PBmmContainerPropertyBuilder {
+func (i *PBmmContainerPropertyBuilder) SetCardinality(v interval.Interval[int]) *PBmmContainerPropertyBuilder {
 	i.AddError(i.object.(*PBmmContainerProperty).SetCardinality(v))
 	return i
 }
