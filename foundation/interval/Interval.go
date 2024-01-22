@@ -143,21 +143,17 @@ func (i Interval[T]) String() string {
 	return b.String()
 }
 
+// #TODO simplify the Equal function
 // Equal returns true if receiver interval is equals x_interval_string interval.
 func (i Interval[T]) Equal(x Interval[T]) bool {
-	result := Interval[T]{}
-	result.lowerUnbounded = x.lowerUnbounded == true && i.lowerUnbounded == true
-	result.upperUnbounded = x.upperUnbounded == true && i.upperUnbounded == true
-	if result.upperUnbounded {
+	if x.upperUnbounded == true && i.upperUnbounded == true {
 		return (i.lower == x.lower &&
 			i.lowerIncluded == x.lowerIncluded &&
-			i.lowerUnbounded == x.lowerUnbounded &&
-			i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
+			i.lowerUnbounded == x.lowerUnbounded) || (x.IsEmpty() && i.IsEmpty())
 	}
-	if result.lowerUnbounded {
+	if x.lowerUnbounded == true && i.lowerUnbounded == true {
 		return (i.upper == x.upper &&
 			i.upperIncluded == x.upperIncluded &&
-			i.lowerUnbounded == x.lowerUnbounded &&
 			i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
 	}
 	return (i.lower == x.lower &&
