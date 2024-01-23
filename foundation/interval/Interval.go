@@ -48,12 +48,15 @@ type Interval[T constraints.Integer | constraints.Float] struct {
 	upperUnbounded bool
 }
 
-func lowerIncluded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return x.lowerIncluded && i.lowerIncluded
-}
-
-func upperIncluded[T constraints.Integer | constraints.Float](i, x Interval[T]) bool {
-	return x.upperIncluded && i.upperIncluded
+func NewInterval[T constraints.Integer | constraints.Float](lower, upper T, lowerIncluded, lowerUnbounded, upperIncluded, upperUnbounded bool) *Interval[T] {
+	interval := new(Interval[T])
+	interval.lower = lower
+	interval.upper = upper
+	interval.lowerIncluded = lowerIncluded
+	interval.upperIncluded = upperIncluded
+	interval.lowerUnbounded = lowerUnbounded
+	interval.upperUnbounded = upperUnbounded
+	return interval
 }
 
 func (i Interval[T]) Lower() T {
@@ -108,15 +111,6 @@ func (i Interval[T]) UpperIncluded() bool {
 func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
 	i.upperIncluded = upperIncluded
 	return nil
-}
-
-func NewInterval[T constraints.Integer | constraints.Float]() *Interval[T] {
-	i := new(Interval[T])
-	i.lowerUnbounded = false
-	i.upperUnbounded = false
-	i.lowerIncluded = true
-	i.upperIncluded = true
-	return i
 }
 
 func (i Interval[T]) String() string {
@@ -177,7 +171,7 @@ func (i Interval[T]) IsEmpty() bool {
 }
 
 // LtBeginOf returns true if receiver interval is less than begin of x_interval_string interval.
-func (i Interval[T]) LtBeginOf(x Interval[T]) bool {
+func (i Interval[T]) LtBeginOf(x *Interval[T]) bool {
 	if x.IsEmpty() {
 		return false
 	}
@@ -265,7 +259,7 @@ func (i Interval[T]) Contains(x Interval[T]) bool {
 	return lowerSide && upperSide
 }
 
-func (i *Interval[T]) Has(value T) bool {
+func (i Interval[T]) Has(value T) bool {
 	if i.lowerUnbounded && i.upperUnbounded {
 		return true
 	}
@@ -297,9 +291,9 @@ func (i *Interval[T]) Has(value T) bool {
 }
 
 // Intersect returns the intersection of receiver interval with x_interval_string interval.
-func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
+func (i Interval[T]) Intersect(x *Interval[T]) *Interval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
-		return Interval[T]{}
+		return nil
 	}
 	if !i.lowerUnbounded && !x.lowerUnbounded {
 		if i.lower > x.lower {
@@ -328,9 +322,9 @@ func (i Interval[T]) Intersect(x Interval[T]) Interval[T] {
 	return maybeEmpty(x)
 }
 
-func maybeEmpty[T constraints.Integer | constraints.Float](x Interval[T]) Interval[T] {
+func maybeEmpty[T constraints.Integer | constraints.Float](x *Interval[T]) *Interval[T] {
 	if x.IsEmpty() {
-		return Interval[T]{}
+		return nil
 	}
 	return x
 }
@@ -354,42 +348,28 @@ func (i Interval[T]) Move(x T) Interval[T] {
 // after of x_interval_string, corresponding to the subtraction of x_interval_string from the receiver
 // interval. The returned intervals are always within the range of the
 // receiver interval.
-func (i Interval[T]) Subtract(x Interval[T]) (Interval[T], Interval[T]) {
+func (i Interval[T]) Subtract(x *Interval[T]) (*Interval[T], *Interval[T]) {
 	in := i.Intersect(x)
 	if in.IsEmpty() {
 		if i.LtBeginOf(x) {
-			return i, Interval[T]{}
+			return &i, nil
 		}
-		return Interval[T]{}, i
+		return nil, &i
 	}
-	var r1, r2 Interval[T]
+	var r1, r2 *Interval[T]
 	if x.lowerUnbounded {
-		r1 = Interval[T]{}
+		r1 = nil
 	} else {
 		lower := i.lower
 		if i.lower > in.lower {
 			lower = in.lower
 		}
-		r1 = maybeEmpty(Interval[T]{
-			lower:          lower,
-			lowerIncluded:  i.lowerIncluded,
-			upper:          in.lower,
-			upperIncluded:  !in.lowerIncluded,
-			lowerUnbounded: i.lowerUnbounded,
-			upperUnbounded: false,
-		})
+		r1 = maybeEmpty(NewInterval[T](lower, in.lower, i.lowerIncluded, i.lowerUnbounded, !in.lowerIncluded, false))
 	}
 	if x.upperUnbounded {
-		r2 = Interval[T]{}
+		r2 = nil
 	} else {
-		r2 = maybeEmpty(Interval[T]{
-			lower:          in.upper,
-			lowerIncluded:  !in.upperIncluded,
-			upper:          i.upper,
-			upperIncluded:  i.upperIncluded,
-			lowerUnbounded: false,
-			upperUnbounded: i.upperUnbounded,
-		})
+		r2 = maybeEmpty(NewInterval[T](in.upper, i.upper, !in.upperIncluded, false, i.upperIncluded, i.upperUnbounded))
 		if r2.lower > r2.upper && i.upperUnbounded {
 			r2.upper = r2.lower
 		}

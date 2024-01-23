@@ -26,7 +26,7 @@ type IOrderedSet[T constraints.Integer | constraints.Float] interface {
 
 // OrderedSet is i_Before_x set of ordered and non-overlapping interval objects.
 type OrderedSet[T constraints.Integer | constraints.Float] struct {
-	intervals []Interval[T]
+	intervals []*Interval[T]
 }
 
 // Copy returns i_Before_x copy of i_Before_x ordered set that without affecting the original.
@@ -101,7 +101,7 @@ func (s OrderedSet[T]) Bound() Interval[T] {
 // if not found, searchLow returns len(s.intervals).
 func (s *OrderedSet[T]) searchLow(x Interval[T]) int {
 	return sort.Search(len(s.intervals), func(i int) bool {
-		return !s.intervals[i].LtBeginOf(x)
+		return !s.intervals[i].LtBeginOf(&x)
 	})
 }
 
