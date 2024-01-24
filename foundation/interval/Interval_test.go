@@ -48,7 +48,7 @@ So it can be written like this, which is much more readable
 
 Remember, this is only for creating tests-sets, it has nothing to do with a notation language of meaning outside these test-sets
 */
-func parseInterval[T constraints.Integer | constraints.Float](s string) (Interval[T], error) {
+func parseInterval[T constraints.Integer | constraints.Float](s string) (IInterval[T], error) {
 	if s == "" {
 		return Interval[T]{}, nil
 	}
@@ -64,13 +64,13 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) (Interva
 				upperIncluded: s[end] == '=',
 			}, nil
 		}
-		return Interval[T]{}, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it must have 2 '|' (pipes).", s))
+		return nil, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it must have 2 '|' (pipes).", s))
 	}
 	leftside := parts[0]
 	rightside := parts[2]
 	interval := parts[1]
 	if strings.ContainsAny(interval, "*<>") {
-		return Interval[T]{}, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it has not allowed characters in the middlepart", s))
+		return nil, errors.New(fmt.Sprintf("The interval string '%s' is not wellformed, it has not allowed characters in the middlepart", s))
 	}
 	begin := strings.Index(interval, "=")
 	end := strings.LastIndex(interval, "=") + 1
@@ -88,14 +88,15 @@ func parseInterval[T constraints.Integer | constraints.Float](s string) (Interva
 		upperunbounded = strings.Contains(rightside, ">")
 		upperincluded = !strings.Contains(rightside, "*")
 	}
-	return Interval[T]{
+	r := Interval[T]{
 		lower:          T(begin),
 		lowerIncluded:  lowerincluded,
 		lowerUnbounded: lowerunbounded,
 		upper:          T(end),
 		upperIncluded:  upperincluded,
 		upperUnbounded: upperunbounded,
-	}, nil
+	}
+	return &r, nil
 }
 
 func TestIntervalHas(t *testing.T) {
@@ -151,12 +152,12 @@ func testParseInterval[T constraints.Integer | constraints.Float](t *testing.T) 
 				t.Errorf(er.Error())
 				return
 			}
-			if i.lower != T(tc.begin) ||
-				i.upper != T(tc.end) ||
-				i.lowerIncluded != tc.lowerIncluded ||
-				i.lowerUnbounded != tc.lowerUnbounded ||
-				i.upperIncluded != tc.upperIncluded ||
-				i.upperUnbounded != tc.upperUnbounded {
+			if i.Lower() != T(tc.begin) ||
+				i.Upper() != T(tc.end) ||
+				i.LowerIncluded() != tc.lowerIncluded ||
+				i.LowerUnbounded() != tc.lowerUnbounded ||
+				i.UpperIncluded() != tc.upperIncluded ||
+				i.UpperUnbounded() != tc.upperUnbounded {
 				t.Errorf("String s: %s want tc = %v but get %v", tc.s, tc, i)
 			}
 		})

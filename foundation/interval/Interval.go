@@ -23,7 +23,7 @@ type IInterval[T constraints.Integer | constraints.Float] interface {
 	Equal(x IInterval[T]) bool
 	IsEmpty() bool
 	LtBeginOf(x IInterval[T]) bool
-	LeEndOf(x Interval[T]) bool
+	LeEndOf(x IInterval[T]) bool
 	Contains(x IInterval[T]) bool
 	Has(value T) bool
 	Intersect(x IInterval[T]) IInterval[T]
@@ -193,7 +193,7 @@ func (i Interval[T]) LtBeginOf(x IInterval[T]) bool {
 }
 
 // LeEndOf returns true if receiver interval is less than or equal to end of x_interval_string interval.
-func (i Interval[T]) LeEndOf(x Interval[T]) bool {
+func (i Interval[T]) LeEndOf(x IInterval[T]) bool {
 	if x.IsEmpty() {
 		return false
 	}
@@ -202,14 +202,14 @@ func (i Interval[T]) LeEndOf(x Interval[T]) bool {
 	}
 	if i.upperUnbounded {
 		return false
-	} else if x.upperUnbounded {
+	} else if x.UpperUnbounded() {
 		return true
 	}
-	if i.upper < x.upper {
+	if i.upper < x.Upper() {
 		return true
 	}
-	if i.upper == x.upper {
-		return (i.upperIncluded && x.upperIncluded) || !i.upperIncluded
+	if i.upper == x.Upper() {
+		return (i.upperIncluded && x.UpperIncluded()) || !i.upperIncluded
 	}
 	return false
 }

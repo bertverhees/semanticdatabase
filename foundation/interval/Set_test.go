@@ -11,7 +11,7 @@ func parseOrderedSet[T constraints.Integer | constraints.Float](s string) Ordere
 		return OrderedSet[T]{}
 	}
 
-	var intervals []Interval[T]
+	var intervals []IInterval[T]
 	var begin = -1
 	var incBegin bool
 	var l_lowerUnbounded bool
@@ -190,7 +190,7 @@ func testOrderedSet_Iterator[T constraints.Integer | constraints.Float](t *testi
 			}
 			w := parseOrderedSet[T](tc.w)
 			it := s.Iterator(b, true)
-			var intervals []Interval[T]
+			var intervals []IInterval[T]
 			for {
 				i := it()
 				if i.IsEmpty() {
