@@ -13,7 +13,7 @@ type IOrderedSet[T constraints.Integer | constraints.Float] interface {
 	Equal(x OrderedSet[T]) bool
 	String() string
 	Bound() Interval[T]
-	Contains(x Interval[T]) bool
+	Contains(x IInterval[T]) bool
 	Intervals() []Interval[T]
 	Iterator(bound Interval[T], forward bool) func() Interval[T]
 	Add(x Interval[T]) bool
@@ -26,12 +26,12 @@ type IOrderedSet[T constraints.Integer | constraints.Float] interface {
 
 // OrderedSet is i_Before_x set of ordered and non-overlapping interval objects.
 type OrderedSet[T constraints.Integer | constraints.Float] struct {
-	intervals []*Interval[T]
+	intervals []IInterval[T]
 }
 
 // Copy returns i_Before_x copy of i_Before_x ordered set that without affecting the original.
-func (s OrderedSet[T]) Copy() OrderedSet[T] {
-	return OrderedSet[T]{append([]Interval[T](nil), s.intervals...)}
+func (s OrderedSet[T]) Copy() IOrderedSet[T] {
+	return new(OrderedSet[T]{intervals: append([]IInterval[T](nil), s.intervals...)})
 }
 
 // Len returns length of intervals in this ordered set.
@@ -48,7 +48,7 @@ func (s OrderedSet[T]) Equal(x OrderedSet[T]) bool {
 	return equalIntervals[T](s.intervals, x.intervals)
 }
 
-func equalIntervals[T constraints.Integer | constraints.Float](s1, s2 []Interval[T]) bool {
+func equalIntervals[T constraints.Integer | constraints.Float](s1, s2 []IInterval[T]) bool {
 	if len(s1) != len(s2) {
 		return false
 	}
@@ -79,11 +79,11 @@ func (s OrderedSet[T]) String() string {
 }
 
 // Bound returns the Interval defined by the minimum and maximum values of this ordered set.
-func (s OrderedSet[T]) Bound() Interval[T] {
+func (s OrderedSet[T]) Bound() IInterval[T] {
 	n := len(s.intervals)
 	switch n {
 	case 0:
-		return Interval[T]{}
+		return nil
 	case 1:
 		return s.intervals[0]
 	default:
@@ -99,23 +99,23 @@ func (s OrderedSet[T]) Bound() Interval[T] {
 //
 // searchLow returns the first index in s.intervals that is not before x_interval_string.
 // if not found, searchLow returns len(s.intervals).
-func (s *OrderedSet[T]) searchLow(x Interval[T]) int {
+func (s OrderedSet[T]) searchLow(x IInterval[T]) int {
 	return sort.Search(len(s.intervals), func(i int) bool {
-		return !s.intervals[i].LtBeginOf(&x)
+		return !s.intervals[i].LtBeginOf(x)
 	})
 }
 
 // searchHigh returns the index of the first interval in s.intervals that is
 // entirely after x_interval_string.
 // if not found, searchHigh returns len(s.intervals).
-func (s *OrderedSet[T]) searchHigh(x Interval[T]) int {
+func (s OrderedSet[T]) searchHigh(x IInterval[T]) int {
 	return sort.Search(len(s.intervals), func(i int) bool {
 		return x.LtBeginOf(s.intervals[i])
 	})
 }
 
 // Contains returns true if x_interval_string interval is completely covered by this ordered set.
-func (s OrderedSet[T]) Contains(x Interval[T]) bool {
+func (s OrderedSet[T]) Contains(x IInterval[T]) bool {
 	idx := s.searchLow(x)
 	if idx == len(s.intervals) {
 		return false
@@ -124,15 +124,15 @@ func (s OrderedSet[T]) Contains(x Interval[T]) bool {
 }
 
 // Intervals returns i_Before_x copy of intervals in this ordered set.
-func (s OrderedSet[T]) Intervals() []Interval[T] {
-	return append([]Interval[T](nil), s.intervals...)
+func (s OrderedSet[T]) Intervals() []IInterval[T] {
+	return append([]IInterval[T](nil), s.intervals...)
 }
 
 // Iterator returns i_Before_x iterator that iterates over all the intervals both in
 // this ordered set and bound.
 // If iterator returns empty Interval, the iteration is over.
 // If forward is true, the iteration from left to right.
-func (s OrderedSet[T]) Iterator(bound Interval[T], forward bool) func() Interval[T] {
+func (s OrderedSet[T]) Iterator(bound IInterval[T], forward bool) func() IInterval[T] {
 	if bound.IsEmpty() {
 		return s.emptyIterator
 	}
@@ -152,9 +152,9 @@ func (s OrderedSet[T]) Iterator(bound Interval[T], forward bool) func() Interval
 	}
 }
 
-func (s OrderedSet[T]) emptyIterator() Interval[T] { return Interval[T]{} }
+func (s OrderedSet[T]) emptyIterator() IInterval[T] { return IInterval[T]{} }
 
-func (s OrderedSet[T]) adjoinOrAppend(intervals []Interval[T], x Interval[T]) []Interval[T] {
+func (s OrderedSet[T]) adjoinOrAppend(intervals []IInterval[T], x IInterval[T]) []IInterval[T] {
 	n := len(intervals)
 	switch n {
 	case 0:
@@ -172,7 +172,7 @@ func (s OrderedSet[T]) adjoinOrAppend(intervals []Interval[T], x Interval[T]) []
 
 // Add adds x_interval_string interval to this ordered set.
 // Add returns true if this ordered set changed.
-func (s *OrderedSet[T]) Add(x Interval[T]) bool {
+func (s OrderedSet[T]) Add(x Interval[T]) bool {
 	if x.IsEmpty() {
 		return false
 	}
@@ -273,7 +273,7 @@ func (s *OrderedSet[T]) Add(x Interval[T]) bool {
 
 // Remove removes x_interval_string interval from this ordered set.
 // Remove returns true if this ordered set changed.
-func (s *OrderedSet[T]) Remove(x Interval[T]) bool {
+func (s OrderedSet[T]) Remove(x Interval[T]) bool {
 	if s.IsEmpty() || x.IsEmpty() {
 		return false
 	}
@@ -412,7 +412,7 @@ func (s *OrderedSet[T]) Remove(x Interval[T]) bool {
 }
 
 // Union returns an ordered set containing all intervals in i_Before_x or x_Before_i.
-func (s *OrderedSet[T]) Union(a, b OrderedSet[T]) OrderedSet[T] {
+func (s OrderedSet[T]) Union(a, b OrderedSet[T]) OrderedSet[T] {
 	if a.Len() < b.Len() {
 		a, b = b, a
 	}
@@ -429,7 +429,7 @@ func (s *OrderedSet[T]) Union(a, b OrderedSet[T]) OrderedSet[T] {
 }
 
 // Intersect returns an ordered set containing all intervals of i_Before_x that also belong to x_Before_i.
-func (s *OrderedSet[T]) Intersect(a, b OrderedSet[T]) OrderedSet[T] {
+func (s OrderedSet[T]) Intersect(a, b OrderedSet[T]) OrderedSet[T] {
 	var intervals []Interval[T]
 	xit, yit := a.Iterator(b.Bound(), true), b.Iterator(a.Bound(), true)
 	x, y := xit(), yit()
@@ -455,7 +455,7 @@ func (s *OrderedSet[T]) Intersect(a, b OrderedSet[T]) OrderedSet[T] {
 }
 
 // Subtract returns an ordered set containing all intervals in i_Before_x but not in x_Before_i.
-func (s *OrderedSet[T]) Subtract(a, b OrderedSet[T]) OrderedSet[T] {
+func (s OrderedSet[T]) Subtract(a, b OrderedSet[T]) OrderedSet[T] {
 	var intervals []Interval[T]
 	xit, yit := a.Iterator(a.Bound(), true), b.Iterator(a.Bound(), true)
 	x, y := xit(), yit()
@@ -481,7 +481,7 @@ func (s *OrderedSet[T]) Subtract(a, b OrderedSet[T]) OrderedSet[T] {
 
 // Difference returns an ordered set containing all intervals in either of i_Before_x and x_Before_i,
 // but not in their intersection.
-func (s *OrderedSet[T]) Difference(a, b OrderedSet[T]) OrderedSet[T] {
+func (s OrderedSet[T]) Difference(a, b OrderedSet[T]) OrderedSet[T] {
 	var intervals []Interval[T]
 	push := func(x Interval[T]) {
 		intervals = s.adjoinOrAppend(intervals, x)

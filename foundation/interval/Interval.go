@@ -20,17 +20,17 @@ type IInterval[T constraints.Integer | constraints.Float] interface {
 	UpperIncluded() bool
 	SetUpperIncluded(upperIncluded bool) error
 	String() string
-	Equal(x Interval[T]) bool
+	Equal(x IInterval[T]) bool
 	IsEmpty() bool
-	LtBeginOf(x Interval[T]) bool
+	LtBeginOf(x IInterval[T]) bool
 	LeEndOf(x Interval[T]) bool
-	Contains(x Interval[T]) bool
+	Contains(x IInterval[T]) bool
 	Has(value T) bool
-	Intersect(x Interval[T]) Interval[T]
-	Move(x T) Interval[T]
-	Subtract(x Interval[T]) (Interval[T], Interval[T])
-	Adjoin(x Interval[T]) Interval[T]
-	Encompass(x Interval[T]) Interval[T]
+	Intersect(x IInterval[T]) IInterval[T]
+	Move(x T) IInterval[T]
+	Subtract(x IInterval[T]) (IInterval[T], IInterval[T])
+	Adjoin(x IInterval[T]) IInterval[T]
+	Encompass(x IInterval[T]) IInterval[T]
 }
 
 type Interval[T constraints.Integer | constraints.Float] struct {
@@ -48,7 +48,7 @@ type Interval[T constraints.Integer | constraints.Float] struct {
 	upperUnbounded bool
 }
 
-func NewInterval[T constraints.Integer | constraints.Float](lower, upper T, lowerIncluded, lowerUnbounded, upperIncluded, upperUnbounded bool) *Interval[T] {
+func NewInterval[T constraints.Integer | constraints.Float](lower, upper T, lowerIncluded, lowerUnbounded, upperIncluded, upperUnbounded bool) IInterval[T] {
 	interval := new(Interval[T])
 	interval.lower = lower
 	interval.upper = upper
@@ -63,7 +63,7 @@ func (i Interval[T]) Lower() T {
 	return i.lower
 }
 
-func (i *Interval[T]) SetLower(lower T) error {
+func (i Interval[T]) SetLower(lower T) error {
 	i.lower = lower
 	return nil
 }
@@ -72,7 +72,7 @@ func (i Interval[T]) Upper() T {
 	return i.upper
 }
 
-func (i *Interval[T]) SetUpper(upper T) error {
+func (i Interval[T]) SetUpper(upper T) error {
 	i.upper = upper
 	return nil
 }
@@ -81,7 +81,7 @@ func (i Interval[T]) LowerUnbounded() bool {
 	return i.lowerUnbounded
 }
 
-func (i *Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
+func (i Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
 	i.lowerUnbounded = lowerUnbounded
 	return nil
 }
@@ -90,7 +90,7 @@ func (i Interval[T]) UpperUnbounded() bool {
 	return i.upperUnbounded
 }
 
-func (i *Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
+func (i Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
 	i.upperUnbounded = upperUnbounded
 	return nil
 }
@@ -99,7 +99,7 @@ func (i Interval[T]) LowerIncluded() bool {
 	return i.lowerIncluded
 }
 
-func (i *Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
+func (i Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
 	i.lowerIncluded = lowerIncluded
 	return nil
 }
@@ -108,7 +108,7 @@ func (i Interval[T]) UpperIncluded() bool {
 	return i.upperIncluded
 }
 
-func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
+func (i Interval[T]) SetUpperIncluded(upperIncluded bool) error {
 	i.upperIncluded = upperIncluded
 	return nil
 }
@@ -138,23 +138,23 @@ func (i Interval[T]) String() string {
 }
 
 // Equal returns true if receiver interval is equals x_interval_string interval.
-func (i Interval[T]) Equal(x Interval[T]) bool {
-	if x.upperUnbounded && i.upperUnbounded {
-		return (i.lower == x.lower &&
-			i.lowerIncluded == x.lowerIncluded &&
-			i.lowerUnbounded == x.lowerUnbounded) || (x.IsEmpty() && i.IsEmpty())
+func (i Interval[T]) Equal(x IInterval[T]) bool {
+	if x.UpperUnbounded() && i.upperUnbounded {
+		return (i.lower == x.Lower() &&
+			i.lowerIncluded == x.LowerIncluded() &&
+			i.lowerUnbounded == x.LowerUnbounded()) || (x.IsEmpty() && i.IsEmpty())
 	}
-	if x.lowerUnbounded && i.lowerUnbounded {
-		return (i.upper == x.upper &&
-			i.upperIncluded == x.upperIncluded &&
-			i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
+	if x.LowerUnbounded() && i.lowerUnbounded {
+		return (i.upper == x.Upper() &&
+			i.upperIncluded == x.UpperIncluded() &&
+			i.upperUnbounded == x.UpperUnbounded()) || (x.IsEmpty() && i.IsEmpty())
 	}
-	return (i.lower == x.lower &&
-		i.upper == x.upper &&
-		i.lowerIncluded == x.lowerIncluded &&
-		i.upperIncluded == x.upperIncluded &&
-		i.lowerUnbounded == x.lowerUnbounded &&
-		i.upperUnbounded == x.upperUnbounded) || (x.IsEmpty() && i.IsEmpty())
+	return (i.lower == x.Lower() &&
+		i.upper == x.Upper() &&
+		i.lowerIncluded == x.LowerIncluded() &&
+		i.upperIncluded == x.UpperIncluded() &&
+		i.lowerUnbounded == x.LowerUnbounded() &&
+		i.upperUnbounded == x.UpperUnbounded()) || (x.IsEmpty() && i.IsEmpty())
 }
 
 // IsEmpty returns true if receiver interval has no value.
@@ -171,7 +171,7 @@ func (i Interval[T]) IsEmpty() bool {
 }
 
 // LtBeginOf returns true if receiver interval is less than begin of x_interval_string interval.
-func (i Interval[T]) LtBeginOf(x *Interval[T]) bool {
+func (i Interval[T]) LtBeginOf(x IInterval[T]) bool {
 	if x.IsEmpty() {
 		return false
 	}
@@ -181,13 +181,13 @@ func (i Interval[T]) LtBeginOf(x *Interval[T]) bool {
 	if i.upperUnbounded {
 		return false
 	}
-	if x.lowerUnbounded {
+	if x.LowerUnbounded() {
 		return false
 	}
-	if i.upper < x.lower {
+	if i.upper < x.Lower() {
 		return true
-	} else if i.upper == x.lower {
-		return !i.upperIncluded || !x.lowerIncluded
+	} else if i.upper == x.Lower() {
+		return !i.upperIncluded || !x.LowerIncluded()
 	}
 	return false
 }
@@ -215,7 +215,7 @@ func (i Interval[T]) LeEndOf(x Interval[T]) bool {
 }
 
 // Contains returns true if x_interval_string interval is completely covered by receiver interval.
-func (i Interval[T]) Contains(x Interval[T]) bool {
+func (i Interval[T]) Contains(x IInterval[T]) bool {
 	if x.IsEmpty() {
 		return true
 	}
@@ -224,35 +224,35 @@ func (i Interval[T]) Contains(x Interval[T]) bool {
 	}
 	lowerSide := false
 	upperSide := false
-	if x.lowerUnbounded && !i.lowerUnbounded {
+	if x.LowerUnbounded() && !i.lowerUnbounded {
 		lowerSide = false
 	} else {
 		if i.lowerUnbounded {
 			lowerSide = true
 		}
-		if i.lower < x.lower {
+		if i.lower < x.Lower() {
 			lowerSide = true
 		}
-		if i.lower == x.lower && !x.lowerIncluded {
+		if i.lower == x.Lower() && !x.LowerIncluded() {
 			lowerSide = true
 		}
-		if i.lower == x.lower && i.lowerIncluded {
+		if i.lower == x.Lower() && i.lowerIncluded {
 			lowerSide = true
 		}
 	}
-	if x.upperUnbounded && !i.upperUnbounded {
+	if x.UpperUnbounded() && !i.upperUnbounded {
 		upperSide = false
 	} else {
 		if i.upperUnbounded {
 			upperSide = true
 		}
-		if i.upper > x.upper {
+		if i.upper > x.Upper() {
 			upperSide = true
 		}
-		if i.upper == x.upper && !x.upperIncluded {
+		if i.upper == x.Upper() && !x.UpperIncluded() {
 			upperSide = true
 		}
-		if i.upper == x.upper && i.upperIncluded {
+		if i.upper == x.Upper() && i.upperIncluded {
 			upperSide = true
 		}
 	}
@@ -291,38 +291,38 @@ func (i Interval[T]) Has(value T) bool {
 }
 
 // Intersect returns the intersection of receiver interval with x_interval_string interval.
-func (i Interval[T]) Intersect(x *Interval[T]) *Interval[T] {
+func (i Interval[T]) Intersect(x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
 		return nil
 	}
-	if !i.lowerUnbounded && !x.lowerUnbounded {
-		if i.lower > x.lower {
-			x.lower = i.lower
-			x.lowerIncluded = i.lowerIncluded
-		} else if i.lower == x.lower && !i.lowerIncluded {
-			x.lowerIncluded = false
+	if !i.lowerUnbounded && !x.LowerUnbounded() {
+		if i.lower > x.Lower() {
+			x.SetLower(i.lower)
+			x.SetLowerIncluded(i.lowerIncluded)
+		} else if i.lower == x.Lower() && !i.lowerIncluded {
+			x.SetLowerIncluded(false)
 		}
-	} else if x.lowerUnbounded && !i.lowerUnbounded {
-		x.lower = i.lower
-		x.lowerIncluded = i.lowerIncluded
-		x.lowerUnbounded = false
+	} else if x.LowerUnbounded() && !i.lowerUnbounded {
+		x.SetLower(i.lower)
+		x.SetLowerIncluded(i.lowerIncluded)
+		x.SetLowerUnbounded(false)
 	}
-	if !i.upperUnbounded && !x.upperUnbounded {
-		if i.upper < x.upper {
-			x.upper = i.upper
-			x.upperIncluded = i.upperIncluded
-		} else if i.upper == x.upper && !i.upperIncluded {
-			x.upperIncluded = false
+	if !i.upperUnbounded && !x.UpperUnbounded() {
+		if i.upper < x.Upper() {
+			x.SetUpper(i.upper)
+			x.SetUpperIncluded(i.upperIncluded)
+		} else if i.upper == x.Upper() && !i.upperIncluded {
+			x.SetUpperIncluded(false)
 		}
-	} else if x.upperUnbounded && !i.upperUnbounded {
-		x.upper = i.upper
-		x.upperIncluded = i.upperIncluded
-		x.upperUnbounded = false
+	} else if x.UpperUnbounded() && !i.upperUnbounded {
+		x.SetUpper(i.upper)
+		x.SetUpperIncluded(i.upperIncluded)
+		x.SetUpperUnbounded(false)
 	}
 	return maybeEmpty(x)
 }
 
-func maybeEmpty[T constraints.Integer | constraints.Float](x *Interval[T]) *Interval[T] {
+func maybeEmpty[T constraints.Integer | constraints.Float](x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() {
 		return nil
 	}
@@ -330,9 +330,9 @@ func maybeEmpty[T constraints.Integer | constraints.Float](x *Interval[T]) *Inte
 }
 
 // Move returns an interval that adds number x_interval_string to begin and end of receiver interval.
-func (i Interval[T]) Move(x T) Interval[T] {
+func (i Interval[T]) Move(x T) IInterval[T] {
 	if i.IsEmpty() {
-		return Interval[T]{}
+		return nil
 	}
 	return Interval[T]{
 		lower:          i.lower + x,
@@ -348,30 +348,30 @@ func (i Interval[T]) Move(x T) Interval[T] {
 // after of x_interval_string, corresponding to the subtraction of x_interval_string from the receiver
 // interval. The returned intervals are always within the range of the
 // receiver interval.
-func (i Interval[T]) Subtract(x *Interval[T]) (*Interval[T], *Interval[T]) {
+func (i Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
 	in := i.Intersect(x)
 	if in.IsEmpty() {
 		if i.LtBeginOf(x) {
-			return &i, nil
+			return i, nil
 		}
-		return nil, &i
+		return nil, i
 	}
-	var r1, r2 *Interval[T]
-	if x.lowerUnbounded {
+	var r1, r2 IInterval[T]
+	if x.LowerUnbounded() {
 		r1 = nil
 	} else {
 		lower := i.lower
-		if i.lower > in.lower {
-			lower = in.lower
+		if i.lower > in.Lower() {
+			lower = in.Lower()
 		}
-		r1 = maybeEmpty(NewInterval[T](lower, in.lower, i.lowerIncluded, i.lowerUnbounded, !in.lowerIncluded, false))
+		r1 = maybeEmpty(NewInterval[T](lower, in.Lower(), i.lowerIncluded, i.lowerUnbounded, !in.LowerIncluded(), false))
 	}
-	if x.upperUnbounded {
+	if x.UpperUnbounded() {
 		r2 = nil
 	} else {
-		r2 = maybeEmpty(NewInterval[T](in.upper, i.upper, !in.upperIncluded, false, i.upperIncluded, i.upperUnbounded))
-		if r2.lower > r2.upper && i.upperUnbounded {
-			r2.upper = r2.lower
+		r2 = maybeEmpty(NewInterval[T](in.Upper(), i.upper, !in.UpperIncluded(), false, i.upperIncluded, i.upperUnbounded))
+		if r2.Lower() > r2.Upper() && i.upperUnbounded {
+			r2.SetUpper(r2.Lower())
 		}
 	}
 	return r1, r2
@@ -386,51 +386,51 @@ func (i Interval[T]) Subtract(x *Interval[T]) (*Interval[T], *Interval[T]) {
 // the Adjoin operation successfully combines them into a single range.
 // However, if the input ranges are not adjacent, the Adjoin operation results in an empty range,
 // represented by an empty closed range with the same lower and upper bounds.
-func (i Interval[T]) Adjoin(x Interval[T]) Interval[T] {
+func (i Interval[T]) Adjoin(x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
-		return Interval[T]{}
+		return nil
 	}
-	if i.lowerUnbounded || i.upperUnbounded || x.upperUnbounded || x.lowerUnbounded {
-		return Interval[T]{}
+	if i.lowerUnbounded || i.upperUnbounded || x.UpperUnbounded() || x.LowerUnbounded() {
+		return nil
 	}
-	if i.lower == x.upper && (i.lowerIncluded || x.upperIncluded) {
-		x.upper = i.upper
-		x.upperIncluded = i.upperIncluded
+	if i.lower == x.Upper() && (i.lowerIncluded || x.UpperIncluded()) {
+		x.SetUpper(i.upper)
+		x.SetUpperIncluded(i.upperIncluded)
 		return x
 	}
-	if i.upper == x.lower && (i.upperIncluded || x.lowerIncluded) {
-		x.lower = i.lower
-		x.lowerIncluded = i.lowerIncluded
+	if i.upper == x.Lower() && (i.upperIncluded || x.LowerIncluded()) {
+		x.SetLower(i.lower)
+		x.SetLowerIncluded(i.lowerIncluded)
 		return x
 	}
-	return Interval[T]{}
+	return nil
 }
 
 // Encompass returns an interval that covers the exact extents of two intervals.
-func (i Interval[T]) Encompass(x Interval[T]) Interval[T] {
+func (i Interval[T]) Encompass(x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() {
-		return i
+		return &i
 	}
 	if i.IsEmpty() {
 		return x
 	}
-	if i.lower < x.lower {
-		x.lower = i.lower
-		x.lowerIncluded = i.lowerIncluded
-	} else if i.lower == x.lower && i.lowerIncluded {
-		x.lowerIncluded = true
+	if i.lower < x.Lower() {
+		x.SetLower(i.lower)
+		x.SetLowerIncluded(i.lowerIncluded)
+	} else if i.lower == x.Lower() && i.lowerIncluded {
+		x.SetLowerIncluded(true)
 	}
-	if i.upper > x.upper {
-		x.upper = i.upper
-		x.upperIncluded = i.upperIncluded
-	} else if i.upper == x.upper && i.upperIncluded {
-		x.upperIncluded = true
+	if i.upper > x.Upper() {
+		x.SetUpper(i.upper)
+		x.SetUpperIncluded(i.upperIncluded)
+	} else if i.upper == x.Upper() && i.upperIncluded {
+		x.SetUpperIncluded(true)
 	}
 	if i.lowerUnbounded {
-		x.lowerUnbounded = true
+		x.SetLowerUnbounded(true)
 	}
 	if i.upperUnbounded {
-		x.upperUnbounded = true
+		x.SetUpperUnbounded(true)
 	}
 	return x
 }
