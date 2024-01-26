@@ -139,6 +139,9 @@ func (i *Interval[T]) String() string {
 
 // Equal returns true if receiver interval is equals x_interval_string interval.
 func (i *Interval[T]) Equal(x IInterval[T]) bool {
+	if x == nil {
+		return false
+	}
 	if x.UpperUnbounded() && i.upperUnbounded {
 		return (i.lower == x.Lower() &&
 			i.lowerIncluded == x.LowerIncluded() &&
