@@ -20,14 +20,14 @@ func parseOrderedSet[T constraints.Integer | constraints.Float](s string) Ordere
 		switch s[i] {
 		case '-', ' ':
 			if begin != -1 {
-				intervals = append(intervals, Interval[T]{
-					lower:          T(begin),
-					lowerIncluded:  incBegin,
-					upper:          T(i - 1),
-					upperIncluded:  true,
-					lowerUnbounded: l_lowerUnbounded,
-					upperUnbounded: l_upperUnbounded,
-				})
+				intervals = append(intervals, NewInterval[T](
+					T(begin),
+					T(i-1),
+					incBegin,
+					l_lowerUnbounded,
+					true,
+					l_upperUnbounded,
+				))
 				begin = -1
 			}
 		case '=':
@@ -40,12 +40,14 @@ func parseOrderedSet[T constraints.Integer | constraints.Float](s string) Ordere
 				begin = i
 				incBegin = false
 			} else {
-				intervals = append(intervals, Interval[T]{
-					lower:         T(begin),
-					lowerIncluded: incBegin,
-					upper:         T(i),
-					upperIncluded: false,
-				})
+				intervals = append(intervals, NewInterval[T](
+					T(begin),
+					T(i),
+					incBegin,
+					false,
+					false,
+					false,
+				))
 				begin = -1
 			}
 		case '<':
@@ -55,45 +57,47 @@ func parseOrderedSet[T constraints.Integer | constraints.Float](s string) Ordere
 		case 'f':
 			// (i_interval_string,
 			if begin != -1 {
-				intervals = append(intervals, Interval[T]{
-					lower:          T(begin),
-					lowerIncluded:  incBegin,
-					upper:          T(i - 1),
-					upperIncluded:  true,
-					lowerUnbounded: l_lowerUnbounded,
-					upperUnbounded: l_upperUnbounded,
-				})
+				intervals = append(intervals, NewInterval[T](
+					T(begin),
+					T(i-1),
+					incBegin,
+					l_lowerUnbounded,
+					true,
+					l_upperUnbounded,
+				))
 			}
 			begin = i
 			incBegin = false
 		case 'p': // [i,i]
 			if begin != -1 {
-				intervals = append(intervals, Interval[T]{
-					lower:          T(begin),
-					lowerIncluded:  incBegin,
-					upper:          T(i - 1),
-					upperIncluded:  true,
-					lowerUnbounded: l_lowerUnbounded,
-					upperUnbounded: l_upperUnbounded,
-				})
+				intervals = append(intervals, NewInterval[T](
+					T(begin),
+					T(i-1),
+					incBegin,
+					l_lowerUnbounded,
+					true,
+					l_upperUnbounded,
+				))
 				begin = -1
 			}
-			intervals = append(intervals, Interval[T]{
-				lower:         T(i),
-				lowerIncluded: true,
-				upper:         T(i),
-				upperIncluded: true,
-			})
+			intervals = append(intervals, NewInterval[T](
+				T(i),
+				T(i),
+				true,
+				false,
+				true,
+				false,
+			))
 		case 'e': // , e)(e,
 			if begin != -1 {
-				intervals = append(intervals, Interval[T]{
-					lower:          T(begin),
-					lowerIncluded:  incBegin,
-					upper:          T(i),
-					upperIncluded:  false,
-					lowerUnbounded: l_lowerUnbounded,
-					upperUnbounded: l_upperUnbounded,
-				})
+				intervals = append(intervals, NewInterval[T](
+					T(begin),
+					T(i),
+					incBegin,
+					l_lowerUnbounded,
+					false,
+					l_upperUnbounded,
+				))
 			}
 			begin = i
 			incBegin = false
@@ -102,14 +106,14 @@ func parseOrderedSet[T constraints.Integer | constraints.Float](s string) Ordere
 		}
 	}
 	if begin != -1 {
-		intervals = append(intervals, Interval[T]{
-			lower:          T(begin),
-			lowerIncluded:  incBegin,
-			upper:          T(len(s) - 1),
-			upperIncluded:  true,
-			lowerUnbounded: l_lowerUnbounded,
-			upperUnbounded: l_upperUnbounded,
-		})
+		intervals = append(intervals, NewInterval[T](
+			T(begin),
+			T(len(s)-1),
+			l_lowerUnbounded,
+			incBegin,
+			true,
+			l_upperUnbounded,
+		))
 	}
 	return OrderedSet[T]{intervals: intervals}
 }

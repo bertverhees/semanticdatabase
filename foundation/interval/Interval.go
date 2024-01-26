@@ -48,7 +48,7 @@ type Interval[T constraints.Integer | constraints.Float] struct {
 	upperUnbounded bool
 }
 
-func NewInterval[T constraints.Integer | constraints.Float](lower, upper T, lowerIncluded, lowerUnbounded, upperIncluded, upperUnbounded bool) IInterval[T] {
+func NewInterval[T constraints.Integer | constraints.Float](lower, upper T, lowerIncluded, lowerUnbounded, upperIncluded, upperUnbounded bool) *Interval[T] {
 	interval := new(Interval[T])
 	interval.lower = lower
 	interval.upper = upper
@@ -59,61 +59,61 @@ func NewInterval[T constraints.Integer | constraints.Float](lower, upper T, lowe
 	return interval
 }
 
-func (i Interval[T]) Lower() T {
+func (i *Interval[T]) Lower() T {
 	return i.lower
 }
 
-func (i Interval[T]) SetLower(lower T) error {
+func (i *Interval[T]) SetLower(lower T) error {
 	i.lower = lower
 	return nil
 }
 
-func (i Interval[T]) Upper() T {
+func (i *Interval[T]) Upper() T {
 	return i.upper
 }
 
-func (i Interval[T]) SetUpper(upper T) error {
+func (i *Interval[T]) SetUpper(upper T) error {
 	i.upper = upper
 	return nil
 }
 
-func (i Interval[T]) LowerUnbounded() bool {
+func (i *Interval[T]) LowerUnbounded() bool {
 	return i.lowerUnbounded
 }
 
-func (i Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
+func (i *Interval[T]) SetLowerUnbounded(lowerUnbounded bool) error {
 	i.lowerUnbounded = lowerUnbounded
 	return nil
 }
 
-func (i Interval[T]) UpperUnbounded() bool {
+func (i *Interval[T]) UpperUnbounded() bool {
 	return i.upperUnbounded
 }
 
-func (i Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
+func (i *Interval[T]) SetUpperUnbounded(upperUnbounded bool) error {
 	i.upperUnbounded = upperUnbounded
 	return nil
 }
 
-func (i Interval[T]) LowerIncluded() bool {
+func (i *Interval[T]) LowerIncluded() bool {
 	return i.lowerIncluded
 }
 
-func (i Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
+func (i *Interval[T]) SetLowerIncluded(lowerIncluded bool) error {
 	i.lowerIncluded = lowerIncluded
 	return nil
 }
 
-func (i Interval[T]) UpperIncluded() bool {
+func (i *Interval[T]) UpperIncluded() bool {
 	return i.upperIncluded
 }
 
-func (i Interval[T]) SetUpperIncluded(upperIncluded bool) error {
+func (i *Interval[T]) SetUpperIncluded(upperIncluded bool) error {
 	i.upperIncluded = upperIncluded
 	return nil
 }
 
-func (i Interval[T]) String() string {
+func (i *Interval[T]) String() string {
 	var b strings.Builder
 	if i.lowerUnbounded {
 		b.WriteByte('<')
@@ -138,7 +138,7 @@ func (i Interval[T]) String() string {
 }
 
 // Equal returns true if receiver interval is equals x_interval_string interval.
-func (i Interval[T]) Equal(x IInterval[T]) bool {
+func (i *Interval[T]) Equal(x IInterval[T]) bool {
 	if x.UpperUnbounded() && i.upperUnbounded {
 		return (i.lower == x.Lower() &&
 			i.lowerIncluded == x.LowerIncluded() &&
@@ -158,7 +158,7 @@ func (i Interval[T]) Equal(x IInterval[T]) bool {
 }
 
 // IsEmpty returns true if receiver interval has no value.
-func (i Interval[T]) IsEmpty() bool {
+func (i *Interval[T]) IsEmpty() bool {
 	if i.upperUnbounded || i.lowerUnbounded {
 		return false
 	}
@@ -171,7 +171,7 @@ func (i Interval[T]) IsEmpty() bool {
 }
 
 // LtBeginOf returns true if receiver interval is less than begin of x_interval_string interval.
-func (i Interval[T]) LtBeginOf(x IInterval[T]) bool {
+func (i *Interval[T]) LtBeginOf(x IInterval[T]) bool {
 	if x.IsEmpty() {
 		return false
 	}
@@ -193,7 +193,7 @@ func (i Interval[T]) LtBeginOf(x IInterval[T]) bool {
 }
 
 // LeEndOf returns true if receiver interval is less than or equal to end of x_interval_string interval.
-func (i Interval[T]) LeEndOf(x IInterval[T]) bool {
+func (i *Interval[T]) LeEndOf(x IInterval[T]) bool {
 	if x.IsEmpty() {
 		return false
 	}
@@ -215,7 +215,7 @@ func (i Interval[T]) LeEndOf(x IInterval[T]) bool {
 }
 
 // Contains returns true if x_interval_string interval is completely covered by receiver interval.
-func (i Interval[T]) Contains(x IInterval[T]) bool {
+func (i *Interval[T]) Contains(x IInterval[T]) bool {
 	if x.IsEmpty() {
 		return true
 	}
@@ -259,7 +259,7 @@ func (i Interval[T]) Contains(x IInterval[T]) bool {
 	return lowerSide && upperSide
 }
 
-func (i Interval[T]) Has(value T) bool {
+func (i *Interval[T]) Has(value T) bool {
 	if i.lowerUnbounded && i.upperUnbounded {
 		return true
 	}
@@ -291,7 +291,7 @@ func (i Interval[T]) Has(value T) bool {
 }
 
 // Intersect returns the intersection of receiver interval with x_interval_string interval.
-func (i Interval[T]) Intersect(x IInterval[T]) IInterval[T] {
+func (i *Interval[T]) Intersect(x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
 		return nil
 	}
@@ -330,25 +330,25 @@ func maybeEmpty[T constraints.Integer | constraints.Float](x IInterval[T]) IInte
 }
 
 // Move returns an interval that adds number x_interval_string to begin and end of receiver interval.
-func (i Interval[T]) Move(x T) IInterval[T] {
+func (i *Interval[T]) Move(x T) IInterval[T] {
 	if i.IsEmpty() {
 		return nil
 	}
-	return Interval[T]{
-		lower:          i.lower + x,
-		lowerIncluded:  i.lowerIncluded,
-		upper:          i.upper + x,
-		upperIncluded:  i.upperIncluded,
-		upperUnbounded: i.upperUnbounded,
-		lowerUnbounded: i.lowerUnbounded,
-	}
+	return NewInterval[T](
+		i.lower+x,
+		i.upper+x,
+		i.lowerIncluded,
+		i.lowerUnbounded,
+		i.upperIncluded,
+		i.upperUnbounded,
+	)
 }
 
 // Subtract returns two intervals, one on the before of x_interval_string and one on the
 // after of x_interval_string, corresponding to the subtraction of x_interval_string from the receiver
 // interval. The returned intervals are always within the range of the
 // receiver interval.
-func (i Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
+func (i *Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
 	in := i.Intersect(x)
 	if in.IsEmpty() {
 		if i.LtBeginOf(x) {
@@ -386,7 +386,7 @@ func (i Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
 // the Adjoin operation successfully combines them into a single range.
 // However, if the input ranges are not adjacent, the Adjoin operation results in an empty range,
 // represented by an empty closed range with the same lower and upper bounds.
-func (i Interval[T]) Adjoin(x IInterval[T]) IInterval[T] {
+func (i *Interval[T]) Adjoin(x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() || i.IsEmpty() {
 		return nil
 	}
@@ -407,9 +407,9 @@ func (i Interval[T]) Adjoin(x IInterval[T]) IInterval[T] {
 }
 
 // Encompass returns an interval that covers the exact extents of two intervals.
-func (i Interval[T]) Encompass(x IInterval[T]) IInterval[T] {
+func (i *Interval[T]) Encompass(x IInterval[T]) IInterval[T] {
 	if x.IsEmpty() {
-		return &i
+		return i
 	}
 	if i.IsEmpty() {
 		return x
