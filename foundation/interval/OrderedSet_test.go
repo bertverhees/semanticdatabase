@@ -193,12 +193,12 @@ func testOrderedSet_Iterator[T constraints.Integer | constraints.Float](t *testi
 				t.Errorf(er.Error())
 			}
 			w := parseOrderedSet[T](tc.w)
-			if s != nil {
+			if s != nil && b != nil {
 				it := s.Iterator(b, true)
 				var intervals []IInterval[T]
 				for {
 					i := it()
-					if i.IsEmpty() {
+					if i == nil || i.IsEmpty() {
 						break
 					}
 					intervals = append(intervals, i)

@@ -139,6 +139,9 @@ func (s *OrderedSet[T]) Intervals() []IInterval[T] {
 // If iterator returns empty Interval, the iteration is over.
 // If forward is true, the iteration from left to right.
 func (s *OrderedSet[T]) Iterator(bound IInterval[T], forward bool) func() IInterval[T] {
+	if bound == nil {
+		return nil
+	}
 	if bound == nil || bound.IsEmpty() {
 		return s.emptyIterator
 	}
@@ -158,7 +161,7 @@ func (s *OrderedSet[T]) Iterator(bound IInterval[T], forward bool) func() IInter
 	}
 }
 
-func (s *OrderedSet[T]) emptyIterator() IInterval[T] { return new(Interval[T]) }
+func (s *OrderedSet[T]) emptyIterator() IInterval[T] { return nil }
 
 func (s *OrderedSet[T]) adjoinOrAppend(intervals []IInterval[T], x IInterval[T]) []IInterval[T] {
 	n := len(intervals)
