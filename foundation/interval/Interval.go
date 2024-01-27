@@ -175,7 +175,7 @@ func (i *Interval[T]) IsEmpty() bool {
 
 // LtBeginOf returns true if receiver interval is less than begin of x_interval_string interval.
 func (i *Interval[T]) LtBeginOf(x IInterval[T]) bool {
-	if x.IsEmpty() {
+	if x == nil || x.IsEmpty() {
 		return false
 	}
 	if i.IsEmpty() {
@@ -197,7 +197,7 @@ func (i *Interval[T]) LtBeginOf(x IInterval[T]) bool {
 
 // LeEndOf returns true if receiver interval is less than or equal to end of x_interval_string interval.
 func (i *Interval[T]) LeEndOf(x IInterval[T]) bool {
-	if x.IsEmpty() {
+	if x == nil || x.IsEmpty() {
 		return false
 	}
 	if i.IsEmpty() {
@@ -219,7 +219,7 @@ func (i *Interval[T]) LeEndOf(x IInterval[T]) bool {
 
 // Contains returns true if x_interval_string interval is completely covered by receiver interval.
 func (i *Interval[T]) Contains(x IInterval[T]) bool {
-	if x.IsEmpty() {
+	if x == nil || x.IsEmpty() {
 		return true
 	}
 	if i.IsEmpty() {
@@ -295,38 +295,46 @@ func (i *Interval[T]) Has(value T) bool {
 
 // Intersect returns the intersection of receiver interval with x_interval_string interval.
 func (i *Interval[T]) Intersect(x IInterval[T]) IInterval[T] {
-	if x.IsEmpty() || i.IsEmpty() {
+	if x == nil || x.IsEmpty() || i.IsEmpty() {
 		return nil
 	}
+	r := NewInterval[T](
+		x.Lower(),
+		x.Upper(),
+		x.LowerIncluded(),
+		x.LowerUnbounded(),
+		x.UpperIncluded(),
+		x.UpperUnbounded(),
+	)
 	if !i.lowerUnbounded && !x.LowerUnbounded() {
 		if i.lower > x.Lower() {
-			x.SetLower(i.lower)
-			x.SetLowerIncluded(i.lowerIncluded)
+			r.SetLower(i.lower)
+			r.SetLowerIncluded(i.lowerIncluded)
 		} else if i.lower == x.Lower() && !i.lowerIncluded {
-			x.SetLowerIncluded(false)
+			r.SetLowerIncluded(false)
 		}
 	} else if x.LowerUnbounded() && !i.lowerUnbounded {
-		x.SetLower(i.lower)
-		x.SetLowerIncluded(i.lowerIncluded)
-		x.SetLowerUnbounded(false)
+		r.SetLower(i.lower)
+		r.SetLowerIncluded(i.lowerIncluded)
+		r.SetLowerUnbounded(false)
 	}
 	if !i.upperUnbounded && !x.UpperUnbounded() {
 		if i.upper < x.Upper() {
-			x.SetUpper(i.upper)
-			x.SetUpperIncluded(i.upperIncluded)
+			r.SetUpper(i.upper)
+			r.SetUpperIncluded(i.upperIncluded)
 		} else if i.upper == x.Upper() && !i.upperIncluded {
-			x.SetUpperIncluded(false)
+			r.SetUpperIncluded(false)
 		}
 	} else if x.UpperUnbounded() && !i.upperUnbounded {
-		x.SetUpper(i.upper)
-		x.SetUpperIncluded(i.upperIncluded)
-		x.SetUpperUnbounded(false)
+		r.SetUpper(i.upper)
+		r.SetUpperIncluded(i.upperIncluded)
+		r.SetUpperUnbounded(false)
 	}
-	return maybeEmpty(x)
+	return maybeEmpty(r)
 }
 
 func maybeEmpty[T constraints.Integer | constraints.Float](x IInterval[T]) IInterval[T] {
-	if x.IsEmpty() {
+	if x == nil || x.IsEmpty() {
 		return nil
 	}
 	return x
@@ -353,7 +361,7 @@ func (i *Interval[T]) Move(x T) IInterval[T] {
 // receiver interval.
 func (i *Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
 	in := i.Intersect(x)
-	if in.IsEmpty() {
+	if in == nil || in.IsEmpty() {
 		if i.LtBeginOf(x) {
 			return i, nil
 		}
@@ -373,8 +381,10 @@ func (i *Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
 		r2 = nil
 	} else {
 		r2 = maybeEmpty(NewInterval[T](in.Upper(), i.upper, !in.UpperIncluded(), false, i.upperIncluded, i.upperUnbounded))
-		if r2.Lower() > r2.Upper() && i.upperUnbounded {
-			r2.SetUpper(r2.Lower())
+		if r2 != nil {
+			if r2.Lower() > r2.Upper() && i.upperUnbounded {
+				r2.SetUpper(r2.Lower())
+			}
 		}
 	}
 	return r1, r2
@@ -390,7 +400,7 @@ func (i *Interval[T]) Subtract(x IInterval[T]) (IInterval[T], IInterval[T]) {
 // However, if the input ranges are not adjacent, the Adjoin operation results in an empty range,
 // represented by an empty closed range with the same lower and upper bounds.
 func (i *Interval[T]) Adjoin(x IInterval[T]) IInterval[T] {
-	if x.IsEmpty() || i.IsEmpty() {
+	if x == nil || x.IsEmpty() || i.IsEmpty() {
 		return nil
 	}
 	if i.lowerUnbounded || i.upperUnbounded || x.UpperUnbounded() || x.LowerUnbounded() {
@@ -411,7 +421,7 @@ func (i *Interval[T]) Adjoin(x IInterval[T]) IInterval[T] {
 
 // Encompass returns an interval that covers the exact extents of two intervals.
 func (i *Interval[T]) Encompass(x IInterval[T]) IInterval[T] {
-	if x.IsEmpty() {
+	if x == nil || x.IsEmpty() {
 		return i
 	}
 	if i.IsEmpty() {

@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func parseOrderedSet[T constraints.Integer | constraints.Float](s string) OrderedSet[T] {
+func parseOrderedSet[T constraints.Integer | constraints.Float](s string) IOrderedSet[T] {
 	if s == "" {
-		return OrderedSet[T]{}
+		return nil
 	}
 
 	var intervals []IInterval[T]
@@ -115,7 +115,7 @@ func parseOrderedSet[T constraints.Integer | constraints.Float](s string) Ordere
 			l_upperUnbounded,
 		))
 	}
-	return OrderedSet[T]{intervals: intervals}
+	return NewOrderedSet[T](intervals)
 }
 
 func TestOrderedSet_Iterator(t *testing.T) {
@@ -193,17 +193,19 @@ func testOrderedSet_Iterator[T constraints.Integer | constraints.Float](t *testi
 				t.Errorf(er.Error())
 			}
 			w := parseOrderedSet[T](tc.w)
-			it := s.Iterator(b, true)
-			var intervals []IInterval[T]
-			for {
-				i := it()
-				if i.IsEmpty() {
-					break
+			if s != nil {
+				it := s.Iterator(b, true)
+				var intervals []IInterval[T]
+				for {
+					i := it()
+					if i.IsEmpty() {
+						break
+					}
+					intervals = append(intervals, i)
 				}
-				intervals = append(intervals, i)
-			}
-			if !equalIntervals(intervals, w.Intervals()) {
-				t.Errorf("want %s.Iterator(%s, true) = %s get get %s", s, b, w.Intervals(), intervals)
+				if !equalIntervals(intervals, w.Intervals()) {
+					t.Errorf("want %s.Iterator(%s, true) = %s get get %s", s, b, w.Intervals(), intervals)
+				}
 			}
 		})
 	}

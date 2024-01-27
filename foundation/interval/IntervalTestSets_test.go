@@ -2081,7 +2081,7 @@ var testsIntervalIntersect = []struct {
 	},
 	{
 		test:          testsGeneralSets[24],
-		i_intersect_x: "*|&|*",
+		i_intersect_x: "",
 	},
 	{
 		test:          testsGeneralSets[25],
@@ -2101,7 +2101,7 @@ var testsIntervalIntersect = []struct {
 	},
 	{
 		test:          testsGeneralSets[29],
-		i_intersect_x: "*|&|",
+		i_intersect_x: "",
 	},
 	{
 		test:          testsGeneralSets[30],
