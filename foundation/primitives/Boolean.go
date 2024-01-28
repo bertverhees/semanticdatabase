@@ -18,7 +18,7 @@ func (p *Boolean) Value() bool {
 	return p.value
 }
 
-func (p *Boolean) setValue(value bool) {
+func (p *Boolean) SetValue(value bool) {
 	p.value = value
 }
 
