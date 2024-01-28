@@ -8,10 +8,16 @@ type MultiplicityInterval struct {
 	multiplicityUnboundedMarker string `yaml:"multiplicityunboundedmarker" json:"multiplicityunboundedmarker" xml:"multiplicityunboundedmarker"`
 }
 
-func NewMultiplicityInterval[T generics.Number]() *MultiplicityInterval {
+func NewMultiplicityInterval[T generics.Number](lower, upper int) *MultiplicityInterval {
 	mi := new(MultiplicityInterval)
 	mi.multiplicityRangeMarker = ".."
 	mi.multiplicityUnboundedMarker = "*"
+	mi.SetLower(lower)
+	mi.SetUpper(upper)
+	mi.SetLowerIncluded(true)
+	mi.SetUpperIncluded(true)
+	mi.SetLowerUnbounded(false)
+	mi.SetUpperUnbounded(false)
 	return mi
 }
 
