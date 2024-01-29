@@ -18,3 +18,11 @@ func (p *String) Value() string {
 func (p *String) SetValue(value string) {
 	p.value = value
 }
+
+func (p *String) IsEqual(b IAny) *Boolean {
+	return NewBoolean(p.value == b.(*String).value)
+}
+
+func (p *String) Equal(any IAny) *Boolean {
+	return p.IsEqual(any)
+}
