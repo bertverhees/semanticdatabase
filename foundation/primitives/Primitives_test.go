@@ -1,3 +1,3 @@
 package primitives
 
-var _ Any = new(Boolean)
+var _ IAny = new(Boolean)
