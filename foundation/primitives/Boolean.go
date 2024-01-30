@@ -38,7 +38,7 @@ func (p *Boolean) Equal(any IAny) *Boolean {
 /*Create new instance of a type.
  */
 func (p *Boolean) InstanceOf(aType String) *Boolean {
-	return nil
+	return NewBoolean(false)
 }
 
 /*Type name of an object as a string. May include generic parameters, as in "Interval<Time>".
@@ -49,7 +49,7 @@ func (p *Boolean) TypeOf(anObject Any) *String {
 
 /*True if current object not equal to other. Returns not equal().
  */
-func (p *Boolean) NotEqual(other Ordered) *Boolean {
+func (p *Boolean) NotEqual(other IOrdered) *Boolean {
 	return nil
 }
 
@@ -59,7 +59,7 @@ Post_de_Morgan: Result = not (not self or not other)
 Post_commutative: Result = (other and self)
 NB: the bitwise operator "&" is not supported on boolean, so is replaced by "AndThen"
 */
-func (p *Boolean) And(other Boolean) *Boolean {
+func (p *Boolean) And(other *Boolean) *Boolean {
 	return p.AndThen(other)
 }
 
@@ -67,7 +67,7 @@ func (p *Boolean) And(other Boolean) *Boolean {
 semistrict_conjunction alias "and then", "&&" (other: Boolean[1]): Boolean
 Post_de_Morgan: Result = not (not self or else not other)
 */
-func (p *Boolean) AndThen(other Boolean) *Boolean {
+func (p *Boolean) AndThen(other *Boolean) *Boolean {
 	return NewBoolean(p.value && other.Value())
 }
 
@@ -78,7 +78,7 @@ Post_commutative: Result = (other or Current)
 Post_consistent_with_semi_strict: Result implies (self or else other)
 NB: the bitwise operator "|" is not supported on boolean, so is replaced by "OrElse"
 */
-func (p *Boolean) Or(other Boolean) *Boolean {
+func (p *Boolean) Or(other *Boolean) *Boolean {
 	return p.OrElse(other)
 }
 
@@ -86,7 +86,7 @@ func (p *Boolean) Or(other Boolean) *Boolean {
 semistrict_disjunction alias "or else", "||" (other: Boolean[1]): Boolean
 Post_de_Morgan: Result = not (not self and then not other)
 */
-func (p *Boolean) OrElse(other Boolean) *Boolean {
+func (p *Boolean) OrElse(other *Boolean) *Boolean {
 	return NewBoolean(p.value || other.Value())
 }
 

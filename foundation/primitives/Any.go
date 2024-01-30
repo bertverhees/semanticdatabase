@@ -63,6 +63,6 @@ func TypeOf(anObject IAny) *String {
 not_equal alias "!=", "≠" (other: Ordered[1]): Boolean
 True if current object not equal to other. Returns not equal().
 */
-func (a *Any) NotEqual(other Ordered) *Boolean {
+func (a *Any) NotEqual(other IOrdered) *Boolean {
 	return nil
 }

@@ -1,6 +1,6 @@
 module semanticdatabase
 
-go 1.21.3
+go 1.21.6
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.0
@@ -8,4 +8,4 @@ require (
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
 )
 
-require github.com/bertverhees/interval v0.0.0-20240127204210-92e191148c80
+require github.com/bertverhees/interval v1.0.3

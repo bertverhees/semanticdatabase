@@ -1,3 +1,6 @@
 package primitives
 
-type Ordered struct{}
+type IOrdered interface {
+	Value() IOrdered
+	SetValue(value IOrdered)
+}
