@@ -29,12 +29,6 @@ func (p *Boolean) IsEqual(b IAny) *Boolean {
 	return NewBoolean(p.value == b.(*Boolean).value)
 }
 
-/*Reference equality for reference types, value equality for value types.
- */
-func (p *Boolean) Equal(any IAny) *Boolean {
-	return p.IsEqual(any)
-}
-
 /*Create new instance of a type.
  */
 func (p *Boolean) InstanceOf(aType String) *Boolean {
@@ -94,7 +88,7 @@ func (p *Boolean) OrElse(other *Boolean) *Boolean {
 exclusive_disjunction alias "xor", "⊻" (other: Boolean[1]): Boolean
 Post_definition: Result = self or other) and not (self and other
 */
-func (p *Boolean) Xor(other Boolean) *Boolean {
+func (p *Boolean) Xor(other *Boolean) *Boolean {
 	return NewBoolean((p.value || other.Value()) && !(p.value && other.Value()))
 }
 
@@ -102,8 +96,24 @@ func (p *Boolean) Xor(other Boolean) *Boolean {
 implication alias "implies", "⇒" (other: Boolean[1]): Boolean
 Post_definition: Result = (not self or else other)
 */
-func (p *Boolean) Implies(other Boolean) *Boolean {
+func (p *Boolean) Implies(other *Boolean) *Boolean {
 	return NewBoolean(!p.value || other.Value())
+}
+
+/*
+The logical NNOR (“Neither Nor”) is an operation on two logical values, typically the values of two propositions,
+that produces a value of true if and only if both of its operands are false.
+*/
+func (p *Boolean) NeitherNor(other *Boolean) *Boolean {
+	return NewBoolean(!p.value && !other.Value())
+}
+
+/*
+The logical NAND is an operation on two logical values, typically the values of two propositions,
+that produces a value of false if and only if both of its operands are true.
+*/
+func (p *Boolean) NeitherAnd(other *Boolean) *Boolean {
+	return NewBoolean(!(p.value && other.Value()))
 }
 
 /*
@@ -111,4 +121,12 @@ negation alias "not", "¬", "!" (): Boolean
 */
 func (p *Boolean) Not() *Boolean {
 	return NewBoolean(!p.value)
+}
+
+/*
+Logical equality is an operation on two logical values, typically the values of two propositions,
+that produces a value of true if and only if both operands are false or both operands are true.
+*/
+func (p *Boolean) Equal(other *Boolean) *Boolean {
+	return NewBoolean(p.value == other.Value())
 }

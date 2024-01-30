@@ -18,13 +18,6 @@ type IAny interface {
 		Parameters other Other object for comparison.
 	*/
 	IsEqual(any IAny) *Boolean
-	/*
-	   1..1
-	   equal alias "=", "==" (other: Any[1]): Boolean
-	   Reference equality for reference types, value equality for value types.
-	   Parameters	other	Other object for comparison.
-	*/
-	Equal(any IAny) *Boolean
 }
 
 type Any struct {
