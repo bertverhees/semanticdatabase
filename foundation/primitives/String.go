@@ -1,14 +1,7 @@
 package primitives
 
 type String struct {
-	Any
 	value string
-}
-
-func NewString(value string) *String {
-	v := new(String)
-	v.value = value
-	return v
 }
 
 func (p *String) Value() string {
@@ -19,10 +12,26 @@ func (p *String) SetValue(value string) {
 	p.value = value
 }
 
-func (p *String) IsEqual(b IAny) *Boolean {
+func (p *String) IsEqual(b IAny) IAny {
 	return NewBoolean(p.value == b.(*String).value)
 }
 
-func (p *String) Equal(any IAny) *Boolean {
-	return p.IsEqual(any)
+func (p *String) LessThan(other IOrdered) *Boolean {
+	//f, ok := other.(*String)
+	//if ok {
+	//	return
+	//}
+	return nil
+}
+
+func (p *String) LessThanOrEqual(other IOrdered) *Boolean {
+	return nil
+}
+
+func (p *String) GreaterThan(other IOrdered) *Boolean {
+	return nil
+}
+
+func (p *String) GreaterThanOrEqual(other IOrdered) *Boolean {
+	return nil
 }
