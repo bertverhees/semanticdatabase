@@ -17,7 +17,7 @@ type IAny interface {
 		Value equality: return True if this and other are attached to objects considered to be equal in value.
 		Parameters other Other object for comparison.
 	*/
-	IsEqual(any IAny) *Boolean
+	IsEqual(any IAny) IAny
 }
 
 type Any struct {
@@ -31,8 +31,10 @@ Create new instance of a type.
 func InstanceOf(aType String) IAny {
 	var r IAny
 	switch strings.ToLower(aType.Value()) {
-	case "boolean, bool":
+	case "boolean", "bool":
 		r = new(Boolean)
+	case "character", "rune", "char":
+		r = new(Character)
 	}
 	return r
 }

@@ -5,7 +5,6 @@ package primitives
  */
 
 type Boolean struct {
-	Any
 	value bool
 }
 
@@ -25,7 +24,7 @@ func (p *Boolean) SetValue(value bool) {
 
 /*Value equality: return True if this and other are attached to objects considered to be equal in value.
  */
-func (p *Boolean) IsEqual(b IAny) *Boolean {
+func (p *Boolean) IsEqual(b IAny) IAny {
 	return NewBoolean(p.value == b.(*Boolean).value)
 }
 
@@ -33,18 +32,6 @@ func (p *Boolean) IsEqual(b IAny) *Boolean {
  */
 func (p *Boolean) InstanceOf(aType String) *Boolean {
 	return NewBoolean(false)
-}
-
-/*Type name of an object as a string. May include generic parameters, as in "Interval<Time>".
- */
-func (p *Boolean) TypeOf(anObject Any) *String {
-	return nil
-}
-
-/*True if current object not equal to other. Returns not equal().
- */
-func (p *Boolean) NotEqual(other IOrdered) *Boolean {
-	return nil
 }
 
 /*

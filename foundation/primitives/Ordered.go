@@ -1,6 +1,11 @@
 package primitives
 
 type IOrdered interface {
-	Value() IOrdered
-	SetValue(value IOrdered)
+	IAny
+	LessThan(other IOrdered)*Boolean
+	LessThanOrEqual(other IOrdered)*Boolean
+	GreaterThan(other IOrdered)*Boolean
+	GreaterThanOrEqual(other IOrdered)*Boolean
 }
+
+
