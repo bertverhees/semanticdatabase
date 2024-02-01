@@ -4,6 +4,10 @@ type String struct {
 	value string
 }
 
+func NewString(value string) *String {
+	return &String{value: value}
+}
+
 func (p *String) Value() string {
 	return p.value
 }
