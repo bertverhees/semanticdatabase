@@ -4,6 +4,36 @@ type Real struct {
 	value float32
 }
 
+func (p *Real) Add(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Real) Subtract(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Real) Multiply(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Real) Divide(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Real) Exponent(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Real) Negative() INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (p *Real) Value() float32 {
 	return p.value
 }

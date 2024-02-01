@@ -4,6 +4,36 @@ type Double struct {
 	value float64
 }
 
+func (p *Double) Add(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Double) Subtract(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Double) Multiply(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Double) Divide(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Double) Exponent(other INumeric) INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p *Double) Negative() INumeric {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (p *Double) Value() float64 {
 	return p.value
 }
