@@ -4,6 +4,12 @@ type Integer struct {
 	value int32
 }
 
+func NewInteger(value int32) *Integer {
+	d := new(Integer)
+	d.value = value
+	return d
+}
+
 func (p *Integer) Add(other INumeric) INumeric {
 	//TODO implement me
 	panic("implement me")

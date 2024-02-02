@@ -4,6 +4,12 @@ type Octet struct {
 	value int8
 }
 
+func NewOctet(value int8) *Octet {
+	d := new(Octet)
+	d.value = value
+	return d
+}
+
 func (p *Octet) Value() int8 {
 	return p.value
 }

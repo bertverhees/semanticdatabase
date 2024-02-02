@@ -4,6 +4,12 @@ type Integer64 struct {
 	value int64
 }
 
+func NewInteger64(value int64) *Integer64 {
+	d := new(Integer64)
+	d.value = value
+	return d
+}
+
 func (p *Integer64) Value() int64 {
 	return p.value
 }

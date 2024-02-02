@@ -212,6 +212,26 @@ func TestString_returnStringFromIOrdered(t *testing.T) {
 			args: args{NewReal(12.0001)},
 			want: NewString("12.0001"),
 		},
+		{
+			name: "Integer",
+			args: args{NewInteger(12)},
+			want: NewString("12"),
+		},
+		{
+			name: "Integer64",
+			args: args{NewInteger64(12)},
+			want: NewString("12"),
+		},
+		{
+			name: "Character",
+			args: args{NewCharacter('a')},
+			want: NewString("a"),
+		},
+		{
+			name: "Octet",
+			args: args{NewOctet(126)},
+			want: NewString("126"),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

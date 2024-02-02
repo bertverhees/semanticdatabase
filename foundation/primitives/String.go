@@ -27,7 +27,7 @@ func (p *String) returnStringFromIOrdered(ordered IOrdered) *String {
 	case *Character:
 		r = fmt.Sprintf("%c", ordered.(*Character).Value())
 	case *Octet:
-		r = strconv.Itoa(int(ordered.(*Octet).Value()))
+		r = strconv.FormatInt(int64(ordered.(*Octet).Value()), 10)
 	}
 
 	return NewString(r)
