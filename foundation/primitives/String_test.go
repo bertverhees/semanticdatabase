@@ -191,3 +191,36 @@ func TestString_Value(t *testing.T) {
 		})
 	}
 }
+
+func TestString_returnStringFromIOrdered(t *testing.T) {
+	type args struct {
+		ordered IOrdered
+	}
+	tests := []struct {
+		name string
+		args args
+		want *String
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Double",
+			args: args{NewDouble(12.0001)},
+			want: NewString("12.0001"),
+		},
+		{
+			name: "Real",
+			args: args{NewReal(12.0001)},
+			want: NewString("12.0001"),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &String{
+				value: "",
+			}
+			if got := p.returnStringFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("returnStringFromIOrdered() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

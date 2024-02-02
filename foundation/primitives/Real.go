@@ -4,6 +4,12 @@ type Real struct {
 	value float32
 }
 
+func NewReal(value float32) *Real {
+	d := new(Real)
+	d.value = value
+	return d
+}
+
 func (p *Real) Add(other INumeric) INumeric {
 	//TODO implement me
 	panic("implement me")
