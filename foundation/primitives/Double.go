@@ -4,6 +4,12 @@ type Double struct {
 	value float64
 }
 
+func NewDouble(value float64) *Double {
+	d := new(Double)
+	d.value = value
+	return d
+}
+
 func (p *Double) Add(other INumeric) INumeric {
 	//TODO implement me
 	panic("implement me")

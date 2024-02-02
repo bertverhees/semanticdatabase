@@ -1,6 +1,16 @@
 package primitives
 
-type Integer64 struct{}
+type Integer64 struct {
+	value int64
+}
+
+func (p *Integer64) Value() int64 {
+	return p.value
+}
+
+func (p *Integer64) SetValue(value int64) {
+	p.value = value
+}
 
 func (Integer64) Add(other INumeric) INumeric {
 	//TODO implement me

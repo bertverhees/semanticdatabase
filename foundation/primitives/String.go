@@ -1,11 +1,36 @@
 package primitives
 
+import (
+	"fmt"
+	"strconv"
+)
+
 type String struct {
 	value string
 }
 
 func NewString(value string) *String {
 	return &String{value: value}
+}
+
+func (p *String) returnStringFromIOrdered(ordered IOrdered) *String {
+	var r string
+	switch ordered.(type) {
+	case *Double:
+		r = strconv.FormatFloat(ordered.(*Double).Value(), 'f', -1, 64)
+	case *Real:
+		r = strconv.FormatFloat(float64(ordered.(*Real).Value()), 'f', -1, 32)
+	case *Integer:
+		r = strconv.FormatInt(int64(ordered.(*Integer).Value()), 10)
+	case *Integer64:
+		r = strconv.FormatInt(ordered.(*Integer64).Value(), 10)
+	case *Character:
+		r = fmt.Sprintf("%c", ordered.(*Character).Value())
+	case *Octet:
+		r = strconv.Itoa(int(ordered.(*Octet).Value()))
+	}
+
+	return NewString(r)
 }
 
 func (p *String) Value() string {

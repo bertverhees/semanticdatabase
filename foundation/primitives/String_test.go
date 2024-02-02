@@ -18,7 +18,12 @@ func TestString_GreaterThan(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "equals float64",
+			fields: fields{value: "NewDouble(12.0)"},
+			args:   args{other: NewDouble(12.0)},
+			want:   NewBoolean(false),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

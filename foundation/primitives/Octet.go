@@ -1,14 +1,14 @@
 package primitives
 
 type Octet struct {
-	value float32
+	value int8
 }
 
-func (p *Octet) Value() float32 {
+func (p *Octet) Value() int8 {
 	return p.value
 }
 
-func (p *Octet) SetValue(value float32) {
+func (p *Octet) SetValue(value int8) {
 	p.value = value
 }
 
