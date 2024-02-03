@@ -25,15 +25,22 @@ func (p *Character) SetValue(value rune) {
 func (p *Character) returnCharacterFromIOrdered(ordered IOrdered) *Character {
 	var r rune
 	switch ordered.(type) {
-	case *Double, *Real:
+	case *Double:
 		f := ordered.(*Double).Value()
 		r = rune(int(math.Round(f)))
+	case *Real:
+		f := ordered.(*Real).Value()
+		r = rune(int(math.Round(float64(f))))
 	case *Integer:
 		r = rune(ordered.(*Integer).Value())
 	case *Integer64:
 		r = rune(ordered.(*Integer64).Value())
+	case *Octet:
+		r = rune(ordered.(*Octet).Value())
 	case *String:
 		panic("Cannot convert *String to *Character")
+	default:
+		r = ordered.(*Character).Value()
 	}
 	return NewCharacter(r)
 }
