@@ -28,6 +28,8 @@ func (p *String) returnStringFromIOrdered(ordered IOrdered) *String {
 		r = fmt.Sprintf("%c", ordered.(*Character).Value())
 	case *Octet:
 		r = strconv.FormatInt(int64(ordered.(*Octet).Value()), 10)
+	default:
+		r = ordered.(*String).value
 	}
 
 	return NewString(r)
@@ -42,25 +44,21 @@ func (p *String) SetValue(value string) {
 }
 
 func (p *String) IsEqual(b IAny) IAny {
-	return NewBoolean(p.value == b.(*String).value)
+	return NewBoolean(p.value == p.returnStringFromIOrdered(b.(IOrdered)).value)
 }
 
 func (p *String) LessThan(other IOrdered) *Boolean {
-	//f, ok := other.(*String)
-	//if ok {
-	//	return
-	//}
-	return nil
+	return NewBoolean(p.value < p.returnStringFromIOrdered(other).value)
 }
 
 func (p *String) LessThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value <= p.returnStringFromIOrdered(other).value)
 }
 
 func (p *String) GreaterThan(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value > p.returnStringFromIOrdered(other).value)
 }
 
 func (p *String) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value >= p.returnStringFromIOrdered(other).value)
 }

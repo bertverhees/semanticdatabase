@@ -19,10 +19,22 @@ func TestString_GreaterThan(t *testing.T) {
 		want   *Boolean
 	}{
 		{
-			name:   "equals float64",
-			fields: fields{value: "NewDouble(12.0)"},
-			args:   args{other: NewDouble(12.0)},
+			name:   "Aaaa equals Aaaa",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Aaaa")},
 			want:   NewBoolean(false),
+		},
+		{
+			name:   "Aaaa greater than Bbbb",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Bbbb")},
+			want:   NewBoolean(false),
+		},
+		{
+			name:   "Bbbb greater than Aaaa",
+			fields: fields{value: "Bbbb"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(true),
 		},
 	}
 	for _, tt := range tests {
@@ -50,7 +62,24 @@ func TestString_GreaterThanOrEqual(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Aaaa GreaterThanOrEqual Aaaa",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(true),
+		},
+		{
+			name:   "Aaaa GreaterThanOrEqual Bbbb",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Bbbb")},
+			want:   NewBoolean(false),
+		},
+		{
+			name:   "Bbbb GreaterThanOrEqual Aaaa",
+			fields: fields{value: "Bbbb"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(true),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -77,7 +106,24 @@ func TestString_IsEqual(t *testing.T) {
 		args   args
 		want   IAny
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Aaaa equals Aaaa",
+			fields: fields{value: "Aaaa"},
+			args:   args{b: NewString("Aaaa")},
+			want:   NewBoolean(true),
+		},
+		{
+			name:   "Aaaa equals Bbbb",
+			fields: fields{value: "Aaaa"},
+			args:   args{b: NewString("Bbbb")},
+			want:   NewBoolean(false),
+		},
+		{
+			name:   "Bbbb equals Aaaa",
+			fields: fields{value: "Bbbb"},
+			args:   args{b: NewString("Aaaa")},
+			want:   NewBoolean(false),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -104,7 +150,24 @@ func TestString_LessThan(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Aaaa less then Aaaa",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(false),
+		},
+		{
+			name:   "Aaaa less than Bbbb",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Bbbb")},
+			want:   NewBoolean(true),
+		},
+		{
+			name:   "Bbbb less than Aaaa",
+			fields: fields{value: "Bbbb"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(false),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -131,7 +194,24 @@ func TestString_LessThanOrEqual(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Aaaa LessThanOrEqual Aaaa",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(true),
+		},
+		{
+			name:   "Aaaa LessThanOrEqual Bbbb",
+			fields: fields{value: "Aaaa"},
+			args:   args{other: NewString("Bbbb")},
+			want:   NewBoolean(true),
+		},
+		{
+			name:   "Bbbb LessThanOrEqual Aaaa",
+			fields: fields{value: "Bbbb"},
+			args:   args{other: NewString("Aaaa")},
+			want:   NewBoolean(false),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -140,53 +220,6 @@ func TestString_LessThanOrEqual(t *testing.T) {
 			}
 			if got := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThanOrEqual() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestString_SetValue(t *testing.T) {
-	type fields struct {
-		value string
-	}
-	type args struct {
-		value string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &String{
-				value: tt.fields.value,
-			}
-			p.SetValue(tt.args.value)
-		})
-	}
-}
-
-func TestString_Value(t *testing.T) {
-	type fields struct {
-		value string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		want   string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &String{
-				value: tt.fields.value,
-			}
-			if got := p.Value(); got != tt.want {
-				t.Errorf("Value() = %v, want %v", got, tt.want)
 			}
 		})
 	}
