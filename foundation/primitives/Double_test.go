@@ -344,3 +344,40 @@ func TestDouble_Value(t *testing.T) {
 		})
 	}
 }
+
+func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
+	type args struct {
+		ordered IOrdered
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Double
+	}{
+		{
+			name: "string to double 3.14",
+			args: args{ordered: NewString("3.14")},
+			want: NewDouble(3.14),
+		},
+		{
+			name: "string to double 1234",
+			args: args{ordered: NewString("1234")},
+			want: NewDouble(3.14),
+		},
+		{
+			name: "string to double ABCXYZ",
+			args: args{ordered: NewString("ABCXYZ")},
+			want: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Double{
+				value: 0,
+			}
+			if got := p.returnDoubleFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("returnDoubleFromIOrdered() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -31,7 +31,6 @@ func (p *String) returnStringFromIOrdered(ordered IOrdered) *String {
 	default:
 		r = ordered.(*String).value
 	}
-
 	return NewString(r)
 }
 

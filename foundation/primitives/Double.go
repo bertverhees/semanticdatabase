@@ -1,5 +1,9 @@
 package primitives
 
+import (
+	"strconv"
+)
+
 type Double struct {
 	value float64
 }
@@ -8,6 +12,31 @@ func NewDouble(value float64) *Double {
 	d := new(Double)
 	d.value = value
 	return d
+}
+
+func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
+	var r float64
+	switch ordered.(type) {
+	case *String:
+		f, err := strconv.ParseFloat(ordered.(*String).value, 64)
+		if err != nil {
+			panic("Cannot convert this string to float:" + ordered.(*String).value)
+		}
+		r = f
+	case *Real:
+		r = float64(ordered.(*Real).Value())
+	case *Integer:
+		r = float64(ordered.(*Integer).Value())
+	case *Integer64:
+		r = float64(ordered.(*Integer64).Value())
+	case *Character:
+		r = float64(ordered.(*Character).Value())
+	case *Octet:
+		r = float64(ordered.(*Octet).Value())
+	default:
+		panic("Unknown type")
+	}
+	return NewDouble(r)
 }
 
 func (p *Double) Add(other INumeric) INumeric {
