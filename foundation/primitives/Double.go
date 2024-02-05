@@ -1,6 +1,7 @@
 package primitives
 
 import (
+	"math"
 	"strconv"
 )
 
@@ -14,59 +15,70 @@ func NewDouble(value float64) *Double {
 	return d
 }
 
-func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
+func (p *Double) returnDoubleFromINumeric(ordered INumeric) *Double {
 	var r float64
 	switch ordered.(type) {
-	case *String:
-		f, err := strconv.ParseFloat(ordered.(*String).value, 64)
-		if err != nil {
-			panic("Cannot convert this string to float:" + ordered.(*String).value)
-		}
-		r = f
 	case *Real:
 		r = float64(ordered.(*Real).Value())
 	case *Integer:
 		r = float64(ordered.(*Integer).Value())
 	case *Integer64:
 		r = float64(ordered.(*Integer64).Value())
+	case *Double:
+		r = ordered.(*Double).Value()
+	default:
+		panic("Not valid type")
+	}
+	return NewDouble(r)
+}
+
+func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
+	var r float64
+	switch ordered.(type) {
+	case *Real:
+		r = float64(ordered.(*Real).Value())
+	case *Integer:
+		r = float64(ordered.(*Integer).Value())
+	case *Integer64:
+		r = float64(ordered.(*Integer64).Value())
+	case *String:
+		f, err := strconv.ParseFloat(ordered.(*String).value, 64)
+		if err != nil {
+			panic("Cannot convert this string to float:" + ordered.(*String).value)
+		}
+		r = f
 	case *Character:
 		r = float64(ordered.(*Character).Value())
 	case *Octet:
 		r = float64(ordered.(*Octet).Value())
 	default:
-		panic("Unknown type")
+		panic("Not valid type")
 	}
 	return NewDouble(r)
 }
 
 func (p *Double) Add(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewDouble(p.value + p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Subtract(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewDouble(p.value - p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Multiply(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewDouble(p.value * p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Divide(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewDouble(p.value / p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Exponent(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewDouble(math.Pow(p.value, p.returnDoubleFromINumeric(other).value))
 }
 
 func (p *Double) Negative() INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewDouble(-p.value)
 }
 
 func (p *Double) Value() float64 {
@@ -82,21 +94,17 @@ func (p *Double) IsEqual(b IAny) IAny {
 }
 
 func (p *Double) LessThan(other IOrdered) *Boolean {
-	//f, ok := other.(*Real)
-	//if ok {
-	//	return
-	//}
-	return nil
+	return NewBoolean(p.value < p.returnDoubleFromIOrdered(other).value)
 }
 
 func (p *Double) LessThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value <= p.returnDoubleFromIOrdered(other).value)
 }
 
 func (p *Double) GreaterThan(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value > p.returnDoubleFromIOrdered(other).value)
 }
 
 func (p *Double) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value >= p.returnDoubleFromIOrdered(other).value)
 }

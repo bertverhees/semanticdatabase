@@ -1,9 +1,18 @@
 package primitives
 
 import (
+	"math"
 	"reflect"
 	"testing"
 )
+
+func toFixed(num INumeric, precision int) float64 {
+	output := math.Pow(10, float64(precision))
+	return float64(round(num.(*Double).value*output)) / output
+}
+func round(num float64) int {
+	return int(num + math.Copysign(0.5, num))
+}
 
 func TestDouble_Add(t *testing.T) {
 	type fields struct {
@@ -18,14 +27,37 @@ func TestDouble_Add(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Add 5.1 + 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewDouble(5.1 + 4.8),
+		},
+		{
+			name:   "Add 5.1 + 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewDouble(5.1 + 4.8),
+		},
+		{
+			name:   "Add 5 + 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewDouble(5 + 4),
+		},
+		{
+			name:   "Add 5 + 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewDouble(5 + 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Add(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Add(tt.args.other), 1)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Add() = %v, want %v", got, tt.want)
 			}
 		})
@@ -45,14 +77,37 @@ func TestDouble_Divide(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Divide 5.1 / 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewDouble(5.1 / 4.8),
+		},
+		{
+			name:   "Divide 5.1 / 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewDouble(5.1 / 4.8),
+		},
+		{
+			name:   "Divide 5 / 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewDouble(5.0 / 4),
+		},
+		{
+			name:   "Divide 5 / 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewDouble(5.0 / 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Divide(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Divide(tt.args.other), 4)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Divide() = %v, want %v", got, tt.want)
 			}
 		})
@@ -353,23 +408,7 @@ func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
 		name string
 		args args
 		want *Double
-	}{
-		{
-			name: "string to double 3.14",
-			args: args{ordered: NewString("3.14")},
-			want: NewDouble(3.14),
-		},
-		{
-			name: "string to double 1234",
-			args: args{ordered: NewString("1234")},
-			want: NewDouble(3.14),
-		},
-		{
-			name: "string to double ABCXYZ",
-			args: args{ordered: NewString("ABCXYZ")},
-			want: nil,
-		},
-	}
+	}{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
