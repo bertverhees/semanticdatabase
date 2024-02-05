@@ -108,3 +108,12 @@ func (p *Double) GreaterThan(other IOrdered) *Boolean {
 func (p *Double) GreaterThanOrEqual(other IOrdered) *Boolean {
 	return NewBoolean(p.value >= p.returnDoubleFromIOrdered(other).value)
 }
+
+func (p *Double) ToFixedNumberOfDecimals(precision *Integer) IFloat {
+	output := math.Pow(10, float64(precision.value))
+	return NewDouble(float64(p.round(p.value*output)) / output)
+}
+
+func (p *Double) round(num float64) int {
+	return int(num + math.Copysign(0.5, num))
+}

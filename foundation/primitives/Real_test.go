@@ -344,3 +344,30 @@ func TestReal_Value(t *testing.T) {
 		})
 	}
 }
+
+func TestReal_ToFixedNumberOfDecimals(t *testing.T) {
+	type fields struct {
+		value float32
+	}
+	type args struct {
+		precision *Integer
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   IFloat
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Real{
+				value: tt.fields.value,
+			}
+			if got := p.ToFixedNumberOfDecimals(tt.args.precision); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

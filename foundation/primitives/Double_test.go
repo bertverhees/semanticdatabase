@@ -466,3 +466,30 @@ func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
 		})
 	}
 }
+
+func TestDouble_ToFixedNumberOfDecimals(t *testing.T) {
+	type fields struct {
+		value float64
+	}
+	type args struct {
+		precision *Integer
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   IFloat
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Double{
+				value: tt.fields.value,
+			}
+			if got := p.ToFixedNumberOfDecimals(tt.args.precision); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
