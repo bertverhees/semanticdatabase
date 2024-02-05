@@ -40,16 +40,16 @@ func TestDouble_Add(t *testing.T) {
 			want:   NewDouble(5.1 + 4.8),
 		},
 		{
-			name:   "Add 5 + 4 Integer",
+			name:   "Add 5.0 + 4 Integer",
 			fields: fields{5.0},
 			args:   args{NewInteger(4)},
-			want:   NewDouble(5 + 4),
+			want:   NewDouble(5.0 + 4),
 		},
 		{
-			name:   "Add 5 + 4 Integer64",
+			name:   "Add 5.0 + 4 Integer64",
 			fields: fields{5.0},
 			args:   args{NewInteger64(4)},
-			want:   NewDouble(5 + 4),
+			want:   NewDouble(5.0 + 4),
 		},
 	}
 	for _, tt := range tests {
@@ -90,13 +90,13 @@ func TestDouble_Divide(t *testing.T) {
 			want:   NewDouble(5.1 / 4.8),
 		},
 		{
-			name:   "Divide 5 / 4 Integer",
+			name:   "Divide 5.0 / 4 Integer",
 			fields: fields{5.0},
 			args:   args{NewInteger(4)},
 			want:   NewDouble(5.0 / 4),
 		},
 		{
-			name:   "Divide 5 / 4 Integer64",
+			name:   "Divide 5.0 / 4 Integer64",
 			fields: fields{5.0},
 			args:   args{NewInteger64(4)},
 			want:   NewDouble(5.0 / 4),
@@ -127,14 +127,37 @@ func TestDouble_Exponent(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Exponent 5.1 ^ 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewDouble(toFixed(NewDouble(math.Pow(5.1, 4.8)), 2)),
+		},
+		{
+			name:   "Exponent 5.1 ^ 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewDouble(toFixed(NewDouble(math.Pow(5.1, 4.8)), 2)),
+		},
+		{
+			name:   "Exponent 5.0 ^ 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewDouble(math.Pow(5.0, 4)),
+		},
+		{
+			name:   "Exponent 5.0 ^ 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewDouble(math.Pow(5.0, 4)),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Exponent(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Exponent(tt.args.other), 2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Exponent() = %v, want %v", got, tt.want)
 			}
 		})
@@ -363,14 +386,37 @@ func TestDouble_Subtract(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Subtract 5.1 - 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewDouble(5.1 - 4.8),
+		},
+		{
+			name:   "Subtract 5.1 - 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewDouble(5.1 - 4.8),
+		},
+		{
+			name:   "Subtract 5.0 - 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewDouble(5.0 - 4),
+		},
+		{
+			name:   "Subtract 5.0 - 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewDouble(5.0 - 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Subtract(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Subtract(tt.args.other), 1)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Subtract() = %v, want %v", got, tt.want)
 			}
 		})
