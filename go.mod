@@ -9,3 +9,5 @@ require (
 )
 
 require github.com/bertverhees/interval v1.0.3
+
+require github.com/shopspring/decimal v1.3.1 // indirect
