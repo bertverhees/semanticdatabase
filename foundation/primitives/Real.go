@@ -65,13 +65,15 @@ func (p *Real) Add(other INumeric) INumeric {
 }
 
 func (p *Real) Subtract(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	d1 := decimal.NewFromFloat32(p.value)
+	d2 := p.returnRealFromINumeric(other)
+	return NewReal(float32(d1.Sub(d2).InexactFloat64()))
 }
 
 func (p *Real) Multiply(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	d1 := decimal.NewFromFloat32(p.value)
+	d2 := p.returnRealFromINumeric(other)
+	return NewReal(float32(d1.Mul(d2).InexactFloat64()))
 }
 
 func (p *Real) Divide(other INumeric) INumeric {
@@ -81,8 +83,9 @@ func (p *Real) Divide(other INumeric) INumeric {
 }
 
 func (p *Real) Exponent(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	d1 := decimal.NewFromFloat32(p.value)
+	d2 := p.returnRealFromINumeric(other)
+	return NewReal(float32(d1.Pow(d2).InexactFloat64()))
 }
 
 func (p *Real) Negative() INumeric {

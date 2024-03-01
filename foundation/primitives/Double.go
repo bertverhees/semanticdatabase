@@ -65,11 +65,15 @@ func (p *Double) Add(other INumeric) INumeric {
 }
 
 func (p *Double) Subtract(other INumeric) INumeric {
-	return NewDouble(p.value - p.returnDoubleFromINumeric(other).value)
+	d1 := decimal.NewFromFloat(p.value)
+	d2 := p.returnDoubleFromINumeric(other)
+	return NewDouble(d1.Sub(d2).InexactFloat64())
 }
 
 func (p *Double) Multiply(other INumeric) INumeric {
-	return NewDouble(p.value * p.returnDoubleFromINumeric(other).value)
+	d1 := decimal.NewFromFloat(p.value)
+	d2 := p.returnDoubleFromINumeric(other)
+	return NewDouble(d1.Mul(d2).InexactFloat64())
 }
 
 func (p *Double) Divide(other INumeric) INumeric {
@@ -79,7 +83,9 @@ func (p *Double) Divide(other INumeric) INumeric {
 }
 
 func (p *Double) Exponent(other INumeric) INumeric {
-	return NewDouble(math.Pow(p.value, p.returnDoubleFromINumeric(other).value))
+	d1 := decimal.NewFromFloat(p.value)
+	d2 := p.returnDoubleFromINumeric(other)
+	return NewDouble(d1.Pow(d2).InexactFloat64())
 }
 
 func (p *Double) Negative() INumeric {
