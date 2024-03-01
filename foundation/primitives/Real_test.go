@@ -18,7 +18,30 @@ func TestReal_Add(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Add 5.1 + 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewReal(5.1 + 4.8),
+		},
+		{
+			name:   "Add 5.1 + 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 + 4.8),
+		},
+		{
+			name:   "Add 5.0 + 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewReal(5.0 + 4),
+		},
+		{
+			name:   "Add 5.0 + 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewReal(5.0 + 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -45,7 +68,30 @@ func TestReal_Divide(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Divide 5.1 / 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewReal(5.1 / 4.8),
+		},
+		{
+			name:   "Divide 5.1 / 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 / 4.8),
+		},
+		{
+			name:   "Divide 5.0 / 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewReal(5.0 / 4),
+		},
+		{
+			name:   "Divide 5.0 / 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewReal(5.0 / 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

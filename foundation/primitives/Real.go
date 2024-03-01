@@ -1,6 +1,10 @@
 package primitives
 
-import "math"
+import (
+	"github.com/shopspring/decimal"
+	"math"
+	"strconv"
+)
 
 type Real struct {
 	value float32
@@ -12,9 +16,52 @@ func NewReal(value float32) *Real {
 	return d
 }
 
+func (p *Real) returnRealFromINumeric(ordered INumeric) decimal.Decimal {
+	var d decimal.Decimal
+	switch ordered.(type) {
+	case *Double:
+		d = decimal.NewFromFloat(ordered.(*Double).Value())
+	case *Integer:
+		d = decimal.NewFromInt32(ordered.(*Integer).Value())
+	case *Integer64:
+		d = decimal.NewFromInt(ordered.(*Integer64).Value())
+	case *Real:
+		d = decimal.NewFromFloat32(ordered.(*Real).Value())
+	default:
+		panic("Not valid type")
+	}
+	return d
+}
+
+func (p *Real) returnRealFromIOrdered(ordered IOrdered) *Real {
+	var r float32
+	switch ordered.(type) {
+	case *Real:
+		r = float32(ordered.(*Real).Value())
+	case *Integer:
+		r = float32(ordered.(*Integer).Value())
+	case *Integer64:
+		r = float32(ordered.(*Integer64).Value())
+	case *String:
+		f, err := strconv.ParseFloat(ordered.(*String).value, 32)
+		if err != nil {
+			panic("Cannot convert this string to float:" + ordered.(*String).value)
+		}
+		r = float32(f)
+	case *Character:
+		r = float32(ordered.(*Character).Value())
+	case *Octet:
+		r = float32(ordered.(*Octet).Value())
+	default:
+		panic("Not valid type")
+	}
+	return NewReal(r)
+}
+
 func (p *Real) Add(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	d1 := decimal.NewFromFloat32(p.value)
+	d2 := p.returnRealFromINumeric(other)
+	return NewReal(float32(d1.Add(d2).InexactFloat64()))
 }
 
 func (p *Real) Subtract(other INumeric) INumeric {
@@ -28,8 +75,9 @@ func (p *Real) Multiply(other INumeric) INumeric {
 }
 
 func (p *Real) Divide(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+	d1 := decimal.NewFromFloat32(p.value)
+	d2 := p.returnRealFromINumeric(other)
+	return NewReal(float32(d1.Div(d2).InexactFloat64()))
 }
 
 func (p *Real) Exponent(other INumeric) INumeric {

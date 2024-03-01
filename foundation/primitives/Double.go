@@ -1,6 +1,7 @@
 package primitives
 
 import (
+	"github.com/shopspring/decimal"
 	"math"
 	"strconv"
 )
@@ -15,21 +16,21 @@ func NewDouble(value float64) *Double {
 	return d
 }
 
-func (p *Double) returnDoubleFromINumeric(ordered INumeric) *Double {
-	var r float64
+func (p *Double) returnDoubleFromINumeric(ordered INumeric) decimal.Decimal {
+	var d decimal.Decimal
 	switch ordered.(type) {
-	case *Real:
-		r = float64(ordered.(*Real).Value())
-	case *Integer:
-		r = float64(ordered.(*Integer).Value())
-	case *Integer64:
-		r = float64(ordered.(*Integer64).Value())
 	case *Double:
-		r = ordered.(*Double).Value()
+		d = decimal.NewFromFloat(ordered.(*Double).Value())
+	case *Integer:
+		d = decimal.NewFromInt32(ordered.(*Integer).Value())
+	case *Integer64:
+		d = decimal.NewFromInt(ordered.(*Integer64).Value())
+	case *Real:
+		d = decimal.NewFromFloat32(ordered.(*Real).Value())
 	default:
 		panic("Not valid type")
 	}
-	return NewDouble(r)
+	return d
 }
 
 func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
@@ -58,7 +59,9 @@ func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
 }
 
 func (p *Double) Add(other INumeric) INumeric {
-	return NewDouble(p.value + p.returnDoubleFromINumeric(other).value)
+	d1 := decimal.NewFromFloat(p.value)
+	d2 := p.returnDoubleFromINumeric(other)
+	return NewDouble(d1.Add(d2).InexactFloat64())
 }
 
 func (p *Double) Subtract(other INumeric) INumeric {
@@ -70,7 +73,9 @@ func (p *Double) Multiply(other INumeric) INumeric {
 }
 
 func (p *Double) Divide(other INumeric) INumeric {
-	return NewDouble(p.value / p.returnDoubleFromINumeric(other).value)
+	d1 := decimal.NewFromFloat(p.value)
+	d2 := p.returnDoubleFromINumeric(other)
+	return NewDouble(d1.Div(d2).InexactFloat64())
 }
 
 func (p *Double) Exponent(other INumeric) INumeric {
