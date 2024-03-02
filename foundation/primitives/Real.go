@@ -1,7 +1,6 @@
 package primitives
 
 import (
-	"github.com/shopspring/decimal"
 	"math"
 	"strconv"
 )
@@ -16,21 +15,21 @@ func NewReal(value float32) *Real {
 	return d
 }
 
-func (p *Real) returnRealFromINumeric(ordered INumeric) decimal.Decimal {
-	var d decimal.Decimal
+func (p *Real) returnRealFromINumeric(ordered INumeric) *Real {
+	var r float32
 	switch ordered.(type) {
 	case *Double:
-		d = decimal.NewFromFloat(ordered.(*Double).Value())
+		r = float32(ordered.(*Double).Value())
 	case *Integer:
-		d = decimal.NewFromInt32(ordered.(*Integer).Value())
+		r = float32(ordered.(*Integer).Value())
 	case *Integer64:
-		d = decimal.NewFromInt(ordered.(*Integer64).Value())
+		r = float32(ordered.(*Integer64).Value())
 	case *Real:
-		d = decimal.NewFromFloat32(ordered.(*Real).Value())
+		r = float32(ordered.(*Real).Value())
 	default:
 		panic("Not valid type")
 	}
-	return d
+	return NewReal(r)
 }
 
 func (p *Real) returnRealFromIOrdered(ordered IOrdered) *Real {
@@ -59,33 +58,23 @@ func (p *Real) returnRealFromIOrdered(ordered IOrdered) *Real {
 }
 
 func (p *Real) Add(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat32(p.value)
-	d2 := p.returnRealFromINumeric(other)
-	return NewReal(float32(d1.Add(d2).InexactFloat64()))
+	return NewReal(p.value + p.returnRealFromINumeric(other).value)
 }
 
 func (p *Real) Subtract(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat32(p.value)
-	d2 := p.returnRealFromINumeric(other)
-	return NewReal(float32(d1.Sub(d2).InexactFloat64()))
+	return NewReal(p.value - p.returnRealFromINumeric(other).value)
 }
 
 func (p *Real) Multiply(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat32(p.value)
-	d2 := p.returnRealFromINumeric(other)
-	return NewReal(float32(d1.Mul(d2).InexactFloat64()))
+	return NewReal(p.value * p.returnRealFromINumeric(other).value)
 }
 
 func (p *Real) Divide(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat32(p.value)
-	d2 := p.returnRealFromINumeric(other)
-	return NewReal(float32(d1.Div(d2).InexactFloat64()))
+	return NewReal(p.value / p.returnRealFromINumeric(other).value)
 }
 
 func (p *Real) Exponent(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat32(p.value)
-	d2 := p.returnRealFromINumeric(other)
-	return NewReal(float32(d1.Pow(d2).InexactFloat64()))
+	return NewReal(float32(math.Pow(float64(p.value), float64(p.returnRealFromINumeric(other).value))))
 }
 
 func (p *Real) Negative() INumeric {
