@@ -1,7 +1,6 @@
 package primitives
 
 import (
-	"github.com/shopspring/decimal"
 	"math"
 	"strconv"
 )
@@ -16,21 +15,21 @@ func NewDouble(value float64) *Double {
 	return d
 }
 
-func (p *Double) returnDoubleFromINumeric(ordered INumeric) decimal.Decimal {
-	var d decimal.Decimal
+func (p *Double) returnDoubleFromINumeric(ordered INumeric) *Double {
+	var r float64
 	switch ordered.(type) {
 	case *Double:
-		d = decimal.NewFromFloat(ordered.(*Double).Value())
+		r = ordered.(*Double).Value()
 	case *Integer:
-		d = decimal.NewFromInt32(ordered.(*Integer).Value())
+		r = float64(ordered.(*Integer).Value())
 	case *Integer64:
-		d = decimal.NewFromInt(ordered.(*Integer64).Value())
+		r = float64(ordered.(*Integer64).Value())
 	case *Real:
-		d = decimal.NewFromFloat32(ordered.(*Real).Value())
+		r = float64(ordered.(*Real).Value())
 	default:
 		panic("Not valid type")
 	}
-	return d
+	return NewDouble(r)
 }
 
 func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
@@ -59,33 +58,23 @@ func (p *Double) returnDoubleFromIOrdered(ordered IOrdered) *Double {
 }
 
 func (p *Double) Add(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat(p.value)
-	d2 := p.returnDoubleFromINumeric(other)
-	return NewDouble(d1.Add(d2).InexactFloat64())
+	return NewDouble(p.value + p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Subtract(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat(p.value)
-	d2 := p.returnDoubleFromINumeric(other)
-	return NewDouble(d1.Sub(d2).InexactFloat64())
+	return NewDouble(p.value - p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Multiply(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat(p.value)
-	d2 := p.returnDoubleFromINumeric(other)
-	return NewDouble(d1.Mul(d2).InexactFloat64())
+	return NewDouble(p.value * p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Divide(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat(p.value)
-	d2 := p.returnDoubleFromINumeric(other)
-	return NewDouble(d1.Div(d2).InexactFloat64())
+	return NewDouble(p.value / p.returnDoubleFromINumeric(other).value)
 }
 
 func (p *Double) Exponent(other INumeric) INumeric {
-	d1 := decimal.NewFromFloat(p.value)
-	d2 := p.returnDoubleFromINumeric(other)
-	return NewDouble(d1.Pow(d2).InexactFloat64())
+	return NewDouble(math.Pow(p.value, p.returnDoubleFromINumeric(other).value))
 }
 
 func (p *Double) Negative() INumeric {

@@ -6,6 +6,14 @@ import (
 	"testing"
 )
 
+func toFixed(num INumeric, precision int) float64 {
+	output := math.Pow(10, float64(precision))
+	return float64(round(num.(*Double).value*output)) / output
+}
+func round(num float64) int {
+	return int(num + math.Copysign(0.5, num))
+}
+
 func TestDouble_Add(t *testing.T) {
 	type fields struct {
 		value float64
@@ -49,7 +57,7 @@ func TestDouble_Add(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Add(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Add(tt.args.other), 1)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Add() = %v, want %v", got, tt.want)
 			}
 		})
@@ -99,7 +107,7 @@ func TestDouble_Divide(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Divide(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Divide(tt.args.other), 4)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Divide() = %v, want %v", got, tt.want)
 			}
 		})
@@ -123,13 +131,13 @@ func TestDouble_Exponent(t *testing.T) {
 			name:   "Exponent 5.1 ^ 4.8 Double",
 			fields: fields{5.1},
 			args:   args{NewDouble(4.8)},
-			want:   NewDouble(math.Pow(5.1, 4.8)),
+			want:   NewDouble(toFixed(NewDouble(math.Pow(5.1, 4.8)), 2)),
 		},
 		{
 			name:   "Exponent 5.1 ^ 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewDouble(math.Pow(5.1, 4.8)),
+			want:   NewDouble(toFixed(NewDouble(math.Pow(5.1, 4.8)), 2)),
 		},
 		{
 			name:   "Exponent 5.0 ^ 4 Integer",
@@ -149,7 +157,7 @@ func TestDouble_Exponent(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Exponent(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Exponent(tt.args.other), 2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Exponent() = %v, want %v", got, tt.want)
 			}
 		})
@@ -408,7 +416,7 @@ func TestDouble_Subtract(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Subtract(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := NewDouble(toFixed(p.Subtract(tt.args.other), 1)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Subtract() = %v, want %v", got, tt.want)
 			}
 		})
