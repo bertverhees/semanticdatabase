@@ -15,7 +15,7 @@ func NewReal(value float32) *Real {
 	return d
 }
 
-func (p *Real) returnRealFromINumeric(ordered INumeric) *Real {
+func (p *Real) ReturnRealFromINumeric(ordered INumeric) *Real {
 	var r float32
 	switch ordered.(type) {
 	case *Double:
@@ -32,9 +32,11 @@ func (p *Real) returnRealFromINumeric(ordered INumeric) *Real {
 	return NewReal(r)
 }
 
-func (p *Real) returnRealFromIOrdered(ordered IOrdered) *Real {
+func (p *Real) ReturnRealFromIOrdered(ordered IOrdered) *Real {
 	var r float32
 	switch ordered.(type) {
+	case *Double:
+		r = float32(ordered.(*Double).Value())
 	case *Real:
 		r = float32(ordered.(*Real).Value())
 	case *Integer:
@@ -58,28 +60,27 @@ func (p *Real) returnRealFromIOrdered(ordered IOrdered) *Real {
 }
 
 func (p *Real) Add(other INumeric) INumeric {
-	return NewReal(p.value + p.returnRealFromINumeric(other).value)
+	return NewReal(p.value + p.ReturnRealFromINumeric(other).value)
 }
 
 func (p *Real) Subtract(other INumeric) INumeric {
-	return NewReal(p.value - p.returnRealFromINumeric(other).value)
+	return NewReal(p.value - p.ReturnRealFromINumeric(other).value)
 }
 
 func (p *Real) Multiply(other INumeric) INumeric {
-	return NewReal(p.value * p.returnRealFromINumeric(other).value)
+	return NewReal(p.value * p.ReturnRealFromINumeric(other).value)
 }
 
 func (p *Real) Divide(other INumeric) INumeric {
-	return NewReal(p.value / p.returnRealFromINumeric(other).value)
+	return NewReal(p.value / p.ReturnRealFromINumeric(other).value)
 }
 
 func (p *Real) Exponent(other INumeric) INumeric {
-	return NewReal(float32(math.Pow(float64(p.value), float64(p.returnRealFromINumeric(other).value))))
+	return NewReal(float32(math.Pow(float64(p.value), float64(p.ReturnRealFromINumeric(other).value))))
 }
 
 func (p *Real) Negative() INumeric {
-	//TODO implement me
-	panic("implement me")
+	return NewReal(-p.value)
 }
 
 func (p *Real) Value() float32 {
@@ -95,23 +96,19 @@ func (p *Real) IsEqual(b IAny) IAny {
 }
 
 func (p *Real) LessThan(other IOrdered) *Boolean {
-	//f, ok := other.(*Real)
-	//if ok {
-	//	return
-	//}
-	return nil
+	return NewBoolean(p.value < p.ReturnRealFromIOrdered(other).value)
 }
 
 func (p *Real) LessThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value <= p.ReturnRealFromIOrdered(other).value)
 }
 
 func (p *Real) GreaterThan(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value > p.ReturnRealFromIOrdered(other).value)
 }
 
 func (p *Real) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value >= p.ReturnRealFromIOrdered(other).value)
 }
 
 func (p *Real) ToFixedNumberOfDecimals(precision *Integer) IFloat {
