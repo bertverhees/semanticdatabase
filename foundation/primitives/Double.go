@@ -15,7 +15,7 @@ func NewDouble(value float64) *Double {
 	return d
 }
 
-func (p *Double) ReturnDoubleFromINumeric(ordered INumeric) *Double {
+func (p *Double) ConvertFromINumeric(ordered INumeric) INumeric {
 	var r float64
 	switch ordered.(type) {
 	case *Double:
@@ -32,7 +32,7 @@ func (p *Double) ReturnDoubleFromINumeric(ordered INumeric) *Double {
 	return NewDouble(r)
 }
 
-func (p *Double) ReturnDoubleFromIOrdered(ordered IOrdered) *Double {
+func (p *Double) ConvertFromIOrdered(ordered IOrdered) IOrdered {
 	var r float64
 	switch ordered.(type) {
 	case *Double:
@@ -60,23 +60,23 @@ func (p *Double) ReturnDoubleFromIOrdered(ordered IOrdered) *Double {
 }
 
 func (p *Double) Add(other INumeric) INumeric {
-	return NewDouble(p.value + p.ReturnDoubleFromINumeric(other).value)
+	return NewDouble(p.value + p.ConvertFromINumeric(other).(*Double).value)
 }
 
 func (p *Double) Subtract(other INumeric) INumeric {
-	return NewDouble(p.value - p.ReturnDoubleFromINumeric(other).value)
+	return NewDouble(p.value - p.ConvertFromINumeric(other).(*Double).value)
 }
 
 func (p *Double) Multiply(other INumeric) INumeric {
-	return NewDouble(p.value * p.ReturnDoubleFromINumeric(other).value)
+	return NewDouble(p.value * p.ConvertFromINumeric(other).(*Double).value)
 }
 
 func (p *Double) Divide(other INumeric) INumeric {
-	return NewDouble(p.value / p.ReturnDoubleFromINumeric(other).value)
+	return NewDouble(p.value / p.ConvertFromINumeric(other).(*Double).value)
 }
 
 func (p *Double) Exponent(other INumeric) INumeric {
-	return NewDouble(math.Pow(p.value, p.ReturnDoubleFromINumeric(other).value))
+	return NewDouble(math.Pow(p.value, p.ConvertFromINumeric(other).(*Double).value))
 }
 
 func (p *Double) Negative() INumeric {
@@ -96,19 +96,19 @@ func (p *Double) IsEqual(b IAny) IAny {
 }
 
 func (p *Double) LessThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value < p.ReturnDoubleFromIOrdered(other).value)
+	return NewBoolean(p.value < p.ConvertFromIOrdered(other).(*Double).value)
 }
 
 func (p *Double) LessThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value <= p.ReturnDoubleFromIOrdered(other).value)
+	return NewBoolean(p.value <= p.ConvertFromIOrdered(other).(*Double).value)
 }
 
 func (p *Double) GreaterThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value > p.ReturnDoubleFromIOrdered(other).value)
+	return NewBoolean(p.value > p.ConvertFromIOrdered(other).(*Double).value)
 }
 
 func (p *Double) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value >= p.ReturnDoubleFromIOrdered(other).value)
+	return NewBoolean(p.value >= p.ConvertFromIOrdered(other).(*Double).value)
 }
 
 func (p *Double) ToFixedNumberOfDecimals(precision *Integer) IFloat {

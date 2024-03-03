@@ -544,8 +544,8 @@ func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
 			p := &Double{
 				value: 0,
 			}
-			if got := p.ReturnDoubleFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ReturnDoubleFromIOrdered() = %v, want %v", got, tt.want)
+			if got := p.ConvertFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -598,8 +598,8 @@ func TestDouble_ReturnDoubleFromINumeric(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.ReturnDoubleFromINumeric(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ReturnDoubleFromINumeric() = %v, want %v", got, tt.want)
+			if got := p.ConvertFromINumeric(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertFromINumeric() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -625,8 +625,8 @@ func TestDouble_ReturnDoubleFromIOrdered(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.ReturnDoubleFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ReturnDoubleFromIOrdered() = %v, want %v", got, tt.want)
+			if got := p.ConvertFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
 	}

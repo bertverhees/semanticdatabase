@@ -10,6 +10,14 @@ func NewInteger(value int32) *Integer {
 	return d
 }
 
+func (p *Integer) ConvertFromINumeric(ordered INumeric) INumeric {
+	return nil
+}
+
+func (p *Integer) ConvertFromIOrdered(ordered IOrdered) IOrdered {
+	return nil
+}
+
 func (p *Integer) Add(other INumeric) INumeric {
 	//TODO implement me
 	panic("implement me")
