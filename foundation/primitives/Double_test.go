@@ -169,7 +169,24 @@ func TestDouble_GreaterThan(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "GreaterThan 5.1 > 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewBoolean(5.1 > 4.8),
+		},
+		{
+			name:   "GreaterThan 4.8 > 5.1 Double",
+			fields: fields{4.8},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(4.8 > 5.1),
+		},
+		{
+			name:   "GreaterThan 5.1 > 5.1 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(5.1 > 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -196,7 +213,24 @@ func TestDouble_GreaterThanOrEqual(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "GreaterThanOrEqual 5.1 >= 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewBoolean(5.1 >= 4.8),
+		},
+		{
+			name:   "GreaterThanOrEqual 4.8 >= 5.1 Double",
+			fields: fields{4.8},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(4.8 >= 5.1),
+		},
+		{
+			name:   "GreaterThanOrEqual 5.1 >= 5.1 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(5.1 >= 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -223,7 +257,18 @@ func TestDouble_IsEqual(t *testing.T) {
 		args   args
 		want   IAny
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "IsEqual 4.8 == 5.1 Double",
+			fields: fields{4.8},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(4.8 == 5.1),
+		},
+		{
+			name:   "IsEqual 5.1 == 5.1 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(5.1 == 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -250,7 +295,24 @@ func TestDouble_LessThan(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "LessThan 5.1 <= 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewBoolean(5.1 < 4.8),
+		},
+		{
+			name:   "LessThan 4.8 <= 5.1 Double",
+			fields: fields{4.8},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(4.8 < 5.1),
+		},
+		{
+			name:   "LessThan 5.1 <= 5.1 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(5.1 < 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -277,7 +339,24 @@ func TestDouble_LessThanOrEqual(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "LessThanOrEqual 5.1 <= 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewBoolean(5.1 <= 4.8),
+		},
+		{
+			name:   "LessThanOrEqual 4.8 <= 5.1 Double",
+			fields: fields{4.8},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(4.8 <= 5.1),
+		},
+		{
+			name:   "LessThanOrEqual 5.1 <= 5.1 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(5.1)},
+			want:   NewBoolean(5.1 <= 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -304,14 +383,37 @@ func TestDouble_Multiply(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Multiply 5.1 * 4.8 Double",
+			fields: fields{5.1},
+			args:   args{NewDouble(4.8)},
+			want:   NewDouble(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+		},
+		{
+			name:   "Multiply 5.1 * 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewDouble(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+		},
+		{
+			name:   "Multiply 5.0 * 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewDouble(5.0 * 4),
+		},
+		{
+			name:   "Multiply 5.0 * 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewDouble(5.0 * 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got := p.Multiply(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := p.Multiply(tt.args.other).(*Double).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Multiply() = %v, want %v", got, tt.want)
 			}
 		})
@@ -327,7 +429,21 @@ func TestDouble_Negative(t *testing.T) {
 		fields fields
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Negative -5.1",
+			fields: fields{-5.1},
+			want:   NewDouble(5.1),
+		},
+		{
+			name:   "Negative 5.1",
+			fields: fields{5.1},
+			want:   NewDouble(-5.1),
+		},
+		{
+			name:   "Negative 0",
+			fields: fields{0},
+			want:   NewDouble(0),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -337,30 +453,6 @@ func TestDouble_Negative(t *testing.T) {
 			if got := p.Negative(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Negative() = %v, want %v", got, tt.want)
 			}
-		})
-	}
-}
-
-func TestDouble_SetValue(t *testing.T) {
-	type fields struct {
-		value float64
-	}
-	type args struct {
-		value float64
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Double{
-				value: tt.fields.value,
-			}
-			p.SetValue(tt.args.value)
 		})
 	}
 }
@@ -452,8 +544,8 @@ func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
 			p := &Double{
 				value: 0,
 			}
-			if got := p.returnDoubleFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("returnDoubleFromIOrdered() = %v, want %v", got, tt.want)
+			if got := p.ReturnDoubleFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ReturnDoubleFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -481,6 +573,60 @@ func TestDouble_ToFixedNumberOfDecimals(t *testing.T) {
 			}
 			if got := p.ToFixedNumberOfDecimals(tt.args.precision); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDouble_ReturnDoubleFromINumeric(t *testing.T) {
+	type fields struct {
+		value float64
+	}
+	type args struct {
+		ordered INumeric
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *Double
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Double{
+				value: tt.fields.value,
+			}
+			if got := p.ReturnDoubleFromINumeric(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ReturnDoubleFromINumeric() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDouble_ReturnDoubleFromIOrdered(t *testing.T) {
+	type fields struct {
+		value float64
+	}
+	type args struct {
+		ordered IOrdered
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *Double
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Double{
+				value: tt.fields.value,
+			}
+			if got := p.ReturnDoubleFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ReturnDoubleFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
 	}
