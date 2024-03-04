@@ -1,6 +1,7 @@
 package primitives
 
 import (
+	"math"
 	"reflect"
 	"testing"
 )
@@ -19,9 +20,9 @@ func TestReal_Add(t *testing.T) {
 		want   INumeric
 	}{
 		{
-			name:   "Add 5.1 + 4.8 Double",
+			name:   "Add 5.1 + 4.8 Real",
 			fields: fields{5.1},
-			args:   args{NewDouble(4.8)},
+			args:   args{NewReal(4.8)},
 			want:   NewReal(5.1 + 4.8),
 		},
 		{
@@ -48,7 +49,7 @@ func TestReal_Add(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Add(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := p.Add(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(1)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Add() = %v, want %v", got, tt.want)
 			}
 		})
@@ -69,16 +70,16 @@ func TestReal_Divide(t *testing.T) {
 		want   INumeric
 	}{
 		{
-			name:   "Divide 5.1 / 4.8 Double",
+			name:   "Divide 5.1 / 4.8 Real",
 			fields: fields{5.1},
-			args:   args{NewDouble(4.8)},
-			want:   NewReal(5.1 / 4.8),
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 / 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
 		},
 		{
 			name:   "Divide 5.1 / 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(5.1 / 4.8),
+			want:   NewReal(5.1 / 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
 		},
 		{
 			name:   "Divide 5.0 / 4 Integer",
@@ -98,7 +99,7 @@ func TestReal_Divide(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Divide(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := p.Divide(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Divide() = %v, want %v", got, tt.want)
 			}
 		})
@@ -118,14 +119,37 @@ func TestReal_Exponent(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Exponent 5.1 ^ 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(float32(math.Pow(5.1, 4.8))).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+		},
+		{
+			name:   "Exponent 5.1 ^ 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(float32(math.Pow(5.1, 4.8))).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+		},
+		{
+			name:   "Exponent 5.0 ^ 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewReal(float32(math.Pow(5.0, 4))),
+		},
+		{
+			name:   "Exponent 5.0 ^ 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewReal(float32(math.Pow(5.0, 4))),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Exponent(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := p.Exponent(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Exponent() = %v, want %v", got, tt.want)
 			}
 		})
@@ -145,7 +169,24 @@ func TestReal_GreaterThan(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "GreaterThan 5.1 > 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewBoolean(5.1 > 4.8),
+		},
+		{
+			name:   "GreaterThan 4.8 > 5.1 Real",
+			fields: fields{4.8},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(4.8 > 5.1),
+		},
+		{
+			name:   "GreaterThan 5.1 > 5.1 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(5.1 > 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -172,7 +213,24 @@ func TestReal_GreaterThanOrEqual(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "GreaterThanOrEqual 5.1 >= 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewBoolean(5.1 >= 4.8),
+		},
+		{
+			name:   "GreaterThanOrEqual 4.8 >= 5.1 Real",
+			fields: fields{4.8},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(4.8 >= 5.1),
+		},
+		{
+			name:   "GreaterThanOrEqual 5.1 >= 5.1 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(5.1 >= 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -199,7 +257,18 @@ func TestReal_IsEqual(t *testing.T) {
 		args   args
 		want   IAny
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "IsEqual 4.8 == 5.1 Real",
+			fields: fields{4.8},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(4.8 == 5.1),
+		},
+		{
+			name:   "IsEqual 5.1 == 5.1 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(5.1 == 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -226,7 +295,24 @@ func TestReal_LessThan(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "LessThan 5.1 <= 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewBoolean(5.1 < 4.8),
+		},
+		{
+			name:   "LessThan 4.8 <= 5.1 Real",
+			fields: fields{4.8},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(4.8 < 5.1),
+		},
+		{
+			name:   "LessThan 5.1 <= 5.1 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(5.1 < 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -253,7 +339,24 @@ func TestReal_LessThanOrEqual(t *testing.T) {
 		args   args
 		want   *Boolean
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "LessThanOrEqual 5.1 <= 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewBoolean(5.1 <= 4.8),
+		},
+		{
+			name:   "LessThanOrEqual 4.8 <= 5.1 Real",
+			fields: fields{4.8},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(4.8 <= 5.1),
+		},
+		{
+			name:   "LessThanOrEqual 5.1 <= 5.1 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(5.1)},
+			want:   NewBoolean(5.1 <= 5.1),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -280,14 +383,37 @@ func TestReal_Multiply(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Multiply 5.1 * 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+		},
+		{
+			name:   "Multiply 5.1 * 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+		},
+		{
+			name:   "Multiply 5.0 * 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewReal(5.0 * 4),
+		},
+		{
+			name:   "Multiply 5.0 * 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewReal(5.0 * 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Multiply(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := p.Multiply(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Multiply() = %v, want %v", got, tt.want)
 			}
 		})
@@ -303,7 +429,21 @@ func TestReal_Negative(t *testing.T) {
 		fields fields
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Negative -5.1",
+			fields: fields{-5.1},
+			want:   NewReal(5.1),
+		},
+		{
+			name:   "Negative 5.1",
+			fields: fields{5.1},
+			want:   NewReal(-5.1),
+		},
+		{
+			name:   "Negative 0",
+			fields: fields{0},
+			want:   NewReal(0),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -313,30 +453,6 @@ func TestReal_Negative(t *testing.T) {
 			if got := p.Negative(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Negative() = %v, want %v", got, tt.want)
 			}
-		})
-	}
-}
-
-func TestReal_SetValue(t *testing.T) {
-	type fields struct {
-		value float32
-	}
-	type args struct {
-		value float32
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Real{
-				value: tt.fields.value,
-			}
-			p.SetValue(tt.args.value)
 		})
 	}
 }
@@ -354,38 +470,80 @@ func TestReal_Subtract(t *testing.T) {
 		args   args
 		want   INumeric
 	}{
-		// TODO: Add test cases.
+		{
+			name:   "Subtract 5.1 - 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 - 4.8),
+		},
+		{
+			name:   "Subtract 5.1 - 4.8 Real",
+			fields: fields{5.1},
+			args:   args{NewReal(4.8)},
+			want:   NewReal(5.1 - 4.8),
+		},
+		{
+			name:   "Subtract 5.0 - 4 Integer",
+			fields: fields{5.0},
+			args:   args{NewInteger(4)},
+			want:   NewReal(5.0 - 4),
+		},
+		{
+			name:   "Subtract 5.0 - 4 Integer64",
+			fields: fields{5.0},
+			args:   args{NewInteger64(4)},
+			want:   NewReal(5.0 - 4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Subtract(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got := p.Subtract(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(1)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Subtract() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestReal_Value(t *testing.T) {
-	type fields struct {
-		value float32
+func TestReal_ConvertFromIOrdered(t *testing.T) {
+	type args struct {
+		ordered IOrdered
 	}
 	tests := []struct {
-		name   string
-		fields fields
-		want   float32
+		name string
+		args args
+		want *Real
 	}{
-		// TODO: Add test cases.
+		{
+			name: "ConvertFromIOrdered 4.8 Real",
+			args: args{NewReal(4.8)},
+			want: NewReal(4.8),
+		},
+		{
+			name: "ConvertFromIOrdered 4.8 Real",
+			args: args{NewReal(4.8)},
+			want: NewReal(4.8),
+		},
+		{
+			name: "ConvertFromIOrdered 4 Integer",
+			args: args{NewInteger(4)},
+			want: NewReal(4),
+		},
+		{
+			name: "ConvertFromIOrdered 4 Integer64",
+			args: args{NewInteger64(4)},
+			want: NewReal(4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Real{
-				value: tt.fields.value,
+				value: 0,
 			}
-			if got := p.Value(); got != tt.want {
-				t.Errorf("Value() = %v, want %v", got, tt.want)
+			if got := p.ConvertFromIOrdered(tt.args.ordered).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -393,26 +551,109 @@ func TestReal_Value(t *testing.T) {
 
 func TestReal_ToFixedNumberOfDecimals(t *testing.T) {
 	type fields struct {
-		value float32
+		value float64
 	}
 	type args struct {
 		precision *Integer
 	}
 	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   IFloat
+		name string
+		args args
+		want IFloat
 	}{
-		// TODO: Add test cases.
+		{
+			name: "ToFixedNumberOfDecimals Precision 1",
+			args: args{NewInteger(1)},
+			want: NewReal(3.1),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 2",
+			args: args{NewInteger(2)},
+			want: NewReal(3.14),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 3",
+			args: args{NewInteger(3)},
+			want: NewReal(3.142),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 4",
+			args: args{NewInteger(4)},
+			want: NewReal(3.1416),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 5",
+			args: args{NewInteger(5)},
+			want: NewReal(3.14159),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 6",
+			args: args{NewInteger(6)},
+			want: NewReal(3.141593),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 7",
+			args: args{NewInteger(7)},
+			want: NewReal(3.1415927),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 8",
+			args: args{NewInteger(8)},
+			want: NewReal(3.14159265),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Real{
-				value: tt.fields.value,
+				value: math.Pi,
 			}
 			if got := p.ToFixedNumberOfDecimals(tt.args.precision); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestReal_ConvertFromINumeric(t *testing.T) {
+	type fields struct {
+		value float64
+	}
+	type args struct {
+		ordered INumeric
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Real
+	}{
+		{
+			name: "ConvertFromINumeric 4.8 Real",
+			args: args{NewReal(4.8)},
+			want: NewReal(4.8),
+		},
+		{
+			name: "ConvertFromINumeric 4.8 Real",
+			args: args{NewReal(4.8)},
+			want: NewReal(4.8),
+		},
+		{
+			name: "ConvertFromINumeric 4 Integer",
+			args: args{NewInteger(4)},
+			want: NewReal(4),
+		},
+		{
+			name: "ConvertFromINumeric 4 Integer64",
+			args: args{NewInteger64(4)},
+			want: NewReal(4),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Real{
+				value: 0,
+			}
+			if got := p.ConvertFromINumeric(tt.args.ordered).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertFromINumeric() = %v, want %v", got, tt.want)
 			}
 		})
 	}

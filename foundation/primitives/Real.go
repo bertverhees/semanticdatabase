@@ -35,14 +35,8 @@ func (p *Real) ConvertFromINumeric(ordered INumeric) INumeric {
 func (p *Real) ConvertFromIOrdered(ordered IOrdered) IOrdered {
 	var r float32
 	switch ordered.(type) {
-	case *Double:
-		r = float32(ordered.(*Double).Value())
-	case *Real:
-		r = float32(ordered.(*Real).Value())
-	case *Integer:
-		r = float32(ordered.(*Integer).Value())
-	case *Integer64:
-		r = float32(ordered.(*Integer64).Value())
+	case *Double, *Real, *Integer, *Integer64:
+		return p.ConvertFromINumeric(ordered.(INumeric)).(IOrdered)
 	case *String:
 		f, err := strconv.ParseFloat(ordered.(*String).value, 32)
 		if err != nil {

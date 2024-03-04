@@ -507,30 +507,7 @@ func TestDouble_Subtract(t *testing.T) {
 	}
 }
 
-func TestDouble_Value(t *testing.T) {
-	type fields struct {
-		value float64
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		want   float64
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Double{
-				value: tt.fields.value,
-			}
-			if got := p.Value(); got != tt.want {
-				t.Errorf("Value() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
+func TestDouble_ConvertFromIOrdered(t *testing.T) {
 	type args struct {
 		ordered IOrdered
 	}
@@ -538,13 +515,34 @@ func TestDouble_returnDoubleFromIOrdered(t *testing.T) {
 		name string
 		args args
 		want *Double
-	}{}
+	}{
+		{
+			name: "ConvertFromIOrdered 4.8 Double",
+			args: args{NewDouble(4.8)},
+			want: NewDouble(4.8),
+		},
+		{
+			name: "ConvertFromIOrdered 4.8 Real",
+			args: args{NewReal(4.8)},
+			want: NewDouble(4.8),
+		},
+		{
+			name: "ConvertFromIOrdered 4 Integer",
+			args: args{NewInteger(4)},
+			want: NewDouble(4),
+		},
+		{
+			name: "ConvertFromIOrdered 4 Integer64",
+			args: args{NewInteger64(4)},
+			want: NewDouble(4),
+		},
+	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
 				value: 0,
 			}
-			if got := p.ConvertFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+			if got := p.ConvertFromIOrdered(tt.args.ordered).(*Double).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ConvertFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
@@ -559,17 +557,55 @@ func TestDouble_ToFixedNumberOfDecimals(t *testing.T) {
 		precision *Integer
 	}
 	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   IFloat
+		name string
+		args args
+		want IFloat
 	}{
-		// TODO: Add test cases.
+		{
+			name: "ToFixedNumberOfDecimals Precision 1",
+			args: args{NewInteger(1)},
+			want: NewDouble(3.1),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 2",
+			args: args{NewInteger(2)},
+			want: NewDouble(3.14),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 3",
+			args: args{NewInteger(3)},
+			want: NewDouble(3.142),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 4",
+			args: args{NewInteger(4)},
+			want: NewDouble(3.1416),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 5",
+			args: args{NewInteger(5)},
+			want: NewDouble(3.14159),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 6",
+			args: args{NewInteger(6)},
+			want: NewDouble(3.141593),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 7",
+			args: args{NewInteger(7)},
+			want: NewDouble(3.1415927),
+		},
+		{
+			name: "ToFixedNumberOfDecimals Precision 8",
+			args: args{NewInteger(8)},
+			want: NewDouble(3.14159265),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
-				value: tt.fields.value,
+				value: math.Pi,
 			}
 			if got := p.ToFixedNumberOfDecimals(tt.args.precision); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
@@ -578,7 +614,7 @@ func TestDouble_ToFixedNumberOfDecimals(t *testing.T) {
 	}
 }
 
-func TestDouble_ReturnDoubleFromINumeric(t *testing.T) {
+func TestDouble_ConvertFromINumeric(t *testing.T) {
 	type fields struct {
 		value float64
 	}
@@ -586,47 +622,38 @@ func TestDouble_ReturnDoubleFromINumeric(t *testing.T) {
 		ordered INumeric
 	}
 	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   *Double
+		name string
+		args args
+		want *Double
 	}{
-		// TODO: Add test cases.
+		{
+			name: "ConvertFromINumeric 4.8 Double",
+			args: args{NewDouble(4.8)},
+			want: NewDouble(4.8),
+		},
+		{
+			name: "ConvertFromINumeric 4.8 Real",
+			args: args{NewReal(4.8)},
+			want: NewDouble(4.8),
+		},
+		{
+			name: "ConvertFromINumeric 4 Integer",
+			args: args{NewInteger(4)},
+			want: NewDouble(4),
+		},
+		{
+			name: "ConvertFromINumeric 4 Integer64",
+			args: args{NewInteger64(4)},
+			want: NewDouble(4),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Double{
-				value: tt.fields.value,
+				value: 0,
 			}
-			if got := p.ConvertFromINumeric(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+			if got := p.ConvertFromINumeric(tt.args.ordered).(*Double).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ConvertFromINumeric() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestDouble_ReturnDoubleFromIOrdered(t *testing.T) {
-	type fields struct {
-		value float64
-	}
-	type args struct {
-		ordered IOrdered
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   *Double
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Double{
-				value: tt.fields.value,
-			}
-			if got := p.ConvertFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ConvertFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})
 	}
