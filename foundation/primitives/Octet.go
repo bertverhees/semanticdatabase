@@ -1,20 +1,20 @@
 package primitives
 
 type Octet struct {
-	value int8
+	value uint8
 }
 
-func NewOctet(value int8) *Octet {
+func NewOctet(value uint8) *Octet {
 	d := new(Octet)
 	d.value = value
 	return d
 }
 
-func (p *Octet) Value() int8 {
+func (p *Octet) Value() uint8 {
 	return p.value
 }
 
-func (p *Octet) SetValue(value int8) {
+func (p *Octet) SetValue(value uint8) {
 	p.value = value
 }
 
@@ -23,21 +23,17 @@ func (p *Octet) IsEqual(b IAny) IAny {
 }
 
 func (p *Octet) LessThan(other IOrdered) *Boolean {
-	//f, ok := other.(*Octet)
-	//if ok {
-	//	return
-	//}
-	return nil
+	return NewBoolean(p.value < other.(*Octet).value)
 }
 
 func (p *Octet) LessThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value <= other.(*Octet).value)
 }
 
 func (p *Octet) GreaterThan(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value > other.(*Octet).value)
 }
 
 func (p *Octet) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return nil
+	return NewBoolean(p.value >= other.(*Octet).value)
 }
