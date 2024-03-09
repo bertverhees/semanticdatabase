@@ -13,7 +13,7 @@ func NewString(value string) *String {
 	return &String{value: value}
 }
 
-func (p *String) returnStringFromIOrdered(ordered IOrdered) *String {
+func (p *String) ConvertFromIOrdered(ordered IOrdered) *String {
 	var r string
 	switch ordered.(type) {
 	case *Double:
@@ -42,22 +42,28 @@ func (p *String) SetValue(value string) {
 	p.value = value
 }
 
-func (p *String) IsEqual(b IAny) IAny {
-	return NewBoolean(p.value == p.returnStringFromIOrdered(b.(IOrdered)).value)
+func (p *String) IsEqual(b IAny) *Boolean {
+	v := ConvertToStringFromIAny(b)
+	return NewBoolean(p.value == v.value)
+}
+
+func (p *String) NotEqual(b IAny) *Boolean {
+	v := ConvertToStringFromIAny(b)
+	return NewBoolean(p.value != v.value)
 }
 
 func (p *String) LessThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value < p.returnStringFromIOrdered(other).value)
+	return NewBoolean(p.value < p.ConvertFromIOrdered(other).value)
 }
 
 func (p *String) LessThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value <= p.returnStringFromIOrdered(other).value)
+	return NewBoolean(p.value <= p.ConvertFromIOrdered(other).value)
 }
 
 func (p *String) GreaterThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value > p.returnStringFromIOrdered(other).value)
+	return NewBoolean(p.value > p.ConvertFromIOrdered(other).value)
 }
 
 func (p *String) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value >= p.returnStringFromIOrdered(other).value)
+	return NewBoolean(p.value >= p.ConvertFromIOrdered(other).value)
 }

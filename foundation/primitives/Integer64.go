@@ -10,14 +10,6 @@ func NewInteger64(value int64) *Integer64 {
 	return d
 }
 
-func (p *Integer64) ConvertFromINumeric(ordered INumeric) INumeric {
-	return nil
-}
-
-func (p *Integer64) ConvertFromIOrdered(ordered IOrdered) IOrdered {
-	return nil
-}
-
 func (p *Integer64) Value() int64 {
 	return p.value
 }
@@ -56,9 +48,14 @@ func (Integer64) Negative() INumeric {
 	panic("implement me")
 }
 
-func (Integer64) IsEqual(any IAny) IAny {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) IsEqual(b IAny) *Boolean {
+	v := ConvertToInteger64FromIAny(b)
+	return NewBoolean(p.value == v.value)
+}
+
+func (p *Integer64) NotEqual(b IAny) *Boolean {
+	v := ConvertToInteger64FromIAny(b)
+	return NewBoolean(p.value != v.value)
 }
 
 func (Integer64) LessThan(other IOrdered) *Boolean {

@@ -2,7 +2,6 @@ package primitives
 
 import (
 	"math"
-	"strconv"
 )
 
 type Double struct {
@@ -13,44 +12,6 @@ func NewDouble(value float64) *Double {
 	d := new(Double)
 	d.value = value
 	return d
-}
-
-func (p *Double) ConvertFromINumeric(ordered INumeric) INumeric {
-	var r float64
-	switch ordered.(type) {
-	case *Double:
-		r = ordered.(*Double).Value()
-	case *Integer:
-		r = float64(ordered.(*Integer).Value())
-	case *Integer64:
-		r = float64(ordered.(*Integer64).Value())
-	case *Real:
-		r = float64(ordered.(*Real).Value())
-	default:
-		panic("Not valid type")
-	}
-	return NewDouble(r)
-}
-
-func (p *Double) ConvertFromIOrdered(ordered IOrdered) IOrdered {
-	var r float64
-	switch ordered.(type) {
-	case *Double, *Real, *Integer, *Integer64:
-		return p.ConvertFromINumeric(ordered.(INumeric)).(IOrdered)
-	case *String:
-		f, err := strconv.ParseFloat(ordered.(*String).value, 64)
-		if err != nil {
-			panic("Cannot convert this string to float:" + ordered.(*String).value)
-		}
-		r = f
-	case *Character:
-		r = float64(ordered.(*Character).Value())
-	case *Octet:
-		r = float64(ordered.(*Octet).Value())
-	default:
-		panic("Not valid type")
-	}
-	return NewDouble(r)
 }
 
 func (p *Double) Add(other INumeric) INumeric {
@@ -85,8 +46,14 @@ func (p *Double) SetValue(value float64) {
 	p.value = value
 }
 
-func (p *Double) IsEqual(b IAny) IAny {
-	return NewBoolean(p.value == b.(*Double).value)
+func (p *Double) IsEqual(b IAny) *Boolean {
+	v := ConvertToDoubleFromIAny(b)
+	return NewBoolean(p.value == v.value)
+}
+
+func (p *Double) NotEqual(b IAny) *Boolean {
+	v := ConvertToDoubleFromIAny(b)
+	return NewBoolean(p.value != v.value)
 }
 
 func (p *Double) LessThan(other IOrdered) *Boolean {

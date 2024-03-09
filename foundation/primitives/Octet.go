@@ -18,8 +18,14 @@ func (p *Octet) SetValue(value uint8) {
 	p.value = value
 }
 
-func (p *Octet) IsEqual(b IAny) IAny {
-	return NewBoolean(p.value == b.(*Octet).value)
+func (p *Octet) IsEqual(b IAny) *Boolean {
+	v := ConvertToOctetFromIAny(b)
+	return NewBoolean(p.value == v.value)
+}
+
+func (p *Octet) NotEqual(b IAny) *Boolean {
+	v := ConvertToOctetFromIAny(b)
+	return NewBoolean(p.value != v.value)
 }
 
 func (p *Octet) LessThan(other IOrdered) *Boolean {

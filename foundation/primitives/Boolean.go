@@ -24,8 +24,14 @@ func (p *Boolean) SetValue(value bool) {
 
 /*Value equality: return True if this and other are attached to objects considered to be equal in value.
  */
-func (p *Boolean) IsEqual(b IAny) IAny {
-	return NewBoolean(p.value == b.(*Boolean).value)
+func (p *Boolean) IsEqual(b IAny) *Boolean {
+	v := ConvertToBooleanFromIAny(b)
+	return NewBoolean(p.value == v.value)
+}
+
+func (p *Boolean) NotEqual(b IAny) *Boolean {
+	v := ConvertToBooleanFromIAny(b)
+	return NewBoolean(p.value != v.value)
 }
 
 /*Create new instance of a type.

@@ -10,14 +10,6 @@ func NewInteger(value int32) *Integer {
 	return d
 }
 
-func (p *Integer) ConvertFromINumeric(ordered INumeric) INumeric {
-	return nil
-}
-
-func (p *Integer) ConvertFromIOrdered(ordered IOrdered) IOrdered {
-	return nil
-}
-
 func (p *Integer) Add(other INumeric) INumeric {
 	//TODO implement me
 	panic("implement me")
@@ -56,8 +48,14 @@ func (p *Integer) SetValue(value int32) {
 	p.value = value
 }
 
-func (p *Integer) IsEqual(b IAny) IAny {
-	return NewBoolean(p.value == b.(*Integer).value)
+func (p *Integer) IsEqual(b IAny) *Boolean {
+	v := ConvertToIntegerFromIAny(b)
+	return NewBoolean(p.value == v.value)
+}
+
+func (p *Integer) NotEqual(b IAny) *Boolean {
+	v := ConvertToIntegerFromIAny(b)
+	return NewBoolean(p.value != v.value)
 }
 
 func (p *Integer) LessThan(other IOrdered) *Boolean {
