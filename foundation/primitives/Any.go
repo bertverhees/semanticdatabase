@@ -1,8 +1,10 @@
 package primitives
 
 import (
+	"errors"
 	"fmt"
 	"math"
+	"strconv"
 	"strings"
 )
 
@@ -25,6 +27,7 @@ type IAny interface {
 	   True if current object not equal to other. Returns not equal().
 	*/
 	NotEqual(other IAny) *Boolean
+	//IsComparable(other IAny) *Boolean
 }
 
 type Any struct {
@@ -36,41 +39,39 @@ function returns with String true if ordered = true or false when ordered = fals
 function returns with Character true if  ordered = t or false when ordered = f and an error if it is neither
 function returns with Boolean itself
 */
-func ConvertToBooleanFromIAny(ordered IAny) *Boolean {
-	var r bool
+func MakeIAnyComparableToBoolean(ordered IAny) (*Boolean, error) {
 	switch ordered.(type) {
 	case *Boolean:
-		return ordered.(*Boolean)
+		return ordered.(*Boolean), nil
 	case *Double:
-		r = ordered.(*Double).value > 0
+		return NewBoolean(ordered.(*Double).value > 0), nil
 	case *Real:
-		r = ordered.(*Real).value > 0
+		return NewBoolean(ordered.(*Real).value > 0), nil
 	case *Integer:
-		r = ordered.(*Integer).value > 0
+		return NewBoolean(ordered.(*Integer).value > 0), nil
 	case *Integer64:
-		r = ordered.(*Integer64).value > 0
+		return NewBoolean(ordered.(*Integer64).value > 0), nil
 	case *Octet:
-		r = ordered.(*Octet).value > 0
+		return NewBoolean(ordered.(*Octet).value > 0), nil
 	case *String:
 		if ordered.(*String).value == "true" {
-			r = true
+			return NewBoolean(true), nil
 		} else if ordered.(*String).value == "false" {
-			r = false
+			return NewBoolean(false), nil
 		} else {
-			panic("Cannot convert this String to Boolean:" + ordered.(*String).value)
+			return nil, errors.New("Cannot convert this String to Boolean:" + ordered.(*String).value)
 		}
 	case *Character:
 		if ordered.(*Character).value == 't' {
-			r = true
+			return NewBoolean(true), nil
 		} else if ordered.(*Character).value == 'f' {
-			r = false
+			return NewBoolean(false), nil
 		} else {
-			panic("Cannot convert this Character to Boolean:" + string(ordered.(*Character).value))
+			return nil, errors.New("Cannot convert this Character to Boolean:" + string(ordered.(*Character).value))
 		}
 	default:
-		panic("Not valid type")
+		return nil, errors.New("Not a valid type")
 	}
-	return NewBoolean(r)
 }
 
 /*
@@ -80,35 +81,252 @@ function returns with String the first character in a string
 function returns with Character itself
 function returns with Boolean 't' when true else 'f'
 */
-func ConvertToCharacterFromIAny(ordered IAny) *Character {
-	var r rune
+func MakeIAnyComparableToCharacter(ordered IAny) (*Character, error) {
 	switch ordered.(type) {
 	case *Boolean:
 		if ordered.(*Boolean).Value() {
-			r = 't'
+			return NewCharacter('t'), nil
 		} else {
-			r = 'f'
+			return NewCharacter('f'), nil
 		}
 	case *Double:
-		f := ordered.(*Double).Value()
-		r = rune(int(math.Round(f)))
+		i32 := math.Round(ordered.(*Double).Value())
+		if i32 > math.MaxInt8 || i32 < math.MinInt8 {
+			return nil, errors.New(fmt.Sprintf("Double: %v does not fit into int32 (Character)", i32))
+		}
+		return NewCharacter(int32(i32)), nil
 	case *Real:
-		f := ordered.(*Real).Value()
-		r = rune(int(math.Round(float64(f))))
+		i32 := math.Round(float64(ordered.(*Real).Value()))
+		if i32 > math.MaxInt8 || i32 < math.MinInt8 {
+			return nil, errors.New(fmt.Sprintf("Real: %v does not fit into int32 (Character)", i32))
+		}
+		return NewCharacter(int32(i32)), nil
 	case *Integer:
-		r = rune(ordered.(*Integer).Value())
+		return NewCharacter(rune(ordered.(*Integer).Value())), nil
 	case *Integer64:
-		r = rune(ordered.(*Integer64).Value())
+		i32 := ordered.(*Integer64).Value()
+		if i32 > math.MaxInt32 || i32 < math.MinInt32 {
+			return nil, errors.New(fmt.Sprintf("Integer64: %v does not fit into int32 (Character)", i32))
+		}
+		return NewCharacter(int32(i32)), nil
 	case *Octet:
-		r = rune(ordered.(*Octet).Value())
+		return NewCharacter(rune(ordered.(*Octet).Value())), nil
 	case *String:
-		r = rune(ordered.(*String).Value()[0])
+		return NewCharacter(rune(ordered.(*String).Value()[0])), nil
 	case *Character:
-		return ordered.(*Character)
+		return ordered.(*Character), nil
 	default:
-		panic("Not valid type")
+		return nil, errors.New("Not a valid type")
 	}
-	return NewCharacter(r)
+}
+
+/*
+function returns with Float- or Integer-like or Character type the value
+function returns with String the parsed float
+function returns with Character itself
+function returns with Boolean an error
+*/
+func (p *Double) MakeIAnyComparableToDouble(ordered IAny) (*Double, error) {
+	switch ordered.(type) {
+	case *Double:
+		return ordered.(*Double), nil
+	case *Integer:
+		return NewDouble(float64(ordered.(*Integer).Value())), nil
+	case *Integer64:
+		return NewDouble(float64(ordered.(*Integer64).Value())), nil
+	case *Real:
+		return NewDouble(float64(ordered.(*Real).Value())), nil
+	case *String:
+		f, err := strconv.ParseFloat(ordered.(*String).value, 64)
+		if err != nil {
+			return nil, errors.New("Cannot convert this string to float:" + ordered.(*String).value)
+		}
+		return NewDouble(f), nil
+	case *Character:
+		return NewDouble(float64(ordered.(*Character).Value())), nil
+	case *Octet:
+		return NewDouble(float64(ordered.(*Octet).Value())), nil
+	default:
+		return nil, errors.New("Not a valid type")
+	}
+}
+
+/*
+function returns with Float- or Integer-like or Character type the value
+function returns with String the parsed float
+function returns with Boolean an error
+*/
+func MakeIAnyComparableToInteger(ordered IAny) (*Integer, error) {
+	switch ordered.(type) {
+	case *Double:
+		i64 := math.Round(ordered.(*Double).Value())
+		if i64 > math.MaxInt32 || i64 < math.MinInt32 {
+			return nil, errors.New(fmt.Sprintf("Double: %v does not fit into int32 (Integer)", i64))
+		}
+		return NewInteger(int32(i64)), nil
+	case *Integer:
+		return ordered.(*Integer), nil
+	case *Integer64:
+		i64 := ordered.(*Integer64).Value()
+		if i64 > math.MaxInt32 || i64 < math.MinInt32 {
+			return nil, errors.New(fmt.Sprintf("Integer64: %v does not fit into int32 (Integer)", i64))
+		}
+		return NewInteger(int32(i64)), nil
+	case *Real:
+		i64 := math.Round(float64(ordered.(*Real).Value()))
+		if i64 > math.MaxInt32 || i64 < math.MinInt32 {
+			return nil, errors.New(fmt.Sprintf("Real: %v does not fit into int32 (Integer)", i64))
+		}
+		return NewInteger(int32(i64)), nil
+	case *String:
+		i, err := strconv.ParseInt(ordered.(*String).value, 10, 32)
+		return NewInteger(int32(i)), err
+	case *Character:
+		return NewInteger(int32(float64(ordered.(*Character).Value()))), nil
+	case *Octet:
+		i, err := strconv.ParseInt(ordered.(*String).value, 10, 8)
+		return NewInteger(int32(i)), err
+	default:
+		return nil, errors.New("Not a valid type")
+	}
+}
+
+/*
+function returns with Float- or Integer-like or Character type the value
+function returns with String the parsed float
+function returns with Boolean an error
+*/
+func MakeIAnyComparableToInteger64(ordered IAny) (*Integer64, error) {
+	switch ordered.(type) {
+	case *Double:
+		return NewInteger64(int64(math.Round(ordered.(*Double).Value()))), nil
+	case *Integer:
+		return NewInteger64(int64(ordered.(*Integer).Value())), nil
+	case *Integer64:
+		return ordered.(*Integer64), nil
+	case *Real:
+		return NewInteger64(int64(math.Round(float64(ordered.(*Real).Value())))), nil
+	case *String:
+		i64, err := strconv.ParseInt(ordered.(*String).Value(), 10, 64)
+		return NewInteger64(i64), err
+	case *Character:
+		return NewInteger64(int64(ordered.(*Character).Value())), nil
+	case *Octet:
+		return NewInteger64(int64(ordered.(*Octet).Value())), nil
+	default:
+		return nil, errors.New("Not a valid type")
+	}
+}
+
+/*
+function returns with Float- or Integer-like or Character type the value
+function returns with String the parsed float
+function returns with Boolean an error
+*/
+func MakeIAnyComparableToOctet(ordered IAny) (*Octet, error) {
+	switch ordered.(type) {
+	case *Double:
+		i64 := math.Round(ordered.(*Double).Value())
+		if i64 > math.MaxUint8 || i64 < 0 {
+			return nil, errors.New(fmt.Sprintf("Double: %v does not fit into uint8 (Octet)", i64))
+		}
+		return NewOctet(uint8(i64)), nil
+	case *Integer:
+		i32 := math.Round(ordered.(*Double).Value())
+		if i32 > math.MaxUint8 || i32 < 0 {
+			return nil, errors.New(fmt.Sprintf("Double: %v does not fit into uint8 (Octet)", i32))
+		}
+		return NewOctet(uint8(i32)), nil
+	case *Integer64:
+		i64 := ordered.(*Integer64).Value()
+		if i64 > math.MaxUint8 || i64 < 0 {
+			return nil, errors.New(fmt.Sprintf("Integer64: %v does not fit into uint8 (Octet)", i64))
+		}
+		return NewOctet(uint8(i64)), nil
+	case *Real:
+		i64 := math.Round(float64(ordered.(*Real).Value()))
+		if i64 > math.MaxUint8 || i64 < 0 {
+			return nil, errors.New(fmt.Sprintf("Real: %v does not fit into intuint832 (Octet)", i64))
+		}
+		return NewOctet(uint8(i64)), nil
+	case *String:
+		i, err := strconv.ParseInt(ordered.(*String).value, 10, 8)
+		return NewOctet(uint8(i)), err
+	case *Character:
+		return NewOctet(uint8(float64(ordered.(*Character).Value()))), nil
+	case *Octet:
+		i, err := strconv.ParseInt(ordered.(*String).value, 10, 8)
+		return NewOctet(uint8(i)), err
+	default:
+		return nil, errors.New("Not a valid type")
+	}
+}
+
+/*
+function returns with Float- or Integer-like or Character type the value
+function returns with String the parsed float
+function returns with Character itself
+function returns with Boolean an error
+*/
+func MakeIAnyComparableToReal(ordered IAny) (*Real, error) {
+	switch ordered.(type) {
+	case *Double:
+		f64 := float64(ordered.(*Real).Value())
+		if f64 > math.MaxFloat32 {
+			return nil, errors.New(fmt.Sprintf("Double: %v does not fit into float32 (Real)", f64))
+		}
+		return NewReal(float32(f64)), nil
+	case *Integer:
+		return NewReal(float32(ordered.(*Integer).Value())), nil
+	case *Integer64:
+		f64 := float64(ordered.(*Real).Value())
+		if f64 > math.MaxFloat32 {
+			return nil, errors.New(fmt.Sprintf("Integer64: %v does not fit into float32 (Real)", f64))
+		}
+		return NewReal(float32(f64)), nil
+	case *Real:
+		return ordered.(*Real), nil
+	case *String:
+		f, err := strconv.ParseFloat(ordered.(*String).value, 32)
+		if err != nil {
+			return nil, errors.New("Cannot convert this string to float:" + ordered.(*String).value)
+		}
+		return NewReal(float32(f)), nil
+	case *Character:
+		return NewReal(float32(ordered.(*Character).Value())), nil
+	case *Octet:
+		return NewReal(float32(ordered.(*Character).Value())), nil
+	default:
+		return nil, errors.New("Not a valid type")
+	}
+}
+
+func MakeIAnyComparableToString(ordered IAny) (*String, error) {
+	var r string
+	switch ordered.(type) {
+	case *Double:
+		r = strconv.FormatFloat(ordered.(*Double).Value(), 'f', -1, 64)
+	case *Real:
+		r = strconv.FormatFloat(float64(ordered.(*Real).Value()), 'f', -1, 32)
+	case *Integer:
+		r = strconv.FormatInt(int64(ordered.(*Integer).Value()), 10)
+	case *Integer64:
+		r = strconv.FormatInt(ordered.(*Integer64).Value(), 10)
+	case *Character:
+		r = fmt.Sprintf("%c", ordered.(*Character).Value())
+	case *Octet:
+		r = strconv.FormatInt(int64(ordered.(*Octet).Value()), 10)
+	default:
+		r = ordered.(*String).value
+	}
+	return NewString(r), nil
+}
+
+/*
+To be worked out
+*/
+func MakeIAnyComparableToUri(ordered IAny) (*String, error) {
+	return MakeIAnyComparableToString(ordered)
 }
 
 /*

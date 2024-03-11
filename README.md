@@ -1,5 +1,7 @@
 # semanticdatabase
 
+# WORK IN PROGRESS, DO NOT USE
+
 Release 0.0.1
 
 # An other way of modeling
