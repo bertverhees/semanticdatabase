@@ -1,6 +1,7 @@
 package primitives
 
 type Character struct {
+	Any
 	value rune
 }
 
@@ -16,16 +17,6 @@ func (p *Character) Value() rune {
 
 func (p *Character) SetValue(value rune) {
 	p.value = value
-}
-
-func (p *Character) IsEqual(b IAny) *Boolean {
-	v := ConvertToCharacterFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Character) NotEqual(b IAny) *Boolean {
-	v := ConvertToCharacterFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (p *Character) LessThan(other IOrdered) *Boolean {

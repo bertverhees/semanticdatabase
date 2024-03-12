@@ -6,6 +6,7 @@ import (
 )
 
 type Real struct {
+	Any
 	value float32
 }
 
@@ -83,16 +84,6 @@ func (p *Real) Value() float32 {
 
 func (p *Real) SetValue(value float32) {
 	p.value = value
-}
-
-func (p *Real) IsEqual(b IAny) *Boolean {
-	v := ConvertToRealFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Real) NotEqual(b IAny) *Boolean {
-	v := ConvertToRealFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (p *Real) LessThan(other IOrdered) *Boolean {

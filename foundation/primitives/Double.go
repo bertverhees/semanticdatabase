@@ -5,6 +5,7 @@ import (
 )
 
 type Double struct {
+	Any
 	value float64
 }
 
@@ -14,28 +15,48 @@ func NewDouble(value float64) *Double {
 	return d
 }
 
-func (p *Double) Add(other INumeric) INumeric {
-	return NewDouble(p.value + p.ConvertFromINumeric(other).(*Double).value)
+func (p *Double) Add(other INumeric) (INumeric, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewDouble(p.value + d.value), nil
 }
 
-func (p *Double) Subtract(other INumeric) INumeric {
-	return NewDouble(p.value - p.ConvertFromINumeric(other).(*Double).value)
+func (p *Double) Subtract(other INumeric) (INumeric, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewDouble(p.value - d.value), nil
 }
 
-func (p *Double) Multiply(other INumeric) INumeric {
-	return NewDouble(p.value * p.ConvertFromINumeric(other).(*Double).value)
+func (p *Double) Multiply(other INumeric) (INumeric, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewDouble(p.value * d.value), nil
 }
 
-func (p *Double) Divide(other INumeric) INumeric {
-	return NewDouble(p.value / p.ConvertFromINumeric(other).(*Double).value)
+func (p *Double) Divide(other INumeric) (INumeric, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewDouble(p.value / d.value), nil
 }
 
-func (p *Double) Exponent(other INumeric) INumeric {
-	return NewDouble(math.Pow(p.value, p.ConvertFromINumeric(other).(*Double).value))
+func (p *Double) Exponent(other INumeric) (INumeric, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewDouble(math.Pow(p.value, d.value)), nil
 }
 
-func (p *Double) Negative() INumeric {
-	return NewDouble(-p.value)
+func (p *Double) Negative() (INumeric, error) {
+	return NewDouble(-p.value), nil
 }
 
 func (p *Double) Value() float64 {
@@ -44,16 +65,6 @@ func (p *Double) Value() float64 {
 
 func (p *Double) SetValue(value float64) {
 	p.value = value
-}
-
-func (p *Double) IsEqual(b IAny) *Boolean {
-	v := ConvertToDoubleFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Double) NotEqual(b IAny) *Boolean {
-	v := ConvertToDoubleFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (p *Double) LessThan(other IOrdered) *Boolean {

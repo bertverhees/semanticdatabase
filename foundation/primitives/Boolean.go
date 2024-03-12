@@ -5,6 +5,7 @@ package primitives
  */
 
 type Boolean struct {
+	Any
 	value bool
 }
 
@@ -20,18 +21,6 @@ func (p *Boolean) Value() bool {
 
 func (p *Boolean) SetValue(value bool) {
 	p.value = value
-}
-
-/*Value equality: return True if this and other are attached to objects considered to be equal in value.
- */
-func (p *Boolean) IsEqual(b IAny) *Boolean {
-	v := ConvertToBooleanFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Boolean) NotEqual(b IAny) *Boolean {
-	v := ConvertToBooleanFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 /*Create new instance of a type.

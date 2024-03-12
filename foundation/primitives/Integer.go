@@ -1,6 +1,7 @@
 package primitives
 
 type Integer struct {
+	Any
 	value int32
 }
 
@@ -46,16 +47,6 @@ func (p *Integer) Value() int32 {
 
 func (p *Integer) SetValue(value int32) {
 	p.value = value
-}
-
-func (p *Integer) IsEqual(b IAny) *Boolean {
-	v := ConvertToIntegerFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Integer) NotEqual(b IAny) *Boolean {
-	v := ConvertToIntegerFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (p *Integer) LessThan(other IOrdered) *Boolean {

@@ -1,6 +1,7 @@
 package primitives
 
 type Integer64 struct {
+	Any
 	value int64
 }
 
@@ -46,16 +47,6 @@ func (Integer64) Exponent(other INumeric) INumeric {
 func (Integer64) Negative() INumeric {
 	//TODO implement me
 	panic("implement me")
-}
-
-func (p *Integer64) IsEqual(b IAny) *Boolean {
-	v := ConvertToInteger64FromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Integer64) NotEqual(b IAny) *Boolean {
-	v := ConvertToInteger64FromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (Integer64) LessThan(other IOrdered) *Boolean {

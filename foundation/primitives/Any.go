@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -27,10 +28,62 @@ type IAny interface {
 	   True if current object not equal to other. Returns not equal().
 	*/
 	NotEqual(other IAny) *Boolean
-	//IsComparable(other IAny) *Boolean
+	AsBoolean() (*Boolean, error)
+	AsCharacter() (*Character, error)
+	AsDouble() (*Double, error)
+	AsInteger() (*Integer, error)
+	AsInteger64() (*Integer64, error)
+	AsOctet() (*Octet, error)
+	AsReal() (*Real, error)
+	AsString() (*String, error)
+	AsUri() (*Uri, error)
 }
 
 type Any struct {
+}
+
+func (a *Any) IsEqual(any IAny) *Boolean {
+	return NewBoolean(reflect.DeepEqual(a, any))
+}
+
+func (a *Any) NotEqual(any IAny) *Boolean {
+	return NewBoolean(!reflect.DeepEqual(a, any))
+}
+
+func (a *Any) AsBoolean() (*Boolean, error) {
+	return MakeIAnyComparableToBoolean(a)
+}
+
+func (a *Any) AsCharacter() (*Character, error) {
+	return MakeIAnyComparableToCharacter(a)
+}
+
+func (a *Any) AsDouble() (*Double, error) {
+	return MakeIAnyComparableToDouble(a)
+}
+
+func (a *Any) AsInteger() (*Integer, error) {
+	return MakeIAnyComparableToInteger(a)
+}
+
+func (a *Any) AsInteger64() (*Integer64, error) {
+	return MakeIAnyComparableToInteger64(a)
+}
+
+func (a *Any) AsOctet() (*Octet, error) {
+	return MakeIAnyComparableToOctet(a)
+}
+
+func (a *Any) AsReal() (*Real, error) {
+	return MakeIAnyComparableToReal(a)
+}
+
+func (a *Any) AsString() (*String, error) {
+	return MakeIAnyComparableToString(a)
+}
+
+func (a *Any) AsUri() (*Uri, error) {
+	return MakeIAnyComparableToUri(a)
 }
 
 /*
@@ -126,7 +179,7 @@ function returns with String the parsed float
 function returns with Character itself
 function returns with Boolean an error
 */
-func (p *Double) MakeIAnyComparableToDouble(ordered IAny) (*Double, error) {
+func MakeIAnyComparableToDouble(ordered IAny) (*Double, error) {
 	switch ordered.(type) {
 	case *Double:
 		return ordered.(*Double), nil
@@ -272,7 +325,7 @@ func MakeIAnyComparableToReal(ordered IAny) (*Real, error) {
 	switch ordered.(type) {
 	case *Double:
 		f64 := float64(ordered.(*Real).Value())
-		if f64 > math.MaxFloat32 {
+		if f64 > math.MaxFloat32 || f64 < -math.MaxFloat32 {
 			return nil, errors.New(fmt.Sprintf("Double: %v does not fit into float32 (Real)", f64))
 		}
 		return NewReal(float32(f64)), nil
@@ -280,7 +333,7 @@ func MakeIAnyComparableToReal(ordered IAny) (*Real, error) {
 		return NewReal(float32(ordered.(*Integer).Value())), nil
 	case *Integer64:
 		f64 := float64(ordered.(*Real).Value())
-		if f64 > math.MaxFloat32 {
+		if f64 > math.MaxFloat32 || f64 < -math.MaxFloat32 {
 			return nil, errors.New(fmt.Sprintf("Integer64: %v does not fit into float32 (Real)", f64))
 		}
 		return NewReal(float32(f64)), nil
@@ -325,8 +378,9 @@ func MakeIAnyComparableToString(ordered IAny) (*String, error) {
 /*
 To be worked out
 */
-func MakeIAnyComparableToUri(ordered IAny) (*String, error) {
-	return MakeIAnyComparableToString(ordered)
+func MakeIAnyComparableToUri(ordered IAny) (*Uri, error) {
+	//return MakeIAnyComparableToString(ordered)
+	return nil, errors.New("Not yet implemented")
 }
 
 /*

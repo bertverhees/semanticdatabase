@@ -1,6 +1,7 @@
 package primitives
 
 type Octet struct {
+	Any
 	value uint8
 }
 
@@ -16,16 +17,6 @@ func (p *Octet) Value() uint8 {
 
 func (p *Octet) SetValue(value uint8) {
 	p.value = value
-}
-
-func (p *Octet) IsEqual(b IAny) *Boolean {
-	v := ConvertToOctetFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *Octet) NotEqual(b IAny) *Boolean {
-	v := ConvertToOctetFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (p *Octet) LessThan(other IOrdered) *Boolean {

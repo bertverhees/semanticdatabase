@@ -6,6 +6,7 @@ import (
 )
 
 type String struct {
+	Any
 	value string
 }
 
@@ -40,16 +41,6 @@ func (p *String) Value() string {
 
 func (p *String) SetValue(value string) {
 	p.value = value
-}
-
-func (p *String) IsEqual(b IAny) *Boolean {
-	v := ConvertToStringFromIAny(b)
-	return NewBoolean(p.value == v.value)
-}
-
-func (p *String) NotEqual(b IAny) *Boolean {
-	v := ConvertToStringFromIAny(b)
-	return NewBoolean(p.value != v.value)
 }
 
 func (p *String) LessThan(other IOrdered) *Boolean {
