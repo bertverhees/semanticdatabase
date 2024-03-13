@@ -1,5 +1,7 @@
 package primitives
 
+import "math"
+
 type Integer64 struct {
 	Any
 	value int64
@@ -19,52 +21,80 @@ func (p *Integer64) SetValue(value int64) {
 	p.value = value
 }
 
-func (Integer64) Add(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) Add(other INumeric) (INumeric, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewInteger64(p.value + d.value), nil
 }
 
-func (Integer64) Subtract(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) Subtract(other INumeric) (INumeric, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewInteger64(p.value - d.value), nil
 }
 
-func (Integer64) Multiply(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) Multiply(other INumeric) (INumeric, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewInteger64(p.value * d.value), nil
 }
 
-func (Integer64) Divide(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) Divide(other INumeric) (INumeric, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewInteger64(p.value / d.value), nil
 }
 
-func (Integer64) Exponent(other INumeric) INumeric {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) Exponent(other INumeric) (INumeric, error) {
+	d, e := other.AsInteger64()
+	if e == nil {
+		result, err := NewDouble(math.Pow(float64(p.value), float64(d.value))).AsInteger64()
+		return result, err
+	} else {
+		return nil, e
+	}
 }
 
-func (Integer64) Negative() INumeric {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) Negative() (INumeric, error) {
+	return NewInteger64(-p.value), nil
 }
 
-func (Integer64) LessThan(other IOrdered) *Boolean {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) LessThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value < d.value), nil
 }
 
-func (Integer64) LessThanOrEqual(other IOrdered) *Boolean {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) LessThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value <= d.value), nil
 }
 
-func (Integer64) GreaterThan(other IOrdered) *Boolean {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) GreaterThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value > d.value), nil
 }
 
-func (Integer64) GreaterThanOrEqual(other IOrdered) *Boolean {
-	//TODO implement me
-	panic("implement me")
+func (p *Integer64) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsInteger64()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value >= d.value), nil
 }

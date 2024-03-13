@@ -19,18 +19,34 @@ func (p *Octet) SetValue(value uint8) {
 	p.value = value
 }
 
-func (p *Octet) LessThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value < other.(*Octet).value)
+func (p *Octet) LessThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsOctet()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value < d.value), nil
 }
 
-func (p *Octet) LessThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value <= other.(*Octet).value)
+func (p *Octet) LessThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsOctet()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value <= d.value), nil
 }
 
-func (p *Octet) GreaterThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value > other.(*Octet).value)
+func (p *Octet) GreaterThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsOctet()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value > d.value), nil
 }
 
-func (p *Octet) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value >= other.(*Octet).value)
+func (p *Octet) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsOctet()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value >= d.value), nil
 }

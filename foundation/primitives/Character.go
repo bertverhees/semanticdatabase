@@ -19,18 +19,34 @@ func (p *Character) SetValue(value rune) {
 	p.value = value
 }
 
-func (p *Character) LessThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value < ConvertToCharacterFromIOrdered(other).Value())
+func (p *Character) LessThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsCharacter()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value < d.value), nil
 }
 
-func (p *Character) LessThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value <= ConvertToCharacterFromIOrdered(other).Value())
+func (p *Character) LessThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsCharacter()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value <= d.value), nil
 }
 
-func (p *Character) GreaterThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value > ConvertToCharacterFromIOrdered(other).Value())
+func (p *Character) GreaterThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsCharacter()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value > d.value), nil
 }
 
-func (p *Character) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value >= ConvertToCharacterFromIOrdered(other).Value())
+func (p *Character) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsCharacter()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value >= d.value), nil
 }

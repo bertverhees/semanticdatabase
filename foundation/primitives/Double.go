@@ -67,20 +67,36 @@ func (p *Double) SetValue(value float64) {
 	p.value = value
 }
 
-func (p *Double) LessThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value < p.ConvertFromIOrdered(other).(*Double).value)
+func (p *Double) LessThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value < d.value), nil
 }
 
-func (p *Double) LessThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value <= p.ConvertFromIOrdered(other).(*Double).value)
+func (p *Double) LessThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value <= d.value), nil
 }
 
-func (p *Double) GreaterThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value > p.ConvertFromIOrdered(other).(*Double).value)
+func (p *Double) GreaterThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value > d.value), nil
 }
 
-func (p *Double) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value >= p.ConvertFromIOrdered(other).(*Double).value)
+func (p *Double) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsDouble()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value >= d.value), nil
 }
 
 func (p *Double) ToFixedNumberOfDecimals(precision *Integer) IFloat {

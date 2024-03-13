@@ -2,7 +2,6 @@ package primitives
 
 import (
 	"math"
-	"strconv"
 )
 
 type Real struct {
@@ -16,66 +15,50 @@ func NewReal(value float32) *Real {
 	return d
 }
 
-func (p *Real) ConvertFromINumeric(ordered INumeric) INumeric {
-	var r float32
-	switch ordered.(type) {
-	case *Double:
-		r = float32(ordered.(*Double).Value())
-	case *Integer:
-		r = float32(ordered.(*Integer).Value())
-	case *Integer64:
-		r = float32(ordered.(*Integer64).Value())
-	case *Real:
-		r = float32(ordered.(*Real).Value())
-	default:
-		panic("Not valid type")
+func (p *Real) Add(other INumeric) (INumeric, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
 	}
-	return NewReal(r)
+	return NewReal(p.value + d.value), nil
 }
 
-func (p *Real) ConvertFromIOrdered(ordered IOrdered) IOrdered {
-	var r float32
-	switch ordered.(type) {
-	case *Double, *Real, *Integer, *Integer64:
-		return p.ConvertFromINumeric(ordered.(INumeric)).(IOrdered)
-	case *String:
-		f, err := strconv.ParseFloat(ordered.(*String).value, 32)
-		if err != nil {
-			panic("Cannot convert this string to float:" + ordered.(*String).value)
-		}
-		r = float32(f)
-	case *Character:
-		r = float32(ordered.(*Character).Value())
-	case *Octet:
-		r = float32(ordered.(*Octet).Value())
-	default:
-		panic("Not valid type")
+func (p *Real) Subtract(other INumeric) (INumeric, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
 	}
-	return NewReal(r)
+	return NewReal(p.value - d.value), nil
 }
 
-func (p *Real) Add(other INumeric) INumeric {
-	return NewReal(p.value + p.ConvertFromINumeric(other).(*Real).value)
+func (p *Real) Multiply(other INumeric) (INumeric, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
+	}
+	return NewReal(p.value * d.value), nil
 }
 
-func (p *Real) Subtract(other INumeric) INumeric {
-	return NewReal(p.value - p.ConvertFromINumeric(other).(*Real).value)
+func (p *Real) Divide(other INumeric) (INumeric, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
+	}
+	return NewReal(p.value / d.value), nil
 }
 
-func (p *Real) Multiply(other INumeric) INumeric {
-	return NewReal(p.value * p.ConvertFromINumeric(other).(*Real).value)
+func (p *Real) Exponent(other INumeric) (INumeric, error) {
+	d, e := other.AsInteger()
+	if e == nil {
+		result, err := NewDouble(math.Pow(float64(p.value), float64(d.value))).AsReal()
+		return result, err
+	} else {
+		return nil, e
+	}
 }
 
-func (p *Real) Divide(other INumeric) INumeric {
-	return NewReal(p.value / p.ConvertFromINumeric(other).(*Real).value)
-}
-
-func (p *Real) Exponent(other INumeric) INumeric {
-	return NewReal(float32(math.Pow(float64(p.value), float64(p.ConvertFromINumeric(other).(*Real).value))))
-}
-
-func (p *Real) Negative() INumeric {
-	return NewReal(-p.value)
+func (p *Real) Negative() (INumeric, error) {
+	return NewReal(-p.value), nil
 }
 
 func (p *Real) Value() float32 {
@@ -86,20 +69,36 @@ func (p *Real) SetValue(value float32) {
 	p.value = value
 }
 
-func (p *Real) LessThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value < p.ConvertFromIOrdered(other).(*Real).value)
+func (p *Real) LessThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value < d.value), nil
 }
 
-func (p *Real) LessThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value <= p.ConvertFromIOrdered(other).(*Real).value)
+func (p *Real) LessThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value <= d.value), nil
 }
 
-func (p *Real) GreaterThan(other IOrdered) *Boolean {
-	return NewBoolean(p.value > p.ConvertFromIOrdered(other).(*Real).value)
+func (p *Real) GreaterThan(other IOrdered) (*Boolean, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value > d.value), nil
 }
 
-func (p *Real) GreaterThanOrEqual(other IOrdered) *Boolean {
-	return NewBoolean(p.value >= p.ConvertFromIOrdered(other).(*Real).value)
+func (p *Real) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
+	d, e := other.AsReal()
+	if e != nil {
+		return nil, e
+	}
+	return NewBoolean(p.value >= d.value), nil
 }
 
 func (p *Real) ToFixedNumberOfDecimals(precision *Integer) IFloat {

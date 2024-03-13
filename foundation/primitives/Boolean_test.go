@@ -11,7 +11,7 @@ func TestIsEqual(t *testing.T) {
 			b1 := NewBoolean(tc.test.b1)
 			b2 := NewBoolean(tc.test.b2)
 			result := b1.IsEqual(b2)
-			if tc.result != result.(*Boolean).Value() {
+			if tc.result != result.Value() {
 				t.Errorf("\nwant %v.IsEqual(%v) = %v (result conform test)\n but is actually %v, counter: %v",
 					b1, b2, result, tc.result, tc.test.counter)
 				return
