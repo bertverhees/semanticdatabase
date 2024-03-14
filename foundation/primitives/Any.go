@@ -51,39 +51,39 @@ func (a *Any) NotEqual(any IAny) *Boolean {
 }
 
 func (a *Any) AsBoolean() (*Boolean, error) {
-	return MakeIAnyComparableToBoolean(a)
+	return ToBoolean(a)
 }
 
 func (a *Any) AsCharacter() (*Character, error) {
-	return MakeIAnyComparableToCharacter(a)
+	return ToCharacter(a)
 }
 
 func (a *Any) AsDouble() (*Double, error) {
-	return MakeIAnyComparableToDouble(a)
+	return ToDouble(a)
 }
 
 func (a *Any) AsInteger() (*Integer, error) {
-	return MakeIAnyComparableToInteger(a)
+	return ToInteger(a)
 }
 
 func (a *Any) AsInteger64() (*Integer64, error) {
-	return MakeIAnyComparableToInteger64(a)
+	return ToInteger64(a)
 }
 
 func (a *Any) AsOctet() (*Octet, error) {
-	return MakeIAnyComparableToOctet(a)
+	return ToOctet(a)
 }
 
 func (a *Any) AsReal() (*Real, error) {
-	return MakeIAnyComparableToReal(a)
+	return ToReal(a)
 }
 
 func (a *Any) AsString() (*String, error) {
-	return MakeIAnyComparableToString(a)
+	return ToString(a)
 }
 
 func (a *Any) AsUri() (*Uri, error) {
-	return MakeIAnyComparableToUri(a)
+	return ToUri(a)
 }
 
 /*
@@ -92,7 +92,7 @@ function returns with String true if ordered = true or false when ordered = fals
 function returns with Character true if  ordered = t or false when ordered = f and an error if it is neither
 function returns with Boolean itself
 */
-func MakeIAnyComparableToBoolean(ordered IAny) (*Boolean, error) {
+func ToBoolean(ordered IAny) (*Boolean, error) {
 	switch ordered.(type) {
 	case *Boolean:
 		return ordered.(*Boolean), nil
@@ -107,9 +107,9 @@ func MakeIAnyComparableToBoolean(ordered IAny) (*Boolean, error) {
 	case *Octet:
 		return NewBoolean(ordered.(*Octet).value > 0), nil
 	case *String:
-		if ordered.(*String).value == "true" {
+		if ordered.(*String).value == "true" || ordered.(*String).value == "t" {
 			return NewBoolean(true), nil
-		} else if ordered.(*String).value == "false" {
+		} else if ordered.(*String).value == "false" || ordered.(*String).value == "f" {
 			return NewBoolean(false), nil
 		} else {
 			return nil, errors.New("Cannot convert this String to Boolean:" + ordered.(*String).value)
@@ -134,7 +134,7 @@ function returns with String the first character in a string
 function returns with Character itself
 function returns with Boolean 't' when true else 'f'
 */
-func MakeIAnyComparableToCharacter(ordered IAny) (*Character, error) {
+func ToCharacter(ordered IAny) (*Character, error) {
 	switch ordered.(type) {
 	case *Boolean:
 		if ordered.(*Boolean).Value() {
@@ -179,7 +179,7 @@ function returns with String the parsed float
 function returns with Character itself
 function returns with Boolean an error
 */
-func MakeIAnyComparableToDouble(ordered IAny) (*Double, error) {
+func ToDouble(ordered IAny) (*Double, error) {
 	switch ordered.(type) {
 	case *Double:
 		return ordered.(*Double), nil
@@ -209,7 +209,7 @@ function returns with Float- or Integer-like or Character type the value
 function returns with String the parsed float
 function returns with Boolean an error
 */
-func MakeIAnyComparableToInteger(ordered IAny) (*Integer, error) {
+func ToInteger(ordered IAny) (*Integer, error) {
 	switch ordered.(type) {
 	case *Double:
 		i64 := math.Round(ordered.(*Double).Value())
@@ -249,7 +249,7 @@ function returns with Float- or Integer-like or Character type the value
 function returns with String the parsed float
 function returns with Boolean an error
 */
-func MakeIAnyComparableToInteger64(ordered IAny) (*Integer64, error) {
+func ToInteger64(ordered IAny) (*Integer64, error) {
 	switch ordered.(type) {
 	case *Double:
 		return NewInteger64(int64(math.Round(ordered.(*Double).Value()))), nil
@@ -276,7 +276,7 @@ function returns with Float- or Integer-like or Character type the value
 function returns with String the parsed float
 function returns with Boolean an error
 */
-func MakeIAnyComparableToOctet(ordered IAny) (*Octet, error) {
+func ToOctet(ordered IAny) (*Octet, error) {
 	switch ordered.(type) {
 	case *Double:
 		i64 := math.Round(ordered.(*Double).Value())
@@ -321,7 +321,7 @@ function returns with String the parsed float
 function returns with Character itself
 function returns with Boolean an error
 */
-func MakeIAnyComparableToReal(ordered IAny) (*Real, error) {
+func ToReal(ordered IAny) (*Real, error) {
 	switch ordered.(type) {
 	case *Double:
 		f64 := float64(ordered.(*Real).Value())
@@ -354,7 +354,7 @@ func MakeIAnyComparableToReal(ordered IAny) (*Real, error) {
 	}
 }
 
-func MakeIAnyComparableToString(ordered IAny) (*String, error) {
+func ToString(ordered IAny) (*String, error) {
 	var r string
 	switch ordered.(type) {
 	case *Double:
@@ -378,8 +378,8 @@ func MakeIAnyComparableToString(ordered IAny) (*String, error) {
 /*
 To be worked out
 */
-func MakeIAnyComparableToUri(ordered IAny) (*Uri, error) {
-	//return MakeIAnyComparableToString(ordered)
+func ToUri(ordered IAny) (*Uri, error) {
+	//return ToString(ordered)
 	return nil, errors.New("Not yet implemented")
 }
 

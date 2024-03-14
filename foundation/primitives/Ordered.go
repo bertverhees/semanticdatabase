@@ -2,8 +2,8 @@ package primitives
 
 type IOrdered interface {
 	IAny
-	LessThan(other IOrdered) *Boolean
-	LessThanOrEqual(other IOrdered) *Boolean
-	GreaterThan(other IOrdered) *Boolean
-	GreaterThanOrEqual(other IOrdered) *Boolean
+	LessThan(other IOrdered) (*Boolean, error)
+	LessThanOrEqual(other IOrdered) (*Boolean, error)
+	GreaterThan(other IOrdered) (*Boolean, error)
+	GreaterThanOrEqual(other IOrdered) (*Boolean, error)
 }

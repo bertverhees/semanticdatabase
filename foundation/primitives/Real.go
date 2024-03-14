@@ -6,6 +6,7 @@ import (
 
 type Real struct {
 	Any
+	Float
 	value float32
 }
 
@@ -99,14 +100,4 @@ func (p *Real) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
 		return nil, e
 	}
 	return NewBoolean(p.value >= d.value), nil
-}
-
-func (p *Real) ToFixedNumberOfDecimals(precision *Integer) IFloat {
-	value := float64(p.value)
-	output := math.Pow(10, float64(precision.value))
-	return NewReal(float32(float64(p.round(value*output)) / output))
-}
-
-func (p *Real) round(num float64) int {
-	return int(num + math.Copysign(0.5, num))
 }

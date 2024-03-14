@@ -6,6 +6,7 @@ import (
 
 type Double struct {
 	Any
+	Float
 	value float64
 }
 
@@ -97,13 +98,4 @@ func (p *Double) GreaterThanOrEqual(other IOrdered) (*Boolean, error) {
 		return nil, e
 	}
 	return NewBoolean(p.value >= d.value), nil
-}
-
-func (p *Double) ToFixedNumberOfDecimals(precision *Integer) IFloat {
-	output := math.Pow(10, float64(precision.value))
-	return NewDouble(float64(p.round(p.value*output)) / output)
-}
-
-func (p *Double) round(num float64) int {
-	return int(num + math.Copysign(0.5, num))
 }

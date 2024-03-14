@@ -42,7 +42,7 @@ func TestCharacter_GreaterThan(t *testing.T) {
 			p := &Character{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -86,7 +86,7 @@ func TestCharacter_GreaterThanOrEqual(t *testing.T) {
 			p := &Character{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -174,7 +174,7 @@ func TestCharacter_LessThan(t *testing.T) {
 			p := &Character{
 				value: tt.fields.value,
 			}
-			if got := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -218,7 +218,7 @@ func TestCharacter_LessThanOrEqual(t *testing.T) {
 			p := &Character{
 				value: tt.fields.value,
 			}
-			if got := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -266,10 +266,7 @@ func TestCharacter_returnCharacterFromIOrdered(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := &Character{
-				value: tt.fields.value,
-			}
-			if got := p.returnCharacterFromIOrdered(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := ToCharacter(tt.args.ordered); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("returnCharacterFromIOrdered() = %v, want %v", got, tt.want)
 			}
 		})

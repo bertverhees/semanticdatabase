@@ -2,7 +2,11 @@ package primitives
 
 type Uri struct {
 	Any
-	String
+	value string
+}
+
+func NewUri(value string) *Uri {
+	return &Uri{value: value}
 }
 
 func (p *Uri) LessThan(other IOrdered) (*Boolean, error) {
