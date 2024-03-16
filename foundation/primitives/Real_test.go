@@ -49,7 +49,7 @@ func TestReal_Add(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Add(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(1)); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Add(NewReal(float32(ToFixedNumberOfDecimals(float64(tt.args.other.(*Real).value), 1)))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Add() = %v, want %v", got, tt.want)
 			}
 		})
@@ -73,13 +73,13 @@ func TestReal_Divide(t *testing.T) {
 			name:   "Divide 5.1 / 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(5.1 / 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+			want:   NewReal(float32(ToFixedNumberOfDecimals(5.1/4.8, 2))),
 		},
 		{
 			name:   "Divide 5.1 / 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(5.1 / 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+			want:   NewReal(float32(ToFixedNumberOfDecimals(5.1/4.8, 2))),
 		},
 		{
 			name:   "Divide 5.0 / 4 Integer",
@@ -99,7 +99,7 @@ func TestReal_Divide(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Divide(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Divide(NewReal(float32(ToFixedNumberOfDecimals(float64(tt.args.other.(*Real).value), 2)))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Divide() = %v, want %v", got, tt.want)
 			}
 		})
@@ -123,13 +123,13 @@ func TestReal_Exponent(t *testing.T) {
 			name:   "Exponent 5.1 ^ 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(float32(math.Pow(5.1, 4.8))).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+			want:   NewReal(float32(ToFixedNumberOfDecimals(5.1/4.8, 2))),
 		},
 		{
 			name:   "Exponent 5.1 ^ 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(float32(math.Pow(5.1, 4.8))).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+			want:   NewReal(float32(ToFixedNumberOfDecimals(5.1/4.8, 2))),
 		},
 		{
 			name:   "Exponent 5.0 ^ 4 Integer",
@@ -149,7 +149,7 @@ func TestReal_Exponent(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Exponent(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Exponent(NewReal(float32(ToFixedNumberOfDecimals(float64(tt.args.other.(*Real).value), 2)))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Exponent() = %v, want %v", got, tt.want)
 			}
 		})
@@ -193,7 +193,7 @@ func TestReal_GreaterThan(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -237,7 +237,7 @@ func TestReal_GreaterThanOrEqual(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -319,7 +319,7 @@ func TestReal_LessThan(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -363,7 +363,7 @@ func TestReal_LessThanOrEqual(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -413,7 +413,7 @@ func TestReal_Multiply(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Multiply(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Multiply(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Multiply() = %v, want %v", got, tt.want)
 			}
 		})
@@ -450,7 +450,7 @@ func TestReal_Negative(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Negative(); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Negative(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Negative() = %v, want %v", got, tt.want)
 			}
 		})

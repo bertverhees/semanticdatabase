@@ -49,7 +49,7 @@ func TestDouble_Add(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got, _ := p.Add(NewDouble(p.ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 1))); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Add(NewDouble(ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 1))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Add() = %v, want %v", got, tt.want)
 			}
 		})
@@ -73,13 +73,13 @@ func TestDouble_Divide(t *testing.T) {
 			name:   "Divide 5.1 / 4.8 Double",
 			fields: fields{5.1},
 			args:   args{NewDouble(4.8)},
-			want:   NewDouble(5.1 / 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+			want:   NewDouble(ToFixedNumberOfDecimals(5.1/4.8, 2)),
 		},
 		{
 			name:   "Divide 5.1 / 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewDouble(5.1 / 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+			want:   NewDouble(ToFixedNumberOfDecimals(5.1/4.8, 2)),
 		},
 		{
 			name:   "Divide 5.0 / 4 Integer",
@@ -99,7 +99,7 @@ func TestDouble_Divide(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got, _ := p.Divide(NewDouble(p.ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 2))); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Divide(NewDouble(ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 2))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Divide() = %v, want %v", got, tt.want)
 			}
 		})
@@ -123,13 +123,13 @@ func TestDouble_Exponent(t *testing.T) {
 			name:   "Exponent 5.1 ^ 4.8 Double",
 			fields: fields{5.1},
 			args:   args{NewDouble(4.8)},
-			want:   NewDouble(math.Pow(5.1, 4.8)).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+			want:   NewDouble(ToFixedNumberOfDecimals(math.Pow(5.1, 4.8), 2)),
 		},
 		{
 			name:   "Exponent 5.1 ^ 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewDouble(math.Pow(5.1, 4.8)).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+			want:   NewDouble(ToFixedNumberOfDecimals(math.Pow(5.1, 4.8), 2)),
 		},
 		{
 			name:   "Exponent 5.0 ^ 4 Integer",
@@ -149,7 +149,7 @@ func TestDouble_Exponent(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got, _ := p.Exponent(NewDouble(p.ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 2))); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Exponent(NewDouble(ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 2))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Exponent() = %v, want %v", got, tt.want)
 			}
 		})
@@ -387,13 +387,13 @@ func TestDouble_Multiply(t *testing.T) {
 			name:   "Multiply 5.1 * 4.8 Double",
 			fields: fields{5.1},
 			args:   args{NewDouble(4.8)},
-			want:   NewDouble(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+			want:   NewDouble(ToFixedNumberOfDecimals(5.1*4.8, 2)),
 		},
 		{
 			name:   "Multiply 5.1 * 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewDouble(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Double),
+			want:   NewDouble(ToFixedNumberOfDecimals(5.1*4.8, 2)),
 		},
 		{
 			name:   "Multiply 5.0 * 4 Integer",
@@ -413,7 +413,7 @@ func TestDouble_Multiply(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got, _ := p.Multiply(NewDouble(p.ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 2))); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Multiply(NewDouble(ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 2))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Multiply() = %v, want %v", got, tt.want)
 			}
 		})
@@ -500,73 +500,8 @@ func TestDouble_Subtract(t *testing.T) {
 			p := &Double{
 				value: tt.fields.value,
 			}
-			if got, _ := p.Subtract(NewDouble(p.ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 1))); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Subtract(NewDouble(ToFixedNumberOfDecimals(tt.args.other.(*Double).value, 1))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Subtract() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestDouble_ToFixedNumberOfDecimals(t *testing.T) {
-	type fields struct {
-		value float64
-	}
-	type args struct {
-		precision int
-	}
-	tests := []struct {
-		name string
-		args args
-		want *Double
-	}{
-		{
-			name: "ToFixedNumberOfDecimals Precision 1",
-			args: args{1},
-			want: NewDouble(3.1),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 2",
-			args: args{2},
-			want: NewDouble(3.14),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 3",
-			args: args{3},
-			want: NewDouble(3.142),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 4",
-			args: args{4},
-			want: NewDouble(3.1416),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 5",
-			args: args{5},
-			want: NewDouble(3.14159),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 6",
-			args: args{6},
-			want: NewDouble(3.141593),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 7",
-			args: args{7},
-			want: NewDouble(3.1415927),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 8",
-			args: args{8},
-			want: NewDouble(3.14159265),
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Double{
-				value: math.Pi,
-			}
-			if got := p.ToFixedNumberOfDecimals(p.value, tt.args.precision); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -25,7 +25,7 @@ func TestInteger_Add(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.Add(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Add(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Add() = %v, want %v", got, tt.want)
 			}
 		})
@@ -52,7 +52,7 @@ func TestInteger_Divide(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.Divide(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Divide(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Divide() = %v, want %v", got, tt.want)
 			}
 		})
@@ -79,7 +79,7 @@ func TestInteger_Exponent(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.Exponent(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Exponent(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Exponent() = %v, want %v", got, tt.want)
 			}
 		})
@@ -106,7 +106,7 @@ func TestInteger_GreaterThan(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -133,7 +133,7 @@ func TestInteger_GreaterThanOrEqual(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -187,7 +187,7 @@ func TestInteger_LessThan(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -214,7 +214,7 @@ func TestInteger_LessThanOrEqual(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -241,7 +241,7 @@ func TestInteger_Multiply(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.Multiply(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Multiply(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Multiply() = %v, want %v", got, tt.want)
 			}
 		})
@@ -264,7 +264,7 @@ func TestInteger_Negative(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.Negative(); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Negative(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Negative() = %v, want %v", got, tt.want)
 			}
 		})
@@ -315,7 +315,7 @@ func TestInteger_Subtract(t *testing.T) {
 			p := &Integer{
 				value: tt.fields.value,
 			}
-			if got := p.Subtract(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Subtract(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Subtract() = %v, want %v", got, tt.want)
 			}
 		})
