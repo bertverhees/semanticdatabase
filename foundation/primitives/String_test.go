@@ -42,7 +42,7 @@ func TestString_GreaterThan(t *testing.T) {
 			p := &String{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -86,7 +86,7 @@ func TestString_GreaterThanOrEqual(t *testing.T) {
 			p := &String{
 				value: tt.fields.value,
 			}
-			if got := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.GreaterThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GreaterThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})
@@ -174,7 +174,7 @@ func TestString_LessThan(t *testing.T) {
 			p := &String{
 				value: tt.fields.value,
 			}
-			if got := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThan(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThan() = %v, want %v", got, tt.want)
 			}
 		})
@@ -218,7 +218,7 @@ func TestString_LessThanOrEqual(t *testing.T) {
 			p := &String{
 				value: tt.fields.value,
 			}
-			if got := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.LessThanOrEqual(tt.args.other); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LessThanOrEqual() = %v, want %v", got, tt.want)
 			}
 		})

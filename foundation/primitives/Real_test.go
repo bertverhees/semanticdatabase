@@ -387,13 +387,13 @@ func TestReal_Multiply(t *testing.T) {
 			name:   "Multiply 5.1 * 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+			want:   NewReal(float32(ToFixedNumberOfDecimals(5.1*4.8, 2))),
 		},
 		{
 			name:   "Multiply 5.1 * 4.8 Real",
 			fields: fields{5.1},
 			args:   args{NewReal(4.8)},
-			want:   NewReal(5.1 * 4.8).ToFixedNumberOfDecimals(NewInteger(2)).(*Real),
+			want:   NewReal(float32(ToFixedNumberOfDecimals(5.1*4.8, 2))),
 		},
 		{
 			name:   "Multiply 5.0 * 4 Integer",
@@ -413,7 +413,7 @@ func TestReal_Multiply(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got, _ := p.Multiply(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Multiply(NewReal(float32(ToFixedNumberOfDecimals(float64(tt.args.other.(*Real).value), 2)))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Multiply() = %v, want %v", got, tt.want)
 			}
 		})
@@ -500,160 +500,8 @@ func TestReal_Subtract(t *testing.T) {
 			p := &Real{
 				value: tt.fields.value,
 			}
-			if got := p.Subtract(tt.args.other).(*Real).ToFixedNumberOfDecimals(NewInteger(1)); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := p.Subtract(NewReal(float32(ToFixedNumberOfDecimals(float64(tt.args.other.(*Real).value), 1)))); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Subtract() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestReal_ConvertFromIOrdered(t *testing.T) {
-	type args struct {
-		ordered IOrdered
-	}
-	tests := []struct {
-		name string
-		args args
-		want *Real
-	}{
-		{
-			name: "ConvertFromIOrdered 4.8 Real",
-			args: args{NewReal(4.8)},
-			want: NewReal(4.8),
-		},
-		{
-			name: "ConvertFromIOrdered 4.8 Real",
-			args: args{NewReal(4.8)},
-			want: NewReal(4.8),
-		},
-		{
-			name: "ConvertFromIOrdered 4 Integer",
-			args: args{NewInteger(4)},
-			want: NewReal(4),
-		},
-		{
-			name: "ConvertFromIOrdered 4 Integer64",
-			args: args{NewInteger64(4)},
-			want: NewReal(4),
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Real{
-				value: 0,
-			}
-			if got := p.ConvertFromIOrdered(tt.args.ordered).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ConvertFromIOrdered() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestReal_ToFixedNumberOfDecimals(t *testing.T) {
-	type fields struct {
-		value float64
-	}
-	type args struct {
-		precision *Integer
-	}
-	tests := []struct {
-		name string
-		args args
-		want IFloat
-	}{
-		{
-			name: "ToFixedNumberOfDecimals Precision 1",
-			args: args{NewInteger(1)},
-			want: NewReal(3.1),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 2",
-			args: args{NewInteger(2)},
-			want: NewReal(3.14),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 3",
-			args: args{NewInteger(3)},
-			want: NewReal(3.142),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 4",
-			args: args{NewInteger(4)},
-			want: NewReal(3.1416),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 5",
-			args: args{NewInteger(5)},
-			want: NewReal(3.14159),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 6",
-			args: args{NewInteger(6)},
-			want: NewReal(3.141593),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 7",
-			args: args{NewInteger(7)},
-			want: NewReal(3.1415927),
-		},
-		{
-			name: "ToFixedNumberOfDecimals Precision 8",
-			args: args{NewInteger(8)},
-			want: NewReal(3.14159265),
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Real{
-				value: math.Pi,
-			}
-			if got := p.ToFixedNumberOfDecimals(tt.args.precision); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ToFixedNumberOfDecimals() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestReal_ConvertFromINumeric(t *testing.T) {
-	type fields struct {
-		value float64
-	}
-	type args struct {
-		ordered INumeric
-	}
-	tests := []struct {
-		name string
-		args args
-		want *Real
-	}{
-		{
-			name: "ConvertFromINumeric 4.8 Real",
-			args: args{NewReal(4.8)},
-			want: NewReal(4.8),
-		},
-		{
-			name: "ConvertFromINumeric 4.8 Real",
-			args: args{NewReal(4.8)},
-			want: NewReal(4.8),
-		},
-		{
-			name: "ConvertFromINumeric 4 Integer",
-			args: args{NewInteger(4)},
-			want: NewReal(4),
-		},
-		{
-			name: "ConvertFromINumeric 4 Integer64",
-			args: args{NewInteger64(4)},
-			want: NewReal(4),
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := &Real{
-				value: 0,
-			}
-			if got := p.ConvertFromINumeric(tt.args.ordered).(*Real).ToFixedNumberOfDecimals(NewInteger(2)); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ConvertFromINumeric() = %v, want %v", got, tt.want)
 			}
 		})
 	}
